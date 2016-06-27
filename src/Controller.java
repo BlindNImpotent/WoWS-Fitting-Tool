@@ -19,9 +19,10 @@ public class Controller
 		view.setCalculateListener(new CalculateListener());
 		//view.setCheckBoxListener4(new CheckboxListener4());
 		
-		//view.setNationList(lists.getNationList());
-		//view.setShipTypeList(lists.getShipTypeList());
-		//view.setShipNameListener(new ShipNameListener());
+		view.setNationList();
+		view.setShipTypeList();
+		view.setTierList();
+		view.setShipNameListener(ShipNameList);
 
 	}
 	
@@ -50,7 +51,8 @@ public class Controller
 			Calc answer = null;
 			try 
 			{				
-				answer = model.search(view.getShipName());
+				//answer = model.search(view.getShipName());
+				answer = model.search(view.getShipNameListComboBox().getSelectedItem().toString());
 			} 
 			catch (IOException | ParseException e) 
 			{			
@@ -82,71 +84,30 @@ public class Controller
 		}		
 	}
 	
-	/**
-	private class ShipNameListener implements ActionListener
-	{	
-		public ShipNameListener()
-		{
-			view.setShipNameListener(this);
-		}	
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) 
-		{	
-			if (view.getNationListComboBox().getSelectedItem().equals("USA"))
-			{
-				if (view.getShipTypeListComboBox().getSelectedItem().equals("Battleship"))
-				{
-					view.setShipNameList(lists.getUSABattleships());
-				}
-				else if (view.getShipTypeListComboBox().getSelectedItem().equals("CV"))
-				{
-					view.setShipNameList(lists.getUSACVs());
-				}
-				else if (view.getShipTypeListComboBox().getSelectedItem().equals("Destroyer"))
-				{
-					view.setShipNameList(lists.getUSADestroyers());
-				}
-				else if (view.getShipTypeListComboBox().getSelectedItem().equals("Cruiser"))
-				{
-					view.setShipNameList(lists.getUSACruisers());
-				}
-			}			
-		}		
-	}
-	*/
-	
-	
-	private class CheckboxListener4 implements ActionListener
+	ActionListener ShipNameList = new ActionListener()
 	{
-		boolean SurvivabilityNotChecked = true;
-		boolean AFTNotChecked = true;
-
-		public CheckboxListener4()
-		{
-			view.setCheckBoxListener4(this);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) 
+		public void actionPerformed(ActionEvent ae) 
 		{	
-			if (view.getSurvivabilityCheckbox().isSelected() == SurvivabilityNotChecked)
-			{				
-				view.setAFTUnchecked();	
-				SurvivabilityNotChecked = false;
-				AFTNotChecked = true;
-			}
-			else if (view.getAFTCheckbox().isSelected() == AFTNotChecked)
+			String nation = view.getNationListComboBox().getSelectedItem().toString();
+			String type = view.getShipTypeListComboBox().getSelectedItem().toString();
+			String tier = view.getTierListComboBox().getSelectedItem().toString();		
+			
+			if (nation.equals("USA") && type.equals("Battleship"))
 			{
-				view.setSurvivabilityUnchecked();
-				AFTNotChecked = false;
-				SurvivabilityNotChecked = true;
+				view.setUSABattleshipList(tier);
 			}
-		}
-	}
-	
-	
-	
+			else if (nation.equals("USA") && type.equals("Cruiser"))
+			{
+				view.setUSACruiserList(tier);
+			}	
+			else if (nation.equals("USA") && type.equals("CV"))
+			{
+				view.setUSACVList(tier);
+			}
+		}		
+	};
+
+		
 	private class CalculateListener implements ActionListener
 	{
 		/**
@@ -182,7 +143,7 @@ public class Controller
 			
 			try 
 			{
-				answer = model.calculate(view.getShipName(), 
+				answer = model.calculate(view.getShipNameListComboBox().getSelectedItem().toString(), 
 						mod1, mod2, mod3, mod4, mod5, mod6, 
 						conceal, survivability, AFT, EM, BFT, TAE, TA,  
 						concealCamo);
@@ -207,6 +168,36 @@ public class Controller
 			view.setTorpReload(answer.getTorpedoReload());
 		}		
 	}
+	
+	/**
+	private class CheckboxListener4 implements ActionListener
+	{
+		boolean SurvivabilityNotChecked = true;
+		boolean AFTNotChecked = true;
+
+		public CheckboxListener4()
+		{
+			view.setCheckBoxListener4(this);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) 
+		{	
+			if (view.getSurvivabilityCheckbox().isSelected() == SurvivabilityNotChecked)
+			{				
+				view.setAFTUnchecked();	
+				SurvivabilityNotChecked = false;
+				AFTNotChecked = true;
+			}
+			else if (view.getAFTCheckbox().isSelected() == AFTNotChecked)
+			{
+				view.setSurvivabilityUnchecked();
+				AFTNotChecked = false;
+				SurvivabilityNotChecked = true;
+			}
+		}
+	}
+	*/
 	
 	public static void main(String[] args)
 	{	

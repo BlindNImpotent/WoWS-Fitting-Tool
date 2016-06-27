@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -61,6 +62,10 @@ public class Viewer extends JFrame {
 	private JTextArea torpReload;
 	private JCheckBox chckbxTorpAccel;
 	private JCheckBox chckbxTorpArmaExp;
+	private JComboBox<String> comboBoxNationList;	
+	private JComboBox<String> comboBoxShipTypeList;	
+	private JComboBox<String> comboBoxShipNameList;
+	private JComboBox<String> comboBoxTierList;
 	
 	/**
 	 * Create the frame.
@@ -75,6 +80,8 @@ public class Viewer extends JFrame {
 		contentPane.setLayout(null);
 		
 		searchText = new JTextField();
+		searchText.setEditable(false);
+		searchText.setEnabled(false);
 		searchText.setBounds(12, 10, 116, 21);
 		contentPane.add(searchText);
 		searchText.setColumns(10);
@@ -265,6 +272,22 @@ public class Viewer extends JFrame {
 		chckbxTorpArmaExp = new JCheckBox("Torp Arma Exp");
 		chckbxTorpArmaExp.setBounds(121, 352, 125, 23);
 		contentPane.add(chckbxTorpArmaExp);
+		
+		comboBoxNationList = new JComboBox();
+		comboBoxNationList.setBounds(12, 285, 89, 21);
+		contentPane.add(comboBoxNationList);
+		
+		comboBoxShipTypeList = new JComboBox();
+		comboBoxShipTypeList.setBounds(113, 285, 89, 21);
+		contentPane.add(comboBoxShipTypeList);
+		
+		comboBoxShipNameList = new JComboBox();
+		comboBoxShipNameList.setBounds(275, 285, 125, 21);
+		contentPane.add(comboBoxShipNameList);
+		
+		comboBoxTierList = new JComboBox();
+		comboBoxTierList.setBounds(218, 285, 45, 21);
+		contentPane.add(comboBoxTierList);
 	}
 
 	
@@ -280,20 +303,22 @@ public class Viewer extends JFrame {
 		calculateButton.addActionListener(al);
 	}
 	
+	/**
 	public void setCheckBoxListener4(ActionListener al)
 	{
 		chckbxSurvivability.addActionListener(al);
 		chckbxAft.addActionListener(al);
 	}
+	*/
 	
-	/**
 	public void setShipNameListener(ActionListener al) 
 	{
-	    comboBoxNationList.addActionListener(al);
-	    comboBoxShipTypeList.addActionListener(al);
+		comboBoxNationList.addActionListener(al);
+		comboBoxShipTypeList.addActionListener(al);
+		comboBoxTierList.addActionListener(al);
 	    comboBoxShipNameList.addActionListener(al);     
 	}
-	*/ 
+	
 	public JCheckBox getAFTCheckbox()
 	{
 		return chckbxAft;
@@ -443,12 +468,12 @@ public class Viewer extends JFrame {
 	
 	public void setTorpRange(double torpRange)
 	{
-		this.torpRange.setText(String.valueOf(torpRange));
+		this.torpRange.setText(String.valueOf(torpRange) + " km");
 	}
 	
 	public void setTorpReload(double torpReload)
 	{
-		this.torpReload.setText(String.valueOf(torpReload));
+		this.torpReload.setText(String.valueOf(torpReload) + " s");
 	}
 	
 	
@@ -532,47 +557,155 @@ public class Viewer extends JFrame {
 	}
 	
 	public String getModuleBox6()
-	{
-		
+	{		
 		return mod6Box.getSelectedItem().toString();
 	}
+	
+	public void setNationList()
+	{
+		comboBoxNationList.removeAllItems();
+		comboBoxNationList.addItem("USA");
+		comboBoxNationList.addItem("Germany");
+		comboBoxNationList.addItem("Japan");
+		comboBoxNationList.addItem("Russia");
+		comboBoxNationList.addItem("Great Britain");
+		comboBoxNationList.addItem("Poland");
+		comboBoxNationList.addItem("Pan Asia");
+	}
+	
+	public void setShipTypeList()
+	{
+		comboBoxShipTypeList.removeAllItems();
+		comboBoxShipTypeList.addItem("Battleship");
+		comboBoxShipTypeList.addItem("CV");
+		comboBoxShipTypeList.addItem("Cruiser");
+		comboBoxShipTypeList.addItem("Destroyer");
+		comboBoxShipTypeList.addItem("Premium");
+	}
+	
+	public void setTierList()
+	{
+		comboBoxTierList.removeAllItems();
+		comboBoxTierList.addItem("1");;
+		comboBoxTierList.addItem("2");
+		comboBoxTierList.addItem("3");
+		comboBoxTierList.addItem("4");
+		comboBoxTierList.addItem("5");
+		comboBoxTierList.addItem("6");
+		comboBoxTierList.addItem("7");
+		comboBoxTierList.addItem("8");
+		comboBoxTierList.addItem("9");
+		comboBoxTierList.addItem("10");
+	}
 
-	/**
-	public JComboBox getNationListComboBox() 
-	{	
+	public JComboBox<String> getNationListComboBox() 
+	{
 		return comboBoxNationList;
 	}
 
-	public void setNationList(List<String> aList) 
-	{
-		comboBoxNationList.removeAllItems();
-		for (int i = 0; i < aList.size(); i++)
-		{
-			comboBoxNationList.addItem(aList.get(i));
-		}
-	}
-
-	public void setShipTypeList(List<String> aList) 
-	{
-		comboBoxShipTypeList.removeAllItems();
-		for (int i = 0; i < aList.size(); i++)
-		{
-			comboBoxShipTypeList.addItem(aList.get(i));
-		}		
-	}
-
-	public JComboBox getShipTypeListComboBox() 
-	{		
+	public JComboBox<String> getShipTypeListComboBox() 
+	{	
 		return comboBoxShipTypeList;
 	}
+	
+	public JComboBox<String> getShipNameListComboBox()
+	{
+		return comboBoxShipNameList;
+	}
+	
+	public JComboBox<String> getTierListComboBox() 
+	{
+		return comboBoxTierList;
+	}	
 
-	public void setShipNameList(List<String> aList) 
+	public void setUSABattleshipList(String tier) 
 	{
 		comboBoxShipNameList.removeAllItems();
-		for (int i = 0; i < aList.size(); i++)
+		switch (tier)
 		{
-			comboBoxShipNameList.addItem(aList.get(i));
+		case "3": comboBoxShipNameList.addItem("South Carolina");
+			break;
+		case "4": comboBoxShipNameList.addItem("Wyoming");
+			break;
+		case "5": comboBoxShipNameList.addItem("New York");	
+			break;
+		case "6": comboBoxShipNameList.addItem("New Mexico");	
+			break;			
+		case "7": comboBoxShipNameList.addItem("Colorado");	
+			break;
+		case "8": comboBoxShipNameList.addItem("North Carolina");	
+			break;
+		case "9": comboBoxShipNameList.addItem("Iowa");	
+			break;
+		case "10": comboBoxShipNameList.addItem("Montana");	
+			break;			
+		default: comboBoxShipNameList.addItem("None");
+			break;
+		}	
+	}
+	
+	public void setUSACVList(String tier)
+	{
+		comboBoxShipNameList.removeAllItems();
+		switch (tier)
+		{
+		case "4": comboBoxShipNameList.addItem("Langley");
+			break;
+		case "5": comboBoxShipNameList.addItem("Bogue");
+			break;
+		case "6": comboBoxShipNameList.addItem("Independence");
+			break;
+		case "7": comboBoxShipNameList.addItem("Ranger");
+			break;
+		case "8": comboBoxShipNameList.addItem("Lexington");
+			break;
+		case "9": comboBoxShipNameList.addItem("Essex");
+			break;
+		case "10": comboBoxShipNameList.addItem("Midway");
+			break;
+		default: comboBoxShipNameList.addItem("None");
+			break;
 		}
 	}
-	*/
+	
+	public void setUSADestroyerList(String tier)
+	{
+		
+	}
+	
+	public void setUSACruiserList(String tier)
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		switch (tier)
+		{
+		case "1": comboBoxShipNameList.addItem("Erie");
+			break;
+		case "2": comboBoxShipNameList.addItem("Chester");
+			break;
+		case "3": comboBoxShipNameList.addItem("St. Loius");
+			break;
+		case "4": comboBoxShipNameList.addItem("Phoenix");
+			break;
+		case "5": comboBoxShipNameList.addItem("Omaha");
+			break;
+		case "6": comboBoxShipNameList.addItem("Cleveland");
+			break;
+		case "7": comboBoxShipNameList.addItem("Pensacola");
+			break;
+		case "8": comboBoxShipNameList.addItem("New Orleans");
+			break;
+		case "9": comboBoxShipNameList.addItem("Baltimore");
+			break;
+		case "10": comboBoxShipNameList.addItem("Des Moines");
+			break;
+		default: comboBoxShipNameList.addItem("None");
+			break;
+		}
+	}
+
+
+
+
+
 }
