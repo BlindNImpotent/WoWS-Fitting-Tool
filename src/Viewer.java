@@ -180,19 +180,19 @@ public class Viewer extends JFrame {
 		lblMGRange.setBounds(300, 44, 68, 15);
 		contentPane.add(lblMGRange);
 		
-		chckbxConcealment = new JCheckBox("Concealment");
-		chckbxConcealment.setBounds(210, 427, 105, 23);
+		chckbxConcealment = new JCheckBox("Conc Exp");
+		chckbxConcealment.setBounds(254, 421, 105, 23);
 		contentPane.add(chckbxConcealment);
 		
-		chckbxSurvivability = new JCheckBox("Survivability");
-		chckbxSurvivability.setBounds(210, 402, 93, 23);
+		chckbxSurvivability = new JCheckBox("Surv Exp");
+		chckbxSurvivability.setBounds(254, 397, 105, 23);
 		contentPane.add(chckbxSurvivability);
 		
 		chckbxAft = new JCheckBox("AFT");
-		chckbxAft.setBounds(101, 402, 49, 23);
+		chckbxAft.setBounds(121, 397, 60, 23);
 		contentPane.add(chckbxAft);
 
-		chckbxExpertMarksman = new JCheckBox("Exp Marks");
+		chckbxExpertMarksman = new JCheckBox("Exp Mark");
 		chckbxExpertMarksman.setBounds(8, 352, 93, 23);
 		contentPane.add(chckbxExpertMarksman);
 		
@@ -232,12 +232,12 @@ public class Viewer extends JFrame {
 		aConceal.setBounds(218, 256, 70, 21);
 		contentPane.add(aConceal);
 		
-		chckbxConcealCamo = new JCheckBox("Conceal Camo");
+		chckbxConcealCamo = new JCheckBox("Conc Camo");
 		chckbxConcealCamo.setBounds(12, 225, 115, 23);
 		contentPane.add(chckbxConcealCamo);
 		
 		chckbxBft = new JCheckBox("BFT");
-		chckbxBft.setBounds(101, 329, 49, 23);
+		chckbxBft.setBounds(121, 329, 60, 23);
 		contentPane.add(chckbxBft);
 		
 		lblTorpRange = new JLabel("Torp Range");
@@ -259,11 +259,11 @@ public class Viewer extends JFrame {
 		contentPane.add(torpReload);
 		
 		chckbxTorpAccel = new JCheckBox("Torp Accel");
-		chckbxTorpAccel.setBounds(101, 377, 115, 23);
+		chckbxTorpAccel.setBounds(121, 375, 115, 23);
 		contentPane.add(chckbxTorpAccel);
 		
 		chckbxTorpArmaExp = new JCheckBox("Torp Arma Exp");
-		chckbxTorpArmaExp.setBounds(101, 352, 115, 23);
+		chckbxTorpArmaExp.setBounds(121, 352, 125, 23);
 		contentPane.add(chckbxTorpArmaExp);
 	}
 
