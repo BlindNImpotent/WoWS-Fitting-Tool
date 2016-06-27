@@ -52,7 +52,14 @@ public class Controller
 			try 
 			{				
 				//answer = model.search(view.getShipName());
-				answer = model.search(view.getShipNameListComboBox().getSelectedItem().toString());
+				if (view.getShipName().equals(""))
+				{
+					answer = model.search(view.getShipNameListComboBox().getSelectedItem().toString());
+				}
+				else if (view.getShipName() != null)
+				{
+					answer = model.search(view.getShipName());
+				}
 			} 
 			catch (IOException | ParseException e) 
 			{			
@@ -104,6 +111,13 @@ public class Controller
 			{
 				view.setUSACVList(tier);
 			}
+			else if (nation.equals("USA") && type.equals("Destroyer"))
+			{
+				view.setUSADestroyerList(tier);
+			}
+
+			
+			
 		}		
 	};
 

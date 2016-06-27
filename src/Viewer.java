@@ -80,8 +80,6 @@ public class Viewer extends JFrame {
 		contentPane.setLayout(null);
 		
 		searchText = new JTextField();
-		searchText.setEditable(false);
-		searchText.setEnabled(false);
 		searchText.setBounds(12, 10, 116, 21);
 		contentPane.add(searchText);
 		searchText.setColumns(10);
@@ -621,6 +619,7 @@ public class Viewer extends JFrame {
 	public void setUSABattleshipList(String tier) 
 	{
 		comboBoxShipNameList.removeAllItems();
+		
 		switch (tier)
 		{
 		case "3": comboBoxShipNameList.addItem("South Carolina");
@@ -647,6 +646,7 @@ public class Viewer extends JFrame {
 	public void setUSACVList(String tier)
 	{
 		comboBoxShipNameList.removeAllItems();
+		
 		switch (tier)
 		{
 		case "4": comboBoxShipNameList.addItem("Langley");
@@ -670,7 +670,32 @@ public class Viewer extends JFrame {
 	
 	public void setUSADestroyerList(String tier)
 	{
+		comboBoxShipNameList.removeAllItems();
 		
+		switch (tier)
+		{
+		case "2": comboBoxShipNameList.addItem("Sampson");
+			break;
+		case "3": comboBoxShipNameList.addItem("Wickes");
+			break;
+		case "4": comboBoxShipNameList.addItem("Clemson");
+			break;
+		case "5": comboBoxShipNameList.addItem("Nicholas");
+			break;
+		case "6": comboBoxShipNameList.addItem("Farragut");
+			break;
+		case "7": comboBoxShipNameList.addItem("Mahan");
+			break;
+		case "8": comboBoxShipNameList.addItem("Benson");
+			break;
+		case "9": comboBoxShipNameList.addItem("Fletcher");
+			break;
+		case "10": comboBoxShipNameList.addItem("Gearing");
+			break;
+		default: comboBoxShipNameList.addItem("None");
+			break;
+
+		}
 	}
 	
 	public void setUSACruiserList(String tier)
