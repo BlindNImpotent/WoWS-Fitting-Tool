@@ -94,6 +94,10 @@ public class JSParser
 		{
 			ship = ship.replaceAll("Arkansas", "PASB013_Arkansas_1912");
 		}
+		else if (ship.equals("St. Loius"))
+		{
+			ship = ship.replace("St. Louis", "PASC004_St_Louis_1906");
+		}
 		
 		ship = ship.replaceAll(" ", "_");
 		

@@ -9,19 +9,9 @@ public class Controller
 {
 	private static Viewer view;
 	private static Model model;
-	private Lists lists;
 
 	private Controller()
-	{
-		lists = new Lists();
-		
-		lists.setUSACVsList();
-		
-		
-		
-		
-		
-		
+	{		
 		model = new Model();
 		view = new Viewer();
 		view.setVisible(true);		
@@ -29,9 +19,9 @@ public class Controller
 		view.setCalculateListener(new CalculateListener());
 		//view.setCheckBoxListener4(new CheckboxListener4());
 		
-		view.setNationList(lists.getNationList());
-		view.setShipTypeList(lists.getShipTypeList());
-		view.setShipNameListener(new ShipNameListener());
+		//view.setNationList(lists.getNationList());
+		//view.setShipTypeList(lists.getShipTypeList());
+		//view.setShipNameListener(new ShipNameListener());
 
 	}
 	
@@ -92,7 +82,7 @@ public class Controller
 		}		
 	}
 	
-	
+	/**
 	private class ShipNameListener implements ActionListener
 	{	
 		public ShipNameListener()
@@ -102,7 +92,7 @@ public class Controller
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
-		{			
+		{	
 			if (view.getNationListComboBox().getSelectedItem().equals("USA"))
 			{
 				if (view.getShipTypeListComboBox().getSelectedItem().equals("Battleship"))
@@ -124,6 +114,7 @@ public class Controller
 			}			
 		}		
 	}
+	*/
 	
 	
 	private class CheckboxListener4 implements ActionListener

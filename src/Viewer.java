@@ -61,9 +61,6 @@ public class Viewer extends JFrame {
 	private JTextArea torpReload;
 	private JCheckBox chckbxTorpAccel;
 	private JCheckBox chckbxTorpArmaExp;
-	private JComboBox comboBoxNationList;
-	private JComboBox comboBoxShipTypeList;
-	private JComboBox comboBoxShipNameList;
 	
 	/**
 	 * Create the frame.
@@ -268,18 +265,6 @@ public class Viewer extends JFrame {
 		chckbxTorpArmaExp = new JCheckBox("Torp Arma Exp");
 		chckbxTorpArmaExp.setBounds(101, 352, 115, 23);
 		contentPane.add(chckbxTorpArmaExp);
-		
-		comboBoxNationList = new JComboBox();
-		comboBoxNationList.setBounds(12, 292, 116, 21);
-		contentPane.add(comboBoxNationList);
-		
-		comboBoxShipTypeList = new JComboBox();
-		comboBoxShipTypeList.setBounds(135, 292, 116, 21);
-		contentPane.add(comboBoxShipTypeList);
-		
-		comboBoxShipNameList = new JComboBox();
-		comboBoxShipNameList.setBounds(263, 292, 116, 21);
-		contentPane.add(comboBoxShipNameList);
 	}
 
 	
@@ -301,13 +286,14 @@ public class Viewer extends JFrame {
 		chckbxAft.addActionListener(al);
 	}
 	
+	/**
 	public void setShipNameListener(ActionListener al) 
 	{
 	    comboBoxNationList.addActionListener(al);
 	    comboBoxShipTypeList.addActionListener(al);
 	    comboBoxShipNameList.addActionListener(al);     
 	}
-	
+	*/ 
 	public JCheckBox getAFTCheckbox()
 	{
 		return chckbxAft;
@@ -551,6 +537,7 @@ public class Viewer extends JFrame {
 		return mod6Box.getSelectedItem().toString();
 	}
 
+	/**
 	public JComboBox getNationListComboBox() 
 	{	
 		return comboBoxNationList;
@@ -587,4 +574,5 @@ public class Viewer extends JFrame {
 			comboBoxShipNameList.addItem(aList.get(i));
 		}
 	}
+	*/
 }
