@@ -14,8 +14,8 @@ import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 
-public class Viewer extends JFrame {
-
+public class Viewer extends JFrame 
+{
 	private JPanel contentPane;
 	private JTextField searchText;
 	private JButton searchButton;
@@ -61,13 +61,24 @@ public class Viewer extends JFrame {
 	private JTextArea torpRange;
 	private JTextArea torpReload;
 	private JCheckBox chckbxTorpAccel;
-	private JCheckBox chckbxTorpArmaExp;
+	private JCheckBox chckbxTorpArmExp;
 	private JComboBox<String> comboBoxNationList;	
 	private JComboBox<String> comboBoxShipTypeList;	
 	private JComboBox<String> comboBoxShipNameList;
 	private JComboBox<String> comboBoxTierList;
 	private JLabel lblTorpSpeed;
 	private JTextArea torpSpeed;
+	private JCheckBox chckbxBoS;
+	private JTextArea burnTime;
+	private JTextArea floodTime;
+	private JLabel lblBurnTime;
+	private JLabel lblFloodTime;
+	private JTextArea aaFar;
+	private JTextArea aaMedium;
+	private JTextArea aaNear;
+	private JLabel lblAaFar;
+	private JLabel lblAaMedium;
+	private JLabel lblAaNear;
 	
 	
 	
@@ -77,7 +88,7 @@ public class Viewer extends JFrame {
 	public Viewer() {
 		setTitle("WoWS Ship Stats Calculator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 500);
+		setBounds(100, 100, 500, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -97,208 +108,257 @@ public class Viewer extends JFrame {
 		contentPane.add(calculateButton);
 		
 		mod1Box = new JComboBox();
-		mod1Box.setBounds(12, 41, 116, 21);
+		mod1Box.setBounds(12, 74, 116, 21);
 		contentPane.add(mod1Box);
 		
 		mod2Box = new JComboBox();
-		mod2Box.setBounds(12, 72, 116, 21);
+		mod2Box.setBounds(12, 105, 116, 21);
 		contentPane.add(mod2Box);
 		
 		mod3Box = new JComboBox();
-		mod3Box.setBounds(12, 103, 116, 21);
+		mod3Box.setBounds(12, 136, 116, 21);
 		contentPane.add(mod3Box);
 		
 		mod4Box = new JComboBox();
-		mod4Box.setBounds(12, 134, 116, 21);
+		mod4Box.setBounds(12, 167, 116, 21);
 		contentPane.add(mod4Box);
 		
 		mod5Box = new JComboBox();
-		mod5Box.setBounds(12, 164, 116, 21);
+		mod5Box.setBounds(12, 198, 116, 21);
 		contentPane.add(mod5Box);
 		
 		mod6Box = new JComboBox();
-		mod6Box.setBounds(12, 195, 116, 21);
+		mod6Box.setBounds(12, 229, 116, 21);
 		contentPane.add(mod6Box);
 		
 		rudder = new JTextArea();
 		rudder.setText("s");
-		rudder.setBounds(218, 194, 70, 21);
+		rudder.setBounds(218, 238, 70, 21);
 		contentPane.add(rudder);
 		
 		tier = new JTextArea();
-		tier.setBounds(218, 40, 70, 21);
+		tier.setBounds(218, 83, 70, 21);
 		contentPane.add(tier);
 		
 		nation = new JTextArea();
-		nation.setBounds(218, 71, 70, 21);
+		nation.setBounds(218, 114, 70, 21);
 		contentPane.add(nation);
 		
 		shipType = new JTextArea();
-		shipType.setBounds(218, 102, 70, 21);
+		shipType.setBounds(218, 145, 70, 21);
 		contentPane.add(shipType);
 		
 		health = new JTextArea();
 		health.setText("HP");
-		health.setBounds(218, 133, 70, 21);
+		health.setBounds(218, 176, 70, 21);
 		contentPane.add(health);
 		
 		speed = new JTextArea();
 		speed.setText("kts");
-		speed.setBounds(218, 163, 70, 21);
+		speed.setBounds(218, 207, 70, 21);
 		contentPane.add(speed);
 		
 		MGRange = new JTextArea();
 		MGRange.setText("km");
-		MGRange.setBounds(380, 40, 70, 21);
+		MGRange.setBounds(380, 83, 70, 21);
 		contentPane.add(MGRange);
 		
 		sConceal = new JTextArea();
 		sConceal.setText("km");
-		sConceal.setBounds(218, 225, 70, 21);
+		sConceal.setBounds(218, 269, 70, 21);
 		contentPane.add(sConceal);
 		
 		lblTier = new JLabel("Tier");
-		lblTier.setBounds(138, 42, 80, 15);
+		lblTier.setBounds(138, 87, 80, 15);
 		contentPane.add(lblTier);
 		
 		lblNation = new JLabel("Nation");
-		lblNation.setBounds(138, 75, 80, 15);
+		lblNation.setBounds(138, 118, 80, 15);
 		contentPane.add(lblNation);
 		
 		lblShipType = new JLabel("Ship Type");
-		lblShipType.setBounds(138, 106, 80, 15);
+		lblShipType.setBounds(138, 149, 80, 15);
 		contentPane.add(lblShipType);
 		
 		lblHealth = new JLabel("Health");
-		lblHealth.setBounds(138, 137, 80, 15);
+		lblHealth.setBounds(138, 180, 80, 15);
 		contentPane.add(lblHealth);
 		
 		lblSpeed = new JLabel("Speed");
-		lblSpeed.setBounds(138, 167, 80, 15);
+		lblSpeed.setBounds(138, 211, 49, 15);
 		contentPane.add(lblSpeed);
 		
 		lblRudder = new JLabel("Rudder Shift");
-		lblRudder.setBounds(136, 198, 80, 15);
+		lblRudder.setBounds(138, 242, 80, 15);
 		contentPane.add(lblRudder);
 		
 		lblSConceal = new JLabel("S Conceal");
-		lblSConceal.setBounds(136, 229, 80, 15);
+		lblSConceal.setBounds(138, 273, 80, 15);
 		contentPane.add(lblSConceal);
 		
 		lblMGRange = new JLabel("MG Range");
-		lblMGRange.setBounds(300, 44, 68, 15);
+		lblMGRange.setBounds(300, 87, 68, 15);
 		contentPane.add(lblMGRange);
 		
 		chckbxConcealment = new JCheckBox("Conc Exp");
-		chckbxConcealment.setBounds(254, 421, 105, 23);
+		chckbxConcealment.setBounds(275, 532, 105, 23);
 		contentPane.add(chckbxConcealment);
 		
 		chckbxSurvivability = new JCheckBox("Surv Exp");
-		chckbxSurvivability.setBounds(254, 397, 105, 23);
+		chckbxSurvivability.setBounds(199, 507, 78, 23);
 		contentPane.add(chckbxSurvivability);
 		
 		chckbxAft = new JCheckBox("AFT");
-		chckbxAft.setBounds(121, 397, 60, 23);
+		chckbxAft.setBounds(91, 507, 60, 23);
 		contentPane.add(chckbxAft);
 
 		chckbxExpertMarksman = new JCheckBox("Exp Mark");
-		chckbxExpertMarksman.setBounds(8, 352, 93, 23);
+		chckbxExpertMarksman.setBounds(12, 432, 80, 23);
 		contentPane.add(chckbxExpertMarksman);
 		
 		txtrMgReload = new JTextArea();
 		txtrMgReload.setText("s");
-		txtrMgReload.setBounds(380, 71, 70, 21);
+		txtrMgReload.setBounds(380, 114, 70, 21);
 		contentPane.add(txtrMgReload);
 		
 		lblMgReload = new JLabel("MG Reload");
-		lblMgReload.setBounds(300, 75, 70, 15);
+		lblMgReload.setBounds(300, 118, 70, 15);
 		contentPane.add(lblMgReload);
 		
 		txtrMgDegs = new JTextArea();
 		txtrMgDegs.setText("deg/s");
-		txtrMgDegs.setBounds(380, 102, 70, 21);
+		txtrMgDegs.setBounds(380, 145, 70, 21);
 		contentPane.add(txtrMgDegs);
 		
 		lblMgDegs = new JLabel("MG Deg/s");
-		lblMgDegs.setBounds(300, 106, 70, 15);
+		lblMgDegs.setBounds(300, 149, 70, 15);
 		contentPane.add(lblMgDegs);
 		
 		txtrMgTime = new JTextArea();
 		txtrMgTime.setText("s/180 deg");
-		txtrMgTime.setBounds(380, 133, 70, 21);
+		txtrMgTime.setBounds(380, 176, 70, 21);
 		contentPane.add(txtrMgTime);
 		
 		lblMgTime = new JLabel("MG Rotation");
-		lblMgTime.setBounds(300, 137, 70, 15);
+		lblMgTime.setBounds(300, 180, 70, 15);
 		contentPane.add(lblMgTime);
 		
 		lblAConceal = new JLabel("A Conceal");
-		lblAConceal.setBounds(138, 260, 80, 15);
+		lblAConceal.setBounds(138, 306, 80, 15);
 		contentPane.add(lblAConceal);
 		
 		aConceal = new JTextArea();
 		aConceal.setText("km");
-		aConceal.setBounds(218, 256, 70, 21);
+		aConceal.setBounds(218, 300, 70, 21);
 		contentPane.add(aConceal);
 		
 		chckbxConcealCamo = new JCheckBox("Conc Camo");
-		chckbxConcealCamo.setBounds(12, 225, 115, 23);
+		chckbxConcealCamo.setBounds(12, 256, 97, 23);
 		contentPane.add(chckbxConcealCamo);
 		
 		chckbxBft = new JCheckBox("BFT");
-		chckbxBft.setBounds(121, 329, 60, 23);
+		chckbxBft.setBounds(91, 432, 60, 23);
 		contentPane.add(chckbxBft);
 		
 		lblTorpRange = new JLabel("Torp Range");
-		lblTorpRange.setBounds(300, 167, 68, 15);
+		lblTorpRange.setBounds(300, 211, 68, 15);
 		contentPane.add(lblTorpRange);
 		
 		lblTorpReload = new JLabel("Torp Reload");
-		lblTorpReload.setBounds(298, 198, 70, 15);
+		lblTorpReload.setBounds(300, 242, 70, 15);
 		contentPane.add(lblTorpReload);
 		
 		torpRange = new JTextArea();
 		torpRange.setText("km");
-		torpRange.setBounds(380, 163, 70, 21);
+		torpRange.setBounds(380, 207, 70, 21);
 		contentPane.add(torpRange);
 		
 		torpReload = new JTextArea();
 		torpReload.setText("s");
-		torpReload.setBounds(380, 194, 70, 21);
+		torpReload.setBounds(380, 238, 70, 21);
 		contentPane.add(torpReload);
 		
 		chckbxTorpAccel = new JCheckBox("Torp Accel");
-		chckbxTorpAccel.setBounds(121, 375, 115, 23);
+		chckbxTorpAccel.setBounds(91, 482, 97, 23);
 		contentPane.add(chckbxTorpAccel);
 		
-		chckbxTorpArmaExp = new JCheckBox("Torp Arma Exp");
-		chckbxTorpArmaExp.setBounds(121, 352, 125, 23);
-		contentPane.add(chckbxTorpArmaExp);
+		chckbxTorpArmExp = new JCheckBox("Torp Arm Exp");
+		chckbxTorpArmExp.setBounds(91, 457, 105, 23);
+		contentPane.add(chckbxTorpArmExp);
 		
 		comboBoxNationList = new JComboBox();
-		comboBoxNationList.setBounds(12, 285, 89, 21);
+		comboBoxNationList.setBounds(12, 41, 89, 21);
 		contentPane.add(comboBoxNationList);
 		
 		comboBoxShipTypeList = new JComboBox();
-		comboBoxShipTypeList.setBounds(113, 285, 89, 21);
+		comboBoxShipTypeList.setBounds(113, 41, 89, 21);
 		contentPane.add(comboBoxShipTypeList);
 		
 		comboBoxShipNameList = new JComboBox();
-		comboBoxShipNameList.setBounds(275, 285, 125, 21);
+		comboBoxShipNameList.setBounds(275, 42, 125, 21);
 		contentPane.add(comboBoxShipNameList);
 		
 		comboBoxTierList = new JComboBox();
-		comboBoxTierList.setBounds(218, 285, 45, 21);
+		comboBoxTierList.setBounds(218, 42, 45, 21);
 		contentPane.add(comboBoxTierList);
 		
 		lblTorpSpeed = new JLabel("Torp Speed");
-		lblTorpSpeed.setBounds(300, 229, 70, 15);
+		lblTorpSpeed.setBounds(300, 273, 70, 15);
 		contentPane.add(lblTorpSpeed);
 		
 		torpSpeed = new JTextArea();
 		torpSpeed.setText("kts");
-		torpSpeed.setBounds(380, 225, 70, 21);
+		torpSpeed.setBounds(380, 269, 70, 21);
 		contentPane.add(torpSpeed);
+		
+		chckbxBoS = new JCheckBox("BoS");
+		chckbxBoS.setBounds(199, 432, 49, 23);
+		contentPane.add(chckbxBoS);
+		
+		burnTime = new JTextArea();
+		burnTime.setText("s");
+		burnTime.setBounds(218, 331, 70, 21);
+		contentPane.add(burnTime);
+		
+		floodTime = new JTextArea();
+		floodTime.setText("s");
+		floodTime.setBounds(218, 362, 70, 21);
+		contentPane.add(floodTime);
+		
+		lblBurnTime = new JLabel("Burn Time");
+		lblBurnTime.setBounds(138, 335, 78, 15);
+		contentPane.add(lblBurnTime);
+		
+		lblFloodTime = new JLabel("Flood Time");
+		lblFloodTime.setBounds(138, 366, 78, 15);
+		contentPane.add(lblFloodTime);
+		
+		aaFar = new JTextArea();
+		aaFar.setText("km");
+		aaFar.setBounds(380, 302, 70, 21);
+		contentPane.add(aaFar);
+		
+		aaMedium = new JTextArea();
+		aaMedium.setText("km");
+		aaMedium.setBounds(380, 331, 70, 21);
+		contentPane.add(aaMedium);
+		
+		aaNear = new JTextArea();
+		aaNear.setText("km");
+		aaNear.setBounds(380, 360, 70, 21);
+		contentPane.add(aaNear);
+		
+		lblAaFar = new JLabel("AA Far");
+		lblAaFar.setBounds(300, 306, 68, 15);
+		contentPane.add(lblAaFar);
+		
+		lblAaMedium = new JLabel("AA Medium");
+		lblAaMedium.setBounds(300, 335, 68, 15);
+		contentPane.add(lblAaMedium);
+		
+		lblAaNear = new JLabel("AA Near");
+		lblAaNear.setBounds(300, 366, 68, 15);
+		contentPane.add(lblAaNear);
 	}
 
 	
@@ -395,9 +455,14 @@ public class Viewer extends JFrame {
 		return chckbxTorpAccel.isSelected();
 	}
 	
-	public boolean getTorpArmaExp()
+	public boolean getTorpArmExp()
 	{
-		return chckbxTorpArmaExp.isSelected();
+		return chckbxTorpArmExp.isSelected();
+	}
+	
+	public boolean getBoS()
+	{
+		return chckbxBoS.isSelected();
 	}
 	
 	
@@ -495,6 +560,31 @@ public class Viewer extends JFrame {
 	public void setTorpSpeed(double torpSpeed)
 	{
 		this.torpSpeed.setText(String.valueOf(torpSpeed) + " kts");
+	}
+	
+	public void setAARangeFar(double aaFar)
+	{
+		this.aaFar.setText(String.valueOf(aaFar) + " km");
+	}
+	
+	public void setAARangeMedium(double aaMedium)
+	{
+		this.aaMedium.setText(String.valueOf(aaMedium) + " km");
+	}
+	
+	public void setAARangeNear(double aaNear)
+	{
+		this.aaNear.setText(String.valueOf(aaNear) + " km");
+	}
+	
+	public void setFloodTime(double floodTime) 
+	{
+		this.floodTime.setText(String.valueOf(floodTime) + " s");
+	}
+	
+	public void setBurnTime(double burnTime) 
+	{
+		this.burnTime.setText(String.valueOf(burnTime) + " s");
 	}
 	
 	
@@ -964,4 +1054,9 @@ public class Viewer extends JFrame {
 			break;
 		}
 	}
+
+
+
+
+
 }

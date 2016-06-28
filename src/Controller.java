@@ -71,6 +71,13 @@ public class Controller
 			view.setTorpReload(answer.getTorpedoReload());
 			view.setTorpSpeed(answer.getTorpedoSpeed());
 			
+			view.setFloodTime(answer.getFloodTime());
+			view.setBurnTime(answer.getBurnTime());
+			
+			view.setAARangeFar(answer.getAntiAirAuraDistanceFar());
+			view.setAARangeMedium(answer.getAntiAirAuraDistanceMedium());
+			view.setAARangeNear(answer.getAntiAirAuraDistanceNear());			
+			
 			view.setModuleBox1(answer.getModule1());
 			view.setModuleBox2(answer.getModule2());
 			view.setModuleBox3(answer.getModule3());
@@ -167,8 +174,9 @@ public class Controller
 			boolean EM = view.getExpertMarksman();
 			boolean concealCamo = view.getConcealCamo();
 			boolean BFT = view.getBFT();
-			boolean TAE = view.getTorpArmaExp();
+			boolean TAE = view.getTorpArmExp();
 			boolean TA = view.getTorpAccel();
+			boolean BoS = view.getBoS();
 			
 			try 
 			{
@@ -176,14 +184,14 @@ public class Controller
 				{
 					answer = model.calculate(view.getShipNameListComboBox().getSelectedItem().toString(), 
 							mod1, mod2, mod3, mod4, mod5, mod6, 
-							conceal, survivability, AFT, EM, BFT, TAE, TA,  
+							conceal, survivability, AFT, EM, BFT, TAE, TA, BoS,  
 							concealCamo);				
 				}
 				else if (view.getShipName() != null)
 				{
 					answer = model.calculate(view.getShipName(), 
 							mod1, mod2, mod3, mod4, mod5, mod6, 
-							conceal, survivability, AFT, EM, BFT, TAE, TA,  
+							conceal, survivability, AFT, EM, BFT, TAE, TA, BoS, 
 							concealCamo);				
 					}				
 			} 
@@ -202,9 +210,16 @@ public class Controller
 			view.setMGDegs(answer.getMainGunRotation());
 			view.setMGTime(answer.getMainGunRotationTime());
 			
+			view.setFloodTime(answer.getFloodTime());
+			view.setBurnTime(answer.getBurnTime());
+			
 			view.setTorpRange(answer.getMaxTorpedoRange());
 			view.setTorpReload(answer.getTorpedoReload());
 			view.setTorpSpeed(answer.getTorpedoSpeed());
+			
+			view.setAARangeFar(answer.getAntiAirAuraDistanceFar());
+			view.setAARangeMedium(answer.getAntiAirAuraDistanceMedium());
+			view.setAARangeNear(answer.getAntiAirAuraDistanceNear());	
 
 		}		
 	};

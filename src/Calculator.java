@@ -9,7 +9,7 @@ public class Calculator
 	
 	public Calc calculate(
 			String aShip, String mod1, String mod2, String mod3, String mod4, String mod5, String mod6, 
-			boolean conceal, boolean survivability, boolean AFT, boolean EM, boolean BFT, boolean TAE, boolean TA, 
+			boolean conceal, boolean survivability, boolean AFT, boolean EM, boolean BFT, boolean TAE, boolean TA, boolean BoS,
 			boolean concealCamo) 
 					throws FileNotFoundException, IOException, ParseException
 	{
@@ -344,6 +344,10 @@ public class Calculator
 		if (TA == true)
 		{
 			calc.calcTorpedoAcceleration();
+		}
+		if (BoS == true)
+		{
+			calc.calcBasicsOfSurvivability();
 		}
 		
 		return calc;

@@ -10,13 +10,13 @@ public class Model
 	
 	public Calc calculate(
 			String aShip, String mod1, String mod2, String mod3, String mod4, String mod5, String mod6, 
-			boolean conceal, boolean survivability, boolean AFT, boolean EM, boolean BFT, boolean TAE, boolean TA,
+			boolean conceal, boolean survivability, boolean AFT, boolean EM, boolean BFT, boolean TAE, boolean TA, boolean BoS,
 			boolean concealCamo) 
 					throws FileNotFoundException, IOException, ParseException
 	{
 		return calculator.calculate(
 				aShip, mod1, mod2, mod3, mod4, mod5, mod6, 
-				conceal, survivability, AFT, EM, BFT, TAE, TA, 
+				conceal, survivability, AFT, EM, BFT, TAE, TA, BoS,
 				concealCamo);
 	}
 	public Calc search(String aShip) throws FileNotFoundException, IOException, ParseException

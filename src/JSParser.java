@@ -69,6 +69,9 @@ public class JSParser
 	private double TorpedoHP;
 	private double TorpedoAutoRepairTime;
 	
+	private double antiAirAuraDistanceFar;
+	private double antiAirAuraDistanceMedium;
+	private double antiAirAuraDistanceNear;
 	
 	
 	
@@ -425,6 +428,24 @@ public class JSParser
 		return aConceal;
 	}
 	
+	
+	public double getAntiAirAuraDistanceFar()
+	{
+		return antiAirAuraDistanceFar;
+	}
+	
+	public double getAntiAirAuraDistanceMedium()
+	{
+		return antiAirAuraDistanceMedium;
+	}
+	
+	public double getAntiAirAuraDistanceNear()
+	{
+		return antiAirAuraDistanceNear;
+	}
+	
+	
+	
 	/**
 	 * 
 	 * @return
@@ -441,7 +462,7 @@ public class JSParser
 	public double getBarrelDiameter()
 	{
 		return barrelDiameter;
-	}
+	}	
 	
 	/**
 	 * 
@@ -614,6 +635,87 @@ public class JSParser
 		//Sets reload time of turret.
 		mainGunReload = (double) tobj2.get("shotDelay");
 
+		if (barrelDiameter < 0.140)
+		{
+			antiAirAuraDistanceFar = (double) tobj2.get("antiAirAuraDistance") * 0.03;
+		}
+		else if (barrelDiameter >= 0.140)
+		{
+			List<String> ATBAList = new ArrayList<String>();
+			
+			ATBAList.addAll(shipJSON.keySet());
+			for (int i = ATBAList.size() - 1; i >= 0; i--)
+			{
+				if (!ATBAList.get(i).toString().matches(".*(ATBA).*"))
+				{
+					ATBAList.remove(i);
+				}
+			}
+			Collections.sort(ATBAList);
+			String ATBAName = ATBAList.get(ATBAList.size()-1);
+			JSONObject ATBA = (JSONObject) shipJSON.get(ATBAName);
+			if (ATBA.get("AuraFar") != null)
+			{
+				JSONObject AuraFar = (JSONObject) ATBA.get("AuraFar");
+				JSONArray guns = (JSONArray) AuraFar.get("guns");
+				String AAFarGunString = guns.get(0).toString();
+				JSONObject AAFarGun = (JSONObject) ATBA.get(AAFarGunString);
+				antiAirAuraDistanceFar = (double) AAFarGun.get("antiAirAuraDistance") * 0.03;
+			}
+		}
+		
+		List<String> AAMedium = new ArrayList<String>();
+		
+		AAMedium.addAll(shipJSON.keySet());
+		for (int i = AAMedium.size() - 1; i >= 0; i--)
+		{
+			if (!AAMedium.get(i).toString().matches(".*(AirDefense).*"))
+			{
+				AAMedium.remove(i);
+			}
+		}
+		Collections.sort(AAMedium);
+		String AirDefenseName = AAMedium.get(AAMedium.size()-1);
+		JSONObject AirDefense = (JSONObject) shipJSON.get(AirDefenseName);
+		if (AirDefense.get("AuraMedium") != null)
+		{
+			JSONObject AuraMedium = (JSONObject) AirDefense.get("AuraMedium");
+			JSONArray guns = (JSONArray) AuraMedium.get("guns");
+			String AAMediumGunString = guns.get(0).toString();
+			JSONObject AAMediumGun = (JSONObject) AirDefense.get(AAMediumGunString);
+			antiAirAuraDistanceMedium = (double) AAMediumGun.get("antiAirAuraDistance") * 0.03;
+		}
+		
+		List<String> AANear = new ArrayList<String>();
+		
+		AANear.addAll(shipJSON.keySet());
+		for (int i = AANear.size() - 1; i >= 0; i--)
+		{
+			if (!AANear.get(i).toString().matches(".*(AirDefense).*"))
+			{
+				AANear.remove(i);
+			}
+		}
+		Collections.sort(AANear);
+		String AirDefenseNameNear = AANear.get(AANear.size()-1);
+		JSONObject AirDefenseNear = (JSONObject) shipJSON.get(AirDefenseNameNear);
+		if (AirDefenseNear.get("AuraNear") != null)
+		{
+			JSONObject AuraNear = (JSONObject) AirDefenseNear.get("AuraNear");
+			JSONArray guns = (JSONArray) AuraNear.get("guns");
+			String AANearGunString = guns.get(0).toString();
+			JSONObject AANearGun = (JSONObject) AirDefenseNear.get(AANearGunString);
+			antiAirAuraDistanceNear = (double) AANearGun.get("antiAirAuraDistance") * 0.03;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		JSONObject HitLocationArtillery = (JSONObject) tobj2.get("HitLocationArtillery");
 		
 		MainTurretHP = (double) HitLocationArtillery.get("maxHP");

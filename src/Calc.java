@@ -42,6 +42,10 @@ public class Calc
 	
 	private double burnTime;
 	private double floodTime;
+	
+	private double antiAirAuraDistanceFar;
+	private double antiAirAuraDistanceMedium;
+	private double antiAirAuraDistanceNear;
 			
 	private JSONObject crew;
 	private JSONObject skills;	
@@ -80,6 +84,10 @@ public class Calc
 		forwardEngineUpTime = (double) jsp.getEngine().get("forwardEngineUpTime");
 		backwardEngineUpTime = (double) jsp.getEngine().get("backwardEngineUpTime");
 		engineRepairTime = jsp.getEngineAutoRepairTime();
+		
+		antiAirAuraDistanceFar = jsp.getAntiAirAuraDistanceFar();
+		antiAirAuraDistanceMedium = jsp.getAntiAirAuraDistanceMedium();
+		antiAirAuraDistanceNear = jsp.getAntiAirAuraDistanceNear();
 		
 		burnTime = jsp.getBurnTime();
 		floodTime = jsp.getFloodTime();
@@ -175,7 +183,9 @@ public class Calc
 		JSONObject AAGM2 = (JSONObject) jsp.getGameParams().get("PCM011_AirDefense_Mod_II");
 		double AAMaxDist = (double) AAGM2.get("AAMaxDist");
 		
-		
+		antiAirAuraDistanceFar = antiAirAuraDistanceFar * AAMaxDist;
+		antiAirAuraDistanceMedium = antiAirAuraDistanceMedium * AAMaxDist;
+		antiAirAuraDistanceNear = antiAirAuraDistanceNear * AAMaxDist;
 		
 	}
 	
@@ -183,7 +193,8 @@ public class Calc
 	{
 		//"PCM012_SecondaryGun_Mod_II"
 		JSONObject SBM2 = (JSONObject) jsp.getGameParams().get("PCM012_SecondaryGun_Mod_II");
-		double GSMaxDist = (double) SBM2.get("AAMaxDist"); 
+		double GSMaxDist = (double) SBM2.get("GSMaxDist");
+		double GSIdealRadius = (double) SBM2.get("GSIdealRadius");
 		
 		
 	}
@@ -366,11 +377,16 @@ public class Calc
 	{
 		JSONObject AFT = (JSONObject) skills.get("AIGunsRangeModifier");
 		double smallGunRangeCoefficient = (double) AFT.get("smallGunRangeCoefficient");
+		double airDefenceRangeCoefficient = (double) AFT.get("airDefenceRangeCoefficient");
 		
 		if (jsp.getBarrelDiameter() < 0.139)
 		{
 			maxMainGunRange = maxMainGunRange * smallGunRangeCoefficient;
-		}		
+		}
+		
+		antiAirAuraDistanceFar = antiAirAuraDistanceFar * airDefenceRangeCoefficient;
+		antiAirAuraDistanceMedium = antiAirAuraDistanceMedium * airDefenceRangeCoefficient;
+		antiAirAuraDistanceNear = antiAirAuraDistanceNear * airDefenceRangeCoefficient;		
 	}
 
 	public void calcBasicFiringTraining()
@@ -384,7 +400,18 @@ public class Calc
 		}		
 	}
 	
-	
+	/**
+	 * 
+	 */
+	public void calcBasicsOfSurvivability()
+	{
+		JSONObject BoS = (JSONObject) skills.get("AutoRepairModifier");
+		double critTimeCoefficient = (double) BoS.get("critTimeCoefficient");
+		
+		floodTime = floodTime * critTimeCoefficient;
+		burnTime = burnTime * critTimeCoefficient;
+		
+	}	
 	
 	/**
 	 * 
@@ -589,8 +616,7 @@ public class Calc
 	public int getUpgradeSlots()
 	{
 		return upgradeSlots;
-	}
-	
+	}	
 	
 	public double getBurnTime()
 	{
@@ -607,6 +633,23 @@ public class Calc
 		return engineRepairTime;
 	}
 	
+	public double getAntiAirAuraDistanceFar()
+	{
+		antiAirAuraDistanceFar = Math.round(antiAirAuraDistanceFar * 100.0) / 100.0;
+		return antiAirAuraDistanceFar;
+	}
+	
+	public double getAntiAirAuraDistanceMedium()
+	{
+		antiAirAuraDistanceMedium = Math.round(antiAirAuraDistanceMedium * 100.0) / 100.0;
+		return antiAirAuraDistanceMedium;	
+	}
+	
+	public double getAntiAirAuraDistanceNear()
+	{
+		antiAirAuraDistanceNear = Math.round(antiAirAuraDistanceNear * 100.0) / 100.0;
+		return antiAirAuraDistanceNear;	
+	}
 	
 	
 	/**
