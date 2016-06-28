@@ -62,6 +62,7 @@ public class Controller
 			view.setRudderShift(answer.getRudderShift());
 			view.setSConceal(answer.getSConceal());
 			view.setAConceal(answer.getAConceal());
+			view.setStealthFireRange(answer.getSConceal() + answer.getStealthFireSurfaceDetection());
 			
 			view.setMGRange(answer.getMaxMainGunRange());
 			view.setMGReload(answer.getMainGunReload());
@@ -217,6 +218,7 @@ public class Controller
 			view.setRudderShift(answer.getRudderShift());
 			view.setSConceal(answer.getSConceal());
 			view.setAConceal(answer.getAConceal());
+			view.setStealthFireRange(answer.getSConceal() + answer.getStealthFireSurfaceDetection());
 			
 			view.setMGRange(answer.getMaxMainGunRange());
 			view.setMGReload(answer.getMainGunReload());

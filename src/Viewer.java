@@ -82,6 +82,8 @@ public class Viewer extends JFrame
 	private JTextArea aaFarDPS;	
 	private JTextArea aaMediumDPS;	
 	private JTextArea aaNearDPS;
+	private JTextArea stealthFireRange;
+	private JLabel lblStealthFire;
 	
 	/**
 	 * Creates the frame.
@@ -170,19 +172,19 @@ public class Viewer extends JFrame
 		contentPane.add(sConceal);
 		
 		lblTier = new JLabel("Tier");
-		lblTier.setBounds(138, 87, 80, 15);
+		lblTier.setBounds(138, 87, 39, 15);
 		contentPane.add(lblTier);
 		
 		lblNation = new JLabel("Nation");
-		lblNation.setBounds(138, 118, 80, 15);
+		lblNation.setBounds(138, 118, 49, 15);
 		contentPane.add(lblNation);
 		
 		lblShipType = new JLabel("Ship Type");
-		lblShipType.setBounds(138, 149, 80, 15);
+		lblShipType.setBounds(138, 149, 70, 15);
 		contentPane.add(lblShipType);
 		
 		lblHealth = new JLabel("Health");
-		lblHealth.setBounds(138, 180, 80, 15);
+		lblHealth.setBounds(138, 180, 49, 15);
 		contentPane.add(lblHealth);
 		
 		lblSpeed = new JLabel("Speed");
@@ -190,11 +192,11 @@ public class Viewer extends JFrame
 		contentPane.add(lblSpeed);
 		
 		lblRudder = new JLabel("Rudder Shift");
-		lblRudder.setBounds(138, 242, 80, 15);
+		lblRudder.setBounds(138, 242, 78, 15);
 		contentPane.add(lblRudder);
 		
 		lblSConceal = new JLabel("S Conceal");
-		lblSConceal.setBounds(138, 273, 80, 15);
+		lblSConceal.setBounds(138, 273, 70, 15);
 		contentPane.add(lblSConceal);
 		
 		lblMGRange = new JLabel("MG Range");
@@ -245,7 +247,7 @@ public class Viewer extends JFrame
 		contentPane.add(lblMgTime);
 		
 		lblAConceal = new JLabel("A Conceal");
-		lblAConceal.setBounds(138, 306, 80, 15);
+		lblAConceal.setBounds(138, 306, 70, 15);
 		contentPane.add(lblAConceal);
 		
 		aConceal = new JTextArea();
@@ -318,20 +320,20 @@ public class Viewer extends JFrame
 		
 		burnTime = new JTextArea();
 		burnTime.setText("s");
-		burnTime.setBounds(218, 331, 70, 21);
+		burnTime.setBounds(380, 302, 70, 21);
 		contentPane.add(burnTime);
 		
 		floodTime = new JTextArea();
 		floodTime.setText("s");
-		floodTime.setBounds(218, 362, 70, 21);
+		floodTime.setBounds(380, 333, 70, 21);
 		contentPane.add(floodTime);
 		
 		lblBurnTime = new JLabel("Burn Time");
-		lblBurnTime.setBounds(138, 335, 78, 15);
+		lblBurnTime.setBounds(300, 306, 70, 15);
 		contentPane.add(lblBurnTime);
 		
 		lblFloodTime = new JLabel("Flood Time");
-		lblFloodTime.setBounds(138, 366, 78, 15);
+		lblFloodTime.setBounds(300, 337, 78, 15);
 		contentPane.add(lblFloodTime);
 		
 		aaFar = new JTextArea();
@@ -375,6 +377,15 @@ public class Viewer extends JFrame
 		aaNearDPS.setText("dps");
 		aaNearDPS.setBounds(542, 242, 70, 21);
 		contentPane.add(aaNearDPS);
+		
+		stealthFireRange = new JTextArea();
+		stealthFireRange.setText("km");
+		stealthFireRange.setBounds(218, 331, 70, 21);
+		contentPane.add(stealthFireRange);
+		
+		lblStealthFire = new JLabel("Stealth Fire");
+		lblStealthFire.setBounds(138, 337, 70, 15);
+		contentPane.add(lblStealthFire);
 	}
 
 	/**
@@ -613,6 +624,11 @@ public class Viewer extends JFrame
 	public void setAConceal(double aConceal)
 	{
 		this.aConceal.setText(String.valueOf(aConceal) + " km");
+	}
+	
+	public void setStealthFireRange(double stealthFireRange)
+	{
+		this.stealthFireRange.setText(String.valueOf(stealthFireRange) + " km");
 	}
 	
 	/**

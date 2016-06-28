@@ -28,6 +28,8 @@ public class Calc
 	
 	private double sConceal;
 	private double aConceal;
+	private double stealthFireSurfaceDetection;
+	
 	private int upgradeSlots;
 	
 	private double MainTurretHP;
@@ -52,7 +54,7 @@ public class Calc
 	private double AANearDPS;
 			
 	private JSONObject crew;
-	private JSONObject skills;	
+	private JSONObject skills;
 	
 	public Calc(String ship) throws FileNotFoundException, IOException, ParseException
 	{
@@ -76,6 +78,7 @@ public class Calc
 		
 		sConceal = jsp.getSConceal();
 		aConceal = jsp.getAConceal();
+		stealthFireSurfaceDetection = jsp.getStealthFireSurfaceDetection();
 		
 		upgradeSlots = jsp.getModuleSlots();		
 		
@@ -682,6 +685,11 @@ public class Calc
 	{
 		AANearDPS = Math.round(AANearDPS * 100.0) / 100.0;
 		return AANearDPS;
+	}
+	
+	public double getStealthFireSurfaceDetection()
+	{
+		return stealthFireSurfaceDetection;
 	}
 	
 	

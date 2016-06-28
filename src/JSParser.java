@@ -55,13 +55,14 @@ public class JSParser
 	
 	private double sConceal;
 	private double aConceal;
+	private double stealthFireSurfaceDetection;
+	
 	private double maxDistCoef;
 	private int moduleSlots;
 	private double barrelDiameter;
 	private double burnTime;
 	private double floodTime;
 	private long EngineAutoRepairTime;
-
 	
 	private double MainTurretHP;
 	private double MainTurretAutoRepairTime;
@@ -530,6 +531,11 @@ public class JSParser
 		return AANearDPS;
 	}
 	
+	public double getStealthFireSurfaceDetection()
+	{
+		return stealthFireSurfaceDetection;
+	}
+	
 	
 	public List<String> getModule1()
 	{
@@ -656,6 +662,11 @@ public class JSParser
 		if (barrelDiameter < 0.140)
 		{
 			antiAirAuraDistanceFar = (double) tobj2.get("antiAirAuraDistance") * 0.03;
+			
+			JSONObject AuraFar = (JSONObject) tobj.get("AuraFar");
+			JSONArray guns = (JSONArray) AuraFar.get("guns");			
+						
+			AAFarDPS = (double) tobj2.get("antiAirAuraStrength") * guns.size() * 100; 
 		}
 		else if (barrelDiameter >= 0.140)
 		{
@@ -710,7 +721,16 @@ public class JSParser
 		JSONObject AirDefenseMedium = (JSONObject) shipJSON.get(AirDefenseNameMedium);
 		if (AirDefenseMedium.get("AuraMedium") != null)
 		{
-			JSONObject AuraMedium = (JSONObject) AirDefenseMedium.get("AuraMedium");
+			JSONObject AuraMedium = null;
+			if (AirDefenseMedium.get("AuraMedium1") != null)
+			{
+				AuraMedium = (JSONObject) AirDefenseMedium.get("AuraMedium1");
+			}
+			else
+			{
+				AuraMedium = (JSONObject) AirDefenseMedium.get("AuraMedium"); 
+			}
+			
 			JSONArray guns = (JSONArray) AuraMedium.get("guns");
 			String AAMediumGunString = guns.get(0).toString();
 			JSONObject AAMediumGun = (JSONObject) AirDefenseMedium.get(AAMediumGunString);
@@ -747,6 +767,27 @@ public class JSParser
 		{
 			JSONObject AuraNear = (JSONObject) AirDefenseNear.get("AuraNear");
 			JSONArray guns = (JSONArray) AuraNear.get("guns");
+			String AANearGunString = guns.get(0).toString();
+			JSONObject AANearGun = (JSONObject) AirDefenseNear.get(AANearGunString);
+			antiAirAuraDistanceNear = (double) AANearGun.get("antiAirAuraDistance") * 0.03;
+			
+			int count = 0;
+			while (count < guns.size())
+			{
+				String tempStr = (String) guns.get(count);
+				JSONObject tempObj = (JSONObject) AirDefenseNear.get(tempStr);				
+				double dps = (double) tempObj.get("antiAirAuraStrength");
+				
+				AANearDPS = AANearDPS + dps;
+				
+				count++;
+			}
+			AANearDPS = Math.round(AANearDPS * 100);
+		}
+		else
+		{
+			JSONObject AuraMedium = (JSONObject) AirDefenseMedium.get("AuraMedium"); 
+			JSONArray guns = (JSONArray) AuraMedium.get("guns");
 			String AANearGunString = guns.get(0).toString();
 			JSONObject AANearGun = (JSONObject) AirDefenseNear.get(AANearGunString);
 			antiAirAuraDistanceNear = (double) AANearGun.get("antiAirAuraDistance") * 0.03;
@@ -890,6 +931,7 @@ public class JSParser
 		speed = hpobj.get("maxSpeed");		
 		sConceal = (double) hpobj.get("visibilityFactor");
 		aConceal = (double) hpobj.get("visibilityFactorByPlane");
+		stealthFireSurfaceDetection = (double) hpobj.get("visibilityCoefGK");
 		
 		//Burn time
 		JSONArray burnNodes1 = (JSONArray) hpobj.get("burnNodes");
