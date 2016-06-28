@@ -1,14 +1,14 @@
-/**
- * @author Aesis / BlindNImpotent
- */
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import org.json.simple.parser.ParseException;
 
-
+/**
+ * 
+ * @author Aesis (BlindNImpotent)
+ *
+ */
 public class Controller 
 {
 	private static Viewer view;

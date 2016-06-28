@@ -1,7 +1,3 @@
-/**
- * @author Aesis / BlindNImpotent
- */
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,6 +12,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * 
+ * @author Aesis (BlindNImpotent)
+ *
+ */
 public class JSParser 
 {
 	private JSONParser parser = new JSONParser();
@@ -81,8 +82,14 @@ public class JSParser
 	private double AAFarDPS;
 	private double AAMediumDPS;
 	private double AANearDPS;
-	
-	
+		
+	/**
+	 * Parses data from GameParams.json
+	 * @param aShip Ship name
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	@SuppressWarnings("unchecked")
 	public JSParser(String aShip) throws FileNotFoundException, IOException, ParseException
 	{
@@ -117,16 +124,14 @@ public class JSParser
 		else if (ship.equals("Tenryu"))
 		{
 			ship = ship.replace("Tenryu", "Tatsuta");
-		}
-		
-		
+		}		
 		
 		ship = ship.replaceAll(" ", "_");
 		
 		setShipList();
 		setModuleList();		
-		
 		setShipCode(ship);
+		
 		shipJSON = (JSONObject) GameParams.get(shipCode);
 		shipModuleJSON = (JSONObject) shipJSON.get("ShipModernization");
 		type = (JSONObject) shipJSON.get("typeinfo");
@@ -183,8 +188,8 @@ public class JSParser
 	}
 	
 	/**
-	 * Sets ship code from name.
-	 * @param shipName
+	 * Sets ship code from input name.
+	 * @param shipName Ship name
 	 */
 	private void setShipCode(String aShipName)
 	{
@@ -282,14 +287,11 @@ public class JSParser
 				crewList.remove(i);
 			}			
 		}
-	}
-	
-	
-	
+	}	
 	
 	/**
 	 * Returns GameParams data.
-	 * @return
+	 * @return GameParams GameParams data
 	 */
 	public JSONObject getGameParams()
 	{
@@ -298,7 +300,7 @@ public class JSParser
 	
 	/**
 	 * Returns crew skills data.
-	 * @return
+	 * @return crewList Crew list
 	 */
 	public List<String> getCrewList()
 	{
@@ -307,7 +309,7 @@ public class JSParser
 	
 	/**
 	 * Returns tier of ship.
-	 * @return tier Tier of ship.
+	 * @return tier Tier of ship
 	 */
 	public long getTier()
 	{
@@ -316,7 +318,7 @@ public class JSParser
 	
 	/**
 	 * Returns nation of ship.
-	 * @return nation Nation of ship.
+	 * @return nation Nation of ship
 	 */
 	public String getNation()
 	{
@@ -325,7 +327,7 @@ public class JSParser
 		
 	/**
 	 * Returns type of ship.
-	 * @return shipType Type of ship.
+	 * @return shipType Type of ship
 	 */
 	public String getShipType()
 	{
@@ -334,7 +336,7 @@ public class JSParser
 	
 	/**
 	 * Returns maximum possible health.
-	 * @return maxHP Maximum possible health.
+	 * @return maxHP Maximum possible health
 	 */
 	public double getHealth()
 	{
@@ -343,7 +345,7 @@ public class JSParser
 	
 	/**
 	 * Returns speed of ship.
-	 * @return speed Speed of ship.
+	 * @return speed Speed of ship
 	 */
 	public Object getSpeed()
 	{
@@ -352,7 +354,7 @@ public class JSParser
 	
 	/**
 	 * Returns rudder shift time.
-	 * @return rudderShift Rudder shift time.
+	 * @return rudderShift Rudder shift time
 	 */
 	public double getRudderShift()
 	{
@@ -361,7 +363,7 @@ public class JSParser
 	
 	/**
 	 * Returns range of turret.
-	 * @return distance Range of turret.
+	 * @return maxMainGunRange Range of main gun
 	 */
 	public double getMaxMainGunRange()
 	{
@@ -370,7 +372,7 @@ public class JSParser
 	
 	/**
 	 * Returns rotation of turret.
-	 * @return rotation Rotation of turret.
+	 * @return mainGunRotation Rotation of main turret
 	 */
 	public double getMainGunRotation()
 	{
@@ -379,7 +381,7 @@ public class JSParser
 	
 	/**
 	 * Returns reload time of turret.
-	 * @return reload Reload time of turret.
+	 * @return mainGunReload Reload time of main gun
 	 */
 	public double getMainGunReload()
 	{
@@ -388,7 +390,7 @@ public class JSParser
 	
 	/**
 	 * Returns rotation time of torpedo.
-	 * @return
+	 * @return torpedoRotation Rotation of torpedo tube
 	 */
 	public double getTorpedoRotation()
 	{
@@ -397,7 +399,7 @@ public class JSParser
 	
 	/**
 	 * Returns reload time of torpedo.
-	 * @return
+	 * @return torpedoReload Reload time of torpedo tube
 	 */
 	public double getTorpedoReload()
 	{
@@ -406,13 +408,17 @@ public class JSParser
 	
 	/**
 	 * Returns max torpedo range.
-	 * @return
+	 * @return maxTorpedoRange Max torpedo range
 	 */
 	public double getMaxTorpedoRange()
 	{
 		return maxTorpedoRange;
 	}
 	
+	/**
+	 * Returns torpedo speed.
+	 * @return torpedoSpeed Torpedo speed
+	 */
 	public double getTorpedoSpeed()
 	{
 		return torpedoSpeed;
@@ -420,7 +426,7 @@ public class JSParser
 	
 	/**
 	 * Returns surface concealment.
-	 * @return sConceal Surface concealment.
+	 * @return sConceal Surface concealment
 	 */
 	public double getSConceal()
 	{
@@ -429,24 +435,35 @@ public class JSParser
 	
 	/**
 	 * Returns air concealment.
-	 * @return aConceal Air concealment.
+	 * @return aConceal Air concealment
 	 */
 	public double getAConceal()
 	{
 		return aConceal;
 	}
 	
-	
+	/**
+	 * Returns AA Aura Far distance.
+	 * @return antiAirAuraDistanceFar AA Aura Far distance
+	 */
 	public double getAntiAirAuraDistanceFar()
 	{
 		return antiAirAuraDistanceFar;
 	}
 	
+	/**
+	 * Returns AA Aura Medium distance.
+	 * @return antiAirAuraDistanceMedium AA Aura Medium distance
+	 */
 	public double getAntiAirAuraDistanceMedium()
 	{
 		return antiAirAuraDistanceMedium;
 	}
 	
+	/**
+	 * Returns AA Aura Near distance.
+	 * @return antiAirAuraDistanceNear AA Aura Near distance
+	 */
 	public double getAntiAirAuraDistanceNear()
 	{
 		return antiAirAuraDistanceNear;
@@ -455,8 +472,8 @@ public class JSParser
 	
 	
 	/**
-	 * 
-	 * @return
+	 * Returns number of module slots.
+	 * @return moduleSlots Number of module slots
 	 */
 	public int getModuleSlots()
 	{
@@ -464,8 +481,8 @@ public class JSParser
 	}	
 	
 	/**
-	 * 
-	 * @return
+	 * Returns barrel diameter in meter.
+	 * @return barrelDiameter Barrel diameter in meter
 	 */
 	public double getBarrelDiameter()
 	{
@@ -473,19 +490,27 @@ public class JSParser
 	}	
 	
 	/**
-	 * 
-	 * @return
+	 * Returns engine JSONObject
+	 * @return engineObj engine JSONObject
 	 */
 	public JSONObject getEngine()
 	{
 		return engineObj;
 	}
 	
+	/**
+	 * Returns burn time.
+	 * @return burnTime Burn time
+	 */
 	public double getBurnTime()
 	{
 		return burnTime;
 	}
 	
+	/**
+	 * Returns flood time.
+	 * @return floodTime Flood time
+	 */
 	public double getFloodTime()
 	{
 		return floodTime;
@@ -493,84 +518,142 @@ public class JSParser
 	
 	/**
 	 * Returns engine repair time.
-	 * @return
+	 * @return EngineAutoRepairTime Engine repair time
 	 */
 	public long getEngineAutoRepairTime()
 	{
 		return EngineAutoRepairTime;
 	}
 	
+	/**
+	 * Returns main turret HP
+	 * @return MainTurretHP Main turret HP
+	 */
 	public double getMainTurretHP()
 	{
 		return MainTurretHP;
 	}
 	
+	/**
+	 * Returns main turret repair time.
+	 * @return MainTurretAutoRepairTime Main turret repair time
+	 */
 	public double getMainTurretAutoRepairTime()
 	{
 		return MainTurretAutoRepairTime;
 	}
 	
+	/**
+	 * Returns torpedo tube HP.
+	 * @return TorpedoHP Torpedo tube HP
+	 */
 	public double getTorpedoHP()
 	{
 		return TorpedoHP;
 	}
 	
+	/**
+	 * Returns torpedo repair time.
+	 * @return TorpedoAutoRepairTime Torpedo repair time
+	 */
 	public double getTorpedoAutoRepairTime()
 	{
 		return TorpedoAutoRepairTime;
 	}
 	
+	/**
+	 * Returns AA Aura Far DPS.
+	 * @return AAFarDPS AA Aura Far DPS
+	 */
 	public double getAAFarDPS()
 	{
 		return AAFarDPS;
 	}
 	
+	/**
+	 * Returns AA Aura Medium DPS.
+	 * @return AAMediumDPS AA Aura Medium DPS
+	 */
 	public double getAAMediumDPS()
 	{
 		return AAMediumDPS;
 	}
 	
+	/**
+	 * Returns AA Aura Near DPS.
+	 * @return AANearDPS AA Aura Near DPS
+	 */
 	public double getAANearDPS()
 	{
 		return AANearDPS;
 	}
 	
+	/**
+	 * Returns stealth fire detection range.
+	 * @return stealthFireSurfaceDetection Stealth fire detection range
+	 */
 	public double getStealthFireSurfaceDetection()
 	{
 		return stealthFireSurfaceDetection;
 	}
 	
-	
+	/**
+	 * Returns list of module slot 1.
+	 * @return modSlot1 List of module slot 1
+	 */
 	public List<String> getModule1()
 	{
 		return modSlot1;
 	}	
+	
+	/**
+	 * Returns list of module slot 2.
+	 * @return modSlot2 List of module slot 2
+	 */
 	public List<String> getModule2()
 	{
 		return modSlot2;
 	}
+	
+	/**
+	 * Returns list of module slot 3.
+	 * @return modSlot3 List of module slot 3
+	 */
 	public List<String> getModule3()
 	{
 		return modSlot3;
 	}
+	
+	/**
+	 * Returns list of module slot 4.
+	 * @return modSlot4 List of module slot 4
+	 */
 	public List<String> getModule4()
 	{
 		return modSlot4;
 	}
+	
+	/**
+	 * Returns list of module slot 5.
+	 * @return modSlot5 List of module slot 5
+	 */
 	public List<String> getModule5()
 	{
 		return modSlot5;
 	}
+	
+	/**
+	 * Returns list of module slot 6.
+	 * @return modSlot6 List of module slot 6
+	 */
 	public List<String> getModule6()
 	{
 		return modSlot6;
-	}
-	
-	
+	}	
 	
 	/**
 	 * Returns list of upgrades.
-	 * @return upgradeList List of upgrades.
+	 * @return upgradeList List of upgrades
 	 */
 	private List<String> shipUpgradeList()
 	{
@@ -594,16 +677,17 @@ public class JSParser
 	        }
 	    }
 		
+		//If turret size is 0, ends method.
 		if (turret.size() == 0)
 		{
 			return;
 		}
-		//Sorts by descending order.
+		
 		Collections.sort(turret);
 		
 		Map<String, JSONObject> turret1 = new HashMap<>();
 		
-		//Adds JSONObject of specific turret upgrade to Map.
+		//Adds JSONObject of each turret upgrade to HashMap.
 		for(int i = 0; i < turret.size(); i++)
 		{
 			turret1.put(turret.get(i), (JSONObject) upgrade.get(turret.get(i)));			
@@ -617,24 +701,20 @@ public class JSParser
 		//Sets "artillery" JSONArray to turret2.
 		turret2 = (JSONArray) turret3.get("artillery");
 		
-		JSONObject tobj;
-		JSONObject tobj2;
-		JSONArray tobj3;
+		JSONObject tobj = null;
+		JSONObject tobj2 = null;
+		JSONArray tobj3 = null;
 		
-		//Sets the JSONObject of best turret upgrade to tobj.
 		tobj = (JSONObject) shipJSON.get(turret2.get(0));
 		
-		//If nation is Germany, sets tobj2 with HP_GGM_1 JSONObject.
 		if (getNation().equals("Germany"))
 		{
 			tobj2 = (JSONObject) tobj.get("HP_GGM_1");			
 		}
-		//Else if nation is USA, sets tobj2 with HP_AGM_1 JSONObject.
 		else if (getNation().equals("USA"))
 		{
 			tobj2 = (JSONObject) tobj.get("HP_AGM_1");
 		}
-		//Else nation is Japan, sets tobj2 with HP_JGM_1 JSONObject.
 		else if (getNation().equals("Japan"))
 		{
 			tobj2 = (JSONObject) tobj.get("HP_JGM_1");
@@ -651,7 +731,7 @@ public class JSParser
 		{
 			tobj2 = (JSONObject) tobj.get("HP_WGM_1");
 		}
-		else //if (getNation().equals("United_Kingdom"))
+		else if (getNation().equals("United_Kingdom"))
 		{
 			tobj2 = (JSONObject) tobj.get("HP_BGM_1");
 		}
@@ -659,11 +739,10 @@ public class JSParser
 		barrelDiameter = (double) tobj2.get("barrelDiameter");
 		
 		tobj3 = (JSONArray) tobj2.get("rotationSpeed");
-		//Sets horizontal rotation of turret.
 		mainGunRotation = (double) tobj3.get(0);
-		//Sets reload time of turret.
 		mainGunReload = (double) tobj2.get("shotDelay");
 
+		//If main turret's barrel diameter is less than 140 mm, turret has AuraFar by default.
 		if (barrelDiameter < 0.140)
 		{
 			antiAirAuraDistanceFar = (double) tobj2.get("antiAirAuraDistance") * 0.03;
@@ -809,17 +888,13 @@ public class JSParser
 				count++;
 			}
 			AANearDPS = Math.round(AANearDPS * 100);
-		}
-		
+		}		
 		
 		JSONObject HitLocationArtillery = (JSONObject) tobj2.get("HitLocationArtillery");
 		
 		MainTurretHP = (double) HitLocationArtillery.get("maxHP");
 		MainTurretAutoRepairTime = (long) HitLocationArtillery.get("autoRepairTime");
 		
-		/**
-		 * 
-		 */
 		List<String> radar = new ArrayList<String>(); 
 		
 		//Adds specific string (eg. PAUS) to radar list.
@@ -863,7 +938,7 @@ public class JSParser
 				engine.add(string);
 	        }
 	    }
-		//Sorts by descending order.
+
 		Collections.sort(engine);
 		
 		Map<String, JSONObject> engine1 = new HashMap<>();
@@ -939,12 +1014,10 @@ public class JSParser
 		aConceal = (double) hpobj.get("visibilityFactorByPlane");
 		stealthFireSurfaceDetection = (double) hpobj.get("visibilityCoefGK");
 		
-		//Burn time
 		JSONArray burnNodes1 = (JSONArray) hpobj.get("burnNodes");
 		JSONArray burnNodes2 = (JSONArray) burnNodes1.get(0);		
 		burnTime = (double) burnNodes2.get(3);
 		
-		//Flood time
 		JSONArray floodParams = (JSONArray) hpobj.get("floodParams");
 		floodTime = (double) floodParams.get(2);
 		
@@ -955,6 +1028,9 @@ public class JSParser
 		moduleSlots = mSlots.size();		
 	}		
 
+	/**
+	 * Sets torpedo related stats.
+	 */
 	private void setTorpedoStats()
 	{
 		List<String> torpedo = new ArrayList<String>(); 
@@ -970,7 +1046,7 @@ public class JSParser
 		{
 			return;
 		}
-		//Sorts by descending order.
+
 		Collections.sort(torpedo);
 		
 		Map<String, JSONObject> torp1 = new HashMap<>();
@@ -985,23 +1061,20 @@ public class JSParser
 		torp3 = (JSONObject) torp1.get(torpedo.get(torpedo.size()-1)).get("components");
 		torp2 = (JSONArray) torp3.get("torpedoes");
 		
-		JSONObject tobj;
-		JSONObject tobj2;
-		JSONArray tobj3;
+		JSONObject tobj = null;
+		JSONObject tobj2 = null;
+		JSONArray tobj3 = null;
 		
 		tobj = (JSONObject) shipJSON.get(torp2.get(0));
 		
-		//If nation is Germany, sets tobj2 with HP_GGM_1 JSONObject.
 		if (getNation().equals("Germany"))
 		{
 			tobj2 = (JSONObject) tobj.get("HP_GGT_1");			
 		}
-		//Else if nation is USA, sets tobj2 with HP_AGM_1 JSONObject.
 		else if (getNation().equals("USA"))
 		{
 			tobj2 = (JSONObject) tobj.get("HP_AGT_1");
 		}
-		//Else nation is Japan, sets tobj2 with HP_JGM_1 JSONObject.
 		else if (getNation().equals("Japan"))
 		{
 			tobj2 = (JSONObject) tobj.get("HP_JGT_1");
@@ -1018,7 +1091,7 @@ public class JSParser
 		{
 			tobj2 = (JSONObject) tobj.get("HP_WGT_1");
 		}
-		else //if (getNation().equals("United_Kingdom"))
+		else if (getNation().equals("United_Kingdom"))
 		{
 			tobj2 = (JSONObject) tobj.get("HP_BGT_1");
 		}
@@ -1030,8 +1103,8 @@ public class JSParser
 		
 		JSONObject HitLocationTorpedo = (JSONObject) tobj2.get("HitLocationTorpedo");
 		
-		MainTurretHP = (double) HitLocationTorpedo.get("maxHP");
-		MainTurretAutoRepairTime = (long) HitLocationTorpedo.get("autoRepairTime");
+		TorpedoHP = (double) HitLocationTorpedo.get("maxHP");
+		TorpedoAutoRepairTime = (long) HitLocationTorpedo.get("autoRepairTime");
 		
 		JSONArray ammoList = (JSONArray) tobj2.get("ammoList");
 		String ammo = (String) ammoList.get(0);
@@ -1039,13 +1112,5 @@ public class JSParser
 		JSONObject ammoObj = (JSONObject) GameParams.get(ammo);		
 		maxTorpedoRange = (double) ammoObj.get("maxDist") * 0.03;
 		torpedoSpeed = (double) ammoObj.get("speed");
-		
-		
-		
 	}
-
-
-
-
-
 }

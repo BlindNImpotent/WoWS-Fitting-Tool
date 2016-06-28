@@ -1,7 +1,3 @@
-/**
- * @author Aesis / BlindNImpotent
- */
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,6 +6,11 @@ import java.util.List;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
+/**
+ * 
+ * @author Aesis (BlindNImpotent)
+ *
+ */
 public class Calc 
 {
 	private JSParser jsp;
@@ -59,6 +60,13 @@ public class Calc
 	private JSONObject crew;
 	private JSONObject skills;
 	
+	/**
+	 * Constructor to set ship stats.
+	 * @param ship Ship name
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	public Calc(String ship) throws FileNotFoundException, IOException, ParseException
 	{
 		jsp = new JSParser(ship);
@@ -191,6 +199,9 @@ public class Calc
 		mainGunReload = mainGunReload * GMShotDelay;	
 	}
 	
+	/**
+	 * 
+	 */
 	public void calcAAGunsMod2() //Slot2
 	{
 		//"PCM011_AirDefense_Mod_II"
@@ -248,6 +259,9 @@ public class Calc
 		mainGunRotation = mainGunRotation * GMRotationSpeed;
 	}
 	
+	/**
+	 * 
+	 */
 	public void calcAAGunsMod3() //Slot 3
 	{
 		//"PCM018_AirDefense_Mod_III"
@@ -389,7 +403,10 @@ public class Calc
 		health = health + jsp.getTier() * (long) healthSkill.get("healthPerLevel");	
 	}
 	
-	public void calcAdvancedFiringTraining()
+	/**
+	 * 
+	 */
+	public void calcAdvancedFiringTraining() // Skill 4
 	{
 		JSONObject AFT = (JSONObject) skills.get("AIGunsRangeModifier");
 		double smallGunRangeCoefficient = (double) AFT.get("smallGunRangeCoefficient");
@@ -405,7 +422,10 @@ public class Calc
 		antiAirAuraDistanceNear = antiAirAuraDistanceNear * airDefenceRangeCoefficient;		
 	}
 
-	public void calcBasicFiringTraining()
+	/**
+	 * 
+	 */
+	public void calcBasicFiringTraining() //Skill 1
 	{
 		JSONObject BFT = (JSONObject) skills.get("AIGunsEfficiencyModifier");
 		double smallGunReloadCoefficient = (double) BFT.get("smallGunReloadCoefficient");
@@ -424,7 +444,7 @@ public class Calc
 	/**
 	 * 
 	 */
-	public void calcBasicsOfSurvivability()
+	public void calcBasicsOfSurvivability() //Skill 1
 	{
 		JSONObject BoS = (JSONObject) skills.get("AutoRepairModifier");
 		double critTimeCoefficient = (double) BoS.get("critTimeCoefficient");
@@ -437,7 +457,7 @@ public class Calc
 	/**
 	 * 
 	 */
-	public void calcExpertMarksman()
+	public void calcExpertMarksman() //Skill 2
 	{
 		JSONObject EM = (JSONObject) skills.get("MainGunsRotationModifier");
 		double bigGunBonus = (double) EM.get("bigGunBonus");
@@ -456,7 +476,7 @@ public class Calc
 	/**
 	 * 
 	 */
-	public void calcConcealmentExpert()
+	public void calcConcealmentExpert() //Skill 5
 	{		
 		long pow = (long) Math.pow(10, 2);
 		sConceal = sConceal * pow;
@@ -492,13 +512,19 @@ public class Calc
 		aConceal = aConceal / pow;
 	}
 	
-	public void calcTorpedoArmamentExpertise()
+	/**
+	 * 
+	 */
+	public void calcTorpedoArmamentExpertise() //Skill 2
 	{
 		JSONObject TorpedoReloadModifier = (JSONObject) skills.get("TorpedoReloadModifier");
 		torpedoReload = torpedoReload * (double) TorpedoReloadModifier.get("launcherCoefficient");
 	}
 	
-	public void calcTorpedoAcceleration() 
+	/**
+	 * 
+	 */
+	public void calcTorpedoAcceleration() //Skill 3
 	{
 		JSONObject TorpedoAcceleratorModifier = (JSONObject) skills.get("TorpedoAcceleratorModifier");		
 		maxTorpedoRange = maxTorpedoRange * (double) TorpedoAcceleratorModifier.get("torpedoRangeCoefficient");
@@ -522,32 +548,50 @@ public class Calc
 		aConceal = aConceal / pow;
 	}
 	
-	
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getRudderShift()
 	{
 		rudderShift = Math.round(rudderShift * 100.0) / 100.0;
 		return rudderShift;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getMaxMainGunRange()
 	{
 		maxMainGunRange = Math.round(maxMainGunRange * 100.0) / 100.0;
 		return maxMainGunRange;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getMainGunReload()
 	{
 		mainGunReload = Math.round(mainGunReload * 100.0) / 100.0;
 		return mainGunReload;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getMainGunRotation()
 	{
 		mainGunRotation = Math.round(mainGunRotation * 100.0) / 100.0;
 		return mainGunRotation;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getMainGunRotationTime()
 	{
 		double rotationDeg = 0;
@@ -558,24 +602,40 @@ public class Calc
 		return rotationDeg; 
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getMaxTorpedoRange()
 	{
 		maxTorpedoRange = Math.round(maxTorpedoRange * 100.0) / 100.0;
 		return maxTorpedoRange;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getTorpedoReload()
 	{
 		torpedoReload = Math.round(torpedoReload * 100.0) / 100.0;
 		return torpedoReload;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getTorpedoRotation()
 	{
 		torpedoRotation = Math.round(torpedoRotation * 100.0) / 100.0;
 		return torpedoRotation;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getTorpedoRotationTime()
 	{
 		double rotationDeg = 0;
@@ -586,115 +646,194 @@ public class Calc
 		return rotationDeg;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getTorpedoSpeed()
 	{
 		torpedoSpeed = Math.round(torpedoSpeed * 100.0) / 100.0;
 		return torpedoSpeed;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getSConceal()
 	{
 		sConceal = Math.round(sConceal * 100.0) / 100.0;
 		return sConceal;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getAConceal()
 	{
 		aConceal = Math.round(aConceal * 100.0) / 100.0;
 		return aConceal;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getHealth()
 	{		
 		return health;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public long getTier()
 	{
 		return tier;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getNation()
 	{
 		return nation;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getShipType()
 	{
 		return shiptype;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Object getSpeed()
 	{
 		return speed;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public JSParser getJSP()
 	{
 		return jsp;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getUpgradeSlots()
 	{
 		return upgradeSlots;
 	}	
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getBurnTime()
 	{
 		return burnTime;
 	}
 		
+	/**
+	 * 
+	 * @return
+	 */
 	public double getFloodTime()
 	{
 		return floodTime;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getEngineRepairTime()
 	{
 		return engineRepairTime;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getAntiAirAuraDistanceFar()
 	{
 		antiAirAuraDistanceFar = Math.round(antiAirAuraDistanceFar * 100.0) / 100.0;
 		return antiAirAuraDistanceFar;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getAntiAirAuraDistanceMedium()
 	{
 		antiAirAuraDistanceMedium = Math.round(antiAirAuraDistanceMedium * 100.0) / 100.0;
 		return antiAirAuraDistanceMedium;	
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getAntiAirAuraDistanceNear()
 	{
 		antiAirAuraDistanceNear = Math.round(antiAirAuraDistanceNear * 100.0) / 100.0;
 		return antiAirAuraDistanceNear;	
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getAAFarDPS()
 	{
 		AAFarDPS = Math.round(AAFarDPS * 100.0) / 100.0;
 		return AAFarDPS;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getAAMediumDPS()
 	{
 		AAMediumDPS = Math.round(AAMediumDPS * 100.0) / 100.0;
 		return AAMediumDPS;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getAANearDPS()
 	{
 		AANearDPS = Math.round(AANearDPS * 100.0) / 100.0;
 		return AANearDPS;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public double getStealthFireSurfaceDetection()
 	{
 		return stealthFireSurfaceDetection;
-	}
-	
+	}	
 	
 	/**
 	 * Sets crew code according to nation.
@@ -744,7 +883,10 @@ public class Calc
 		skills = (JSONObject) crew.get("Skills");
 	}
 	
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<String> getModule1()
 	{
 		List<String> mod1 = new ArrayList<String>();
@@ -758,6 +900,10 @@ public class Calc
 		return mod1;
 	}	
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<String> getModule2()
 	{
 		List<String> mod2 = new ArrayList<String>();
@@ -771,6 +917,10 @@ public class Calc
 		return mod2;	
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<String> getModule3()
 	{
 		List<String> mod3 = new ArrayList<String>();
@@ -783,6 +933,11 @@ public class Calc
 		
 		return mod3;	
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<String> getModule4()
 	{
 		List<String> mod4 = new ArrayList<String>();
@@ -795,6 +950,11 @@ public class Calc
 		
 		return mod4;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<String> getModule5()
 	{
 		List<String> mod5 = new ArrayList<String>();
@@ -807,6 +967,11 @@ public class Calc
 		
 		return mod5;	
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<String> getModule6()
 	{
 		List<String> mod6 = new ArrayList<String>();
@@ -818,14 +983,12 @@ public class Calc
 		}
 		
 		return mod6;
-	}
+	}	
 	
-	
-	
-	
-	
-	
-	public void test()
+	/**
+	 * Test method to print out ship stats on console.
+	 */
+	private void test()
 	{
 		System.out.println("Tier: " + getTier());
 		System.out.println("Nation: " + getNation());		
@@ -847,9 +1010,5 @@ public class Calc
 		System.out.println("Engine repair time: " + getEngineRepairTime() + " s");
 		System.out.println("Burn time: " + getBurnTime() + " s");
 		System.out.println("Flood time: " + getFloodTime() + " s");
-	}
-
-
-	
-	
+	}	
 }

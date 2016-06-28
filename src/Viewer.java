@@ -1,7 +1,3 @@
-/**
- * @author Aesis / BlindNImpotent
- */
-
 import java.awt.event.ActionListener;
 import java.util.List;
 
@@ -15,11 +11,13 @@ import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 
+/**
+ * 
+ * @author Aesis (BlindNImpotent)
+ *
+ */
 public class Viewer extends JFrame 
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8693287232941908206L;
 	private JPanel contentPane;
 	private JTextField searchText;
