@@ -79,16 +79,17 @@ public class Viewer extends JFrame
 	private JLabel lblAaFar;
 	private JLabel lblAaMedium;
 	private JLabel lblAaNear;
-	
-	
+	private JTextArea aaFarDPS;	
+	private JTextArea aaMediumDPS;	
+	private JTextArea aaNearDPS;
 	
 	/**
-	 * Create the frame.
+	 * Creates the frame.
 	 */
 	public Viewer() {
 		setTitle("WoWS Ship Stats Calculator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 600);
+		setBounds(100, 100, 650, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -213,7 +214,7 @@ public class Viewer extends JFrame
 		contentPane.add(chckbxAft);
 
 		chckbxExpertMarksman = new JCheckBox("Exp Mark");
-		chckbxExpertMarksman.setBounds(12, 432, 80, 23);
+		chckbxExpertMarksman.setBounds(12, 457, 80, 23);
 		contentPane.add(chckbxExpertMarksman);
 		
 		txtrMgReload = new JTextArea();
@@ -335,40 +336,60 @@ public class Viewer extends JFrame
 		
 		aaFar = new JTextArea();
 		aaFar.setText("km");
-		aaFar.setBounds(380, 302, 70, 21);
+		aaFar.setBounds(542, 83, 70, 21);
 		contentPane.add(aaFar);
 		
 		aaMedium = new JTextArea();
 		aaMedium.setText("km");
-		aaMedium.setBounds(380, 331, 70, 21);
+		aaMedium.setBounds(542, 145, 70, 21);
 		contentPane.add(aaMedium);
 		
 		aaNear = new JTextArea();
 		aaNear.setText("km");
-		aaNear.setBounds(380, 360, 70, 21);
+		aaNear.setBounds(542, 207, 70, 21);
 		contentPane.add(aaNear);
 		
 		lblAaFar = new JLabel("AA Far");
-		lblAaFar.setBounds(300, 306, 68, 15);
+		lblAaFar.setBounds(462, 87, 68, 15);
 		contentPane.add(lblAaFar);
 		
 		lblAaMedium = new JLabel("AA Medium");
-		lblAaMedium.setBounds(300, 335, 68, 15);
+		lblAaMedium.setBounds(462, 149, 68, 15);
 		contentPane.add(lblAaMedium);
 		
 		lblAaNear = new JLabel("AA Near");
-		lblAaNear.setBounds(300, 366, 68, 15);
+		lblAaNear.setBounds(462, 211, 68, 15);
 		contentPane.add(lblAaNear);
+		
+		aaFarDPS = new JTextArea();
+		aaFarDPS.setText("dps");
+		aaFarDPS.setBounds(542, 114, 70, 21);
+		contentPane.add(aaFarDPS);
+		
+		aaMediumDPS = new JTextArea();
+		aaMediumDPS.setText("dps");
+		aaMediumDPS.setBounds(542, 176, 70, 21);
+		contentPane.add(aaMediumDPS);
+		
+		aaNearDPS = new JTextArea();
+		aaNearDPS.setText("dps");
+		aaNearDPS.setBounds(542, 242, 70, 21);
+		contentPane.add(aaNearDPS);
 	}
 
-	
-	
-
+	/**
+	 * Sets Search listener.	
+	 * @param al
+	 */
 	public void setSearchListener(ActionListener al)
 	{
 		searchButton.addActionListener(al);
 	}
 	
+	/**
+	 * Sets Calculate listener.
+	 * @param al
+	 */
 	public void setCalculateListener(ActionListener al)
 	{
 		calculateButton.addActionListener(al);
@@ -382,6 +403,10 @@ public class Viewer extends JFrame
 	}
 	*/
 	
+	/**
+	 * Sets ship name listener.
+	 * @param al
+	 */
 	public void setShipNameListener(ActionListener al) 
 	{
 		comboBoxNationList.addActionListener(al);
@@ -390,20 +415,34 @@ public class Viewer extends JFrame
 	    comboBoxShipNameList.addActionListener(al);     
 	}
 	
+	/**
+	 * Sets ship tier listener.
+	 * @param al
+	 */
 	public void setShipTierListener(ActionListener al)
 	{
 		comboBoxTierList.addActionListener(al);
 	}
 	
+	/**
+	 * Returns AFT checkbox.
+	 * @return
+	 */
 	public JCheckBox getAFTCheckbox()
 	{
 		return chckbxAft;
 	}
+	
+	/**
+	 * Returns Survivability checkbox.
+	 * @return
+	 */
 	public JCheckBox getSurvivabilityCheckbox()
 	{
 		return chckbxSurvivability;
 	}
 	
+	/**
 	public void setAFTUnchecked()
 	{
 		chckbxAft.setSelected(false);
@@ -412,7 +451,7 @@ public class Viewer extends JFrame
 	{
 		chckbxSurvivability.setSelected(false);
 	}	
-	
+	*/
 	
 	/**
 	 * Returns whether Concealment Expert is selected.
@@ -450,22 +489,32 @@ public class Viewer extends JFrame
 		return chckbxAft.isSelected();
 	}
 	
+	/**
+	 * Returns whether Torp Accel is selected.
+	 * @return
+	 */
 	public boolean getTorpAccel()
 	{
 		return chckbxTorpAccel.isSelected();
 	}
 	
+	/**
+	 * Returns whether Torp Arm Exp is selected.
+	 * @return
+	 */
 	public boolean getTorpArmExp()
 	{
 		return chckbxTorpArmExp.isSelected();
 	}
 	
+	/**
+	 * Returns whether Basics of Survivability is selected.
+	 * @return
+	 */
 	public boolean getBoS()
 	{
 		return chckbxBoS.isSelected();
-	}
-	
-	
+	}	
 	
 	/**
 	 * Returns whether Expert Marksman is selected.
@@ -476,118 +525,235 @@ public class Viewer extends JFrame
 		return chckbxExpertMarksman.isSelected();
 	}
 	
+	/**
+	 * Returns whether concealment camo is selected.
+	 * @return
+	 */
 	public boolean getConcealCamo()
 	{
 		return chckbxConcealCamo.isSelected();
 	}
 	
-	
+	/**
+	 * Returns ship name from search box.
+	 * @return
+	 */
 	public String getShipName()
 	{
 		return searchText.getText();
 	}	
 	
+	/**
+	 * Sets tier to returned tier.
+	 * @param tier
+	 */
 	public void setTier(double tier)
 	{
 		this.tier.setText(String.valueOf(tier));
 	}
 	
+	/**
+	 * Sets nation to returned nation.
+	 * @param nation
+	 */
 	public void setNation(String nation)
 	{
 		this.nation.setText(nation);
 	}
 	
+	/**
+	 * Sets ship type to returned ship type.
+	 * @param shipType
+	 */
 	public void setShipType(String shipType)
 	{
 		this.shipType.setText(shipType);
 	}
 	
+	/**
+	 * Sets health to returned health.
+	 * @param health
+	 */
 	public void setHealth(double health)
 	{
 		this.health.setText(String.valueOf(health));
 	}
 	
+	/**
+	 * Sets speed to returned speed.
+	 * @param speed
+	 */
 	public void setSpeed(Object speed)
 	{
 		this.speed.setText(String.valueOf(speed) + " kts");
 	}
 	
+	/**
+	 * Sets rudder shift to returned rudder shift.
+	 * @param rudderShift
+	 */
 	public void setRudderShift(double rudderShift)
 	{
 		this.rudder.setText(String.valueOf(rudderShift) + " s");
 	}
 	
+	/**
+	 * Sets surface concealment to returned surface concealment.
+	 * @param sConceal
+	 */
 	public void setSConceal(double sConceal)
 	{
 		this.sConceal.setText(String.valueOf(sConceal) + " km");
 	}
 	
+	/**
+	 * Sets air concealment to returned air concealment.
+	 * @param aConceal
+	 */
 	public void setAConceal(double aConceal)
 	{
 		this.aConceal.setText(String.valueOf(aConceal) + " km");
 	}
 	
+	/**
+	 * Sets main gun range to returned main gun range.
+	 * @param MGRange
+	 */
 	public void setMGRange(double MGRange)
 	{
 		this.MGRange.setText(String.valueOf(MGRange) + " km");
 	}
 	
+	/**
+	 * Sets main gun reload to returned main gun reload.
+	 * @param MGReload
+	 */
 	public void setMGReload(double MGReload)
 	{
 		this.txtrMgReload.setText(String.valueOf(MGReload) + " s");
 	}
 	
+	/**
+	 * Sets main gun rotation degree to returned main gun rotation degree.
+	 * @param MGDegs
+	 */
 	public void setMGDegs(double MGDegs)
 	{
 		this.txtrMgDegs.setText(String.valueOf(MGDegs) + " deg/s");
 	}
 	
+	/**
+	 * Sets main gun rotation time to returned main gun rotation time.
+	 * @param MGTime
+	 */
 	public void setMGTime(double MGTime)
 	{
 		this.txtrMgTime.setText(String.valueOf(MGTime) + " s");
 	}
 	
+	/**
+	 * Sets torp range to returned torp range.
+	 * @param torpRange
+	 */
 	public void setTorpRange(double torpRange)
 	{
 		this.torpRange.setText(String.valueOf(torpRange) + " km");
 	}
 	
+	/**
+	 * Sets torp reload to returned torp reload.
+	 * @param torpReload
+	 */
 	public void setTorpReload(double torpReload)
 	{
 		this.torpReload.setText(String.valueOf(torpReload) + " s");
 	}
 	
+	/**
+	 * Sets torp speed to returned torp speed.
+	 * @param torpSpeed
+	 */
 	public void setTorpSpeed(double torpSpeed)
 	{
 		this.torpSpeed.setText(String.valueOf(torpSpeed) + " kts");
 	}
 	
+	/**
+	 * Sets AA far range to returned AA far range.
+	 * @param aaFar
+	 */
 	public void setAARangeFar(double aaFar)
 	{
 		this.aaFar.setText(String.valueOf(aaFar) + " km");
 	}
 	
+	/**
+	 * Sets AA far dps to returned AA far dps.
+	 * @param aaFarDPS
+	 */
+	public void setAAFarDPS(double aaFarDPS)
+	{
+		this.aaFarDPS.setText(String.valueOf(aaFarDPS) + " dps");
+	}
+	
+	/**
+	 * Sets AA medium range to returned AA medium range.
+	 * @param aaMedium
+	 */
 	public void setAARangeMedium(double aaMedium)
 	{
 		this.aaMedium.setText(String.valueOf(aaMedium) + " km");
 	}
 	
+	/**
+	 * Sets AA medium dps to returned AA medium dps.
+	 * @param aaMediumDPS
+	 */
+	public void setAAMediumDPS(double aaMediumDPS)
+	{
+		this.aaMediumDPS.setText(String.valueOf(aaMediumDPS) + " dps");
+	}
+	
+	/**
+	 * Sets AA near range to returned AA near range.
+	 * @param aaNear
+	 */
 	public void setAARangeNear(double aaNear)
 	{
 		this.aaNear.setText(String.valueOf(aaNear) + " km");
 	}
 	
+	/**
+	 * Sets AA near dps to returned AA near dps.
+	 * @param aaNearDPS
+	 */
+	public void setAANearDPS(double aaNearDPS)
+	{
+		this.aaNearDPS.setText(String.valueOf(aaNearDPS) + " dps");
+	}
+	
+	/**
+	 * Sets flood time to returned flood time.
+	 * @param floodTime
+	 */
 	public void setFloodTime(double floodTime) 
 	{
 		this.floodTime.setText(String.valueOf(floodTime) + " s");
 	}
 	
+	/**
+	 * Sets burn time to returned burn time.
+	 * @param burnTime
+	 */
 	public void setBurnTime(double burnTime) 
 	{
 		this.burnTime.setText(String.valueOf(burnTime) + " s");
 	}
 	
-	
+	/**
+	 * Sets module box 1 to given list.
+	 * @param aList
+	 */
 	public void setModuleBox1(List aList)
 	{
 		mod1Box.removeAllItems();
@@ -597,11 +763,19 @@ public class Viewer extends JFrame
 		}
 	}
 	
+	/**
+	 * Returns selected item from module box 1.
+	 * @return
+	 */
 	public String getModuleBox1()
 	{
 		return mod1Box.getSelectedItem().toString();		
 	}
 	
+	/**
+	 * Sets module box 2 to given list.
+	 * @param aList
+	 */
 	public void setModuleBox2(List aList)
 	{
 		mod2Box.removeAllItems();
@@ -611,11 +785,19 @@ public class Viewer extends JFrame
 		}
 	}
 	
+	/**
+	 * Returns selected item from module box 2.
+	 * @return
+	 */
 	public String getModuleBox2()
 	{
 		return mod2Box.getSelectedItem().toString();
 	}
 	
+	/**
+	 * Sets module box 3 to given list.
+	 * @param aList
+	 */
 	public void setModuleBox3(List aList)
 	{
 		mod3Box.removeAllItems();
@@ -625,11 +807,19 @@ public class Viewer extends JFrame
 		}
 	}
 	
+	/**
+	 * Returns selected item from module box 3.
+	 * @return
+	 */
 	public String getModuleBox3()
 	{
 		return mod3Box.getSelectedItem().toString();
 	}
 	
+	/**
+	 * Sets module box 4 to given list.
+	 * @param aList
+	 */
 	public void setModuleBox4(List aList)
 	{
 		mod4Box.removeAllItems();
@@ -639,11 +829,19 @@ public class Viewer extends JFrame
 		}
 	}
 	
+	/**
+	 * Returns selected item from module box 4.
+	 * @return
+	 */
 	public String getModuleBox4()
 	{
 		return mod4Box.getSelectedItem().toString();
 	}
 	
+	/**
+	 * Sets module box 5 to given list.
+	 * @param aList
+	 */
 	public void setModuleBox5(List aList)
 	{
 		mod5Box.removeAllItems();
@@ -653,11 +851,19 @@ public class Viewer extends JFrame
 		}
 	}
 	
+	/**
+	 * Returns selected item from module box 5.
+	 * @return
+	 */
 	public String getModuleBox5()
 	{
 		return mod5Box.getSelectedItem().toString();
 	}
 	
+	/**
+	 * Sets module box 6 to given list.
+	 * @param aList
+	 */
 	public void setModuleBox6(List aList)
 	{
 		mod6Box.removeAllItems();
@@ -667,11 +873,18 @@ public class Viewer extends JFrame
 		}
 	}
 	
+	/**
+	 * Returns selected item from module box 6.
+	 * @return
+	 */
 	public String getModuleBox6()
 	{		
 		return mod6Box.getSelectedItem().toString();
 	}
 	
+	/**
+	 * Sets nation list.
+	 */
 	public void setNationList()
 	{
 		comboBoxNationList.removeAllItems();
@@ -684,6 +897,9 @@ public class Viewer extends JFrame
 		comboBoxNationList.addItem("Pan Asia");
 	}
 	
+	/**
+	 * Sets ship type list.
+	 */
 	public void setShipTypeList()
 	{
 		comboBoxShipTypeList.removeAllItems();
@@ -694,6 +910,9 @@ public class Viewer extends JFrame
 		//comboBoxShipTypeList.addItem("Premium");
 	}
 	
+	/**
+	 * Sets tier list.
+	 */
 	public void setTierList()
 	{
 		if (!comboBoxShipTypeList.getSelectedItem().equals("Premium"))
@@ -1054,9 +1273,4 @@ public class Viewer extends JFrame
 			break;
 		}
 	}
-
-
-
-
-
 }

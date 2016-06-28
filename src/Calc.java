@@ -46,6 +46,10 @@ public class Calc
 	private double antiAirAuraDistanceFar;
 	private double antiAirAuraDistanceMedium;
 	private double antiAirAuraDistanceNear;
+	
+	private double AAFarDPS;
+	private double AAMediumDPS;
+	private double AANearDPS;
 			
 	private JSONObject crew;
 	private JSONObject skills;	
@@ -88,6 +92,10 @@ public class Calc
 		antiAirAuraDistanceFar = jsp.getAntiAirAuraDistanceFar();
 		antiAirAuraDistanceMedium = jsp.getAntiAirAuraDistanceMedium();
 		antiAirAuraDistanceNear = jsp.getAntiAirAuraDistanceNear();
+		
+		AAFarDPS = jsp.getAAFarDPS();
+		AAMediumDPS = jsp.getAAMediumDPS(); 
+		AANearDPS = jsp.getAANearDPS();
 		
 		burnTime = jsp.getBurnTime();
 		floodTime = jsp.getFloodTime();
@@ -240,7 +248,9 @@ public class Calc
 		JSONObject AAGM3 = (JSONObject) jsp.getGameParams().get("PCM018_AirDefense_Mod_III");
 		double AAAuraBonus = (double) AAGM3.get("AAAura");
 		
-		
+		AAFarDPS = AAFarDPS * AAAuraBonus;
+		AAMediumDPS = AAMediumDPS * AAAuraBonus;
+		AANearDPS = AANearDPS * AAAuraBonus;
 	}
 	
 	public void calcSecondaryBatteryMod3() //Slot 3
@@ -393,11 +403,16 @@ public class Calc
 	{
 		JSONObject BFT = (JSONObject) skills.get("AIGunsEfficiencyModifier");
 		double smallGunReloadCoefficient = (double) BFT.get("smallGunReloadCoefficient");
+		double airDefenceEfficiencyCoefficient = (double) BFT.get("airDefenceEfficiencyCoefficient");
 		
 		if (jsp.getBarrelDiameter() < 0.139)
 		{
 			mainGunReload = mainGunReload * smallGunReloadCoefficient;
-		}		
+		}	
+		
+		AAFarDPS = AAFarDPS * airDefenceEfficiencyCoefficient;
+		AAMediumDPS = AAMediumDPS * airDefenceEfficiencyCoefficient;
+		AANearDPS = AANearDPS * airDefenceEfficiencyCoefficient;		
 	}
 	
 	/**
@@ -649,6 +664,24 @@ public class Calc
 	{
 		antiAirAuraDistanceNear = Math.round(antiAirAuraDistanceNear * 100.0) / 100.0;
 		return antiAirAuraDistanceNear;	
+	}
+	
+	public double getAAFarDPS()
+	{
+		AAFarDPS = Math.round(AAFarDPS * 100.0) / 100.0;
+		return AAFarDPS;
+	}
+	
+	public double getAAMediumDPS()
+	{
+		AAMediumDPS = Math.round(AAMediumDPS * 100.0) / 100.0;
+		return AAMediumDPS;
+	}
+	
+	public double getAANearDPS()
+	{
+		AANearDPS = Math.round(AANearDPS * 100.0) / 100.0;
+		return AANearDPS;
 	}
 	
 	

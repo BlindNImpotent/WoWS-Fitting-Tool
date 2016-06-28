@@ -73,6 +73,9 @@ public class JSParser
 	private double antiAirAuraDistanceMedium;
 	private double antiAirAuraDistanceNear;
 	
+	private double AAFarDPS;
+	private double AAMediumDPS;
+	private double AANearDPS;
 	
 	
 	@SuppressWarnings("unchecked")
@@ -512,6 +515,21 @@ public class JSParser
 		return TorpedoAutoRepairTime;
 	}
 	
+	public double getAAFarDPS()
+	{
+		return AAFarDPS;
+	}
+	
+	public double getAAMediumDPS()
+	{
+		return AAMediumDPS;
+	}
+	
+	public double getAANearDPS()
+	{
+		return AANearDPS;
+	}
+	
 	
 	public List<String> getModule1()
 	{
@@ -661,6 +679,19 @@ public class JSParser
 				String AAFarGunString = guns.get(0).toString();
 				JSONObject AAFarGun = (JSONObject) ATBA.get(AAFarGunString);
 				antiAirAuraDistanceFar = (double) AAFarGun.get("antiAirAuraDistance") * 0.03;
+				
+				int count = 0;
+				while (count < guns.size())
+				{
+					String tempStr = (String) guns.get(count);
+					JSONObject tempObj = (JSONObject) ATBA.get(tempStr);				
+					double dps = (double) tempObj.get("antiAirAuraStrength");
+					
+					AAFarDPS = AAFarDPS + dps;
+					
+					count++;
+				}
+				AAFarDPS = Math.round(AAFarDPS * 100);
 			}
 		}
 		
@@ -675,15 +706,28 @@ public class JSParser
 			}
 		}
 		Collections.sort(AAMedium);
-		String AirDefenseName = AAMedium.get(AAMedium.size()-1);
-		JSONObject AirDefense = (JSONObject) shipJSON.get(AirDefenseName);
-		if (AirDefense.get("AuraMedium") != null)
+		String AirDefenseNameMedium = AAMedium.get(AAMedium.size()-1);
+		JSONObject AirDefenseMedium = (JSONObject) shipJSON.get(AirDefenseNameMedium);
+		if (AirDefenseMedium.get("AuraMedium") != null)
 		{
-			JSONObject AuraMedium = (JSONObject) AirDefense.get("AuraMedium");
+			JSONObject AuraMedium = (JSONObject) AirDefenseMedium.get("AuraMedium");
 			JSONArray guns = (JSONArray) AuraMedium.get("guns");
 			String AAMediumGunString = guns.get(0).toString();
-			JSONObject AAMediumGun = (JSONObject) AirDefense.get(AAMediumGunString);
+			JSONObject AAMediumGun = (JSONObject) AirDefenseMedium.get(AAMediumGunString);
 			antiAirAuraDistanceMedium = (double) AAMediumGun.get("antiAirAuraDistance") * 0.03;
+			
+			int count = 0;
+			while (count < guns.size())
+			{
+				String tempStr = (String) guns.get(count);
+				JSONObject tempObj = (JSONObject) AirDefenseMedium.get(tempStr);				
+				double dps = (double) tempObj.get("antiAirAuraStrength");
+				
+				AAMediumDPS = AAMediumDPS + dps;
+				
+				count++;
+			}
+			AAMediumDPS = Math.round(AAMediumDPS * 100);
 		}
 		
 		List<String> AANear = new ArrayList<String>();
@@ -706,14 +750,20 @@ public class JSParser
 			String AANearGunString = guns.get(0).toString();
 			JSONObject AANearGun = (JSONObject) AirDefenseNear.get(AANearGunString);
 			antiAirAuraDistanceNear = (double) AANearGun.get("antiAirAuraDistance") * 0.03;
+			
+			int count = 0;
+			while (count < guns.size())
+			{
+				String tempStr = (String) guns.get(count);
+				JSONObject tempObj = (JSONObject) AirDefenseNear.get(tempStr);				
+				double dps = (double) tempObj.get("antiAirAuraStrength");
+				
+				AANearDPS = AANearDPS + dps;
+				
+				count++;
+			}
+			AANearDPS = Math.round(AANearDPS * 100);
 		}
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		JSONObject HitLocationArtillery = (JSONObject) tobj2.get("HitLocationArtillery");

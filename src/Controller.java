@@ -10,6 +10,9 @@ public class Controller
 	private static Viewer view;
 	private static Model model;
 
+	/**
+	 * Constructor
+	 */
 	private Controller()
 	{		
 		model = new Model();
@@ -27,11 +30,9 @@ public class Controller
 
 	}
 	
-	public void setModuleBox1()
-	{	
-		
-	}
-	
+	/**
+	 * Listens for Search button then searches for ship name.
+	 */
 	ActionListener SearchListener = new ActionListener()
 	{		
 		public void actionPerformed(ActionEvent ae)
@@ -78,6 +79,10 @@ public class Controller
 			view.setAARangeMedium(answer.getAntiAirAuraDistanceMedium());
 			view.setAARangeNear(answer.getAntiAirAuraDistanceNear());			
 			
+			view.setAAFarDPS(answer.getAAFarDPS());
+			view.setAAMediumDPS(answer.getAAMediumDPS());
+			view.setAANearDPS(answer.getAANearDPS());
+			
 			view.setModuleBox1(answer.getModule1());
 			view.setModuleBox2(answer.getModule2());
 			view.setModuleBox3(answer.getModule3());
@@ -87,6 +92,9 @@ public class Controller
 		}		
 	};
 	
+	/**
+	 * Listens for nation and ship type, then returns ship at specific tier.  
+	 */
 	ActionListener ShipNameList = new ActionListener()
 	{
 		public void actionPerformed(ActionEvent ae) 
@@ -143,6 +151,9 @@ public class Controller
 		}		
 	};
 	
+	/**
+	 * Not implemented
+	 */
 	ActionListener ShipTypeList = new ActionListener()
 	{
 		public void actionPerformed(ActionEvent ae)
@@ -155,8 +166,10 @@ public class Controller
 			}			
 		}
 	};
-
-		
+	
+	/**
+	 * Listens for Calculate button then calculates ship stats.
+	 */
 	ActionListener CalculateListener = new ActionListener()
 	{
 		public void actionPerformed(ActionEvent ae)
@@ -221,6 +234,9 @@ public class Controller
 			view.setAARangeMedium(answer.getAntiAirAuraDistanceMedium());
 			view.setAARangeNear(answer.getAntiAirAuraDistanceNear());	
 
+			view.setAAFarDPS(answer.getAAFarDPS());
+			view.setAAMediumDPS(answer.getAAMediumDPS());
+			view.setAANearDPS(answer.getAANearDPS());
 		}		
 	};
 	
@@ -254,6 +270,10 @@ public class Controller
 	}
 	*/
 	
+	/**
+	 * Main method.
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{	
 		new Controller();
