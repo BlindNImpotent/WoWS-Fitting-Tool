@@ -1,3 +1,7 @@
+/**
+ * @author Aesis / BlindNImpotent
+ */
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 

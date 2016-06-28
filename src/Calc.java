@@ -1,7 +1,10 @@
+/**
+ * @author Aesis / BlindNImpotent
+ */
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.json.simple.JSONObject;

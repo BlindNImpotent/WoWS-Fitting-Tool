@@ -1,3 +1,7 @@
+/**
+ * @author Aesis / BlindNImpotent
+ */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -576,6 +580,7 @@ public class JSParser
 	/**
 	 * Sets turret related stats.
 	 */
+	@SuppressWarnings("unchecked")
 	private void setTurretStats()
 	{		
 		List<String> turret = new ArrayList<String>(); 
@@ -847,6 +852,7 @@ public class JSParser
 	/**
 	 * Sets engine related stats.
 	 */
+	@SuppressWarnings("unused")
 	private void setEngineStats()
 	{
 		List<String> engine = new ArrayList<String>(); 

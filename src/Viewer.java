@@ -1,7 +1,8 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+/**
+ * @author Aesis / BlindNImpotent
+ */
+
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -16,15 +17,19 @@ import javax.swing.JCheckBox;
 
 public class Viewer extends JFrame 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8693287232941908206L;
 	private JPanel contentPane;
 	private JTextField searchText;
 	private JButton searchButton;
-	private JComboBox mod1Box;
-	private JComboBox mod2Box;
-	private JComboBox mod3Box;
-	private JComboBox mod4Box;
-	private JComboBox mod5Box;
-	private JComboBox mod6Box;
+	private JComboBox<String> mod1Box;
+	private JComboBox<String> mod2Box;
+	private JComboBox<String> mod3Box;
+	private JComboBox<String> mod4Box;
+	private JComboBox<String> mod5Box;
+	private JComboBox<String> mod6Box;
 	private JButton calculateButton;
 	private JTextArea rudder;
 	private JTextArea tier;
@@ -110,27 +115,27 @@ public class Viewer extends JFrame
 		calculateButton.setBounds(218, 9, 97, 23);
 		contentPane.add(calculateButton);
 		
-		mod1Box = new JComboBox();
+		mod1Box = new JComboBox<String>();
 		mod1Box.setBounds(12, 74, 116, 21);
 		contentPane.add(mod1Box);
 		
-		mod2Box = new JComboBox();
+		mod2Box = new JComboBox<String>();
 		mod2Box.setBounds(12, 105, 116, 21);
 		contentPane.add(mod2Box);
 		
-		mod3Box = new JComboBox();
+		mod3Box = new JComboBox<String>();
 		mod3Box.setBounds(12, 136, 116, 21);
 		contentPane.add(mod3Box);
 		
-		mod4Box = new JComboBox();
+		mod4Box = new JComboBox<String>();
 		mod4Box.setBounds(12, 167, 116, 21);
 		contentPane.add(mod4Box);
 		
-		mod5Box = new JComboBox();
+		mod5Box = new JComboBox<String>();
 		mod5Box.setBounds(12, 198, 116, 21);
 		contentPane.add(mod5Box);
 		
-		mod6Box = new JComboBox();
+		mod6Box = new JComboBox<String>();
 		mod6Box.setBounds(12, 229, 116, 21);
 		contentPane.add(mod6Box);
 		
@@ -289,19 +294,19 @@ public class Viewer extends JFrame
 		chckbxTorpArmExp.setBounds(91, 457, 105, 23);
 		contentPane.add(chckbxTorpArmExp);
 		
-		comboBoxNationList = new JComboBox();
+		comboBoxNationList = new JComboBox<String>();
 		comboBoxNationList.setBounds(12, 41, 89, 21);
 		contentPane.add(comboBoxNationList);
 		
-		comboBoxShipTypeList = new JComboBox();
+		comboBoxShipTypeList = new JComboBox<String>();
 		comboBoxShipTypeList.setBounds(113, 41, 89, 21);
 		contentPane.add(comboBoxShipTypeList);
 		
-		comboBoxShipNameList = new JComboBox();
+		comboBoxShipNameList = new JComboBox<String>();
 		comboBoxShipNameList.setBounds(275, 42, 125, 21);
 		contentPane.add(comboBoxShipNameList);
 		
-		comboBoxTierList = new JComboBox();
+		comboBoxTierList = new JComboBox<String>();
 		comboBoxTierList.setBounds(218, 42, 45, 21);
 		contentPane.add(comboBoxTierList);
 		
@@ -770,7 +775,7 @@ public class Viewer extends JFrame
 	 * Sets module box 1 to given list.
 	 * @param aList
 	 */
-	public void setModuleBox1(List aList)
+	public void setModuleBox1(List<String> aList)
 	{
 		mod1Box.removeAllItems();
 		for (int i = 0; i < aList.size(); i++)
@@ -792,7 +797,7 @@ public class Viewer extends JFrame
 	 * Sets module box 2 to given list.
 	 * @param aList
 	 */
-	public void setModuleBox2(List aList)
+	public void setModuleBox2(List<String> aList)
 	{
 		mod2Box.removeAllItems();
 		for (int i = 0; i < aList.size(); i++)
@@ -814,7 +819,7 @@ public class Viewer extends JFrame
 	 * Sets module box 3 to given list.
 	 * @param aList
 	 */
-	public void setModuleBox3(List aList)
+	public void setModuleBox3(List<String> aList)
 	{
 		mod3Box.removeAllItems();
 		for (int i = 0; i < aList.size(); i++)
@@ -836,7 +841,7 @@ public class Viewer extends JFrame
 	 * Sets module box 4 to given list.
 	 * @param aList
 	 */
-	public void setModuleBox4(List aList)
+	public void setModuleBox4(List<String> aList)
 	{
 		mod4Box.removeAllItems();
 		for (int i = 0; i < aList.size(); i++)
@@ -858,7 +863,7 @@ public class Viewer extends JFrame
 	 * Sets module box 5 to given list.
 	 * @param aList
 	 */
-	public void setModuleBox5(List aList)
+	public void setModuleBox5(List<String> aList)
 	{
 		mod5Box.removeAllItems();
 		for (int i = 0; i < aList.size(); i++)
@@ -880,7 +885,7 @@ public class Viewer extends JFrame
 	 * Sets module box 6 to given list.
 	 * @param aList
 	 */
-	public void setModuleBox6(List aList)
+	public void setModuleBox6(List<String> aList)
 	{
 		mod6Box.removeAllItems();
 		for (int i = 0; i < aList.size(); i++)
