@@ -24,6 +24,7 @@ public class Calc
 	private double torpedoReload;
 	private double torpedoRotation;
 	private double maxTorpedoRange;
+	private double torpedoSpeed;
 	
 	private double sConceal;
 	private double aConceal;
@@ -62,7 +63,8 @@ public class Calc
 		
 		torpedoReload = jsp.getTorpedoReload();
 		torpedoRotation = jsp.getTorpedoRotation();
-		maxTorpedoRange = jsp.getMaxTorpedoRange() / 1000;
+		maxTorpedoRange = jsp.getMaxTorpedoRange();
+		torpedoSpeed = jsp.getTorpedoSpeed();
 		
 		sConceal = jsp.getSConceal();
 		aConceal = jsp.getAConceal();
@@ -450,8 +452,9 @@ public class Calc
 	
 	public void calcTorpedoAcceleration() 
 	{
-		JSONObject TorpedoAcceleratorModifier = (JSONObject) skills.get("TorpedoAcceleratorModifier");
+		JSONObject TorpedoAcceleratorModifier = (JSONObject) skills.get("TorpedoAcceleratorModifier");		
 		maxTorpedoRange = maxTorpedoRange * (double) TorpedoAcceleratorModifier.get("torpedoRangeCoefficient");
+		torpedoSpeed = torpedoSpeed + (double) TorpedoAcceleratorModifier.get("torpedoSpeedBonus");
 	}
 	
 	
@@ -533,6 +536,12 @@ public class Calc
 			rotationDeg = Math.round(180.0 / getTorpedoRotation());
 		}
 		return rotationDeg;
+	}
+	
+	public double getTorpedoSpeed()
+	{
+		torpedoSpeed = Math.round(torpedoSpeed * 100.0) / 100.0;
+		return torpedoSpeed;
 	}
 	
 	public double getSConceal()

@@ -66,6 +66,10 @@ public class Viewer extends JFrame {
 	private JComboBox<String> comboBoxShipTypeList;	
 	private JComboBox<String> comboBoxShipNameList;
 	private JComboBox<String> comboBoxTierList;
+	private JLabel lblTorpSpeed;
+	private JTextArea torpSpeed;
+	
+	
 	
 	/**
 	 * Create the frame.
@@ -286,6 +290,15 @@ public class Viewer extends JFrame {
 		comboBoxTierList = new JComboBox();
 		comboBoxTierList.setBounds(218, 285, 45, 21);
 		contentPane.add(comboBoxTierList);
+		
+		lblTorpSpeed = new JLabel("Torp Speed");
+		lblTorpSpeed.setBounds(300, 229, 70, 15);
+		contentPane.add(lblTorpSpeed);
+		
+		torpSpeed = new JTextArea();
+		torpSpeed.setText("kts");
+		torpSpeed.setBounds(380, 225, 70, 21);
+		contentPane.add(torpSpeed);
 	}
 
 	
@@ -315,6 +328,11 @@ public class Viewer extends JFrame {
 		comboBoxShipTypeList.addActionListener(al);
 		comboBoxTierList.addActionListener(al);
 	    comboBoxShipNameList.addActionListener(al);     
+	}
+	
+	public void setShipTierListener(ActionListener al)
+	{
+		comboBoxTierList.addActionListener(al);
 	}
 	
 	public JCheckBox getAFTCheckbox()
@@ -474,6 +492,11 @@ public class Viewer extends JFrame {
 		this.torpReload.setText(String.valueOf(torpReload) + " s");
 	}
 	
+	public void setTorpSpeed(double torpSpeed)
+	{
+		this.torpSpeed.setText(String.valueOf(torpSpeed) + " kts");
+	}
+	
 	
 	public void setModuleBox1(List aList)
 	{
@@ -578,22 +601,32 @@ public class Viewer extends JFrame {
 		comboBoxShipTypeList.addItem("CV");
 		comboBoxShipTypeList.addItem("Cruiser");
 		comboBoxShipTypeList.addItem("Destroyer");
-		comboBoxShipTypeList.addItem("Premium");
+		//comboBoxShipTypeList.addItem("Premium");
 	}
 	
 	public void setTierList()
 	{
-		comboBoxTierList.removeAllItems();
-		comboBoxTierList.addItem("1");;
-		comboBoxTierList.addItem("2");
-		comboBoxTierList.addItem("3");
-		comboBoxTierList.addItem("4");
-		comboBoxTierList.addItem("5");
-		comboBoxTierList.addItem("6");
-		comboBoxTierList.addItem("7");
-		comboBoxTierList.addItem("8");
-		comboBoxTierList.addItem("9");
-		comboBoxTierList.addItem("10");
+		if (!comboBoxShipTypeList.getSelectedItem().equals("Premium"))
+		{
+			comboBoxTierList.removeAllItems();
+			comboBoxTierList.addItem("1");;
+			comboBoxTierList.addItem("2");
+			comboBoxTierList.addItem("3");
+			comboBoxTierList.addItem("4");
+			comboBoxTierList.addItem("5");
+			comboBoxTierList.addItem("6");
+			comboBoxTierList.addItem("7");
+			comboBoxTierList.addItem("8");
+			comboBoxTierList.addItem("9");
+			comboBoxTierList.addItem("10");
+		}
+		else if (comboBoxShipTypeList.getSelectedItem().equals("Premium"))
+		{
+			comboBoxTierList.removeAllItems();
+			comboBoxTierList.addItem("4");
+			comboBoxTierList.addItem("5");
+
+		}
 	}
 
 	public JComboBox<String> getNationListComboBox() 
@@ -708,7 +741,7 @@ public class Viewer extends JFrame {
 			break;
 		case "2": comboBoxShipNameList.addItem("Chester");
 			break;
-		case "3": comboBoxShipNameList.addItem("St. Loius");
+		case "3": comboBoxShipNameList.addItem("St_Louis");
 			break;
 		case "4": comboBoxShipNameList.addItem("Phoenix");
 			break;
@@ -718,7 +751,7 @@ public class Viewer extends JFrame {
 			break;
 		case "7": comboBoxShipNameList.addItem("Pensacola");
 			break;
-		case "8": comboBoxShipNameList.addItem("New Orleans");
+		case "8": comboBoxShipNameList.addItem("New Orlean");
 			break;
 		case "9": comboBoxShipNameList.addItem("Baltimore");
 			break;
@@ -729,8 +762,206 @@ public class Viewer extends JFrame {
 		}
 	}
 
+	public void setJapanBattleshipList(String tier)
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		switch (tier)
+		{
+		case "3": comboBoxShipNameList.addItem("Kawachi");
+			break;
+		case "4": comboBoxShipNameList.addItem("Myogi");
+			break;
+		case "5": comboBoxShipNameList.addItem("Kongo");
+			break;
+		case "6": comboBoxShipNameList.addItem("Fuso");
+			break;
+		case "7": comboBoxShipNameList.addItem("Nagato");
+			break;
+		case "8": comboBoxShipNameList.addItem("Amagi");
+			break;
+		case "9": comboBoxShipNameList.addItem("Izumo");
+			break;
+		case "10": comboBoxShipNameList.addItem("Yamato");
+			break;
+		default: comboBoxShipNameList.addItem("None");
+			break;
+		}
+	}
+	
+	public void setJapanCVList(String tier)
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		switch (tier)
+		{		
+		case "4": comboBoxShipNameList.addItem("Hosho");
+			break;
+		case "5": comboBoxShipNameList.addItem("Zuiho");
+			break;
+		case "6": comboBoxShipNameList.addItem("Ryujo");
+			break;
+		case "7": comboBoxShipNameList.addItem("Hiryu");
+			break;
+		case "8": comboBoxShipNameList.addItem("Zuikaku");
+			break;
+		case "9": comboBoxShipNameList.addItem("Taiho");
+			break;
+		case "10": comboBoxShipNameList.addItem("Hakuryu");
+			break;
+		default: comboBoxShipNameList.addItem("None");
+			break;
+		}
+	}
 
+	public void setJapanDestroyerList(String tier)
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		switch (tier)
+		{
+		case "2": comboBoxShipNameList.addItem("Umikaze");
+			break;
+		case "3": comboBoxShipNameList.addItem("Wakatake");
+			break;
+		case "4": comboBoxShipNameList.addItem("Isokaze");
+			break;
+		case "5": comboBoxShipNameList.addItem("Minekaze");
+			break;
+		case "6": comboBoxShipNameList.addItem("Mutsuki");
+			break;
+		case "7": comboBoxShipNameList.addItem("Hatsuharu");
+			break;
+		case "8": comboBoxShipNameList.addItem("Fubuki");
+			break;
+		case "9": comboBoxShipNameList.addItem("Kagero");
+			break;
+		case "10": comboBoxShipNameList.addItem("Shimakaze");
+			break;
+		default: comboBoxShipNameList.addItem("None");
+			break;
+		}
+	}
 
+	public void setJapanCruiserList(String tier)
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		switch (tier)
+		{
+		case "1": comboBoxShipNameList.addItem("Hashidate");
+			break;
+		case "2": comboBoxShipNameList.addItem("Chikuma");
+			break;
+		case "3": comboBoxShipNameList.addItem("Tenryu");
+			break;
+		case "4": comboBoxShipNameList.addItem("Kuma");
+			break;
+		case "5": comboBoxShipNameList.addItem("Furutaka");
+			break;
+		case "6": comboBoxShipNameList.addItem("Aoba");
+			break;
+		case "7": comboBoxShipNameList.addItem("Myoko");
+			break;
+		case "8": comboBoxShipNameList.addItem("Mogami");
+			break;
+		case "9": comboBoxShipNameList.addItem("Ibuki");
+			break;
+		case "10": comboBoxShipNameList.addItem("Zao");
+			break;
+		default: comboBoxShipNameList.addItem("None");
+			break;
+		}
+	}
 
-
+	public void setRussiaDestroyerList(String tier)
+	{		
+		comboBoxShipNameList.removeAllItems();
+	
+		switch (tier)
+		{
+		case "2": comboBoxShipNameList.addItem("Storojevoy");
+			break;
+		case "3": comboBoxShipNameList.addItem("Derzky");
+			break;
+		case "4": comboBoxShipNameList.addItem("Izyaslav");
+			break;
+		case "5": comboBoxShipNameList.addItem("Gnevny");
+			break;
+		case "6": comboBoxShipNameList.addItem("Ognevoy");
+			break;
+		case "7": comboBoxShipNameList.addItem("Kiev");
+			break;
+		case "8": comboBoxShipNameList.addItem("Tashkent");
+			break;
+		case "9": comboBoxShipNameList.addItem("Udaloy");
+			break;
+		case "10": comboBoxShipNameList.addItem("Khabarovsk");
+			break;
+		default: comboBoxShipNameList.addItem("None");
+			break;
+		}
+	}
+	
+	public void setRussiaCruiserList(String tier)
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		switch (tier)
+		{
+		case "1": comboBoxShipNameList.addItem("Orlan");
+			break;
+		case "2": comboBoxShipNameList.addItem("Novik");
+			break;
+		case "3": comboBoxShipNameList.addItem("Bogatyr");
+			break;
+		case "4": comboBoxShipNameList.addItem("Svetlana");
+			break;
+		case "5": comboBoxShipNameList.addItem("Kirov");
+			break;
+		case "6": comboBoxShipNameList.addItem("Budeny");
+			break;
+		case "7": comboBoxShipNameList.addItem("Shchors");
+			break;
+		case "8": comboBoxShipNameList.addItem("Chapaev");
+			break;
+		case "9": comboBoxShipNameList.addItem("Dmitry Donskoy");
+			break;
+		case "10": comboBoxShipNameList.addItem("Moskva");
+			break;
+		default: comboBoxShipNameList.addItem("None");
+			break;
+		}
+	}
+	
+	public void setGermanyCruiserList(String tier)
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		switch (tier)
+		{
+		case "1": comboBoxShipNameList.addItem("Hermelin");
+			break;
+		case "2": comboBoxShipNameList.addItem("Drezden");
+			break;
+		case "3": comboBoxShipNameList.addItem("Kolberg");
+			break;
+		case "4": comboBoxShipNameList.addItem("Karlsruhe");
+			break;
+		case "5": comboBoxShipNameList.addItem("Konigsberg");
+			break;
+		case "6": comboBoxShipNameList.addItem("Nurnberg");
+			break;
+		case "7": comboBoxShipNameList.addItem("Yorck");
+			break;
+		case "8": comboBoxShipNameList.addItem("Hipper");
+			break;
+		case "9": comboBoxShipNameList.addItem("Roon");
+			break;
+		case "10": comboBoxShipNameList.addItem("Hindenburg");
+			break;
+		default: comboBoxShipNameList.addItem("None");
+			break;
+		}
+	}
 }

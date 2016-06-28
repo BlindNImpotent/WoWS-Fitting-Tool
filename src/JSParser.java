@@ -51,6 +51,7 @@ public class JSParser
 	private double torpedoRotation;
 	private double torpedoReload;
 	private double maxTorpedoRange;
+	private double torpedoSpeed;
 	
 	private double sConceal;
 	private double aConceal;
@@ -84,7 +85,7 @@ public class JSParser
 		}
 		else if (ship.equals("South Carolina"))
 		{
-			ship = ship.replaceAll("South Carolina", "Michigan");
+			ship = ship.replaceAll("South Carolina", "PASB001_Michigan_1916");
 		}
 		else if (ship.equals("Wyoming"))
 		{
@@ -98,6 +99,16 @@ public class JSParser
 		{
 			ship = ship.replace("St. Louis", "PASC004_St_Louis_1906");
 		}
+		else if (ship.equals("Nicholas"))
+		{
+			ship = ship.replace("Nicholas", "Leader");
+		}
+		else if (ship.equals("Tenryu"))
+		{
+			ship = ship.replace("Tenryu", "Tatsuta");
+		}
+		
+		
 		
 		ship = ship.replaceAll(" ", "_");
 		
@@ -389,6 +400,11 @@ public class JSParser
 	public double getMaxTorpedoRange()
 	{
 		return maxTorpedoRange;
+	}
+	
+	public double getTorpedoSpeed()
+	{
+		return torpedoSpeed;
 	}
 	
 	/**
@@ -820,8 +836,12 @@ public class JSParser
 		JSONArray ammoList = (JSONArray) tobj2.get("ammoList");
 		String ammo = (String) ammoList.get(0);
 		
-		JSONObject ammoObj = (JSONObject) GameParams.get(ammo);
-		maxTorpedoRange = (double) ammoObj.get("maxDist") * 30;		
+		JSONObject ammoObj = (JSONObject) GameParams.get(ammo);		
+		maxTorpedoRange = (double) ammoObj.get("maxDist") * 0.03;
+		torpedoSpeed = (double) ammoObj.get("speed");
+		
+		
+		
 	}
 
 

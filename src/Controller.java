@@ -15,13 +15,14 @@ public class Controller
 		model = new Model();
 		view = new Viewer();
 		view.setVisible(true);		
-		view.setSearchListener(new SearchListener());
-		view.setCalculateListener(new CalculateListener());
+		view.setSearchListener(SearchListener);
+		view.setCalculateListener(CalculateListener);
 		//view.setCheckBoxListener4(new CheckboxListener4());
 		
 		view.setNationList();
 		view.setShipTypeList();
 		view.setTierList();
+		//view.setShipTierListener(ShipTypeList);
 		view.setShipNameListener(ShipNameList);
 
 	}
@@ -31,21 +32,8 @@ public class Controller
 		
 	}
 	
-	private class SearchListener implements ActionListener
-	{
-		/**
-		 * Initializes using listener from CalcView class.
-		 */
-		public SearchListener()
-		{
-			view.setSearchListener(this);
-		}
-		
-		/**
-		 * Listens to whether 'Calculate' button is pressed, 
-		 * then evaluates the expression to print out resulting value.
-		 * @param ae Event to respond to.
-		 */
+	ActionListener SearchListener = new ActionListener()
+	{		
 		public void actionPerformed(ActionEvent ae)
 		{
 			Calc answer = null;
@@ -81,6 +69,7 @@ public class Controller
 			
 			view.setTorpRange(answer.getMaxTorpedoRange());
 			view.setTorpReload(answer.getTorpedoReload());
+			view.setTorpSpeed(answer.getTorpedoSpeed());
 			
 			view.setModuleBox1(answer.getModule1());
 			view.setModuleBox2(answer.getModule2());
@@ -89,7 +78,7 @@ public class Controller
 			view.setModuleBox5(answer.getModule5());
 			view.setModuleBox6(answer.getModule6());
 		}		
-	}
+	};
 	
 	ActionListener ShipNameList = new ActionListener()
 	{
@@ -115,28 +104,54 @@ public class Controller
 			{
 				view.setUSADestroyerList(tier);
 			}
-
-			
+			else if (nation.equals("Russia") && type.equals("Destroyer"))
+			{
+				view.setRussiaDestroyerList(tier);
+			}
+			else if (nation.equals("Russia") && type.equals("Cruiser"))
+			{
+				view.setRussiaCruiserList(tier);
+			}
+			else if (nation.equals("Japan") && type.equals("Battleship"))
+			{
+				view.setJapanBattleshipList(tier);
+			}
+			else if (nation.equals("Japan") && type.equals("Cruiser"))
+			{
+				view.setJapanCruiserList(tier);
+			}	
+			else if (nation.equals("Japan") && type.equals("CV"))
+			{
+				view.setJapanCVList(tier);
+			}
+			else if (nation.equals("Japan") && type.equals("Destroyer"))
+			{
+				view.setJapanDestroyerList(tier);
+			}
+			else if (nation.equals("Germany") && type.equals("Cruiser"))
+			{
+				view.setGermanyCruiserList(tier);
+			}
 			
 		}		
 	};
+	
+	ActionListener ShipTypeList = new ActionListener()
+	{
+		public void actionPerformed(ActionEvent ae)
+		{
+			String type = view.getShipTypeListComboBox().getSelectedItem().toString();
+			
+			if (type.equals("Premium"))
+			{
+				view.setTierList();
+			}			
+		}
+	};
 
 		
-	private class CalculateListener implements ActionListener
+	ActionListener CalculateListener = new ActionListener()
 	{
-		/**
-		 * Initializes using listener from CalcView class.
-		 */
-		public CalculateListener()
-		{
-			view.setCalculateListener(this);
-		}
-		
-		/**
-		 * Listens to whether 'Calculate' button is pressed, 
-		 * then evaluates the expression to print out resulting value.
-		 * @param ae Event to respond to.
-		 */
 		public void actionPerformed(ActionEvent ae)
 		{
 			Calc answer = null;
@@ -157,11 +172,20 @@ public class Controller
 			
 			try 
 			{
-				answer = model.calculate(view.getShipNameListComboBox().getSelectedItem().toString(), 
-						mod1, mod2, mod3, mod4, mod5, mod6, 
-						conceal, survivability, AFT, EM, BFT, TAE, TA,  
-						concealCamo);
-				
+				if (view.getShipName().equals(""))
+				{
+					answer = model.calculate(view.getShipNameListComboBox().getSelectedItem().toString(), 
+							mod1, mod2, mod3, mod4, mod5, mod6, 
+							conceal, survivability, AFT, EM, BFT, TAE, TA,  
+							concealCamo);				
+				}
+				else if (view.getShipName() != null)
+				{
+					answer = model.calculate(view.getShipName(), 
+							mod1, mod2, mod3, mod4, mod5, mod6, 
+							conceal, survivability, AFT, EM, BFT, TAE, TA,  
+							concealCamo);				
+					}				
 			} 
 			catch (IOException | ParseException e) 
 			{			
@@ -180,8 +204,10 @@ public class Controller
 			
 			view.setTorpRange(answer.getMaxTorpedoRange());
 			view.setTorpReload(answer.getTorpedoReload());
+			view.setTorpSpeed(answer.getTorpedoSpeed());
+
 		}		
-	}
+	};
 	
 	/**
 	private class CheckboxListener4 implements ActionListener
