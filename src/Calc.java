@@ -7,9 +7,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 /**
- * 
  * @author Aesis (BlindNImpotent)
- *
+ * Calculates ship stats according to modules and skills.
  */
 public class Calc 
 {
@@ -24,6 +23,8 @@ public class Calc
 	private double maxMainGunRange;
 	private double mainGunReload;
 	private double mainGunRotation;
+	private double mainGunDispersionTangent;
+	private double mainGunDispersionRange;
 	
 	private double torpedoReload;
 	private double torpedoRotation;
@@ -38,7 +39,7 @@ public class Calc
 	
 	private double MainTurretHP;
 	private double MainTurretAutoRepairTime;
-	
+		
 	private double TorpedoHP;
 	private double TorpedoAutoRepairTime;
 	
@@ -81,6 +82,8 @@ public class Calc
 		maxMainGunRange = jsp.getMaxMainGunRange() / 1000;
 		mainGunReload = jsp.getMainGunReload();
 		mainGunRotation = jsp.getMainGunRotation();		
+		mainGunDispersionTangent = jsp.getMainGunDispersion();
+		mainGunDispersionRange = maxMainGunRange * mainGunDispersionTangent * 2 * 1000;
 		
 		torpedoReload = jsp.getTorpedoReload();
 		torpedoRotation = jsp.getTorpedoRotation();
@@ -167,7 +170,7 @@ public class Calc
 		double GSMaxDist = (double) ASM1.get("GSMaxDist");
 		double GTRotationSpeed = (double) ASM1.get("GTRotationSpeed");
 		
-		
+		mainGunDispersionRange = mainGunDispersionRange * GMIdealRadius;
 		torpedoRotation = torpedoRotation * GTRotationSpeed;		
 	}
 	
@@ -230,7 +233,7 @@ public class Calc
 		JSONObject APR2 = (JSONObject) jsp.getGameParams().get("PCM029_FireControl_Mod_II_US");
 		double GMIdealRadius = (double) APR2.get("GMIdealRadius");
 		
-		
+		mainGunDispersionRange = mainGunDispersionRange * GMIdealRadius;
 	}
 	
 	/**
@@ -600,6 +603,16 @@ public class Calc
 			rotationDeg = Math.round(180.0 / getMainGunRotation());
 		}
 		return rotationDeg; 
+	}
+	
+	public double getMainGunDispersionTangent()
+	{
+		return mainGunDispersionTangent;
+	}
+	
+	public double getMainGunDispersionRange()
+	{
+		return Math.round(mainGunDispersionRange);
 	}
 	
 	/**

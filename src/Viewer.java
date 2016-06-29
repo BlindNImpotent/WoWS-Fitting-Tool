@@ -12,9 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 
 /**
- * 
  * @author Aesis (BlindNImpotent)
- *
+ * View class.
  */
 public class Viewer extends JFrame 
 {
@@ -87,6 +86,9 @@ public class Viewer extends JFrame
 	private JTextArea aaNearDPS;
 	private JTextArea stealthFireRange;
 	private JLabel lblStealthFire;
+	private JTextArea mainGunDispersionRange;	
+	private JLabel lblMgDispersion;
+	
 	
 	/**
 	 * Creates the frame.
@@ -267,21 +269,21 @@ public class Viewer extends JFrame
 		contentPane.add(chckbxBft);
 		
 		lblTorpRange = new JLabel("Torp Range");
-		lblTorpRange.setBounds(300, 211, 68, 15);
+		lblTorpRange.setBounds(300, 242, 68, 15);
 		contentPane.add(lblTorpRange);
 		
 		lblTorpReload = new JLabel("Torp Reload");
-		lblTorpReload.setBounds(300, 242, 70, 15);
+		lblTorpReload.setBounds(300, 273, 70, 15);
 		contentPane.add(lblTorpReload);
 		
 		torpRange = new JTextArea();
 		torpRange.setText("km");
-		torpRange.setBounds(380, 207, 70, 21);
+		torpRange.setBounds(380, 238, 70, 21);
 		contentPane.add(torpRange);
 		
 		torpReload = new JTextArea();
 		torpReload.setText("s");
-		torpReload.setBounds(380, 238, 70, 21);
+		torpReload.setBounds(380, 269, 70, 21);
 		contentPane.add(torpReload);
 		
 		chckbxTorpAccel = new JCheckBox("Torp Accel");
@@ -309,12 +311,12 @@ public class Viewer extends JFrame
 		contentPane.add(comboBoxTierList);
 		
 		lblTorpSpeed = new JLabel("Torp Speed");
-		lblTorpSpeed.setBounds(300, 273, 70, 15);
+		lblTorpSpeed.setBounds(300, 306, 70, 15);
 		contentPane.add(lblTorpSpeed);
 		
 		torpSpeed = new JTextArea();
 		torpSpeed.setText("kts");
-		torpSpeed.setBounds(380, 269, 70, 21);
+		torpSpeed.setBounds(380, 302, 70, 21);
 		contentPane.add(torpSpeed);
 		
 		chckbxBoS = new JCheckBox("BoS");
@@ -323,20 +325,20 @@ public class Viewer extends JFrame
 		
 		burnTime = new JTextArea();
 		burnTime.setText("s");
-		burnTime.setBounds(380, 302, 70, 21);
+		burnTime.setBounds(380, 333, 70, 21);
 		contentPane.add(burnTime);
 		
 		floodTime = new JTextArea();
 		floodTime.setText("s");
-		floodTime.setBounds(380, 333, 70, 21);
+		floodTime.setBounds(380, 364, 70, 21);
 		contentPane.add(floodTime);
 		
 		lblBurnTime = new JLabel("Burn Time");
-		lblBurnTime.setBounds(300, 306, 70, 15);
+		lblBurnTime.setBounds(300, 337, 70, 15);
 		contentPane.add(lblBurnTime);
 		
 		lblFloodTime = new JLabel("Flood Time");
-		lblFloodTime.setBounds(300, 337, 78, 15);
+		lblFloodTime.setBounds(300, 368, 78, 15);
 		contentPane.add(lblFloodTime);
 		
 		aaFar = new JTextArea();
@@ -389,6 +391,15 @@ public class Viewer extends JFrame
 		lblStealthFire = new JLabel("Stealth Fire");
 		lblStealthFire.setBounds(138, 337, 70, 15);
 		contentPane.add(lblStealthFire);
+		
+		mainGunDispersionRange = new JTextArea();
+		mainGunDispersionRange.setText("m");
+		mainGunDispersionRange.setBounds(380, 207, 70, 21);
+		contentPane.add(mainGunDispersionRange);
+		
+		lblMgDispersion = new JLabel("MG Disperse");
+		lblMgDispersion.setBounds(300, 211, 80, 15);
+		contentPane.add(lblMgDispersion);
 	}
 
 	/**
@@ -668,6 +679,11 @@ public class Viewer extends JFrame
 	public void setMGTime(double MGTime)
 	{
 		this.txtrMgTime.setText(String.valueOf(MGTime) + " s");
+	}
+	
+	public void setMGDispersion(double MGDispersion)
+	{
+		this.mainGunDispersionRange.setText(String.valueOf(MGDispersion) + " m");
 	}
 	
 	/**

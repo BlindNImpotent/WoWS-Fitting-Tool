@@ -4,9 +4,8 @@ import java.io.IOException;
 import org.json.simple.parser.ParseException;
 
 /**
- * 
  * @author Aesis (BlindNImpotent)
- *
+ * Sends calculation info to Calc class.
  */
 public class Calculator 
 {

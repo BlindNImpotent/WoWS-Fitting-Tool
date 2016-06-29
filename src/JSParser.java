@@ -13,9 +13,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 /**
- * 
  * @author Aesis (BlindNImpotent)
- *
+ * Parses data in GameParams.json. 
  */
 public class JSParser 
 {
@@ -52,6 +51,7 @@ public class JSParser
 	private double maxMainGunRange;
 	private double mainGunRotation;
 	private double mainGunReload;
+	private double mainGunDispersionTangent;	
 	
 	private double torpedoRotation;
 	private double torpedoReload;
@@ -386,6 +386,15 @@ public class JSParser
 	public double getMainGunReload()
 	{
 		return mainGunReload;
+	}
+	
+	/**
+	 * Returns main gun dispersion.
+	 * @return mainGunDispersion Main gun dispersion
+	 */
+	public double getMainGunDispersion()
+	{
+		return mainGunDispersionTangent;
 	}
 	
 	/**
@@ -742,6 +751,19 @@ public class JSParser
 		mainGunRotation = (double) tobj3.get(0);
 		mainGunReload = (double) tobj2.get("shotDelay");
 
+		if (tobj2.get("idealRadius") instanceof Double)
+		{
+			mainGunDispersionTangent = (double) tobj2.get("idealRadius");
+			mainGunDispersionTangent = Math.toRadians(mainGunDispersionTangent * 0.03);
+			mainGunDispersionTangent = Math.tan(mainGunDispersionTangent);
+		}
+		else if (tobj2.get("idealRadius") instanceof Long)
+		{
+			mainGunDispersionTangent = (long) tobj2.get("idealRadius");
+			mainGunDispersionTangent = Math.toRadians(mainGunDispersionTangent * 0.03);
+			mainGunDispersionTangent = Math.tan(mainGunDispersionTangent);
+		}
+		
 		//If main turret's barrel diameter is less than 140 mm, turret has AuraFar by default.
 		if (barrelDiameter < 0.140)
 		{

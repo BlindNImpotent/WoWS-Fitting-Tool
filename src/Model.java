@@ -4,9 +4,8 @@ import java.io.IOException;
 import org.json.simple.parser.ParseException;
 
 /**
- * 
  * @author Aesis (BlindNImpotent)
- *
+ * Model class.
  */
 public class Model 
 {

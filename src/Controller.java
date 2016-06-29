@@ -5,9 +5,8 @@ import java.io.IOException;
 import org.json.simple.parser.ParseException;
 
 /**
- * 
  * @author Aesis (BlindNImpotent)
- *
+ * Controller class.
  */
 public class Controller 
 {
@@ -72,6 +71,7 @@ public class Controller
 			view.setMGReload(answer.getMainGunReload());
 			view.setMGDegs(answer.getMainGunRotation());
 			view.setMGTime(answer.getMainGunRotationTime());
+			view.setMGDispersion(answer.getMainGunDispersionRange());
 			
 			view.setTorpRange(answer.getMaxTorpedoRange());
 			view.setTorpReload(answer.getTorpedoReload());
@@ -228,6 +228,7 @@ public class Controller
 			view.setMGReload(answer.getMainGunReload());
 			view.setMGDegs(answer.getMainGunRotation());
 			view.setMGTime(answer.getMainGunRotationTime());
+			view.setMGDispersion(answer.getMainGunDispersionRange());
 			
 			view.setFloodTime(answer.getFloodTime());
 			view.setBurnTime(answer.getBurnTime());
