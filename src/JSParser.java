@@ -836,9 +836,24 @@ public class JSParser
 			JSONArray ammoList = (JSONArray) tobj2.get("ammoList");
 			Collections.sort(ammoList);
 			
-			JSONObject APShell = (JSONObject) GameParams.get(ammoList.get(0));
-			JSONObject HEShell = (JSONObject) GameParams.get(ammoList.get(1));
-						
+			JSONObject APShell = null;
+			JSONObject HEShell = null;
+			
+			for (int i = 0; i < ammoList.size(); i++)
+			{
+				if (ammoList.get(i).toString().contains("_AP_"))
+				{
+					APShell = (JSONObject) GameParams.get(ammoList.get(i));	
+				}
+			}
+			for (int i = 0; i < ammoList.size(); i++)
+			{
+				if (ammoList.get(i).toString().contains("_HE_"))
+				{
+					HEShell = (JSONObject) GameParams.get(ammoList.get(i));
+				}
+			}			
+			
 			APShellSpeed = (double) APShell.get("bulletSpeed");
 			HEShellSpeed = (double) HEShell.get("bulletSpeed");
 			HEShellBurnProb = (double) HEShell.get("burnProb");

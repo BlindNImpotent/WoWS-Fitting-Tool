@@ -719,7 +719,7 @@ public class Calc
 	
 	public double getHEShellBurnProb()
 	{
-		return HEShellBurnProb;
+		return Math.round(HEShellBurnProb * 100.0) / 100.0;
 	}
 	
 	public double getSecondaryMaxDist()
@@ -1133,6 +1133,7 @@ public class Calc
 	/**
 	 * Test method to print out ship stats on console.
 	 */
+	@SuppressWarnings("unused")
 	private void test()
 	{
 		System.out.println("Tier: " + getTier());
