@@ -25,6 +25,11 @@ public class Calc
 	private double mainGunRotation;
 	private double mainGunDispersionTangent;
 	private double mainGunDispersionRange;
+	private double APShellSpeed;
+	private double HEShellSpeed;
+	private double HEShellBurnProb;
+	
+	private double secondaryMaxDist;
 	
 	private double torpedoReload;
 	private double torpedoRotation;
@@ -34,6 +39,7 @@ public class Calc
 	private double sConceal;
 	private double aConceal;
 	private double stealthFireSurfaceDetection;
+	private double AAFireAirDetection;
 	
 	private int upgradeSlots;
 	
@@ -84,6 +90,11 @@ public class Calc
 		mainGunRotation = jsp.getMainGunRotation();		
 		mainGunDispersionTangent = jsp.getMainGunDispersion();
 		mainGunDispersionRange = maxMainGunRange * mainGunDispersionTangent * 2 * 1000;
+		APShellSpeed = jsp.getAPShellSpeed();
+		HEShellSpeed = jsp.getHEShellSpeed();
+		HEShellBurnProb = jsp.getHEShellBurnProb() * 100;
+		
+		secondaryMaxDist = jsp.getSecondaryMaxDist();
 		
 		torpedoReload = jsp.getTorpedoReload();
 		torpedoRotation = jsp.getTorpedoRotation();
@@ -93,6 +104,7 @@ public class Calc
 		sConceal = jsp.getSConceal();
 		aConceal = jsp.getAConceal();
 		stealthFireSurfaceDetection = jsp.getStealthFireSurfaceDetection();
+		AAFireAirDetection = jsp.getAAFireAirDetection();
 		
 		upgradeSlots = jsp.getModuleSlots();		
 		
@@ -171,7 +183,8 @@ public class Calc
 		double GTRotationSpeed = (double) ASM1.get("GTRotationSpeed");
 		
 		mainGunDispersionRange = mainGunDispersionRange * GMIdealRadius;
-		torpedoRotation = torpedoRotation * GTRotationSpeed;		
+		torpedoRotation = torpedoRotation * GTRotationSpeed;
+		secondaryMaxDist = secondaryMaxDist * GSMaxDist;
 	}
 	
 	public void calcArtilleryPlottingRoomMod1US() //Slot 2
@@ -183,7 +196,7 @@ public class Calc
 		double GSIdealRadius = (double) APRM1.get("GSIdealRadius");
 		
 		maxMainGunRange = maxMainGunRange * GMMaxDist;
-		
+		secondaryMaxDist = secondaryMaxDist * GSMaxDist;
 		
 
 	}
@@ -224,6 +237,7 @@ public class Calc
 		double GSMaxDist = (double) SBM2.get("GSMaxDist");
 		double GSIdealRadius = (double) SBM2.get("GSIdealRadius");
 		
+		secondaryMaxDist = secondaryMaxDist * GSMaxDist;
 		
 	}
 	
@@ -423,6 +437,8 @@ public class Calc
 		antiAirAuraDistanceFar = antiAirAuraDistanceFar * airDefenceRangeCoefficient;
 		antiAirAuraDistanceMedium = antiAirAuraDistanceMedium * airDefenceRangeCoefficient;
 		antiAirAuraDistanceNear = antiAirAuraDistanceNear * airDefenceRangeCoefficient;		
+		
+		secondaryMaxDist = secondaryMaxDist * smallGunRangeCoefficient;
 	}
 
 	/**
@@ -534,6 +550,11 @@ public class Calc
 		torpedoSpeed = torpedoSpeed + (double) TorpedoAcceleratorModifier.get("torpedoSpeedBonus");
 	}
 	
+	public void calcDemolitionExpert() //Skill 4
+	{
+		JSONObject FireProbabilityModifier = (JSONObject) skills.get("FireProbabilityModifier");
+		HEShellBurnProb = HEShellBurnProb + ((double) FireProbabilityModifier.get("probabilityBonus") * 100);
+	}
 	
 	public void calcConcealCamo()
 	{		
@@ -550,6 +571,77 @@ public class Calc
 		sConceal = sConceal / pow;
 		aConceal = aConceal / pow;
 	}
+	
+	/**
+	public void calcHY()
+	{
+		
+	}
+	public void calcJC()
+	{
+		
+	}
+	public void calcNF()
+	{
+		
+	}
+	public void calcZulu()
+	{
+		
+	}
+	public void calcJY2()
+	{
+		
+	}
+	public void calcID()
+	{
+		
+	}
+	public void calcIY()
+	{
+		
+	}
+	public void calcNE7()
+	{
+		
+	}
+	public void calcZH()
+	{
+		
+	}
+	public void calcIB3()
+	{
+		
+	}
+	public void calcSM()
+	{
+		
+	}
+	public void calcVL()
+	{
+		
+	}
+	public void calcMY6()
+	{
+		
+	}
+	public void calcPP()
+	{
+		
+	}
+	public void calcIX()
+	{
+		
+	}
+	public void calcEqualSpeed()
+	{
+		
+	}
+	public void calcJW1()
+	{
+		
+	}
+	*/
 	
 	/**
 	 * 
@@ -612,7 +704,28 @@ public class Calc
 	
 	public double getMainGunDispersionRange()
 	{
-		return Math.round(mainGunDispersionRange);
+		return Math.round(mainGunDispersionRange * 100.0) / 100.0;
+	}
+	
+	public double getAPShellSpeed()
+	{
+		return APShellSpeed;
+	}
+	
+	public double getHEShellSpeed()
+	{
+		return HEShellSpeed;
+	}
+	
+	public double getHEShellBurnProb()
+	{
+		return HEShellBurnProb;
+	}
+	
+	public double getSecondaryMaxDist()
+	{
+		secondaryMaxDist = Math.round(secondaryMaxDist * 100.0) / 100.0 / 1000;
+		return secondaryMaxDist;
 	}
 	
 	/**
@@ -815,7 +928,7 @@ public class Calc
 	 */
 	public double getAAFarDPS()
 	{
-		AAFarDPS = Math.round(AAFarDPS * 100.0) / 100.0;
+		AAFarDPS = Math.round(AAFarDPS);
 		return AAFarDPS;
 	}
 	
@@ -825,7 +938,7 @@ public class Calc
 	 */
 	public double getAAMediumDPS()
 	{
-		AAMediumDPS = Math.round(AAMediumDPS * 100.0) / 100.0;
+		AAMediumDPS = Math.round(AAMediumDPS);
 		return AAMediumDPS;
 	}
 	
@@ -835,7 +948,7 @@ public class Calc
 	 */
 	public double getAANearDPS()
 	{
-		AANearDPS = Math.round(AANearDPS * 100.0) / 100.0;
+		AANearDPS = Math.round(AANearDPS);
 		return AANearDPS;
 	}
 	
@@ -845,8 +958,14 @@ public class Calc
 	 */
 	public double getStealthFireSurfaceDetection()
 	{
+		stealthFireSurfaceDetection = Math.round(stealthFireSurfaceDetection * 100.0) / 100.0;
 		return stealthFireSurfaceDetection;
 	}	
+	
+	public double getAAFireAirDetection()
+	{
+		return Math.round(AAFireAirDetection * 100.0) / 100.0;
+	}
 	
 	/**
 	 * Sets crew code according to nation.
@@ -895,6 +1014,19 @@ public class Calc
 		crew = (JSONObject) jsp.getGameParams().get(getCrewCode());
 		skills = (JSONObject) crew.get("Skills");
 	}
+	
+	public List<String> getFlagList()
+	{
+		List<String> flagList = new ArrayList<String>();
+		flagList.add("None");	
+		
+		for (int i = 0; i < jsp.getFlagList().size(); i++)
+		{			
+			flagList.add(i+1, jsp.getFlagList().get(i).substring(8, 11));		
+		}
+		
+		return flagList;
+	}	
 	
 	/**
 	 * 

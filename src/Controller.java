@@ -23,14 +23,10 @@ public class Controller
 		view.setVisible(true);		
 		view.setSearchListener(SearchListener);
 		view.setCalculateListener(CalculateListener);
-		//view.setCheckBoxListener4(new CheckboxListener4());
 		
 		view.setNationList();
 		view.setShipTypeList();
-		view.setTierList();
-		//view.setShipTierListener(ShipTypeList);
-		view.setShipNameListener(ShipNameList);
-
+		view.setShipListener(ShipNameList);		
 	}
 	
 	/**
@@ -42,8 +38,7 @@ public class Controller
 		{
 			Calc answer = null;
 			try 
-			{				
-				//answer = model.search(view.getShipName());
+			{					
 				if (view.getShipName().equals(""))
 				{
 					answer = model.search(view.getShipNameListComboBox().getSelectedItem().toString());
@@ -66,12 +61,18 @@ public class Controller
 			view.setSConceal(answer.getSConceal());
 			view.setAConceal(answer.getAConceal());
 			view.setStealthFireRange(answer.getSConceal() + answer.getStealthFireSurfaceDetection());
+			view.setAAFireAirDetection(answer.getAConceal() + answer.getAAFireAirDetection());
 			
 			view.setMGRange(answer.getMaxMainGunRange());
 			view.setMGReload(answer.getMainGunReload());
 			view.setMGDegs(answer.getMainGunRotation());
 			view.setMGTime(answer.getMainGunRotationTime());
 			view.setMGDispersion(answer.getMainGunDispersionRange());
+			view.setAPShellSpeed(answer.getAPShellSpeed());
+			view.setHEShellSpeed(answer.getHEShellSpeed());
+			view.setHEShellBurnProb(answer.getHEShellBurnProb());
+
+			view.setSecondaryMaxDist(answer.getSecondaryMaxDist());
 			
 			view.setTorpRange(answer.getMaxTorpedoRange());
 			view.setTorpReload(answer.getTorpedoReload());
@@ -96,80 +97,93 @@ public class Controller
 			view.setModuleBox6(answer.getModule6());
 		}		
 	};
-	
-	/**
-	 * Listens for nation and ship type, then returns ship at specific tier.  
-	 */
+
+
 	ActionListener ShipNameList = new ActionListener()
 	{
 		public void actionPerformed(ActionEvent ae) 
 		{	
 			String nation = view.getNationListComboBox().getSelectedItem().toString();
 			String type = view.getShipTypeListComboBox().getSelectedItem().toString();
-			String tier = view.getTierListComboBox().getSelectedItem().toString();		
 			
 			if (nation.equals("USA") && type.equals("Battleship"))
 			{
-				view.setUSABattleshipList(tier);
+				view.setUSABattleshipList();
 			}
 			else if (nation.equals("USA") && type.equals("Cruiser"))
 			{
-				view.setUSACruiserList(tier);
+				view.setUSACruiserList();
 			}	
 			else if (nation.equals("USA") && type.equals("CV"))
 			{
-				view.setUSACVList(tier);
+				view.setUSACVList();
 			}
 			else if (nation.equals("USA") && type.equals("Destroyer"))
 			{
-				view.setUSADestroyerList(tier);
+				view.setUSADestroyerList();
+			}
+			else if (nation.equals("USA") && type.equals("Premium"))
+			{
+				view.setUSAPremiumList();
 			}
 			else if (nation.equals("Russia") && type.equals("Destroyer"))
 			{
-				view.setRussiaDestroyerList(tier);
+				view.setRussiaDestroyerList();
 			}
 			else if (nation.equals("Russia") && type.equals("Cruiser"))
 			{
-				view.setRussiaCruiserList(tier);
+				view.setRussiaCruiserList();
+			}
+			else if (nation.equals("Russia") && type.equals("Premium"))
+			{
+				view.setRussiaPremiumList();
 			}
 			else if (nation.equals("Japan") && type.equals("Battleship"))
 			{
-				view.setJapanBattleshipList(tier);
+				view.setJapanBattleshipList();
 			}
 			else if (nation.equals("Japan") && type.equals("Cruiser"))
 			{
-				view.setJapanCruiserList(tier);
+				view.setJapanCruiserList();
 			}	
 			else if (nation.equals("Japan") && type.equals("CV"))
 			{
-				view.setJapanCVList(tier);
+				view.setJapanCVList();
 			}
 			else if (nation.equals("Japan") && type.equals("Destroyer"))
 			{
-				view.setJapanDestroyerList(tier);
+				view.setJapanDestroyerList();
+			}
+			else if (nation.equals("Japan") && type.equals("Premium"))
+			{
+				view.setJapanPremiumList();
 			}
 			else if (nation.equals("Germany") && type.equals("Cruiser"))
 			{
-				view.setGermanyCruiserList(tier);
+				view.setGermanyCruiserList();
+			}			
+			else if (nation.equals("Germany") && type.equals("Premium"))
+			{
+				view.setGermanyPremiumList();
+			}
+			else if (nation.equals("Pan Asia") && type.equals("Premium"))
+			{
+				view.setPanAsiaPremiumList();
+			}
+			else if (nation.equals("United Kingdom") && type.equals("Premium"))
+			{
+				view.setUKPremiumList();
+			}
+			else if (nation.equals("Poland") && type.equals("Premium"))
+			{
+				view.setPolandPremiumList();
+			}
+			else
+			{
+				view.setNoneList();
 			}
 			
 		}		
-	};
-	
-	/**
-	 * Not implemented
-	 */
-	ActionListener ShipTypeList = new ActionListener()
-	{
-		public void actionPerformed(ActionEvent ae)
-		{
-			String type = view.getShipTypeListComboBox().getSelectedItem().toString();
-			
-			if (type.equals("Premium"))
-			{
-				view.setTierList();
-			}			
-		}
 	};
 	
 	/**
@@ -195,22 +209,33 @@ public class Controller
 			boolean TAE = view.getTorpArmExp();
 			boolean TA = view.getTorpAccel();
 			boolean BoS = view.getBoS();
-			
+			boolean DE = view.getDemoExpSkill();
+
 			try 
 			{
 				if (view.getShipName().equals(""))
 				{
 					answer = model.calculate(view.getShipNameListComboBox().getSelectedItem().toString(), 
-							mod1, mod2, mod3, mod4, mod5, mod6, 
-							conceal, survivability, AFT, EM, BFT, TAE, TA, BoS,  
-							concealCamo);				
+							mod1, mod2, mod3, mod4, mod5, mod6,
+							BFT, BoS,
+							EM, TAE,
+							TA,
+							DE, AFT, survivability,
+							conceal,							  
+							concealCamo
+							);				
 				}
 				else if (view.getShipName() != null)
 				{
 					answer = model.calculate(view.getShipName(), 
-							mod1, mod2, mod3, mod4, mod5, mod6, 
-							conceal, survivability, AFT, EM, BFT, TAE, TA, BoS, 
-							concealCamo);				
+							mod1, mod2, mod3, mod4, mod5, mod6,
+							BFT, BoS,
+							EM, TAE,
+							TA,
+							DE, AFT, survivability,
+							conceal,							  
+							concealCamo
+							);				
 					}				
 			} 
 			catch (IOException | ParseException e) 
@@ -223,12 +248,17 @@ public class Controller
 			view.setSConceal(answer.getSConceal());
 			view.setAConceal(answer.getAConceal());
 			view.setStealthFireRange(answer.getSConceal() + answer.getStealthFireSurfaceDetection());
+			view.setAAFireAirDetection(answer.getAConceal() + answer.getAAFireAirDetection());
 			
 			view.setMGRange(answer.getMaxMainGunRange());
 			view.setMGReload(answer.getMainGunReload());
 			view.setMGDegs(answer.getMainGunRotation());
 			view.setMGTime(answer.getMainGunRotationTime());
 			view.setMGDispersion(answer.getMainGunDispersionRange());
+			
+			view.setHEShellBurnProb(answer.getHEShellBurnProb());
+			
+			view.setSecondaryMaxDist(answer.getSecondaryMaxDist());
 			
 			view.setFloodTime(answer.getFloodTime());
 			view.setBurnTime(answer.getBurnTime());

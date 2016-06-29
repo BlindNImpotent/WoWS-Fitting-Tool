@@ -35,10 +35,14 @@ public class Calculator
 	 * @throws ParseException
 	 */
 	public Calc calculate(
-			String aShip, String mod1, String mod2, String mod3, String mod4, String mod5, String mod6, 
-			boolean conceal, boolean survivability, boolean AFT, boolean EM, boolean BFT, boolean TAE, boolean TA, boolean BoS,
-			boolean concealCamo) 
-					throws FileNotFoundException, IOException, ParseException
+			String aShip, String mod1, String mod2, String mod3, String mod4, String mod5, String mod6,
+			boolean BFT, boolean BoS,
+			boolean EM, boolean TAE,
+			boolean TA,
+			boolean DE, boolean AFT, boolean survivability,
+			boolean conceal,							  
+			boolean concealCamo
+			) throws FileNotFoundException, IOException, ParseException
 	{
 		calc = new Calc(aShip);
 		
@@ -371,6 +375,10 @@ public class Calculator
 		if (BoS == true)
 		{
 			calc.calcBasicsOfSurvivability();
+		}
+		if (DE == true)
+		{
+			calc.calcDemolitionExpert();
 		}
 		
 		

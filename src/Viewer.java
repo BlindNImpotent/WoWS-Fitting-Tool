@@ -67,7 +67,6 @@ public class Viewer extends JFrame
 	private JComboBox<String> comboBoxNationList;	
 	private JComboBox<String> comboBoxShipTypeList;	
 	private JComboBox<String> comboBoxShipNameList;
-	private JComboBox<String> comboBoxTierList;
 	private JLabel lblTorpSpeed;
 	private JTextArea torpSpeed;
 	private JCheckBox chckbxBoS;
@@ -87,16 +86,26 @@ public class Viewer extends JFrame
 	private JTextArea stealthFireRange;
 	private JLabel lblStealthFire;
 	private JTextArea mainGunDispersionRange;	
-	private JLabel lblMgDispersion;
-	
+	private JLabel lblMgDispersion;	
+	private JTextArea AAFireAirDetection;	
+	private JLabel lblAaFire;
+	private JTextArea APShellSpeed;
+	private JTextArea HEShellSpeed;
+	private JLabel lblAPShell;
+	private JLabel lblHEShell;
+	private JTextArea secondaryMaxDist;
+	private JLabel lblSecondary;
+	private JTextArea HEShellBurnProb;
+	private JCheckBox chckbxDemoExp;
+	private JLabel lblFireProb;
 	
 	/**
 	 * Creates the frame.
 	 */
 	public Viewer() {
-		setTitle("WoWS Ship Stats Calculator");
+		setTitle("WoWS Ship Stats Calculator by Aesis (BlindNImpotent)");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 600);
+		setBounds(100, 100, 650, 650);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -116,62 +125,70 @@ public class Viewer extends JFrame
 		contentPane.add(calculateButton);
 		
 		mod1Box = new JComboBox<String>();
-		mod1Box.setBounds(12, 74, 116, 21);
+		mod1Box.setBounds(12, 84, 116, 21);
 		contentPane.add(mod1Box);
 		
 		mod2Box = new JComboBox<String>();
-		mod2Box.setBounds(12, 105, 116, 21);
+		mod2Box.setBounds(12, 115, 116, 21);
 		contentPane.add(mod2Box);
 		
 		mod3Box = new JComboBox<String>();
-		mod3Box.setBounds(12, 136, 116, 21);
+		mod3Box.setBounds(12, 146, 116, 21);
 		contentPane.add(mod3Box);
 		
 		mod4Box = new JComboBox<String>();
-		mod4Box.setBounds(12, 167, 116, 21);
+		mod4Box.setBounds(12, 177, 116, 21);
 		contentPane.add(mod4Box);
 		
 		mod5Box = new JComboBox<String>();
-		mod5Box.setBounds(12, 198, 116, 21);
+		mod5Box.setBounds(12, 208, 116, 21);
 		contentPane.add(mod5Box);
 		
 		mod6Box = new JComboBox<String>();
-		mod6Box.setBounds(12, 229, 116, 21);
+		mod6Box.setBounds(12, 239, 116, 21);
 		contentPane.add(mod6Box);
 		
 		rudder = new JTextArea();
+		rudder.setEditable(false);
 		rudder.setText("s");
 		rudder.setBounds(218, 238, 70, 21);
 		contentPane.add(rudder);
 		
 		tier = new JTextArea();
+		tier.setEditable(false);
 		tier.setBounds(218, 83, 70, 21);
 		contentPane.add(tier);
 		
 		nation = new JTextArea();
+		nation.setEditable(false);
 		nation.setBounds(218, 114, 70, 21);
 		contentPane.add(nation);
 		
 		shipType = new JTextArea();
+		shipType.setEditable(false);
 		shipType.setBounds(218, 145, 70, 21);
 		contentPane.add(shipType);
 		
 		health = new JTextArea();
+		health.setEditable(false);
 		health.setText("HP");
 		health.setBounds(218, 176, 70, 21);
 		contentPane.add(health);
 		
 		speed = new JTextArea();
+		speed.setEditable(false);
 		speed.setText("kts");
 		speed.setBounds(218, 207, 70, 21);
 		contentPane.add(speed);
 		
 		MGRange = new JTextArea();
+		MGRange.setEditable(false);
 		MGRange.setText("km");
 		MGRange.setBounds(380, 83, 70, 21);
 		contentPane.add(MGRange);
 		
 		sConceal = new JTextArea();
+		sConceal.setEditable(false);
 		sConceal.setText("km");
 		sConceal.setBounds(218, 269, 70, 21);
 		contentPane.add(sConceal);
@@ -209,22 +226,23 @@ public class Viewer extends JFrame
 		contentPane.add(lblMGRange);
 		
 		chckbxConcealment = new JCheckBox("Conc Exp");
-		chckbxConcealment.setBounds(275, 532, 105, 23);
+		chckbxConcealment.setBounds(275, 582, 105, 23);
 		contentPane.add(chckbxConcealment);
 		
 		chckbxSurvivability = new JCheckBox("Surv Exp");
-		chckbxSurvivability.setBounds(199, 507, 78, 23);
+		chckbxSurvivability.setBounds(199, 557, 78, 23);
 		contentPane.add(chckbxSurvivability);
 		
 		chckbxAft = new JCheckBox("AFT");
-		chckbxAft.setBounds(91, 507, 60, 23);
+		chckbxAft.setBounds(91, 557, 60, 23);
 		contentPane.add(chckbxAft);
 
 		chckbxExpertMarksman = new JCheckBox("Exp Mark");
-		chckbxExpertMarksman.setBounds(12, 457, 80, 23);
+		chckbxExpertMarksman.setBounds(0, 507, 80, 23);
 		contentPane.add(chckbxExpertMarksman);
 		
 		txtrMgReload = new JTextArea();
+		txtrMgReload.setEditable(false);
 		txtrMgReload.setText("s");
 		txtrMgReload.setBounds(380, 114, 70, 21);
 		contentPane.add(txtrMgReload);
@@ -234,6 +252,7 @@ public class Viewer extends JFrame
 		contentPane.add(lblMgReload);
 		
 		txtrMgDegs = new JTextArea();
+		txtrMgDegs.setEditable(false);
 		txtrMgDegs.setText("deg/s");
 		txtrMgDegs.setBounds(380, 145, 70, 21);
 		contentPane.add(txtrMgDegs);
@@ -243,6 +262,7 @@ public class Viewer extends JFrame
 		contentPane.add(lblMgDegs);
 		
 		txtrMgTime = new JTextArea();
+		txtrMgTime.setEditable(false);
 		txtrMgTime.setText("s/180 deg");
 		txtrMgTime.setBounds(380, 176, 70, 21);
 		contentPane.add(txtrMgTime);
@@ -256,42 +276,47 @@ public class Viewer extends JFrame
 		contentPane.add(lblAConceal);
 		
 		aConceal = new JTextArea();
+		aConceal.setEditable(false);
 		aConceal.setText("km");
 		aConceal.setBounds(218, 300, 70, 21);
 		contentPane.add(aConceal);
 		
 		chckbxConcealCamo = new JCheckBox("Conc Camo");
-		chckbxConcealCamo.setBounds(12, 256, 97, 23);
+		chckbxConcealCamo.setToolTipText("-3% Surface Detection Camo");
+		chckbxConcealCamo.setBounds(12, 266, 97, 23);
 		contentPane.add(chckbxConcealCamo);
 		
 		chckbxBft = new JCheckBox("BFT");
-		chckbxBft.setBounds(91, 432, 60, 23);
+		chckbxBft.setToolTipText("Basic Firing Training: \r\n-10% reload of main guns up to 139 mm, \r\n-10% reload of secondary guns, \r\n+10% dps to AA");
+		chckbxBft.setBounds(91, 482, 60, 23);
 		contentPane.add(chckbxBft);
 		
 		lblTorpRange = new JLabel("Torp Range");
-		lblTorpRange.setBounds(300, 242, 68, 15);
+		lblTorpRange.setBounds(300, 368, 68, 15);
 		contentPane.add(lblTorpRange);
 		
 		lblTorpReload = new JLabel("Torp Reload");
-		lblTorpReload.setBounds(300, 273, 70, 15);
+		lblTorpReload.setBounds(300, 399, 70, 15);
 		contentPane.add(lblTorpReload);
 		
 		torpRange = new JTextArea();
+		torpRange.setEditable(false);
 		torpRange.setText("km");
-		torpRange.setBounds(380, 238, 70, 21);
+		torpRange.setBounds(380, 364, 70, 21);
 		contentPane.add(torpRange);
 		
 		torpReload = new JTextArea();
+		torpReload.setEditable(false);
 		torpReload.setText("s");
-		torpReload.setBounds(380, 269, 70, 21);
+		torpReload.setBounds(380, 395, 70, 21);
 		contentPane.add(torpReload);
 		
 		chckbxTorpAccel = new JCheckBox("Torp Accel");
-		chckbxTorpAccel.setBounds(91, 482, 97, 23);
+		chckbxTorpAccel.setBounds(91, 532, 97, 23);
 		contentPane.add(chckbxTorpAccel);
 		
 		chckbxTorpArmExp = new JCheckBox("Torp Arm Exp");
-		chckbxTorpArmExp.setBounds(91, 457, 105, 23);
+		chckbxTorpArmExp.setBounds(91, 507, 105, 23);
 		contentPane.add(chckbxTorpArmExp);
 		
 		comboBoxNationList = new JComboBox<String>();
@@ -303,55 +328,59 @@ public class Viewer extends JFrame
 		contentPane.add(comboBoxShipTypeList);
 		
 		comboBoxShipNameList = new JComboBox<String>();
-		comboBoxShipNameList.setBounds(275, 42, 125, 21);
+		comboBoxShipNameList.setMaximumRowCount(10);
+		comboBoxShipNameList.setBounds(218, 41, 125, 21);
 		contentPane.add(comboBoxShipNameList);
 		
-		comboBoxTierList = new JComboBox<String>();
-		comboBoxTierList.setBounds(218, 42, 45, 21);
-		contentPane.add(comboBoxTierList);
-		
 		lblTorpSpeed = new JLabel("Torp Speed");
-		lblTorpSpeed.setBounds(300, 306, 70, 15);
+		lblTorpSpeed.setBounds(300, 430, 70, 15);
 		contentPane.add(lblTorpSpeed);
 		
 		torpSpeed = new JTextArea();
+		torpSpeed.setEditable(false);
 		torpSpeed.setText("kts");
-		torpSpeed.setBounds(380, 302, 70, 21);
+		torpSpeed.setBounds(380, 426, 70, 21);
 		contentPane.add(torpSpeed);
 		
 		chckbxBoS = new JCheckBox("BoS");
-		chckbxBoS.setBounds(199, 432, 49, 23);
+		chckbxBoS.setToolTipText("Basics of Survivability: \r\n-15% time of repair, fire extinguishing and recovery from flood");
+		chckbxBoS.setBounds(199, 482, 49, 23);
 		contentPane.add(chckbxBoS);
 		
 		burnTime = new JTextArea();
+		burnTime.setEditable(false);
 		burnTime.setText("s");
-		burnTime.setBounds(380, 333, 70, 21);
+		burnTime.setBounds(218, 395, 70, 21);
 		contentPane.add(burnTime);
 		
 		floodTime = new JTextArea();
+		floodTime.setEditable(false);
 		floodTime.setText("s");
-		floodTime.setBounds(380, 364, 70, 21);
+		floodTime.setBounds(218, 426, 70, 21);
 		contentPane.add(floodTime);
 		
 		lblBurnTime = new JLabel("Burn Time");
-		lblBurnTime.setBounds(300, 337, 70, 15);
+		lblBurnTime.setBounds(138, 399, 70, 15);
 		contentPane.add(lblBurnTime);
 		
 		lblFloodTime = new JLabel("Flood Time");
-		lblFloodTime.setBounds(300, 368, 78, 15);
+		lblFloodTime.setBounds(138, 430, 78, 15);
 		contentPane.add(lblFloodTime);
 		
 		aaFar = new JTextArea();
+		aaFar.setEditable(false);
 		aaFar.setText("km");
 		aaFar.setBounds(542, 83, 70, 21);
 		contentPane.add(aaFar);
 		
 		aaMedium = new JTextArea();
+		aaMedium.setEditable(false);
 		aaMedium.setText("km");
 		aaMedium.setBounds(542, 145, 70, 21);
 		contentPane.add(aaMedium);
 		
 		aaNear = new JTextArea();
+		aaNear.setEditable(false);
 		aaNear.setText("km");
 		aaNear.setBounds(542, 207, 70, 21);
 		contentPane.add(aaNear);
@@ -369,21 +398,25 @@ public class Viewer extends JFrame
 		contentPane.add(lblAaNear);
 		
 		aaFarDPS = new JTextArea();
+		aaFarDPS.setEditable(false);
 		aaFarDPS.setText("dps");
 		aaFarDPS.setBounds(542, 114, 70, 21);
 		contentPane.add(aaFarDPS);
 		
 		aaMediumDPS = new JTextArea();
+		aaMediumDPS.setEditable(false);
 		aaMediumDPS.setText("dps");
 		aaMediumDPS.setBounds(542, 176, 70, 21);
 		contentPane.add(aaMediumDPS);
 		
 		aaNearDPS = new JTextArea();
+		aaNearDPS.setEditable(false);
 		aaNearDPS.setText("dps");
-		aaNearDPS.setBounds(542, 242, 70, 21);
+		aaNearDPS.setBounds(542, 238, 70, 21);
 		contentPane.add(aaNearDPS);
 		
 		stealthFireRange = new JTextArea();
+		stealthFireRange.setEditable(false);
 		stealthFireRange.setText("km");
 		stealthFireRange.setBounds(218, 331, 70, 21);
 		contentPane.add(stealthFireRange);
@@ -393,6 +426,7 @@ public class Viewer extends JFrame
 		contentPane.add(lblStealthFire);
 		
 		mainGunDispersionRange = new JTextArea();
+		mainGunDispersionRange.setEditable(false);
 		mainGunDispersionRange.setText("m");
 		mainGunDispersionRange.setBounds(380, 207, 70, 21);
 		contentPane.add(mainGunDispersionRange);
@@ -400,6 +434,60 @@ public class Viewer extends JFrame
 		lblMgDispersion = new JLabel("MG Disperse");
 		lblMgDispersion.setBounds(300, 211, 80, 15);
 		contentPane.add(lblMgDispersion);
+		
+		AAFireAirDetection = new JTextArea();
+		AAFireAirDetection.setText("km");
+		AAFireAirDetection.setEditable(false);
+		AAFireAirDetection.setBounds(218, 364, 70, 21);
+		contentPane.add(AAFireAirDetection);
+		
+		lblAaFire = new JLabel("AA Fire");
+		lblAaFire.setBounds(138, 368, 70, 15);
+		contentPane.add(lblAaFire);
+		
+		APShellSpeed = new JTextArea();
+		APShellSpeed.setText("m/s");
+		APShellSpeed.setEditable(false);
+		APShellSpeed.setBounds(380, 238, 70, 21);
+		contentPane.add(APShellSpeed);
+		
+		HEShellSpeed = new JTextArea();
+		HEShellSpeed.setText("m/s");
+		HEShellSpeed.setEditable(false);
+		HEShellSpeed.setBounds(380, 269, 70, 21);
+		contentPane.add(HEShellSpeed);
+		
+		lblAPShell = new JLabel("AP Shell");
+		lblAPShell.setBounds(300, 242, 70, 15);
+		contentPane.add(lblAPShell);
+		
+		lblHEShell = new JLabel("HE Shell");
+		lblHEShell.setBounds(300, 273, 70, 15);
+		contentPane.add(lblHEShell);
+		
+		secondaryMaxDist = new JTextArea();
+		secondaryMaxDist.setText("km");
+		secondaryMaxDist.setEditable(false);
+		secondaryMaxDist.setBounds(380, 333, 70, 21);
+		contentPane.add(secondaryMaxDist);
+		
+		lblSecondary = new JLabel("Secondary");
+		lblSecondary.setBounds(300, 335, 68, 15);
+		contentPane.add(lblSecondary);
+		
+		HEShellBurnProb = new JTextArea();
+		HEShellBurnProb.setText("%");
+		HEShellBurnProb.setEditable(false);
+		HEShellBurnProb.setBounds(380, 302, 70, 21);
+		contentPane.add(HEShellBurnProb);
+		
+		chckbxDemoExp = new JCheckBox("Demo Exp");
+		chckbxDemoExp.setBounds(0, 557, 87, 23);
+		contentPane.add(chckbxDemoExp);
+		
+		lblFireProb = new JLabel("Fire Prob");
+		lblFireProb.setBounds(300, 306, 70, 15);
+		contentPane.add(lblFireProb);
 	}
 
 	/**
@@ -432,22 +520,13 @@ public class Viewer extends JFrame
 	 * Sets ship name listener.
 	 * @param al
 	 */
-	public void setShipNameListener(ActionListener al) 
+	public void setShipListener(ActionListener al) 
 	{
 		comboBoxNationList.addActionListener(al);
 		comboBoxShipTypeList.addActionListener(al);
-		comboBoxTierList.addActionListener(al);
-	    comboBoxShipNameList.addActionListener(al);     
+	    //comboBoxShipNameList.addActionListener(al);     
 	}
 	
-	/**
-	 * Sets ship tier listener.
-	 * @param al
-	 */
-	public void setShipTierListener(ActionListener al)
-	{
-		comboBoxTierList.addActionListener(al);
-	}
 	
 	/**
 	 * Returns AFT checkbox.
@@ -485,6 +564,11 @@ public class Viewer extends JFrame
 	public boolean getConcealmentSkill()
 	{
 		return chckbxConcealment.isSelected();
+	}
+	
+	public boolean getDemoExpSkill()
+	{
+		return chckbxDemoExp.isSelected();
 	}
 	
 	/**
@@ -645,6 +729,11 @@ public class Viewer extends JFrame
 		this.stealthFireRange.setText(String.valueOf(stealthFireRange) + " km");
 	}
 	
+	public void setAAFireAirDetection(double AAFireAirRange)
+	{
+		this.AAFireAirDetection.setText(String.valueOf(AAFireAirRange) + " km");
+	}
+	
 	/**
 	 * Sets main gun range to returned main gun range.
 	 * @param MGRange
@@ -684,6 +773,26 @@ public class Viewer extends JFrame
 	public void setMGDispersion(double MGDispersion)
 	{
 		this.mainGunDispersionRange.setText(String.valueOf(MGDispersion) + " m");
+	}
+	
+	public void setAPShellSpeed(double APShellSpeed)
+	{
+		this.APShellSpeed.setText(String.valueOf(APShellSpeed) + " m/s");
+	}
+	
+	public void setHEShellSpeed(double HEShellSpeed)
+	{
+		this.HEShellSpeed.setText(String.valueOf(HEShellSpeed) + " m/s");
+	}
+	
+	public void setHEShellBurnProb(double HEShellBurnProb)
+	{
+		this.HEShellBurnProb.setText(String.valueOf(HEShellBurnProb) + " %");
+	}
+	
+	public void setSecondaryMaxDist(double secondaryMaxDist)
+	{
+		this.secondaryMaxDist.setText(String.valueOf(secondaryMaxDist) + " km");
 	}
 	
 	/**
@@ -784,7 +893,7 @@ public class Viewer extends JFrame
 	{
 		this.burnTime.setText(String.valueOf(burnTime) + " s");
 	}
-	
+		
 	/**
 	 * Sets module box 1 to given list.
 	 * @param aList
@@ -927,7 +1036,7 @@ public class Viewer extends JFrame
 		comboBoxNationList.addItem("Germany");
 		comboBoxNationList.addItem("Japan");
 		comboBoxNationList.addItem("Russia");
-		comboBoxNationList.addItem("Great Britain");
+		comboBoxNationList.addItem("United Kingdom");
 		comboBoxNationList.addItem("Poland");
 		comboBoxNationList.addItem("Pan Asia");
 	}
@@ -942,37 +1051,9 @@ public class Viewer extends JFrame
 		comboBoxShipTypeList.addItem("CV");
 		comboBoxShipTypeList.addItem("Cruiser");
 		comboBoxShipTypeList.addItem("Destroyer");
-		//comboBoxShipTypeList.addItem("Premium");
+		comboBoxShipTypeList.addItem("Premium");
 	}
-	
-	/**
-	 * Sets tier list.
-	 */
-	public void setTierList()
-	{
-		if (!comboBoxShipTypeList.getSelectedItem().equals("Premium"))
-		{
-			comboBoxTierList.removeAllItems();
-			comboBoxTierList.addItem("1");;
-			comboBoxTierList.addItem("2");
-			comboBoxTierList.addItem("3");
-			comboBoxTierList.addItem("4");
-			comboBoxTierList.addItem("5");
-			comboBoxTierList.addItem("6");
-			comboBoxTierList.addItem("7");
-			comboBoxTierList.addItem("8");
-			comboBoxTierList.addItem("9");
-			comboBoxTierList.addItem("10");
-		}
-		else if (comboBoxShipTypeList.getSelectedItem().equals("Premium"))
-		{
-			comboBoxTierList.removeAllItems();
-			comboBoxTierList.addItem("4");
-			comboBoxTierList.addItem("5");
-
-		}
-	}
-
+		
 	public JComboBox<String> getNationListComboBox() 
 	{
 		return comboBoxNationList;
@@ -988,324 +1069,257 @@ public class Viewer extends JFrame
 		return comboBoxShipNameList;
 	}
 	
-	public JComboBox<String> getTierListComboBox() 
-	{
-		return comboBoxTierList;
-	}	
-
-	public void setUSABattleshipList(String tier) 
+	public void setUSABattleshipList() 
 	{
 		comboBoxShipNameList.removeAllItems();
 		
-		switch (tier)
-		{
-		case "3": comboBoxShipNameList.addItem("South Carolina");
-			break;
-		case "4": comboBoxShipNameList.addItem("Wyoming");
-			break;
-		case "5": comboBoxShipNameList.addItem("New York");	
-			break;
-		case "6": comboBoxShipNameList.addItem("New Mexico");	
-			break;			
-		case "7": comboBoxShipNameList.addItem("Colorado");	
-			break;
-		case "8": comboBoxShipNameList.addItem("North Carolina");	
-			break;
-		case "9": comboBoxShipNameList.addItem("Iowa");	
-			break;
-		case "10": comboBoxShipNameList.addItem("Montana");	
-			break;			
-		default: comboBoxShipNameList.addItem("None");
-			break;
-		}	
+		comboBoxShipNameList.addItem("South Carolina");
+		comboBoxShipNameList.addItem("Wyoming");
+		comboBoxShipNameList.addItem("New York");	
+		comboBoxShipNameList.addItem("New Mexico");	
+		comboBoxShipNameList.addItem("Colorado");	
+		comboBoxShipNameList.addItem("North Carolina");	
+		comboBoxShipNameList.addItem("Iowa");	
+		comboBoxShipNameList.addItem("Montana");
 	}
 	
-	public void setUSACVList(String tier)
+	public void setUSACVList()
 	{
 		comboBoxShipNameList.removeAllItems();
 		
-		switch (tier)
-		{
-		case "4": comboBoxShipNameList.addItem("Langley");
-			break;
-		case "5": comboBoxShipNameList.addItem("Bogue");
-			break;
-		case "6": comboBoxShipNameList.addItem("Independence");
-			break;
-		case "7": comboBoxShipNameList.addItem("Ranger");
-			break;
-		case "8": comboBoxShipNameList.addItem("Lexington");
-			break;
-		case "9": comboBoxShipNameList.addItem("Essex");
-			break;
-		case "10": comboBoxShipNameList.addItem("Midway");
-			break;
-		default: comboBoxShipNameList.addItem("None");
-			break;
-		}
+		comboBoxShipNameList.addItem("Langley");
+		comboBoxShipNameList.addItem("Bogue");
+		comboBoxShipNameList.addItem("Independence");
+		comboBoxShipNameList.addItem("Ranger");
+		comboBoxShipNameList.addItem("Lexington");
+		comboBoxShipNameList.addItem("Essex");
+		comboBoxShipNameList.addItem("Midway");
 	}
 	
-	public void setUSADestroyerList(String tier)
+	public void setUSADestroyerList()
 	{
 		comboBoxShipNameList.removeAllItems();
 		
-		switch (tier)
-		{
-		case "2": comboBoxShipNameList.addItem("Sampson");
-			break;
-		case "3": comboBoxShipNameList.addItem("Wickes");
-			break;
-		case "4": comboBoxShipNameList.addItem("Clemson");
-			break;
-		case "5": comboBoxShipNameList.addItem("Nicholas");
-			break;
-		case "6": comboBoxShipNameList.addItem("Farragut");
-			break;
-		case "7": comboBoxShipNameList.addItem("Mahan");
-			break;
-		case "8": comboBoxShipNameList.addItem("Benson");
-			break;
-		case "9": comboBoxShipNameList.addItem("Fletcher");
-			break;
-		case "10": comboBoxShipNameList.addItem("Gearing");
-			break;
-		default: comboBoxShipNameList.addItem("None");
-			break;
-
-		}
+		comboBoxShipNameList.addItem("Sampson");
+		comboBoxShipNameList.addItem("Wickes");
+		comboBoxShipNameList.addItem("Clemson");
+		comboBoxShipNameList.addItem("Nicholas");
+		comboBoxShipNameList.addItem("Farragut");
+		comboBoxShipNameList.addItem("Mahan");
+		comboBoxShipNameList.addItem("Benson");
+		comboBoxShipNameList.addItem("Fletcher");
+		comboBoxShipNameList.addItem("Gearing");
 	}
 	
-	public void setUSACruiserList(String tier)
+	public void setUSACruiserList()
 	{
 		comboBoxShipNameList.removeAllItems();
 		
-		switch (tier)
-		{
-		case "1": comboBoxShipNameList.addItem("Erie");
-			break;
-		case "2": comboBoxShipNameList.addItem("Chester");
-			break;
-		case "3": comboBoxShipNameList.addItem("St_Louis");
-			break;
-		case "4": comboBoxShipNameList.addItem("Phoenix");
-			break;
-		case "5": comboBoxShipNameList.addItem("Omaha");
-			break;
-		case "6": comboBoxShipNameList.addItem("Cleveland");
-			break;
-		case "7": comboBoxShipNameList.addItem("Pensacola");
-			break;
-		case "8": comboBoxShipNameList.addItem("New Orlean");
-			break;
-		case "9": comboBoxShipNameList.addItem("Baltimore");
-			break;
-		case "10": comboBoxShipNameList.addItem("Des Moines");
-			break;
-		default: comboBoxShipNameList.addItem("None");
-			break;
-		}
-	}
-
-	public void setJapanBattleshipList(String tier)
-	{
-		comboBoxShipNameList.removeAllItems();
-		
-		switch (tier)
-		{
-		case "3": comboBoxShipNameList.addItem("Kawachi");
-			break;
-		case "4": comboBoxShipNameList.addItem("Myogi");
-			break;
-		case "5": comboBoxShipNameList.addItem("Kongo");
-			break;
-		case "6": comboBoxShipNameList.addItem("Fuso");
-			break;
-		case "7": comboBoxShipNameList.addItem("Nagato");
-			break;
-		case "8": comboBoxShipNameList.addItem("Amagi");
-			break;
-		case "9": comboBoxShipNameList.addItem("Izumo");
-			break;
-		case "10": comboBoxShipNameList.addItem("Yamato");
-			break;
-		default: comboBoxShipNameList.addItem("None");
-			break;
-		}
+		comboBoxShipNameList.addItem("Erie");
+		comboBoxShipNameList.addItem("Chester");
+		comboBoxShipNameList.addItem("St_Louis");
+		comboBoxShipNameList.addItem("Phoenix");
+		comboBoxShipNameList.addItem("Omaha");
+		comboBoxShipNameList.addItem("Cleveland");
+		comboBoxShipNameList.addItem("Pensacola");
+		comboBoxShipNameList.addItem("New Orlean");
+		comboBoxShipNameList.addItem("Baltimore");
+		comboBoxShipNameList.addItem("Des Moines");
 	}
 	
-	public void setJapanCVList(String tier)
+	public void setUSAPremiumList()
 	{
 		comboBoxShipNameList.removeAllItems();
 		
-		switch (tier)
-		{		
-		case "4": comboBoxShipNameList.addItem("Hosho");
-			break;
-		case "5": comboBoxShipNameList.addItem("Zuiho");
-			break;
-		case "6": comboBoxShipNameList.addItem("Ryujo");
-			break;
-		case "7": comboBoxShipNameList.addItem("Hiryu");
-			break;
-		case "8": comboBoxShipNameList.addItem("Zuikaku");
-			break;
-		case "9": comboBoxShipNameList.addItem("Taiho");
-			break;
-		case "10": comboBoxShipNameList.addItem("Hakuryu");
-			break;
-		default: comboBoxShipNameList.addItem("None");
-			break;
-		}
+		comboBoxShipNameList.addItem("Smith");
+		comboBoxShipNameList.addItem("Sims");
+		
+		comboBoxShipNameList.addItem("Albany");
+		comboBoxShipNameList.addItem("Marblehead");
+		comboBoxShipNameList.addItem("Atlanta");
+		comboBoxShipNameList.addItem("Indianapolis");
+		
+		comboBoxShipNameList.addItem("Arkansas");
+		comboBoxShipNameList.addItem("Texas");
+		
+		comboBoxShipNameList.addItem("Saipan");
 	}
 
-	public void setJapanDestroyerList(String tier)
+	public void setJapanBattleshipList()
 	{
 		comboBoxShipNameList.removeAllItems();
 		
-		switch (tier)
-		{
-		case "2": comboBoxShipNameList.addItem("Umikaze");
-			break;
-		case "3": comboBoxShipNameList.addItem("Wakatake");
-			break;
-		case "4": comboBoxShipNameList.addItem("Isokaze");
-			break;
-		case "5": comboBoxShipNameList.addItem("Minekaze");
-			break;
-		case "6": comboBoxShipNameList.addItem("Mutsuki");
-			break;
-		case "7": comboBoxShipNameList.addItem("Hatsuharu");
-			break;
-		case "8": comboBoxShipNameList.addItem("Fubuki");
-			break;
-		case "9": comboBoxShipNameList.addItem("Kagero");
-			break;
-		case "10": comboBoxShipNameList.addItem("Shimakaze");
-			break;
-		default: comboBoxShipNameList.addItem("None");
-			break;
-		}
+		comboBoxShipNameList.addItem("Kawachi");
+		comboBoxShipNameList.addItem("Myogi");
+		comboBoxShipNameList.addItem("Kongo");
+		comboBoxShipNameList.addItem("Fuso");
+		comboBoxShipNameList.addItem("Nagato");
+		comboBoxShipNameList.addItem("Amagi");
+		comboBoxShipNameList.addItem("Izumo");
+		comboBoxShipNameList.addItem("Yamato");
 	}
-
-	public void setJapanCruiserList(String tier)
+	
+	public void setJapanCVList()
 	{
 		comboBoxShipNameList.removeAllItems();
 		
-		switch (tier)
-		{
-		case "1": comboBoxShipNameList.addItem("Hashidate");
-			break;
-		case "2": comboBoxShipNameList.addItem("Chikuma");
-			break;
-		case "3": comboBoxShipNameList.addItem("Tenryu");
-			break;
-		case "4": comboBoxShipNameList.addItem("Kuma");
-			break;
-		case "5": comboBoxShipNameList.addItem("Furutaka");
-			break;
-		case "6": comboBoxShipNameList.addItem("Aoba");
-			break;
-		case "7": comboBoxShipNameList.addItem("Myoko");
-			break;
-		case "8": comboBoxShipNameList.addItem("Mogami");
-			break;
-		case "9": comboBoxShipNameList.addItem("Ibuki");
-			break;
-		case "10": comboBoxShipNameList.addItem("Zao");
-			break;
-		default: comboBoxShipNameList.addItem("None");
-			break;
-		}
+		comboBoxShipNameList.addItem("Hosho");
+		comboBoxShipNameList.addItem("Zuiho");
+		comboBoxShipNameList.addItem("Ryujo");
+		comboBoxShipNameList.addItem("Hiryu");
+		comboBoxShipNameList.addItem("Zuikaku");
+		comboBoxShipNameList.addItem("Taiho");
+		comboBoxShipNameList.addItem("Hakuryu");
 	}
 
-	public void setRussiaDestroyerList(String tier)
+	public void setJapanDestroyerList()
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		comboBoxShipNameList.addItem("Umikaze");
+		comboBoxShipNameList.addItem("Wakatake");
+		comboBoxShipNameList.addItem("Isokaze");
+		comboBoxShipNameList.addItem("Minekaze");
+		comboBoxShipNameList.addItem("Mutsuki");
+		comboBoxShipNameList.addItem("Hatsuharu");
+		comboBoxShipNameList.addItem("Fubuki");
+		comboBoxShipNameList.addItem("Kagero");
+		comboBoxShipNameList.addItem("Shimakaze");
+	}
+
+	public void setJapanCruiserList()
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		comboBoxShipNameList.addItem("Hashidate");
+		comboBoxShipNameList.addItem("Chikuma");
+		comboBoxShipNameList.addItem("Tenryu");
+		comboBoxShipNameList.addItem("Kuma");
+		comboBoxShipNameList.addItem("Furutaka");
+		comboBoxShipNameList.addItem("Aoba");
+		comboBoxShipNameList.addItem("Myoko");
+		comboBoxShipNameList.addItem("Mogami");
+		comboBoxShipNameList.addItem("Ibuki");
+		comboBoxShipNameList.addItem("Zao");
+	}
+	
+	public void setJapanPremiumList()
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		comboBoxShipNameList.addItem("Tachibana");
+		//comboBoxShipNameList.addItem("Fujin");
+		comboBoxShipNameList.addItem("Kamikaze");
+		
+		comboBoxShipNameList.addItem("Katori");
+		comboBoxShipNameList.addItem("Iwaki");
+		comboBoxShipNameList.addItem("Yubari");
+		comboBoxShipNameList.addItem("Tone");
+		comboBoxShipNameList.addItem("Atago");
+		
+		comboBoxShipNameList.addItem("Mikasa");
+		comboBoxShipNameList.addItem("Ishizuchi");
+	}
+
+	public void setRussiaDestroyerList()
 	{		
 		comboBoxShipNameList.removeAllItems();
-	
-		switch (tier)
-		{
-		case "2": comboBoxShipNameList.addItem("Storojevoy");
-			break;
-		case "3": comboBoxShipNameList.addItem("Derzky");
-			break;
-		case "4": comboBoxShipNameList.addItem("Izyaslav");
-			break;
-		case "5": comboBoxShipNameList.addItem("Gnevny");
-			break;
-		case "6": comboBoxShipNameList.addItem("Ognevoy");
-			break;
-		case "7": comboBoxShipNameList.addItem("Kiev");
-			break;
-		case "8": comboBoxShipNameList.addItem("Tashkent");
-			break;
-		case "9": comboBoxShipNameList.addItem("Udaloy");
-			break;
-		case "10": comboBoxShipNameList.addItem("Khabarovsk");
-			break;
-		default: comboBoxShipNameList.addItem("None");
-			break;
-		}
+		
+		comboBoxShipNameList.addItem("Storojevoy");
+		comboBoxShipNameList.addItem("Derzky");
+		comboBoxShipNameList.addItem("Izyaslav");
+		comboBoxShipNameList.addItem("Gnevny");
+		comboBoxShipNameList.addItem("Ognevoy");
+		comboBoxShipNameList.addItem("Kiev");
+		comboBoxShipNameList.addItem("Tashkent");
+		comboBoxShipNameList.addItem("Udaloy");
+		comboBoxShipNameList.addItem("Khabarovsk");
 	}
 	
-	public void setRussiaCruiserList(String tier)
+	public void setRussiaCruiserList()
 	{
 		comboBoxShipNameList.removeAllItems();
 		
-		switch (tier)
-		{
-		case "1": comboBoxShipNameList.addItem("Orlan");
-			break;
-		case "2": comboBoxShipNameList.addItem("Novik");
-			break;
-		case "3": comboBoxShipNameList.addItem("Bogatyr");
-			break;
-		case "4": comboBoxShipNameList.addItem("Svetlana");
-			break;
-		case "5": comboBoxShipNameList.addItem("Kirov");
-			break;
-		case "6": comboBoxShipNameList.addItem("Budeny");
-			break;
-		case "7": comboBoxShipNameList.addItem("Shchors");
-			break;
-		case "8": comboBoxShipNameList.addItem("Chapaev");
-			break;
-		case "9": comboBoxShipNameList.addItem("Dmitry Donskoy");
-			break;
-		case "10": comboBoxShipNameList.addItem("Moskva");
-			break;
-		default: comboBoxShipNameList.addItem("None");
-			break;
-		}
+		comboBoxShipNameList.addItem("Orlan");
+		comboBoxShipNameList.addItem("Novik");
+		comboBoxShipNameList.addItem("Bogatyr");
+		comboBoxShipNameList.addItem("Svetlana");
+		comboBoxShipNameList.addItem("Kirov");
+		comboBoxShipNameList.addItem("Budeny");
+		comboBoxShipNameList.addItem("Shchors");
+		comboBoxShipNameList.addItem("Chapaev");
+		comboBoxShipNameList.addItem("Dmitry Donskoy");
+		comboBoxShipNameList.addItem("Moskva");
 	}
 	
-	public void setGermanyCruiserList(String tier)
+	public void setRussiaPremiumList()
 	{
 		comboBoxShipNameList.removeAllItems();
 		
-		switch (tier)
-		{
-		case "1": comboBoxShipNameList.addItem("Hermelin");
-			break;
-		case "2": comboBoxShipNameList.addItem("Drezden");
-			break;
-		case "3": comboBoxShipNameList.addItem("Kolberg");
-			break;
-		case "4": comboBoxShipNameList.addItem("Karlsruhe");
-			break;
-		case "5": comboBoxShipNameList.addItem("Konigsberg");
-			break;
-		case "6": comboBoxShipNameList.addItem("Nurnberg");
-			break;
-		case "7": comboBoxShipNameList.addItem("Yorck");
-			break;
-		case "8": comboBoxShipNameList.addItem("Hipper");
-			break;
-		case "9": comboBoxShipNameList.addItem("Roon");
-			break;
-		case "10": comboBoxShipNameList.addItem("Hindenburg");
-			break;
-		default: comboBoxShipNameList.addItem("None");
-			break;
-		}
+		comboBoxShipNameList.addItem("Gremyashchy");
+		
+		comboBoxShipNameList.addItem("Diana");
+		comboBoxShipNameList.addItem("Aurora");
+		comboBoxShipNameList.addItem("Murmansk");
+		comboBoxShipNameList.addItem("Molotov");
+		comboBoxShipNameList.addItem("Kutuzov");
+		
+		comboBoxShipNameList.addItem("Nikolay");
+	}
+	
+	public void setGermanyCruiserList()
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		comboBoxShipNameList.addItem("Hermelin");
+		comboBoxShipNameList.addItem("Drezden");
+		comboBoxShipNameList.addItem("Kolberg");
+		comboBoxShipNameList.addItem("Karlsruhe");
+		comboBoxShipNameList.addItem("Konigsberg");
+		comboBoxShipNameList.addItem("Nurnberg");
+		comboBoxShipNameList.addItem("Yorck");
+		comboBoxShipNameList.addItem("Hipper");
+		comboBoxShipNameList.addItem("Roon");
+		comboBoxShipNameList.addItem("Hindenburg");
+	}
+	
+	public void setGermanyPremiumList()
+	{
+		comboBoxShipNameList.removeAllItems();		
+		
+		comboBoxShipNameList.addItem("Emden");
+		
+		comboBoxShipNameList.addItem("Tirpitz");
+	}
+	
+	public void setPanAsiaPremiumList()
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		comboBoxShipNameList.addItem("Anshan");
+		comboBoxShipNameList.addItem("LoYang");
+	}
+	
+	public void setUKPremiumList()
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		comboBoxShipNameList.addItem("Campbeltown");
+		
+		comboBoxShipNameList.addItem("Warspite");
+	}
+	
+	public void setPolandPremiumList()
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		comboBoxShipNameList.addItem("Blyskawica");
+	}
+	
+	public void setNoneList()
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		comboBoxShipNameList.addItem("None");
 	}
 }
