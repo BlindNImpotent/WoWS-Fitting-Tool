@@ -35,7 +35,8 @@ public class Calculator
 	 * @throws ParseException
 	 */
 	public Calc calculate(
-			String aShip, String mod1, String mod2, String mod3, String mod4, String mod5, String mod6,
+			String aShip, String turret, String hull, String engine, String radar, String torpedo,
+			String mod1, String mod2, String mod3, String mod4, String mod5, String mod6,
 			boolean BFT, boolean BoS,
 			boolean EM, boolean TAE,
 			boolean TA,
@@ -44,7 +45,7 @@ public class Calculator
 			boolean concealCamo
 			) throws FileNotFoundException, IOException, ParseException
 	{
-		calc = new Calc(aShip);
+		calc = upgrades(aShip, turret, hull, engine,radar, torpedo);
 		
 		if (calc.getModule1() != null)
 		{
@@ -390,18 +391,15 @@ public class Calculator
 		return calc;
 	}
 	
-
-	/**
-	 * Searches for ship name and returns Calc class
-	 * @param aShip Ship name
-	 * @return calc Calc class
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 * @throws ParseException
-	 */
 	public Calc search(String aShip) throws FileNotFoundException, IOException, ParseException 
 	{		
 		calc = new Calc(aShip);
+		return calc;
+	}
+	
+	public Calc upgrades(String aShip, String turret, String hull, String engine, String radar, String torpedo) throws FileNotFoundException, IOException, ParseException
+	{
+		calc = new Calc(aShip, turret, hull, engine, radar, torpedo);
 		return calc;
 	}
 }

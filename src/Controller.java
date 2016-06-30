@@ -22,6 +22,7 @@ public class Controller
 		view = new Viewer();
 		view.setVisible(true);		
 		view.setSearchListener(SearchListener);
+		//view.setUpgradesListener(UpgradeListener);
 		view.setCalculateListener(CalculateListener);
 		
 		view.setNationList();
@@ -39,19 +40,14 @@ public class Controller
 			Calc answer = null;
 			try 
 			{					
-				if (view.getShipName().equals(""))
-				{
-					answer = model.search(view.getShipNameListComboBox().getSelectedItem().toString());
-				}
-				else if (view.getShipName() != null)
-				{
-					answer = model.search(view.getShipName());
-				}
+				answer = model.search(view.getShipNameListComboBox().getSelectedItem().toString());
+
 			} 
 			catch (IOException | ParseException e) 
 			{			
 				e.printStackTrace();
 			}
+			/**
 			view.setTier(answer.getTier());
 			view.setNation(answer.getNation());
 			view.setShipType(answer.getShipType());
@@ -69,7 +65,9 @@ public class Controller
 			view.setMGTime(answer.getMainGunRotationTime());
 			view.setMGDispersion(answer.getMainGunDispersionRange());
 			view.setAPShellSpeed(answer.getAPShellSpeed());
+			view.setAPShellDMG(answer.getAPShellDMG());
 			view.setHEShellSpeed(answer.getHEShellSpeed());
+			view.setHEShellDMG(answer.getHEShellDMG());
 			view.setHEShellBurnProb(answer.getHEShellBurnProb());
 
 			view.setSecondaryMaxDist(answer.getSecondaryMaxDist());
@@ -88,13 +86,19 @@ public class Controller
 			view.setAAFarDPS(answer.getAAFarDPS());
 			view.setAAMediumDPS(answer.getAAMediumDPS());
 			view.setAANearDPS(answer.getAANearDPS());
-			
+			*/
 			view.setModuleBox1(answer.getModule1());
 			view.setModuleBox2(answer.getModule2());
 			view.setModuleBox3(answer.getModule3());
 			view.setModuleBox4(answer.getModule4());
 			view.setModuleBox5(answer.getModule5());
 			view.setModuleBox6(answer.getModule6());
+			view.setTurretBox(answer.getTurretList());
+			view.setHullBox(answer.getHullList());
+			view.setEngineBox(answer.getEngineList());
+			view.setRadarBox(answer.getRadarList());
+			view.setTorpedoBox(answer.getTorpedoList());
+			
 		}		
 	};
 
@@ -187,6 +191,67 @@ public class Controller
 	};
 	
 	/**
+	ActionListener UpgradeListener = new ActionListener()
+	{
+		public void actionPerformed(ActionEvent ae)
+		{
+			Calc answer = null;
+			String turret = view.getTurretBox();
+			String hull = view.getHullBox();
+			String engine = view.getEngineBox();
+			String radar = view.getRadarBox();
+			String torpedo = view.getTorpedoBox();
+			
+			try 
+			{
+				answer = model.upgrades(view.getShipNameListComboBox().getSelectedItem().toString(), turret, hull, engine, radar, torpedo);
+			} catch (IOException | ParseException e) 
+			{
+				e.printStackTrace();
+			}
+			view.setTier(answer.getTier());
+			view.setNation(answer.getNation());
+			view.setShipType(answer.getShipType());
+			view.setHealth(answer.getHealth());
+			view.setSpeed(answer.getSpeed());
+			view.setRudderShift(answer.getRudderShift());
+			view.setSConceal(answer.getSConceal());
+			view.setAConceal(answer.getAConceal());
+			view.setStealthFireRange(answer.getSConceal() + answer.getStealthFireSurfaceDetection());
+			view.setAAFireAirDetection(answer.getAConceal() + answer.getAAFireAirDetection());
+			
+			view.setMGRange(answer.getMaxMainGunRange());
+			view.setMGReload(answer.getMainGunReload());
+			view.setMGDegs(answer.getMainGunRotation());
+			view.setMGTime(answer.getMainGunRotationTime());
+			view.setMGDispersion(answer.getMainGunDispersionRange());
+			view.setAPShellSpeed(answer.getAPShellSpeed());
+			view.setAPShellDMG(answer.getAPShellDMG());
+			view.setHEShellSpeed(answer.getHEShellSpeed());
+			view.setHEShellDMG(answer.getHEShellDMG());
+			view.setHEShellBurnProb(answer.getHEShellBurnProb());
+
+			view.setSecondaryMaxDist(answer.getSecondaryMaxDist());
+			
+			view.setTorpRange(answer.getMaxTorpedoRange());
+			view.setTorpReload(answer.getTorpedoReload());
+			view.setTorpSpeed(answer.getTorpedoSpeed());
+			
+			view.setFloodTime(answer.getFloodTime());
+			view.setBurnTime(answer.getBurnTime());
+			
+			view.setAARangeFar(answer.getAntiAirAuraDistanceFar());
+			view.setAARangeMedium(answer.getAntiAirAuraDistanceMedium());
+			view.setAARangeNear(answer.getAntiAirAuraDistanceNear());			
+			
+			view.setAAFarDPS(answer.getAAFarDPS());
+			view.setAAMediumDPS(answer.getAAMediumDPS());
+			view.setAANearDPS(answer.getAANearDPS());			
+		}
+	};
+	*/
+	
+	/**
 	 * Listens for Calculate button then calculates ship stats.
 	 */
 	ActionListener CalculateListener = new ActionListener()
@@ -194,6 +259,12 @@ public class Controller
 		public void actionPerformed(ActionEvent ae)
 		{
 			Calc answer = null;
+			String aShip = view.getShipNameListComboBox().getSelectedItem().toString();
+			String turret = view.getTurretBox();
+			String hull = view.getHullBox();
+			String engine = view.getEngineBox();
+			String radar = view.getRadarBox();
+			String torpedo = view.getTorpedoBox();
 			String mod1 = view.getModuleBox1();
 			String mod2 = view.getModuleBox2();
 			String mod3 = view.getModuleBox3();
@@ -213,9 +284,8 @@ public class Controller
 
 			try 
 			{
-				if (view.getShipName().equals(""))
-				{
-					answer = model.calculate(view.getShipNameListComboBox().getSelectedItem().toString(), 
+					answer = model.calculate(
+							aShip, turret, hull, engine,radar, torpedo, 
 							mod1, mod2, mod3, mod4, mod5, mod6,
 							BFT, BoS,
 							EM, TAE,
@@ -223,25 +293,15 @@ public class Controller
 							DE, AFT, survivability,
 							conceal,							  
 							concealCamo
-							);				
-				}
-				else if (view.getShipName() != null)
-				{
-					answer = model.calculate(view.getShipName(), 
-							mod1, mod2, mod3, mod4, mod5, mod6,
-							BFT, BoS,
-							EM, TAE,
-							TA,
-							DE, AFT, survivability,
-							conceal,							  
-							concealCamo
-							);				
-					}				
+							);								
 			} 
 			catch (IOException | ParseException e) 
 			{			
 				e.printStackTrace();
 			}
+			view.setTier(answer.getTier());
+			view.setNation(answer.getNation());
+			view.setShipType(answer.getShipType());
 			view.setHealth(answer.getHealth());
 			view.setSpeed(answer.getSpeed());
 			view.setRudderShift(answer.getRudderShift());
@@ -255,25 +315,28 @@ public class Controller
 			view.setMGDegs(answer.getMainGunRotation());
 			view.setMGTime(answer.getMainGunRotationTime());
 			view.setMGDispersion(answer.getMainGunDispersionRange());
-			
+			view.setAPShellSpeed(answer.getAPShellSpeed());
+			view.setAPShellDMG(answer.getAPShellDMG());
+			view.setHEShellSpeed(answer.getHEShellSpeed());
+			view.setHEShellDMG(answer.getHEShellDMG());
 			view.setHEShellBurnProb(answer.getHEShellBurnProb());
-			
+
 			view.setSecondaryMaxDist(answer.getSecondaryMaxDist());
-			
-			view.setFloodTime(answer.getFloodTime());
-			view.setBurnTime(answer.getBurnTime());
 			
 			view.setTorpRange(answer.getMaxTorpedoRange());
 			view.setTorpReload(answer.getTorpedoReload());
 			view.setTorpSpeed(answer.getTorpedoSpeed());
 			
+			view.setFloodTime(answer.getFloodTime());
+			view.setBurnTime(answer.getBurnTime());
+			
 			view.setAARangeFar(answer.getAntiAirAuraDistanceFar());
 			view.setAARangeMedium(answer.getAntiAirAuraDistanceMedium());
-			view.setAARangeNear(answer.getAntiAirAuraDistanceNear());	
-
+			view.setAARangeNear(answer.getAntiAirAuraDistanceNear());			
+			
 			view.setAAFarDPS(answer.getAAFarDPS());
 			view.setAAMediumDPS(answer.getAAMediumDPS());
-			view.setAANearDPS(answer.getAANearDPS());
+			view.setAANearDPS(answer.getAANearDPS());	
 		}		
 	};
 	

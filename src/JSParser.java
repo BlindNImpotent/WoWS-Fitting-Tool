@@ -55,7 +55,9 @@ public class JSParser
 	private double mainGunReload;
 	private double mainGunDispersionTangent;	
 	private double APShellSpeed;
+	private double APShellDMG;
 	private double HEShellSpeed;
+	private double HEShellDMG;
 	private double HEShellBurnProb;
 	
 	private double secondaryMaxDist;
@@ -76,6 +78,7 @@ public class JSParser
 	private double burnTime;
 	private double floodTime;
 	private long EngineAutoRepairTime;
+	private double speedCoef;
 	
 	private double MainTurretHP;
 	private double MainTurretAutoRepairTime;
@@ -90,7 +93,16 @@ public class JSParser
 	private double AAFarDPS;
 	private double AAMediumDPS;
 	private double AANearDPS;
-		
+	
+	private List<String> turretList = new ArrayList<String>(); 
+	private List<String> torpedoList = new ArrayList<String>();
+	private List<String> radarList = new ArrayList<String>();
+	private List<String> engineList = new ArrayList<String>(); 
+	private List<String> hullList = new ArrayList<String>(); 
+	
+	private JSONObject tobj2;
+	private JSONObject tobj;
+	
 	/**
 	 * Parses data from GameParams.json
 	 * @param aShip Ship name
@@ -158,10 +170,13 @@ public class JSParser
 		shipType = (String) type.get("species");	
 		
 		setTurretStats();
-		setEngineStats();
 		setHullStats();
+		setEngineStats();
+		setRadarStats();
 		setTorpedoStats();
+		
 		setModuleUpgradeList();		
+		
 		setCrewList();
 		setFlagList();
 	}
@@ -345,6 +360,32 @@ public class JSParser
 		return flagList;
 	}
 	
+	public List<String> getTurretList()
+	{
+		return turretList;
+	}
+	
+	public List<String> getHullList()
+	{
+		return hullList;
+	}
+	
+	public List<String> getEngineList()
+	{
+		return engineList;
+	}
+	
+	public List<String> getRadarList()
+	{
+		return radarList;
+	}
+	
+	public List<String> getTorpedoList()
+	{	
+		return torpedoList;
+	}
+	
+	
 	/**
 	 * Returns tier of ship.
 	 * @return tier Tier of ship
@@ -444,6 +485,11 @@ public class JSParser
 		return APShellSpeed;
 	}
 	
+	public double getAPShellDMG()
+	{
+		return APShellDMG;
+	}
+	
 	/**
 	 * Returns HE shell speed.
 	 * @return HEShellSpeed HE shell speed
@@ -451,6 +497,11 @@ public class JSParser
 	public double getHEShellSpeed()
 	{
 		return HEShellSpeed;
+	}
+	
+	public double getHEShellDMG()
+	{
+		return HEShellDMG;
 	}
 	
 	/**
@@ -689,6 +740,11 @@ public class JSParser
 		return AAFireAirDetection;
 	}
 	
+	public double getMaxDistCoef()
+	{
+		return maxDistCoef;
+	}	
+	
 	/**
 	 * Returns list of module slot 1.
 	 * @return modSlot1 List of module slot 1
@@ -755,50 +811,47 @@ public class JSParser
 	/**
 	 * Sets turret related stats.
 	 */
-	@SuppressWarnings("unchecked")
 	private void setTurretStats()
 	{		
-		List<String> turret = new ArrayList<String>(); 
-		
-		//Adds upgrades with specific (eg. PAUA) substring to turret list.
 		for (String string : shipUpgradeList()) 
 	    {
 			if(string.matches("(?i)(P).*(UA).*"))
 	        {
-				turret.add(string);
+				turretList.add(string);
 	        }
 	    }
-		
-		/**
-		//If turret size is 0, ends method.
-		if (turret.size() == 0)
+		Collections.sort(turretList);
+	}
+
+	public void setTurretStats2(String aTurret)
+	{	
+		if (aTurret == null)
 		{
 			return;
 		}
-		*/
 		
-		Collections.sort(turret);
 		
 		Map<String, JSONObject> turret1 = new HashMap<>();
 		
-		//Adds JSONObject of each turret upgrade to HashMap.
-		for(int i = 0; i < turret.size(); i++)
+		for(int i = 0; i < turretList.size(); i++)
 		{
-			turret1.put(turret.get(i), (JSONObject) upgrade.get(turret.get(i)));			
+			turret1.put(turretList.get(i), (JSONObject) upgrade.get(turretList.get(i)));			
 		}
 		
 		JSONArray turret2 = null;
 		JSONObject turret3 = null;
-		JSONObject tobj = null;
-		JSONObject tobj2 = null;
 		JSONArray tobj3 = null;
 		
-		//Sets "components" JSONObject to turret3.
-		if (turret.size() != 0)
+		if (turretList.size() != 0)
 		{
-			turret3 = (JSONObject) turret1.get(turret.get(turret.size()-1)).get("components");
-			//Sets "artillery" JSONArray to turret2.
-			turret2 = (JSONArray) turret3.get("artillery");
+			for (int i = 0; i < turret1.size(); i++)
+			{
+				if (turretList.get(i).toString().contains(aTurret))
+				{
+					turret3 = (JSONObject) turret1.get(turretList.get(i)).get("components");
+					turret2 = (JSONArray) turret3.get("artillery");
+				}
+			}			
 			
 			tobj = (JSONObject) shipJSON.get(turret2.get(0));
 			
@@ -831,6 +884,8 @@ public class JSParser
 				tobj2 = (JSONObject) tobj.get("HP_BGM_1");
 			}
 			
+			maxMainGunRange = (double) tobj.get("maxDist") * maxDistCoef;
+			
 			barrelDiameter = (double) tobj2.get("barrelDiameter");
 			
 			JSONArray ammoList = (JSONArray) tobj2.get("ammoList");
@@ -852,10 +907,14 @@ public class JSParser
 				{
 					HEShell = (JSONObject) GameParams.get(ammoList.get(i));
 				}
-			}			
+			}
+			
+			
 			
 			APShellSpeed = (double) APShell.get("bulletSpeed");
+			APShellDMG = (double) APShell.get("alphaDamage");
 			HEShellSpeed = (double) HEShell.get("bulletSpeed");
+			HEShellDMG = (double) HEShell.get("alphaDamage");
 			HEShellBurnProb = (double) HEShell.get("burnProb");
 			
 			tobj3 = (JSONArray) tobj2.get("rotationSpeed");
@@ -876,6 +935,79 @@ public class JSParser
 			}
 		}
 		
+		if (tobj2 != null)
+		{
+			JSONObject HitLocationArtillery = (JSONObject) tobj2.get("HitLocationArtillery");
+			MainTurretHP = (double) HitLocationArtillery.get("maxHP");
+			MainTurretAutoRepairTime = (long) HitLocationArtillery.get("autoRepairTime");
+		}		
+	}
+	
+	private void setHullStats()
+	{		
+		for (String string : shipUpgradeList()) 
+	    {
+			if(string.matches("(?i)(P).*(UH).*"))
+			{				
+				hullList.add(string);
+			}
+	    }
+		Collections.sort(hullList);
+	}	
+	
+	public void setHullStats2(String aHull)
+	{
+		Map<String, JSONObject> hull1 = new HashMap<>();
+		int position = 0;		
+		
+		for(int i = 0; i < hullList.size(); i++)
+		{
+			hull1.put(hullList.get(i), (JSONObject) upgrade.get(hullList.get(i)));			
+		}		
+
+		JSONArray hull2 = null;
+		JSONObject hull3;
+		
+		for (int i = 0; i < hull1.size(); i++)
+		{
+			if (hullList.get(i).toString().contains(aHull))
+			{
+				hull3 = (JSONObject) hull1.get(hullList.get(i)).get("components");
+				hull2 = (JSONArray) hull3.get("hull");
+				position = i;
+			}
+		}		
+		
+		JSONObject hpobj;
+		hpobj = (JSONObject) shipJSON.get(hull2.get(0));
+		maxHP = (double) hpobj.get("health");
+		rudderShift = (double) hpobj.get("rudderTime");
+		if (hpobj.get("maxSpeed") instanceof Double)
+		{
+			speed = (double) hpobj.get("maxSpeed") * speedCoef;
+		}
+		else if (hpobj.get("maxSpeed") instanceof Long)
+		{
+			speed = (long) hpobj.get("maxSpeed") * speedCoef;
+		}
+		
+		sConceal = (double) hpobj.get("visibilityFactor");
+		aConceal = (double) hpobj.get("visibilityFactorByPlane");
+		stealthFireSurfaceDetection = (double) hpobj.get("visibilityCoefGK");
+		AAFireAirDetection = (double) hpobj.get("visibilityCoefATBAByPlane");
+		
+		JSONArray burnNodes1 = (JSONArray) hpobj.get("burnNodes");
+		JSONArray burnNodes2 = (JSONArray) burnNodes1.get(0);		
+		burnTime = (double) burnNodes2.get(3);
+		
+		JSONArray floodParams = (JSONArray) hpobj.get("floodParams");
+		floodTime = (double) floodParams.get(2);
+		
+		/**
+		 * Set upgrade slot numbers.
+		 */
+		JSONObject mSlots = (JSONObject) shipJSON.get("ShipModernization");
+		moduleSlots = mSlots.size();	
 		
 		
 		//If main turret's barrel diameter is less than 140 mm, turret has AuraFar by default.
@@ -905,11 +1037,20 @@ public class JSParser
 			}
 			Collections.sort(ATBAList);
 			if (ATBAList.size() != 0)
-			{
-				String ATBAName = ATBAList.get(ATBAList.size()-1);
-				JSONObject ATBA = (JSONObject) shipJSON.get(ATBAName);
-				secondaryMaxDist = (double) ATBA.get("maxDist");
-			
+			{		
+				JSONObject ATBA;
+				if (ATBAList.size() == 1)
+				{
+					String ATBAName = ATBAList.get(ATBAList.size()-1);
+					ATBA = (JSONObject) shipJSON.get(ATBAName);
+					secondaryMaxDist = (double) ATBA.get("maxDist");
+				}
+				else
+				{
+					String ATBAName = ATBAList.get(position);
+					ATBA = (JSONObject) shipJSON.get(ATBAName);
+					secondaryMaxDist = (double) ATBA.get("maxDist");
+				}
 			
 				//AA Aura Far
 				if (ATBA.get("AuraFar") != null)
@@ -950,7 +1091,7 @@ public class JSParser
 		
 		if (AAMedium.size() != 0)
 		{
-			String AirDefenseNameMedium = AAMedium.get(AAMedium.size()-1);
+			String AirDefenseNameMedium = AAMedium.get(position);
 			JSONObject AirDefenseMedium = (JSONObject) shipJSON.get(AirDefenseNameMedium);
 			if (AirDefenseMedium.get("AuraMedium") != null)
 			{
@@ -994,7 +1135,7 @@ public class JSParser
 				}
 			}
 			Collections.sort(AANear);
-			String AirDefenseNameNear = AANear.get(AANear.size()-1);
+			String AirDefenseNameNear = AANear.get(position);
 			JSONObject AirDefenseNear = (JSONObject) shipJSON.get(AirDefenseNameNear);
 			if (AirDefenseNear.get("AuraNear") != null)
 			{
@@ -1041,187 +1182,136 @@ public class JSParser
 					AANearDPS = Math.round(AANearDPS * 100);
 				}
 			}		
-		}
-		
-		if (tobj2 != null)
-		{
-			JSONObject HitLocationArtillery = (JSONObject) tobj2.get("HitLocationArtillery");
-			MainTurretHP = (double) HitLocationArtillery.get("maxHP");
-			MainTurretAutoRepairTime = (long) HitLocationArtillery.get("autoRepairTime");
-			List<String> radar = new ArrayList<String>(); 
-			
-			//Adds specific string (eg. PAUS) to radar list.
-			for (String string : shipUpgradeList()) 
-		    {
-				if(string.matches("(P).*(US).*(_Suo)"))
-				{				
-					radar.add(string);
-				}
-		    }
-						
-			//If radar list is single then there're no upgrades.
-			if (radar.size() <= 1)
-			{
-				maxMainGunRange = (double) tobj.get("maxDist");
-			}
-			else
-			{
-				String radar2 = radar.get(1);
-				JSONObject r2 = (JSONObject) upgrade.get(radar2);
-				JSONObject r3 = (JSONObject) r2.get("components");
-				JSONArray r4 = (JSONArray) r3.get("fireControl");
-				JSONObject jso4 = (JSONObject) shipJSON.get(r4.get(0));
-				maxDistCoef = (double) jso4.get("maxDistCoef");
-				
-				maxMainGunRange = (double) tobj.get("maxDist") * maxDistCoef;
-			}
 		}		
 	}
 	
-	/**
-	 * Sets engine related stats.
-	 */
-	@SuppressWarnings("unused")
 	private void setEngineStats()
 	{
-		List<String> engine = new ArrayList<String>(); 
 		for (String string : shipUpgradeList()) 
 	    {
-			if(string.matches("(?i)(P).*(UE).*(_Engine_).*") || string.matches("(?i)(P).*(UE).*(_ENG_).*"))
+			if(string.matches(".*(_Engine_).*") || string.matches(".*(_ENG_).*") || string.matches("(?i)(P).*(UE).*"))
 	        {
-				engine.add(string);
+				engineList.add(string);
 	        }
 	    }		
 
-		Collections.sort(engine);
-		
-		Map<String, JSONObject> engine1 = new HashMap<>();
-		for(int i = 0; i < engine.size(); i++)
-		{
-			engine1.put(engine.get(i), (JSONObject) upgrade.get(engine.get(i)));			
-		}		
-		
-		JSONObject engine2;
-		String engine3;
-		String engine4 = null;
-		
-		for (int i = 0; i < engine.size(); i++)
-		{
-			engine2 = engine1.get(engine.get(i).toString());
-			engine3 = (String) engine2.get("prev");
-			if (engine3.equals(""))
-			{
-				engine4 = engine.get(i).toString();
-			}
-			break;
-		}		
-		
-		if (engine1.size() > 1)
-		{
-			engine1.remove(engine4);
-		}
-
-		JSONArray engine5;
-		JSONObject engine6;
-		
-		engine6 = (JSONObject) engine1.get(engine.get(engine.size()-1)).get("components");
-		engine5 = (JSONArray) engine6.get("engine");
-		
-		engineObj = (JSONObject) shipJSON.get(engine5.get(0));
-		JSONObject HitLocationEngine = (JSONObject) engineObj.get("HitLocationEngine");
-		EngineAutoRepairTime = (long) HitLocationEngine.get("autoRepairTimeMin");
+		Collections.sort(engineList);		
 	}
 	
-	/**
-	 * Sets hull related stats.
-	 */
-	private void setHullStats()
+	public void setEngineStats2(String anEngine)
 	{
-		List<String> hull = new ArrayList<String>(); 
-		
-		for (String string : shipUpgradeList()) 
-	    {
-			if(string.matches("(?i)(P).*(UH).*"))
-			{				
-				hull.add(string);
-			}
-	    }
-		Collections.sort(hull);
-
-		Map<String, JSONObject> hull1 = new HashMap<>();
-		
-		for(int i = 0; i < hull.size(); i++)
+		Map<String, JSONObject> engine1 = new HashMap<>();
+		for(int i = 0; i < engineList.size(); i++)
 		{
-			hull1.put(hull.get(i), (JSONObject) upgrade.get(hull.get(i)));			
+			engine1.put(engineList.get(i), (JSONObject) upgrade.get(engineList.get(i)));			
 		}		
 
-		JSONArray hull2;
-		JSONObject hull3;
-		hull3 = (JSONObject) hull1.get(hull.get(hull.size()-1)).get("components");
-		hull2 = (JSONArray) hull3.get("hull");
+		JSONArray engine2 = null;
+		JSONObject engine3 = null;
 		
-		JSONObject hpobj;
-		hpobj = (JSONObject) shipJSON.get(hull2.get(0));
-		maxHP = (double) hpobj.get("health");
-		rudderShift = (double) hpobj.get("rudderTime");
-		speed = hpobj.get("maxSpeed");		
-		sConceal = (double) hpobj.get("visibilityFactor");
-		aConceal = (double) hpobj.get("visibilityFactorByPlane");
-		stealthFireSurfaceDetection = (double) hpobj.get("visibilityCoefGK");
-		AAFireAirDetection = (double) hpobj.get("visibilityCoefATBAByPlane");
+		for (int i = 0; i < engine1.size(); i++)
+		{
+			if (engineList.get(i).toString().contains(anEngine))
+			{
+				engine3 = (JSONObject) engine1.get(engineList.get(i)).get("components");
+				engine2 = (JSONArray) engine3.get("engine");
+			}
+		}
+			
+		engineObj = (JSONObject) shipJSON.get(engine2.get(0));
 		
-		JSONArray burnNodes1 = (JSONArray) hpobj.get("burnNodes");
-		JSONArray burnNodes2 = (JSONArray) burnNodes1.get(0);		
-		burnTime = (double) burnNodes2.get(3);
+		speedCoef = 1 + (double) engineObj.get("speedCoef");
+		Object histEnginePower = (Object) engineObj.get("histEnginePower");
+		JSONObject HitLocationEngine = (JSONObject) engineObj.get("HitLocationEngine");
+		EngineAutoRepairTime = (long) HitLocationEngine.get("autoRepairTimeMin");
 		
-		JSONArray floodParams = (JSONArray) hpobj.get("floodParams");
-		floodTime = (double) floodParams.get(2);
-		
-		/**
-		 * Set upgrade slot numbers.
-		 */
-		JSONObject mSlots = (JSONObject) shipJSON.get("ShipModernization");
-		moduleSlots = mSlots.size();		
-	}		
-
-	/**
-	 * Sets torpedo related stats.
-	 */
-	private void setTorpedoStats()
+	}
+	
+	private void setRadarStats()
 	{
-		List<String> torpedo = new ArrayList<String>(); 
 		for (String string : shipUpgradeList()) 
 	    {
-			if(string.matches("(?i)(P).*(UT).*"))
+			if(string.matches(".*(_Suo)") || string.matches(".*(_SUO)") || string.matches("(?i)(P).*(US).*"))
+			{				
+				radarList.add(string);
+			}
+	    }
+		Collections.sort(radarList);
+	}
+	
+	public void setRadarStats2(String radar)
+	{		
+		if (radar == null)
+		{
+			return;
+		}
+		String radar2 = null;
+		for (int i = 0; i < radarList.size(); i++)
+		{
+			if (radarList.get(i).toString().contains(radar))
+			{
+				radar2 = radarList.get(i);
+			}
+		}
+		
+		JSONObject r2 = (JSONObject) upgrade.get(radar2);
+		JSONObject r3 = (JSONObject) r2.get("components");
+		JSONArray r4 = (JSONArray) r3.get("fireControl");
+		JSONObject jso4 = (JSONObject) shipJSON.get(r4.get(0));
+		maxDistCoef = (double) jso4.get("maxDistCoef");
+	}
+	
+	private void setTorpedoStats()
+	{
+		for (String string : shipUpgradeList()) 
+	    {
+			if(string.matches(".*(_Torp).*") || string.matches(".*(_TORP).*") || string.matches("(?i)(P).*(UT).*"))
 	        {
-				torpedo.add(string);
+				torpedoList.add(string);
 	        }
 	    }
 		
-		if (torpedo.size() == 0)
+		if (torpedoList.size() == 0)
 		{
 			return;
 		}
 
-		Collections.sort(torpedo);
-		
+		Collections.sort(torpedoList);		
+	}
+	
+	public void setTorpedoStats2(String aTorpedo)
+	{
 		Map<String, JSONObject> torp1 = new HashMap<>();
 		
-		for(int i = 0; i < torpedo.size(); i++)
+		for(int i = 0; i < torpedoList.size(); i++)
 		{
-			torp1.put(torpedo.get(i), (JSONObject) upgrade.get(torpedo.get(i)));			
+			torp1.put(torpedoList.get(i), (JSONObject) upgrade.get(torpedoList.get(i)));			
 		}		
 
-		JSONArray torp2;
-		JSONObject torp3;
-		torp3 = (JSONObject) torp1.get(torpedo.get(torpedo.size()-1)).get("components");
-		torp2 = (JSONArray) torp3.get("torpedoes");
+		JSONArray torp2 = null;
+		JSONObject torp3 = null;
+		
+		for (int i = 0; i < torp1.size(); i++)
+		{
+			if (torpedoList.get(i).toString().contains(aTorpedo))
+			{
+				torp3 = (JSONObject) torp1.get(torpedoList.get(i)).get("components");
+				torp2 = (JSONArray) torp3.get("torpedoes");
+			}
+		}
 		
 		JSONObject tobj = null;
 		JSONObject tobj2 = null;
 		JSONArray tobj3 = null;
 		
-		tobj = (JSONObject) shipJSON.get(torp2.get(0));
+		if (torp2 != null)
+		{
+			tobj = (JSONObject) shipJSON.get(torp2.get(0));
+		}
+		else
+		{
+			return;
+		}
 		
 		if (getNation().equals("Germany"))
 		{

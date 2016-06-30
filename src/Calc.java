@@ -26,7 +26,9 @@ public class Calc
 	private double mainGunDispersionTangent;
 	private double mainGunDispersionRange;
 	private double APShellSpeed;
+	private double APShellDMG;
 	private double HEShellSpeed;
+	private double HEShellDMG;
 	private double HEShellBurnProb;
 	
 	private double secondaryMaxDist;
@@ -77,7 +79,18 @@ public class Calc
 	public Calc(String ship) throws FileNotFoundException, IOException, ParseException
 	{
 		jsp = new JSParser(ship);
-				
+	}
+	
+	public Calc(String ship, String turret, String aHull, String engine, String radar, String torpedo) throws FileNotFoundException, IOException, ParseException
+	{
+		jsp = new JSParser(ship);
+		
+		jsp.setRadarStats2(radar);
+		jsp.setTurretStats2(turret);
+		jsp.setEngineStats2(engine);
+		jsp.setHullStats2(aHull);
+		jsp.setTorpedoStats2(torpedo);
+		
 		tier = jsp.getTier();
 		nation = jsp.getNation();
 		shiptype = jsp.getShipType();
@@ -91,7 +104,9 @@ public class Calc
 		mainGunDispersionTangent = jsp.getMainGunDispersion();
 		mainGunDispersionRange = maxMainGunRange * mainGunDispersionTangent * 2 * 1000;
 		APShellSpeed = jsp.getAPShellSpeed();
+		APShellDMG = jsp.getAPShellDMG();
 		HEShellSpeed = jsp.getHEShellSpeed();
+		HEShellDMG = jsp.getHEShellDMG();
 		HEShellBurnProb = jsp.getHEShellBurnProb() * 100;
 		
 		secondaryMaxDist = jsp.getSecondaryMaxDist();
@@ -131,7 +146,7 @@ public class Calc
 		
 		setSkills();
 	}
-	
+
 	public void calcMainArmamentsMod1()  //Slot 1
 	{
 	    //"PCM030_MainWeapon_Mod_I"
@@ -482,11 +497,11 @@ public class Calc
 		double bigGunBonus = (double) EM.get("bigGunBonus");
 		double smallGunBonus = (double) EM.get("smallGunBonus");
 		
-		if (jsp.getBarrelDiameter() > 0.139)
+		if (jsp.getBarrelDiameter() > 0.140)
 		{
 			mainGunRotation = mainGunRotation + bigGunBonus;
 		}
-		else
+		else if (jsp.getBarrelDiameter() > 0 && jsp.getBarrelDiameter() < 0.140)
 		{
 			mainGunRotation = mainGunRotation + smallGunBonus;
 		}
@@ -545,15 +560,21 @@ public class Calc
 	 */
 	public void calcTorpedoAcceleration() //Skill 3
 	{
-		JSONObject TorpedoAcceleratorModifier = (JSONObject) skills.get("TorpedoAcceleratorModifier");		
-		maxTorpedoRange = maxTorpedoRange * (double) TorpedoAcceleratorModifier.get("torpedoRangeCoefficient");
-		torpedoSpeed = torpedoSpeed + (double) TorpedoAcceleratorModifier.get("torpedoSpeedBonus");
+		if (jsp.getTorpedoSpeed() > 0)
+		{
+			JSONObject TorpedoAcceleratorModifier = (JSONObject) skills.get("TorpedoAcceleratorModifier");		
+			maxTorpedoRange = maxTorpedoRange * (double) TorpedoAcceleratorModifier.get("torpedoRangeCoefficient");
+			torpedoSpeed = torpedoSpeed + (double) TorpedoAcceleratorModifier.get("torpedoSpeedBonus");
+		}
 	}
 	
 	public void calcDemolitionExpert() //Skill 4
 	{
-		JSONObject FireProbabilityModifier = (JSONObject) skills.get("FireProbabilityModifier");
-		HEShellBurnProb = HEShellBurnProb + ((double) FireProbabilityModifier.get("probabilityBonus") * 100);
+		if (jsp.getBarrelDiameter() > 0)
+		{
+			JSONObject FireProbabilityModifier = (JSONObject) skills.get("FireProbabilityModifier");
+			HEShellBurnProb = HEShellBurnProb + ((double) FireProbabilityModifier.get("probabilityBonus") * 100);
+		}
 	}
 	
 	public void calcConcealCamo()
@@ -712,9 +733,19 @@ public class Calc
 		return APShellSpeed;
 	}
 	
+	public double getAPShellDMG()
+	{
+		return APShellDMG;
+	}
+	
 	public double getHEShellSpeed()
 	{
 		return HEShellSpeed;
+	}
+	
+	public double getHEShellDMG()
+	{
+		return HEShellDMG;
 	}
 	
 	public double getHEShellBurnProb()
@@ -958,13 +989,13 @@ public class Calc
 	 */
 	public double getStealthFireSurfaceDetection()
 	{
-		stealthFireSurfaceDetection = Math.round(stealthFireSurfaceDetection * 100.0) / 100.0;
+		stealthFireSurfaceDetection = Math.round(stealthFireSurfaceDetection);
 		return stealthFireSurfaceDetection;
 	}	
 	
 	public double getAAFireAirDetection()
 	{
-		return Math.round(AAFireAirDetection * 100.0) / 100.0;
+		return Math.round(AAFireAirDetection);
 	}
 	
 	/**
@@ -1128,6 +1159,65 @@ public class Calc
 		}
 		
 		return mod6;
+	}	
+
+	public List<String> getTurretList()
+	{
+		List<String> turretList = new ArrayList<String>();
+		
+		
+		for (int i = 0; i < jsp.getTurretList().size(); i++)
+		{
+			turretList.add(i, jsp.getTurretList().get(i).substring(6));
+		}
+		return turretList;
+	}
+	
+	
+	public List<String> getHullList()
+	{
+		List<String> hullList = new ArrayList<String>();
+		
+		for (int i = 0; i < jsp.getHullList().size(); i++)
+		{
+			hullList.add(i, jsp.getHullList().get(i).substring(6));
+		}
+		return hullList;
+	}
+	
+	
+	public List<String> getEngineList()
+	{
+		List<String> engineList = new ArrayList<String>();		
+		
+		for (int i = 0; i < jsp.getEngineList().size(); i++)
+		{			
+			engineList.add(i, jsp.getEngineList().get(i).substring(6));		
+		}			
+		return engineList;
+	}
+	
+	public List<String> getRadarList()
+	{
+		List<String> radarList = new ArrayList<String>();		
+		
+		for (int i = 0; i < jsp.getRadarList().size(); i++)
+		{			
+			radarList.add(i, jsp.getRadarList().get(i));		
+		}			
+		return radarList;
+	}
+	
+	public List<String> getTorpedoList()
+	{
+		List<String> torpedoList = new ArrayList<String>();
+		
+		for (int i = 0; i < jsp.getTorpedoList().size(); i++)
+		{			
+			torpedoList.add(i, jsp.getTorpedoList().get(i).substring(6));		
+		}		
+		
+		return torpedoList;		
 	}	
 	
 	/**

@@ -1,3 +1,4 @@
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -12,7 +13,8 @@ public class Model
 	private Calculator calculator = new Calculator();
 
 	public Calc calculate(
-			String aShip, String mod1, String mod2, String mod3, String mod4, String mod5, String mod6,
+			String aShip, String turret, String hull, String engine, String radar, String torpedo,
+			String mod1, String mod2, String mod3, String mod4, String mod5, String mod6,
 			boolean BFT, boolean BoS,
 			boolean EM, boolean TAE,
 			boolean TA,
@@ -22,7 +24,8 @@ public class Model
 			) throws FileNotFoundException, IOException, ParseException
 	{
 		return calculator.calculate(
-				aShip, mod1, mod2, mod3, mod4, mod5, mod6,
+				aShip, turret, hull, engine,radar, torpedo,
+				mod1, mod2, mod3, mod4, mod5, mod6,
 				BFT, BoS,
 				EM, TAE,
 				TA,
@@ -44,5 +47,9 @@ public class Model
 	{
 		return calculator.search(aShip);
 	}
-
+	
+	public Calc upgrades(String aShip, String turret, String hull, String engine, String radar, String torpedo) throws FileNotFoundException, IOException, ParseException
+	{
+		return calculator.upgrades(aShip, turret, hull, engine, radar, torpedo);
+	}
 }
