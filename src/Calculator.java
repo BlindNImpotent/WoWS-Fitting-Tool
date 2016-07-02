@@ -11,29 +11,6 @@ public class Calculator
 {
 	private Calc calc;
 	
-	/**
-	 * Calculates ship stats with parameter.
-	 * @param aShip
-	 * @param mod1
-	 * @param mod2
-	 * @param mod3
-	 * @param mod4
-	 * @param mod5
-	 * @param mod6
-	 * @param conceal
-	 * @param survivability
-	 * @param AFT
-	 * @param EM
-	 * @param BFT
-	 * @param TAE
-	 * @param TA
-	 * @param BoS
-	 * @param concealCamo
-	 * @return
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 * @throws ParseException
-	 */
 	public Calc calculate(
 			String aShip, String turret, String hull, String engine, String radar, String torpedo,
 			String mod1, String mod2, String mod3, String mod4, String mod5, String mod6,

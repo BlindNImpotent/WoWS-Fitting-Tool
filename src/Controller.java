@@ -22,7 +22,6 @@ public class Controller
 		view = new Viewer();
 		view.setVisible(true);		
 		view.setSearchListener(SearchListener);
-		//view.setUpgradesListener(UpgradeListener);
 		view.setCalculateListener(CalculateListener);
 		
 		view.setNationList();
@@ -41,52 +40,12 @@ public class Controller
 			try 
 			{					
 				answer = model.search(view.getShipNameListComboBox().getSelectedItem().toString());
-
 			} 
 			catch (IOException | ParseException e) 
 			{			
 				e.printStackTrace();
 			}
-			/**
-			view.setTier(answer.getTier());
-			view.setNation(answer.getNation());
-			view.setShipType(answer.getShipType());
-			view.setHealth(answer.getHealth());
-			view.setSpeed(answer.getSpeed());
-			view.setRudderShift(answer.getRudderShift());
-			view.setSConceal(answer.getSConceal());
-			view.setAConceal(answer.getAConceal());
-			view.setStealthFireRange(answer.getSConceal() + answer.getStealthFireSurfaceDetection());
-			view.setAAFireAirDetection(answer.getAConceal() + answer.getAAFireAirDetection());
 			
-			view.setMGRange(answer.getMaxMainGunRange());
-			view.setMGReload(answer.getMainGunReload());
-			view.setMGDegs(answer.getMainGunRotation());
-			view.setMGTime(answer.getMainGunRotationTime());
-			view.setMGDispersion(answer.getMainGunDispersionRange());
-			view.setAPShellSpeed(answer.getAPShellSpeed());
-			view.setAPShellDMG(answer.getAPShellDMG());
-			view.setHEShellSpeed(answer.getHEShellSpeed());
-			view.setHEShellDMG(answer.getHEShellDMG());
-			view.setHEShellBurnProb(answer.getHEShellBurnProb());
-
-			view.setSecondaryMaxDist(answer.getSecondaryMaxDist());
-			
-			view.setTorpRange(answer.getMaxTorpedoRange());
-			view.setTorpReload(answer.getTorpedoReload());
-			view.setTorpSpeed(answer.getTorpedoSpeed());
-			
-			view.setFloodTime(answer.getFloodTime());
-			view.setBurnTime(answer.getBurnTime());
-			
-			view.setAARangeFar(answer.getAntiAirAuraDistanceFar());
-			view.setAARangeMedium(answer.getAntiAirAuraDistanceMedium());
-			view.setAARangeNear(answer.getAntiAirAuraDistanceNear());			
-			
-			view.setAAFarDPS(answer.getAAFarDPS());
-			view.setAAMediumDPS(answer.getAAMediumDPS());
-			view.setAANearDPS(answer.getAANearDPS());
-			*/
 			view.setModuleBox1(answer.getModule1());
 			view.setModuleBox2(answer.getModule2());
 			view.setModuleBox3(answer.getModule3());
@@ -97,8 +56,7 @@ public class Controller
 			view.setHullBox(answer.getHullList());
 			view.setEngineBox(answer.getEngineList());
 			view.setRadarBox(answer.getRadarList());
-			view.setTorpedoBox(answer.getTorpedoList());
-			
+			view.setTorpedoBox(answer.getTorpedoList());			
 		}		
 	};
 
@@ -118,7 +76,7 @@ public class Controller
 			{
 				view.setUSACruiserList();
 			}	
-			else if (nation.equals("USA") && type.equals("CV"))
+			else if (nation.equals("USA") && type.equals("AirCarrier"))
 			{
 				view.setUSACVList();
 			}
@@ -150,7 +108,7 @@ public class Controller
 			{
 				view.setJapanCruiserList();
 			}	
-			else if (nation.equals("Japan") && type.equals("CV"))
+			else if (nation.equals("Japan") && type.equals("AirCarrier"))
 			{
 				view.setJapanCVList();
 			}
@@ -162,6 +120,10 @@ public class Controller
 			{
 				view.setJapanPremiumList();
 			}
+			else if (nation.equals("Germany") && type.equals("Battleship"))
+			{
+				view.setGermanyBattleshipList();
+			}	
 			else if (nation.equals("Germany") && type.equals("Cruiser"))
 			{
 				view.setGermanyCruiserList();
@@ -185,71 +147,9 @@ public class Controller
 			else
 			{
 				view.setNoneList();
-			}
-			
+			}			
 		}		
 	};
-	
-	/**
-	ActionListener UpgradeListener = new ActionListener()
-	{
-		public void actionPerformed(ActionEvent ae)
-		{
-			Calc answer = null;
-			String turret = view.getTurretBox();
-			String hull = view.getHullBox();
-			String engine = view.getEngineBox();
-			String radar = view.getRadarBox();
-			String torpedo = view.getTorpedoBox();
-			
-			try 
-			{
-				answer = model.upgrades(view.getShipNameListComboBox().getSelectedItem().toString(), turret, hull, engine, radar, torpedo);
-			} catch (IOException | ParseException e) 
-			{
-				e.printStackTrace();
-			}
-			view.setTier(answer.getTier());
-			view.setNation(answer.getNation());
-			view.setShipType(answer.getShipType());
-			view.setHealth(answer.getHealth());
-			view.setSpeed(answer.getSpeed());
-			view.setRudderShift(answer.getRudderShift());
-			view.setSConceal(answer.getSConceal());
-			view.setAConceal(answer.getAConceal());
-			view.setStealthFireRange(answer.getSConceal() + answer.getStealthFireSurfaceDetection());
-			view.setAAFireAirDetection(answer.getAConceal() + answer.getAAFireAirDetection());
-			
-			view.setMGRange(answer.getMaxMainGunRange());
-			view.setMGReload(answer.getMainGunReload());
-			view.setMGDegs(answer.getMainGunRotation());
-			view.setMGTime(answer.getMainGunRotationTime());
-			view.setMGDispersion(answer.getMainGunDispersionRange());
-			view.setAPShellSpeed(answer.getAPShellSpeed());
-			view.setAPShellDMG(answer.getAPShellDMG());
-			view.setHEShellSpeed(answer.getHEShellSpeed());
-			view.setHEShellDMG(answer.getHEShellDMG());
-			view.setHEShellBurnProb(answer.getHEShellBurnProb());
-
-			view.setSecondaryMaxDist(answer.getSecondaryMaxDist());
-			
-			view.setTorpRange(answer.getMaxTorpedoRange());
-			view.setTorpReload(answer.getTorpedoReload());
-			view.setTorpSpeed(answer.getTorpedoSpeed());
-			
-			view.setFloodTime(answer.getFloodTime());
-			view.setBurnTime(answer.getBurnTime());
-			
-			view.setAARangeFar(answer.getAntiAirAuraDistanceFar());
-			view.setAARangeMedium(answer.getAntiAirAuraDistanceMedium());
-			view.setAARangeNear(answer.getAntiAirAuraDistanceNear());			
-			
-			view.setAAFarDPS(answer.getAAFarDPS());
-			view.setAAMediumDPS(answer.getAAMediumDPS());
-			view.setAANearDPS(answer.getAANearDPS());			
-		}
-	};
-	*/
 	
 	/**
 	 * Listens for Calculate button then calculates ship stats.
@@ -259,7 +159,8 @@ public class Controller
 		public void actionPerformed(ActionEvent ae)
 		{
 			Calc answer = null;
-			String aShip = view.getShipNameListComboBox().getSelectedItem().toString();
+			//String aShip = view.getShipNameListComboBox().getSelectedItem().toString();
+			String aShip = view.getShipNameBox();
 			String turret = view.getTurretBox();
 			String hull = view.getHullBox();
 			String engine = view.getEngineBox();
@@ -299,6 +200,7 @@ public class Controller
 			{			
 				e.printStackTrace();
 			}
+			
 			view.setTier(answer.getTier());
 			view.setNation(answer.getNation());
 			view.setShipType(answer.getShipType());
@@ -320,7 +222,8 @@ public class Controller
 			view.setHEShellSpeed(answer.getHEShellSpeed());
 			view.setHEShellDMG(answer.getHEShellDMG());
 			view.setHEShellBurnProb(answer.getHEShellBurnProb());
-
+			view.setNumBarrels(answer.getNumBarrels(), answer.getNumTurrets());
+			
 			view.setSecondaryMaxDist(answer.getSecondaryMaxDist());
 			
 			view.setTorpRange(answer.getMaxTorpedoRange());
@@ -339,36 +242,6 @@ public class Controller
 			view.setAANearDPS(answer.getAANearDPS());	
 		}		
 	};
-	
-	/**
-	private class CheckboxListener4 implements ActionListener
-	{
-		boolean SurvivabilityNotChecked = true;
-		boolean AFTNotChecked = true;
-
-		public CheckboxListener4()
-		{
-			view.setCheckBoxListener4(this);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) 
-		{	
-			if (view.getSurvivabilityCheckbox().isSelected() == SurvivabilityNotChecked)
-			{				
-				view.setAFTUnchecked();	
-				SurvivabilityNotChecked = false;
-				AFTNotChecked = true;
-			}
-			else if (view.getAFTCheckbox().isSelected() == AFTNotChecked)
-			{
-				view.setSurvivabilityUnchecked();
-				AFTNotChecked = false;
-				SurvivabilityNotChecked = true;
-			}
-		}
-	}
-	*/
 	
 	/**
 	 * Main method.

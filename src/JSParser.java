@@ -75,6 +75,8 @@ public class JSParser
 	private double maxDistCoef;
 	private int moduleSlots;
 	private double barrelDiameter;
+	private long numBarrels;
+	private int numTurrets;
 	private double burnTime;
 	private double floodTime;
 	private long EngineAutoRepairTime;
@@ -153,12 +155,36 @@ public class JSParser
 		{
 			ship = ship.replace("Minekaze", "Minekadze");
 		}
+		else if (ship.equals("Marblehead L"))
+		{
+			ship = ship.replace("Marblehead L", "PASC045_Marblehead_1924_Asus");
+		}
+		else if (ship.equals("Fujin"))
+		{
+			ship = ship.replace("Fujin", "PJSD017_Kamikaze_1930");
+		}
+		else if (ship.equals("Kamikaze"))
+		{
+			ship = ship.replace("Kamikaze", "PJSD025_True_Kamikaze");
+		}
+		else if (ship.equals("Kamikaze R"))
+		{
+			ship = ship.replace("Kamikaze R", "PJSD026_Camo_Kamikaze");
+		}
+		else if (ship.equals("Tachibana L"))
+		{
+			ship = ship.replace("Tachibana L", "PJSD014_Tachibana_1912_Asus");
+		}
+		else if (ship.equals("Diana L"))
+		{
+			ship = ship.replace("Diana L", "PRSC010_Diana_1905_Asus");
+		}
 		
 		ship = ship.replaceAll(" ", "_");
 		
 		setShipList();
 		setModuleList();		
-		setShipCode(ship);
+		setShipCode(ship);	
 		
 		shipJSON = (JSONObject) GameParams.get(shipCode);
 		shipModuleJSON = (JSONObject) shipJSON.get("ShipModernization");
@@ -190,10 +216,19 @@ public class JSParser
 		shipList.addAll(GameParams.keySet());						
 		for (int i = shipList.size() - 1; i >= 0; i--)
 		{
-			if (!shipList.get(i).toString().matches("(PASA).*")
+			if (
+					   !shipList.get(i).toString().matches("(PASA).*")
 					&& !shipList.get(i).toString().matches("(PASB).*") 
 					&& !shipList.get(i).toString().matches("(PASC).*")
-					&& !shipList.get(i).toString().matches("(PASD).*")
+					&& !shipList.get(i).toString().matches("(PASD).*")					
+					&& !shipList.get(i).toString().matches("(PBSA).*")
+					&& !shipList.get(i).toString().matches("(PBSB).*")
+					&& !shipList.get(i).toString().matches("(PBSC).*")
+					&& !shipList.get(i).toString().matches("(PBSD).*")
+					&& !shipList.get(i).toString().matches("(PGSA).*")
+					&& !shipList.get(i).toString().matches("(PGSB).*")
+					&& !shipList.get(i).toString().matches("(PGSC).*")
+					&& !shipList.get(i).toString().matches("(PGSD).*")
 					&& !shipList.get(i).toString().matches("(PJSA).*")
 					&& !shipList.get(i).toString().matches("(PJSB).*")
 					&& !shipList.get(i).toString().matches("(PJSC).*")
@@ -202,15 +237,7 @@ public class JSParser
 					&& !shipList.get(i).toString().matches("(PRSB).*")
 					&& !shipList.get(i).toString().matches("(PRSC).*")
 					&& !shipList.get(i).toString().matches("(PRSD).*")
-					&& !shipList.get(i).toString().matches("(PGSA).*")
-					&& !shipList.get(i).toString().matches("(PGSB).*")
-					&& !shipList.get(i).toString().matches("(PGSC).*")
-					&& !shipList.get(i).toString().matches("(PGSD).*")
 					&& !shipList.get(i).toString().matches("(PWSD).*")
-					&& !shipList.get(i).toString().matches("(PBSA).*")
-					&& !shipList.get(i).toString().matches("(PBSB).*")
-					&& !shipList.get(i).toString().matches("(PBSC).*")
-					&& !shipList.get(i).toString().matches("(PBSD).*")
 					&& !shipList.get(i).toString().matches("(PZSD).*")
 					|| shipList.get(i).toString().matches(".*(Halloween)")
 					|| shipList.get(i).toString().matches(".*(_FALSE_).*")
@@ -229,7 +256,6 @@ public class JSParser
 	private void setShipCode(String aShipName)
 	{
 		String shipName = aShipName;
-		shipName = shipName.substring(0, 1).toUpperCase() + shipName.substring(1);
 		
 		for (int i = 0; i < shipList.size(); i++)
 		{
@@ -623,6 +649,16 @@ public class JSParser
 		return barrelDiameter;
 	}	
 	
+	public long getNumBarrels()
+	{
+		return numBarrels;
+	}
+	
+	public int getNumTurrets()
+	{
+		return numTurrets;
+	}
+	
 	/**
 	 * Returns engine JSONObject
 	 * @return engineObj engine JSONObject
@@ -857,7 +893,7 @@ public class JSParser
 			
 			if (getNation().equals("Germany"))
 			{
-				tobj2 = (JSONObject) tobj.get("HP_GGM_1");			
+				tobj2 = (JSONObject) tobj.get("HP_GGM_1");
 			}
 			else if (getNation().equals("USA"))
 			{
@@ -883,8 +919,20 @@ public class JSParser
 			{
 				tobj2 = (JSONObject) tobj.get("HP_BGM_1");
 			}
-			
+					
 			maxMainGunRange = (double) tobj.get("maxDist") * maxDistCoef;
+			numBarrels = (long) tobj2.get("numBarrels");
+			 
+			List<String> temp = new ArrayList<String>();
+			temp.addAll(tobj.keySet());
+			for (int i = temp.size() - 1; i >= 0; i--)
+			{
+				if (!temp.get(i).contains("HP_"))
+				{
+					temp.remove(i);
+				}				
+			}						
+			numTurrets = temp.size();			
 			
 			barrelDiameter = (double) tobj2.get("barrelDiameter");
 			

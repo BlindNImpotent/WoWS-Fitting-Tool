@@ -114,7 +114,8 @@ public class Viewer extends JFrame
 	private JLabel lblNation_1;
 	private JLabel lblShipType_1;
 	private JLabel lblShipName;
-	
+	private JTextArea textNumBarrels;
+	private JLabel labelBarrels;
 	
 	/**
 	 * Creates the frame.
@@ -130,7 +131,7 @@ public class Viewer extends JFrame
 		contentPane.setLayout(null);
 		
 		searchButton = new JButton("Search");
-		searchButton.setBounds(355, 39, 78, 23);
+		searchButton.setBounds(445, 39, 78, 23);
 		contentPane.add(searchButton);
 		
 		calculateButton = new JButton("Calculate");
@@ -197,7 +198,7 @@ public class Viewer extends JFrame
 		MGRange = new JTextArea();
 		MGRange.setEditable(false);
 		MGRange.setText("km");
-		MGRange.setBounds(380, 136, 70, 21);
+		MGRange.setBounds(380, 167, 70, 21);
 		contentPane.add(MGRange);
 		
 		sConceal = new JTextArea();
@@ -235,7 +236,7 @@ public class Viewer extends JFrame
 		contentPane.add(lblSConceal);
 		
 		lblMGRange = new JLabel("MG Range");
-		lblMGRange.setBounds(300, 140, 68, 15);
+		lblMGRange.setBounds(300, 171, 68, 15);
 		contentPane.add(lblMGRange);
 		
 		chckbxConcealment = new JCheckBox("Conc Exp");
@@ -257,31 +258,31 @@ public class Viewer extends JFrame
 		txtrMgReload = new JTextArea();
 		txtrMgReload.setEditable(false);
 		txtrMgReload.setText("s");
-		txtrMgReload.setBounds(380, 167, 70, 21);
+		txtrMgReload.setBounds(380, 198, 70, 21);
 		contentPane.add(txtrMgReload);
 		
 		lblMgReload = new JLabel("MG Reload");
-		lblMgReload.setBounds(300, 171, 70, 15);
+		lblMgReload.setBounds(300, 202, 70, 15);
 		contentPane.add(lblMgReload);
 		
 		txtrMgDegs = new JTextArea();
 		txtrMgDegs.setEditable(false);
 		txtrMgDegs.setText("deg/s");
-		txtrMgDegs.setBounds(380, 198, 70, 21);
+		txtrMgDegs.setBounds(380, 232, 70, 21);
 		contentPane.add(txtrMgDegs);
 		
 		lblMgDegs = new JLabel("MG Deg/s");
-		lblMgDegs.setBounds(300, 202, 70, 15);
+		lblMgDegs.setBounds(300, 236, 70, 15);
 		contentPane.add(lblMgDegs);
 		
 		txtrMgTime = new JTextArea();
 		txtrMgTime.setEditable(false);
 		txtrMgTime.setText("s/180 deg");
-		txtrMgTime.setBounds(380, 229, 70, 21);
+		txtrMgTime.setBounds(380, 263, 70, 21);
 		contentPane.add(txtrMgTime);
 		
 		lblMgTime = new JLabel("MG Rotation");
-		lblMgTime.setBounds(300, 233, 70, 15);
+		lblMgTime.setBounds(300, 264, 70, 15);
 		contentPane.add(lblMgTime);
 		
 		lblAConceal = new JLabel("A Conceal");
@@ -305,23 +306,23 @@ public class Viewer extends JFrame
 		contentPane.add(chckbxBft);
 		
 		lblTorpRange = new JLabel("Torp Range");
-		lblTorpRange.setBounds(300, 450, 68, 15);
+		lblTorpRange.setBounds(465, 357, 68, 15);
 		contentPane.add(lblTorpRange);
 		
 		lblTorpReload = new JLabel("Torp Reload");
-		lblTorpReload.setBounds(300, 481, 70, 15);
+		lblTorpReload.setBounds(465, 388, 70, 15);
 		contentPane.add(lblTorpReload);
 		
 		torpRange = new JTextArea();
 		torpRange.setEditable(false);
 		torpRange.setText("km");
-		torpRange.setBounds(380, 446, 70, 21);
+		torpRange.setBounds(542, 353, 70, 21);
 		contentPane.add(torpRange);
 		
 		torpReload = new JTextArea();
 		torpReload.setEditable(false);
 		torpReload.setText("s");
-		torpReload.setBounds(380, 477, 70, 21);
+		torpReload.setBounds(542, 384, 70, 21);
 		contentPane.add(torpReload);
 		
 		chckbxTorpAccel = new JCheckBox("Torp Accel");
@@ -346,13 +347,13 @@ public class Viewer extends JFrame
 		contentPane.add(comboBoxShipNameList);
 		
 		lblTorpSpeed = new JLabel("Torp Speed");
-		lblTorpSpeed.setBounds(300, 512, 70, 15);
+		lblTorpSpeed.setBounds(465, 419, 70, 15);
 		contentPane.add(lblTorpSpeed);
 		
 		torpSpeed = new JTextArea();
 		torpSpeed.setEditable(false);
 		torpSpeed.setText("kts");
-		torpSpeed.setBounds(380, 508, 70, 21);
+		torpSpeed.setBounds(542, 415, 70, 21);
 		contentPane.add(torpSpeed);
 		
 		chckbxBoS = new JCheckBox("BoS");
@@ -399,15 +400,15 @@ public class Viewer extends JFrame
 		contentPane.add(aaNear);
 		
 		lblAaFar = new JLabel("AA Far");
-		lblAaFar.setBounds(462, 140, 68, 15);
+		lblAaFar.setBounds(465, 140, 68, 15);
 		contentPane.add(lblAaFar);
 		
 		lblAaMedium = new JLabel("AA Medium");
-		lblAaMedium.setBounds(462, 202, 68, 15);
+		lblAaMedium.setBounds(465, 202, 68, 15);
 		contentPane.add(lblAaMedium);
 		
 		lblAaNear = new JLabel("AA Near");
-		lblAaNear.setBounds(462, 264, 68, 15);
+		lblAaNear.setBounds(465, 264, 68, 15);
 		contentPane.add(lblAaNear);
 		
 		aaFarDPS = new JTextArea();
@@ -441,11 +442,11 @@ public class Viewer extends JFrame
 		mainGunDispersionRange = new JTextArea();
 		mainGunDispersionRange.setEditable(false);
 		mainGunDispersionRange.setText("m");
-		mainGunDispersionRange.setBounds(380, 260, 70, 21);
+		mainGunDispersionRange.setBounds(380, 291, 70, 21);
 		contentPane.add(mainGunDispersionRange);
 		
 		lblMgDispersion = new JLabel("MG Disperse");
-		lblMgDispersion.setBounds(300, 264, 80, 15);
+		lblMgDispersion.setBounds(300, 295, 80, 15);
 		contentPane.add(lblMgDispersion);
 		
 		AAFireAirDetection = new JTextArea();
@@ -461,21 +462,21 @@ public class Viewer extends JFrame
 		APShellSpeed = new JTextArea();
 		APShellSpeed.setText("m/s");
 		APShellSpeed.setEditable(false);
-		APShellSpeed.setBounds(380, 291, 70, 21);
+		APShellSpeed.setBounds(380, 322, 70, 21);
 		contentPane.add(APShellSpeed);
 		
 		HEShellSpeed = new JTextArea();
 		HEShellSpeed.setText("m/s");
 		HEShellSpeed.setEditable(false);
-		HEShellSpeed.setBounds(380, 353, 70, 21);
+		HEShellSpeed.setBounds(380, 384, 70, 21);
 		contentPane.add(HEShellSpeed);
 		
 		lblAPShell = new JLabel("AP Shell");
-		lblAPShell.setBounds(300, 295, 70, 15);
+		lblAPShell.setBounds(300, 326, 70, 15);
 		contentPane.add(lblAPShell);
 		
 		lblHEShell = new JLabel("HE Shell");
-		lblHEShell.setBounds(300, 357, 70, 15);
+		lblHEShell.setBounds(300, 388, 70, 15);
 		contentPane.add(lblHEShell);
 		
 		secondaryMaxDist = new JTextArea();
@@ -485,13 +486,13 @@ public class Viewer extends JFrame
 		contentPane.add(secondaryMaxDist);
 		
 		lblSecondary = new JLabel("Secondary");
-		lblSecondary.setBounds(462, 326, 68, 15);
+		lblSecondary.setBounds(465, 326, 68, 15);
 		contentPane.add(lblSecondary);
 		
 		HEShellBurnProb = new JTextArea();
 		HEShellBurnProb.setText("%");
 		HEShellBurnProb.setEditable(false);
-		HEShellBurnProb.setBounds(380, 415, 70, 21);
+		HEShellBurnProb.setBounds(380, 446, 70, 21);
 		contentPane.add(HEShellBurnProb);
 		
 		chckbxDemoExp = new JCheckBox("Demo Exp");
@@ -499,25 +500,25 @@ public class Viewer extends JFrame
 		contentPane.add(chckbxDemoExp);
 		
 		lblFireProb = new JLabel("Fire Prob");
-		lblFireProb.setBounds(300, 419, 70, 15);
+		lblFireProb.setBounds(300, 450, 70, 15);
 		contentPane.add(lblFireProb);
 		
 		txtHEDmg = new JTextArea();
 		txtHEDmg.setEditable(false);
-		txtHEDmg.setBounds(380, 384, 70, 21);
+		txtHEDmg.setBounds(380, 415, 70, 21);
 		contentPane.add(txtHEDmg);
 		
 		txtrAPDmg = new JTextArea();
 		txtrAPDmg.setEditable(false);
-		txtrAPDmg.setBounds(380, 322, 70, 21);
+		txtrAPDmg.setBounds(380, 353, 70, 21);
 		contentPane.add(txtrAPDmg);
 		
 		lblApDmg = new JLabel("AP DMG");
-		lblApDmg.setBounds(300, 326, 70, 15);
+		lblApDmg.setBounds(300, 357, 70, 15);
 		contentPane.add(lblApDmg);
 		
 		lblHeDmg = new JLabel("HE DMG");
-		lblHeDmg.setBounds(300, 388, 70, 15);
+		lblHeDmg.setBounds(298, 419, 70, 15);
 		contentPane.add(lblHeDmg);
 		
 		comboBoxTorpedoList = new JComboBox<String>();
@@ -571,6 +572,15 @@ public class Viewer extends JFrame
 		lblShipName = new JLabel("Ship Name");
 		lblShipName.setBounds(218, 15, 68, 15);
 		contentPane.add(lblShipName);
+		
+		textNumBarrels = new JTextArea();
+		textNumBarrels.setEditable(false);
+		textNumBarrels.setBounds(380, 136, 70, 21);
+		contentPane.add(textNumBarrels);
+		
+		labelBarrels = new JLabel("Barrels");
+		labelBarrels.setBounds(300, 140, 70, 15);
+		contentPane.add(labelBarrels);
 	}
 
 	/**
@@ -874,6 +884,11 @@ public class Viewer extends JFrame
 		this.HEShellBurnProb.setText(String.valueOf(HEShellBurnProb) + " %");
 	}
 	
+	public void setNumBarrels(long numBarrels, int numTurrets)
+	{
+		this.textNumBarrels.setText(String.valueOf(numBarrels) + " X " + String.valueOf(numTurrets));
+	}
+	
 	public void setSecondaryMaxDist(double secondaryMaxDist)
 	{
 		this.secondaryMaxDist.setText(String.valueOf(secondaryMaxDist) + " km");
@@ -1110,6 +1125,18 @@ public class Viewer extends JFrame
 		return mod6Box.getSelectedItem().toString();
 	}
 	
+	public String getShipNameBox()
+	{
+		if (comboBoxShipNameList.getSelectedItem() != null)
+		{
+			return comboBoxShipNameList.getSelectedItem().toString();
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
 	public void setTurretBox(List<String> aList)
 	{
 		comboBoxTurretList.removeAllItems();
@@ -1207,10 +1234,11 @@ public class Viewer extends JFrame
 	public void setNationList()
 	{
 		comboBoxNationList.removeAllItems();
-		comboBoxNationList.addItem("USA");
+		comboBoxNationList.addItem("");
 		comboBoxNationList.addItem("Germany");
 		comboBoxNationList.addItem("Japan");
 		comboBoxNationList.addItem("Russia");
+		comboBoxNationList.addItem("USA");
 		comboBoxNationList.addItem("United Kingdom");
 		comboBoxNationList.addItem("Poland");
 		comboBoxNationList.addItem("Pan Asia");
@@ -1222,8 +1250,9 @@ public class Viewer extends JFrame
 	public void setShipTypeList()
 	{
 		comboBoxShipTypeList.removeAllItems();
+		comboBoxShipTypeList.addItem("");
+		comboBoxShipTypeList.addItem("AirCarrier");
 		comboBoxShipTypeList.addItem("Battleship");
-		comboBoxShipTypeList.addItem("CV");
 		comboBoxShipTypeList.addItem("Cruiser");
 		comboBoxShipTypeList.addItem("Destroyer");
 		comboBoxShipTypeList.addItem("Premium");
@@ -1306,18 +1335,26 @@ public class Viewer extends JFrame
 	{
 		comboBoxShipNameList.removeAllItems();
 		
-		comboBoxShipNameList.addItem("Smith");
-		comboBoxShipNameList.addItem("Sims");
+		//AirCarrier		
+		comboBoxShipNameList.addItem("Saipan");
 		
-		comboBoxShipNameList.addItem("Albany");
-		comboBoxShipNameList.addItem("Marblehead");
-		comboBoxShipNameList.addItem("Atlanta");
-		comboBoxShipNameList.addItem("Indianapolis");
-		
+		//Battleship
 		comboBoxShipNameList.addItem("Arkansas");
 		comboBoxShipNameList.addItem("Texas");
+		comboBoxShipNameList.addItem("Arizona");
 		
-		comboBoxShipNameList.addItem("Saipan");
+		//Cruiser
+		comboBoxShipNameList.addItem("Albany");
+		comboBoxShipNameList.addItem("Marblehead");
+		comboBoxShipNameList.addItem("Marblehead L");
+		comboBoxShipNameList.addItem("Atlanta");
+		comboBoxShipNameList.addItem("Flint");
+		comboBoxShipNameList.addItem("Indianapolis");
+		
+		//Destroyer
+		comboBoxShipNameList.addItem("Smith");
+		comboBoxShipNameList.addItem("Sims");
+		comboBoxShipNameList.addItem("Black");		
 	}
 
 	public void setJapanBattleshipList()
@@ -1381,19 +1418,23 @@ public class Viewer extends JFrame
 	public void setJapanPremiumList()
 	{
 		comboBoxShipNameList.removeAllItems();
+		//Battleship
+		comboBoxShipNameList.addItem("Mikasa");
+		comboBoxShipNameList.addItem("Ishizuchi");
 		
-		comboBoxShipNameList.addItem("Tachibana");
-		//comboBoxShipNameList.addItem("Fujin");
-		comboBoxShipNameList.addItem("Kamikaze");
-		
+		//Cruiser
 		comboBoxShipNameList.addItem("Katori");
 		comboBoxShipNameList.addItem("Iwaki");
 		comboBoxShipNameList.addItem("Yubari");
 		comboBoxShipNameList.addItem("Tone");
 		comboBoxShipNameList.addItem("Atago");
 		
-		comboBoxShipNameList.addItem("Mikasa");
-		comboBoxShipNameList.addItem("Ishizuchi");
+		//Destroyer
+		comboBoxShipNameList.addItem("Tachibana");
+		comboBoxShipNameList.addItem("Tachibana L");
+		comboBoxShipNameList.addItem("Fujin");
+		comboBoxShipNameList.addItem("Kamikaze");
+		comboBoxShipNameList.addItem("Kamikaze R");		
 	}
 
 	public void setRussiaDestroyerList()
@@ -1431,15 +1472,35 @@ public class Viewer extends JFrame
 	{
 		comboBoxShipNameList.removeAllItems();
 		
-		comboBoxShipNameList.addItem("Gremyashchy");
-		
+		//Battleship
+		comboBoxShipNameList.addItem("Nikolay");
+						
+		//Cruiser
 		comboBoxShipNameList.addItem("Diana");
+		comboBoxShipNameList.addItem("Diana L");
 		comboBoxShipNameList.addItem("Aurora");
 		comboBoxShipNameList.addItem("Murmansk");
 		comboBoxShipNameList.addItem("Molotov");
 		comboBoxShipNameList.addItem("Kutuzov");
 		
-		comboBoxShipNameList.addItem("Nikolay");
+		//Destroyer
+		comboBoxShipNameList.addItem("Gremyashchy");
+				
+	}
+	
+	public void setGermanyBattleshipList()
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		comboBoxShipNameList.addItem(""); //2
+		comboBoxShipNameList.addItem(""); //3
+		comboBoxShipNameList.addItem("Kaiser"); //4
+		comboBoxShipNameList.addItem(""); //5
+		comboBoxShipNameList.addItem(""); //6
+		comboBoxShipNameList.addItem(""); //7
+		comboBoxShipNameList.addItem(""); //8
+		comboBoxShipNameList.addItem(""); //9
+		comboBoxShipNameList.addItem(""); //10
 	}
 	
 	public void setGermanyCruiserList()
@@ -1460,17 +1521,21 @@ public class Viewer extends JFrame
 	
 	public void setGermanyPremiumList()
 	{
-		comboBoxShipNameList.removeAllItems();		
+		comboBoxShipNameList.removeAllItems();
 		
-		comboBoxShipNameList.addItem("Emden");
-		
+		//Battleship
+		comboBoxShipNameList.addItem("Scharnhorst");
 		comboBoxShipNameList.addItem("Tirpitz");
+		
+		//Cruiser
+		comboBoxShipNameList.addItem("Emden");
 	}
 	
 	public void setPanAsiaPremiumList()
 	{
 		comboBoxShipNameList.removeAllItems();
 		
+		//Destroyer
 		comboBoxShipNameList.addItem("Anshan");
 		comboBoxShipNameList.addItem("LoYang");
 	}
@@ -1479,15 +1544,18 @@ public class Viewer extends JFrame
 	{
 		comboBoxShipNameList.removeAllItems();
 		
-		comboBoxShipNameList.addItem("Campbeltown");
-		
+		//Battleship
 		comboBoxShipNameList.addItem("Warspite");
+		
+		//Destroyer
+		comboBoxShipNameList.addItem("Campbeltown");			
 	}
 	
 	public void setPolandPremiumList()
 	{
 		comboBoxShipNameList.removeAllItems();
 		
+		//Destroyer
 		comboBoxShipNameList.addItem("Blyskawica");
 	}
 	

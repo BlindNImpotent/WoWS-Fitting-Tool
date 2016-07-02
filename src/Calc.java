@@ -25,6 +25,8 @@ public class Calc
 	private double mainGunRotation;
 	private double mainGunDispersionTangent;
 	private double mainGunDispersionRange;
+	private long numBarrels;
+	private int numTurrets;
 	private double APShellSpeed;
 	private double APShellDMG;
 	private double HEShellSpeed;
@@ -103,6 +105,8 @@ public class Calc
 		mainGunRotation = jsp.getMainGunRotation();		
 		mainGunDispersionTangent = jsp.getMainGunDispersion();
 		mainGunDispersionRange = maxMainGunRange * mainGunDispersionTangent * 2 * 1000;
+		numBarrels = jsp.getNumBarrels();
+		numTurrets = jsp.getNumTurrets();
 		APShellSpeed = jsp.getAPShellSpeed();
 		APShellDMG = jsp.getAPShellDMG();
 		HEShellSpeed = jsp.getHEShellSpeed();
@@ -728,6 +732,16 @@ public class Calc
 		return Math.round(mainGunDispersionRange * 100.0) / 100.0;
 	}
 	
+	public long getNumBarrels()
+	{
+		return numBarrels;
+	}
+	
+	public int getNumTurrets()
+	{
+		return numTurrets;
+	}
+	
 	public double getAPShellSpeed()
 	{
 		return APShellSpeed;
@@ -1070,7 +1084,7 @@ public class Calc
 		
 		for (int i = 0; i < jsp.getModule1().size(); i++)
 		{			
-			mod1.add(i+1, jsp.getModule1().get(i).substring(7, jsp.getModule1().get(i).length()));		
+			mod1.add(i+1, jsp.getModule1().get(i).substring(7));		
 		}
 		
 		return mod1;
@@ -1087,7 +1101,7 @@ public class Calc
 		
 		for (int i = 0; i < jsp.getModule2().size(); i++)
 		{			
-			mod2.add(i+1, jsp.getModule2().get(i).substring(7, jsp.getModule2().get(i).length()));		
+			mod2.add(i+1, jsp.getModule2().get(i).substring(7));		
 		}
 		
 		return mod2;	
@@ -1104,7 +1118,7 @@ public class Calc
 		
 		for (int i = 0; i < jsp.getModule3().size(); i++)
 		{			
-			mod3.add(i+1, jsp.getModule3().get(i).substring(7, jsp.getModule3().get(i).length()));		
+			mod3.add(i+1, jsp.getModule3().get(i).substring(7));		
 		}
 		
 		return mod3;	
@@ -1121,7 +1135,7 @@ public class Calc
 		
 		for (int i = 0; i < jsp.getModule4().size(); i++)
 		{			
-			mod4.add(i+1, jsp.getModule4().get(i).substring(7, jsp.getModule4().get(i).length()));		
+			mod4.add(i+1, jsp.getModule4().get(i).substring(7));		
 		}
 		
 		return mod4;
@@ -1138,7 +1152,7 @@ public class Calc
 		
 		for (int i = 0; i < jsp.getModule5().size(); i++)
 		{			
-			mod5.add(i+1, jsp.getModule5().get(i).substring(7, jsp.getModule5().get(i).length()));		
+			mod5.add(i+1, jsp.getModule5().get(i).substring(7));		
 		}
 		
 		return mod5;	
@@ -1155,7 +1169,7 @@ public class Calc
 		
 		for (int i = 0; i < jsp.getModule6().size(); i++)
 		{			
-			mod6.add(i+1, jsp.getModule6().get(i).substring(7, jsp.getModule6().get(i).length()));		
+			mod6.add(i+1, jsp.getModule6().get(i).substring(7));		
 		}
 		
 		return mod6;
@@ -1168,7 +1182,7 @@ public class Calc
 		
 		for (int i = 0; i < jsp.getTurretList().size(); i++)
 		{
-			turretList.add(i, jsp.getTurretList().get(i).substring(6));
+			turretList.add(i, jsp.getTurretList().get(i).substring(8));
 		}
 		return turretList;
 	}
@@ -1180,7 +1194,7 @@ public class Calc
 		
 		for (int i = 0; i < jsp.getHullList().size(); i++)
 		{
-			hullList.add(i, jsp.getHullList().get(i).substring(6));
+			hullList.add(i, jsp.getHullList().get(i).substring(8));
 		}
 		return hullList;
 	}
@@ -1192,7 +1206,7 @@ public class Calc
 		
 		for (int i = 0; i < jsp.getEngineList().size(); i++)
 		{			
-			engineList.add(i, jsp.getEngineList().get(i).substring(6));		
+			engineList.add(i, jsp.getEngineList().get(i).substring(8));		
 		}			
 		return engineList;
 	}
@@ -1203,7 +1217,7 @@ public class Calc
 		
 		for (int i = 0; i < jsp.getRadarList().size(); i++)
 		{			
-			radarList.add(i, jsp.getRadarList().get(i));		
+			radarList.add(i, jsp.getRadarList().get(i).substring(4));		
 		}			
 		return radarList;
 	}
@@ -1214,7 +1228,7 @@ public class Calc
 		
 		for (int i = 0; i < jsp.getTorpedoList().size(); i++)
 		{			
-			torpedoList.add(i, jsp.getTorpedoList().get(i).substring(6));		
+			torpedoList.add(i, jsp.getTorpedoList().get(i).substring(8));		
 		}		
 		
 		return torpedoList;		
