@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
@@ -1178,10 +1179,11 @@ public class Calc
 	public List<String> getConsumable1()
 	{		
 		List<String> Ability0 = new ArrayList<String>();
+		Ability0.add("None");
 		
 		for (int i = 0; i < jsp.getAbility0().size(); i++)
 		{
-			Ability0.add(i, jsp.getAbility0().get(i).substring(7));
+			Ability0.add(i+1, jsp.getAbility0().get(i));
 		}
 		
 		return Ability0;
@@ -1190,35 +1192,98 @@ public class Calc
 	public List<String> getConsumable2()
 	{
 		List<String> Ability1 = new ArrayList<String>();
+		Ability1.add("None");
 		
 		for (int i = 0; i < jsp.getAbility1().size(); i++)
 		{
-			Ability1.add(i, jsp.getAbility1().get(i).substring(7));
+			Ability1.add(i+1, jsp.getAbility1().get(i));
 		}
 				
 		return Ability1;
 	}
 	
+	public String getConsume2Count(String consumable)
+	{
+		Object count = 0;
+		
+		JSONArray a1;
+		
+		for (int i = 0; i < jsp.getAbil1().size(); i++)
+		{
+			a1 = (JSONArray) jsp.getAbil1().get(i);
+			if (a1.get(0).toString().contains(consumable))
+			{
+				JSONObject a2 = (JSONObject) jsp.getGameParams().get(consumable);
+				JSONObject a3 = (JSONObject) a2.get(a1.get(1));
+				count = (Object) a3.get("numConsumables");
+			}
+		}
+		
+		return count.toString();
+	}
+	
 	public List<String> getConsumable3()
 	{
 		List<String> Ability2 = new ArrayList<String>();
+		Ability2.add("None");
 		
 		for (int i = 0; i < jsp.getAbility2().size(); i++)
 		{
-			Ability2.add(i, jsp.getAbility2().get(i).substring(7));
+			Ability2.add(i+1, jsp.getAbility2().get(i));
 		}
 		return Ability2;
+	}
+	
+	public String getConsume3Count(String consumable)
+	{
+		Object count = 0;		
+				
+		JSONArray a1;
+		
+		for (int i = 0; i < jsp.getAbil2().size(); i++)
+		{
+			a1 = (JSONArray) jsp.getAbil2().get(i);
+			if (a1.get(0).toString().contains(consumable))
+			{
+				JSONObject a2 = (JSONObject) jsp.getGameParams().get(consumable);
+				JSONObject a3 = (JSONObject) a2.get(a1.get(1));
+				count = (Object) a3.get("numConsumables");
+			}
+		}
+		
+		return count.toString();
 	}
 	
 	public List<String> getConsumable4()
 	{
 		List<String> Ability3 = new ArrayList<String>();
+		Ability3.add("None");
 		
 		for (int i = 0; i < jsp.getAbility3().size(); i++)
 		{
-			Ability3.add(i, jsp.getAbility3().get(i).substring(7));
+			Ability3.add(i+1, jsp.getAbility3().get(i));
 		}
 		return Ability3;
+	}
+	
+	public String getConsume4Count(String consumable)
+	{
+		Object count = 0;		
+				
+		JSONArray a1;
+		
+		for (int i = 0; i < jsp.getAbil3().size(); i++)
+		{
+			a1 = (JSONArray) jsp.getAbil3().get(i);
+			if (a1.get(0).toString().contains(consumable))
+			{
+				JSONObject a2 = (JSONObject) jsp.getGameParams().get(consumable);
+				JSONObject a3 = (JSONObject) a2.get(a1.get(1));
+				count = (Object) a3.get("numConsumables");
+			}
+		}
+		
+		return count.toString();
 	}
 
 	public List<String> getTurretList()

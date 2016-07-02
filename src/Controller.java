@@ -205,6 +205,10 @@ public class Controller
 				e.printStackTrace();
 			}
 			
+			view.setConsume2Count(answer.getConsume2Count(view.getConsumable2()));
+			view.setConsume3Count(answer.getConsume3Count(view.getConsumable3()));
+			view.setConsume4Count(answer.getConsume4Count(view.getConsumable4()));
+			
 			view.setTier(answer.getTier());
 			view.setNation(answer.getNation());
 			view.setShipType(answer.getShipType());

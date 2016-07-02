@@ -131,7 +131,9 @@ public class Viewer extends JFrame
 	private JLabel lblModule4;
 	private JLabel lblModule5;
 	private JLabel lblModule6;
-	
+	private JTextArea consume4Number;
+	private JTextArea consume3Number;
+	private JTextArea consume2Number;
 	
 	
 	/**
@@ -141,18 +143,18 @@ public class Viewer extends JFrame
 		setResizable(false);
 		setTitle("WoWS Ship Stats Calculator by Aesis (BlindNImpotent)");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 700);
+		setBounds(100, 100, 630, 700);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		searchButton = new JButton("Search");
-		searchButton.setBounds(445, 11, 78, 23);
+		searchButton.setBounds(355, 11, 78, 23);
 		contentPane.add(searchButton);
 		
 		calculateButton = new JButton("Calculate");
-		calculateButton.setBounds(535, 11, 97, 23);
+		calculateButton.setBounds(515, 11, 97, 23);
 		contentPane.add(calculateButton);
 		
 		mod1Box = new JComboBox<String>();
@@ -160,23 +162,23 @@ public class Viewer extends JFrame
 		contentPane.add(mod1Box);
 		
 		mod2Box = new JComboBox<String>();
-		mod2Box.setBounds(12, 188, 116, 21);
+		mod2Box.setBounds(12, 199, 116, 21);
 		contentPane.add(mod2Box);
 		
 		mod3Box = new JComboBox<String>();
-		mod3Box.setBounds(12, 223, 116, 21);
+		mod3Box.setBounds(12, 244, 116, 21);
 		contentPane.add(mod3Box);
 		
 		mod4Box = new JComboBox<String>();
-		mod4Box.setBounds(12, 258, 116, 21);
+		mod4Box.setBounds(12, 292, 116, 21);
 		contentPane.add(mod4Box);
 		
 		mod5Box = new JComboBox<String>();
-		mod5Box.setBounds(12, 293, 116, 21);
+		mod5Box.setBounds(12, 337, 116, 21);
 		contentPane.add(mod5Box);
 		
 		mod6Box = new JComboBox<String>();
-		mod6Box.setBounds(12, 328, 116, 21);
+		mod6Box.setBounds(12, 385, 116, 21);
 		contentPane.add(mod6Box);
 		
 		rudder = new JTextArea();
@@ -608,15 +610,15 @@ public class Viewer extends JFrame
 		contentPane.add(lblConsumable1);
 		
 		comboBoxConsumable1 = new JComboBox<String>();
-		comboBoxConsumable1.setBounds(129, 106, 105, 21);
+		comboBoxConsumable1.setBounds(129, 105, 105, 21);
 		contentPane.add(comboBoxConsumable1);
 		
 		comboBoxConsumable2 = new JComboBox<String>();
-		comboBoxConsumable2.setBounds(246, 106, 105, 21);
+		comboBoxConsumable2.setBounds(290, 106, 105, 21);
 		contentPane.add(comboBoxConsumable2);
 		
 		comboBoxConsumable3 = new JComboBox<String>();
-		comboBoxConsumable3.setBounds(363, 106, 105, 21);
+		comboBoxConsumable3.setBounds(447, 106, 105, 21);
 		contentPane.add(comboBoxConsumable3);
 		
 		lblConsumable2 = new JLabel("Consumable 2");
@@ -624,11 +626,11 @@ public class Viewer extends JFrame
 		contentPane.add(lblConsumable2);
 		
 		lblConsumable3 = new JLabel("Consumable 3");
-		lblConsumable3.setBounds(246, 93, 87, 15);
+		lblConsumable3.setBounds(290, 93, 87, 15);
 		contentPane.add(lblConsumable3);
 		
 		lblConsumable4 = new JLabel("Consumable 4");
-		lblConsumable4.setBounds(363, 93, 87, 15);
+		lblConsumable4.setBounds(447, 93, 87, 15);
 		contentPane.add(lblConsumable4);
 		
 		lblModule1 = new JLabel("Module 1");
@@ -636,24 +638,39 @@ public class Viewer extends JFrame
 		contentPane.add(lblModule1);
 		
 		lblModule2 = new JLabel("Module 2");
-		lblModule2.setBounds(12, 174, 80, 15);
+		lblModule2.setBounds(12, 184, 80, 15);
 		contentPane.add(lblModule2);
 		
 		lblModule3 = new JLabel("Module 3");
-		lblModule3.setBounds(12, 209, 80, 15);
+		lblModule3.setBounds(12, 230, 80, 15);
 		contentPane.add(lblModule3);
 		
 		lblModule4 = new JLabel("Module 4");
-		lblModule4.setBounds(12, 244, 80, 15);
+		lblModule4.setBounds(12, 275, 80, 15);
 		contentPane.add(lblModule4);
 		
 		lblModule5 = new JLabel("Module 5");
-		lblModule5.setBounds(12, 279, 80, 15);
+		lblModule5.setBounds(12, 323, 80, 15);
 		contentPane.add(lblModule5);
 		
 		lblModule6 = new JLabel("Module 6");
-		lblModule6.setBounds(12, 314, 80, 15);
+		lblModule6.setBounds(12, 368, 80, 15);
 		contentPane.add(lblModule6);
+		
+		consume4Number = new JTextArea();
+		consume4Number.setEditable(false);
+		consume4Number.setBounds(564, 105, 31, 21);
+		contentPane.add(consume4Number);
+		
+		consume3Number = new JTextArea();
+		consume3Number.setEditable(false);
+		consume3Number.setBounds(407, 105, 31, 21);
+		contentPane.add(consume3Number);
+		
+		consume2Number = new JTextArea();
+		consume2Number.setEditable(false);
+		consume2Number.setBounds(246, 105, 31, 21);
+		contentPane.add(consume2Number);
 	}
 
 	/**
@@ -1065,6 +1082,22 @@ public class Viewer extends JFrame
 	{
 		this.burnTime.setText(String.valueOf(burnTime) + " s");
 	}
+	
+	public void setConsume2Count(String consume2Count)
+	{
+		this.consume2Number.setText(consume2Count);
+	}
+	
+	public void setConsume3Count(String consume3Count)
+	{
+		this.consume3Number.setText(consume3Count);
+	}
+	
+	public void setConsume4Count(String consume4Count)
+	{
+		this.consume4Number.setText(consume4Count);
+	}
+	
 		
 	/**
 	 * Sets module box 1 to given list.
