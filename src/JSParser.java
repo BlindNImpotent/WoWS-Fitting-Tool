@@ -75,7 +75,7 @@ public class JSParser
 	private double maxDistCoef;
 	private int moduleSlots;
 	private double barrelDiameter;
-	private long numBarrels;
+	private Object numBarrels;
 	private int numTurrets;
 	private double burnTime;
 	private double floodTime;
@@ -649,7 +649,7 @@ public class JSParser
 		return barrelDiameter;
 	}	
 	
-	public long getNumBarrels()
+	public Object getNumBarrels()
 	{
 		return numBarrels;
 	}
@@ -921,7 +921,7 @@ public class JSParser
 			}
 					
 			maxMainGunRange = (double) tobj.get("maxDist") * maxDistCoef;
-			numBarrels = (long) tobj2.get("numBarrels");
+			numBarrels = (Object) tobj2.get("numBarrels");
 			 
 			List<String> temp = new ArrayList<String>();
 			temp.addAll(tobj.keySet());

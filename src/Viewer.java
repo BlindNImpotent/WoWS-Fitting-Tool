@@ -884,7 +884,7 @@ public class Viewer extends JFrame
 		this.HEShellBurnProb.setText(String.valueOf(HEShellBurnProb) + " %");
 	}
 	
-	public void setNumBarrels(long numBarrels, int numTurrets)
+	public void setNumBarrels(Object numBarrels, int numTurrets)
 	{
 		this.textNumBarrels.setText(String.valueOf(numBarrels) + " X " + String.valueOf(numTurrets));
 	}

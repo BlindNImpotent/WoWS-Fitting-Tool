@@ -25,7 +25,7 @@ public class Calc
 	private double mainGunRotation;
 	private double mainGunDispersionTangent;
 	private double mainGunDispersionRange;
-	private long numBarrels;
+	private Object numBarrels;
 	private int numTurrets;
 	private double APShellSpeed;
 	private double APShellDMG;
@@ -732,7 +732,7 @@ public class Calc
 		return Math.round(mainGunDispersionRange * 100.0) / 100.0;
 	}
 	
-	public long getNumBarrels()
+	public Object getNumBarrels()
 	{
 		return numBarrels;
 	}
