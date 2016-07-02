@@ -18,7 +18,8 @@ public class Calc
 	private String nation;
 	private String shiptype;
 	private double health;
-	private Object speed;
+	private double speed;
+	private int horsePower;
 	private double rudderShift;
 	
 	private double maxMainGunRange;
@@ -103,6 +104,7 @@ public class Calc
 		shiptype = jsp.getShipType();
 		health = jsp.getHealth();
 		speed = jsp.getSpeed();
+		horsePower = jsp.getHorsePower();
 		rudderShift = jsp.getRudderShift();
 		
 		maxMainGunRange = jsp.getMaxMainGunRange() / 1000;
@@ -579,7 +581,9 @@ public class Calc
 	
 	public void calcSuperintendent() // Skill 3
 	{
-		
+		count2 = count2 + 1;
+		count3 = count3 + 1;
+		count4 = count4 + 1;
 	}
 	
 	public void calcDemolitionExpert() //Skill 4
@@ -898,9 +902,14 @@ public class Calc
 	 * 
 	 * @return
 	 */
-	public Object getSpeed()
+	public double getSpeed()
 	{
 		return speed;
+	}
+	
+	public int getHorsePower()
+	{
+		return horsePower;
 	}
 	
 	/**

@@ -215,6 +215,7 @@ public class Controller
 			view.setShipType(answer.getShipType());
 			view.setHealth(answer.getHealth());
 			view.setSpeed(answer.getSpeed());
+			view.setHorsePower(answer.getHorsePower());
 			view.setRudderShift(answer.getRudderShift());
 			view.setSConceal(answer.getSConceal());
 			view.setAConceal(answer.getAConceal());

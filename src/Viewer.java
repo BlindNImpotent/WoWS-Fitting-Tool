@@ -135,6 +135,11 @@ public class Viewer extends JFrame
 	private JTextArea consume3Number;
 	private JTextArea consume2Number;
 	private JCheckBox chckbxSuperintendent;
+	private JTextArea horsePower;	
+	private JLabel lblHorsePower;
+	
+	
+	
 	
 	/**
 	 * Creates the frame.
@@ -184,7 +189,7 @@ public class Viewer extends JFrame
 		rudder = new JTextArea();
 		rudder.setEditable(false);
 		rudder.setText("s");
-		rudder.setBounds(218, 291, 70, 21);
+		rudder.setBounds(218, 322, 70, 21);
 		contentPane.add(rudder);
 		
 		tier = new JTextArea();
@@ -223,7 +228,7 @@ public class Viewer extends JFrame
 		sConceal = new JTextArea();
 		sConceal.setEditable(false);
 		sConceal.setText("km");
-		sConceal.setBounds(218, 322, 70, 21);
+		sConceal.setBounds(218, 353, 70, 21);
 		contentPane.add(sConceal);
 		
 		lblTier = new JLabel("Tier");
@@ -243,15 +248,15 @@ public class Viewer extends JFrame
 		contentPane.add(lblHealth);
 		
 		lblSpeed = new JLabel("Speed");
-		lblSpeed.setBounds(138, 264, 49, 15);
+		lblSpeed.setBounds(140, 264, 49, 15);
 		contentPane.add(lblSpeed);
 		
 		lblRudder = new JLabel("Rudder Shift");
-		lblRudder.setBounds(138, 295, 78, 15);
+		lblRudder.setBounds(140, 326, 78, 15);
 		contentPane.add(lblRudder);
 		
 		lblSConceal = new JLabel("S Conceal");
-		lblSConceal.setBounds(138, 326, 70, 15);
+		lblSConceal.setBounds(140, 357, 70, 15);
 		contentPane.add(lblSConceal);
 		
 		lblMGRange = new JLabel("MG Range");
@@ -277,46 +282,46 @@ public class Viewer extends JFrame
 		txtrMgReload = new JTextArea();
 		txtrMgReload.setEditable(false);
 		txtrMgReload.setText("s");
-		txtrMgReload.setBounds(380, 198, 70, 21);
+		txtrMgReload.setBounds(380, 229, 70, 21);
 		contentPane.add(txtrMgReload);
 		
 		lblMgReload = new JLabel("MG Reload");
-		lblMgReload.setBounds(300, 202, 70, 15);
+		lblMgReload.setBounds(300, 233, 70, 15);
 		contentPane.add(lblMgReload);
 		
 		txtrMgDegs = new JTextArea();
 		txtrMgDegs.setEditable(false);
 		txtrMgDegs.setText("deg/s");
-		txtrMgDegs.setBounds(380, 229, 70, 21);
+		txtrMgDegs.setBounds(380, 260, 70, 21);
 		contentPane.add(txtrMgDegs);
 		
 		lblMgDegs = new JLabel("MG Deg/s");
-		lblMgDegs.setBounds(300, 233, 70, 15);
+		lblMgDegs.setBounds(300, 264, 70, 15);
 		contentPane.add(lblMgDegs);
 		
 		txtrMgTime = new JTextArea();
 		txtrMgTime.setEditable(false);
 		txtrMgTime.setText("s/180 deg");
-		txtrMgTime.setBounds(380, 260, 70, 21);
+		txtrMgTime.setBounds(380, 291, 70, 21);
 		contentPane.add(txtrMgTime);
 		
 		lblMgTime = new JLabel("MG Rotation");
-		lblMgTime.setBounds(300, 264, 70, 15);
+		lblMgTime.setBounds(300, 295, 70, 15);
 		contentPane.add(lblMgTime);
 		
 		lblAConceal = new JLabel("A Conceal");
-		lblAConceal.setBounds(138, 357, 70, 15);
+		lblAConceal.setBounds(140, 388, 70, 15);
 		contentPane.add(lblAConceal);
 		
 		aConceal = new JTextArea();
 		aConceal.setEditable(false);
 		aConceal.setText("km");
-		aConceal.setBounds(218, 353, 70, 21);
+		aConceal.setBounds(218, 384, 70, 21);
 		contentPane.add(aConceal);
 		
 		chckbxConcealCamo = new JCheckBox("Conc Camo");
 		chckbxConcealCamo.setToolTipText("-3% Surface Detection Camo");
-		chckbxConcealCamo.setBounds(0, 516, 97, 23);
+		chckbxConcealCamo.setBounds(12, 412, 97, 23);
 		contentPane.add(chckbxConcealCamo);
 		
 		chckbxBft = new JCheckBox("BFT");
@@ -325,23 +330,23 @@ public class Viewer extends JFrame
 		contentPane.add(chckbxBft);
 		
 		lblTorpRange = new JLabel("Torp Range");
-		lblTorpRange.setBounds(465, 357, 68, 15);
+		lblTorpRange.setBounds(465, 388, 68, 15);
 		contentPane.add(lblTorpRange);
 		
 		lblTorpReload = new JLabel("Torp Reload");
-		lblTorpReload.setBounds(465, 388, 70, 15);
+		lblTorpReload.setBounds(465, 419, 70, 15);
 		contentPane.add(lblTorpReload);
 		
 		torpRange = new JTextArea();
 		torpRange.setEditable(false);
 		torpRange.setText("km");
-		torpRange.setBounds(542, 353, 70, 21);
+		torpRange.setBounds(542, 384, 70, 21);
 		contentPane.add(torpRange);
 		
 		torpReload = new JTextArea();
 		torpReload.setEditable(false);
 		torpReload.setText("s");
-		torpReload.setBounds(542, 384, 70, 21);
+		torpReload.setBounds(542, 415, 70, 21);
 		contentPane.add(torpReload);
 		
 		chckbxTorpAccel = new JCheckBox("Torp Accel");
@@ -366,13 +371,13 @@ public class Viewer extends JFrame
 		contentPane.add(comboBoxShipNameList);
 		
 		lblTorpSpeed = new JLabel("Torp Speed");
-		lblTorpSpeed.setBounds(465, 419, 70, 15);
+		lblTorpSpeed.setBounds(465, 450, 70, 15);
 		contentPane.add(lblTorpSpeed);
 		
 		torpSpeed = new JTextArea();
 		torpSpeed.setEditable(false);
 		torpSpeed.setText("kts");
-		torpSpeed.setBounds(542, 415, 70, 21);
+		torpSpeed.setBounds(542, 446, 70, 21);
 		contentPane.add(torpSpeed);
 		
 		chckbxBoS = new JCheckBox("BoS");
@@ -393,125 +398,125 @@ public class Viewer extends JFrame
 		contentPane.add(floodTime);
 		
 		lblBurnTime = new JLabel("Burn Time");
-		lblBurnTime.setBounds(138, 450, 70, 15);
+		lblBurnTime.setBounds(140, 450, 70, 15);
 		contentPane.add(lblBurnTime);
 		
 		lblFloodTime = new JLabel("Flood Time");
-		lblFloodTime.setBounds(138, 481, 78, 15);
+		lblFloodTime.setBounds(140, 481, 78, 15);
 		contentPane.add(lblFloodTime);
 		
 		aaFar = new JTextArea();
 		aaFar.setEditable(false);
 		aaFar.setText("km");
-		aaFar.setBounds(542, 136, 70, 21);
+		aaFar.setBounds(542, 167, 70, 21);
 		contentPane.add(aaFar);
 		
 		aaMedium = new JTextArea();
 		aaMedium.setEditable(false);
 		aaMedium.setText("km");
-		aaMedium.setBounds(542, 198, 70, 21);
+		aaMedium.setBounds(542, 229, 70, 21);
 		contentPane.add(aaMedium);
 		
 		aaNear = new JTextArea();
 		aaNear.setEditable(false);
 		aaNear.setText("km");
-		aaNear.setBounds(542, 260, 70, 21);
+		aaNear.setBounds(542, 291, 70, 21);
 		contentPane.add(aaNear);
 		
 		lblAaFar = new JLabel("AA Far");
-		lblAaFar.setBounds(465, 140, 68, 15);
+		lblAaFar.setBounds(462, 171, 68, 15);
 		contentPane.add(lblAaFar);
 		
 		lblAaMedium = new JLabel("AA Medium");
-		lblAaMedium.setBounds(465, 202, 68, 15);
+		lblAaMedium.setBounds(462, 233, 68, 15);
 		contentPane.add(lblAaMedium);
 		
 		lblAaNear = new JLabel("AA Near");
-		lblAaNear.setBounds(465, 264, 68, 15);
+		lblAaNear.setBounds(462, 295, 68, 15);
 		contentPane.add(lblAaNear);
 		
 		aaFarDPS = new JTextArea();
 		aaFarDPS.setEditable(false);
 		aaFarDPS.setText("dps");
-		aaFarDPS.setBounds(542, 167, 70, 21);
+		aaFarDPS.setBounds(542, 198, 70, 21);
 		contentPane.add(aaFarDPS);
 		
 		aaMediumDPS = new JTextArea();
 		aaMediumDPS.setEditable(false);
 		aaMediumDPS.setText("dps");
-		aaMediumDPS.setBounds(542, 229, 70, 21);
+		aaMediumDPS.setBounds(542, 260, 70, 21);
 		contentPane.add(aaMediumDPS);
 		
 		aaNearDPS = new JTextArea();
 		aaNearDPS.setEditable(false);
 		aaNearDPS.setText("dps");
-		aaNearDPS.setBounds(542, 291, 70, 21);
+		aaNearDPS.setBounds(542, 322, 70, 21);
 		contentPane.add(aaNearDPS);
 		
 		stealthFireRange = new JTextArea();
 		stealthFireRange.setEditable(false);
 		stealthFireRange.setText("km");
-		stealthFireRange.setBounds(218, 384, 70, 21);
+		stealthFireRange.setBounds(380, 198, 70, 21);
 		contentPane.add(stealthFireRange);
 		
-		lblStealthFire = new JLabel("Stealth Fire");
-		lblStealthFire.setBounds(138, 388, 70, 15);
+		lblStealthFire = new JLabel("Stealth MG");
+		lblStealthFire.setBounds(300, 202, 70, 15);
 		contentPane.add(lblStealthFire);
 		
 		mainGunDispersionRange = new JTextArea();
 		mainGunDispersionRange.setEditable(false);
 		mainGunDispersionRange.setText("m");
-		mainGunDispersionRange.setBounds(380, 291, 70, 21);
+		mainGunDispersionRange.setBounds(380, 322, 70, 21);
 		contentPane.add(mainGunDispersionRange);
 		
 		lblMgDispersion = new JLabel("MG Disperse");
-		lblMgDispersion.setBounds(300, 295, 80, 15);
+		lblMgDispersion.setBounds(300, 326, 80, 15);
 		contentPane.add(lblMgDispersion);
 		
 		AAFireAirDetection = new JTextArea();
 		AAFireAirDetection.setText("km");
 		AAFireAirDetection.setEditable(false);
-		AAFireAirDetection.setBounds(218, 415, 70, 21);
+		AAFireAirDetection.setBounds(542, 136, 70, 21);
 		contentPane.add(AAFireAirDetection);
 		
-		lblAaFire = new JLabel("AA Fire");
-		lblAaFire.setBounds(138, 419, 70, 15);
+		lblAaFire = new JLabel("Stealth AA");
+		lblAaFire.setBounds(465, 140, 70, 15);
 		contentPane.add(lblAaFire);
 		
 		APShellSpeed = new JTextArea();
 		APShellSpeed.setText("m/s");
 		APShellSpeed.setEditable(false);
-		APShellSpeed.setBounds(380, 322, 70, 21);
+		APShellSpeed.setBounds(380, 353, 70, 21);
 		contentPane.add(APShellSpeed);
 		
 		HEShellSpeed = new JTextArea();
 		HEShellSpeed.setText("m/s");
 		HEShellSpeed.setEditable(false);
-		HEShellSpeed.setBounds(380, 384, 70, 21);
+		HEShellSpeed.setBounds(380, 415, 70, 21);
 		contentPane.add(HEShellSpeed);
 		
 		lblAPShell = new JLabel("AP Speed");
-		lblAPShell.setBounds(300, 326, 70, 15);
+		lblAPShell.setBounds(300, 357, 70, 15);
 		contentPane.add(lblAPShell);
 		
 		lblHEShell = new JLabel("HE Speed");
-		lblHEShell.setBounds(300, 388, 70, 15);
+		lblHEShell.setBounds(300, 419, 70, 15);
 		contentPane.add(lblHEShell);
 		
 		secondaryMaxDist = new JTextArea();
 		secondaryMaxDist.setText("km");
 		secondaryMaxDist.setEditable(false);
-		secondaryMaxDist.setBounds(542, 322, 70, 21);
+		secondaryMaxDist.setBounds(542, 353, 70, 21);
 		contentPane.add(secondaryMaxDist);
 		
 		lblSecondary = new JLabel("Secondary");
-		lblSecondary.setBounds(465, 326, 68, 15);
+		lblSecondary.setBounds(465, 357, 68, 15);
 		contentPane.add(lblSecondary);
 		
 		HEShellBurnProb = new JTextArea();
 		HEShellBurnProb.setText("%");
 		HEShellBurnProb.setEditable(false);
-		HEShellBurnProb.setBounds(380, 446, 70, 21);
+		HEShellBurnProb.setBounds(380, 477, 70, 21);
 		contentPane.add(HEShellBurnProb);
 		
 		chckbxDemoExp = new JCheckBox("Demo Exp");
@@ -519,25 +524,25 @@ public class Viewer extends JFrame
 		contentPane.add(chckbxDemoExp);
 		
 		lblFireProb = new JLabel("HE Fire");
-		lblFireProb.setBounds(300, 450, 70, 15);
+		lblFireProb.setBounds(300, 481, 70, 15);
 		contentPane.add(lblFireProb);
 		
 		txtHEDmg = new JTextArea();
 		txtHEDmg.setEditable(false);
-		txtHEDmg.setBounds(380, 415, 70, 21);
+		txtHEDmg.setBounds(380, 446, 70, 21);
 		contentPane.add(txtHEDmg);
 		
 		txtrAPDmg = new JTextArea();
 		txtrAPDmg.setEditable(false);
-		txtrAPDmg.setBounds(380, 353, 70, 21);
+		txtrAPDmg.setBounds(380, 384, 70, 21);
 		contentPane.add(txtrAPDmg);
 		
 		lblApDmg = new JLabel("AP DMG");
-		lblApDmg.setBounds(300, 357, 70, 15);
+		lblApDmg.setBounds(300, 388, 70, 15);
 		contentPane.add(lblApDmg);
 		
 		lblHeDmg = new JLabel("HE DMG");
-		lblHeDmg.setBounds(300, 419, 70, 15);
+		lblHeDmg.setBounds(300, 450, 70, 15);
 		contentPane.add(lblHeDmg);
 		
 		comboBoxTorpedoList = new JComboBox<String>();
@@ -675,6 +680,15 @@ public class Viewer extends JFrame
 		chckbxSuperintendent = new JCheckBox("Superinten");
 		chckbxSuperintendent.setBounds(355, 591, 89, 23);
 		contentPane.add(chckbxSuperintendent);
+		
+		horsePower = new JTextArea();
+		horsePower.setEditable(false);
+		horsePower.setBounds(218, 291, 70, 21);
+		contentPane.add(horsePower);
+		
+		lblHorsePower = new JLabel("Horse Power");
+		lblHorsePower.setBounds(140, 295, 78, 15);
+		contentPane.add(lblHorsePower);
 	}
 
 	/**
@@ -875,9 +889,14 @@ public class Viewer extends JFrame
 	 * Sets speed to returned speed.
 	 * @param speed
 	 */
-	public void setSpeed(Object speed)
+	public void setSpeed(double speed)
 	{
 		this.speed.setText(String.valueOf(speed) + " kts");
+	}
+	
+	public void setHorsePower(int horsePower)
+	{
+		this.horsePower.setText(String.valueOf(horsePower) + " hp");
 	}
 	
 	/**
@@ -1092,17 +1111,24 @@ public class Viewer extends JFrame
 		this.burnTime.setText(String.valueOf(burnTime) + " s");
 	}
 	
-	public void setConsume2Count(Object consume2Count)
+	public void setConsume2Count(int consume2Count)
 	{
-		this.consume2Number.setText(String.valueOf(consume2Count));
+		if (consume2Count == -1 || consume2Count == 0)
+		{
+			this.consume2Number.setText("Inf");
+		}
+		else
+		{
+			this.consume2Number.setText(String.valueOf(consume2Count));
+		}
 	}
 	
-	public void setConsume3Count(Object consume3Count)
+	public void setConsume3Count(int consume3Count)
 	{
 		this.consume3Number.setText(String.valueOf(consume3Count));
 	}
 	
-	public void setConsume4Count(Object consume4Count)
+	public void setConsume4Count(int consume4Count)
 	{
 		this.consume4Number.setText(String.valueOf(consume4Count));
 	}

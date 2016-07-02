@@ -48,7 +48,8 @@ public class JSParser
 	private String shipType;
 	private double maxHP;
 	private double rudderShift;
-	private Object speed;
+	private double speed;
+	private int horsePower;
 	
 	private double maxMainGunRange;
 	private double mainGunRotation;
@@ -194,7 +195,20 @@ public class JSParser
 		type = (JSONObject) shipJSON.get("typeinfo");
 		upgrade = (JSONObject) shipJSON.get("ShipUpgradeInfo");
 		shipUpgradeList.addAll(upgrade.keySet());
-		tier = (int) (long) shipJSON.get("level");
+		
+		if (shipJSON.get("level") instanceof Long)
+		{
+			tier = (int) (long) shipJSON.get("level");
+		}
+		else if (shipJSON.get("level") instanceof Double)
+		{
+			tier = (int) (double) shipJSON.get("level");
+		}
+		else
+		{
+			tier = (int) shipJSON.get("level");
+		}
+		
 		nation = (String) type.get("nation");
 		shipType = (String) type.get("species");	
 		
@@ -455,9 +469,14 @@ public class JSParser
 	 * Returns speed of ship.
 	 * @return speed Speed of ship
 	 */
-	public Object getSpeed()
+	public double getSpeed()
 	{
 		return speed;
+	}
+	
+	public int getHorsePower()
+	{
+		return horsePower;
 	}
 	
 	/**
@@ -964,8 +983,20 @@ public class JSParser
 			}
 					
 			maxMainGunRange = (double) tobj.get("maxDist") * maxDistCoef;
-			numBarrels = (int) (long) (double) tobj2.get("numBarrels");
-			 
+			
+			if (tobj2.get("numBarrels") instanceof Double)
+			{
+				numBarrels = (int) (double) tobj2.get("numBarrels");
+			}
+			else if (tobj2.get("numBarrels") instanceof Long)
+			{
+				numBarrels = (int) (long) tobj2.get("numBarrels");
+			}
+			else
+			{
+				numBarrels = (int) tobj2.get("numBarrels");
+			}
+			
 			List<String> temp = new ArrayList<String>();
 			temp.addAll(tobj.keySet());
 			for (int i = temp.size() - 1; i >= 0; i--)
@@ -1077,13 +1108,14 @@ public class JSParser
 		hpobj = (JSONObject) shipJSON.get(hull2.get(0));
 		maxHP = (double) hpobj.get("health");
 		rudderShift = (double) hpobj.get("rudderTime");
+		
 		if (hpobj.get("maxSpeed") instanceof Double)
 		{
 			speed = (double) hpobj.get("maxSpeed") * speedCoef;
 		}
 		else if (hpobj.get("maxSpeed") instanceof Long)
 		{
-			speed = (long) hpobj.get("maxSpeed") * speedCoef;
+			speed = (double) (long) hpobj.get("maxSpeed") * speedCoef;
 		}
 		
 		sConceal = (double) hpobj.get("visibilityFactor");
@@ -1309,7 +1341,20 @@ public class JSParser
 		engineObj = (JSONObject) shipJSON.get(engine2.get(0));
 		
 		speedCoef = 1 + (double) engineObj.get("speedCoef");
-		Object histEnginePower = (Object) engineObj.get("histEnginePower");
+		
+		if (engineObj.get("histEnginePower") instanceof Double)
+		{
+			horsePower = (int) (double) engineObj.get("histEnginePower");
+		}
+		else if (engineObj.get("histEnginePower") instanceof Long)
+		{
+			horsePower = (int) (long) engineObj.get("histEnginePower");
+		}
+		else 
+		{
+			horsePower = (int) engineObj.get("histEnginePower");
+		}
+		
 		JSONObject HitLocationEngine = (JSONObject) engineObj.get("HitLocationEngine");
 		EngineAutoRepairTime = (long) HitLocationEngine.get("autoRepairTimeMin");
 		
@@ -1319,7 +1364,12 @@ public class JSParser
 	{
 		for (String string : shipUpgradeList()) 
 	    {
-			if(string.matches(".*(_Suo)") || string.matches(".*(_SUO)") || string.matches("(?i)(P).*(US).*"))
+			if (   string.matches(".*(_Suo)") 
+				|| string.matches(".*(_SUO)") 
+				|| string.matches("(?i)(P).*(US).*") 
+				&& !string.contains("Fuso") 
+				&& !string.contains("FUSO")
+				)
 			{				
 				radarList.add(string);
 			}
