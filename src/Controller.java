@@ -184,6 +184,7 @@ public class Controller
 			boolean BFT = view.getBFT();
 			boolean TAE = view.getTorpArmExp();
 			boolean TA = view.getTorpAccel();
+			boolean SI = view.getSuperintendentSkill();
 			boolean BoS = view.getBoS();
 			boolean DE = view.getDemoExpSkill();
 
@@ -194,7 +195,7 @@ public class Controller
 							mod1, mod2, mod3, mod4, mod5, mod6,
 							BFT, BoS,
 							EM, TAE,
-							TA,
+							TA, SI,
 							DE, AFT, survivability,
 							conceal,							  
 							concealCamo

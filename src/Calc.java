@@ -14,7 +14,7 @@ import org.json.simple.parser.ParseException;
 public class Calc 
 {
 	private JSParser jsp;
-	private long tier;
+	private int tier;
 	private String nation;
 	private String shiptype;
 	private double health;
@@ -26,7 +26,7 @@ public class Calc
 	private double mainGunRotation;
 	private double mainGunDispersionTangent;
 	private double mainGunDispersionRange;
-	private Object numBarrels;
+	private int numBarrels;
 	private int numTurrets;
 	private double APShellSpeed;
 	private double APShellDMG;
@@ -71,6 +71,10 @@ public class Calc
 			
 	private JSONObject crew;
 	private JSONObject skills;
+	
+	private int count2;
+	private int count3;
+	private int count4;
 	
 	/**
 	 * Constructor to set ship stats.
@@ -573,6 +577,11 @@ public class Calc
 		}
 	}
 	
+	public void calcSuperintendent() // Skill 3
+	{
+		
+	}
+	
 	public void calcDemolitionExpert() //Skill 4
 	{
 		if (jsp.getBarrelDiameter() > 0)
@@ -581,6 +590,7 @@ public class Calc
 			HEShellBurnProb = HEShellBurnProb + ((double) FireProbabilityModifier.get("probabilityBonus") * 100);
 		}
 	}
+	
 	
 	public void calcConcealCamo()
 	{		
@@ -733,7 +743,7 @@ public class Calc
 		return Math.round(mainGunDispersionRange * 100.0) / 100.0;
 	}
 	
-	public Object getNumBarrels()
+	public int getNumBarrels()
 	{
 		return numBarrels;
 	}
@@ -861,7 +871,7 @@ public class Calc
 	 * 
 	 * @return
 	 */
-	public long getTier()
+	public int getTier()
 	{
 		return tier;
 	}
@@ -1202,10 +1212,8 @@ public class Calc
 		return Ability1;
 	}
 	
-	public String getConsume2Count(String consumable)
+	public int getConsume2Count(String consumable)
 	{
-		Object count = 0;
-		
 		JSONArray a1;
 		
 		for (int i = 0; i < jsp.getAbil1().size(); i++)
@@ -1215,11 +1223,11 @@ public class Calc
 			{
 				JSONObject a2 = (JSONObject) jsp.getGameParams().get(consumable);
 				JSONObject a3 = (JSONObject) a2.get(a1.get(1));
-				count = (Object) a3.get("numConsumables");
+				count2 = (int) (long) a3.get("numConsumables");
 			}
 		}
 		
-		return count.toString();
+		return count2;
 	}
 	
 	public List<String> getConsumable3()
@@ -1234,10 +1242,8 @@ public class Calc
 		return Ability2;
 	}
 	
-	public String getConsume3Count(String consumable)
+	public int getConsume3Count(String consumable)
 	{
-		Object count = 0;		
-				
 		JSONArray a1;
 		
 		for (int i = 0; i < jsp.getAbil2().size(); i++)
@@ -1247,11 +1253,11 @@ public class Calc
 			{
 				JSONObject a2 = (JSONObject) jsp.getGameParams().get(consumable);
 				JSONObject a3 = (JSONObject) a2.get(a1.get(1));
-				count = (Object) a3.get("numConsumables");
+				count3 = (int) (long) a3.get("numConsumables");
 			}
 		}
 		
-		return count.toString();
+		return count3;
 	}
 	
 	public List<String> getConsumable4()
@@ -1266,10 +1272,8 @@ public class Calc
 		return Ability3;
 	}
 	
-	public String getConsume4Count(String consumable)
+	public int getConsume4Count(String consumable)
 	{
-		Object count = 0;		
-				
 		JSONArray a1;
 		
 		for (int i = 0; i < jsp.getAbil3().size(); i++)
@@ -1279,11 +1283,11 @@ public class Calc
 			{
 				JSONObject a2 = (JSONObject) jsp.getGameParams().get(consumable);
 				JSONObject a3 = (JSONObject) a2.get(a1.get(1));
-				count = (Object) a3.get("numConsumables");
+				count4 = (int) (long) a3.get("numConsumables");
 			}
 		}
 		
-		return count.toString();
+		return count4;
 	}
 
 	public List<String> getTurretList()

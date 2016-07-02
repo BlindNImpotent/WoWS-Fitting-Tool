@@ -17,7 +17,7 @@ public class Model
 			String mod1, String mod2, String mod3, String mod4, String mod5, String mod6,
 			boolean BFT, boolean BoS,
 			boolean EM, boolean TAE,
-			boolean TA,
+			boolean TA, boolean SI, 
 			boolean DE, boolean AFT, boolean survivability,
 			boolean conceal,							  
 			boolean concealCamo
@@ -28,7 +28,7 @@ public class Model
 				mod1, mod2, mod3, mod4, mod5, mod6,
 				BFT, BoS,
 				EM, TAE,
-				TA,
+				TA, SI, 
 				DE, AFT, survivability,
 				conceal,							  
 				concealCamo

@@ -134,7 +134,7 @@ public class Viewer extends JFrame
 	private JTextArea consume4Number;
 	private JTextArea consume3Number;
 	private JTextArea consume2Number;
-	
+	private JCheckBox chckbxSuperintendent;
 	
 	/**
 	 * Creates the frame.
@@ -259,7 +259,7 @@ public class Viewer extends JFrame
 		contentPane.add(lblMGRange);
 		
 		chckbxConcealment = new JCheckBox("Conc Exp");
-		chckbxConcealment.setBounds(275, 642, 105, 23);
+		chckbxConcealment.setBounds(279, 642, 89, 23);
 		contentPane.add(chckbxConcealment);
 		
 		chckbxSurvivability = new JCheckBox("Surv Exp");
@@ -287,17 +287,17 @@ public class Viewer extends JFrame
 		txtrMgDegs = new JTextArea();
 		txtrMgDegs.setEditable(false);
 		txtrMgDegs.setText("deg/s");
-		txtrMgDegs.setBounds(380, 232, 70, 21);
+		txtrMgDegs.setBounds(380, 229, 70, 21);
 		contentPane.add(txtrMgDegs);
 		
 		lblMgDegs = new JLabel("MG Deg/s");
-		lblMgDegs.setBounds(300, 236, 70, 15);
+		lblMgDegs.setBounds(300, 233, 70, 15);
 		contentPane.add(lblMgDegs);
 		
 		txtrMgTime = new JTextArea();
 		txtrMgTime.setEditable(false);
 		txtrMgTime.setText("s/180 deg");
-		txtrMgTime.setBounds(380, 263, 70, 21);
+		txtrMgTime.setBounds(380, 260, 70, 21);
 		contentPane.add(txtrMgTime);
 		
 		lblMgTime = new JLabel("MG Rotation");
@@ -490,11 +490,11 @@ public class Viewer extends JFrame
 		HEShellSpeed.setBounds(380, 384, 70, 21);
 		contentPane.add(HEShellSpeed);
 		
-		lblAPShell = new JLabel("AP Shell");
+		lblAPShell = new JLabel("AP Speed");
 		lblAPShell.setBounds(300, 326, 70, 15);
 		contentPane.add(lblAPShell);
 		
-		lblHEShell = new JLabel("HE Shell");
+		lblHEShell = new JLabel("HE Speed");
 		lblHEShell.setBounds(300, 388, 70, 15);
 		contentPane.add(lblHEShell);
 		
@@ -518,7 +518,7 @@ public class Viewer extends JFrame
 		chckbxDemoExp.setBounds(0, 616, 87, 23);
 		contentPane.add(chckbxDemoExp);
 		
-		lblFireProb = new JLabel("Fire Prob");
+		lblFireProb = new JLabel("HE Fire");
 		lblFireProb.setBounds(300, 450, 70, 15);
 		contentPane.add(lblFireProb);
 		
@@ -671,6 +671,10 @@ public class Viewer extends JFrame
 		consume2Number.setEditable(false);
 		consume2Number.setBounds(246, 105, 31, 21);
 		contentPane.add(consume2Number);
+		
+		chckbxSuperintendent = new JCheckBox("Superinten");
+		chckbxSuperintendent.setBounds(355, 591, 89, 23);
+		contentPane.add(chckbxSuperintendent);
 	}
 
 	/**
@@ -747,6 +751,11 @@ public class Viewer extends JFrame
 	public boolean getConcealmentSkill()
 	{
 		return chckbxConcealment.isSelected();
+	}
+	
+	public boolean getSuperintendentSkill()
+	{
+		return chckbxSuperintendent.isSelected();
 	}
 	
 	public boolean getDemoExpSkill()
@@ -1083,19 +1092,19 @@ public class Viewer extends JFrame
 		this.burnTime.setText(String.valueOf(burnTime) + " s");
 	}
 	
-	public void setConsume2Count(String consume2Count)
+	public void setConsume2Count(Object consume2Count)
 	{
-		this.consume2Number.setText(consume2Count);
+		this.consume2Number.setText(String.valueOf(consume2Count));
 	}
 	
-	public void setConsume3Count(String consume3Count)
+	public void setConsume3Count(Object consume3Count)
 	{
-		this.consume3Number.setText(consume3Count);
+		this.consume3Number.setText(String.valueOf(consume3Count));
 	}
 	
-	public void setConsume4Count(String consume4Count)
+	public void setConsume4Count(Object consume4Count)
 	{
-		this.consume4Number.setText(consume4Count);
+		this.consume4Number.setText(String.valueOf(consume4Count));
 	}
 	
 		

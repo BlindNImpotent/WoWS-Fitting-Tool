@@ -42,7 +42,7 @@ public class JSParser
 	
 	private List<String> flagList = new ArrayList<String>();
 		
-	private long tier;
+	private int tier;
 	private String shipCode;	
 	private String nation;
 	private String shipType;
@@ -75,7 +75,7 @@ public class JSParser
 	private double maxDistCoef;
 	private int moduleSlots;
 	private double barrelDiameter;
-	private Object numBarrels;
+	private int numBarrels;
 	private int numTurrets;
 	private double burnTime;
 	private double floodTime;
@@ -194,7 +194,7 @@ public class JSParser
 		type = (JSONObject) shipJSON.get("typeinfo");
 		upgrade = (JSONObject) shipJSON.get("ShipUpgradeInfo");
 		shipUpgradeList.addAll(upgrade.keySet());
-		tier = (long) shipJSON.get("level");
+		tier = (int) (long) shipJSON.get("level");
 		nation = (String) type.get("nation");
 		shipType = (String) type.get("species");	
 		
@@ -419,7 +419,7 @@ public class JSParser
 	 * Returns tier of ship.
 	 * @return tier Tier of ship
 	 */
-	public long getTier()
+	public int getTier()
 	{
 		return tier;
 	}
@@ -652,7 +652,7 @@ public class JSParser
 		return barrelDiameter;
 	}	
 	
-	public Object getNumBarrels()
+	public int getNumBarrels()
 	{
 		return numBarrels;
 	}
@@ -964,7 +964,7 @@ public class JSParser
 			}
 					
 			maxMainGunRange = (double) tobj.get("maxDist") * maxDistCoef;
-			numBarrels = (Object) tobj2.get("numBarrels");
+			numBarrels = (int) (long) (double) tobj2.get("numBarrels");
 			 
 			List<String> temp = new ArrayList<String>();
 			temp.addAll(tobj.keySet());

@@ -16,7 +16,7 @@ public class Calculator
 			String mod1, String mod2, String mod3, String mod4, String mod5, String mod6,
 			boolean BFT, boolean BoS,
 			boolean EM, boolean TAE,
-			boolean TA,
+			boolean TA, boolean SI, 
 			boolean DE, boolean AFT, boolean survivability,
 			boolean conceal,							  
 			boolean concealCamo
@@ -357,6 +357,10 @@ public class Calculator
 		if (DE == true)
 		{
 			calc.calcDemolitionExpert();
+		}
+		if (SI == true)
+		{
+			calc.calcSuperintendent();
 		}
 		
 		
