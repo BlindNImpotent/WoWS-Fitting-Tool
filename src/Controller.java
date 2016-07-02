@@ -52,6 +52,10 @@ public class Controller
 			view.setModuleBox4(answer.getModule4());
 			view.setModuleBox5(answer.getModule5());
 			view.setModuleBox6(answer.getModule6());
+			view.setConsumable1(answer.getConsumable1());
+			view.setConsumable2(answer.getConsumable2());
+			view.setConsumable3(answer.getConsumable3());
+			view.setConsumable4(answer.getConsumable4());
 			view.setTurretBox(answer.getTurretList());
 			view.setHullBox(answer.getHullList());
 			view.setEngineBox(answer.getEngineList());

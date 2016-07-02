@@ -117,6 +117,23 @@ public class Viewer extends JFrame
 	private JTextArea textNumBarrels;
 	private JLabel labelBarrels;
 	
+	private JComboBox<String> comboBoxConsumable0;
+	private JComboBox<String> comboBoxConsumable1;
+	private JComboBox<String> comboBoxConsumable2;
+	private JComboBox<String> comboBoxConsumable3;
+	private JLabel lblConsumable1;
+	private JLabel lblConsumable2;
+	private JLabel lblConsumable3;
+	private JLabel lblConsumable4;
+	private JLabel lblModule1;
+	private JLabel lblModule2;
+	private JLabel lblModule3;
+	private JLabel lblModule4;
+	private JLabel lblModule5;
+	private JLabel lblModule6;
+	
+	
+	
 	/**
 	 * Creates the frame.
 	 */
@@ -131,35 +148,35 @@ public class Viewer extends JFrame
 		contentPane.setLayout(null);
 		
 		searchButton = new JButton("Search");
-		searchButton.setBounds(445, 39, 78, 23);
+		searchButton.setBounds(445, 11, 78, 23);
 		contentPane.add(searchButton);
 		
 		calculateButton = new JButton("Calculate");
-		calculateButton.setBounds(535, 39, 97, 23);
+		calculateButton.setBounds(535, 11, 97, 23);
 		contentPane.add(calculateButton);
 		
 		mod1Box = new JComboBox<String>();
-		mod1Box.setBounds(12, 137, 116, 21);
+		mod1Box.setBounds(12, 153, 116, 21);
 		contentPane.add(mod1Box);
 		
 		mod2Box = new JComboBox<String>();
-		mod2Box.setBounds(12, 168, 116, 21);
+		mod2Box.setBounds(12, 188, 116, 21);
 		contentPane.add(mod2Box);
 		
 		mod3Box = new JComboBox<String>();
-		mod3Box.setBounds(12, 199, 116, 21);
+		mod3Box.setBounds(12, 223, 116, 21);
 		contentPane.add(mod3Box);
 		
 		mod4Box = new JComboBox<String>();
-		mod4Box.setBounds(12, 233, 116, 21);
+		mod4Box.setBounds(12, 258, 116, 21);
 		contentPane.add(mod4Box);
 		
 		mod5Box = new JComboBox<String>();
-		mod5Box.setBounds(12, 264, 116, 21);
+		mod5Box.setBounds(12, 293, 116, 21);
 		contentPane.add(mod5Box);
 		
 		mod6Box = new JComboBox<String>();
-		mod6Box.setBounds(12, 295, 116, 21);
+		mod6Box.setBounds(12, 328, 116, 21);
 		contentPane.add(mod6Box);
 		
 		rudder = new JTextArea();
@@ -297,7 +314,7 @@ public class Viewer extends JFrame
 		
 		chckbxConcealCamo = new JCheckBox("Conc Camo");
 		chckbxConcealCamo.setToolTipText("-3% Surface Detection Camo");
-		chckbxConcealCamo.setBounds(12, 322, 97, 23);
+		chckbxConcealCamo.setBounds(0, 516, 97, 23);
 		contentPane.add(chckbxConcealCamo);
 		
 		chckbxBft = new JCheckBox("BFT");
@@ -334,16 +351,16 @@ public class Viewer extends JFrame
 		contentPane.add(chckbxTorpArmExp);
 		
 		comboBoxNationList = new JComboBox<String>();
-		comboBoxNationList.setBounds(12, 40, 89, 21);
+		comboBoxNationList.setBounds(12, 14, 89, 21);
 		contentPane.add(comboBoxNationList);
 		
 		comboBoxShipTypeList = new JComboBox<String>();
-		comboBoxShipTypeList.setBounds(113, 40, 89, 21);
+		comboBoxShipTypeList.setBounds(113, 14, 89, 21);
 		contentPane.add(comboBoxShipTypeList);
 		
 		comboBoxShipNameList = new JComboBox<String>();
 		comboBoxShipNameList.setMaximumRowCount(10);
-		comboBoxShipNameList.setBounds(218, 40, 125, 21);
+		comboBoxShipNameList.setBounds(218, 14, 125, 21);
 		contentPane.add(comboBoxShipNameList);
 		
 		lblTorpSpeed = new JLabel("Torp Speed");
@@ -518,59 +535,59 @@ public class Viewer extends JFrame
 		contentPane.add(lblApDmg);
 		
 		lblHeDmg = new JLabel("HE DMG");
-		lblHeDmg.setBounds(298, 419, 70, 15);
+		lblHeDmg.setBounds(300, 419, 70, 15);
 		contentPane.add(lblHeDmg);
 		
 		comboBoxTorpedoList = new JComboBox<String>();
-		comboBoxTorpedoList.setBounds(480, 96, 105, 21);
+		comboBoxTorpedoList.setBounds(480, 57, 105, 21);
 		contentPane.add(comboBoxTorpedoList);
 		
 		comboBoxRadarList = new JComboBox<String>();
-		comboBoxRadarList.setBounds(363, 96, 105, 21);
+		comboBoxRadarList.setBounds(363, 57, 105, 21);
 		contentPane.add(comboBoxRadarList);
 		
 		comboBoxEngineList = new JComboBox<String>();
-		comboBoxEngineList.setBounds(246, 96, 105, 21);
+		comboBoxEngineList.setBounds(246, 57, 105, 21);
 		contentPane.add(comboBoxEngineList);
 		
 		comboBoxHullList = new JComboBox<String>();
-		comboBoxHullList.setBounds(129, 96, 105, 21);
+		comboBoxHullList.setBounds(129, 57, 105, 21);
 		contentPane.add(comboBoxHullList);
 		
 		comboBoxTurretList = new JComboBox<String>();
-		comboBoxTurretList.setBounds(12, 96, 105, 21);
+		comboBoxTurretList.setBounds(12, 57, 105, 21);
 		contentPane.add(comboBoxTurretList);
 		
 		lblTurret = new JLabel("Turret");
-		lblTurret.setBounds(12, 71, 68, 15);
+		lblTurret.setBounds(12, 43, 68, 15);
 		contentPane.add(lblTurret);
 		
 		lblHull = new JLabel("Hull");
-		lblHull.setBounds(129, 71, 68, 15);
+		lblHull.setBounds(130, 43, 39, 15);
 		contentPane.add(lblHull);
 		
 		lblEngine = new JLabel("Engine");
-		lblEngine.setBounds(246, 71, 68, 15);
+		lblEngine.setBounds(246, 43, 68, 15);
 		contentPane.add(lblEngine);
 		
 		lblRadar = new JLabel("Radar");
-		lblRadar.setBounds(363, 71, 68, 15);
+		lblRadar.setBounds(363, 43, 68, 15);
 		contentPane.add(lblRadar);
 		
 		lblTorpedo = new JLabel("Torpedo");
-		lblTorpedo.setBounds(480, 71, 68, 15);
+		lblTorpedo.setBounds(480, 43, 68, 15);
 		contentPane.add(lblTorpedo);
 		
 		lblNation_1 = new JLabel("Nation");
-		lblNation_1.setBounds(12, 15, 68, 15);
+		lblNation_1.setBounds(13, 0, 68, 15);
 		contentPane.add(lblNation_1);
 		
 		lblShipType_1 = new JLabel("Ship Type");
-		lblShipType_1.setBounds(113, 15, 68, 15);
+		lblShipType_1.setBounds(114, 0, 68, 15);
 		contentPane.add(lblShipType_1);
 		
 		lblShipName = new JLabel("Ship Name");
-		lblShipName.setBounds(218, 15, 68, 15);
+		lblShipName.setBounds(219, 0, 68, 15);
 		contentPane.add(lblShipName);
 		
 		textNumBarrels = new JTextArea();
@@ -581,6 +598,62 @@ public class Viewer extends JFrame
 		labelBarrels = new JLabel("Barrels");
 		labelBarrels.setBounds(300, 140, 70, 15);
 		contentPane.add(labelBarrels);
+		
+		comboBoxConsumable0 = new JComboBox<String>();
+		comboBoxConsumable0.setBounds(12, 106, 105, 21);
+		contentPane.add(comboBoxConsumable0);
+		
+		lblConsumable1 = new JLabel("Consumable 1");
+		lblConsumable1.setBounds(12, 93, 95, 15);
+		contentPane.add(lblConsumable1);
+		
+		comboBoxConsumable1 = new JComboBox<String>();
+		comboBoxConsumable1.setBounds(129, 106, 105, 21);
+		contentPane.add(comboBoxConsumable1);
+		
+		comboBoxConsumable2 = new JComboBox<String>();
+		comboBoxConsumable2.setBounds(246, 106, 105, 21);
+		contentPane.add(comboBoxConsumable2);
+		
+		comboBoxConsumable3 = new JComboBox<String>();
+		comboBoxConsumable3.setBounds(363, 106, 105, 21);
+		contentPane.add(comboBoxConsumable3);
+		
+		lblConsumable2 = new JLabel("Consumable 2");
+		lblConsumable2.setBounds(129, 93, 87, 15);
+		contentPane.add(lblConsumable2);
+		
+		lblConsumable3 = new JLabel("Consumable 3");
+		lblConsumable3.setBounds(246, 93, 87, 15);
+		contentPane.add(lblConsumable3);
+		
+		lblConsumable4 = new JLabel("Consumable 4");
+		lblConsumable4.setBounds(363, 93, 87, 15);
+		contentPane.add(lblConsumable4);
+		
+		lblModule1 = new JLabel("Module 1");
+		lblModule1.setBounds(12, 140, 80, 15);
+		contentPane.add(lblModule1);
+		
+		lblModule2 = new JLabel("Module 2");
+		lblModule2.setBounds(12, 174, 80, 15);
+		contentPane.add(lblModule2);
+		
+		lblModule3 = new JLabel("Module 3");
+		lblModule3.setBounds(12, 209, 80, 15);
+		contentPane.add(lblModule3);
+		
+		lblModule4 = new JLabel("Module 4");
+		lblModule4.setBounds(12, 244, 80, 15);
+		contentPane.add(lblModule4);
+		
+		lblModule5 = new JLabel("Module 5");
+		lblModule5.setBounds(12, 279, 80, 15);
+		contentPane.add(lblModule5);
+		
+		lblModule6 = new JLabel("Module 6");
+		lblModule6.setBounds(12, 314, 80, 15);
+		contentPane.add(lblModule6);
 	}
 
 	/**
@@ -1124,6 +1197,63 @@ public class Viewer extends JFrame
 	{		
 		return mod6Box.getSelectedItem().toString();
 	}
+	
+	public void setConsumable1(List<String> aList)
+	{
+		comboBoxConsumable0.removeAllItems();
+		for (int i = 0; i < aList.size(); i++)
+		{
+			comboBoxConsumable0.addItem(aList.get(i));;
+		}
+	}
+	
+	public String getConsumable1()
+	{
+		return comboBoxConsumable0.getSelectedItem().toString();
+	}
+	
+	public void setConsumable2(List<String> aList)
+	{
+		comboBoxConsumable1.removeAllItems();
+		for (int i = 0; i < aList.size(); i++)
+		{
+			comboBoxConsumable1.addItem(aList.get(i));;
+		}
+	}
+	
+	public String getConsumable2()
+	{
+		return comboBoxConsumable1.getSelectedItem().toString();
+	}
+	
+	public void setConsumable3(List<String> aList)
+	{
+		comboBoxConsumable2.removeAllItems();
+		for (int i = 0; i < aList.size(); i++)
+		{
+			comboBoxConsumable2.addItem(aList.get(i));;
+		}
+	}
+	
+	public String getConsumable3()
+	{
+		return comboBoxConsumable2.getSelectedItem().toString();
+	}
+	
+	public void setConsumable4(List<String> aList)
+	{
+		comboBoxConsumable3.removeAllItems();
+		for (int i = 0; i < aList.size(); i++)
+		{
+			comboBoxConsumable3.addItem(aList.get(i));;
+		}
+	}
+
+	public String getConsumable4()
+	{
+		return comboBoxConsumable3.getSelectedItem().toString();
+	}
+	
 	
 	public String getShipNameBox()
 	{

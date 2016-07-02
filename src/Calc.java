@@ -147,7 +147,7 @@ public class Calc
 		
 		burnTime = jsp.getBurnTime();
 		floodTime = jsp.getFloodTime();
-		
+				
 		setSkills();
 	}
 
@@ -1174,6 +1174,52 @@ public class Calc
 		
 		return mod6;
 	}	
+	
+	public List<String> getConsumable1()
+	{		
+		List<String> Ability0 = new ArrayList<String>();
+		
+		for (int i = 0; i < jsp.getAbility0().size(); i++)
+		{
+			Ability0.add(i, jsp.getAbility0().get(i).substring(7));
+		}
+		
+		return Ability0;
+	}
+	
+	public List<String> getConsumable2()
+	{
+		List<String> Ability1 = new ArrayList<String>();
+		
+		for (int i = 0; i < jsp.getAbility1().size(); i++)
+		{
+			Ability1.add(i, jsp.getAbility1().get(i).substring(7));
+		}
+				
+		return Ability1;
+	}
+	
+	public List<String> getConsumable3()
+	{
+		List<String> Ability2 = new ArrayList<String>();
+		
+		for (int i = 0; i < jsp.getAbility2().size(); i++)
+		{
+			Ability2.add(i, jsp.getAbility2().get(i).substring(7));
+		}
+		return Ability2;
+	}
+	
+	public List<String> getConsumable4()
+	{
+		List<String> Ability3 = new ArrayList<String>();
+		
+		for (int i = 0; i < jsp.getAbility3().size(); i++)
+		{
+			Ability3.add(i, jsp.getAbility3().get(i).substring(7));
+		}
+		return Ability3;
+	}
 
 	public List<String> getTurretList()
 	{

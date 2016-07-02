@@ -102,16 +102,19 @@ public class JSParser
 	private List<String> engineList = new ArrayList<String>(); 
 	private List<String> hullList = new ArrayList<String>(); 
 	
+	private List<JSONArray> Abil0 = new ArrayList<JSONArray>();
+	private List<JSONArray> Abil1 = new ArrayList<JSONArray>();
+	private List<JSONArray> Abil2 = new ArrayList<JSONArray>();
+	private List<JSONArray> Abil3 = new ArrayList<JSONArray>();
+	
+	private List<String> Ability0 = new ArrayList<String>();
+	private List<String> Ability1 = new ArrayList<String>();
+	private List<String> Ability2 = new ArrayList<String>();
+	private List<String> Ability3 = new ArrayList<String>();
+	
 	private JSONObject tobj2;
 	private JSONObject tobj;
 	
-	/**
-	 * Parses data from GameParams.json
-	 * @param aShip Ship name
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 * @throws ParseException
-	 */
 	@SuppressWarnings("unchecked")
 	public JSParser(String aShip) throws FileNotFoundException, IOException, ParseException
 	{
@@ -202,6 +205,7 @@ public class JSParser
 		setTorpedoStats();
 		
 		setModuleUpgradeList();		
+		setConsumablesList();		
 		
 		setCrewList();
 		setFlagList();
@@ -410,7 +414,6 @@ public class JSParser
 	{	
 		return torpedoList;
 	}
-	
 	
 	/**
 	 * Returns tier of ship.
@@ -834,6 +837,46 @@ public class JSParser
 	{
 		return modSlot6;
 	}	
+
+	public JSONArray getAbil0()
+	{
+		return (JSONArray) Abil0;
+	}
+	
+	public JSONArray getAbil1()
+	{
+		return (JSONArray) Abil1;
+	}
+	
+	public JSONArray getAbil2()
+	{
+		return (JSONArray) Abil2;
+	}
+	
+	public JSONArray getAbil3()
+	{
+		return (JSONArray) Abil3;
+	}
+	
+	public List<String> getAbility0()
+	{
+		return Ability0;
+	}
+
+	public List<String> getAbility1()
+	{
+		return Ability1;
+	}
+
+	public List<String> getAbility2()
+	{
+		return Ability2;
+	}
+
+	public List<String> getAbility3()
+	{
+		return Ability3;
+	}
 	
 	/**
 	 * Returns list of upgrades.
@@ -1050,13 +1093,6 @@ public class JSParser
 		
 		JSONArray floodParams = (JSONArray) hpobj.get("floodParams");
 		floodTime = (double) floodParams.get(2);
-		
-		/**
-		 * Set upgrade slot numbers.
-		 */
-		JSONObject mSlots = (JSONObject) shipJSON.get("ShipModernization");
-		moduleSlots = mSlots.size();	
-		
 		
 		//If main turret's barrel diameter is less than 140 mm, turret has AuraFar by default.
 		if (barrelDiameter < 0.140 && tobj2 != null)
@@ -1406,5 +1442,48 @@ public class JSParser
 		JSONObject ammoObj = (JSONObject) GameParams.get(ammo);		
 		maxTorpedoRange = (double) ammoObj.get("maxDist") * 0.03;
 		torpedoSpeed = (double) ammoObj.get("speed");
+	}
+
+	private void setModuleSlots()
+	{		
+		/**
+		 * Set upgrade slot numbers.
+		 */
+		JSONObject mSlots = (JSONObject) shipJSON.get("ShipModernization");
+		moduleSlots = mSlots.size();	
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void setConsumablesList()
+	{
+		JSONObject ShipAbilities = (JSONObject) shipJSON.get("ShipAbilities");
+		JSONObject AbilitySlot0 = (JSONObject) ShipAbilities.get("AbilitySlot0");
+		JSONObject AbilitySlot1 = (JSONObject) ShipAbilities.get("AbilitySlot1");
+		JSONObject AbilitySlot2 = (JSONObject) ShipAbilities.get("AbilitySlot2");
+		JSONObject AbilitySlot3 = (JSONObject) ShipAbilities.get("AbilitySlot3");
+		Abil0 = (JSONArray) AbilitySlot0.get("abils");
+		Abil1 = (JSONArray) AbilitySlot1.get("abils");
+		Abil2 = (JSONArray) AbilitySlot2.get("abils");
+		Abil3 = (JSONArray) AbilitySlot3.get("abils");
+		
+		for (int i = 0; i < Abil0.size(); i++)
+		{
+			Ability0.add(Abil0.get(i).get(0).toString());
+		}
+		
+		for (int i = 0; i < Abil1.size(); i++)
+		{
+			Ability1.add(Abil1.get(i).get(0).toString());
+		}
+		
+		for (int i = 0; i < Abil2.size(); i++)
+		{
+			Ability2.add(Abil2.get(i).get(0).toString());
+		}
+		
+		for (int i = 0; i < Abil3.size(); i++)
+		{
+			Ability3.add(Abil3.get(i).get(0).toString());
+		}
 	}
 }
