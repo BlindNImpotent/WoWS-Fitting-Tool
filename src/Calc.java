@@ -455,7 +455,7 @@ public class Calc
 		double smallGunRangeCoefficient = (double) AFT.get("smallGunRangeCoefficient");
 		double airDefenceRangeCoefficient = (double) AFT.get("airDefenceRangeCoefficient");
 		
-		if (jsp.getBarrelDiameter() < 0.139)
+		if (jsp.getTurretBarrelDiameter() < 0.139)
 		{
 			maxMainGunRange = maxMainGunRange * smallGunRangeCoefficient;
 		}
@@ -476,7 +476,7 @@ public class Calc
 		double smallGunReloadCoefficient = (double) BFT.get("smallGunReloadCoefficient");
 		double airDefenceEfficiencyCoefficient = (double) BFT.get("airDefenceEfficiencyCoefficient");
 		
-		if (jsp.getBarrelDiameter() < 0.139)
+		if (jsp.getTurretBarrelDiameter() < 0.139)
 		{
 			mainGunReload = mainGunReload * smallGunReloadCoefficient;
 		}	
@@ -508,11 +508,11 @@ public class Calc
 		double bigGunBonus = (double) EM.get("bigGunBonus");
 		double smallGunBonus = (double) EM.get("smallGunBonus");
 		
-		if (jsp.getBarrelDiameter() > 0.140)
+		if (jsp.getTurretBarrelDiameter() > 0.140)
 		{
 			mainGunRotation = mainGunRotation + bigGunBonus;
 		}
-		else if (jsp.getBarrelDiameter() > 0 && jsp.getBarrelDiameter() < 0.140)
+		else if (jsp.getTurretBarrelDiameter() > 0 && jsp.getTurretBarrelDiameter() < 0.140)
 		{
 			mainGunRotation = mainGunRotation + smallGunBonus;
 		}
@@ -588,7 +588,7 @@ public class Calc
 	
 	public void calcDemolitionExpert() //Skill 4
 	{
-		if (jsp.getBarrelDiameter() > 0)
+		if (jsp.getTurretBarrelDiameter() > 0)
 		{
 			JSONObject FireProbabilityModifier = (JSONObject) skills.get("FireProbabilityModifier");
 			HEShellBurnProb = HEShellBurnProb + ((double) FireProbabilityModifier.get("probabilityBonus") * 100);
@@ -691,6 +691,11 @@ public class Calc
 	{
 		rudderShift = Math.round(rudderShift * 100.0) / 100.0;
 		return rudderShift;
+	}
+	
+	public double getTurretBarrelDiameter()
+	{
+		return jsp.getTurretBarrelDiameter() * 1000;
 	}
 	
 	/**
@@ -840,6 +845,21 @@ public class Calc
 	{
 		torpedoSpeed = Math.round(torpedoSpeed * 100.0) / 100.0;
 		return torpedoSpeed;
+	}
+	
+	public double getTorpDiameter()
+	{
+		return jsp.getTorpDiameter() * 1000;
+	}
+	
+	public int getTorpTubes()
+	{
+		return jsp.getTorpTubes();
+	}
+	
+	public int getTorpTurrets()
+	{
+		return jsp.getTorpTurrets();
 	}
 	
 	/**

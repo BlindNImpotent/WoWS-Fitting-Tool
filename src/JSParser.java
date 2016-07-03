@@ -63,6 +63,9 @@ public class JSParser
 	
 	private double secondaryMaxDist;
 	
+	private double torpDiameter;
+	private int numTubes;
+	private int numTorpTurrets;
 	private double torpedoRotation;
 	private double torpedoReload;
 	private double maxTorpedoRange;
@@ -75,7 +78,7 @@ public class JSParser
 	
 	private double maxDistCoef;
 	private int moduleSlots;
-	private double barrelDiameter;
+	private double turretBarrelDiameter;
 	private int numBarrels;
 	private int numTurrets;
 	private double burnTime;
@@ -666,9 +669,9 @@ public class JSParser
 	 * Returns barrel diameter in meter.
 	 * @return barrelDiameter Barrel diameter in meter
 	 */
-	public double getBarrelDiameter()
+	public double getTurretBarrelDiameter()
 	{
-		return barrelDiameter;
+		return turretBarrelDiameter;
 	}	
 	
 	public int getNumBarrels()
@@ -679,6 +682,21 @@ public class JSParser
 	public int getNumTurrets()
 	{
 		return numTurrets;
+	}
+	
+	public double getTorpDiameter()
+	{
+		return torpDiameter;
+	}
+	
+	public int getTorpTubes()
+	{
+		return numTubes;
+	}
+	
+	public int getTorpTurrets()
+	{
+		return numTorpTurrets;
 	}
 	
 	/**
@@ -1008,7 +1026,7 @@ public class JSParser
 			}						
 			numTurrets = temp.size();			
 			
-			barrelDiameter = (double) tobj2.get("barrelDiameter");
+			turretBarrelDiameter = (double) tobj2.get("barrelDiameter");
 			
 			JSONArray ammoList = (JSONArray) tobj2.get("ammoList");
 			Collections.sort(ammoList);
@@ -1131,7 +1149,7 @@ public class JSParser
 		floodTime = (double) floodParams.get(2);
 		
 		//If main turret's barrel diameter is less than 140 mm, turret has AuraFar by default.
-		if (barrelDiameter < 0.140 && tobj2 != null)
+		if (turretBarrelDiameter < 0.140 && tobj2 != null)
 		{
 			antiAirAuraDistanceFar = (double) tobj2.get("antiAirAuraDistance") * 0.03;
 			
@@ -1143,7 +1161,7 @@ public class JSParser
 				AAFarDPS = (double) tobj2.get("antiAirAuraStrength") * guns.size() * 100;
 			}
 		}
-		else if (barrelDiameter >= 0.140 || tobj2 == null)
+		else if (turretBarrelDiameter >= 0.140 || tobj2 == null)
 		{
 			List<String> ATBAList = new ArrayList<String>();
 			
@@ -1403,7 +1421,12 @@ public class JSParser
 	{
 		for (String string : shipUpgradeList()) 
 	    {
-			if(string.matches(".*(_Torp).*") || string.matches(".*(_TORP).*") || string.matches("(?i)(P).*(UT).*"))
+			if(	   string.matches(".*(_Torp).*") 
+				|| string.matches(".*(_TORP).*")
+				|| string.matches("(?i)(P).*(UT).*")
+				&& !string.contains("Kutuzov")
+				&& !string.contains("KUTUZOV")
+					)
 	        {
 				torpedoList.add(string);
 	        }
@@ -1479,6 +1502,23 @@ public class JSParser
 		{
 			tobj2 = (JSONObject) tobj.get("HP_BGT_1");
 		}
+		
+		torpDiameter = (double) tobj2.get("barrelDiameter");
+		
+		if (tobj2.get("numBarrels") instanceof Long)
+		{
+			numTubes = (int) (long) tobj2.get("numBarrels");
+		}
+		else if (tobj2.get("numBarrels") instanceof Double)
+		{
+			numTubes = (int) (double) tobj2.get("numBarrels");
+		}
+		else
+		{
+			numTubes = (int) tobj2.get("numBarrels");
+		}		
+		
+		numTorpTurrets = tobj.size();
 		
 		tobj3 = (JSONArray) tobj2.get("rotationSpeed");
 		

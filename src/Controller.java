@@ -222,6 +222,7 @@ public class Controller
 			view.setStealthFireRange(answer.getSConceal() + answer.getStealthFireSurfaceDetection());
 			view.setAAFireAirDetection(answer.getAConceal() + answer.getAAFireAirDetection());
 			
+			view.setTurretBarrelDiameter(answer.getTurretBarrelDiameter());
 			view.setMGRange(answer.getMaxMainGunRange());
 			view.setMGReload(answer.getMainGunReload());
 			view.setMGDegs(answer.getMainGunRotation());
@@ -232,10 +233,12 @@ public class Controller
 			view.setHEShellSpeed(answer.getHEShellSpeed());
 			view.setHEShellDMG(answer.getHEShellDMG());
 			view.setHEShellBurnProb(answer.getHEShellBurnProb());
-			view.setNumBarrels(answer.getNumBarrels(), answer.getNumTurrets());
+			view.setNumBarrels(answer.getNumTurrets(), answer.getNumBarrels());
 			
 			view.setSecondaryMaxDist(answer.getSecondaryMaxDist());
 			
+			view.setTorpDiameter(answer.getTorpDiameter());
+			view.setTubeCount(answer.getTorpTurrets(), answer.getTorpTubes());
 			view.setTorpRange(answer.getMaxTorpedoRange());
 			view.setTorpReload(answer.getTorpedoReload());
 			view.setTorpSpeed(answer.getTorpedoSpeed());
