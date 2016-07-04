@@ -381,7 +381,7 @@ public class JSParser
 			{
 				flagList.remove(i);
 			}	
-		}
+		}		
 	}
 	
 	/**

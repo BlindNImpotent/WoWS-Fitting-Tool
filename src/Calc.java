@@ -1107,7 +1107,7 @@ public class Calc
 		
 		for (int i = 0; i < jsp.getFlagList().size(); i++)
 		{			
-			flagList.add(i+1, jsp.getFlagList().get(i).substring(8, 11));		
+			flagList.add(i+1, jsp.getFlagList().get(i).substring(8, 11));
 		}
 		
 		return flagList;
@@ -1252,7 +1252,7 @@ public class Calc
 			{
 				JSONObject a2 = (JSONObject) jsp.getGameParams().get(consumable);
 				JSONObject a3 = (JSONObject) a2.get(a1.get(1));
-				count2 = (int) (long) a3.get("numConsumables");
+				count2 = count2 + (int) (long) a3.get("numConsumables");
 			}
 		}
 		
@@ -1282,7 +1282,7 @@ public class Calc
 			{
 				JSONObject a2 = (JSONObject) jsp.getGameParams().get(consumable);
 				JSONObject a3 = (JSONObject) a2.get(a1.get(1));
-				count3 = (int) (long) a3.get("numConsumables");
+				count3 = count3 + (int) (long) a3.get("numConsumables");
 			}
 		}
 		
@@ -1312,7 +1312,7 @@ public class Calc
 			{
 				JSONObject a2 = (JSONObject) jsp.getGameParams().get(consumable);
 				JSONObject a3 = (JSONObject) a2.get(a1.get(1));
-				count4 = (int) (long) a3.get("numConsumables");
+				count4 = count4 + (int) (long) a3.get("numConsumables");
 			}
 		}
 		

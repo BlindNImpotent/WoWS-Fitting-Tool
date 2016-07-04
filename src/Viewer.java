@@ -117,10 +117,10 @@ public class Viewer extends JFrame
 	private JTextArea textNumBarrels;
 	private JLabel labelBarrels;
 	
-	private JComboBox<String> comboBoxConsumable0;
 	private JComboBox<String> comboBoxConsumable1;
 	private JComboBox<String> comboBoxConsumable2;
 	private JComboBox<String> comboBoxConsumable3;
+	private JComboBox<String> comboBoxConsumable4;
 	private JLabel lblConsumable1;
 	private JLabel lblConsumable2;
 	private JLabel lblConsumable3;
@@ -143,6 +143,15 @@ public class Viewer extends JFrame
 	private JTextArea tubeDiameter;
 	private JLabel lblTubes;
 	private JLabel labelTubeDiameter;
+	
+	private JCheckBox chckbxJY2;	
+	private JCheckBox chckbxIY;	
+	private JCheckBox chckbxNE7;	
+	private JCheckBox chckbxSM;	
+	private JCheckBox chckbxVL;	
+	private JCheckBox chckbxMY6;	
+	private JCheckBox chckbxIX;
+	
 	
 	
 	/**
@@ -610,25 +619,25 @@ public class Viewer extends JFrame
 		labelBarrels.setBounds(300, 140, 70, 15);
 		contentPane.add(labelBarrels);
 		
-		comboBoxConsumable0 = new JComboBox<String>();
-		comboBoxConsumable0.setBounds(12, 106, 105, 21);
-		contentPane.add(comboBoxConsumable0);
+		comboBoxConsumable1 = new JComboBox<String>();
+		comboBoxConsumable1.setBounds(12, 106, 105, 21);
+		contentPane.add(comboBoxConsumable1);
 		
 		lblConsumable1 = new JLabel("Consumable 1");
 		lblConsumable1.setBounds(12, 93, 95, 15);
 		contentPane.add(lblConsumable1);
 		
-		comboBoxConsumable1 = new JComboBox<String>();
-		comboBoxConsumable1.setBounds(129, 105, 105, 21);
-		contentPane.add(comboBoxConsumable1);
-		
 		comboBoxConsumable2 = new JComboBox<String>();
-		comboBoxConsumable2.setBounds(290, 106, 105, 21);
+		comboBoxConsumable2.setBounds(129, 105, 105, 21);
 		contentPane.add(comboBoxConsumable2);
 		
 		comboBoxConsumable3 = new JComboBox<String>();
-		comboBoxConsumable3.setBounds(447, 106, 105, 21);
+		comboBoxConsumable3.setBounds(290, 106, 105, 21);
 		contentPane.add(comboBoxConsumable3);
+		
+		comboBoxConsumable4 = new JComboBox<String>();
+		comboBoxConsumable4.setBounds(447, 106, 105, 21);
+		contentPane.add(comboBoxConsumable4);
 		
 		lblConsumable2 = new JLabel("Consumable 2");
 		lblConsumable2.setBounds(129, 93, 87, 15);
@@ -722,6 +731,41 @@ public class Viewer extends JFrame
 		labelTubeDiameter = new JLabel("Diameter");
 		labelTubeDiameter.setBounds(462, 388, 70, 15);
 		contentPane.add(labelTubeDiameter);
+		
+		chckbxJY2 = new JCheckBox("JY2");
+		chckbxJY2.setToolTipText("-20% flood recovery time");
+		chckbxJY2.setBounds(462, 506, 49, 23);
+		contentPane.add(chckbxJY2);
+		
+		chckbxIY = new JCheckBox("IY");
+		chckbxIY.setToolTipText("-20% fire extinguishing time");
+		chckbxIY.setBounds(515, 506, 49, 23);
+		contentPane.add(chckbxIY);
+		
+		chckbxNE7 = new JCheckBox("NE7");
+		chckbxNE7.setToolTipText("+10% AA dps");
+		chckbxNE7.setBounds(462, 531, 49, 23);
+		contentPane.add(chckbxNE7);
+		
+		chckbxSM = new JCheckBox("SM");
+		chckbxSM.setToolTipText("+5% max ship speed");
+		chckbxSM.setBounds(515, 531, 49, 23);
+		contentPane.add(chckbxSM);
+		
+		chckbxVL = new JCheckBox("VL");
+		chckbxVL.setToolTipText("+1% chance of fire for 160+ mm, +0.5% fire for <160 mm");
+		chckbxVL.setBounds(564, 531, 49, 23);
+		contentPane.add(chckbxVL);
+		
+		chckbxMY6 = new JCheckBox("MY6");
+		chckbxMY6.setToolTipText("+5% secondary range");
+		chckbxMY6.setBounds(462, 556, 55, 23);
+		contentPane.add(chckbxMY6);
+		
+		chckbxIX = new JCheckBox("IX");
+		chckbxIX.setToolTipText("+1% chance of fire for 160+ mm, +0.5% fire for <160 mm");
+		chckbxIX.setBounds(563, 506, 49, 23);
+		contentPane.add(chckbxIX);
 	}
 
 	/**
@@ -881,6 +925,42 @@ public class Viewer extends JFrame
 	{
 		return chckbxConcealCamo.isSelected();
 	}
+	
+	public boolean getJY2()
+	{
+		return chckbxJY2.isSelected();
+	}
+	
+	public boolean getIY()
+	{
+		return chckbxIY.isSelected();
+	}
+	
+	public boolean getIX()
+	{
+		return chckbxIX.isSelected();
+	}
+	
+	public boolean getNE7()
+	{
+		return chckbxNE7.isSelected();
+	}
+	
+	public boolean getSM()
+	{
+		return chckbxSM.isSelected();
+	}
+	
+	public boolean getVL()
+	{
+		return chckbxVL.isSelected();
+	}
+	
+	public boolean getMY6()
+	{
+		return chckbxMY6.isSelected();
+	}
+	
 	
 	/**
 	 * Sets tier to returned tier.
@@ -1162,9 +1242,13 @@ public class Viewer extends JFrame
 	
 	public void setConsume2Count(int consume2Count)
 	{
-		if (consume2Count == -1 || consume2Count == 0)
+		if (!comboBoxConsumable2.getSelectedItem().toString().equals("None") && (consume2Count == -1 || consume2Count == 0))
 		{
 			this.consume2Number.setText("Inf");
+		}
+		else if (comboBoxConsumable2.getSelectedItem().toString().equals("None") && (consume2Count == 1 || consume2Count == 0)) 
+		{
+			this.consume2Number.setText("None");
 		}
 		else
 		{
@@ -1174,12 +1258,26 @@ public class Viewer extends JFrame
 	
 	public void setConsume3Count(int consume3Count)
 	{
-		this.consume3Number.setText(String.valueOf(consume3Count));
+		if (comboBoxConsumable3.getSelectedItem().toString().equals("None") && (consume3Count == 1 || consume3Count == 0)) 
+		{
+			this.consume3Number.setText("None");
+		}
+		else
+		{
+			this.consume3Number.setText(String.valueOf(consume3Count));
+		}
 	}
 	
 	public void setConsume4Count(int consume4Count)
 	{
-		this.consume4Number.setText(String.valueOf(consume4Count));
+		if (comboBoxConsumable4.getSelectedItem().toString().equals("None") && (consume4Count == 1 || consume4Count == 0)) 
+		{
+			this.consume4Number.setText("None");
+		}
+		else
+		{
+			this.consume4Number.setText(String.valueOf(consume4Count));
+		}
 	}
 	
 		
@@ -1317,20 +1415,6 @@ public class Viewer extends JFrame
 	
 	public void setConsumable1(List<String> aList)
 	{
-		comboBoxConsumable0.removeAllItems();
-		for (int i = 0; i < aList.size(); i++)
-		{
-			comboBoxConsumable0.addItem(aList.get(i));;
-		}
-	}
-	
-	public String getConsumable1()
-	{
-		return comboBoxConsumable0.getSelectedItem().toString();
-	}
-	
-	public void setConsumable2(List<String> aList)
-	{
 		comboBoxConsumable1.removeAllItems();
 		for (int i = 0; i < aList.size(); i++)
 		{
@@ -1338,12 +1422,12 @@ public class Viewer extends JFrame
 		}
 	}
 	
-	public String getConsumable2()
+	public String getConsumable1()
 	{
 		return comboBoxConsumable1.getSelectedItem().toString();
 	}
 	
-	public void setConsumable3(List<String> aList)
+	public void setConsumable2(List<String> aList)
 	{
 		comboBoxConsumable2.removeAllItems();
 		for (int i = 0; i < aList.size(); i++)
@@ -1352,12 +1436,12 @@ public class Viewer extends JFrame
 		}
 	}
 	
-	public String getConsumable3()
+	public String getConsumable2()
 	{
 		return comboBoxConsumable2.getSelectedItem().toString();
 	}
 	
-	public void setConsumable4(List<String> aList)
+	public void setConsumable3(List<String> aList)
 	{
 		comboBoxConsumable3.removeAllItems();
 		for (int i = 0; i < aList.size(); i++)
@@ -1365,10 +1449,24 @@ public class Viewer extends JFrame
 			comboBoxConsumable3.addItem(aList.get(i));;
 		}
 	}
+	
+	public String getConsumable3()
+	{
+		return comboBoxConsumable3.getSelectedItem().toString();
+	}
+	
+	public void setConsumable4(List<String> aList)
+	{
+		comboBoxConsumable4.removeAllItems();
+		for (int i = 0; i < aList.size(); i++)
+		{
+			comboBoxConsumable4.addItem(aList.get(i));;
+		}
+	}
 
 	public String getConsumable4()
 	{
-		return comboBoxConsumable3.getSelectedItem().toString();
+		return comboBoxConsumable4.getSelectedItem().toString();
 	}
 	
 	

@@ -187,6 +187,13 @@ public class Controller
 			boolean SI = view.getSuperintendentSkill();
 			boolean BoS = view.getBoS();
 			boolean DE = view.getDemoExpSkill();
+			boolean JY2 = view.getJY2();
+			boolean IY = view.getIY();
+			boolean IX = view.getIX();
+			boolean NE7 = view.getNE7();
+			boolean SM = view.getSM();
+			boolean VL = view.getVL();
+			boolean MY6 = view.getMY6();
 
 			try 
 			{
