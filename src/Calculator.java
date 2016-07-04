@@ -18,7 +18,8 @@ public class Calculator
 			boolean EM, boolean TAE,
 			boolean TA, boolean SI, 
 			boolean DE, boolean AFT, boolean survivability,
-			boolean conceal,							  
+			boolean conceal,
+			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6,
 			boolean concealCamo
 			) throws FileNotFoundException, IOException, ParseException
 	{
@@ -361,6 +362,35 @@ public class Calculator
 		if (SI == true)
 		{
 			calc.calcSuperintendent();
+		}
+		
+		if (JY2 == true)
+		{
+			calc.calcJY2();
+		}
+		if (IY == true)
+		{
+			calc.calcIY();
+		}
+		if (IX == true)
+		{
+			calc.calcIX();
+		}
+		if (NE7 == true)
+		{
+			calc.calcNE7();
+		}
+		if (SM == true)
+		{
+			calc.calcSM();
+		}
+		if (VL == true)
+		{
+			calc.calcVL();
+		}
+		if (MY6 == true)
+		{
+			calc.calcMY6();
 		}
 		
 		

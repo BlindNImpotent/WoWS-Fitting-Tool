@@ -204,7 +204,8 @@ public class Controller
 							EM, TAE,
 							TA, SI,
 							DE, AFT, survivability,
-							conceal,							  
+							conceal,
+							JY2, IY, IX, NE7, SM, VL, MY6, 
 							concealCamo
 							);								
 			} 

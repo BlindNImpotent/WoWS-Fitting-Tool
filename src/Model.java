@@ -1,4 +1,3 @@
-import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -19,7 +18,8 @@ public class Model
 			boolean EM, boolean TAE,
 			boolean TA, boolean SI, 
 			boolean DE, boolean AFT, boolean survivability,
-			boolean conceal,							  
+			boolean conceal,
+			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6, 
 			boolean concealCamo
 			) throws FileNotFoundException, IOException, ParseException
 	{
@@ -30,7 +30,8 @@ public class Model
 				EM, TAE,
 				TA, SI, 
 				DE, AFT, survivability,
-				conceal,							  
+				conceal,
+				JY2, IY, IX, NE7, SM, VL, MY6, 
 				concealCamo
 				);
 	}

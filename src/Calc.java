@@ -612,7 +612,6 @@ public class Calc
 		aConceal = aConceal / pow;
 	}
 	
-	/**
 	public void calcHY()
 	{
 		
@@ -631,6 +630,20 @@ public class Calc
 	}
 	public void calcJY2()
 	{
+		List<String> flags = new ArrayList<String>(); 
+		flags = jsp.getFlagList();
+		
+		JSONObject flag = null; 
+		
+		for (int i = 0; i < flags.size(); i++)
+		{
+			if (flags.get(i).contains("JY"))
+			{
+				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+			}
+		}
+		
+		floodTime = floodTime * (double) flag.get("floodTime");
 		
 	}
 	public void calcID()
@@ -639,11 +652,39 @@ public class Calc
 	}
 	public void calcIY()
 	{
+		List<String> flags = new ArrayList<String>(); 
+		flags = jsp.getFlagList();
 		
+		JSONObject flag = null; 
+		
+		for (int i = 0; i < flags.size(); i++)
+		{
+			if (flags.get(i).contains("IY"))
+			{
+				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+			}
+		}
+		
+		burnTime = burnTime * (double) flag.get("burnTime");
 	}
 	public void calcNE7()
 	{
+		List<String> flags = new ArrayList<String>(); 
+		flags = jsp.getFlagList();
 		
+		JSONObject flag = null; 
+		
+		for (int i = 0; i < flags.size(); i++)
+		{
+			if (flags.get(i).contains("NE7"))
+			{
+				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+			}
+		}
+		
+		AAFarDPS = AAFarDPS * (double) flag.get("AAPassiveAura");
+		AAMediumDPS = AAMediumDPS * (double) flag.get("AAPassiveAura");
+		AANearDPS = AANearDPS * (double) flag.get("AAPassiveAura");
 	}
 	public void calcZH()
 	{
@@ -655,15 +696,61 @@ public class Calc
 	}
 	public void calcSM()
 	{
+		List<String> flags = new ArrayList<String>(); 
+		flags = jsp.getFlagList();
 		
+		JSONObject flag = null; 
+		
+		for (int i = 0; i < flags.size(); i++)
+		{
+			if (flags.get(i).contains("SM"))
+			{
+				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+			}
+		}
+		
+		speed = speed * (double) flag.get("speedCoef");		
 	}
 	public void calcVL()
 	{
+		List<String> flags = new ArrayList<String>(); 
+		flags = jsp.getFlagList();
 		
+		JSONObject flag = null; 
+		
+		for (int i = 0; i < flags.size(); i++)
+		{
+			if (flags.get(i).contains("VL"))
+			{
+				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+			}
+		}
+		
+		if (jsp.getTurretBarrelDiameter() < 0.160)
+		{
+			HEShellBurnProb = HEShellBurnProb + ((double) flag.get("burnChanceFactorSmall") * 100 - 100);
+		}
+		else if (jsp.getTurretBarrelDiameter() > 0.160)
+		{
+			HEShellBurnProb = HEShellBurnProb + ((double) flag.get("burnChanceFactorBig") * 100 - 100);
+		}
 	}
 	public void calcMY6()
 	{
+		List<String> flags = new ArrayList<String>(); 
+		flags = jsp.getFlagList();
 		
+		JSONObject flag = null; 
+		
+		for (int i = 0; i < flags.size(); i++)
+		{
+			if (flags.get(i).contains("MY6"))
+			{
+				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+			}
+		}
+		
+		secondaryMaxDist = secondaryMaxDist * (double) flag.get("GSMaxDist");
 	}
 	public void calcPP()
 	{
@@ -671,7 +758,27 @@ public class Calc
 	}
 	public void calcIX()
 	{
+		List<String> flags = new ArrayList<String>(); 
+		flags = jsp.getFlagList();
 		
+		JSONObject flag = null; 
+		
+		for (int i = 0; i < flags.size(); i++)
+		{
+			if (flags.get(i).contains("IX"))
+			{
+				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+			}
+		}
+		
+		if (jsp.getTurretBarrelDiameter() < 0.160)
+		{
+			HEShellBurnProb = HEShellBurnProb + ((double) flag.get("burnChanceFactorSmall") * 100 - 100);
+		}
+		else if (jsp.getTurretBarrelDiameter() > 0.160)
+		{
+			HEShellBurnProb = HEShellBurnProb + ((double) flag.get("burnChanceFactorBig") * 100 - 100);
+		}		
 	}
 	public void calcEqualSpeed()
 	{
@@ -681,7 +788,6 @@ public class Calc
 	{
 		
 	}
-	*/
 	
 	/**
 	 * 
