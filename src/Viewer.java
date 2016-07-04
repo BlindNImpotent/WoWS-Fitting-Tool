@@ -764,7 +764,7 @@ public class Viewer extends JFrame
 		
 		chckbxIX = new JCheckBox("IX");
 		chckbxIX.setToolTipText("+1% chance of fire for 160+ mm, +0.5% fire for <160 mm");
-		chckbxIX.setBounds(563, 506, 49, 23);
+		chckbxIX.setBounds(564, 506, 49, 23);
 		contentPane.add(chckbxIX);
 	}
 

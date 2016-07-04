@@ -373,6 +373,9 @@ public class Calc
 		
 		burnTime = burnTime * burnTimeBonus;
 		floodTime = floodTime * floodTimeBonus;
+		
+		burnTime = Math.round(burnTime * 100.0) / 100.0;
+		floodTime = Math.round(floodTime * 100.0) / 100.0;
 	}
 	
 	public void calcPropulsionMod2() //Slot 5
@@ -497,6 +500,8 @@ public class Calc
 		floodTime = floodTime * critTimeCoefficient;
 		burnTime = burnTime * critTimeCoefficient;
 		
+		burnTime = Math.round(burnTime * 100.0) / 100.0;
+		floodTime = Math.round(floodTime * 100.0) / 100.0;		
 	}	
 	
 	/**
@@ -645,6 +650,7 @@ public class Calc
 		
 		floodTime = floodTime * (double) flag.get("floodTime");
 		
+		floodTime = Math.round(floodTime * 100.0) / 100.0;		
 	}
 	public void calcID()
 	{
@@ -666,6 +672,8 @@ public class Calc
 		}
 		
 		burnTime = burnTime * (double) flag.get("burnTime");
+		
+		burnTime = Math.round(burnTime * 100.0) / 100.0;
 	}
 	public void calcNE7()
 	{
