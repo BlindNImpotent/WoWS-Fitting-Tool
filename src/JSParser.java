@@ -621,7 +621,7 @@ public class JSParser
 	 */
 	public double getSConceal()
 	{
-		return sConceal;
+		return Math.round(sConceal * 100.0) / 100.0;
 	}
 	
 	/**
@@ -630,7 +630,7 @@ public class JSParser
 	 */
 	public double getAConceal()
 	{
-		return aConceal;
+		return Math.round(aConceal * 100.0) / 100.0;
 	}
 	
 	/**
@@ -810,7 +810,7 @@ public class JSParser
 	 */
 	public double getStealthFireSurfaceDetection()
 	{
-		return stealthFireSurfaceDetection;
+		return Math.round(stealthFireSurfaceDetection * 100.0) / 100.0;
 	}
 	
 	/**

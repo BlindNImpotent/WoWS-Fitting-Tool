@@ -617,7 +617,7 @@ public class Viewer extends JFrame
 		textNumBarrels.setBounds(380, 136, 70, 21);
 		contentPane.add(textNumBarrels);
 		
-		labelBarrels = new JLabel("Barrels");
+		labelBarrels = new JLabel("MG Barrels");
 		labelBarrels.setBounds(300, 140, 70, 15);
 		contentPane.add(labelBarrels);
 		
@@ -711,7 +711,7 @@ public class Viewer extends JFrame
 		turretBarrelDiameter.setBounds(380, 167, 70, 21);
 		contentPane.add(turretBarrelDiameter);
 		
-		lblBarrelDiameter = new JLabel("Diameter");
+		lblBarrelDiameter = new JLabel("MG Size");
 		lblBarrelDiameter.setBounds(300, 171, 70, 15);
 		contentPane.add(lblBarrelDiameter);
 		
@@ -726,11 +726,11 @@ public class Viewer extends JFrame
 		tubeDiameter.setBounds(542, 384, 70, 21);
 		contentPane.add(tubeDiameter);
 		
-		lblTubes = new JLabel("Tubes");
+		lblTubes = new JLabel("Torp Tubes");
 		lblTubes.setBounds(462, 357, 70, 15);
 		contentPane.add(lblTubes);
 		
-		labelTubeDiameter = new JLabel("Diameter");
+		labelTubeDiameter = new JLabel("Torp Size");
 		labelTubeDiameter.setBounds(462, 388, 70, 15);
 		contentPane.add(labelTubeDiameter);
 		

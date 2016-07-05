@@ -1164,13 +1164,12 @@ public class Calc
 	 */
 	public double getStealthFireSurfaceDetection()
 	{
-		stealthFireSurfaceDetection = Math.round(stealthFireSurfaceDetection);
-		return stealthFireSurfaceDetection;
+		return Math.round(stealthFireSurfaceDetection * 100.0) / 100.0;
 	}	
 	
 	public double getAAFireAirDetection()
 	{
-		return Math.round(AAFireAirDetection);
+		return Math.round(AAFireAirDetection * 100.0) / 100.0;
 	}
 	
 	/**
