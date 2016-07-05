@@ -41,6 +41,7 @@ public class Calc
 	private double torpedoRotation;
 	private double maxTorpedoRange;
 	private double torpedoSpeed;
+	private double torpedoVisibilityFactor;
 	
 	private double sConceal;
 	private double aConceal;
@@ -126,6 +127,7 @@ public class Calc
 		torpedoRotation = jsp.getTorpedoRotation();
 		maxTorpedoRange = jsp.getMaxTorpedoRange();
 		torpedoSpeed = jsp.getTorpedoSpeed();
+		torpedoVisibilityFactor = jsp.getTorpedoVisibilityFactor();
 		
 		sConceal = jsp.getSConceal();
 		aConceal = jsp.getAConceal();
@@ -959,6 +961,11 @@ public class Calc
 	{
 		torpedoSpeed = Math.round(torpedoSpeed * 100.0) / 100.0;
 		return torpedoSpeed;
+	}
+	
+	public double getTorpedoVisibilityFactor()
+	{
+		return torpedoVisibilityFactor;
 	}
 	
 	public double getTorpDiameter()

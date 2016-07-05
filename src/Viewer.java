@@ -152,6 +152,8 @@ public class Viewer extends JFrame
 	private JCheckBox chckbxMY6;	
 	private JCheckBox chckbxIX;
 	
+	private JTextArea torpDetection;
+	private JLabel lblTorpDetection;
 	
 	
 	/**
@@ -734,12 +736,12 @@ public class Viewer extends JFrame
 		
 		chckbxJY2 = new JCheckBox("JY2");
 		chckbxJY2.setToolTipText("-20% flood recovery time");
-		chckbxJY2.setBounds(462, 506, 49, 23);
+		chckbxJY2.setBounds(462, 581, 49, 23);
 		contentPane.add(chckbxJY2);
 		
 		chckbxIY = new JCheckBox("IY");
 		chckbxIY.setToolTipText("-20% fire extinguishing time");
-		chckbxIY.setBounds(515, 506, 49, 23);
+		chckbxIY.setBounds(515, 556, 49, 23);
 		contentPane.add(chckbxIY);
 		
 		chckbxNE7 = new JCheckBox("NE7");
@@ -764,8 +766,18 @@ public class Viewer extends JFrame
 		
 		chckbxIX = new JCheckBox("IX");
 		chckbxIX.setToolTipText("+1% chance of fire for 160+ mm, +0.5% fire for <160 mm");
-		chckbxIX.setBounds(564, 506, 49, 23);
+		chckbxIX.setBounds(564, 556, 49, 23);
 		contentPane.add(chckbxIX);
+		
+		torpDetection = new JTextArea();
+		torpDetection.setText("km");
+		torpDetection.setEditable(false);
+		torpDetection.setBounds(542, 505, 70, 21);
+		contentPane.add(torpDetection);
+		
+		lblTorpDetection = new JLabel("Torp Detect");
+		lblTorpDetection.setBounds(462, 510, 70, 15);
+		contentPane.add(lblTorpDetection);
 	}
 
 	/**
@@ -1155,6 +1167,11 @@ public class Viewer extends JFrame
 	public void setTorpSpeed(double torpSpeed)
 	{
 		this.torpSpeed.setText(String.valueOf(torpSpeed) + " kts");
+	}
+	
+	public void setTorpedoVisibilityFactor(double torpedoVisibilityFactor)
+	{
+		this.torpDetection.setText(String.valueOf(torpedoVisibilityFactor) + " km");
 	}
 	
 	public void setTorpDiameter(double torpDiameter)

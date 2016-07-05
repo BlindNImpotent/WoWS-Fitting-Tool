@@ -70,6 +70,7 @@ public class JSParser
 	private double torpedoReload;
 	private double maxTorpedoRange;
 	private double torpedoSpeed;
+	private double torpedoVisibilityFactor;
 	
 	private double sConceal;
 	private double aConceal;
@@ -607,6 +608,11 @@ public class JSParser
 	public double getTorpedoSpeed()
 	{
 		return torpedoSpeed;
+	}
+	
+	public double getTorpedoVisibilityFactor()
+	{
+		return torpedoVisibilityFactor;
 	}
 	
 	/**
@@ -1536,6 +1542,8 @@ public class JSParser
 		JSONObject ammoObj = (JSONObject) GameParams.get(ammo);		
 		maxTorpedoRange = (double) ammoObj.get("maxDist") * 0.03;
 		torpedoSpeed = (double) ammoObj.get("speed");
+		torpedoVisibilityFactor = (double) ammoObj.get("visibilityFactor");
+		
 	}
 
 	private void setModuleSlots()

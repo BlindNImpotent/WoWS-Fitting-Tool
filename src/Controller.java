@@ -250,6 +250,7 @@ public class Controller
 			view.setTorpRange(answer.getMaxTorpedoRange());
 			view.setTorpReload(answer.getTorpedoReload());
 			view.setTorpSpeed(answer.getTorpedoSpeed());
+			view.setTorpedoVisibilityFactor(answer.getTorpedoVisibilityFactor());
 			
 			view.setFloodTime(answer.getFloodTime());
 			view.setBurnTime(answer.getBurnTime());
