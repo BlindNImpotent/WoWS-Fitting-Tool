@@ -375,9 +375,6 @@ public class Calc
 		
 		burnTime = burnTime * burnTimeBonus;
 		floodTime = floodTime * floodTimeBonus;
-		
-		burnTime = Math.round(burnTime * 100.0) / 100.0;
-		floodTime = Math.round(floodTime * 100.0) / 100.0;
 	}
 	
 	public void calcPropulsionMod2() //Slot 5
@@ -426,18 +423,8 @@ public class Calc
 		//"PCM027_ConcealmentMeasures_Mod_I"
 		JSONObject CSM1 = (JSONObject) jsp.getGameParams().get("PCM027_ConcealmentMeasures_Mod_I");
 				
-		long pow = (long) Math.pow(10, 2);
-		sConceal = sConceal * pow;
-		aConceal = aConceal * pow;
-		
-		sConceal = sConceal * (double) CSM1.get("visibilityDistCoeff");;
-		aConceal = aConceal * (double) CSM1.get("visibilityDistCoeff");;
-		
-		sConceal = Math.round(sConceal);
-		aConceal = Math.round(aConceal);
-		
-		sConceal = sConceal / pow;
-		aConceal = aConceal / pow;
+		sConceal = sConceal * (double) CSM1.get("visibilityDistCoeff");
+		aConceal = aConceal * (double) CSM1.get("visibilityDistCoeff");
 	}
 	
 	
@@ -500,10 +487,7 @@ public class Calc
 		double critTimeCoefficient = (double) BoS.get("critTimeCoefficient");
 		
 		floodTime = floodTime * critTimeCoefficient;
-		burnTime = burnTime * critTimeCoefficient;
-		
-		burnTime = Math.round(burnTime * 100.0) / 100.0;
-		floodTime = Math.round(floodTime * 100.0) / 100.0;		
+		burnTime = burnTime * critTimeCoefficient;		
 	}	
 	
 	/**
@@ -529,11 +513,7 @@ public class Calc
 	 * 
 	 */
 	public void calcConcealmentExpert() //Skill 5
-	{		
-		long pow = (long) Math.pow(10, 2);
-		sConceal = sConceal * pow;
-		aConceal = aConceal * pow;
-						
+	{							
 		JSONObject vModifier = (JSONObject) skills.get("VisibilityModifier");
 		
 		if (jsp.getShipType().equals("Battleship"))
@@ -556,12 +536,6 @@ public class Calc
 			sConceal = sConceal * (double) vModifier.get("aircraftCarrierCoefficient");
 			aConceal = aConceal * (double) vModifier.get("aircraftCarrierCoefficient");
 		}
-		
-		sConceal = Math.round(sConceal);
-		aConceal = Math.round(aConceal);
-		
-		sConceal = sConceal / pow;
-		aConceal = aConceal / pow;
 	}
 	
 	/**
@@ -604,19 +578,9 @@ public class Calc
 	
 	
 	public void calcConcealCamo()
-	{		
-		long pow = (long) Math.pow(10, 2);
-		sConceal = sConceal * pow;
-		aConceal = aConceal * pow;
-		
+	{	
 		sConceal = sConceal * 0.97;
 		aConceal = aConceal * 1.00;
-		
-		sConceal = Math.round(sConceal);
-		aConceal = Math.round(aConceal);
-		
-		sConceal = sConceal / pow;
-		aConceal = aConceal / pow;
 	}
 	
 	public void calcHY()
@@ -650,9 +614,7 @@ public class Calc
 			}
 		}
 		
-		floodTime = floodTime * (double) flag.get("floodTime");
-		
-		floodTime = Math.round(floodTime * 100.0) / 100.0;		
+		floodTime = floodTime * (double) flag.get("floodTime");		
 	}
 	public void calcID()
 	{
@@ -674,8 +636,6 @@ public class Calc
 		}
 		
 		burnTime = burnTime * (double) flag.get("burnTime");
-		
-		burnTime = Math.round(burnTime * 100.0) / 100.0;
 	}
 	public void calcNE7()
 	{
@@ -805,7 +765,6 @@ public class Calc
 	 */
 	public double getRudderShift()
 	{
-		rudderShift = Math.round(rudderShift * 100.0) / 100.0;
 		return rudderShift;
 	}
 	
@@ -820,7 +779,6 @@ public class Calc
 	 */
 	public double getMaxMainGunRange()
 	{
-		maxMainGunRange = Math.round(maxMainGunRange * 100.0) / 100.0;
 		return maxMainGunRange;
 	}
 	
@@ -830,7 +788,6 @@ public class Calc
 	 */
 	public double getMainGunReload()
 	{
-		mainGunReload = Math.round(mainGunReload * 100.0) / 100.0;
 		return mainGunReload;
 	}
 	
@@ -840,7 +797,6 @@ public class Calc
 	 */
 	public double getMainGunRotation()
 	{
-		mainGunRotation = Math.round(mainGunRotation * 100.0) / 100.0;
 		return mainGunRotation;
 	}
 	
@@ -853,7 +809,7 @@ public class Calc
 		double rotationDeg = 0;
 		if (getMainGunRotation() != 0 )
 		{
-			rotationDeg = Math.round(180.0 / getMainGunRotation());
+			rotationDeg = 180.0 / getMainGunRotation();
 		}
 		return rotationDeg; 
 	}
@@ -865,7 +821,7 @@ public class Calc
 	
 	public double getMainGunDispersionRange()
 	{
-		return Math.round(mainGunDispersionRange * 100.0) / 100.0;
+		return mainGunDispersionRange;
 	}
 	
 	public int getNumBarrels()
@@ -900,12 +856,12 @@ public class Calc
 	
 	public double getHEShellBurnProb()
 	{
-		return Math.round(HEShellBurnProb * 100.0) / 100.0;
+		return HEShellBurnProb;
 	}
 	
 	public double getSecondaryMaxDist()
 	{
-		secondaryMaxDist = Math.round(secondaryMaxDist * 100.0) / 100.0 / 1000;
+		secondaryMaxDist = secondaryMaxDist / 1000;
 		return secondaryMaxDist;
 	}
 	
@@ -915,7 +871,6 @@ public class Calc
 	 */
 	public double getMaxTorpedoRange()
 	{
-		maxTorpedoRange = Math.round(maxTorpedoRange * 100.0) / 100.0;
 		return maxTorpedoRange;
 	}
 	
@@ -925,7 +880,6 @@ public class Calc
 	 */
 	public double getTorpedoReload()
 	{
-		torpedoReload = Math.round(torpedoReload * 100.0) / 100.0;
 		return torpedoReload;
 	}
 	
@@ -935,7 +889,6 @@ public class Calc
 	 */
 	public double getTorpedoRotation()
 	{
-		torpedoRotation = Math.round(torpedoRotation * 100.0) / 100.0;
 		return torpedoRotation;
 	}
 	
@@ -948,7 +901,7 @@ public class Calc
 		double rotationDeg = 0;
 		if (getTorpedoRotation() != 0)
 		{
-			rotationDeg = Math.round(180.0 / getTorpedoRotation());
+			rotationDeg = 180.0 / getTorpedoRotation();
 		}
 		return rotationDeg;
 	}
@@ -959,7 +912,6 @@ public class Calc
 	 */
 	public double getTorpedoSpeed()
 	{
-		torpedoSpeed = Math.round(torpedoSpeed * 100.0) / 100.0;
 		return torpedoSpeed;
 	}
 	
@@ -989,7 +941,6 @@ public class Calc
 	 */
 	public double getSConceal()
 	{
-		sConceal = Math.round(sConceal * 100.0) / 100.0;
 		return sConceal;
 	}
 	
@@ -999,7 +950,6 @@ public class Calc
 	 */
 	public double getAConceal()
 	{
-		aConceal = Math.round(aConceal * 100.0) / 100.0;
 		return aConceal;
 	}
 	
@@ -1104,7 +1054,6 @@ public class Calc
 	 */
 	public double getAntiAirAuraDistanceFar()
 	{
-		antiAirAuraDistanceFar = Math.round(antiAirAuraDistanceFar * 100.0) / 100.0;
 		return antiAirAuraDistanceFar;
 	}
 	
@@ -1114,7 +1063,6 @@ public class Calc
 	 */
 	public double getAntiAirAuraDistanceMedium()
 	{
-		antiAirAuraDistanceMedium = Math.round(antiAirAuraDistanceMedium * 100.0) / 100.0;
 		return antiAirAuraDistanceMedium;	
 	}
 	
@@ -1124,7 +1072,6 @@ public class Calc
 	 */
 	public double getAntiAirAuraDistanceNear()
 	{
-		antiAirAuraDistanceNear = Math.round(antiAirAuraDistanceNear * 100.0) / 100.0;
 		return antiAirAuraDistanceNear;	
 	}
 	
@@ -1134,7 +1081,6 @@ public class Calc
 	 */
 	public double getAAFarDPS()
 	{
-		AAFarDPS = Math.round(AAFarDPS);
 		return AAFarDPS;
 	}
 	
@@ -1144,7 +1090,6 @@ public class Calc
 	 */
 	public double getAAMediumDPS()
 	{
-		AAMediumDPS = Math.round(AAMediumDPS);
 		return AAMediumDPS;
 	}
 	
@@ -1154,7 +1099,6 @@ public class Calc
 	 */
 	public double getAANearDPS()
 	{
-		AANearDPS = Math.round(AANearDPS);
 		return AANearDPS;
 	}
 	
@@ -1164,12 +1108,12 @@ public class Calc
 	 */
 	public double getStealthFireSurfaceDetection()
 	{
-		return Math.round(stealthFireSurfaceDetection * 100.0) / 100.0;
+		return stealthFireSurfaceDetection;
 	}	
 	
 	public double getAAFireAirDetection()
 	{
-		return Math.round(AAFireAirDetection * 100.0) / 100.0;
+		return AAFireAirDetection;
 	}
 	
 	/**

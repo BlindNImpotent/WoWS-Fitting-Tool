@@ -1,4 +1,5 @@
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -799,14 +800,6 @@ public class Viewer extends JFrame
 	}
 	
 	/**
-	public void setCheckBoxListener4(ActionListener al)
-	{
-		chckbxSurvivability.addActionListener(al);
-		chckbxAft.addActionListener(al);
-	}
-	*/
-	
-	/**
 	 * Sets ship name listener.
 	 * @param al
 	 */
@@ -835,17 +828,6 @@ public class Viewer extends JFrame
 	{
 		return chckbxSurvivability;
 	}
-	
-	/**
-	public void setAFTUnchecked()
-	{
-		chckbxAft.setSelected(false);
-	}
-	public void setSurvivabilityUnchecked()
-	{
-		chckbxSurvivability.setSelected(false);
-	}	
-	*/
 	
 	/**
 	 * Returns whether Concealment Expert is selected.
@@ -980,7 +962,7 @@ public class Viewer extends JFrame
 	 */
 	public void setTier(double tier)
 	{
-		this.tier.setText(String.valueOf(tier));
+		this.tier.setText(String.format("%.0f", tier));
 	}
 	
 	/**
@@ -1007,7 +989,7 @@ public class Viewer extends JFrame
 	 */
 	public void setHealth(double health)
 	{
-		this.health.setText(String.valueOf(health));
+		this.health.setText(String.valueOf(NumberFormat.getIntegerInstance().format(health)));
 	}
 	
 	/**
@@ -1016,12 +998,12 @@ public class Viewer extends JFrame
 	 */
 	public void setSpeed(double speed)
 	{
-		this.speed.setText(String.valueOf(speed) + " kts");
+		this.speed.setText(String.format("%.1f", speed) + " kts");
 	}
 	
 	public void setHorsePower(int horsePower)
 	{
-		this.horsePower.setText(String.valueOf(horsePower) + " hp");
+		this.horsePower.setText(String.valueOf(NumberFormat.getIntegerInstance().format(horsePower)) + " hp");
 	}
 	
 	/**
@@ -1030,7 +1012,7 @@ public class Viewer extends JFrame
 	 */
 	public void setRudderShift(double rudderShift)
 	{
-		this.rudder.setText(String.valueOf(rudderShift) + " s");
+		this.rudder.setText(String.format("%.2f", rudderShift) + " s");
 	}
 	
 	/**
@@ -1039,7 +1021,7 @@ public class Viewer extends JFrame
 	 */
 	public void setSConceal(double sConceal)
 	{
-		this.sConceal.setText(String.valueOf(sConceal) + " km");
+		this.sConceal.setText(String.format("%.2f", sConceal) + " km");
 	}
 	
 	/**
@@ -1048,17 +1030,17 @@ public class Viewer extends JFrame
 	 */
 	public void setAConceal(double aConceal)
 	{
-		this.aConceal.setText(String.valueOf(aConceal) + " km");
+		this.aConceal.setText(String.format("%.2f", aConceal) + " km");
 	}
 	
 	public void setStealthFireRange(double stealthFireRange)
 	{
-		this.stealthFireRange.setText(String.valueOf(stealthFireRange) + " km");
+		this.stealthFireRange.setText(String.format("%.2f", stealthFireRange) + " km");
 	}
 	
 	public void setAAFireAirDetection(double AAFireAirRange)
 	{
-		this.AAFireAirDetection.setText(String.valueOf(AAFireAirRange) + " km");
+		this.AAFireAirDetection.setText(String.format("%.2f", AAFireAirRange) + " km");
 	}
 	
 	/**
@@ -1067,7 +1049,7 @@ public class Viewer extends JFrame
 	 */
 	public void setMGRange(double MGRange)
 	{
-		this.MGRange.setText(String.valueOf(MGRange) + " km");
+		this.MGRange.setText(String.format("%.2f", MGRange) + " km");
 	}
 	
 	/**
@@ -1076,7 +1058,7 @@ public class Viewer extends JFrame
 	 */
 	public void setMGReload(double MGReload)
 	{
-		this.txtrMgReload.setText(String.valueOf(MGReload) + " s");
+		this.txtrMgReload.setText(String.format("%.2f", MGReload) + " s");
 	}
 	
 	/**
@@ -1085,7 +1067,7 @@ public class Viewer extends JFrame
 	 */
 	public void setMGDegs(double MGDegs)
 	{
-		this.txtrMgDegs.setText(String.valueOf(MGDegs) + " deg/s");
+		this.txtrMgDegs.setText(String.format("%.1f", MGDegs) + " deg/s");
 	}
 	
 	/**
@@ -1094,37 +1076,37 @@ public class Viewer extends JFrame
 	 */
 	public void setMGTime(double MGTime)
 	{
-		this.txtrMgTime.setText(String.valueOf(MGTime) + " s");
+		this.txtrMgTime.setText(String.format("%.2f", MGTime) + " s");
 	}
 	
 	public void setMGDispersion(double MGDispersion)
 	{
-		this.mainGunDispersionRange.setText(String.valueOf(MGDispersion) + " m");
+		this.mainGunDispersionRange.setText(String.format("%.0f", MGDispersion) + " m");
 	}
 	
 	public void setAPShellSpeed(double APShellSpeed)
 	{
-		this.APShellSpeed.setText(String.valueOf(APShellSpeed) + " m/s");
+		this.APShellSpeed.setText(String.format("%.0f", APShellSpeed) + " m/s");
 	}
 	
 	public void setAPShellDMG(double APShellDMG)
 	{
-		this.txtrAPDmg.setText(String.valueOf(APShellDMG));
+		this.txtrAPDmg.setText(String.valueOf(NumberFormat.getIntegerInstance().format(APShellDMG)));
 	}
 	
 	public void setHEShellSpeed(double HEShellSpeed)
 	{
-		this.HEShellSpeed.setText(String.valueOf(HEShellSpeed) + " m/s");
+		this.HEShellSpeed.setText(String.format("%.0f", HEShellSpeed) + " m/s");
 	}
 	
 	public void setHEShellDMG(double HEShellDMG)
 	{
-		this.txtHEDmg.setText(String.valueOf(HEShellDMG));
+		this.txtHEDmg.setText(String.valueOf(NumberFormat.getIntegerInstance().format(HEShellDMG)));
 	}
 	
 	public void setHEShellBurnProb(double HEShellBurnProb)
 	{
-		this.HEShellBurnProb.setText(String.valueOf(HEShellBurnProb) + " %");
+		this.HEShellBurnProb.setText(String.format("%.1f", HEShellBurnProb) + " %");
 	}
 	
 	public void setNumBarrels(int numTurrets, int numBarrels)
@@ -1134,12 +1116,12 @@ public class Viewer extends JFrame
 	
 	public void setTurretBarrelDiameter(double barrelDiameter)
 	{
-		this.turretBarrelDiameter.setText(String.valueOf(barrelDiameter) + " mm");
+		this.turretBarrelDiameter.setText(String.format("%.0f", barrelDiameter) + " mm");
 	}
 	
 	public void setSecondaryMaxDist(double secondaryMaxDist)
 	{
-		this.secondaryMaxDist.setText(String.valueOf(secondaryMaxDist) + " km");
+		this.secondaryMaxDist.setText(String.format("%.2f", secondaryMaxDist) + " km");
 	}
 	
 	/**
@@ -1148,7 +1130,7 @@ public class Viewer extends JFrame
 	 */
 	public void setTorpRange(double torpRange)
 	{
-		this.torpRange.setText(String.valueOf(torpRange) + " km");
+		this.torpRange.setText(String.format("%.2f", torpRange) + " km");
 	}
 	
 	/**
@@ -1157,7 +1139,7 @@ public class Viewer extends JFrame
 	 */
 	public void setTorpReload(double torpReload)
 	{
-		this.torpReload.setText(String.valueOf(torpReload) + " s");
+		this.torpReload.setText(String.format("%.2f", torpReload) + " s");
 	}
 	
 	/**
@@ -1166,7 +1148,7 @@ public class Viewer extends JFrame
 	 */
 	public void setTorpSpeed(double torpSpeed)
 	{
-		this.torpSpeed.setText(String.valueOf(torpSpeed) + " kts");
+		this.torpSpeed.setText(String.format("%.1f", torpSpeed) + " kts");
 	}
 	
 	public void setTorpedoVisibilityFactor(double torpedoVisibilityFactor)
@@ -1176,7 +1158,7 @@ public class Viewer extends JFrame
 	
 	public void setTorpDiameter(double torpDiameter)
 	{
-		this.tubeDiameter.setText(String.valueOf(torpDiameter) + " mm");
+		this.tubeDiameter.setText(String.format("%.0f", torpDiameter) + " mm");
 	}
 			
 	public void setTubeCount(int torpTurretCount, int tubeCount)
@@ -1191,7 +1173,7 @@ public class Viewer extends JFrame
 	 */
 	public void setAARangeFar(double aaFar)
 	{
-		this.aaFar.setText(String.valueOf(aaFar) + " km");
+		this.aaFar.setText(String.format("%.1f", aaFar) + " km");
 	}
 	
 	/**
@@ -1200,7 +1182,7 @@ public class Viewer extends JFrame
 	 */
 	public void setAAFarDPS(double aaFarDPS)
 	{
-		this.aaFarDPS.setText(String.valueOf(aaFarDPS) + " dps");
+		this.aaFarDPS.setText(String.format("%.1f", aaFarDPS) + " dps");
 	}
 	
 	/**
@@ -1209,7 +1191,7 @@ public class Viewer extends JFrame
 	 */
 	public void setAARangeMedium(double aaMedium)
 	{
-		this.aaMedium.setText(String.valueOf(aaMedium) + " km");
+		this.aaMedium.setText(String.format("%.1f", aaMedium) + " km");
 	}
 	
 	/**
@@ -1218,7 +1200,7 @@ public class Viewer extends JFrame
 	 */
 	public void setAAMediumDPS(double aaMediumDPS)
 	{
-		this.aaMediumDPS.setText(String.valueOf(aaMediumDPS) + " dps");
+		this.aaMediumDPS.setText(String.format("%.1f", aaMediumDPS) + " dps");
 	}
 	
 	/**
@@ -1227,7 +1209,7 @@ public class Viewer extends JFrame
 	 */
 	public void setAARangeNear(double aaNear)
 	{
-		this.aaNear.setText(String.valueOf(aaNear) + " km");
+		this.aaNear.setText(String.format("%.1f", aaNear) + " km");
 	}
 	
 	/**
@@ -1236,7 +1218,7 @@ public class Viewer extends JFrame
 	 */
 	public void setAANearDPS(double aaNearDPS)
 	{
-		this.aaNearDPS.setText(String.valueOf(aaNearDPS) + " dps");
+		this.aaNearDPS.setText(String.format("%.1f", aaNearDPS) + " dps");
 	}
 	
 	/**
@@ -1245,7 +1227,7 @@ public class Viewer extends JFrame
 	 */
 	public void setFloodTime(double floodTime) 
 	{
-		this.floodTime.setText(String.valueOf(floodTime) + " s");
+		this.floodTime.setText(String.format("%.1f", floodTime) + " s");
 	}
 	
 	/**
@@ -1254,7 +1236,7 @@ public class Viewer extends JFrame
 	 */
 	public void setBurnTime(double burnTime) 
 	{
-		this.burnTime.setText(String.valueOf(burnTime) + " s");
+		this.burnTime.setText(String.format("%.1f", burnTime) + " s");
 	}
 	
 	public void setConsume2Count(int consume2Count)

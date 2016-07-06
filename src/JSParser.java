@@ -621,7 +621,7 @@ public class JSParser
 	 */
 	public double getSConceal()
 	{
-		return Math.round(sConceal * 100.0) / 100.0;
+		return sConceal;
 	}
 	
 	/**
@@ -630,7 +630,7 @@ public class JSParser
 	 */
 	public double getAConceal()
 	{
-		return Math.round(aConceal * 100.0) / 100.0;
+		return aConceal;
 	}
 	
 	/**
@@ -810,7 +810,7 @@ public class JSParser
 	 */
 	public double getStealthFireSurfaceDetection()
 	{
-		return Math.round(stealthFireSurfaceDetection * 100.0) / 100.0;
+		return stealthFireSurfaceDetection;
 	}
 	
 	/**
@@ -1216,7 +1216,7 @@ public class JSParser
 						
 						count++;
 					}
-					AAFarDPS = Math.round(AAFarDPS * 100);
+					AAFarDPS = AAFarDPS * 100;
 				}
 			}
 		}
@@ -1265,7 +1265,7 @@ public class JSParser
 					
 					count++;
 				}
-				AAMediumDPS = Math.round(AAMediumDPS * 100);
+				AAMediumDPS = AAMediumDPS * 100;
 			}
 			
 			List<String> AANear = new ArrayList<String>();
@@ -1300,7 +1300,7 @@ public class JSParser
 					
 					count++;
 				}
-				AANearDPS = Math.round(AANearDPS * 100);
+				AANearDPS = AANearDPS * 100;
 			}
 			else
 			{
@@ -1323,7 +1323,7 @@ public class JSParser
 						
 						count++;
 					}
-					AANearDPS = Math.round(AANearDPS * 100);
+					AANearDPS = AANearDPS * 100;
 				}
 			}		
 		}		
