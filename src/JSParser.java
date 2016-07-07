@@ -187,6 +187,10 @@ public class JSParser
 		{
 			ship = ship.replace("Diana L", "PRSC010_Diana_1905_Asus");
 		}
+		else if (ship.equals("Krasni Krym"))
+		{
+			ship = ship.replace("Krasni Krym", "PRSC505_KrasniKrym");
+		}
 		
 		ship = ship.replaceAll(" ", "_");
 		
@@ -1127,9 +1131,10 @@ public class JSParser
 				position = i;
 			}
 		}		
-		
+				
 		JSONObject hpobj;
 		hpobj = (JSONObject) shipJSON.get(hull2.get(0));
+		
 		maxHP = (double) hpobj.get("health");
 		rudderShift = (double) hpobj.get("rudderTime");
 		
@@ -1184,6 +1189,12 @@ public class JSParser
 			{		
 				JSONObject ATBA;
 				if (ATBAList.size() == 1)
+				{
+					String ATBAName = ATBAList.get(0);
+					ATBA = (JSONObject) shipJSON.get(ATBAName);
+					secondaryMaxDist = (double) ATBA.get("maxDist");
+				}
+				else if (ATBAList.size() <= position)
 				{
 					String ATBAName = ATBAList.get(ATBAList.size()-1);
 					ATBA = (JSONObject) shipJSON.get(ATBAName);

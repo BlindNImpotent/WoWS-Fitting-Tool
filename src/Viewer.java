@@ -1823,6 +1823,7 @@ public class Viewer extends JFrame
 		comboBoxShipNameList.addItem("Diana");
 		comboBoxShipNameList.addItem("Diana L");
 		comboBoxShipNameList.addItem("Aurora");
+		comboBoxShipNameList.addItem("Krasni Krym");
 		comboBoxShipNameList.addItem("Murmansk");
 		comboBoxShipNameList.addItem("Molotov");
 		comboBoxShipNameList.addItem("Kutuzov");
