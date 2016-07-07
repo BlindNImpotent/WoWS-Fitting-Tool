@@ -191,6 +191,10 @@ public class JSParser
 		{
 			ship = ship.replace("Krasni Krym", "PRSC505_KrasniKrym");
 		}
+		else if (ship.equals("Myoko"))
+		{
+			ship = ship.replace("Myoko", "PJSC008_Myoko_1945");
+		}
 		
 		ship = ship.replaceAll(" ", "_");
 		
@@ -1344,7 +1348,7 @@ public class JSParser
 	{
 		for (String string : shipUpgradeList()) 
 	    {
-			if(string.matches(".*(_Engine_).*") || string.matches(".*(_ENG_).*") || string.matches("(?i)(P).*(UE).*"))
+			if(string.matches(".*(_Engine_).*") || string.matches(".*(_ENG_).*") || string.matches(".*(_ENGINE_).*"))
 	        {
 				engineList.add(string);
 	        }
@@ -1454,7 +1458,7 @@ public class JSParser
 			return;
 		}
 
-		Collections.sort(torpedoList);		
+		Collections.sort(torpedoList);
 	}
 	
 	public void setTorpedoStats2(String aTorpedo)
@@ -1476,7 +1480,7 @@ public class JSParser
 				torp3 = (JSONObject) torp1.get(torpedoList.get(i)).get("components");
 				torp2 = (JSONArray) torp3.get("torpedoes");
 			}
-		}
+		}		
 		
 		JSONObject tobj = null;
 		JSONObject tobj2 = null;
@@ -1490,7 +1494,7 @@ public class JSParser
 		{
 			return;
 		}
-		
+				
 		if (getNation().equals("Germany"))
 		{
 			tobj2 = (JSONObject) tobj.get("HP_GGT_1");			
@@ -1501,7 +1505,14 @@ public class JSParser
 		}
 		else if (getNation().equals("Japan"))
 		{
-			tobj2 = (JSONObject) tobj.get("HP_JGT_1");
+			if (shipCode.equals("PJSC008_Myoko_1945"))
+			{
+				tobj2 = (JSONObject) tobj.get("HP_JGT_3");
+			}
+			else
+			{
+				tobj2 = (JSONObject) tobj.get("HP_JGT_1");
+			}
 		}
 		else if (getNation().equals("Russia"))
 		{
@@ -1519,7 +1530,7 @@ public class JSParser
 		{
 			tobj2 = (JSONObject) tobj.get("HP_BGT_1");
 		}
-		
+				
 		torpDiameter = (double) tobj2.get("barrelDiameter");
 		
 		if (tobj2.get("numBarrels") instanceof Long)
