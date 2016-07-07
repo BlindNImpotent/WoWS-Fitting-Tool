@@ -1317,7 +1317,7 @@ public class JSParser
 				}
 				AANearDPS = AANearDPS * 100;
 			}
-			else
+			else if (AirDefenseMedium.get("AuraMedium1") != null)
 			{
 				JSONObject AuraMedium = (JSONObject) AirDefenseMedium.get("AuraMedium");
 				if (AuraMedium != null)
