@@ -54,7 +54,8 @@ public class JSParser
 	private double maxMainGunRange;
 	private double mainGunRotation;
 	private double mainGunReload;
-	private double mainGunDispersionTangent;	
+	private double mainGunDispersionTangent;
+	private double sigmaCount;
 	private double APShellSpeed;
 	private double APShellDMG;
 	private double HEShellSpeed;
@@ -507,6 +508,11 @@ public class JSParser
 	public double getMaxMainGunRange()
 	{
 		return maxMainGunRange;
+	}
+	
+	public double getSigmaCount()
+	{
+		return sigmaCount;
 	}
 	
 	/**
@@ -1015,6 +1021,8 @@ public class JSParser
 			}
 					
 			maxMainGunRange = (double) tobj.get("maxDist") * maxDistCoef;
+			
+			sigmaCount = (double) tobj.get("sigmaCount");
 			
 			if (tobj2.get("numBarrels") instanceof Double)
 			{

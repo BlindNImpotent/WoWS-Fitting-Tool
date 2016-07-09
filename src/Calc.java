@@ -23,6 +23,7 @@ public class Calc
 	private double rudderShift;
 	
 	private double maxMainGunRange;
+	private double sigmaCount;
 	private double mainGunReload;
 	private double mainGunRotation;
 	private double mainGunDispersionTangent;
@@ -109,6 +110,7 @@ public class Calc
 		rudderShift = jsp.getRudderShift();
 		
 		maxMainGunRange = jsp.getMaxMainGunRange() / 1000;
+		sigmaCount = jsp.getSigmaCount();
 		mainGunReload = jsp.getMainGunReload();
 		mainGunRotation = jsp.getMainGunRotation();		
 		mainGunDispersionTangent = jsp.getMainGunDispersion();
@@ -780,6 +782,11 @@ public class Calc
 	public double getMaxMainGunRange()
 	{
 		return maxMainGunRange;
+	}
+	
+	public double getSigmaCount()
+	{
+		return sigmaCount;
 	}
 	
 	/**

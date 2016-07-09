@@ -236,6 +236,7 @@ public class Controller
 			view.setMGDegs(answer.getMainGunRotation());
 			view.setMGTime(answer.getMainGunRotationTime());
 			view.setMGDispersion(answer.getMainGunDispersionRange());
+			view.setSigmaCount(answer.getSigmaCount());
 			view.setAPShellSpeed(answer.getAPShellSpeed());
 			view.setAPShellDMG(answer.getAPShellDMG());
 			view.setHEShellSpeed(answer.getHEShellSpeed());

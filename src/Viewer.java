@@ -156,6 +156,8 @@ public class Viewer extends JFrame
 	private JTextArea torpDetection;
 	private JLabel lblTorpDetection;
 	
+	private JTextArea sigmaCount;
+	private JLabel lblSigmaCount;
 	
 	/**
 	 * Creates the frame.
@@ -502,21 +504,21 @@ public class Viewer extends JFrame
 		APShellSpeed = new JTextArea();
 		APShellSpeed.setText("m/s");
 		APShellSpeed.setEditable(false);
-		APShellSpeed.setBounds(380, 353, 70, 21);
+		APShellSpeed.setBounds(380, 384, 70, 21);
 		contentPane.add(APShellSpeed);
 		
 		HEShellSpeed = new JTextArea();
 		HEShellSpeed.setText("m/s");
 		HEShellSpeed.setEditable(false);
-		HEShellSpeed.setBounds(380, 412, 70, 21);
+		HEShellSpeed.setBounds(380, 444, 70, 21);
 		contentPane.add(HEShellSpeed);
 		
 		lblAPShell = new JLabel("AP Speed");
-		lblAPShell.setBounds(300, 357, 70, 15);
+		lblAPShell.setBounds(300, 388, 70, 15);
 		contentPane.add(lblAPShell);
 		
 		lblHEShell = new JLabel("HE Speed");
-		lblHEShell.setBounds(300, 416, 70, 15);
+		lblHEShell.setBounds(300, 448, 70, 15);
 		contentPane.add(lblHEShell);
 		
 		secondaryMaxDist = new JTextArea();
@@ -532,7 +534,7 @@ public class Viewer extends JFrame
 		HEShellBurnProb = new JTextArea();
 		HEShellBurnProb.setText("%");
 		HEShellBurnProb.setEditable(false);
-		HEShellBurnProb.setBounds(380, 474, 70, 21);
+		HEShellBurnProb.setBounds(380, 506, 70, 21);
 		contentPane.add(HEShellBurnProb);
 		
 		chckbxDemoExp = new JCheckBox("Demo Exp");
@@ -540,25 +542,25 @@ public class Viewer extends JFrame
 		contentPane.add(chckbxDemoExp);
 		
 		lblFireProb = new JLabel("HE Fire");
-		lblFireProb.setBounds(300, 478, 70, 15);
+		lblFireProb.setBounds(300, 510, 70, 15);
 		contentPane.add(lblFireProb);
 		
 		txtHEDmg = new JTextArea();
 		txtHEDmg.setEditable(false);
-		txtHEDmg.setBounds(380, 443, 70, 21);
+		txtHEDmg.setBounds(380, 474, 70, 21);
 		contentPane.add(txtHEDmg);
 		
 		txtrAPDmg = new JTextArea();
 		txtrAPDmg.setEditable(false);
-		txtrAPDmg.setBounds(380, 384, 70, 21);
+		txtrAPDmg.setBounds(380, 412, 70, 21);
 		contentPane.add(txtrAPDmg);
 		
 		lblApDmg = new JLabel("AP DMG");
-		lblApDmg.setBounds(300, 388, 70, 15);
+		lblApDmg.setBounds(300, 416, 70, 15);
 		contentPane.add(lblApDmg);
 		
 		lblHeDmg = new JLabel("HE DMG");
-		lblHeDmg.setBounds(300, 450, 70, 15);
+		lblHeDmg.setBounds(300, 478, 70, 15);
 		contentPane.add(lblHeDmg);
 		
 		comboBoxTorpedoList = new JComboBox<String>();
@@ -779,6 +781,15 @@ public class Viewer extends JFrame
 		lblTorpDetection = new JLabel("Torp Detect");
 		lblTorpDetection.setBounds(462, 510, 70, 15);
 		contentPane.add(lblTorpDetection);
+		
+		sigmaCount = new JTextArea();
+		sigmaCount.setEditable(false);
+		sigmaCount.setBounds(380, 353, 70, 21);
+		contentPane.add(sigmaCount);
+		
+		lblSigmaCount = new JLabel("Sigma");
+		lblSigmaCount.setBounds(300, 357, 80, 15);
+		contentPane.add(lblSigmaCount);
 	}
 
 	/**
@@ -1082,6 +1093,11 @@ public class Viewer extends JFrame
 	public void setMGDispersion(double MGDispersion)
 	{
 		this.mainGunDispersionRange.setText(String.format("%.0f", MGDispersion) + " m");
+	}
+	
+	public void setSigmaCount(double sigmaCount)
+	{
+		this.sigmaCount.setText(String.format("%.1f", sigmaCount));
 	}
 	
 	public void setAPShellSpeed(double APShellSpeed)
