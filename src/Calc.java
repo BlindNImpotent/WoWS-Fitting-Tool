@@ -1434,12 +1434,21 @@ public class Calc
 	{
 		List<String> torpedoList = new ArrayList<String>();
 		
-		for (int i = 0; i < jsp.getTorpedoList().size(); i++)
-		{			
-			torpedoList.add(i, jsp.getTorpedoList().get(i).substring(8));		
+		if (jsp.getTorpedoList().size() == 0)
+		{
+			torpedoList.add("None");
+			return torpedoList;
 		}		
 		
-		return torpedoList;		
+		else
+		{
+			for (int i = 0; i < jsp.getTorpedoList().size(); i++)
+			{			
+				torpedoList.add(i, jsp.getTorpedoList().get(i).substring(8));		
+			}		
+		
+			return torpedoList;
+		}
 	}	
 	
 	/**

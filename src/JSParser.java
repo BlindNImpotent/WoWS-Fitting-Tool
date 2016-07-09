@@ -1007,7 +1007,7 @@ public class JSParser
 			}
 			else if (getNation().equals("Poland"))
 			{
-				tobj2 = (JSONObject) tobj.get("HP_WGM_1");
+				tobj2 = (JSONObject) tobj.get("HP_WGM_2");
 			}
 			else if (getNation().equals("United_Kingdom"))
 			{
@@ -1463,6 +1463,11 @@ public class JSParser
 	
 	public void setTorpedoStats2(String aTorpedo)
 	{
+		if (aTorpedo.equals("None"))
+		{
+			return;
+		}		
+		
 		Map<String, JSONObject> torp1 = new HashMap<>();
 		
 		for(int i = 0; i < torpedoList.size(); i++)
