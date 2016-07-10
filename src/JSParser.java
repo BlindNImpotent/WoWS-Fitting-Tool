@@ -121,6 +121,12 @@ public class JSParser
 	private List<String> Ability2 = new ArrayList<String>();
 	private List<String> Ability3 = new ArrayList<String>();
 	
+	private List<String> permaflage = new ArrayList<String>();
+	private double afterBattleRepair;
+	private double visibilityFactorPermaCamo;
+	private double visibilityFactorByPlanePermaCamo;
+	private double expFactorPermaCamo;
+	
 	private JSONObject tobj2;
 	private JSONObject tobj;
 	
@@ -237,6 +243,8 @@ public class JSParser
 		setModuleUpgradeList();		
 		setConsumablesList();		
 		
+		setPermaflage();
+		
 		setCrewList();
 		setFlagList();
 	}
@@ -335,27 +343,21 @@ public class JSParser
 			{
 				case 1: modSlot1.addAll(mods2);
 						Collections.sort(modSlot1);
-				//System.out.println(modSlot1.toString());
 						break;
 				case 2:	modSlot2.addAll(mods2);
 						Collections.sort(modSlot2);
-				//System.out.println(modSlot2.toString());
 						break;
 				case 3:	modSlot3.addAll(mods2);
 						Collections.sort(modSlot3);
-				//System.out.println(modSlot3.toString());
 						break;
 				case 4:	modSlot4.addAll(mods2);
 						Collections.sort(modSlot4);
-				//System.out.println(modSlot4.toString());
 						break;
 				case 5:	modSlot5.addAll(mods2);
 						Collections.sort(modSlot5);
-				//System.out.println(modSlot5.toString());
 						break;
 				case 6:	modSlot6.addAll(mods2);
 						Collections.sort(modSlot6);
-				//System.out.println(modSlot6.toString());
 						break;
 				default:
 						break;
@@ -944,6 +946,11 @@ public class JSParser
 		return Ability3;
 	}
 	
+	public List<String> getPermaflage()
+	{
+		return permaflage;
+	}
+	
 	/**
 	 * Returns list of upgrades.
 	 * @return upgradeList List of upgrades
@@ -1159,7 +1166,7 @@ public class JSParser
 		maxRepairCost = (long) hpobj.get("maxRepairCost");
 		
 		maxHP = (double) hpobj.get("health");
-		rudderShift = (double) hpobj.get("rudderTime");
+		rudderShift = (double) hpobj.get("rudderTime") / 1.3;
 		
 		if (hpobj.get("maxSpeed") instanceof Double)
 		{
@@ -1633,5 +1640,57 @@ public class JSParser
 		{
 			Ability3.add(Abil3.get(i).get(0).toString());
 		}
+	}
+	
+	private void setPermaflage()
+	{
+		JSONArray pf = (JSONArray) shipJSON.get("permoflages");
+		
+		if (pf != null)
+		{
+			for (int i = 0; i < pf.size(); i++)
+			{
+				permaflage.add(pf.get(i).toString());
+			}
+		}
+	}
+	
+	public void setPermaflage2(String aPermaflage)
+	{
+		JSONObject pf = (JSONObject) GameParams.get(aPermaflage);
+		
+		if (pf.get("afterBattleRepair") != null)
+		{
+			afterBattleRepair = (double) pf.get("afterBattleRepair");
+		}
+		else
+		{
+			afterBattleRepair = 1.00;
+		}
+		
+		visibilityFactorPermaCamo = (double) pf.get("visibilityFactor");
+		visibilityFactorByPlanePermaCamo = (double) pf.get("visibilityFactorByPlane");
+		expFactorPermaCamo = (double) pf.get("expFactor") - 1;
+		
+	}
+	
+	public double getAfterBattleRrepair()
+	{
+		return afterBattleRepair;
+	}
+	
+	public double getVisibilityFactorPermaCamo()
+	{
+		return visibilityFactorPermaCamo;
+	}
+	
+	public double getVisibilityFactorByPlanePermaCamo()
+	{
+		return visibilityFactorByPlanePermaCamo;
+	}
+	
+	public double getExpFactorPermaCamo()
+	{
+		return expFactorPermaCamo;
 	}
 }

@@ -19,8 +19,8 @@ public class Model
 			boolean TA, boolean SI, 
 			boolean DE, boolean AFT, boolean survivability,
 			boolean conceal,
-			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6, 
-			boolean concealCamo
+			String camouflage,
+			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6
 			) throws FileNotFoundException, IOException, ParseException
 	{
 		return calculator.calculate(
@@ -31,8 +31,8 @@ public class Model
 				TA, SI, 
 				DE, AFT, survivability,
 				conceal,
-				JY2, IY, IX, NE7, SM, VL, MY6, 
-				concealCamo
+				camouflage,
+				JY2, IY, IX, NE7, SM, VL, MY6
 				);
 	}
 	

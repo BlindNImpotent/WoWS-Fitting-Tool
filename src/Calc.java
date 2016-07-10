@@ -80,6 +80,13 @@ public class Calc
 	private int count3;
 	private int count4;
 	
+	private double reloadTime1;
+	private double reloadTime2;
+	private double reloadTime3;
+	private double reloadTime4;
+	
+	private double expFactor;
+	
 	/**
 	 * Constructor to set ship stats.
 	 * @param ship Ship name
@@ -581,11 +588,50 @@ public class Calc
 	}
 	
 	
-	public void calcConcealCamo()
+	public void calcType1Camo()
 	{	
 		sConceal = sConceal * 0.97;
 		aConceal = aConceal * 1.00;
 	}
+	
+	public void calcType3Camo()
+	{	
+		sConceal = sConceal * 0.97;
+		aConceal = aConceal * 1.00;
+		expFactor = 100;
+	}
+	
+	public void calcType5Camo()
+	{	
+		sConceal = sConceal * 0.97;
+		aConceal = aConceal * 1.00;
+	}
+	
+	public void calcType6Camo()
+	{	
+		sConceal = sConceal * 0.97;
+		aConceal = aConceal * 1.00;
+		expFactor = 100;
+	}
+	
+	public double getExpFactor()
+	{
+		return expFactor;
+	}
+	
+	public void setPermaflage2(String aPermaflage)
+	{
+		jsp.setPermaflage2(aPermaflage);
+	}
+	
+	public void calcPermaflage()
+	{
+		sConceal = sConceal * jsp.getVisibilityFactorPermaCamo();
+		aConceal = aConceal * jsp.getVisibilityFactorByPlanePermaCamo();
+		
+		maxRepairCost = (long) (maxRepairCost * jsp.getAfterBattleRrepair());
+		expFactor = jsp.getExpFactorPermaCamo() * 100;
+	}	
 	
 	public void calcHY()
 	{
@@ -1306,6 +1352,22 @@ public class Calc
 		return Ability0;
 	}
 	
+	public void setConsume1(String consumable)
+	{
+		JSONArray a1;
+		
+		for (int i = 0; i < jsp.getAbil0().size(); i++)
+		{
+			a1 = (JSONArray) jsp.getAbil0().get(i);
+			if (a1.get(0).toString().contains(consumable))
+			{
+				JSONObject a2 = (JSONObject) jsp.getGameParams().get(consumable);
+				JSONObject a3 = (JSONObject) a2.get(a1.get(1));
+				reloadTime1 = (double) a3.get("reloadTime");
+			}
+		}
+	}
+	
 	public List<String> getConsumable2()
 	{
 		List<String> Ability1 = new ArrayList<String>();
@@ -1319,7 +1381,7 @@ public class Calc
 		return Ability1;
 	}
 	
-	public int getConsume2Count(String consumable)
+	public void setConsume2(String consumable)
 	{
 		JSONArray a1;
 		
@@ -1331,10 +1393,9 @@ public class Calc
 				JSONObject a2 = (JSONObject) jsp.getGameParams().get(consumable);
 				JSONObject a3 = (JSONObject) a2.get(a1.get(1));
 				count2 = count2 + (int) (long) a3.get("numConsumables");
+				reloadTime2 = (double) a3.get("reloadTime");
 			}
-		}
-		
-		return count2;
+		}		
 	}
 	
 	public List<String> getConsumable3()
@@ -1349,7 +1410,7 @@ public class Calc
 		return Ability2;
 	}
 	
-	public int getConsume3Count(String consumable)
+	public void setConsume3(String consumable)
 	{
 		JSONArray a1;
 		
@@ -1361,10 +1422,9 @@ public class Calc
 				JSONObject a2 = (JSONObject) jsp.getGameParams().get(consumable);
 				JSONObject a3 = (JSONObject) a2.get(a1.get(1));
 				count3 = count3 + (int) (long) a3.get("numConsumables");
+				reloadTime3 = (double) a3.get("reloadTime");
 			}
 		}
-		
-		return count3;
 	}
 	
 	public List<String> getConsumable4()
@@ -1379,7 +1439,7 @@ public class Calc
 		return Ability3;
 	}
 	
-	public int getConsume4Count(String consumable)
+	public void setConsume4(String consumable)
 	{
 		JSONArray a1;
 		
@@ -1391,11 +1451,52 @@ public class Calc
 				JSONObject a2 = (JSONObject) jsp.getGameParams().get(consumable);
 				JSONObject a3 = (JSONObject) a2.get(a1.get(1));
 				count4 = count4 + (int) (long) a3.get("numConsumables");
+				reloadTime4 = (double) a3.get("reloadTime");
 			}
 		}
-		
+	}
+	
+	public int getConsume2Count()
+	{
+		return count2;
+	}
+	
+	public int getConsume3Count()
+	{
+		return count3;
+	}
+	
+	public int getConsume4Count()
+	{
 		return count4;
 	}
+	
+	public double getConsume1Reload()
+	{
+		return reloadTime1;
+	}
+	
+	public double getConsume2Reload()
+	{
+		return reloadTime2;
+	}
+	
+	public double getConsume3Reload()
+	{
+		return reloadTime3;
+	}
+	
+	public double getConsume4Reload()
+	{
+		return reloadTime4;
+	}
+	
+	
+	public List<String> getPermaflage()
+	{	
+		return jsp.getPermaflage();
+	}
+	
 
 	public List<String> getTurretList()
 	{
@@ -1463,33 +1564,5 @@ public class Calc
 		
 			return torpedoList;
 		}
-	}	
-	
-	/**
-	 * Test method to print out ship stats on console.
-	 */
-	@SuppressWarnings("unused")
-	private void test()
-	{
-		System.out.println("Tier: " + getTier());
-		System.out.println("Nation: " + getNation());		
-		System.out.println("Ship: " + getShipType());
-		System.out.println("Health: " + getHealth());
-		System.out.println("Speed: " + getSpeed() + " kts");
-		System.out.println("Rudder: " + getRudderShift() + " s");
-		System.out.println("MG Range: " + getMaxMainGunRange() + " m");
-		System.out.println("MG Reload: " + getMainGunReload() + " s");
-		System.out.println("MG Rotation: " + getMainGunRotation() + " deg / s");
-		System.out.println("MG Rotation: " + getMainGunRotationTime() + " s / 180 deg");
-		System.out.println("Torp Range: " + getMaxTorpedoRange() + " m");
-		System.out.println("Torp Reload: " + getTorpedoReload() + " s");
-		System.out.println("Torp Rotation: " + getTorpedoRotation() + " deg / s");
-		System.out.println("Torp Rotation: " + getTorpedoRotationTime() + " s / 180 deg");		
-		System.out.println("S Conceal: " + getSConceal() + " km");
-		System.out.println("A Conceal: " + getAConceal() + " km");
-		System.out.println("Upgrade slots: " + getUpgradeSlots());
-		System.out.println("Engine repair time: " + getEngineRepairTime() + " s");
-		System.out.println("Burn time: " + getBurnTime() + " s");
-		System.out.println("Flood time: " + getFloodTime() + " s");
-	}	
+	}
 }

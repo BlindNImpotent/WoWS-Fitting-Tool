@@ -19,8 +19,8 @@ public class Calculator
 			boolean TA, boolean SI, 
 			boolean DE, boolean AFT, boolean survivability,
 			boolean conceal,
-			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6,
-			boolean concealCamo
+			String camouflage,
+			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6
 			) throws FileNotFoundException, IOException, ParseException
 	{
 		calc = upgrades(aShip, turret, hull, engine,radar, torpedo);
@@ -322,7 +322,8 @@ public class Calculator
 			{
 				calc.calcConcealSystemMod1();
 			}
-		}		
+		}
+		
 		if (conceal == true)
 		{
 			calc.calcConcealmentExpert();
@@ -364,6 +365,38 @@ public class Calculator
 			calc.calcSuperintendent();
 		}
 		
+		if (!camouflage.equals("None"))
+		{
+			if (camouflage.equals("Type 1"))
+			{
+				calc.calcType1Camo();
+			}
+			else if (camouflage.equals("Type 2"))
+			{
+				
+			}
+			else if (camouflage.equals("Type 3"))
+			{
+				
+			}
+			else if (camouflage.equals("Type 5"))
+			{
+				
+			}
+			else if (camouflage.equals("Type 6"))
+			{
+				
+			}
+			else
+			{
+				calc.setPermaflage2(camouflage);
+				calc.calcPermaflage();
+			}
+			
+		}
+		
+		
+		
 		if (JY2 == true)
 		{
 			calc.calcJY2();
@@ -393,11 +426,7 @@ public class Calculator
 			calc.calcMY6();
 		}
 		
-		
-		if (concealCamo == true)
-		{
-			calc.calcConcealCamo();
-		}
+
 		
 		return calc;
 	}

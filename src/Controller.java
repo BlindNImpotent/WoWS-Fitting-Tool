@@ -52,6 +52,7 @@ public class Controller
 			view.setModuleBox4(answer.getModule4());
 			view.setModuleBox5(answer.getModule5());
 			view.setModuleBox6(answer.getModule6());
+			view.setCamouflageBox(answer.getPermaflage());
 			view.setConsumable1(answer.getConsumable1());
 			view.setConsumable2(answer.getConsumable2());
 			view.setConsumable3(answer.getConsumable3());
@@ -176,11 +177,11 @@ public class Controller
 			String mod4 = view.getModuleBox4();
 			String mod5 = view.getModuleBox5();
 			String mod6 = view.getModuleBox6();
+			String camouflage = view.getCamouflageBox();
 			boolean conceal = view.getConcealmentSkill();
 			boolean survivability = view.getSurvivabilitySkill();
 			boolean AFT = view.getAFT();
 			boolean EM = view.getExpertMarksman();
-			boolean concealCamo = view.getConcealCamo();
 			boolean BFT = view.getBFT();
 			boolean TAE = view.getTorpArmExp();
 			boolean TA = view.getTorpAccel();
@@ -205,8 +206,8 @@ public class Controller
 							TA, SI,
 							DE, AFT, survivability,
 							conceal,
-							JY2, IY, IX, NE7, SM, VL, MY6, 
-							concealCamo
+							camouflage,
+							JY2, IY, IX, NE7, SM, VL, MY6 
 							);								
 			} 
 			catch (IOException | ParseException e) 
@@ -214,9 +215,20 @@ public class Controller
 				e.printStackTrace();
 			}
 			
-			view.setConsume2Count(answer.getConsume2Count(view.getConsumable2()));
-			view.setConsume3Count(answer.getConsume3Count(view.getConsumable3()));
-			view.setConsume4Count(answer.getConsume4Count(view.getConsumable4()));
+			answer.setConsume1(view.getConsumable1());
+			answer.setConsume2(view.getConsumable2());
+			answer.setConsume3(view.getConsumable3());
+			answer.setConsume4(view.getConsumable4());
+			
+			view.setExpFactor(answer.getExpFactor());
+			
+			view.setConsume2Count(answer.getConsume2Count());
+			view.setConsume3Count(answer.getConsume3Count());
+			view.setConsume4Count(answer.getConsume4Count());
+			view.setConsume1Reload(answer.getConsume1Reload());
+			view.setConsume2Reload(answer.getConsume2Reload());
+			view.setConsume3Reload(answer.getConsume3Reload());
+			view.setConsume4Reload(answer.getConsume4Reload());
 			
 			view.setTier(answer.getTier());
 			view.setShipType(answer.getShipType());
