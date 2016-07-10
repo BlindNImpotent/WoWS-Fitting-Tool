@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JTextArea;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -46,6 +48,7 @@ public class JSParser
 	private String shipCode;	
 	private String nation;
 	private String shipType;
+	private long maxRepairCost;
 	private double maxHP;
 	private double rudderShift;
 	private double speed;
@@ -468,6 +471,12 @@ public class JSParser
 	{
 		return shipType;
 	}
+	
+	public long getMaxRepairCost()
+	{
+		return maxRepairCost;
+	}
+	
 	
 	/**
 	 * Returns maximum possible health.
@@ -1146,6 +1155,8 @@ public class JSParser
 				
 		JSONObject hpobj;
 		hpobj = (JSONObject) shipJSON.get(hull2.get(0));
+		
+		maxRepairCost = (long) hpobj.get("maxRepairCost");
 		
 		maxHP = (double) hpobj.get("health");
 		rudderShift = (double) hpobj.get("rudderTime");

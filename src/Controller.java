@@ -219,8 +219,8 @@ public class Controller
 			view.setConsume4Count(answer.getConsume4Count(view.getConsumable4()));
 			
 			view.setTier(answer.getTier());
-			view.setNation(answer.getNation());
 			view.setShipType(answer.getShipType());
+			view.setMaxRepairCost(answer.getMaxRepairCost());
 			view.setHealth(answer.getHealth());
 			view.setSpeed(answer.getSpeed());
 			view.setHorsePower(answer.getHorsePower());

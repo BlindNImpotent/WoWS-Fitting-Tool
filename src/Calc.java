@@ -17,6 +17,7 @@ public class Calc
 	private int tier;
 	private String nation;
 	private String shiptype;
+	private long maxRepairCost;
 	private double health;
 	private double speed;
 	private int horsePower;
@@ -104,6 +105,7 @@ public class Calc
 		tier = jsp.getTier();
 		nation = jsp.getNation();
 		shiptype = jsp.getShipType();
+		maxRepairCost = jsp.getMaxRepairCost();
 		health = jsp.getHealth();
 		speed = jsp.getSpeed();
 		horsePower = jsp.getHorsePower();
@@ -959,6 +961,11 @@ public class Calc
 	{
 		return aConceal;
 	}
+	
+	public long getMaxRepairCost()
+	{
+		return maxRepairCost;
+	}	
 	
 	/**
 	 * 

@@ -30,7 +30,6 @@ public class Viewer extends JFrame
 	private JButton calculateButton;
 	private JTextArea rudder;
 	private JTextArea tier;
-	private JTextArea nation;
 	private JTextArea shipType;
 	private JTextArea health;
 	private JTextArea speed;
@@ -38,7 +37,6 @@ public class Viewer extends JFrame
 	private JTextArea MGRange;
 	private JLabel lblMGRange;
 	private JLabel lblTier;
-	private JLabel lblNation;
 	private JLabel lblShipType;
 	private JLabel lblHealth;
 	private JLabel lblSpeed;
@@ -159,6 +157,9 @@ public class Viewer extends JFrame
 	private JTextArea sigmaCount;
 	private JLabel lblSigmaCount;
 	
+	private JTextArea maxRepairCost;	
+	private JLabel lblMaxRepairCost;
+	
 	/**
 	 * Creates the frame.
 	 */
@@ -215,14 +216,9 @@ public class Viewer extends JFrame
 		tier.setBounds(218, 136, 70, 21);
 		contentPane.add(tier);
 		
-		nation = new JTextArea();
-		nation.setEditable(false);
-		nation.setBounds(218, 167, 70, 21);
-		contentPane.add(nation);
-		
 		shipType = new JTextArea();
 		shipType.setEditable(false);
-		shipType.setBounds(218, 198, 70, 21);
+		shipType.setBounds(218, 167, 70, 21);
 		contentPane.add(shipType);
 		
 		health = new JTextArea();
@@ -253,12 +249,8 @@ public class Viewer extends JFrame
 		lblTier.setBounds(140, 140, 39, 15);
 		contentPane.add(lblTier);
 		
-		lblNation = new JLabel("Nation");
-		lblNation.setBounds(140, 171, 49, 15);
-		contentPane.add(lblNation);
-		
 		lblShipType = new JLabel("Ship Type");
-		lblShipType.setBounds(140, 202, 70, 15);
+		lblShipType.setBounds(140, 171, 70, 15);
 		contentPane.add(lblShipType);
 		
 		lblHealth = new JLabel("Health");
@@ -790,6 +782,15 @@ public class Viewer extends JFrame
 		lblSigmaCount = new JLabel("Sigma");
 		lblSigmaCount.setBounds(300, 357, 80, 15);
 		contentPane.add(lblSigmaCount);
+		
+		maxRepairCost = new JTextArea();
+		maxRepairCost.setEditable(false);
+		maxRepairCost.setBounds(218, 198, 70, 21);
+		contentPane.add(maxRepairCost);
+		
+		lblMaxRepairCost = new JLabel("Max Repair");
+		lblMaxRepairCost.setBounds(140, 202, 70, 15);
+		contentPane.add(lblMaxRepairCost);
 	}
 
 	/**
@@ -977,21 +978,17 @@ public class Viewer extends JFrame
 	}
 	
 	/**
-	 * Sets nation to returned nation.
-	 * @param nation
-	 */
-	public void setNation(String nation)
-	{
-		this.nation.setText(nation);
-	}
-	
-	/**
 	 * Sets ship type to returned ship type.
 	 * @param shipType
 	 */
 	public void setShipType(String shipType)
 	{
 		this.shipType.setText(shipType);
+	}
+	
+	public void setMaxRepairCost(long maxRepairCost)
+	{		
+		this.maxRepairCost.setText(String.valueOf(NumberFormat.getIntegerInstance().format(maxRepairCost)) + " cr");
 	}
 	
 	/**
