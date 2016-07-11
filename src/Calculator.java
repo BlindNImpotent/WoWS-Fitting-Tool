@@ -17,11 +17,12 @@ public class Calculator
 			String consume1, String consume2, String consume3, String consume4,
 			boolean BFT, boolean BoS,
 			boolean EM, boolean TAE,
-			boolean TA, boolean SI, 
-			boolean DE, boolean AFT, boolean survivability,
-			boolean conceal,
+			boolean TA, boolean HA, boolean SI, 
+			boolean DE, boolean AFT, boolean survivability, boolean MFCAA,
+			boolean conceal, boolean JoAT,
 			String camouflage,
 			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6, boolean NF, boolean ZH, boolean ESCL, boolean IB3,
+			boolean ManualAA,
 			boolean PremAcc
 			) throws FileNotFoundException, IOException, ParseException
 	{
@@ -366,6 +367,18 @@ public class Calculator
 		{
 			calc.calcSuperintendent();
 		}
+		if (HA == true)
+		{
+			calc.calcHighAlert();
+		}
+		if (MFCAA == true)
+		{
+			calc.calcMFCAA();
+		}
+		if (JoAT == true)
+		{
+			calc.calcJoAT();
+		}
 		
 		if (!camouflage.equals("None"))
 		{
@@ -442,6 +455,11 @@ public class Calculator
 			calc.calcIB3();
 		}
 
+		if (ManualAA == true)
+		{
+			calc.calcManualAA();
+		}
+		
 		if (PremAcc == true)
 		{
 			calc.calcPremAcc();

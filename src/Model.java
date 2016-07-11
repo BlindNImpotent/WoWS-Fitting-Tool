@@ -16,12 +16,13 @@ public class Model
 			String mod1, String mod2, String mod3, String mod4, String mod5, String mod6,
 			String consume1, String consume2, String consume3, String consume4,
 			boolean BFT, boolean BoS,
-			boolean EM, boolean TAE,
-			boolean TA, boolean SI, 
-			boolean DE, boolean AFT, boolean survivability,
-			boolean conceal,
+			boolean EM, boolean TAE, 
+			boolean TA, boolean HA, boolean SI, 
+			boolean DE, boolean AFT, boolean survivability, boolean MFCAA,
+			boolean conceal, boolean JoAT,
 			String camouflage,
 			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6, boolean NF, boolean ZH, boolean ESCL, boolean IB3,
+			boolean ManualAA,
 			boolean PremAcc
 			) throws FileNotFoundException, IOException, ParseException
 	{
@@ -31,11 +32,12 @@ public class Model
 				consume1, consume2, consume3, consume4,
 				BFT, BoS,
 				EM, TAE,
-				TA, SI, 
-				DE, AFT, survivability,
-				conceal,
+				TA, HA, SI, 
+				DE, AFT, survivability, MFCAA,
+				conceal, JoAT,
 				camouflage,
 				JY2, IY, IX, NE7, SM, VL, MY6, NF, ZH, ESCL, IB3,
+				ManualAA,
 				PremAcc
 				);
 	}

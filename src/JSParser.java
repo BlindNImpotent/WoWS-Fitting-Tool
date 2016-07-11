@@ -101,6 +101,8 @@ public class JSParser
 	private double antiAirAuraDistanceMedium;
 	private double antiAirAuraDistanceNear;
 	
+	private double AAFarBarrelDiameter;
+	
 	private double AAFarDPS;
 	private double AAMediumDPS;
 	private double AANearDPS;
@@ -802,6 +804,11 @@ public class JSParser
 		return TorpedoAutoRepairTime;
 	}
 	
+	public double getAAFarBarrelDiameter()
+	{
+		return AAFarBarrelDiameter;
+	}
+	
 	/**
 	 * Returns AA Aura Far DPS.
 	 * @return AAFarDPS AA Aura Far DPS
@@ -1201,6 +1208,8 @@ public class JSParser
 						
 				AAFarDPS = (double) tobj2.get("antiAirAuraStrength") * guns.size() * 100;
 			}
+			
+			AAFarBarrelDiameter = turretBarrelDiameter;
 		}
 		else if (turretBarrelDiameter >= 0.140 || tobj2 == null)
 		{
@@ -1215,6 +1224,7 @@ public class JSParser
 				}
 			}
 			Collections.sort(ATBAList);
+			
 			if (ATBAList.size() != 0)
 			{		
 				JSONObject ATBA;
@@ -1244,6 +1254,9 @@ public class JSParser
 					JSONArray guns = (JSONArray) AuraFar.get("guns");
 					String AAFarGunString = guns.get(0).toString();
 					JSONObject AAFarGun = (JSONObject) ATBA.get(AAFarGunString);
+					
+					AAFarBarrelDiameter = (double) AAFarGun.get("barrelDiameter");
+					
 					antiAirAuraDistanceFar = (double) AAFarGun.get("antiAirAuraDistance") * 0.03;
 					
 					int count = 0;

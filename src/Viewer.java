@@ -42,10 +42,19 @@ public class Viewer extends JFrame
 	private JLabel lblSpeed;
 	private JLabel lblRudder;
 	private JLabel lblSConceal;
+	
 	private JCheckBox chckbxConcealment;
 	private JCheckBox chckbxSurvivability;
 	private JCheckBox chckbxAft;
 	private JCheckBox chckbxExpertMarksman;
+	private JCheckBox chckbxHighAlert;
+	private JCheckBox chckbxBft;
+	private JCheckBox chckbxTorpAccel;
+	private JCheckBox chckbxTorpArmExp;
+	private JCheckBox chckbxBoS;
+	private JCheckBox chckbxDemoExp;
+	private JCheckBox chckbxSuperintendent;
+
 	private JTextArea txtrMgReload;
 	private JLabel lblMgReload;
 	private JTextArea txtrMgDegs;
@@ -54,19 +63,18 @@ public class Viewer extends JFrame
 	private JLabel lblMgTime;
 	private JLabel lblAConceal;
 	private JTextArea aConceal;
-	private JCheckBox chckbxBft;
+	
 	private JLabel lblTorpRange;
 	private JLabel lblTorpReload;
 	private JTextArea torpRange;
 	private JTextArea torpReload;
-	private JCheckBox chckbxTorpAccel;
-	private JCheckBox chckbxTorpArmExp;
+	
 	private JComboBox<String> comboBoxNationList;	
 	private JComboBox<String> comboBoxShipTypeList;	
 	private JComboBox<String> comboBoxShipNameList;
 	private JLabel lblTorpSpeed;
 	private JTextArea torpSpeed;
-	private JCheckBox chckbxBoS;
+	
 	private JTextArea burnTime;
 	private JTextArea floodTime;
 	private JLabel lblBurnTime;
@@ -93,7 +101,7 @@ public class Viewer extends JFrame
 	private JTextArea secondaryMaxDist;
 	private JLabel lblSecondary;
 	private JTextArea HEShellBurnProb;
-	private JCheckBox chckbxDemoExp;
+	
 	private JLabel lblFireProb;
 	private JTextArea txtHEDmg;	
 	private JTextArea txtrAPDmg;	
@@ -132,7 +140,7 @@ public class Viewer extends JFrame
 	private JTextArea consume4Number;
 	private JTextArea consume3Number;
 	private JTextArea consume2Number;
-	private JCheckBox chckbxSuperintendent;
+
 	private JTextArea horsePower;	
 	private JLabel lblHorsePower;
 	private JTextArea turretBarrelDiameter;
@@ -180,6 +188,9 @@ public class Viewer extends JFrame
 	private JTextArea captainExpFactor;	
 	private JLabel lblCaptainXp;
 	private JCheckBox chckbxPremAcc;
+	private JCheckBox chckbxMFCAA;
+	private JCheckBox chckbxManualAA;
+	private JCheckBox chckbxJoAT;
 	
 	
 	/**
@@ -196,11 +207,11 @@ public class Viewer extends JFrame
 		contentPane.setLayout(null);
 		
 		searchButton = new JButton("Search");
-		searchButton.setBounds(355, 11, 78, 23);
+		searchButton.setBounds(355, 14, 78, 23);
 		contentPane.add(searchButton);
 		
 		calculateButton = new JButton("Calculate");
-		calculateButton.setBounds(515, 11, 97, 23);
+		calculateButton.setBounds(679, 14, 97, 23);
 		contentPane.add(calculateButton);
 		
 		mod1Box = new JComboBox<String>();
@@ -296,7 +307,7 @@ public class Viewer extends JFrame
 		contentPane.add(lblMGRange);
 		
 		chckbxConcealment = new JCheckBox("Conc Exp");
-		chckbxConcealment.setBounds(279, 698, 89, 23);
+		chckbxConcealment.setBounds(300, 698, 89, 23);
 		contentPane.add(chckbxConcealment);
 		
 		chckbxSurvivability = new JCheckBox("Surv Exp");
@@ -435,49 +446,49 @@ public class Viewer extends JFrame
 		aaFar = new JTextArea();
 		aaFar.setEditable(false);
 		aaFar.setText("km");
-		aaFar.setBounds(542, 136, 70, 21);
+		aaFar.setBounds(542, 167, 70, 21);
 		contentPane.add(aaFar);
 		
 		aaMedium = new JTextArea();
 		aaMedium.setEditable(false);
 		aaMedium.setText("km");
-		aaMedium.setBounds(542, 198, 70, 21);
+		aaMedium.setBounds(542, 229, 70, 21);
 		contentPane.add(aaMedium);
 		
 		aaNear = new JTextArea();
 		aaNear.setEditable(false);
 		aaNear.setText("km");
-		aaNear.setBounds(542, 260, 70, 21);
+		aaNear.setBounds(542, 291, 70, 21);
 		contentPane.add(aaNear);
 		
 		lblAaFar = new JLabel("AA Far");
-		lblAaFar.setBounds(462, 140, 49, 15);
+		lblAaFar.setBounds(462, 171, 49, 15);
 		contentPane.add(lblAaFar);
 		
 		lblAaMedium = new JLabel("AA Medium");
-		lblAaMedium.setBounds(462, 202, 68, 15);
+		lblAaMedium.setBounds(462, 233, 68, 15);
 		contentPane.add(lblAaMedium);
 		
 		lblAaNear = new JLabel("AA Near");
-		lblAaNear.setBounds(462, 264, 68, 15);
+		lblAaNear.setBounds(462, 295, 68, 15);
 		contentPane.add(lblAaNear);
 		
 		aaFarDPS = new JTextArea();
 		aaFarDPS.setEditable(false);
 		aaFarDPS.setText("dps");
-		aaFarDPS.setBounds(542, 167, 70, 21);
+		aaFarDPS.setBounds(542, 198, 70, 21);
 		contentPane.add(aaFarDPS);
 		
 		aaMediumDPS = new JTextArea();
 		aaMediumDPS.setEditable(false);
 		aaMediumDPS.setText("dps");
-		aaMediumDPS.setBounds(542, 229, 70, 21);
+		aaMediumDPS.setBounds(542, 260, 70, 21);
 		contentPane.add(aaMediumDPS);
 		
 		aaNearDPS = new JTextArea();
 		aaNearDPS.setEditable(false);
 		aaNearDPS.setText("dps");
-		aaNearDPS.setBounds(542, 291, 70, 21);
+		aaNearDPS.setBounds(542, 322, 70, 21);
 		contentPane.add(aaNearDPS);
 		
 		stealthFireRange = new JTextArea();
@@ -503,11 +514,11 @@ public class Viewer extends JFrame
 		AAFireAirDetection = new JTextArea();
 		AAFireAirDetection.setText("km");
 		AAFireAirDetection.setEditable(false);
-		AAFireAirDetection.setBounds(542, 322, 70, 21);
+		AAFireAirDetection.setBounds(542, 353, 70, 21);
 		contentPane.add(AAFireAirDetection);
 		
 		lblAaFire = new JLabel("Stealth AA");
-		lblAaFire.setBounds(462, 326, 70, 15);
+		lblAaFire.setBounds(462, 357, 70, 15);
 		contentPane.add(lblAaFire);
 		
 		APShellSpeed = new JTextArea();
@@ -533,11 +544,11 @@ public class Viewer extends JFrame
 		secondaryMaxDist = new JTextArea();
 		secondaryMaxDist.setText("km");
 		secondaryMaxDist.setEditable(false);
-		secondaryMaxDist.setBounds(542, 353, 70, 21);
+		secondaryMaxDist.setBounds(542, 415, 70, 21);
 		contentPane.add(secondaryMaxDist);
 		
 		lblSecondary = new JLabel("Secondary");
-		lblSecondary.setBounds(462, 357, 68, 15);
+		lblSecondary.setBounds(462, 419, 68, 15);
 		contentPane.add(lblSecondary);
 		
 		HEShellBurnProb = new JTextArea();
@@ -705,7 +716,7 @@ public class Viewer extends JFrame
 		contentPane.add(consume2Number);
 		
 		chckbxSuperintendent = new JCheckBox("Superinten");
-		chckbxSuperintendent.setBounds(355, 649, 89, 23);
+		chckbxSuperintendent.setBounds(479, 649, 89, 23);
 		contentPane.add(chckbxSuperintendent);
 		
 		horsePower = new JTextArea();
@@ -748,37 +759,37 @@ public class Viewer extends JFrame
 		
 		chckbxJY2 = new JCheckBox("JY2");
 		chckbxJY2.setToolTipText("-20% flood recovery time");
-		chckbxJY2.setBounds(552, 624, 60, 23);
+		chckbxJY2.setBounds(552, 474, 60, 23);
 		contentPane.add(chckbxJY2);
 		
 		chckbxIY = new JCheckBox("IY");
 		chckbxIY.setToolTipText("-20% fire extinguishing time");
-		chckbxIY.setBounds(671, 624, 55, 23);
+		chckbxIY.setBounds(671, 474, 55, 23);
 		contentPane.add(chckbxIY);
 		
 		chckbxNE7 = new JCheckBox("NE7");
 		chckbxNE7.setToolTipText("+10% AA dps");
-		chckbxNE7.setBounds(730, 624, 55, 23);
+		chckbxNE7.setBounds(730, 474, 55, 23);
 		contentPane.add(chckbxNE7);
 		
 		chckbxSM = new JCheckBox("SM");
 		chckbxSM.setToolTipText("+5% max ship speed");
-		chckbxSM.setBounds(671, 649, 55, 23);
+		chckbxSM.setBounds(671, 505, 55, 23);
 		contentPane.add(chckbxSM);
 		
 		chckbxVL = new JCheckBox("VL");
 		chckbxVL.setToolTipText("+1% chance of fire for 160+ mm, +0.5% fire for <160 mm");
-		chckbxVL.setBounds(730, 649, 55, 23);
+		chckbxVL.setBounds(730, 505, 55, 23);
 		contentPane.add(chckbxVL);
 		
 		chckbxMY6 = new JCheckBox("MY6");
 		chckbxMY6.setToolTipText("+5% secondary range");
-		chckbxMY6.setBounds(552, 674, 60, 23);
+		chckbxMY6.setBounds(552, 536, 60, 23);
 		contentPane.add(chckbxMY6);
 		
 		chckbxIX = new JCheckBox("IX");
 		chckbxIX.setToolTipText("+1% chance of fire for 160+ mm, +0.5% fire for <160 mm");
-		chckbxIX.setBounds(671, 674, 55, 23);
+		chckbxIX.setBounds(671, 536, 55, 23);
 		contentPane.add(chckbxIX);
 		
 		torpDetection = new JTextArea();
@@ -856,46 +867,64 @@ public class Viewer extends JFrame
 		expFactor = new JTextArea();
 		expFactor.setText("%");
 		expFactor.setEditable(false);
-		expFactor.setBounds(218, 505, 70, 21);
+		expFactor.setBounds(12, 493, 70, 21);
 		contentPane.add(expFactor);
 		
 		lblExpFactor = new JLabel("XP");
-		lblExpFactor.setBounds(140, 509, 70, 15);
+		lblExpFactor.setBounds(12, 478, 70, 15);
 		contentPane.add(lblExpFactor);
 		
 		captainExpFactor = new JTextArea();
 		captainExpFactor.setText("%");
 		captainExpFactor.setEditable(false);
-		captainExpFactor.setBounds(218, 536, 70, 21);
+		captainExpFactor.setBounds(12, 540, 70, 21);
 		contentPane.add(captainExpFactor);
 		
 		lblCaptainXp = new JLabel("Captain XP");
-		lblCaptainXp.setBounds(140, 540, 70, 15);
+		lblCaptainXp.setBounds(12, 524, 70, 15);
 		contentPane.add(lblCaptainXp);
 		
 		chckbxNF = new JCheckBox("NF");
 		chckbxNF.setToolTipText("-5% consumables reload");
-		chckbxNF.setBounds(671, 599, 55, 23);
+		chckbxNF.setBounds(671, 446, 55, 23);
 		contentPane.add(chckbxNF);
 		
 		chckbxZH = new JCheckBox("ZH");
 		chckbxZH.setToolTipText("+50% captain xp");
-		chckbxZH.setBounds(552, 649, 60, 23);
+		chckbxZH.setBounds(552, 505, 60, 23);
 		contentPane.add(chckbxZH);
 		
 		chckbxESCL = new JCheckBox("ESCL");
 		chckbxESCL.setToolTipText("+50% xp");
-		chckbxESCL.setBounds(730, 674, 60, 23);
+		chckbxESCL.setBounds(730, 536, 60, 23);
 		contentPane.add(chckbxESCL);
 		
 		chckbxPremAcc = new JCheckBox("Prem Acc");
-		chckbxPremAcc.setBounds(41, 505, 87, 23);
+		chckbxPremAcc.setBounds(12, 454, 87, 23);
 		contentPane.add(chckbxPremAcc);
 		
 		chckbxIB3 = new JCheckBox("IB3");
 		chckbxIB3.setToolTipText("-10% repair cost");
-		chckbxIB3.setBounds(612, 649, 55, 23);
+		chckbxIB3.setBounds(612, 505, 55, 23);
 		contentPane.add(chckbxIB3);
+		
+		chckbxHighAlert = new JCheckBox("High Alert");
+		chckbxHighAlert.setBounds(199, 649, 97, 23);
+		contentPane.add(chckbxHighAlert);
+		
+		chckbxMFCAA = new JCheckBox("MFC AA");
+		chckbxMFCAA.setToolTipText("+100% AA DPS on guns exceeding 85 mm");
+		chckbxMFCAA.setBounds(479, 674, 89, 23);
+		contentPane.add(chckbxMFCAA);
+		
+		chckbxManualAA = new JCheckBox("Manual AA");
+		chckbxManualAA.setBounds(525, 136, 87, 23);
+		contentPane.add(chckbxManualAA);
+		
+		chckbxJoAT = new JCheckBox("JoAT");
+		chckbxJoAT.setToolTipText("-15% reload of all consumables");
+		chckbxJoAT.setBounds(479, 698, 89, 23);
+		contentPane.add(chckbxJoAT);
 	}
 
 	/**
@@ -928,31 +957,59 @@ public class Viewer extends JFrame
 	}
 	
 	
-	/**
-	 * Returns AFT checkbox.
-	 * @return
-	 */
-	public JCheckBox getAFTCheckbox()
+	public boolean getManualAA()
 	{
-		return chckbxAft;
+		return chckbxManualAA.isSelected();
 	}
 	
 	/**
-	 * Returns Survivability checkbox.
+	 * Returns whether BFT is selected.
 	 * @return
 	 */
-	public JCheckBox getSurvivabilityCheckbox()
+	public boolean getBFT()
 	{
-		return chckbxSurvivability;
+		return chckbxBft.isSelected();
 	}
 	
 	/**
-	 * Returns whether Concealment Expert is selected.
+	 * Returns whether Basics of Survivability is selected.
 	 * @return
 	 */
-	public boolean getConcealmentSkill()
+	public boolean getBoS()
 	{
-		return chckbxConcealment.isSelected();
+		return chckbxBoS.isSelected();
+	}
+	
+	/**
+	 * Returns whether Expert Marksman is selected.
+	 * @return
+	 */
+	public boolean getExpertMarksman()
+	{
+		return chckbxExpertMarksman.isSelected();
+	}
+	
+	/**
+	 * Returns whether Torp Arm Exp is selected.
+	 * @return
+	 */
+	public boolean getTorpArmExp()
+	{
+		return chckbxTorpArmExp.isSelected();
+	}
+	
+	/**
+	 * Returns whether Torp Accel is selected.
+	 * @return
+	 */
+	public boolean getTorpAccel()
+	{
+		return chckbxTorpAccel.isSelected();
+	}
+	
+	public boolean getHighAlert()
+	{
+		return chckbxHighAlert.isSelected();
 	}
 	
 	public boolean getSuperintendentSkill()
@@ -966,24 +1023,6 @@ public class Viewer extends JFrame
 	}
 	
 	/**
-	 * Returns whether Survivability Expert is selected.
-	 * @return
-	 */
-	public boolean getSurvivabilitySkill()
-	{
-		return chckbxSurvivability.isSelected();
-	}
-	
-	/**
-	 * Returns whether BFT is selected.
-	 * @return
-	 */
-	public boolean getBFT()
-	{
-		return chckbxBft.isSelected();
-	}
-	
-	/**
 	 * Returns whether AFT is selected.
 	 * @return
 	 */
@@ -993,40 +1032,33 @@ public class Viewer extends JFrame
 	}
 	
 	/**
-	 * Returns whether Torp Accel is selected.
+	 * Returns whether Survivability Expert is selected.
 	 * @return
 	 */
-	public boolean getTorpAccel()
+	public boolean getSurvivabilitySkill()
 	{
-		return chckbxTorpAccel.isSelected();
+		return chckbxSurvivability.isSelected();
+	}
+	
+	public boolean getMFCAA()
+	{
+		return chckbxMFCAA.isSelected();
 	}
 	
 	/**
-	 * Returns whether Torp Arm Exp is selected.
+	 * Returns whether Concealment Expert is selected.
 	 * @return
 	 */
-	public boolean getTorpArmExp()
+	public boolean getConcealmentSkill()
 	{
-		return chckbxTorpArmExp.isSelected();
-	}
-	
-	/**
-	 * Returns whether Basics of Survivability is selected.
-	 * @return
-	 */
-	public boolean getBoS()
-	{
-		return chckbxBoS.isSelected();
+		return chckbxConcealment.isSelected();
 	}	
 	
-	/**
-	 * Returns whether Expert Marksman is selected.
-	 * @return
-	 */
-	public boolean getExpertMarksman()
+	public boolean getJoAT()
 	{
-		return chckbxExpertMarksman.isSelected();
+		return chckbxJoAT.isSelected();
 	}
+	
 	
 	public boolean getJY2()
 	{

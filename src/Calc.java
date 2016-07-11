@@ -69,6 +69,8 @@ public class Calc
 	private double antiAirAuraDistanceMedium;
 	private double antiAirAuraDistanceNear;
 	
+	private double AAFarBarrelDiameter;
+	
 	private double AAFarDPS;
 	private double AAMediumDPS;
 	private double AANearDPS;
@@ -171,6 +173,8 @@ public class Calc
 		antiAirAuraDistanceFar = jsp.getAntiAirAuraDistanceFar();
 		antiAirAuraDistanceMedium = jsp.getAntiAirAuraDistanceMedium();
 		antiAirAuraDistanceNear = jsp.getAntiAirAuraDistanceNear();
+		
+		AAFarBarrelDiameter = jsp.getAAFarBarrelDiameter();
 		
 		AAFarDPS = jsp.getAAFarDPS();
 		AAMediumDPS = jsp.getAAMediumDPS(); 
@@ -454,37 +458,6 @@ public class Calc
 	/**
 	 * 
 	 */
-	public void calcSurvivabilityExpert() // Skill 4
-	{
-		JSONObject healthSkill = (JSONObject) skills.get("SurvivalModifier");
-		
-		health = health + jsp.getTier() * (long) healthSkill.get("healthPerLevel");	
-	}
-	
-	/**
-	 * 
-	 */
-	public void calcAdvancedFiringTraining() // Skill 4
-	{
-		JSONObject AFT = (JSONObject) skills.get("AIGunsRangeModifier");
-		double smallGunRangeCoefficient = (double) AFT.get("smallGunRangeCoefficient");
-		double airDefenceRangeCoefficient = (double) AFT.get("airDefenceRangeCoefficient");
-		
-		if (jsp.getTurretBarrelDiameter() < 0.139)
-		{
-			maxMainGunRange = maxMainGunRange * smallGunRangeCoefficient;
-		}
-		
-		antiAirAuraDistanceFar = antiAirAuraDistanceFar * airDefenceRangeCoefficient;
-		antiAirAuraDistanceMedium = antiAirAuraDistanceMedium * airDefenceRangeCoefficient;
-		antiAirAuraDistanceNear = antiAirAuraDistanceNear * airDefenceRangeCoefficient;		
-		
-		secondaryMaxDist = secondaryMaxDist * smallGunRangeCoefficient;
-	}
-
-	/**
-	 * 
-	 */
 	public void calcBasicFiringTraining() //Skill 1
 	{
 		JSONObject BFT = (JSONObject) skills.get("AIGunsEfficiencyModifier");
@@ -535,6 +508,95 @@ public class Calc
 	/**
 	 * 
 	 */
+	public void calcTorpedoArmamentExpertise() //Skill 2
+	{
+		JSONObject TorpedoReloadModifier = (JSONObject) skills.get("TorpedoReloadModifier");
+		torpedoReload = torpedoReload * (double) TorpedoReloadModifier.get("launcherCoefficient");
+	}
+	
+	/**
+	 * 
+	 */
+	public void calcTorpedoAcceleration() //Skill 3
+	{
+		if (jsp.getTorpedoSpeed() > 0)
+		{
+			JSONObject TorpedoAcceleratorModifier = (JSONObject) skills.get("TorpedoAcceleratorModifier");		
+			maxTorpedoRange = maxTorpedoRange * (double) TorpedoAcceleratorModifier.get("torpedoRangeCoefficient");
+			torpedoSpeed = torpedoSpeed + (double) TorpedoAcceleratorModifier.get("torpedoSpeedBonus");
+		}
+	}
+	
+	public void calcHighAlert() // Skill 3
+	{
+		if (reloadTime1 > 0)
+		{
+			JSONObject EmergencyTeamCooldownModifier = (JSONObject) skills.get("EmergencyTeamCooldownModifier");
+			reloadTime1 = reloadTime1 * (double) EmergencyTeamCooldownModifier.get("reloadCoefficient");
+		}
+	}
+	
+	public void calcSuperintendent() // Skill 3
+	{
+		count2 = count2 + 1;
+		count3 = count3 + 1;
+		count4 = count4 + 1;
+	}
+	
+	public void calcDemolitionExpert() //Skill 4
+	{
+		if (jsp.getTurretBarrelDiameter() > 0)
+		{
+			JSONObject FireProbabilityModifier = (JSONObject) skills.get("FireProbabilityModifier");
+			HEShellBurnProb = HEShellBurnProb + ((double) FireProbabilityModifier.get("probabilityBonus") * 100);
+		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public void calcAdvancedFiringTraining() // Skill 4
+	{
+		JSONObject AFT = (JSONObject) skills.get("AIGunsRangeModifier");
+		double smallGunRangeCoefficient = (double) AFT.get("smallGunRangeCoefficient");
+		double airDefenceRangeCoefficient = (double) AFT.get("airDefenceRangeCoefficient");
+		
+		if (jsp.getTurretBarrelDiameter() < 0.139)
+		{
+			maxMainGunRange = maxMainGunRange * smallGunRangeCoefficient;
+		}
+		
+		antiAirAuraDistanceFar = antiAirAuraDistanceFar * airDefenceRangeCoefficient;
+		antiAirAuraDistanceMedium = antiAirAuraDistanceMedium * airDefenceRangeCoefficient;
+		antiAirAuraDistanceNear = antiAirAuraDistanceNear * airDefenceRangeCoefficient;		
+		
+		secondaryMaxDist = secondaryMaxDist * smallGunRangeCoefficient;
+	}
+
+	/**
+	 * 
+	 */
+	public void calcSurvivabilityExpert() // Skill 4
+	{
+		JSONObject healthSkill = (JSONObject) skills.get("SurvivalModifier");
+		
+		health = health + jsp.getTier() * (long) healthSkill.get("healthPerLevel");	
+	}
+	
+	public void calcMFCAA() // Skill 4
+	{
+		JSONObject CentralAirDefenceModifier = (JSONObject) skills.get("CentralAirDefenceModifier");
+		
+		if (AAFarBarrelDiameter > 0.085)
+		{
+			AAFarDPS = AAFarDPS * (double) CentralAirDefenceModifier.get("airDefenceSelectedTargetCoefficient");
+		}
+	}
+	
+	/**
+	 * 
+	 */
 	public void calcConcealmentExpert() //Skill 5
 	{							
 		JSONObject vModifier = (JSONObject) skills.get("VisibilityModifier");
@@ -561,43 +623,17 @@ public class Calc
 		}
 	}
 	
-	/**
-	 * 
-	 */
-	public void calcTorpedoArmamentExpertise() //Skill 2
+	public void calcJoAT() // Skill 5
 	{
-		JSONObject TorpedoReloadModifier = (JSONObject) skills.get("TorpedoReloadModifier");
-		torpedoReload = torpedoReload * (double) TorpedoReloadModifier.get("launcherCoefficient");
+		JSONObject AllSkillsCooldownModifier = (JSONObject) skills.get("AllSkillsCooldownModifier");
+		double reloadCoefficient = (double) AllSkillsCooldownModifier.get("reloadCoefficient"); 
+				
+		reloadTime1 = reloadTime1 * reloadCoefficient;
+		reloadTime2 = reloadTime2 * reloadCoefficient;
+		reloadTime3 = reloadTime3 * reloadCoefficient;
+		reloadTime4 = reloadTime4 * reloadCoefficient;
 	}
 	
-	/**
-	 * 
-	 */
-	public void calcTorpedoAcceleration() //Skill 3
-	{
-		if (jsp.getTorpedoSpeed() > 0)
-		{
-			JSONObject TorpedoAcceleratorModifier = (JSONObject) skills.get("TorpedoAcceleratorModifier");		
-			maxTorpedoRange = maxTorpedoRange * (double) TorpedoAcceleratorModifier.get("torpedoRangeCoefficient");
-			torpedoSpeed = torpedoSpeed + (double) TorpedoAcceleratorModifier.get("torpedoSpeedBonus");
-		}
-	}
-	
-	public void calcSuperintendent() // Skill 3
-	{
-		count2 = count2 + 1;
-		count3 = count3 + 1;
-		count4 = count4 + 1;
-	}
-	
-	public void calcDemolitionExpert() //Skill 4
-	{
-		if (jsp.getTurretBarrelDiameter() > 0)
-		{
-			JSONObject FireProbabilityModifier = (JSONObject) skills.get("FireProbabilityModifier");
-			HEShellBurnProb = HEShellBurnProb + ((double) FireProbabilityModifier.get("probabilityBonus") * 100);
-		}
-	}
 	
 	
 	public void calcType1Camo()
@@ -855,6 +891,15 @@ public class Calc
 	{
 		
 	}
+	
+	
+	public void calcManualAA()
+	{
+		AAFarDPS = AAFarDPS * 1.3;
+		AAMediumDPS = AAMediumDPS * 1.3;
+		AANearDPS = AANearDPS * 1.3;
+	}
+	
 	
 	public void calcPremAcc()
 	{
@@ -1186,6 +1231,11 @@ public class Calc
 	public double getAntiAirAuraDistanceNear()
 	{
 		return antiAirAuraDistanceNear;	
+	}
+	
+	public double getAAFarBarrelDiameter()
+	{
+		return AAFarBarrelDiameter;
 	}
 	
 	/**

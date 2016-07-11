@@ -184,17 +184,24 @@ public class Controller
 			String consume4 = view.getConsumable4();
 			
 			String camouflage = view.getCamouflageBox();
-			
-			boolean conceal = view.getConcealmentSkill();			
-			boolean survivability = view.getSurvivabilitySkill();
-			boolean AFT = view.getAFT();
-			boolean EM = view.getExpertMarksman();
+						
 			boolean BFT = view.getBFT();
-			boolean TAE = view.getTorpArmExp();
-			boolean TA = view.getTorpAccel();
-			boolean SI = view.getSuperintendentSkill();
 			boolean BoS = view.getBoS();
+			
+			boolean EM = view.getExpertMarksman();
+			boolean TAE = view.getTorpArmExp();
+			
+			boolean TA = view.getTorpAccel();
+			boolean HA = view.getHighAlert();
+			boolean SI = view.getSuperintendentSkill();
+			
 			boolean DE = view.getDemoExpSkill();
+			boolean AFT = view.getAFT();
+			boolean survivability = view.getSurvivabilitySkill();
+			boolean MFCAA = view.getMFCAA();
+			
+			boolean conceal = view.getConcealmentSkill();
+			boolean JoAT = view.getJoAT();
 			
 			boolean JY2 = view.getJY2();
 			boolean IY = view.getIY();
@@ -208,6 +215,8 @@ public class Controller
 			boolean ESCL = view.getESCL();
 			boolean IB3 = view.getIB3();
 			
+			boolean ManualAA = view.getManualAA();
+			
 			boolean PremAcc = view.getPremAcc();
 
 			try 
@@ -218,11 +227,12 @@ public class Controller
 							consume1, consume2, consume3, consume4,
 							BFT, BoS,
 							EM, TAE,
-							TA, SI,
-							DE, AFT, survivability,
-							conceal,
+							TA, HA, SI,
+							DE, AFT, survivability, MFCAA,
+							conceal, JoAT,
 							camouflage,
 							JY2, IY, IX, NE7, SM, VL, MY6, NF, ZH, ESCL, IB3,
+							ManualAA,
 							PremAcc
 							);								
 			} 
