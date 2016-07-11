@@ -152,6 +152,7 @@ public class Viewer extends JFrame
 	private JCheckBox chckbxNF;
 	private JCheckBox chckbxZH;
 	private JCheckBox chckbxESCL;
+	private JCheckBox chckbxIB3;
 	
 	private JTextArea torpDetection;
 	private JLabel lblTorpDetection;
@@ -747,7 +748,7 @@ public class Viewer extends JFrame
 		
 		chckbxJY2 = new JCheckBox("JY2");
 		chckbxJY2.setToolTipText("-20% flood recovery time");
-		chckbxJY2.setBounds(607, 624, 60, 23);
+		chckbxJY2.setBounds(552, 624, 60, 23);
 		contentPane.add(chckbxJY2);
 		
 		chckbxIY = new JCheckBox("IY");
@@ -772,7 +773,7 @@ public class Viewer extends JFrame
 		
 		chckbxMY6 = new JCheckBox("MY6");
 		chckbxMY6.setToolTipText("+5% secondary range");
-		chckbxMY6.setBounds(542, 674, 60, 23);
+		chckbxMY6.setBounds(552, 674, 60, 23);
 		contentPane.add(chckbxMY6);
 		
 		chckbxIX = new JCheckBox("IX");
@@ -879,7 +880,7 @@ public class Viewer extends JFrame
 		
 		chckbxZH = new JCheckBox("ZH");
 		chckbxZH.setToolTipText("+50% captain xp");
-		chckbxZH.setBounds(542, 649, 60, 23);
+		chckbxZH.setBounds(552, 649, 60, 23);
 		contentPane.add(chckbxZH);
 		
 		chckbxESCL = new JCheckBox("ESCL");
@@ -890,6 +891,11 @@ public class Viewer extends JFrame
 		chckbxPremAcc = new JCheckBox("Prem Acc");
 		chckbxPremAcc.setBounds(41, 505, 87, 23);
 		contentPane.add(chckbxPremAcc);
+		
+		chckbxIB3 = new JCheckBox("IB3");
+		chckbxIB3.setToolTipText("-10% repair cost");
+		chckbxIB3.setBounds(612, 649, 55, 23);
+		contentPane.add(chckbxIB3);
 	}
 
 	/**
@@ -1070,6 +1076,11 @@ public class Viewer extends JFrame
 	public boolean getESCL()
 	{
 		return chckbxESCL.isSelected();
+	}
+	
+	public boolean getIB3()
+	{
+		return chckbxIB3.isSelected();
 	}
 	
 	public boolean getPremAcc()

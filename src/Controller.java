@@ -206,6 +206,8 @@ public class Controller
 			boolean NF = view.getNF();
 			boolean ZH = view.getZH();
 			boolean ESCL = view.getESCL();
+			boolean IB3 = view.getIB3();
+			
 			boolean PremAcc = view.getPremAcc();
 
 			try 
@@ -220,7 +222,7 @@ public class Controller
 							DE, AFT, survivability,
 							conceal,
 							camouflage,
-							JY2, IY, IX, NE7, SM, VL, MY6, NF, ZH, ESCL,
+							JY2, IY, IX, NE7, SM, VL, MY6, NF, ZH, ESCL, IB3,
 							PremAcc
 							);								
 			} 

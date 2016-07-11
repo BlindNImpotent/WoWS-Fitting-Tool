@@ -748,7 +748,17 @@ public class Calc
 	}
 	public void calcIB3()
 	{
+		JSONObject flag = null; 
 		
+		for (int i = 0; i < flags.size(); i++)
+		{
+			if (flags.get(i).contains("IB3"))
+			{
+				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+			}
+		}
+		
+		maxRepairCost = (long) (maxRepairCost * (double) flag.get("afterBattleRepair"));		
 	}
 	public void calcSM()
 	{

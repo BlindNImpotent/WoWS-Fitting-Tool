@@ -21,7 +21,7 @@ public class Model
 			boolean DE, boolean AFT, boolean survivability,
 			boolean conceal,
 			String camouflage,
-			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6, boolean NF, boolean ZH, boolean ESCL,
+			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6, boolean NF, boolean ZH, boolean ESCL, boolean IB3,
 			boolean PremAcc
 			) throws FileNotFoundException, IOException, ParseException
 	{
@@ -35,7 +35,7 @@ public class Model
 				DE, AFT, survivability,
 				conceal,
 				camouflage,
-				JY2, IY, IX, NE7, SM, VL, MY6, NF, ZH, ESCL,
+				JY2, IY, IX, NE7, SM, VL, MY6, NF, ZH, ESCL, IB3,
 				PremAcc
 				);
 	}
