@@ -149,6 +149,8 @@ public class Viewer extends JFrame
 	private JCheckBox chckbxVL;	
 	private JCheckBox chckbxMY6;	
 	private JCheckBox chckbxIX;
+	private JCheckBox chckbxNF;
+	private JCheckBox chckbxZH;
 	
 	private JTextArea torpDetection;
 	private JLabel lblTorpDetection;
@@ -172,6 +174,10 @@ public class Viewer extends JFrame
 	private JLabel lblReload4;
 	private JTextArea expFactor;
 	private JLabel lblExpFactor;
+	private JTextArea captainExpFactor;	
+	private JLabel lblCaptainXp;
+	private JCheckBox chckbxESCL;
+	
 	
 	/**
 	 * Creates the frame.
@@ -739,37 +745,37 @@ public class Viewer extends JFrame
 		
 		chckbxJY2 = new JCheckBox("JY2");
 		chckbxJY2.setToolTipText("-20% flood recovery time");
-		chckbxJY2.setBounds(674, 698, 49, 23);
+		chckbxJY2.setBounds(607, 624, 60, 23);
 		contentPane.add(chckbxJY2);
 		
 		chckbxIY = new JCheckBox("IY");
 		chckbxIY.setToolTipText("-20% fire extinguishing time");
-		chckbxIY.setBounds(674, 674, 49, 23);
+		chckbxIY.setBounds(671, 624, 55, 23);
 		contentPane.add(chckbxIY);
 		
 		chckbxNE7 = new JCheckBox("NE7");
 		chckbxNE7.setToolTipText("+10% AA dps");
-		chckbxNE7.setBounds(615, 649, 49, 23);
+		chckbxNE7.setBounds(730, 624, 55, 23);
 		contentPane.add(chckbxNE7);
 		
 		chckbxSM = new JCheckBox("SM");
 		chckbxSM.setToolTipText("+5% max ship speed");
-		chckbxSM.setBounds(727, 649, 49, 23);
+		chckbxSM.setBounds(671, 649, 55, 23);
 		contentPane.add(chckbxSM);
 		
 		chckbxVL = new JCheckBox("VL");
 		chckbxVL.setToolTipText("+1% chance of fire for 160+ mm, +0.5% fire for <160 mm");
-		chckbxVL.setBounds(727, 698, 49, 23);
+		chckbxVL.setBounds(730, 649, 55, 23);
 		contentPane.add(chckbxVL);
 		
 		chckbxMY6 = new JCheckBox("MY6");
 		chckbxMY6.setToolTipText("+5% secondary range");
-		chckbxMY6.setBounds(615, 674, 55, 23);
+		chckbxMY6.setBounds(542, 674, 60, 23);
 		contentPane.add(chckbxMY6);
 		
 		chckbxIX = new JCheckBox("IX");
 		chckbxIX.setToolTipText("+1% chance of fire for 160+ mm, +0.5% fire for <160 mm");
-		chckbxIX.setBounds(727, 674, 49, 23);
+		chckbxIX.setBounds(671, 674, 55, 23);
 		contentPane.add(chckbxIX);
 		
 		torpDetection = new JTextArea();
@@ -847,12 +853,37 @@ public class Viewer extends JFrame
 		expFactor = new JTextArea();
 		expFactor.setText("%");
 		expFactor.setEditable(false);
-		expFactor.setBounds(218, 474, 70, 21);
+		expFactor.setBounds(218, 505, 70, 21);
 		contentPane.add(expFactor);
 		
-		lblExpFactor = new JLabel("xp Bonus");
-		lblExpFactor.setBounds(140, 478, 70, 15);
+		lblExpFactor = new JLabel("XP");
+		lblExpFactor.setBounds(140, 509, 70, 15);
 		contentPane.add(lblExpFactor);
+		
+		captainExpFactor = new JTextArea();
+		captainExpFactor.setText("%");
+		captainExpFactor.setEditable(false);
+		captainExpFactor.setBounds(218, 536, 70, 21);
+		contentPane.add(captainExpFactor);
+		
+		lblCaptainXp = new JLabel("Captain XP");
+		lblCaptainXp.setBounds(140, 540, 70, 15);
+		contentPane.add(lblCaptainXp);
+		
+		chckbxNF = new JCheckBox("NF");
+		chckbxNF.setToolTipText("-5% consumables reload");
+		chckbxNF.setBounds(671, 599, 55, 23);
+		contentPane.add(chckbxNF);
+		
+		chckbxZH = new JCheckBox("ZH");
+		chckbxZH.setToolTipText("+50% captain xp");
+		chckbxZH.setBounds(542, 649, 60, 23);
+		contentPane.add(chckbxZH);
+		
+		chckbxESCL = new JCheckBox("ESCL");
+		chckbxESCL.setToolTipText("+50% xp");
+		chckbxESCL.setBounds(730, 674, 60, 23);
+		contentPane.add(chckbxESCL);
 	}
 
 	/**
@@ -1018,6 +1049,21 @@ public class Viewer extends JFrame
 	public boolean getMY6()
 	{
 		return chckbxMY6.isSelected();
+	}
+	
+	public boolean getNF()
+	{
+		return chckbxNF.isSelected();
+	}
+	
+	public boolean getZH()
+	{
+		return chckbxZH.isSelected();
+	}
+	
+	public boolean getESCL()
+	{
+		return chckbxESCL.isSelected();
 	}
 	
 	
@@ -1299,6 +1345,11 @@ public class Viewer extends JFrame
 	public void setExpFactor(double expFactor)
 	{
 		this.expFactor.setText(String.format("%.0f", expFactor) + " %");
+	}
+	
+	public void setCaptainExpFactor(double captainExpFactor)
+	{
+		this.captainExpFactor.setText(String.format("%.0f", captainExpFactor) + " %");
 	}
 	
 	/**

@@ -14,25 +14,27 @@ public class Model
 	public Calc calculate(
 			String aShip, String turret, String hull, String engine, String radar, String torpedo,
 			String mod1, String mod2, String mod3, String mod4, String mod5, String mod6,
+			String consume1, String consume2, String consume3, String consume4,
 			boolean BFT, boolean BoS,
 			boolean EM, boolean TAE,
 			boolean TA, boolean SI, 
 			boolean DE, boolean AFT, boolean survivability,
 			boolean conceal,
 			String camouflage,
-			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6
+			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6, boolean NF, boolean ZH, boolean ESCL
 			) throws FileNotFoundException, IOException, ParseException
 	{
 		return calculator.calculate(
 				aShip, turret, hull, engine,radar, torpedo,
 				mod1, mod2, mod3, mod4, mod5, mod6,
+				consume1, consume2, consume3, consume4,
 				BFT, BoS,
 				EM, TAE,
 				TA, SI, 
 				DE, AFT, survivability,
 				conceal,
 				camouflage,
-				JY2, IY, IX, NE7, SM, VL, MY6
+				JY2, IY, IX, NE7, SM, VL, MY6, NF, ZH, ESCL
 				);
 	}
 	
@@ -49,8 +51,11 @@ public class Model
 		return calculator.search(aShip);
 	}
 	
-	public Calc upgrades(String aShip, String turret, String hull, String engine, String radar, String torpedo) throws FileNotFoundException, IOException, ParseException
+	public Calc upgrades(String aShip, String turret, String hull, String engine, String radar, String torpedo,
+						String consume1, String consume2, String consume3, String consume4
+						) 
+						throws FileNotFoundException, IOException, ParseException
 	{
-		return calculator.upgrades(aShip, turret, hull, engine, radar, torpedo);
+		return calculator.upgrades(aShip, turret, hull, engine, radar, torpedo, consume1, consume2, consume3, consume4);
 	}
 }

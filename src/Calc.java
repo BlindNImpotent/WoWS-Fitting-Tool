@@ -76,6 +76,8 @@ public class Calc
 	private JSONObject crew;
 	private JSONObject skills;
 	
+	private List<String> flags = new ArrayList<String>();
+	
 	private int count2;
 	private int count3;
 	private int count4;
@@ -86,6 +88,7 @@ public class Calc
 	private double reloadTime4;
 	
 	private double expFactor;
+	private double captainExpFactor;
 	
 	/**
 	 * Constructor to set ship stats.
@@ -99,7 +102,9 @@ public class Calc
 		jsp = new JSParser(ship);
 	}
 	
-	public Calc(String ship, String turret, String aHull, String engine, String radar, String torpedo) throws FileNotFoundException, IOException, ParseException
+	public Calc(String ship, String turret, String aHull, String engine, String radar, String torpedo,
+			String consume1, String consume2, String consume3, String consume4) 
+			throws FileNotFoundException, IOException, ParseException
 	{
 		jsp = new JSParser(ship);
 		
@@ -108,6 +113,11 @@ public class Calc
 		jsp.setEngineStats2(engine);
 		jsp.setHullStats2(aHull);
 		jsp.setTorpedoStats2(torpedo);
+		
+		setConsume1(consume1);
+		setConsume2(consume2);
+		setConsume3(consume3);
+		setConsume4(consume4);
 		
 		tier = jsp.getTier();
 		nation = jsp.getNation();
@@ -167,7 +177,8 @@ public class Calc
 		
 		burnTime = jsp.getBurnTime();
 		floodTime = jsp.getFloodTime();
-				
+		
+		flags = jsp.getFlagList();
 		setSkills();
 	}
 
@@ -599,6 +610,7 @@ public class Calc
 		sConceal = sConceal * 0.97;
 		aConceal = aConceal * 1.00;
 		expFactor = 100;
+		captainExpFactor = 100;
 	}
 	
 	public void calcType5Camo()
@@ -612,11 +624,17 @@ public class Calc
 		sConceal = sConceal * 0.97;
 		aConceal = aConceal * 1.00;
 		expFactor = 100;
+		captainExpFactor = 100;
 	}
 	
 	public double getExpFactor()
 	{
 		return expFactor;
+	}
+	
+	public double getCaptainExpFactor()
+	{
+		return captainExpFactor;
 	}
 	
 	public void setPermaflage2(String aPermaflage)
@@ -631,6 +649,7 @@ public class Calc
 		
 		maxRepairCost = (long) (maxRepairCost * jsp.getAfterBattleRrepair());
 		expFactor = jsp.getExpFactorPermaCamo() * 100;
+		captainExpFactor = jsp.getExpFactorPermaCamo() * 100;
 	}	
 	
 	public void calcHY()
@@ -643,7 +662,20 @@ public class Calc
 	}
 	public void calcNF()
 	{
+		JSONObject flag = null; 
 		
+		for (int i = 0; i < flags.size(); i++)
+		{
+			if (flags.get(i).contains("NF"))
+			{
+				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+			}
+		}
+		
+		reloadTime1 = reloadTime1 * (double) flag.get("abilReloadTimeFactor");
+		reloadTime2 = reloadTime2 * (double) flag.get("abilReloadTimeFactor");
+		reloadTime3 = reloadTime3 * (double) flag.get("abilReloadTimeFactor");
+		reloadTime4 = reloadTime4 * (double) flag.get("abilReloadTimeFactor");
 	}
 	public void calcZulu()
 	{
@@ -651,9 +683,6 @@ public class Calc
 	}
 	public void calcJY2()
 	{
-		List<String> flags = new ArrayList<String>(); 
-		flags = jsp.getFlagList();
-		
 		JSONObject flag = null; 
 		
 		for (int i = 0; i < flags.size(); i++)
@@ -672,9 +701,6 @@ public class Calc
 	}
 	public void calcIY()
 	{
-		List<String> flags = new ArrayList<String>(); 
-		flags = jsp.getFlagList();
-		
 		JSONObject flag = null; 
 		
 		for (int i = 0; i < flags.size(); i++)
@@ -689,9 +715,6 @@ public class Calc
 	}
 	public void calcNE7()
 	{
-		List<String> flags = new ArrayList<String>(); 
-		flags = jsp.getFlagList();
-		
 		JSONObject flag = null; 
 		
 		for (int i = 0; i < flags.size(); i++)
@@ -708,7 +731,19 @@ public class Calc
 	}
 	public void calcZH()
 	{
+		JSONObject flag = null; 
+
+		for (int i = 0; i < flags.size(); i++)
+		{
+			if (flags.get(i).contains("ZH"))
+			{
+				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+			}
+		}
 		
+		double captainExpBonus = (double) flag.get("crewExpFactor") * 100 - 100;
+		
+		captainExpFactor = captainExpFactor + captainExpBonus;
 	}
 	public void calcIB3()
 	{
@@ -716,9 +751,6 @@ public class Calc
 	}
 	public void calcSM()
 	{
-		List<String> flags = new ArrayList<String>(); 
-		flags = jsp.getFlagList();
-		
 		JSONObject flag = null; 
 		
 		for (int i = 0; i < flags.size(); i++)
@@ -733,9 +765,6 @@ public class Calc
 	}
 	public void calcVL()
 	{
-		List<String> flags = new ArrayList<String>(); 
-		flags = jsp.getFlagList();
-		
 		JSONObject flag = null; 
 		
 		for (int i = 0; i < flags.size(); i++)
@@ -757,9 +786,6 @@ public class Calc
 	}
 	public void calcMY6()
 	{
-		List<String> flags = new ArrayList<String>(); 
-		flags = jsp.getFlagList();
-		
 		JSONObject flag = null; 
 		
 		for (int i = 0; i < flags.size(); i++)
@@ -778,9 +804,6 @@ public class Calc
 	}
 	public void calcIX()
 	{
-		List<String> flags = new ArrayList<String>(); 
-		flags = jsp.getFlagList();
-		
 		JSONObject flag = null; 
 		
 		for (int i = 0; i < flags.size(); i++)
@@ -800,9 +823,22 @@ public class Calc
 			HEShellBurnProb = HEShellBurnProb + ((double) flag.get("burnChanceFactorBig") * 100 - 100);
 		}		
 	}
-	public void calcEqualSpeed()
+	public void calcESCL()
 	{
+		JSONObject flag = null; 
 		
+		for (int i = 0; i < flags.size(); i++)
+		{
+			if (flags.get(i).contains("EqualSpeed"))
+			{
+				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+			}
+		}
+		
+		double expBonus = (double) flag.get("expFactor") * 100 - 100;
+		
+		expFactor = expFactor + expBonus;
+		captainExpFactor = captainExpFactor + expBonus;
 	}
 	public void calcJW1()
 	{

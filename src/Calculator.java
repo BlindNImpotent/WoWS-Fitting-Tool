@@ -14,16 +14,17 @@ public class Calculator
 	public Calc calculate(
 			String aShip, String turret, String hull, String engine, String radar, String torpedo,
 			String mod1, String mod2, String mod3, String mod4, String mod5, String mod6,
+			String consume1, String consume2, String consume3, String consume4,
 			boolean BFT, boolean BoS,
 			boolean EM, boolean TAE,
 			boolean TA, boolean SI, 
 			boolean DE, boolean AFT, boolean survivability,
 			boolean conceal,
 			String camouflage,
-			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6
+			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6, boolean NF, boolean ZH, boolean ESCL
 			) throws FileNotFoundException, IOException, ParseException
 	{
-		calc = upgrades(aShip, turret, hull, engine,radar, torpedo);
+		calc = upgrades(aShip, turret, hull, engine,radar, torpedo, consume1, consume2, consume3, consume4);
 		
 		if (calc.getModule1() != null)
 		{
@@ -377,15 +378,15 @@ public class Calculator
 			}
 			else if (camouflage.equals("Type 3"))
 			{
-				
+				calc.calcType3Camo();
 			}
 			else if (camouflage.equals("Type 5"))
 			{
-				
+				calc.calcType5Camo();
 			}
 			else if (camouflage.equals("Type 6"))
 			{
-				
+				calc.calcType6Camo();
 			}
 			else
 			{
@@ -425,7 +426,18 @@ public class Calculator
 		{
 			calc.calcMY6();
 		}
-		
+		if (NF == true)
+		{
+			calc.calcNF();
+		}
+		if (ZH == true)
+		{
+			calc.calcZH();
+		}
+		if (ESCL == true)
+		{
+			calc.calcESCL();
+		}
 
 		
 		return calc;
@@ -437,9 +449,11 @@ public class Calculator
 		return calc;
 	}
 	
-	public Calc upgrades(String aShip, String turret, String hull, String engine, String radar, String torpedo) throws FileNotFoundException, IOException, ParseException
+	public Calc upgrades(String aShip, String turret, String hull, String engine, String radar, String torpedo,
+						String consume1, String consume2, String consume3, String consume4) 
+			throws FileNotFoundException, IOException, ParseException
 	{
-		calc = new Calc(aShip, turret, hull, engine, radar, torpedo);
+		calc = new Calc(aShip, turret, hull, engine, radar, torpedo, consume1, consume2, consume3, consume4);
 		return calc;
 	}
 }

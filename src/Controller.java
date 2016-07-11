@@ -164,21 +164,28 @@ public class Controller
 		public void actionPerformed(ActionEvent ae)
 		{
 			Calc answer = null;
-			//String aShip = view.getShipNameListComboBox().getSelectedItem().toString();
 			String aShip = view.getShipNameBox();
 			String turret = view.getTurretBox();
 			String hull = view.getHullBox();
 			String engine = view.getEngineBox();
 			String radar = view.getRadarBox();
 			String torpedo = view.getTorpedoBox();
+			
 			String mod1 = view.getModuleBox1();
 			String mod2 = view.getModuleBox2();
 			String mod3 = view.getModuleBox3();
 			String mod4 = view.getModuleBox4();
 			String mod5 = view.getModuleBox5();
 			String mod6 = view.getModuleBox6();
+			
+			String consume1 = view.getConsumable1();
+			String consume2 = view.getConsumable2();
+			String consume3 = view.getConsumable3();
+			String consume4 = view.getConsumable4();
+			
 			String camouflage = view.getCamouflageBox();
-			boolean conceal = view.getConcealmentSkill();
+			
+			boolean conceal = view.getConcealmentSkill();			
 			boolean survivability = view.getSurvivabilitySkill();
 			boolean AFT = view.getAFT();
 			boolean EM = view.getExpertMarksman();
@@ -188,6 +195,7 @@ public class Controller
 			boolean SI = view.getSuperintendentSkill();
 			boolean BoS = view.getBoS();
 			boolean DE = view.getDemoExpSkill();
+			
 			boolean JY2 = view.getJY2();
 			boolean IY = view.getIY();
 			boolean IX = view.getIX();
@@ -195,19 +203,23 @@ public class Controller
 			boolean SM = view.getSM();
 			boolean VL = view.getVL();
 			boolean MY6 = view.getMY6();
+			boolean NF = view.getNF();
+			boolean ZH = view.getZH();
+			boolean ESCL = view.getESCL();
 
 			try 
 			{
 					answer = model.calculate(
 							aShip, turret, hull, engine,radar, torpedo, 
 							mod1, mod2, mod3, mod4, mod5, mod6,
+							consume1, consume2, consume3, consume4,
 							BFT, BoS,
 							EM, TAE,
 							TA, SI,
 							DE, AFT, survivability,
 							conceal,
 							camouflage,
-							JY2, IY, IX, NE7, SM, VL, MY6 
+							JY2, IY, IX, NE7, SM, VL, MY6, NF, ZH, ESCL 
 							);								
 			} 
 			catch (IOException | ParseException e) 
@@ -215,12 +227,8 @@ public class Controller
 				e.printStackTrace();
 			}
 			
-			answer.setConsume1(view.getConsumable1());
-			answer.setConsume2(view.getConsumable2());
-			answer.setConsume3(view.getConsumable3());
-			answer.setConsume4(view.getConsumable4());
-			
 			view.setExpFactor(answer.getExpFactor());
+			view.setCaptainExpFactor(answer.getCaptainExpFactor());
 			
 			view.setConsume2Count(answer.getConsume2Count());
 			view.setConsume3Count(answer.getConsume3Count());
