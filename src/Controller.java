@@ -206,6 +206,7 @@ public class Controller
 			boolean NF = view.getNF();
 			boolean ZH = view.getZH();
 			boolean ESCL = view.getESCL();
+			boolean PremAcc = view.getPremAcc();
 
 			try 
 			{
@@ -219,7 +220,8 @@ public class Controller
 							DE, AFT, survivability,
 							conceal,
 							camouflage,
-							JY2, IY, IX, NE7, SM, VL, MY6, NF, ZH, ESCL 
+							JY2, IY, IX, NE7, SM, VL, MY6, NF, ZH, ESCL,
+							PremAcc
 							);								
 			} 
 			catch (IOException | ParseException e) 

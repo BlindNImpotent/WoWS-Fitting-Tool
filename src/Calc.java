@@ -89,6 +89,7 @@ public class Calc
 	
 	private double expFactor;
 	private double captainExpFactor;
+	private static double PremAcc = 1.50;
 	
 	/**
 	 * Constructor to set ship stats.
@@ -843,6 +844,12 @@ public class Calc
 	public void calcJW1()
 	{
 		
+	}
+	
+	public void calcPremAcc()
+	{
+		expFactor = expFactor * PremAcc;
+		captainExpFactor = captainExpFactor * PremAcc;
 	}
 	
 	/**

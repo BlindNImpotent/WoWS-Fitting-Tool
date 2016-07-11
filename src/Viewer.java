@@ -151,6 +151,7 @@ public class Viewer extends JFrame
 	private JCheckBox chckbxIX;
 	private JCheckBox chckbxNF;
 	private JCheckBox chckbxZH;
+	private JCheckBox chckbxESCL;
 	
 	private JTextArea torpDetection;
 	private JLabel lblTorpDetection;
@@ -172,11 +173,12 @@ public class Viewer extends JFrame
 	private JLabel lblReload2;	
 	private JLabel lblReload3;	
 	private JLabel lblReload4;
+	
 	private JTextArea expFactor;
 	private JLabel lblExpFactor;
 	private JTextArea captainExpFactor;	
 	private JLabel lblCaptainXp;
-	private JCheckBox chckbxESCL;
+	private JCheckBox chckbxPremAcc;
 	
 	
 	/**
@@ -884,6 +886,10 @@ public class Viewer extends JFrame
 		chckbxESCL.setToolTipText("+50% xp");
 		chckbxESCL.setBounds(730, 674, 60, 23);
 		contentPane.add(chckbxESCL);
+		
+		chckbxPremAcc = new JCheckBox("Prem Acc");
+		chckbxPremAcc.setBounds(41, 505, 87, 23);
+		contentPane.add(chckbxPremAcc);
 	}
 
 	/**
@@ -1066,6 +1072,10 @@ public class Viewer extends JFrame
 		return chckbxESCL.isSelected();
 	}
 	
+	public boolean getPremAcc()
+	{
+		return chckbxPremAcc.isSelected();
+	}
 	
 	/**
 	 * Sets tier to returned tier.

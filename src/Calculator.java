@@ -21,7 +21,8 @@ public class Calculator
 			boolean DE, boolean AFT, boolean survivability,
 			boolean conceal,
 			String camouflage,
-			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6, boolean NF, boolean ZH, boolean ESCL
+			boolean JY2, boolean IY, boolean IX, boolean NE7, boolean SM, boolean VL, boolean MY6, boolean NF, boolean ZH, boolean ESCL,
+			boolean PremAcc
 			) throws FileNotFoundException, IOException, ParseException
 	{
 		calc = upgrades(aShip, turret, hull, engine,radar, torpedo, consume1, consume2, consume3, consume4);
@@ -394,9 +395,7 @@ public class Calculator
 				calc.calcPermaflage();
 			}
 			
-		}
-		
-		
+		}		
 		
 		if (JY2 == true)
 		{
@@ -439,6 +438,10 @@ public class Calculator
 			calc.calcESCL();
 		}
 
+		if (PremAcc == true)
+		{
+			calc.calcPremAcc();
+		}
 		
 		return calc;
 	}
