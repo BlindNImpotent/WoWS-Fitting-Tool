@@ -58,27 +58,10 @@ public class JSONParser
 		setShipUpgradeInfo();
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void setAPIShipUpgradeInfo()
-	{
-		modules_treeJSON = APIParser.getModules_tree();
-		modules_treeList.addAll(modules_treeJSON.keySet());		
-		
-		JSONObject mtJSON;
-		
-		for (int i = 0; i < modules_treeList.size(); i++)
-		{
-			mtJSON = (JSONObject) modules_treeJSON.get(modules_treeList.get(i));
-			
-			if (mtJSON.get("is_default").equals(true))
-			{				
-				default_loadouts.add(mtJSON);
-			}
-			else
-			{
-				shipUpgrades.add(mtJSON);
-			}			
-		}
+	{		
+		modules_treeJSON = (JSONObject) APIParser.getShipJSON().get("modules_tree");
+		modules_treeList.addAll(APIParser.getShipJSON().keySet());
 	}
 	
 	@SuppressWarnings("unchecked")

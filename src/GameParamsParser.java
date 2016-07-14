@@ -25,7 +25,6 @@ public class GameParamsParser
 	private JSONObject GameParams;
 	
 	private List<String> GameParamsKeySet = new ArrayList<String>();
-	private HashMap<String, JSONObject> GameParamsHashMap = new HashMap<String, JSONObject>();
 	private JSONObject shipJSON;
 	
 	private String ship_id_str;
@@ -43,13 +42,11 @@ public class GameParamsParser
 		GameParamsKeySet.addAll(GameParams.keySet());
 		
 		for (int i = 0; i < GameParamsKeySet.size(); i++)
-		{
-			GameParamsHashMap.put(GameParamsKeySet.get(i), (JSONObject) GameParams.get(GameParamsKeySet.get(i)));
-			
+		{			
 			if (GameParamsKeySet.get(i).contains(aShip_id_str))
 			{
 				ship_id_str = GameParamsKeySet.get(i);
-				shipJSON = GameParamsHashMap.get(ship_id_str);
+				shipJSON = (JSONObject) GameParams.get(ship_id_str);				
 				break;
 			}			
 		}		
