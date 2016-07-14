@@ -47,7 +47,8 @@ public class JSONParser
 		
 		for (int i = 0; i < modules_treeList.size(); i++)
 		{
-			mtJSON = (JSONObject) APIParser.getModules_tree().get(modules_treeList.get(i));
+			modules_treeJSON.get(modules_treeList.get(i));
+			mtJSON = (JSONObject) modules_treeJSON.get(modules_treeList.get(i));
 			
 			if (mtJSON.get("is_default").equals(true))
 			{				
@@ -65,7 +66,6 @@ public class JSONParser
 		ShipUpgradeInfoJSON = (JSONObject) GameParamsParser.getShipJSON().get("ShipUpgradeInfo");		
 		for (int i = 0; i < modules_treeJSON.size(); i++)
 		{
-			modules_treeJSON.get(modules_treeList.get(i));
 		
 		}
 		
