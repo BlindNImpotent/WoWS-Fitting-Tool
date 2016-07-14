@@ -460,8 +460,7 @@ public class JSON_Parser
 		France_BattleshipJSONList.stream().forEach((France_Battleship -> France_BattleshipNameList.add((String) France_Battleship.get("name"))));
 		France_CruiserJSONList.stream().forEach((France_Cruiser -> France_CruiserNameList.add((String) France_Cruiser.get("name"))));
 		France_DestroyerJSONList.stream().forEach((France_Destroyer -> France_DestroyerNameList.add((String) France_Destroyer.get("name"))));
-		
-		
+
 		//UK
 		UK_AirCarrierJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));
 		UK_BattleshipJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));
@@ -516,9 +515,31 @@ public class JSON_Parser
 		{
 			mods1.put((String) ship_modifications.get(ModernizationSlot1_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot1_mods.get(i)));
 		}
-		
-		System.out.println(mods1.keySet());
-		System.out.println(mods1.get("Main Armaments Modification 1"));
+
+		for (int i = 0; i < ModernizationSlot2_mods.size(); i++)
+		{
+			mods2.put((String) ship_modifications.get(ModernizationSlot2_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot2_mods.get(i)));
+		}
+
+		for (int i = 0; i < ModernizationSlot3_mods.size(); i++)
+		{
+			mods3.put((String) ship_modifications.get(ModernizationSlot3_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot3_mods.get(i)));
+		}
+
+		for (int i = 0; i < ModernizationSlot4_mods.size(); i++)
+		{
+			mods4.put((String) ship_modifications.get(ModernizationSlot4_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot4_mods.get(i)));
+		}
+
+		for (int i = 0; i < ModernizationSlot5_mods.size(); i++)
+		{
+			mods5.put((String) ship_modifications.get(ModernizationSlot5_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot5_mods.get(i)));
+		}
+
+		for (int i = 0; i < ModernizationSlot6_mods.size(); i++)
+		{
+			mods6.put((String) ship_modifications.get(ModernizationSlot6_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot6_mods.get(i)));
+		}
 		
 	}	
 	

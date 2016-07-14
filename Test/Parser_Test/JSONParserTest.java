@@ -23,7 +23,7 @@ public class JSONParserTest
 	}	
 
 	@Test
-	public void test() 
+	public void testNotNull()
 	{
 		assertNotNull(JSONParser);
 	}
