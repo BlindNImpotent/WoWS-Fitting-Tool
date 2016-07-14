@@ -1,5 +1,4 @@
 {
-	"ships_updated_at": 1468239062,
     "ship_types": {
       "Cruiser": "Cruiser",
       "AirCarrier": "Aircraft Carrier",
@@ -100,7 +99,6 @@
       "japan": "Japan",
       "poland": "Poland"
     },
-    "game_version": "0.5.8.1"
 	
     "3532568272": {
       "tier": 7,
@@ -46167,6 +46165,5 @@
       "name": "Manual Fire Control for AA Armament",
       "icon": "http://api.worldofwarships.com/static/1.8.3/wows/encyclopedia/crew_perks/icon_perk_CentralAirDefenceModifier.png"
     }
-  
-  }
+
 }

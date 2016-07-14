@@ -27,7 +27,7 @@ public class APIParser
 	private JSONObject API;	
 
 	private List<String> idList = new ArrayList<String>();
-	private HashMap<String, JSONObject> shipsHashMap = new HashMap<String, JSONObject>();
+	private HashMap<String, JSONObject> APIHashMap = new HashMap<String, JSONObject>();
 	private JSONObject shipJSON;
 	
 	//Inside shipJSON
@@ -130,14 +130,14 @@ public class APIParser
 		
 		for (int i = 0; i < idList.size(); i++)
 		{
-			shipsHashMap.put(idList.get(i), (JSONObject) API.get(idList.get(i)));
+			APIHashMap.put(idList.get(i), (JSONObject) API.get(idList.get(i)));
 		}
 	}
 	
 	private void setShipJSON(String aShipName)
 	{
 		List<JSONObject> shipsJSONList = new ArrayList<JSONObject>();
-		shipsJSONList.addAll(shipsHashMap.values());
+		shipsJSONList.addAll(APIHashMap.values());
 				
 		for (int i = 0; i < shipsJSONList.size(); i++)
 		{			
