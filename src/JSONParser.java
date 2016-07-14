@@ -54,19 +54,31 @@ public class JSONParser
 		APIParser = new APIParser(aShipName);
 		GPParser = new GameParamsParser(APIParser.getShip_id_str());		
 		
-		setAPIShipUpgradeInfo();
 		setShipUpgradeInfo();
-	}
-	
-	private void setAPIShipUpgradeInfo()
-	{		
-		modules_treeJSON = (JSONObject) APIParser.getShipJSON().get("modules_tree");
-		modules_treeList.addAll(APIParser.getShipJSON().keySet());
 	}
 	
 	@SuppressWarnings("unchecked")
 	private void setShipUpgradeInfo()
 	{	
+		modules_treeJSON = (JSONObject) APIParser.getShipJSON().get("modules_tree");
+		modules_treeList.addAll(modules_treeJSON.keySet());
+		
+		JSONObject API_modules;
+		
+		for (int i = 0; i < modules_treeList.size(); i++)
+		{
+			API_modules = (JSONObject) modules_treeJSON.get(modules_treeList.get(i));
+			
+			if (API_modules.get("is_default").equals(true))
+			{
+				default_loadouts.add(API_modules);
+			}
+			else
+			{
+				shipUpgrades.add(API_modules);
+			}			
+		}
+		
 		ShipUpgradeInfoJSON = (JSONObject) GPParser.getShipJSON().get("ShipUpgradeInfo");
 		ShipUpgradeInfoList.addAll(ShipUpgradeInfoJSON.keySet());
 				
