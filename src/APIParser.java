@@ -159,9 +159,4 @@ public class APIParser
 			modules_tree_idHashMap.put(modules_tree_idList.get(i), (JSONObject) modules_tree.get(modules_tree_idList.get(i)));
 		}
 	}
-
-	
-
-
-
 }

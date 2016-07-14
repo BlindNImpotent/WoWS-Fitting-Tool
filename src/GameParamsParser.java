@@ -24,8 +24,8 @@ public class GameParamsParser
 	private File GameParamsFile = new File("GameParams.json");
 	private JSONObject GameParams;
 	
-	private List<String> ship_id_strList = new ArrayList<String>();
-	private HashMap<String, JSONObject> shipsHashMap = new HashMap<String, JSONObject>();
+	private List<String> GameParamsKeySet = new ArrayList<String>();
+	private HashMap<String, JSONObject> GameParamsHashMap = new HashMap<String, JSONObject>();
 	private JSONObject shipJSON;
 	
 	private String ship_id_str;
@@ -33,36 +33,25 @@ public class GameParamsParser
 	public GameParamsParser(String aShip_id_str) throws FileNotFoundException, IOException, ParseException
 	{
 		GameParams = (JSONObject) JSONParser.parse(new FileReader(GameParamsFile));		
-		
-		setShipsHashMap();
+				
 		setShipJSON(aShip_id_str);
 	}	
 	
 	@SuppressWarnings("unchecked")
-	private void setShipsHashMap()
-	{
-		ship_id_strList.addAll(GameParams.keySet());
-		
-		for (int i = 0; i < ship_id_strList.size(); i++)
-		{
-			shipsHashMap.put(ship_id_strList.get(i), (JSONObject) GameParams.get(ship_id_strList.get(i)));
-		}
-	}	
-	
 	private void setShipJSON(String aShip_id_str)
 	{
-		for (int i = 0; i < ship_id_strList.size(); i++)
+		GameParamsKeySet.addAll(GameParams.keySet());
+		
+		for (int i = 0; i < GameParamsKeySet.size(); i++)
 		{
-			if (ship_id_strList.get(i).contains(aShip_id_str))
+			GameParamsHashMap.put(GameParamsKeySet.get(i), (JSONObject) GameParams.get(GameParamsKeySet.get(i)));
+			
+			if (GameParamsKeySet.get(i).contains(aShip_id_str))
 			{
-				ship_id_str = ship_id_strList.get(i);
-				shipJSON = shipsHashMap.get(ship_id_str);
+				ship_id_str = GameParamsKeySet.get(i);
+				shipJSON = GameParamsHashMap.get(ship_id_str);
 				break;
 			}			
 		}		
-	}
-	
-
-	
-	
+	}	
 }

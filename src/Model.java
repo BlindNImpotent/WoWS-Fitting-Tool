@@ -9,7 +9,7 @@ import org.json.simple.parser.ParseException;
  */
 public class Model 
 {
-	private Calculator calculator = new Calculator();
+	private Calculate calculator = new Calculate();
 
 	public Calc calculate(
 			String aShip, String turret, String hull, String engine, String radar, String torpedo,
