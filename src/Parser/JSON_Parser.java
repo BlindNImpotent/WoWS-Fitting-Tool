@@ -63,6 +63,12 @@ public class JSON_Parser
 	private LinkedHashMap<String, JSONObject> mods4 = new LinkedHashMap<String, JSONObject>();
 	private LinkedHashMap<String, JSONObject> mods5 = new LinkedHashMap<String, JSONObject>();
 	private LinkedHashMap<String, JSONObject> mods6 = new LinkedHashMap<String, JSONObject>();
+	private List<String> modSlot1Name = new ArrayList<>();
+	private List<String> modSlot2Name = new ArrayList<>();
+	private List<String> modSlot3Name = new ArrayList<>();
+	private List<String> modSlot4Name = new ArrayList<>();
+	private List<String> modSlot5Name = new ArrayList<>();
+	private List<String> modSlot6Name = new ArrayList<>();
 	
 	private List<JSONObject> API_ArtilleryUpgradeJSONList = new ArrayList<JSONObject>();
 	private List<String> API_ArtilleryUpgradeNameList = new ArrayList<String>();
@@ -193,6 +199,7 @@ public class JSON_Parser
 				
 		JSONObject API_suiJSON = null;
 		JSONObject GP_suiJSON = null;
+		String GP_suiJSONKey = null;
 		
 		for (int i = 0; i < modules_treeJSON.size(); i++)
 		{
@@ -200,15 +207,13 @@ public class JSON_Parser
 			
 			String API_suiJSONName = (String) API_suiJSON.get("name");
 			String API_suiJSONID = (String) API_suiJSON.get("module_id_str");
-			
-			for (int j = 0; j < ShipUpgradeInfoJSON.size(); j++)
+
+			if (ShipUpgradeInfoJSON.get(ShipUpgradeInfoList.get(i)) instanceof JSONObject)
 			{
-				if (ShipUpgradeInfoList.get(j).contains(API_suiJSONID))
-				{
-					GP_suiJSON = (JSONObject) ShipUpgradeInfoJSON.get(ShipUpgradeInfoList.get(j));
-				}
+				GP_suiJSON = (JSONObject) ShipUpgradeInfoJSON.get(ShipUpgradeInfoList.get(i));
+
 			}
-			
+
 			if (API_suiJSON.get("type").equals("Artillery"))
 			{
 				API_ArtilleryUpgradeJSONList.add(API_suiJSON);
@@ -224,7 +229,7 @@ public class JSON_Parser
 			else if (API_suiJSON.get("type").equals("Engine"))
 			{
 				API_EngineUpgradeJSONList.add(API_suiJSON);
-				API_EngineUpgradeNameList.add(API_suiJSONName);				
+				API_EngineUpgradeNameList.add(API_suiJSONName);
 				GP_EngineUpgradeJSONHashMap.put(API_suiJSONName, GP_suiJSON);
 			}
 			else if (API_suiJSON.get("type").equals("Suo"))
@@ -238,7 +243,7 @@ public class JSON_Parser
 				API_TorpedoesUpgradeJSONList.add(API_suiJSON);
 				API_TorpedoesUpgradeNameList.add(API_suiJSONName);
 				GP_TorpedoesUpgradeJSONHashMap.put(API_suiJSONName, GP_suiJSON);
-			}						
+			}
 		}
 		
 		Collections.sort(API_ArtilleryUpgradeNameList);
@@ -495,6 +500,7 @@ public class JSON_Parser
 	{
 		JSONArray modules = (JSONArray) APIParser.getShipJSON().get("upgrades"); 
 		API_UpgradesIDList.addAll(modules);
+
 		GP_UpgradesJSON = (JSONObject) GPParser.getShipJSON().get("ShipModernization");
 		
 		ModernizationSlot1 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot1");
@@ -558,7 +564,20 @@ public class JSON_Parser
 				modSlot6.add((String) ModernizationSlot6_mods.get(i));
 			}
 		}
-	}	
+
+		modSlot1Name.add("None");
+		modSlot1Name.addAll(mods1.keySet());
+		modSlot2Name.add("None");
+		modSlot2Name.addAll(mods1.keySet());
+		modSlot3Name.add("None");
+		modSlot3Name.addAll(mods1.keySet());
+		modSlot4Name.add("None");
+		modSlot4Name.addAll(mods1.keySet());
+		modSlot5Name.add("None");
+		modSlot5Name.addAll(mods1.keySet());
+		modSlot6Name.add("None");
+		modSlot6Name.addAll(mods1.keySet());
+	}
 	
 	@SuppressWarnings("unchecked")
 	private void setNationList()
@@ -580,4 +599,25 @@ public class JSON_Parser
 	{
 		
 	}
+
+	public void setTurretStats2(String aTurret)
+	{
+		if (aTurret == null)
+		{
+			return;
+		}
+
+		System.out.println(GP_ArtilleryUpgradeJSONHashMap);
+
+		JSONObject turretJSON = GP_ArtilleryUpgradeJSONHashMap.get("aTurret");
+
+		System.out.println(turretJSON);
+
+		JSONObject turretComponents = (JSONObject) turretJSON.get("components");
+		JSONArray turretArtillery = (JSONArray) turretComponents.get("artillery");
+
+
+	}
+
+
 }
