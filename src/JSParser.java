@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.JTextArea;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
