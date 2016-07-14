@@ -1,9 +1,12 @@
+package Parser;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,10 +20,10 @@ import lombok.Data;
  *
  */
 @Data
-public class JSONParser 
+public class JSON_Parser 
 {
-	private APIParser APIParser;
-	private GameParamsParser GPParser;
+	private API_Parser APIParser;
+	private GameParams_Parser GPParser;
 	
 	private List<String> NationList = new ArrayList<String>();
 	private List<String> ShipTypeList = new ArrayList<String>();
@@ -33,8 +36,27 @@ public class JSONParser
 	private JSONObject ShipUpgradeInfoJSON;
 	private List<String> ShipUpgradeInfoList = new ArrayList<String>();
 	
-	private List<Long> API_UpgradesLong = new ArrayList<Long>();
-	private List<JSONObject> API_UpgradesJSON = new ArrayList<JSONObject>();
+	private List<Long> API_UpgradesIDList = new ArrayList<Long>();
+	private JSONObject GP_UpgradesJSON;
+	private List<String> UpgradesNameList = new ArrayList<String>();
+	private JSONObject ModernizationSlot1;
+	private JSONObject ModernizationSlot2;
+	private JSONObject ModernizationSlot3;
+	private JSONObject ModernizationSlot4;
+	private JSONObject ModernizationSlot5;
+	private JSONObject ModernizationSlot6;
+	private JSONArray ModernizationSlot1_mods;
+	private JSONArray ModernizationSlot2_mods;
+	private JSONArray ModernizationSlot3_mods;
+	private JSONArray ModernizationSlot4_mods;
+	private JSONArray ModernizationSlot5_mods;
+	private JSONArray ModernizationSlot6_mods;
+	private LinkedHashMap<String, JSONObject> mods1 = new LinkedHashMap<String, JSONObject>();
+	private LinkedHashMap<String, JSONObject> mods2 = new LinkedHashMap<String, JSONObject>();
+	private LinkedHashMap<String, JSONObject> mods3 = new LinkedHashMap<String, JSONObject>();
+	private LinkedHashMap<String, JSONObject> mods4 = new LinkedHashMap<String, JSONObject>();
+	private LinkedHashMap<String, JSONObject> mods5 = new LinkedHashMap<String, JSONObject>();
+	private LinkedHashMap<String, JSONObject> mods6 = new LinkedHashMap<String, JSONObject>();
 	
 	private List<JSONObject> API_ArtilleryUpgradeJSONList = new ArrayList<JSONObject>();
 	private List<String> API_ArtilleryUpgradeNameList = new ArrayList<String>();
@@ -125,10 +147,10 @@ public class JSONParser
 	private List<String> Pan_Asia_DestroyerNameList = new ArrayList<String>();
 	
 	
-	public JSONParser(String aShipName) throws FileNotFoundException, IOException, ParseException
+	public JSON_Parser(String aShipName) throws FileNotFoundException, IOException, ParseException
 	{
-		APIParser = new APIParser(aShipName);
-		GPParser = new GameParamsParser(APIParser.getShip_id_str());
+		APIParser = new API_Parser(aShipName);
+		GPParser = new GameParams_Parser(APIParser.getShip_id_str());
 		
 		setShipUpgradeModulesInfo();		
 		setShipsJSONAndName();
@@ -467,21 +489,43 @@ public class JSONParser
 	private void setUpgrades()
 	{
 		JSONArray modules = (JSONArray) APIParser.getShipJSON().get("upgrades"); 
-		API_UpgradesLong.addAll(modules);
+		API_UpgradesIDList.addAll(modules);
+		GP_UpgradesJSON = (JSONObject) GPParser.getShipJSON().get("ShipModernization");
 		
-		for (int i = 0; i < API_UpgradesLong.size(); i++)
+		ModernizationSlot1 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot1");
+		ModernizationSlot1_mods = (JSONArray) ModernizationSlot1.get("mods");
+		
+		ModernizationSlot2 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot2");
+		ModernizationSlot2_mods = (JSONArray) ModernizationSlot2.get("mods");
+		
+		ModernizationSlot3 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot3");
+		ModernizationSlot3_mods = (JSONArray) ModernizationSlot3.get("mods");
+		
+		ModernizationSlot4 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot4");
+		ModernizationSlot4_mods = (JSONArray) ModernizationSlot4.get("mods");
+		
+		ModernizationSlot5 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot5");
+		ModernizationSlot5_mods = (JSONArray) ModernizationSlot5.get("mods");
+		
+		ModernizationSlot6 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot6");
+		ModernizationSlot6_mods = (JSONArray) ModernizationSlot6.get("mods");
+		
+		JSONObject ship_modifications = (JSONObject) APIParser.getAPIJSON().get("ship_modifications");
+		
+		for (int i = 0; i < ModernizationSlot1_mods.size(); i++)
 		{
-			
+			mods1.put((String) ship_modifications.get(ModernizationSlot1_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot1_mods.get(i)));
 		}
 		
-		
+		System.out.println(mods1.keySet());
+		System.out.println(mods1.get("Main Armaments Modification 1"));
 		
 	}	
 	
 	@SuppressWarnings("unchecked")
 	private void setNationList()
 	{
-		JSONObject APINations = (JSONObject) APIParser.getAPI().get("ship_nations");
+		JSONObject APINations = (JSONObject) APIParser.getAPIJSON().get("ship_nations");
 		NationList.addAll(APINations.values());
 		Collections.sort(NationList);
 	}
@@ -489,7 +533,7 @@ public class JSONParser
 	@SuppressWarnings("unchecked")
 	private void setShipTypeList()
 	{
-		JSONObject APIShipType = (JSONObject) APIParser.getAPI().get("ship_types");
+		JSONObject APIShipType = (JSONObject) APIParser.getAPIJSON().get("ship_types");
 		ShipTypeList.addAll(APIShipType.keySet());
 		Collections.sort(ShipTypeList);
 	}

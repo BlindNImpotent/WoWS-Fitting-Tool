@@ -1,3 +1,4 @@
+package Parser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -18,7 +19,7 @@ import lombok.Data;
  *
  */
 @Data
-public class GameParamsParser 
+public class GameParams_Parser 
 {
 	private JSONParser JSONParser = new JSONParser();
 	private File GameParamsFile = new File("GameParams.json");
@@ -31,7 +32,7 @@ public class GameParamsParser
 	private String ship_id_str;
 
 	@SuppressWarnings("unchecked")
-	public GameParamsParser(String aShip_id_str) throws FileNotFoundException, IOException, ParseException
+	public GameParams_Parser(String aShip_id_str) throws FileNotFoundException, IOException, ParseException
 	{
 		GameParams = (JSONObject) JSONParser.parse(new FileReader(GameParamsFile));
 		GameParamsKeySet.addAll(GameParams.keySet());

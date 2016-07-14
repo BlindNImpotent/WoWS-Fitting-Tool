@@ -45417,19 +45417,19 @@
 	
 	"upgrades": {
 		"4263694256": {
-		  "profile": {
-			"fire_control": {
-			  "accuracy_coef": 0.89
-			}
-		  },
-		  "name": "Artillery Plotting Room Modification 2",
-		  "image": "http://api.worldofwarships.com/static/1.8.3/wows/encyclopedia/modernization/icon_modernization_PCM029_FireControl_Mod_II_US.png",
-		  "tag": "PCM029_FireControl_Mod_II_US",
-		  "price_credit": 3000000,
-		  "type": "fire_control",
-		  "upgrade_id": 4263694256,
-		  "description": "Increases firing accuracy of main battery"
-		},
+      "profile": {
+        "fire_control": {
+          "accuracy_coef": 0.89
+        }
+      },
+      "name": "Artillery Plotting Room Modification 2",
+      "image": "http://api.worldofwarships.com/static/1.8.3/wows/encyclopedia/modernization/icon_modernization_PCM029_FireControl_Mod_II_US.png",
+      "tag": "PCM029_FireControl_Mod_II_US",
+      "price_credit": 3000000,
+      "type": "fire_control",
+      "upgrade_id": 4263694256,
+      "description": "Increases firing accuracy of main battery"
+    },
 		"4264742832": {
 		  "profile": {
 			"fire_control": {
@@ -45822,23 +45822,23 @@
 		  "description": "Increases survivability and accelerates repairs of torpedo tubes"
 		},
 		"4293054384": {
-      "profile": {
-        "artillery": {
-          "ammo_critical_damage_chance_coef": 0.8,
-          "ammo_detonation_chance_coef": 0.8,
-          "ammo_repair_time_coef": 0.8,
-          "repair_time_coef": 0.8,
-          "critical_damage_chance_coef": 0.8
-        }
-      },
-      "name": "Main Battery Modification 1",
-      "image": "http://api.worldofwarships.com/static/1.8.3/wows/encyclopedia/modernization/icon_modernization_PCM001_MainGun_Mod_I.png",
-      "tag": "PCM001_MainGun_Mod_I",
-      "price_credit": 125000,
-      "type": "artillery",
-      "upgrade_id": 4293054384,
-      "description": "Increases survivability and accelerates repairs of main battery"
-    }
+		  "profile": {
+			"artillery": {
+			  "ammo_critical_damage_chance_coef": 0.8,
+			  "ammo_detonation_chance_coef": 0.8,
+			  "ammo_repair_time_coef": 0.8,
+			  "repair_time_coef": 0.8,
+			  "critical_damage_chance_coef": 0.8
+			}
+		  },
+		  "name": "Main Battery Modification 1",
+		  "image": "http://api.worldofwarships.com/static/1.8.3/wows/encyclopedia/modernization/icon_modernization_PCM001_MainGun_Mod_I.png",
+		  "tag": "PCM001_MainGun_Mod_I",
+		  "price_credit": 125000,
+		  "type": "artillery",
+		  "upgrade_id": 4293054384,
+		  "description": "Increases survivability and accelerates repairs of main battery"
+		}
 	}
 	
 	"skills": {

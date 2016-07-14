@@ -1,3 +1,4 @@
+package Parser_Test;
 import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
@@ -7,16 +8,18 @@ import org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.Test;
 
+import Parser.JSON_Parser;
+
 public class JSONParserTest 
 {
-	private JSONParser JSONParser;	
+	private JSON_Parser JSONParser;	
 	private String aShipName;
 	
 	@Before
 	public void setup() throws FileNotFoundException, IOException, ParseException
 	{
-		aShipName = "Tirpitz";
-		JSONParser = new JSONParser(aShipName);
+		aShipName = "Iowa";
+		JSONParser = new JSON_Parser(aShipName);
 	}	
 
 	@Test

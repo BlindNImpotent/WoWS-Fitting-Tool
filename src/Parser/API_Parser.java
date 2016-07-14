@@ -1,3 +1,4 @@
+package Parser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,22 +22,22 @@ import lombok.Data;
  *
  */
 @Data
-public class APIParser 
+public class API_Parser 
 {
 	private JSONParser JSONParser = new JSONParser();
 	private File APIFile = new File("API.json");
-	private JSONObject API;	
-	private JSONObject APIShips;
+	private JSONObject APIJSON;	
+	private JSONObject APIShipsJSON;
 		
 	private List<JSONObject> APIShipJSONList = new ArrayList<JSONObject>();
 	private JSONObject shipJSON;
 	
 	private String ship_id_str;
 	
-	public APIParser(String aShipName) throws FileNotFoundException, IOException, ParseException
+	public API_Parser(String aShipName) throws FileNotFoundException, IOException, ParseException
 	{
-		API = (JSONObject) JSONParser.parse(new FileReader(APIFile));
-		APIShips = (JSONObject) API.get("ships");
+		APIJSON = (JSONObject) JSONParser.parse(new FileReader(APIFile));
+		APIShipsJSON = (JSONObject) APIJSON.get("ships");
 		
 		setShipJSON(aShipName);	
 	}
@@ -44,7 +45,7 @@ public class APIParser
 	@SuppressWarnings("unchecked")
 	private void setShipJSON(String aShipName)
 	{				
-		APIShipJSONList.addAll(APIShips.values());
+		APIShipJSONList.addAll(APIShipsJSON.values());
 			
 		for (int i = 0; i < APIShipJSONList.size(); i++)
 		{
