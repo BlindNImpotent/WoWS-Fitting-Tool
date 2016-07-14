@@ -15,7 +15,7 @@ public class JSONParserTest
 	@Before
 	public void setup() throws FileNotFoundException, IOException, ParseException
 	{
-		aShipName = "Iowa";
+		aShipName = "Tirpitz";
 		JSONParser = new JSONParser(aShipName);
 	}	
 

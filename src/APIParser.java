@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,8 +26,9 @@ public class APIParser
 	private JSONParser JSONParser = new JSONParser();
 	private File APIFile = new File("API.json");
 	private JSONObject API;	
-
-	private List<JSONObject> APIJSON = new ArrayList<JSONObject>();
+	private JSONObject APIShips;
+		
+	private List<JSONObject> APIShipJSONList = new ArrayList<JSONObject>();
 	private JSONObject shipJSON;
 	
 	private String ship_id_str;
@@ -34,20 +36,21 @@ public class APIParser
 	public APIParser(String aShipName) throws FileNotFoundException, IOException, ParseException
 	{
 		API = (JSONObject) JSONParser.parse(new FileReader(APIFile));
+		APIShips = (JSONObject) API.get("ships");
 		
-		setShipJSON(aShipName);				
+		setShipJSON(aShipName);	
 	}
 
 	@SuppressWarnings("unchecked")
 	private void setShipJSON(String aShipName)
 	{				
-		APIJSON.addAll(API.values());
+		APIShipJSONList.addAll(APIShips.values());
 			
-		for (int i = 0; i < APIJSON.size(); i++)
+		for (int i = 0; i < APIShipJSONList.size(); i++)
 		{
-			if (APIJSON.get(i).containsValue(aShipName))
+			if (APIShipJSONList.get(i).containsValue(aShipName))
 			{
-				shipJSON = APIJSON.get(i);	
+				shipJSON = APIShipJSONList.get(i);	
 				ship_id_str = (String) shipJSON.get("ship_id_str");
 				break;
 			}	
