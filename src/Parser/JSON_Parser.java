@@ -51,6 +51,12 @@ public class JSON_Parser
 	private JSONArray ModernizationSlot4_mods;
 	private JSONArray ModernizationSlot5_mods;
 	private JSONArray ModernizationSlot6_mods;
+	private List<String> modSlot1 = new ArrayList<>();
+	private List<String> modSlot2 = new ArrayList<>();
+	private List<String> modSlot3 = new ArrayList<>();
+	private List<String> modSlot4 = new ArrayList<>();
+	private List<String> modSlot5 = new ArrayList<>();
+	private List<String> modSlot6 = new ArrayList<>();
 	private LinkedHashMap<String, JSONObject> mods1 = new LinkedHashMap<String, JSONObject>();
 	private LinkedHashMap<String, JSONObject> mods2 = new LinkedHashMap<String, JSONObject>();
 	private LinkedHashMap<String, JSONObject> mods3 = new LinkedHashMap<String, JSONObject>();
@@ -510,37 +516,48 @@ public class JSON_Parser
 		ModernizationSlot6_mods = (JSONArray) ModernizationSlot6.get("mods");
 		
 		JSONObject ship_modifications = (JSONObject) APIParser.getAPIJSON().get("ship_modifications");
-		
-		for (int i = 0; i < ModernizationSlot1_mods.size(); i++)
-		{
-			mods1.put((String) ship_modifications.get(ModernizationSlot1_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot1_mods.get(i)));
+
+		if (ModernizationSlot1_mods != null) {
+			for (int i = 0; i < ModernizationSlot1_mods.size(); i++) {
+				mods1.put((String) ship_modifications.get(ModernizationSlot1_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot1_mods.get(i)));
+				modSlot1.add((String) ModernizationSlot1_mods.get(i));
+			}
 		}
 
-		for (int i = 0; i < ModernizationSlot2_mods.size(); i++)
-		{
-			mods2.put((String) ship_modifications.get(ModernizationSlot2_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot2_mods.get(i)));
+		if (ModernizationSlot2_mods != null) {
+			for (int i = 0; i < ModernizationSlot2_mods.size(); i++) {
+				mods2.put((String) ship_modifications.get(ModernizationSlot2_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot2_mods.get(i)));
+				modSlot2.add((String) ModernizationSlot2_mods.get(i));
+			}
 		}
 
-		for (int i = 0; i < ModernizationSlot3_mods.size(); i++)
-		{
-			mods3.put((String) ship_modifications.get(ModernizationSlot3_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot3_mods.get(i)));
+		if (ModernizationSlot3_mods != null) {
+			for (int i = 0; i < ModernizationSlot3_mods.size(); i++) {
+				mods3.put((String) ship_modifications.get(ModernizationSlot3_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot3_mods.get(i)));
+				modSlot3.add((String) ModernizationSlot3_mods.get(i));
+			}
 		}
 
-		for (int i = 0; i < ModernizationSlot4_mods.size(); i++)
-		{
-			mods4.put((String) ship_modifications.get(ModernizationSlot4_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot4_mods.get(i)));
+		if (ModernizationSlot4_mods != null) {
+			for (int i = 0; i < ModernizationSlot4_mods.size(); i++) {
+				mods4.put((String) ship_modifications.get(ModernizationSlot4_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot4_mods.get(i)));
+				modSlot4.add((String) ModernizationSlot4_mods.get(i));
+			}
 		}
 
-		for (int i = 0; i < ModernizationSlot5_mods.size(); i++)
-		{
-			mods5.put((String) ship_modifications.get(ModernizationSlot5_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot5_mods.get(i)));
+		if (ModernizationSlot5_mods != null) {
+			for (int i = 0; i < ModernizationSlot5_mods.size(); i++) {
+				mods5.put((String) ship_modifications.get(ModernizationSlot5_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot5_mods.get(i)));
+				modSlot5.add((String) ModernizationSlot5_mods.get(i));
+			}
 		}
 
-		for (int i = 0; i < ModernizationSlot6_mods.size(); i++)
-		{
-			mods6.put((String) ship_modifications.get(ModernizationSlot6_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot6_mods.get(i)));
+		if (ModernizationSlot6_mods != null) {
+			for (int i = 0; i < ModernizationSlot6_mods.size(); i++) {
+				mods6.put((String) ship_modifications.get(ModernizationSlot6_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot6_mods.get(i)));
+				modSlot6.add((String) ModernizationSlot6_mods.get(i));
+			}
 		}
-		
 	}	
 	
 	@SuppressWarnings("unchecked")
