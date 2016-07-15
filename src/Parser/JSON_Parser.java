@@ -1,6 +1,7 @@
 package Parser;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,7 +36,9 @@ public class JSON_Parser
 	
 	private JSONObject ShipUpgradeInfoJSON;
 	private List<String> ShipUpgradeInfoList = new ArrayList<String>();
-	
+	private JSONObject GP_ArtilleryJSON;
+
+
 	private List<Long> API_UpgradesIDList = new ArrayList<Long>();
 	private JSONObject GP_UpgradesJSON;
 	private List<String> UpgradesNameList = new ArrayList<String>();
@@ -72,23 +75,23 @@ public class JSON_Parser
 	
 	private List<JSONObject> API_ArtilleryUpgradeJSONList = new ArrayList<JSONObject>();
 	private List<String> API_ArtilleryUpgradeNameList = new ArrayList<String>();
-	private HashMap<String, JSONObject> GP_ArtilleryUpgradeJSONHashMap = new HashMap<String, JSONObject>();
+	private HashMap<String, JSONObject> API_ArtilleryUpgradeJSONHashMap = new HashMap<String, JSONObject>();
 	
 	private List<JSONObject> API_HullUpgradeJSONList = new ArrayList<JSONObject>();
 	private List<String> API_HullUpgradeNameList = new ArrayList<String>();
-	private HashMap<String, JSONObject> GP_HullUpgradeJSONHashMap = new HashMap<String, JSONObject>();
+	private HashMap<String, JSONObject> API_HullUpgradeJSONHashMap = new HashMap<String, JSONObject>();
 	
 	private List<JSONObject> API_EngineUpgradeJSONList = new ArrayList<JSONObject>();
 	private List<String> API_EngineUpgradeNameList = new ArrayList<String>();
-	private HashMap<String, JSONObject> GP_EngineUpgradeJSONHashMap = new HashMap<String, JSONObject>();
+	private HashMap<String, JSONObject> API_EngineUpgradeJSONHashMap = new HashMap<String, JSONObject>();
 	
 	private List<JSONObject> API_SuoUpgradeJSONList = new ArrayList<JSONObject>();
 	private List<String> API_SuoUpgradeNameList = new ArrayList<String>();
-	private HashMap<String, JSONObject> GP_SuoUpgradeJSONHashMap = new HashMap<String, JSONObject>();
+	private HashMap<String, JSONObject> API_SuoUpgradeJSONHashMap = new HashMap<String, JSONObject>();
 	
 	private List<JSONObject> API_TorpedoesUpgradeJSONList = new ArrayList<JSONObject>();
 	private List<String> API_TorpedoesUpgradeNameList = new ArrayList<String>();
-	private HashMap<String, JSONObject> GP_TorpedoesUpgradeJSONHashMap = new HashMap<String, JSONObject>();
+	private HashMap<String, JSONObject> API_TorpedoesUpgradeJSONHashMap = new HashMap<String, JSONObject>();
 	
 	private List<JSONObject> USA_AirCarrierJSONList = new ArrayList<JSONObject>();
 	private List<JSONObject> USA_BattleshipJSONList = new ArrayList<JSONObject>();
@@ -177,75 +180,53 @@ public class JSON_Parser
 	{	
 		modules_treeJSON = (JSONObject) APIParser.getShipJSON().get("modules_tree");
 		modules_treeList.addAll(modules_treeJSON.keySet());
-		
-		JSONObject API_modules;
+
+		JSONObject API_suiJSON;
 		
 		for (int i = 0; i < modules_treeList.size(); i++)
 		{
-			API_modules = (JSONObject) modules_treeJSON.get(modules_treeList.get(i));
-			
-			if (API_modules.get("is_default").equals(true))
-			{
-				default_loadouts.add(API_modules);
-			}
-			else
-			{
-				upgradeModules.add(API_modules);
-			}			
-		}
-		
-		ShipUpgradeInfoJSON = (JSONObject) GPParser.getShipJSON().get("ShipUpgradeInfo");
-		ShipUpgradeInfoList.addAll(ShipUpgradeInfoJSON.keySet());
-				
-		JSONObject API_suiJSON = null;
-		JSONObject GP_suiJSON = null;
-		String GP_suiJSONKey = null;
-		
-		for (int i = 0; i < modules_treeJSON.size(); i++)
-		{
 			API_suiJSON = (JSONObject) modules_treeJSON.get(modules_treeList.get(i));
-			
-			String API_suiJSONName = (String) API_suiJSON.get("name");
-			String API_suiJSONID = (String) API_suiJSON.get("module_id_str");
 
-			if (ShipUpgradeInfoJSON.get(ShipUpgradeInfoList.get(i)) instanceof JSONObject)
-			{
-				GP_suiJSON = (JSONObject) ShipUpgradeInfoJSON.get(ShipUpgradeInfoList.get(i));
-
+			if (API_suiJSON.get("is_default").equals(true)) {
+				default_loadouts.add(API_suiJSON);
+			} else {
+				upgradeModules.add(API_suiJSON);
 			}
+
+			String API_suiJSONName = (String) API_suiJSON.get("name");
 
 			if (API_suiJSON.get("type").equals("Artillery"))
 			{
 				API_ArtilleryUpgradeJSONList.add(API_suiJSON);
 				API_ArtilleryUpgradeNameList.add(API_suiJSONName);
-				GP_ArtilleryUpgradeJSONHashMap.put(API_suiJSONName, GP_suiJSON);
+				API_ArtilleryUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
 			}
 			else if (API_suiJSON.get("type").equals("Hull"))
 			{
 				API_HullUpgradeJSONList.add(API_suiJSON);
 				API_HullUpgradeNameList.add(API_suiJSONName);
-				GP_HullUpgradeJSONHashMap.put(API_suiJSONName, GP_suiJSON);
+				API_HullUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
 			}
 			else if (API_suiJSON.get("type").equals("Engine"))
 			{
 				API_EngineUpgradeJSONList.add(API_suiJSON);
 				API_EngineUpgradeNameList.add(API_suiJSONName);
-				GP_EngineUpgradeJSONHashMap.put(API_suiJSONName, GP_suiJSON);
+				API_EngineUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
 			}
 			else if (API_suiJSON.get("type").equals("Suo"))
 			{
 				API_SuoUpgradeJSONList.add(API_suiJSON);
 				API_SuoUpgradeNameList.add(API_suiJSONName);
-				GP_SuoUpgradeJSONHashMap.put(API_suiJSONName, GP_suiJSON);
+				API_SuoUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
 			}
 			else if (API_suiJSON.get("type").equals("Torpedoes"))
 			{
 				API_TorpedoesUpgradeJSONList.add(API_suiJSON);
 				API_TorpedoesUpgradeNameList.add(API_suiJSONName);
-				GP_TorpedoesUpgradeJSONHashMap.put(API_suiJSONName, GP_suiJSON);
+				API_TorpedoesUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
 			}
 		}
-		
+
 		Collections.sort(API_ArtilleryUpgradeNameList);
 		Collections.sort(API_HullUpgradeNameList);
 		Collections.sort(API_EngineUpgradeNameList);
@@ -607,15 +588,26 @@ public class JSON_Parser
 			return;
 		}
 
-		System.out.println(GP_ArtilleryUpgradeJSONHashMap);
+		JSONObject API_JSON = API_ArtilleryUpgradeJSONHashMap.get(aTurret);
+		String API_module_id_str = null;
+		String GP_turretKey = null;
 
-		JSONObject turretJSON = GP_ArtilleryUpgradeJSONHashMap.get("aTurret");
+		for (int i = 0; i < GPParser.getGameParamsKeySet().size(); i++)
+		{
+			API_module_id_str = (String) API_JSON.get("module_id_str");
 
-		System.out.println(turretJSON);
+			if (GPParser.getGameParamsKeySet().get(i).contains(API_module_id_str))
+			{
+				GP_turretKey = GPParser.getGameParamsKeySet().get(i);
+			}
+		}
 
-		JSONObject turretComponents = (JSONObject) turretJSON.get("components");
-		JSONArray turretArtillery = (JSONArray) turretComponents.get("artillery");
+		ShipUpgradeInfoJSON = (JSONObject) GPParser.getShipJSON().get("ShipUpgradeInfo");
+		JSONObject module = (JSONObject) ShipUpgradeInfoJSON.get(GP_turretKey);
+		JSONObject components = (JSONObject) module.get("components");
+		JSONArray artillery = (JSONArray) components.get("artillery");
 
+		GP_ArtilleryJSON = (JSONObject) GPParser.getShipJSON().get(artillery.get(0));
 
 	}
 
