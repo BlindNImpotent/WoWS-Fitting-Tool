@@ -294,7 +294,7 @@ public class JSParser
 	
 	/**
 	 * Sets ship code from input name.
-	 * @param shipName Ship name
+	 * @param aShipName Ship name
 	 */
 	private void setShipCode(String aShipName)
 	{
@@ -730,7 +730,7 @@ public class JSParser
 	{
 		return numTorpTurrets;
 	}
-	
+
 	/**
 	 * Returns engine JSONObject
 	 * @return engineObj engine JSONObject

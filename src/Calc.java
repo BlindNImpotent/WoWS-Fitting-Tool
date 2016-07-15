@@ -15,7 +15,7 @@ import Parser.JSON_Parser;
  */
 public class Calc 
 {
-	private JSParser jsp;
+	private JSON_Parser jsp;
 	private int tier;
 	private String nation;
 	private String shiptype;
@@ -104,20 +104,20 @@ public class Calc
 	 */
 	public Calc(String ship) throws FileNotFoundException, IOException, ParseException
 	{
-		jsp = new JSParser(ship);
+		jsp = new JSON_Parser(ship);
 	}
 	
 	public Calc(String ship, String turret, String aHull, String engine, String radar, String torpedo,
 			String consume1, String consume2, String consume3, String consume4) 
 			throws FileNotFoundException, IOException, ParseException
 	{
-		jsp = new JSParser(ship);
+		jsp = new JSON_Parser(ship);
 		
-		jsp.setRadarStats2(radar);
-		jsp.setTurretStats2(turret);
-		jsp.setEngineStats2(engine);
-		jsp.setHullStats2(aHull);
-		jsp.setTorpedoStats2(torpedo);
+		jsp.setRadarStats(radar);
+		jsp.setTurretStats(turret);
+		jsp.setEngineStats(engine);
+		jsp.setHullStats(aHull);
+		jsp.setTorpedoStats(torpedo);
 		
 		setConsume1(consume1);
 		setConsume2(consume2);
@@ -128,7 +128,7 @@ public class Calc
 		nation = jsp.getNation();
 		shiptype = jsp.getShipType();
 		maxRepairCost = jsp.getMaxRepairCost();
-		health = jsp.getHealth();
+		health = jsp.getMaxHP();
 		speed = jsp.getSpeed();
 		horsePower = jsp.getHorsePower();
 		rudderShift = jsp.getRudderShift();
@@ -137,7 +137,7 @@ public class Calc
 		sigmaCount = jsp.getSigmaCount();
 		mainGunReload = jsp.getMainGunReload();
 		mainGunRotation = jsp.getMainGunRotation();		
-		mainGunDispersionTangent = jsp.getMainGunDispersion();
+		mainGunDispersionTangent = jsp.getMainGunDispersionTangent();
 		mainGunDispersionRange = maxMainGunRange * mainGunDispersionTangent * 2 * 1000;
 		numBarrels = jsp.getNumBarrels();
 		numTurrets = jsp.getNumTurrets();
@@ -159,18 +159,9 @@ public class Calc
 		aConceal = jsp.getAConceal();
 		stealthFireSurfaceDetection = jsp.getStealthFireSurfaceDetection();
 		AAFireAirDetection = jsp.getAAFireAirDetection();
-		
-		upgradeSlots = jsp.getModuleSlots();		
-		
-		MainTurretHP = jsp.getMainTurretHP();
-		MainTurretAutoRepairTime = jsp.getMainTurretAutoRepairTime();
-		
-		TorpedoHP = jsp.getTorpedoHP();
-		TorpedoAutoRepairTime = jsp.getTorpedoAutoRepairTime();
-		
-		forwardEngineUpTime = (double) jsp.getEngine().get("forwardEngineUpTime");
-		backwardEngineUpTime = (double) jsp.getEngine().get("backwardEngineUpTime");
-		engineRepairTime = jsp.getEngineAutoRepairTime();
+
+		forwardEngineUpTime = (double) jsp.getEngineObj().get("forwardEngineUpTime");
+		backwardEngineUpTime = (double) jsp.getEngineObj().get("backwardEngineUpTime");
 		
 		antiAirAuraDistanceFar = jsp.getAntiAirAuraDistanceFar();
 		antiAirAuraDistanceMedium = jsp.getAntiAirAuraDistanceMedium();
@@ -185,14 +176,13 @@ public class Calc
 		burnTime = jsp.getBurnTime();
 		floodTime = jsp.getFloodTime();
 		
-		flags = jsp.getFlagList();
 		setSkills();
 	}
 
 	public void calcMainArmamentsMod1()  //Slot 1
 	{
 	    //"PCM030_MainWeapon_Mod_I"
-		JSONObject MAM1 = (JSONObject) jsp.getGameParams().get("PCM030_MainWeapon_Mod_I"); 
+		JSONObject MAM1 = (JSONObject) jsp.getGameParams().get("PCM030_MainWeapon_Mod_I");
 		double GMCritProb = (double) MAM1.get("GMCritProb"); 
 		double GMMaxHP = (double) MAM1.get("GMMaxHP");
 		double GMRepairTime = (double) MAM1.get("GMRepairTime");
@@ -686,7 +676,7 @@ public class Calc
 		sConceal = sConceal * jsp.getVisibilityFactorPermaCamo();
 		aConceal = aConceal * jsp.getVisibilityFactorByPlanePermaCamo();
 		
-		maxRepairCost = (long) (maxRepairCost * jsp.getAfterBattleRrepair());
+		maxRepairCost = (long) (maxRepairCost * jsp.getAfterBattleRepair());
 		expFactor = jsp.getExpFactorPermaCamo() * 100;
 		captainExpFactor = jsp.getExpFactorPermaCamo() * 100;
 	}	
@@ -1082,12 +1072,12 @@ public class Calc
 	
 	public int getTorpTubes()
 	{
-		return jsp.getTorpTubes();
+		return jsp.getNumTubes();
 	}
 	
 	public int getTorpTurrets()
 	{
-		return jsp.getTorpTurrets();
+		return jsp.getNumTorpTurrets();
 	}
 	
 	/**
@@ -1167,7 +1157,7 @@ public class Calc
 	 * 
 	 * @return
 	 */
-	public JSParser getJSP()
+	public JSON_Parser getJSP()
 	{
 		return jsp;
 	}
@@ -1291,28 +1281,28 @@ public class Calc
 		
 		switch (jsp.getNation())
 		{
-			case "USA":	
+			case "usa":
 				crewNation = "PAW001_DefaultCrew";
 				break;
-			case "Japan": 
+			case "japan":
 				crewNation = "PJW001_DefaultCrew";
 				break;
-			case "Russia":	
+			case "ussr":
 				crewNation = "PRW001_DefaultCrew";
 				break;
-			case "Germany":	
+			case "germany":
 				crewNation = "PGW001_DefaultCrew";
 				break;
-			case "Pan_Asia":	
+			case "pan_asia":
 				crewNation = "PZW001_DefaultCrew";
 				break;
-			case "Poland":	
+			case "poland":
 				crewNation = "PWW001_DefaultCrew";
 				break;		
-			case "United_Kingdom":	
+			case "uk":
 				crewNation = "PBW001_DefaultCrew";
 				break;
-			case "France":	
+			case "france":
 				crewNation = "PFW001_DefaultCrew";
 			default:
 				break;
@@ -1328,20 +1318,7 @@ public class Calc
 		crew = (JSONObject) jsp.getGameParams().get(getCrewCode());
 		skills = (JSONObject) crew.get("Skills");
 	}
-	
-	public List<String> getFlagList()
-	{
-		List<String> flagList = new ArrayList<String>();
-		flagList.add("None");	
-		
-		for (int i = 0; i < jsp.getFlagList().size(); i++)
-		{			
-			flagList.add(i+1, jsp.getFlagList().get(i).substring(8, 11));
-		}
-		
-		return flagList;
-	}	
-	
+
 	/**
 	 * 
 	 * @return
@@ -1351,9 +1328,9 @@ public class Calc
 		List<String> mod1 = new ArrayList<String>();
 		mod1.add("None");	
 		
-		for (int i = 0; i < jsp.getModule1().size(); i++)
+		for (int i = 0; i < jsp.getModSlot1().size(); i++)
 		{			
-			mod1.add(i+1, jsp.getModule1().get(i).substring(7));		
+			mod1.add(i+1, jsp.getModSlot1().get(i).substring(7));
 		}
 		
 		return mod1;
@@ -1368,9 +1345,9 @@ public class Calc
 		List<String> mod2 = new ArrayList<String>();
 		mod2.add("None");	
 		
-		for (int i = 0; i < jsp.getModule2().size(); i++)
+		for (int i = 0; i < jsp.getModSlot2().size(); i++)
 		{			
-			mod2.add(i+1, jsp.getModule2().get(i).substring(7));		
+			mod2.add(i+1, jsp.getModSlot2().get(i).substring(7));
 		}
 		
 		return mod2;	
@@ -1385,9 +1362,9 @@ public class Calc
 		List<String> mod3 = new ArrayList<String>();
 		mod3.add("None");	
 		
-		for (int i = 0; i < jsp.getModule3().size(); i++)
+		for (int i = 0; i < jsp.getModSlot3().size(); i++)
 		{			
-			mod3.add(i+1, jsp.getModule3().get(i).substring(7));		
+			mod3.add(i+1, jsp.getModSlot3().get(i).substring(7));
 		}
 		
 		return mod3;	
@@ -1402,9 +1379,9 @@ public class Calc
 		List<String> mod4 = new ArrayList<String>();
 		mod4.add("None");	
 		
-		for (int i = 0; i < jsp.getModule4().size(); i++)
+		for (int i = 0; i < jsp.getModSlot4().size(); i++)
 		{			
-			mod4.add(i+1, jsp.getModule4().get(i).substring(7));		
+			mod4.add(i+1, jsp.getModSlot4().get(i).substring(7));
 		}
 		
 		return mod4;
@@ -1419,9 +1396,9 @@ public class Calc
 		List<String> mod5 = new ArrayList<String>();
 		mod5.add("None");	
 		
-		for (int i = 0; i < jsp.getModule5().size(); i++)
+		for (int i = 0; i < jsp.getModSlot5().size(); i++)
 		{			
-			mod5.add(i+1, jsp.getModule5().get(i).substring(7));		
+			mod5.add(i+1, jsp.getModSlot5().get(i).substring(7));
 		}
 		
 		return mod5;	
@@ -1436,9 +1413,9 @@ public class Calc
 		List<String> mod6 = new ArrayList<String>();
 		mod6.add("None");	
 		
-		for (int i = 0; i < jsp.getModule6().size(); i++)
+		for (int i = 0; i < jsp.getModSlot6().size(); i++)
 		{			
-			mod6.add(i+1, jsp.getModule6().get(i).substring(7));		
+			mod6.add(i+1, jsp.getModSlot6().get(i).substring(7));
 		}
 		
 		return mod6;
@@ -1608,9 +1585,9 @@ public class Calc
 		List<String> turretList = new ArrayList<String>();
 		
 		
-		for (int i = 0; i < jsp.getTurretList().size(); i++)
+		for (int i = 0; i < jsp.getAPI_ArtilleryUpgradeNameList().size(); i++)
 		{
-			turretList.add(i, jsp.getTurretList().get(i).substring(8));
+			turretList.add(i, jsp.getAPI_ArtilleryUpgradeNameList().get(i));
 		}
 		return turretList;
 	}
@@ -1620,9 +1597,9 @@ public class Calc
 	{
 		List<String> hullList = new ArrayList<String>();
 		
-		for (int i = 0; i < jsp.getHullList().size(); i++)
+		for (int i = 0; i < jsp.getAPI_HullUpgradeNameList().size(); i++)
 		{
-			hullList.add(i, jsp.getHullList().get(i).substring(8));
+			hullList.add(i, jsp.getAPI_HullUpgradeNameList().get(i));
 		}
 		return hullList;
 	}
@@ -1632,9 +1609,9 @@ public class Calc
 	{
 		List<String> engineList = new ArrayList<String>();		
 		
-		for (int i = 0; i < jsp.getEngineList().size(); i++)
+		for (int i = 0; i < jsp.getAPI_EngineUpgradeNameList().size(); i++)
 		{			
-			engineList.add(i, jsp.getEngineList().get(i).substring(8));		
+			engineList.add(i, jsp.getAPI_EngineUpgradeNameList().get(i));
 		}			
 		return engineList;
 	}
@@ -1643,9 +1620,9 @@ public class Calc
 	{
 		List<String> radarList = new ArrayList<String>();		
 		
-		for (int i = 0; i < jsp.getRadarList().size(); i++)
+		for (int i = 0; i < jsp.getAPI_SuoUpgradeNameList().size(); i++)
 		{			
-			radarList.add(i, jsp.getRadarList().get(i).substring(4));		
+			radarList.add(i, jsp.getAPI_SuoUpgradeNameList().get(i));
 		}			
 		return radarList;
 	}
@@ -1654,7 +1631,7 @@ public class Calc
 	{
 		List<String> torpedoList = new ArrayList<String>();
 		
-		if (jsp.getTorpedoList().size() == 0)
+		if (jsp.getAPI_TorpedoesUpgradeNameList().size() == 0)
 		{
 			torpedoList.add("None");
 			return torpedoList;
@@ -1662,9 +1639,9 @@ public class Calc
 		
 		else
 		{
-			for (int i = 0; i < jsp.getTorpedoList().size(); i++)
+			for (int i = 0; i < jsp.getAPI_TorpedoesUpgradeNameList().size(); i++)
 			{			
-				torpedoList.add(i, jsp.getTorpedoList().get(i).substring(8));		
+				torpedoList.add(i, jsp.getAPI_TorpedoesUpgradeNameList().get(i));
 			}		
 		
 			return torpedoList;

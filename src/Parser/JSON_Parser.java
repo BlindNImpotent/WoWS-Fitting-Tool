@@ -22,6 +22,8 @@ public class JSON_Parser
 {
 	private API_Parser APIParser;
 	private GameParams_Parser GPParser;
+
+	private JSONObject GameParams;
 	
 	private List<String> NationList = new ArrayList<>();
 	private String nation;
@@ -34,10 +36,76 @@ public class JSON_Parser
 	
 	private JSONObject ShipUpgradeInfoJSON;
 	private List<String> ShipUpgradeInfoList = new ArrayList<>();
+
+	private int tier;
+	private String shipType;
+
 	private JSONObject GP_ArtilleryJSON;
 	private JSONObject GP_TurretJSON;
+	private double maxMainGunRange;
+	private double maxDistCoef;
+	private double sigmaCount;
+	private int numBarrels;
+	private int numTurrets;
+	private double turretBarrelDiameter;
+	private double APShellSpeed;
+	private double APShellDMG;
+	private double HEShellSpeed;
+	private double HEShellDMG;
+	private double HEShellBurnProb;
+	private double mainGunRotation;
+	private double mainGunReload;
+	private double mainGunDispersionTangent;
 
+	private JSONObject GP_HullJSON;
+	private long maxRepairCost;
+	private double maxHP;
+	private double rudderShift;
+	private double speed;
+	private JSONObject engineObj;
+	private double speedCoef;
+	private double sConceal;
+	private double aConceal;
+	private double stealthFireSurfaceDetection;
+	private double AAFireAirDetection;
+	private double burnTime;
+	private double floodTime;
+	private double antiAirAuraDistanceFar;
+	private double AAFarDPS;
+	private double AAFarBarrelDiameter;
+	private double secondaryMaxDist;
+	private double antiAirAuraDistanceMedium;
+	private double AAMediumDPS;
+	private double antiAirAuraDistanceNear;
+	private double AANearDPS;
 
+	private int horsePower;
+
+	private double torpDiameter;
+	private int numTubes;
+	private int numTorpTurrets;
+	private double torpedoRotation;
+	private double torpedoReload;
+	private double maxTorpedoRange;
+	private double torpedoSpeed;
+	private double torpedoVisibilityFactor;
+
+	private List<JSONArray> Abil0 = new ArrayList<JSONArray>();
+	private List<JSONArray> Abil1 = new ArrayList<JSONArray>();
+	private List<JSONArray> Abil2 = new ArrayList<JSONArray>();
+	private List<JSONArray> Abil3 = new ArrayList<JSONArray>();
+
+	private List<String> Ability0 = new ArrayList<String>();
+	private List<String> Ability1 = new ArrayList<String>();
+	private List<String> Ability2 = new ArrayList<String>();
+	private List<String> Ability3 = new ArrayList<String>();
+
+	private List<String> permaflage = new ArrayList<String>();
+
+	private double afterBattleRepair;
+	private double visibilityFactorPermaCamo;
+	private double visibilityFactorByPlanePermaCamo;
+	private double expFactorPermaCamo;
 
 
 	private List<Long> API_UpgradesIDList = new ArrayList<>();
@@ -161,19 +229,41 @@ public class JSON_Parser
 	private List<String> Poland_DestroyerNameList = new ArrayList<>();
 	
 	private List<String> Pan_Asia_DestroyerNameList = new ArrayList<>();
-	
+
 	
 	public JSON_Parser(String aShipName) throws IOException, ParseException
 	{
 		APIParser = new API_Parser(aShipName);
 		GPParser = new GameParams_Parser(APIParser.getShip_id_str());
-		
+		ShipUpgradeInfoJSON = (JSONObject) GPParser.getShipJSON().get("ShipUpgradeInfo");
+
+		GameParams = GPParser.getGameParams();
+
 		setShipUpgradeModulesInfo();		
 		setShipsJSONAndName();
 		setUpgrades();
 		setNationList();
 		setShipTypeList();
 		setCamouflageAndFlags();
+		setPermaflage();
+		setConsumablesList();
+
+		if (GPParser.getShipJSON().get("level") instanceof Long)
+		{
+			tier = (int) (long) GPParser.getShipJSON().get("level");
+		}
+		else if (GPParser.getShipJSON().get("level") instanceof Double)
+		{
+			tier = (int) (double) GPParser.getShipJSON().get("level");
+		}
+		else
+		{
+			tier = (int) GPParser.getShipJSON().get("level");
+		}
+
+		JSONObject type = (JSONObject) GPParser.getShipJSON().get("typeinfo");
+		shipType = (String) type.get("species");
+
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -486,25 +576,38 @@ public class JSON_Parser
 		API_UpgradesIDList.addAll(modules);
 
 		GP_UpgradesJSON = (JSONObject) GPParser.getShipJSON().get("ShipModernization");
-		
-		ModernizationSlot1 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot1");
-		ModernizationSlot1_mods = (JSONArray) ModernizationSlot1.get("mods");
-		
-		ModernizationSlot2 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot2");
-		ModernizationSlot2_mods = (JSONArray) ModernizationSlot2.get("mods");
-		
-		ModernizationSlot3 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot3");
-		ModernizationSlot3_mods = (JSONArray) ModernizationSlot3.get("mods");
-		
-		ModernizationSlot4 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot4");
-		ModernizationSlot4_mods = (JSONArray) ModernizationSlot4.get("mods");
-		
-		ModernizationSlot5 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot5");
-		ModernizationSlot5_mods = (JSONArray) ModernizationSlot5.get("mods");
-		
-		ModernizationSlot6 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot6");
-		ModernizationSlot6_mods = (JSONArray) ModernizationSlot6.get("mods");
-		
+
+		if (GP_UpgradesJSON.get("ModernizationSlot1") != null)
+		{
+			ModernizationSlot1 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot1");
+			ModernizationSlot1_mods = (JSONArray) ModernizationSlot1.get("mods");
+		}
+
+		if (GP_UpgradesJSON.get("ModernizationSlot2") != null) {
+			ModernizationSlot2 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot2");
+			ModernizationSlot2_mods = (JSONArray) ModernizationSlot2.get("mods");
+		}
+
+		if (GP_UpgradesJSON.get("ModernizationSlot3") != null) {
+			ModernizationSlot3 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot3");
+			ModernizationSlot3_mods = (JSONArray) ModernizationSlot3.get("mods");
+		}
+
+		if (GP_UpgradesJSON.get("ModernizationSlot4") != null) {
+			ModernizationSlot4 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot4");
+			ModernizationSlot4_mods = (JSONArray) ModernizationSlot4.get("mods");
+		}
+
+		if (GP_UpgradesJSON.get("ModernizationSlot5") != null) {
+			ModernizationSlot5 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot5");
+			ModernizationSlot5_mods = (JSONArray) ModernizationSlot5.get("mods");
+		}
+
+		if (GP_UpgradesJSON.get("ModernizationSlot6") != null) {
+			ModernizationSlot6 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot6");
+			ModernizationSlot6_mods = (JSONArray) ModernizationSlot6.get("mods");
+		}
+
 		JSONObject ship_modifications = (JSONObject) APIParser.getAPIJSON().get("ship_modifications");
 
 		if (ModernizationSlot1_mods != null) {
@@ -549,18 +652,13 @@ public class JSON_Parser
 			}
 		}
 
-		modSlot1Name.add("None");
+
 		modSlot1Name.addAll(mods1.keySet());
-		modSlot2Name.add("None");
-		modSlot2Name.addAll(mods1.keySet());
-		modSlot3Name.add("None");
-		modSlot3Name.addAll(mods1.keySet());
-		modSlot4Name.add("None");
-		modSlot4Name.addAll(mods1.keySet());
-		modSlot5Name.add("None");
-		modSlot5Name.addAll(mods1.keySet());
-		modSlot6Name.add("None");
-		modSlot6Name.addAll(mods1.keySet());
+		modSlot2Name.addAll(mods2.keySet());
+		modSlot3Name.addAll(mods3.keySet());
+		modSlot4Name.addAll(mods4.keySet());
+		modSlot5Name.addAll(mods5.keySet());
+		modSlot6Name.addAll(mods6.keySet());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -594,7 +692,7 @@ public class JSON_Parser
 		}
 
 		JSONObject API_JSON = API_ArtilleryUpgradeJSONHashMap.get(aTurret);
-		String API_module_id_str = null;
+		String API_module_id_str;
 		String GP_turretKey = null;
 
 		for (int i = 0; i < GPParser.getGameParamsKeySet().size(); i++)
@@ -607,7 +705,6 @@ public class JSON_Parser
 			}
 		}
 
-		ShipUpgradeInfoJSON = (JSONObject) GPParser.getShipJSON().get("ShipUpgradeInfo");
 		JSONObject module = (JSONObject) ShipUpgradeInfoJSON.get(GP_turretKey);
 		JSONObject components = (JSONObject) module.get("components");
 		JSONArray artillery = (JSONArray) components.get("artillery");
@@ -642,17 +739,16 @@ public class JSON_Parser
 		{
 			GP_TurretJSON = (JSONObject) GP_ArtilleryJSON.get("HP_ZGM_1");
 		}
-
 		
 		maxMainGunRange = (double) GP_ArtilleryJSON.get("maxDist") * maxDistCoef;
 		
 		sigmaCount = (double) GP_ArtilleryJSON.get("sigmaCount");
 		
-		if (tobj2.get("numBarrels") instanceof Double)
+		if (GP_TurretJSON.get("numBarrels") instanceof Double)
 		{
 			numBarrels = (int) (double) GP_TurretJSON.get("numBarrels");
 		}
-		else if (tobj2.get("numBarrels") instanceof Long)
+		else if (GP_TurretJSON.get("numBarrels") instanceof Long)
 		{
 			numBarrels = (int) (long) GP_TurretJSON.get("numBarrels");
 		}
@@ -701,7 +797,6 @@ public class JSON_Parser
 		}
 		
 		JSONArray tobj3;
-					
 		
 		APShellSpeed = (double) APShell.get("bulletSpeed");
 		APShellDMG = (double) APShell.get("alphaDamage");
@@ -725,10 +820,495 @@ public class JSON_Parser
 			mainGunDispersionTangent = Math.toRadians(mainGunDispersionTangent * 0.03);
 			mainGunDispersionTangent = Math.tan(mainGunDispersionTangent);
 		}
-	
-	
-
 	}
 
+	public void setHullStats(String aHull)
+	{
+		if (aHull == null)
+		{
+			return;
+		}
 
+		JSONObject API_JSON = API_HullUpgradeJSONHashMap.get(aHull);
+		String API_module_id_str;
+		String GP_hullKey = null;
+
+		for (int i = 0; i < GPParser.getGameParamsKeySet().size(); i++)
+		{
+			API_module_id_str = (String) API_JSON.get("module_id_str");
+
+			if (GPParser.getGameParamsKeySet().get(i).contains(API_module_id_str))
+			{
+				GP_hullKey = GPParser.getGameParamsKeySet().get(i);
+			}
+		}
+
+		JSONObject module = (JSONObject) ShipUpgradeInfoJSON.get(GP_hullKey);
+		JSONObject components = (JSONObject) module.get("components");
+		JSONArray hull = (JSONArray) components.get("hull");
+
+		int position = 0;
+
+		for (int i = 0; i < API_HullUpgradeNameList.size(); i++)
+		{
+			if (API_HullUpgradeNameList.get(i).contains(aHull))
+			{
+				position = i;
+			}
+		}
+
+		GP_HullJSON = (JSONObject) GPParser.getShipJSON().get(hull.get(hull.size()-1));
+
+		maxRepairCost = (long) GP_HullJSON.get("maxRepairCost");
+
+		maxHP = (double) GP_HullJSON.get("health");
+		rudderShift = (double) GP_HullJSON.get("rudderTime") / 1.3;
+
+		if (GP_HullJSON.get("maxSpeed") instanceof Double)
+		{
+			speed = (double) GP_HullJSON.get("maxSpeed") * speedCoef;
+		}
+		else if (GP_HullJSON.get("maxSpeed") instanceof Long)
+		{
+			speed = (double) (long) GP_HullJSON.get("maxSpeed") * speedCoef;
+		}
+
+		sConceal = (double) GP_HullJSON.get("visibilityFactor");
+		aConceal = (double) GP_HullJSON.get("visibilityFactorByPlane");
+		stealthFireSurfaceDetection = (double) GP_HullJSON.get("visibilityCoefGK");
+		AAFireAirDetection = (double) GP_HullJSON.get("visibilityCoefATBAByPlane");
+
+		JSONArray burnNodes1 = (JSONArray) GP_HullJSON.get("burnNodes");
+		JSONArray burnNodes2 = (JSONArray) burnNodes1.get(0);
+		burnTime = (double) burnNodes2.get(3);
+
+		JSONArray floodParams = (JSONArray) GP_HullJSON.get("floodParams");
+		floodTime = (double) floodParams.get(2);
+
+		//If main turret's barrel diameter is less than 140 mm, turret has AuraFar by default.
+		if (turretBarrelDiameter < 0.140 && GP_TurretJSON != null)
+		{
+			antiAirAuraDistanceFar = (double) GP_TurretJSON.get("antiAirAuraDistance") * 0.03;
+
+			JSONObject AuraFar = (JSONObject) GP_TurretJSON.get("AuraFar");
+			if (AuraFar != null)
+			{
+				JSONArray guns = (JSONArray) AuraFar.get("guns");
+
+				AAFarDPS = (double) GP_TurretJSON.get("antiAirAuraStrength") * guns.size() * 100;
+			}
+
+			AAFarBarrelDiameter = turretBarrelDiameter;
+		}
+		else if (turretBarrelDiameter >= 0.140 || GP_TurretJSON == null)
+		{
+			List<String> ATBAList = new ArrayList<String>();
+
+			ATBAList.addAll(GPParser.getShipJSON().keySet());
+			for (int i = ATBAList.size() - 1; i >= 0; i--)
+			{
+				if (!ATBAList.get(i).toString().matches(".*(ATBA).*"))
+				{
+					ATBAList.remove(i);
+				}
+			}
+			Collections.sort(ATBAList);
+
+			if (ATBAList.size() != 0)
+			{
+				JSONObject ATBA;
+				if (ATBAList.size() == 1)
+				{
+					String ATBAName = ATBAList.get(0);
+					ATBA = (JSONObject) GPParser.getShipJSON().get(ATBAName);
+					secondaryMaxDist = (double) ATBA.get("maxDist");
+				}
+				else if (ATBAList.size() <= position)
+				{
+					String ATBAName = ATBAList.get(ATBAList.size()-1);
+					ATBA = (JSONObject) GPParser.getShipJSON().get(ATBAName);
+					secondaryMaxDist = (double) ATBA.get("maxDist");
+				}
+				else
+				{
+					String ATBAName = ATBAList.get(position);
+					ATBA = (JSONObject) GPParser.getShipJSON().get(ATBAName);
+					secondaryMaxDist = (double) ATBA.get("maxDist");
+				}
+
+				//AA Aura Far
+				if (ATBA.get("AuraFar") != null)
+				{
+					JSONObject AuraFar = (JSONObject) ATBA.get("AuraFar");
+					JSONArray guns = (JSONArray) AuraFar.get("guns");
+					String AAFarGunString = guns.get(0).toString();
+					JSONObject AAFarGun = (JSONObject) ATBA.get(AAFarGunString);
+
+					AAFarBarrelDiameter = (double) AAFarGun.get("barrelDiameter");
+
+					antiAirAuraDistanceFar = (double) AAFarGun.get("antiAirAuraDistance") * 0.03;
+
+					int count = 0;
+					while (count < guns.size())
+					{
+						String tempStr = (String) guns.get(count);
+						JSONObject tempObj = (JSONObject) ATBA.get(tempStr);
+						double dps = (double) tempObj.get("antiAirAuraStrength");
+
+						AAFarDPS = AAFarDPS + dps;
+
+						count++;
+					}
+					AAFarDPS = AAFarDPS * 100;
+				}
+			}
+		}
+
+		List<String> AAMedium = new ArrayList<String>();
+
+		AAMedium.addAll(GPParser.getShipJSON().keySet());
+		for (int i = AAMedium.size() - 1; i >= 0; i--)
+		{
+			if (!AAMedium.get(i).toString().matches(".*(AirDefense).*"))
+			{
+				AAMedium.remove(i);
+			}
+		}
+		Collections.sort(AAMedium);
+
+		if (AAMedium.size() != 0)
+		{
+			String AirDefenseNameMedium = AAMedium.get(position);
+			JSONObject AirDefenseMedium = (JSONObject) GPParser.getShipJSON().get(AirDefenseNameMedium);
+			if (AirDefenseMedium.get("AuraMedium") != null)
+			{
+				JSONObject AuraMedium = null;
+				if (AirDefenseMedium.get("AuraMedium1") != null)
+				{
+					AuraMedium = (JSONObject) AirDefenseMedium.get("AuraMedium1");
+				}
+				else
+				{
+					AuraMedium = (JSONObject) AirDefenseMedium.get("AuraMedium");
+				}
+
+				JSONArray guns = (JSONArray) AuraMedium.get("guns");
+				String AAMediumGunString = guns.get(0).toString();
+				JSONObject AAMediumGun = (JSONObject) AirDefenseMedium.get(AAMediumGunString);
+				antiAirAuraDistanceMedium = (double) AAMediumGun.get("antiAirAuraDistance") * 0.03;
+
+				int count = 0;
+				while (count < guns.size())
+				{
+					String tempStr = (String) guns.get(count);
+					JSONObject tempObj = (JSONObject) AirDefenseMedium.get(tempStr);
+					double dps = (double) tempObj.get("antiAirAuraStrength");
+
+					AAMediumDPS = AAMediumDPS + dps;
+
+					count++;
+				}
+				AAMediumDPS = AAMediumDPS * 100;
+			}
+
+			List<String> AANear = new ArrayList<String>();
+
+			AANear.addAll(GPParser.getShipJSON().keySet());
+			for (int i = AANear.size() - 1; i >= 0; i--)
+			{
+				if (!AANear.get(i).toString().matches(".*(AirDefense).*"))
+				{
+					AANear.remove(i);
+				}
+			}
+			Collections.sort(AANear);
+			String AirDefenseNameNear = AANear.get(position);
+			JSONObject AirDefenseNear = (JSONObject) GPParser.getShipJSON().get(AirDefenseNameNear);
+			if (AirDefenseNear.get("AuraNear") != null)
+			{
+				JSONObject AuraNear = (JSONObject) AirDefenseNear.get("AuraNear");
+				JSONArray guns = (JSONArray) AuraNear.get("guns");
+				String AANearGunString = guns.get(0).toString();
+				JSONObject AANearGun = (JSONObject) AirDefenseNear.get(AANearGunString);
+				antiAirAuraDistanceNear = (double) AANearGun.get("antiAirAuraDistance") * 0.03;
+
+				int count = 0;
+				while (count < guns.size())
+				{
+					String tempStr = (String) guns.get(count);
+					JSONObject tempObj = (JSONObject) AirDefenseNear.get(tempStr);
+					double dps = (double) tempObj.get("antiAirAuraStrength");
+
+					AANearDPS = AANearDPS + dps;
+
+					count++;
+				}
+				AANearDPS = AANearDPS * 100;
+			}
+			else if (AirDefenseMedium.get("AuraMedium1") != null)
+			{
+				JSONObject AuraMedium = (JSONObject) AirDefenseMedium.get("AuraMedium");
+				if (AuraMedium != null)
+				{
+					JSONArray guns = (JSONArray) AuraMedium.get("guns");
+					String AANearGunString = guns.get(0).toString();
+					JSONObject AANearGun = (JSONObject) AirDefenseNear.get(AANearGunString);
+					antiAirAuraDistanceNear = (double) AANearGun.get("antiAirAuraDistance") * 0.03;
+
+					int count = 0;
+					while (count < guns.size())
+					{
+						String tempStr = (String) guns.get(count);
+						JSONObject tempObj = (JSONObject) AirDefenseNear.get(tempStr);
+						double dps = (double) tempObj.get("antiAirAuraStrength");
+
+						AANearDPS = AANearDPS + dps;
+
+						count++;
+					}
+					AANearDPS = AANearDPS * 100;
+				}
+			}
+		}
+	}
+
+	public void setEngineStats(String anEngine)
+	{
+		if (anEngine == null)
+		{
+			return;
+		}
+
+		JSONObject API_JSON = API_EngineUpgradeJSONHashMap.get(anEngine);
+		String API_module_id_str;
+		String GP_engineKey = null;
+
+		for (int i = 0; i < GPParser.getGameParamsKeySet().size(); i++)
+		{
+			API_module_id_str = (String) API_JSON.get("module_id_str");
+
+			if (GPParser.getGameParamsKeySet().get(i).contains(API_module_id_str))
+			{
+				GP_engineKey = GPParser.getGameParamsKeySet().get(i);
+			}
+		}
+
+		JSONObject module = (JSONObject) ShipUpgradeInfoJSON.get(GP_engineKey);
+		JSONObject components = (JSONObject) module.get("components");
+		JSONArray engine = (JSONArray) components.get("engine");
+
+		engineObj = (JSONObject) GPParser.getShipJSON().get(engine.get(0));
+
+		speedCoef = 1 + (double) engineObj.get("speedCoef");
+
+		if (engineObj.get("histEnginePower") instanceof Double)
+		{
+			horsePower = (int) (double) engineObj.get("histEnginePower");
+		}
+		else if (engineObj.get("histEnginePower") instanceof Long)
+		{
+			horsePower = (int) (long) engineObj.get("histEnginePower");
+		}
+		else
+		{
+			horsePower = (int) engineObj.get("histEnginePower");
+		}
+	}
+
+	public void setRadarStats(String aRadar)
+	{
+		if (aRadar == null)
+		{
+			return;
+		}
+
+		JSONObject API_JSON = API_SuoUpgradeJSONHashMap.get(aRadar);
+		String API_module_id_str;
+		String GP_radarKey = null;
+
+		for (int i = 0; i < GPParser.getGameParamsKeySet().size(); i++)
+		{
+			API_module_id_str = (String) API_JSON.get("module_id_str");
+
+			if (GPParser.getGameParamsKeySet().get(i).contains(API_module_id_str))
+			{
+				GP_radarKey = GPParser.getGameParamsKeySet().get(i);
+			}
+		}
+
+		JSONObject module = (JSONObject) ShipUpgradeInfoJSON.get(GP_radarKey);
+		JSONObject components = (JSONObject) module.get("components");
+		JSONArray radar = (JSONArray) components.get("fireControl");
+
+		JSONObject jso4 = (JSONObject) GPParser.getShipJSON().get(radar.get(0));
+		maxDistCoef = (double) jso4.get("maxDistCoef");
+	}
+
+	public void setTorpedoStats(String aTorpedo)
+	{
+		if (aTorpedo == null || aTorpedo.equals("None"))
+		{
+			return;
+		}
+
+		JSONObject API_JSON = API_TorpedoesUpgradeJSONHashMap.get(aTorpedo);
+		String API_module_id_str;
+		String GP_torpedoKey = null;
+
+		for (int i = 0; i < GPParser.getGameParamsKeySet().size(); i++)
+		{
+			API_module_id_str = (String) API_JSON.get("module_id_str");
+
+			if (GPParser.getGameParamsKeySet().get(i).contains(API_module_id_str))
+			{
+				GP_torpedoKey = GPParser.getGameParamsKeySet().get(i);
+			}
+		}
+
+		JSONObject module = (JSONObject) ShipUpgradeInfoJSON.get(GP_torpedoKey);
+		JSONObject components = (JSONObject) module.get("components");
+		JSONArray torpedo = (JSONArray) components.get("torpedoes");
+
+		JSONObject tobj = null;
+		JSONObject tobj2 = null;
+		JSONArray tobj3 = null;
+
+		if (torpedo != null)
+		{
+			tobj = (JSONObject) GPParser.getShipJSON().get(torpedo.get(0));
+		}
+		else
+		{
+			return;
+		}
+
+		if (getNation().equals("germany"))
+		{
+			tobj2 = (JSONObject) tobj.get("HP_GGT_1");
+		}
+		else if (getNation().equals("usa"))
+		{
+			tobj2 = (JSONObject) tobj.get("HP_AGT_1");
+		}
+		else if (getNation().equals("japan"))
+		{
+			if (APIParser.getShip_id_str().contains("PJSC008"))
+			{
+				tobj2 = (JSONObject) tobj.get("HP_JGT_3");
+			}
+			else
+			{
+				tobj2 = (JSONObject) tobj.get("HP_JGT_1");
+			}
+		}
+		else if (getNation().equals("ussr"))
+		{
+			tobj2 = (JSONObject) tobj.get("HP_RGT_1");
+		}
+		else if (getNation().equals("pan_asia"))
+		{
+			tobj2 = (JSONObject) tobj.get("HP_ZGT_1");
+		}
+		else if (getNation().equals("poland"))
+		{
+			tobj2 = (JSONObject) tobj.get("HP_WGT_1");
+		}
+		else if (getNation().equals("uk"))
+		{
+			tobj2 = (JSONObject) tobj.get("HP_BGT_1");
+		}
+
+		torpDiameter = (double) tobj2.get("barrelDiameter");
+
+		if (tobj2.get("numBarrels") instanceof Long)
+		{
+			numTubes = (int) (long) tobj2.get("numBarrels");
+		}
+		else if (tobj2.get("numBarrels") instanceof Double)
+		{
+			numTubes = (int) (double) tobj2.get("numBarrels");
+		}
+		else
+		{
+			numTubes = (int) tobj2.get("numBarrels");
+		}
+
+		numTorpTurrets = tobj.size();
+
+		tobj3 = (JSONArray) tobj2.get("rotationSpeed");
+
+		torpedoRotation = (double) tobj3.get(0);
+		torpedoReload = (double) tobj2.get("shotDelay");
+
+		JSONArray ammoList = (JSONArray) tobj2.get("ammoList");
+		String ammo = (String) ammoList.get(0);
+
+		JSONObject ammoObj = (JSONObject) GPParser.getGameParams().get(ammo);
+		maxTorpedoRange = (double) ammoObj.get("maxDist") * 0.03;
+		torpedoSpeed = (double) ammoObj.get("speed");
+		torpedoVisibilityFactor = (double) ammoObj.get("visibilityFactor");
+	}
+
+	private void setConsumablesList()
+	{
+		JSONObject ShipAbilities = (JSONObject) GPParser.getShipJSON().get("ShipAbilities");
+		JSONObject AbilitySlot0 = (JSONObject) ShipAbilities.get("AbilitySlot0");
+		JSONObject AbilitySlot1 = (JSONObject) ShipAbilities.get("AbilitySlot1");
+		JSONObject AbilitySlot2 = (JSONObject) ShipAbilities.get("AbilitySlot2");
+		JSONObject AbilitySlot3 = (JSONObject) ShipAbilities.get("AbilitySlot3");
+		Abil0 = (JSONArray) AbilitySlot0.get("abils");
+		Abil1 = (JSONArray) AbilitySlot1.get("abils");
+		Abil2 = (JSONArray) AbilitySlot2.get("abils");
+		Abil3 = (JSONArray) AbilitySlot3.get("abils");
+
+		for (int i = 0; i < Abil0.size(); i++) {
+			Ability0.add(Abil0.get(i).get(0).toString());
+		}
+
+		for (int i = 0; i < Abil1.size(); i++)
+		{
+			Ability1.add(Abil1.get(i).get(0).toString());
+		}
+
+		for (int i = 0; i < Abil2.size(); i++)
+		{
+			Ability2.add(Abil2.get(i).get(0).toString());
+		}
+
+		for (int i = 0; i < Abil3.size(); i++)
+		{
+			Ability3.add(Abil3.get(i).get(0).toString());
+		}
+	}
+
+	private void setPermaflage()
+	{
+		JSONArray pf = (JSONArray) GPParser.getShipJSON().get("permoflages");
+
+		if (pf != null)
+		{
+			for (int i = 0; i < pf.size(); i++)
+			{
+				permaflage.add(pf.get(i).toString());
+			}
+		}
+	}
+
+	public void setPermaflage2(String aPermaflage)
+	{
+		JSONObject pf = (JSONObject) GPParser.getGameParams().get(aPermaflage);
+
+		if (pf.get("afterBattleRepair") != null)
+		{
+			afterBattleRepair = (double) pf.get("afterBattleRepair");
+		}
+		else
+		{
+			afterBattleRepair = 1.00;
+		}
+
+		visibilityFactorPermaCamo = (double) pf.get("visibilityFactor");
+		visibilityFactorByPlanePermaCamo = (double) pf.get("visibilityFactorByPlane");
+		expFactorPermaCamo = (double) pf.get("expFactor") - 1;
+	}
 }

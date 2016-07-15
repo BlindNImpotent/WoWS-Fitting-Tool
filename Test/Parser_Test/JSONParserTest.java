@@ -21,6 +21,10 @@ public class JSONParserTest
 		aShipName = "Iowa";
 		JSONParser = new JSON_Parser(aShipName);
 		JSONParser.setTurretStats("406 mm/50 Mk7");
+		JSONParser.setHullStats("Iowa (C)");
+		JSONParser.setEngineStats("Propulsion: 212,000 hp");
+		JSONParser.setRadarStats("Mk9 mod. 2");
+
 	}
 
 	@Test
