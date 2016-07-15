@@ -24,6 +24,7 @@ public class JSON_Parser
 	private GameParams_Parser GPParser;
 	
 	private List<String> NationList = new ArrayList<>();
+	private String nation;
 	private List<String> ShipTypeList = new ArrayList<>();
 	
 	private JSONObject modules_treeJSON;
@@ -34,6 +35,9 @@ public class JSON_Parser
 	private JSONObject ShipUpgradeInfoJSON;
 	private List<String> ShipUpgradeInfoList = new ArrayList<>();
 	private JSONObject GP_ArtilleryJSON;
+	private JSONObject GP_TurretJSON;
+
+
 
 
 	private List<Long> API_UpgradesIDList = new ArrayList<>();
@@ -565,6 +569,8 @@ public class JSON_Parser
 		JSONObject APINations = (JSONObject) APIParser.getAPIJSON().get("ship_nations");
 		NationList.addAll(APINations.values());
 		Collections.sort(NationList);
+
+		nation = (String) APIParser.getShipJSON().get("nation");
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -607,6 +613,36 @@ public class JSON_Parser
 		JSONArray artillery = (JSONArray) components.get("artillery");
 
 		GP_ArtilleryJSON = (JSONObject) GPParser.getShipJSON().get(artillery.get(artillery.size()-1));
+
+		if (nation.equals("usa"))
+		{
+			GP_TurretJSON = (JSONObject) GP_ArtilleryJSON.get("HP_AGM_1");
+		}
+		else if (nation.equals("germany"))
+		{
+			GP_TurretJSON = (JSONObject) GP_ArtilleryJSON.get("HP_GGM_1");
+		}
+		else if (nation.equals("japan"))
+		{
+			GP_TurretJSON = (JSONObject) GP_ArtilleryJSON.get("HP_JGM_1");
+		}
+		else if (nation.equals("ussr"))
+		{
+			GP_TurretJSON = (JSONObject) GP_ArtilleryJSON.get("HP_RGM_1");
+		}
+		else if (nation.equals("uk"))
+		{
+			GP_TurretJSON = (JSONObject) GP_ArtilleryJSON.get("HP_BGM_1");
+		}
+		else if (nation.equals("poland"))
+		{
+			GP_TurretJSON = (JSONObject) GP_ArtilleryJSON.get("HP_WGM_2");
+		}
+		else if (nation.equals("pan_asia"))
+		{
+			GP_TurretJSON = (JSONObject) GP_ArtilleryJSON.get("HP_ZGM_1");
+		}
+
 
 	}
 
