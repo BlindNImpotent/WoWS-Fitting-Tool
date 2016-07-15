@@ -643,6 +643,90 @@ public class JSON_Parser
 			GP_TurretJSON = (JSONObject) GP_ArtilleryJSON.get("HP_ZGM_1");
 		}
 
+		
+		maxMainGunRange = (double) GP_ArtilleryJSON.get("maxDist") * maxDistCoef;
+		
+		sigmaCount = (double) GP_ArtilleryJSON.get("sigmaCount");
+		
+		if (tobj2.get("numBarrels") instanceof Double)
+		{
+			numBarrels = (int) (double) GP_TurretJSON.get("numBarrels");
+		}
+		else if (tobj2.get("numBarrels") instanceof Long)
+		{
+			numBarrels = (int) (long) GP_TurretJSON.get("numBarrels");
+		}
+		else
+		{
+			numBarrels = (int) GP_TurretJSON.get("numBarrels");
+		}
+		
+		List<String> temp = new ArrayList<String>();
+		temp.addAll(GP_ArtilleryJSON.keySet());
+		for (int i = temp.size() - 1; i >= 0; i--)
+		{
+			if (!temp.get(i).contains("HP_"))
+			{
+				temp.remove(i);
+			}				
+		}						
+		numTurrets = temp.size();			
+		
+		turretBarrelDiameter = (double) GP_TurretJSON.get("barrelDiameter");
+		
+		JSONArray ammoList = (JSONArray) GP_TurretJSON.get("ammoList");
+		Collections.sort(ammoList);
+					
+		JSONObject APShell = null;
+		JSONObject HEShell = null;
+		
+		for (int i = 0; i < ammoList.size(); i++)
+		{
+			if (   ammoList.get(i).toString().contains("_AP_") 
+				|| ammoList.get(i).toString().contains("_B")
+										
+					)
+			{
+				APShell = (JSONObject) GPParser.getGameParams().get(ammoList.get(i));	
+			}
+		}
+		for (int i = 0; i < ammoList.size(); i++)
+		{
+			if (	ammoList.get(i).toString().contains("_HE_") 
+				 || ammoList.get(i).toString().contains("_OF")
+					)
+			{
+				HEShell = (JSONObject) GPParser.getGameParams().get(ammoList.get(i));
+			}
+		}
+		
+		JSONArray tobj3;
+					
+		
+		APShellSpeed = (double) APShell.get("bulletSpeed");
+		APShellDMG = (double) APShell.get("alphaDamage");
+		HEShellSpeed = (double) HEShell.get("bulletSpeed");
+		HEShellDMG = (double) HEShell.get("alphaDamage");
+		HEShellBurnProb = (double) HEShell.get("burnProb");
+		
+		tobj3 = (JSONArray) GP_TurretJSON.get("rotationSpeed");
+		mainGunRotation = (double) tobj3.get(0);
+		mainGunReload = (double) GP_TurretJSON.get("shotDelay");
+
+		if (GP_TurretJSON.get("idealRadius") instanceof Double)
+		{
+			mainGunDispersionTangent = (double) GP_TurretJSON.get("idealRadius");
+			mainGunDispersionTangent = Math.toRadians(mainGunDispersionTangent * 0.03);
+			mainGunDispersionTangent = Math.tan(mainGunDispersionTangent);
+		}
+		else if (GP_TurretJSON.get("idealRadius") instanceof Long)
+		{
+			mainGunDispersionTangent = (long) GP_TurretJSON.get("idealRadius");
+			mainGunDispersionTangent = Math.toRadians(mainGunDispersionTangent * 0.03);
+			mainGunDispersionTangent = Math.tan(mainGunDispersionTangent);
+		}
+	
+	
 
 	}
 
