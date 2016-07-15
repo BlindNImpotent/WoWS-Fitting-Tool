@@ -20,7 +20,7 @@ public class JSONParserTest
 	{
 		aShipName = "Iowa";
 		JSONParser = new JSON_Parser(aShipName);
-		JSONParser.setTurretStats2("406 mm/50 Mk7");
+		JSONParser.setTurretStats("406 mm/50 Mk7");
 	}
 
 	@Test

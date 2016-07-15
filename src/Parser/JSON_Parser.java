@@ -1,13 +1,10 @@
 package Parser;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -26,22 +23,22 @@ public class JSON_Parser
 	private API_Parser APIParser;
 	private GameParams_Parser GPParser;
 	
-	private List<String> NationList = new ArrayList<String>();
-	private List<String> ShipTypeList = new ArrayList<String>();
+	private List<String> NationList = new ArrayList<>();
+	private List<String> ShipTypeList = new ArrayList<>();
 	
 	private JSONObject modules_treeJSON;
-	private List<String> modules_treeList = new ArrayList<String>();
-	private List<JSONObject> default_loadouts = new ArrayList<JSONObject>();
-	private List<JSONObject> upgradeModules = new ArrayList<JSONObject>();
+	private List<String> modules_treeList = new ArrayList<>();
+	private List<JSONObject> default_loadouts = new ArrayList<>();
+	private List<JSONObject> upgradeModules = new ArrayList<>();
 	
 	private JSONObject ShipUpgradeInfoJSON;
-	private List<String> ShipUpgradeInfoList = new ArrayList<String>();
+	private List<String> ShipUpgradeInfoList = new ArrayList<>();
 	private JSONObject GP_ArtilleryJSON;
 
 
-	private List<Long> API_UpgradesIDList = new ArrayList<Long>();
+	private List<Long> API_UpgradesIDList = new ArrayList<>();
 	private JSONObject GP_UpgradesJSON;
-	private List<String> UpgradesNameList = new ArrayList<String>();
+	private List<String> UpgradesNameList = new ArrayList<>();
 	private JSONObject ModernizationSlot1;
 	private JSONObject ModernizationSlot2;
 	private JSONObject ModernizationSlot3;
@@ -60,12 +57,12 @@ public class JSON_Parser
 	private List<String> modSlot4 = new ArrayList<>();
 	private List<String> modSlot5 = new ArrayList<>();
 	private List<String> modSlot6 = new ArrayList<>();
-	private LinkedHashMap<String, JSONObject> mods1 = new LinkedHashMap<String, JSONObject>();
-	private LinkedHashMap<String, JSONObject> mods2 = new LinkedHashMap<String, JSONObject>();
-	private LinkedHashMap<String, JSONObject> mods3 = new LinkedHashMap<String, JSONObject>();
-	private LinkedHashMap<String, JSONObject> mods4 = new LinkedHashMap<String, JSONObject>();
-	private LinkedHashMap<String, JSONObject> mods5 = new LinkedHashMap<String, JSONObject>();
-	private LinkedHashMap<String, JSONObject> mods6 = new LinkedHashMap<String, JSONObject>();
+	private LinkedHashMap<String, JSONObject> mods1 = new LinkedHashMap<>();
+	private LinkedHashMap<String, JSONObject> mods2 = new LinkedHashMap<>();
+	private LinkedHashMap<String, JSONObject> mods3 = new LinkedHashMap<>();
+	private LinkedHashMap<String, JSONObject> mods4 = new LinkedHashMap<>();
+	private LinkedHashMap<String, JSONObject> mods5 = new LinkedHashMap<>();
+	private LinkedHashMap<String, JSONObject> mods6 = new LinkedHashMap<>();
 	private List<String> modSlot1Name = new ArrayList<>();
 	private List<String> modSlot2Name = new ArrayList<>();
 	private List<String> modSlot3Name = new ArrayList<>();
@@ -73,96 +70,96 @@ public class JSON_Parser
 	private List<String> modSlot5Name = new ArrayList<>();
 	private List<String> modSlot6Name = new ArrayList<>();
 	
-	private List<JSONObject> API_ArtilleryUpgradeJSONList = new ArrayList<JSONObject>();
-	private List<String> API_ArtilleryUpgradeNameList = new ArrayList<String>();
-	private HashMap<String, JSONObject> API_ArtilleryUpgradeJSONHashMap = new HashMap<String, JSONObject>();
+	private List<JSONObject> API_ArtilleryUpgradeJSONList = new ArrayList<>();
+	private List<String> API_ArtilleryUpgradeNameList = new ArrayList<>();
+	private HashMap<String, JSONObject> API_ArtilleryUpgradeJSONHashMap = new HashMap<>();
 	
-	private List<JSONObject> API_HullUpgradeJSONList = new ArrayList<JSONObject>();
-	private List<String> API_HullUpgradeNameList = new ArrayList<String>();
-	private HashMap<String, JSONObject> API_HullUpgradeJSONHashMap = new HashMap<String, JSONObject>();
+	private List<JSONObject> API_HullUpgradeJSONList = new ArrayList<>();
+	private List<String> API_HullUpgradeNameList = new ArrayList<>();
+	private HashMap<String, JSONObject> API_HullUpgradeJSONHashMap = new HashMap<>();
 	
-	private List<JSONObject> API_EngineUpgradeJSONList = new ArrayList<JSONObject>();
-	private List<String> API_EngineUpgradeNameList = new ArrayList<String>();
-	private HashMap<String, JSONObject> API_EngineUpgradeJSONHashMap = new HashMap<String, JSONObject>();
+	private List<JSONObject> API_EngineUpgradeJSONList = new ArrayList<>();
+	private List<String> API_EngineUpgradeNameList = new ArrayList<>();
+	private HashMap<String, JSONObject> API_EngineUpgradeJSONHashMap = new HashMap<>();
 	
-	private List<JSONObject> API_SuoUpgradeJSONList = new ArrayList<JSONObject>();
-	private List<String> API_SuoUpgradeNameList = new ArrayList<String>();
-	private HashMap<String, JSONObject> API_SuoUpgradeJSONHashMap = new HashMap<String, JSONObject>();
+	private List<JSONObject> API_SuoUpgradeJSONList = new ArrayList<>();
+	private List<String> API_SuoUpgradeNameList = new ArrayList<>();
+	private HashMap<String, JSONObject> API_SuoUpgradeJSONHashMap = new HashMap<>();
 	
-	private List<JSONObject> API_TorpedoesUpgradeJSONList = new ArrayList<JSONObject>();
-	private List<String> API_TorpedoesUpgradeNameList = new ArrayList<String>();
-	private HashMap<String, JSONObject> API_TorpedoesUpgradeJSONHashMap = new HashMap<String, JSONObject>();
+	private List<JSONObject> API_TorpedoesUpgradeJSONList = new ArrayList<>();
+	private List<String> API_TorpedoesUpgradeNameList = new ArrayList<>();
+	private HashMap<String, JSONObject> API_TorpedoesUpgradeJSONHashMap = new HashMap<>();
 	
-	private List<JSONObject> USA_AirCarrierJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> USA_BattleshipJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> USA_CruiserJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> USA_DestroyerJSONList = new ArrayList<JSONObject>();
+	private List<JSONObject> USA_AirCarrierJSONList = new ArrayList<>();
+	private List<JSONObject> USA_BattleshipJSONList = new ArrayList<>();
+	private List<JSONObject> USA_CruiserJSONList = new ArrayList<>();
+	private List<JSONObject> USA_DestroyerJSONList = new ArrayList<>();
 	
-	private List<JSONObject> Japan_AirCarrierJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> Japan_BattleshipJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> Japan_CruiserJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> Japan_DestroyerJSONList = new ArrayList<JSONObject>();
+	private List<JSONObject> Japan_AirCarrierJSONList = new ArrayList<>();
+	private List<JSONObject> Japan_BattleshipJSONList = new ArrayList<>();
+	private List<JSONObject> Japan_CruiserJSONList = new ArrayList<>();
+	private List<JSONObject> Japan_DestroyerJSONList = new ArrayList<>();
 	
-	private List<JSONObject> USSR_AirCarrierJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> USSR_BattleshipJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> USSR_CruiserJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> USSR_DestroyerJSONList = new ArrayList<JSONObject>();
+	private List<JSONObject> USSR_AirCarrierJSONList = new ArrayList<>();
+	private List<JSONObject> USSR_BattleshipJSONList = new ArrayList<>();
+	private List<JSONObject> USSR_CruiserJSONList = new ArrayList<>();
+	private List<JSONObject> USSR_DestroyerJSONList = new ArrayList<>();
 	
-	private List<JSONObject> Germany_AirCarrierJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> Germany_BattleshipJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> Germany_CruiserJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> Germany_DestroyerJSONList = new ArrayList<JSONObject>();
+	private List<JSONObject> Germany_AirCarrierJSONList = new ArrayList<>();
+	private List<JSONObject> Germany_BattleshipJSONList = new ArrayList<>();
+	private List<JSONObject> Germany_CruiserJSONList = new ArrayList<>();
+	private List<JSONObject> Germany_DestroyerJSONList = new ArrayList<>();
 	
-	private List<JSONObject> France_AirCarrierJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> France_BattleshipJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> France_CruiserJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> France_DestroyerJSONList = new ArrayList<JSONObject>();
+	private List<JSONObject> France_AirCarrierJSONList = new ArrayList<>();
+	private List<JSONObject> France_BattleshipJSONList = new ArrayList<>();
+	private List<JSONObject> France_CruiserJSONList = new ArrayList<>();
+	private List<JSONObject> France_DestroyerJSONList = new ArrayList<>();
 	
-	private List<JSONObject> UK_AirCarrierJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> UK_BattleshipJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> UK_CruiserJSONList = new ArrayList<JSONObject>();
-	private List<JSONObject> UK_DestroyerJSONList = new ArrayList<JSONObject>();
+	private List<JSONObject> UK_AirCarrierJSONList = new ArrayList<>();
+	private List<JSONObject> UK_BattleshipJSONList = new ArrayList<>();
+	private List<JSONObject> UK_CruiserJSONList = new ArrayList<>();
+	private List<JSONObject> UK_DestroyerJSONList = new ArrayList<>();
 	
-	private List<JSONObject> Poland_DestroyerJSONList = new ArrayList<JSONObject>();
+	private List<JSONObject> Poland_DestroyerJSONList = new ArrayList<>();
 	
-	private List<JSONObject> Pan_Asia_DestroyerJSONList = new ArrayList<JSONObject>();
+	private List<JSONObject> Pan_Asia_DestroyerJSONList = new ArrayList<>();
 	
-	private List<String> USA_AirCarrierNameList = new ArrayList<String>();
-	private List<String> USA_BattleshipNameList = new ArrayList<String>();
-	private List<String> USA_CruiserNameList = new ArrayList<String>();
-	private List<String> USA_DestroyerNameList = new ArrayList<String>();
+	private List<String> USA_AirCarrierNameList = new ArrayList<>();
+	private List<String> USA_BattleshipNameList = new ArrayList<>();
+	private List<String> USA_CruiserNameList = new ArrayList<>();
+	private List<String> USA_DestroyerNameList = new ArrayList<>();
 	
-	private List<String> Japan_AirCarrierNameList = new ArrayList<String>();
-	private List<String> Japan_BattleshipNameList = new ArrayList<String>();
-	private List<String> Japan_CruiserNameList = new ArrayList<String>();
-	private List<String> Japan_DestroyerNameList = new ArrayList<String>();
+	private List<String> Japan_AirCarrierNameList = new ArrayList<>();
+	private List<String> Japan_BattleshipNameList = new ArrayList<>();
+	private List<String> Japan_CruiserNameList = new ArrayList<>();
+	private List<String> Japan_DestroyerNameList = new ArrayList<>();
 	
-	private List<String> USSR_AirCarrierNameList = new ArrayList<String>();
-	private List<String> USSR_BattleshipNameList = new ArrayList<String>();
-	private List<String> USSR_CruiserNameList = new ArrayList<String>();
-	private List<String> USSR_DestroyerNameList = new ArrayList<String>();
+	private List<String> USSR_AirCarrierNameList = new ArrayList<>();
+	private List<String> USSR_BattleshipNameList = new ArrayList<>();
+	private List<String> USSR_CruiserNameList = new ArrayList<>();
+	private List<String> USSR_DestroyerNameList = new ArrayList<>();
 	
-	private List<String> Germany_AirCarrierNameList = new ArrayList<String>();
-	private List<String> Germany_BattleshipNameList = new ArrayList<String>();
-	private List<String> Germany_CruiserNameList = new ArrayList<String>();
-	private List<String> Germany_DestroyerNameList = new ArrayList<String>();
+	private List<String> Germany_AirCarrierNameList = new ArrayList<>();
+	private List<String> Germany_BattleshipNameList = new ArrayList<>();
+	private List<String> Germany_CruiserNameList = new ArrayList<>();
+	private List<String> Germany_DestroyerNameList = new ArrayList<>();
 	
-	private List<String> France_AirCarrierNameList = new ArrayList<String>();
-	private List<String> France_BattleshipNameList = new ArrayList<String>();
-	private List<String> France_CruiserNameList = new ArrayList<String>();
-	private List<String> France_DestroyerNameList = new ArrayList<String>();
+	private List<String> France_AirCarrierNameList = new ArrayList<>();
+	private List<String> France_BattleshipNameList = new ArrayList<>();
+	private List<String> France_CruiserNameList = new ArrayList<>();
+	private List<String> France_DestroyerNameList = new ArrayList<>();
 	
-	private List<String> UK_AirCarrierNameList = new ArrayList<String>();
-	private List<String> UK_BattleshipNameList = new ArrayList<String>();
-	private List<String> UK_CruiserNameList = new ArrayList<String>();
-	private List<String> UK_DestroyerNameList = new ArrayList<String>();
+	private List<String> UK_AirCarrierNameList = new ArrayList<>();
+	private List<String> UK_BattleshipNameList = new ArrayList<>();
+	private List<String> UK_CruiserNameList = new ArrayList<>();
+	private List<String> UK_DestroyerNameList = new ArrayList<>();
 	
-	private List<String> Poland_DestroyerNameList = new ArrayList<String>();
+	private List<String> Poland_DestroyerNameList = new ArrayList<>();
 	
-	private List<String> Pan_Asia_DestroyerNameList = new ArrayList<String>();
+	private List<String> Pan_Asia_DestroyerNameList = new ArrayList<>();
 	
 	
-	public JSON_Parser(String aShipName) throws FileNotFoundException, IOException, ParseException
+	public JSON_Parser(String aShipName) throws IOException, ParseException
 	{
 		APIParser = new API_Parser(aShipName);
 		GPParser = new GameParams_Parser(APIParser.getShip_id_str());
@@ -379,15 +376,15 @@ public class JSON_Parser
 		USA_CruiserJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));
 		USA_DestroyerJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));				
 		
-		USA_AirCarrierJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
-		USA_BattleshipJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
-		USA_CruiserJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
-		USA_DestroyerJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
+		USA_AirCarrierJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo((long) o2.get("tier"))));
+		USA_BattleshipJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo((long) o2.get("tier"))));
+		USA_CruiserJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo((long) o2.get("tier"))));
+		USA_DestroyerJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo((long) o2.get("tier"))));
 		
-		USA_AirCarrierJSONList.stream().forEach((USA_AirCarrier -> USA_AirCarrierNameList.add((String) USA_AirCarrier.get("name"))));
-		USA_BattleshipJSONList.stream().forEach((USA_Battleship -> USA_BattleshipNameList.add((String) USA_Battleship.get("name"))));
-		USA_CruiserJSONList.stream().forEach((USA_Cruiser -> USA_CruiserNameList.add((String) USA_Cruiser.get("name"))));
-		USA_DestroyerJSONList.stream().forEach((USA_Destroyer -> USA_DestroyerNameList.add((String) USA_Destroyer.get("name"))));
+		USA_AirCarrierJSONList.forEach((USA_AirCarrier -> USA_AirCarrierNameList.add((String) USA_AirCarrier.get("name"))));
+		USA_BattleshipJSONList.forEach((USA_Battleship -> USA_BattleshipNameList.add((String) USA_Battleship.get("name"))));
+		USA_CruiserJSONList.forEach((USA_Cruiser -> USA_CruiserNameList.add((String) USA_Cruiser.get("name"))));
+		USA_DestroyerJSONList.forEach((USA_Destroyer -> USA_DestroyerNameList.add((String) USA_Destroyer.get("name"))));
 		
 		//USSR
 		USSR_AirCarrierJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));
@@ -400,10 +397,10 @@ public class JSON_Parser
 		USSR_CruiserJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
 		USSR_DestroyerJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
 		
-		USSR_AirCarrierJSONList.stream().forEach((USSR_AirCarrier -> USSR_AirCarrierNameList.add((String) USSR_AirCarrier.get("name"))));
-		USSR_BattleshipJSONList.stream().forEach((USSR_Battleship -> USSR_BattleshipNameList.add((String) USSR_Battleship.get("name"))));
-		USSR_CruiserJSONList.stream().forEach((USSR_Cruiser -> USSR_CruiserNameList.add((String) USSR_Cruiser.get("name"))));
-		USSR_DestroyerJSONList.stream().forEach((USSR_Destroyer -> USSR_DestroyerNameList.add((String) USSR_Destroyer.get("name"))));
+		USSR_AirCarrierJSONList.forEach((USSR_AirCarrier -> USSR_AirCarrierNameList.add((String) USSR_AirCarrier.get("name"))));
+		USSR_BattleshipJSONList.forEach((USSR_Battleship -> USSR_BattleshipNameList.add((String) USSR_Battleship.get("name"))));
+		USSR_CruiserJSONList.forEach((USSR_Cruiser -> USSR_CruiserNameList.add((String) USSR_Cruiser.get("name"))));
+		USSR_DestroyerJSONList.forEach((USSR_Destroyer -> USSR_DestroyerNameList.add((String) USSR_Destroyer.get("name"))));
 		
 		//Japan
 		Japan_AirCarrierJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));
@@ -416,10 +413,10 @@ public class JSON_Parser
 		Japan_CruiserJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
 		Japan_DestroyerJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
 		
-		Japan_AirCarrierJSONList.stream().forEach((Japan_AirCarrier -> Japan_AirCarrierNameList.add((String) Japan_AirCarrier.get("name"))));
-		Japan_BattleshipJSONList.stream().forEach((Japan_Battleship -> Japan_BattleshipNameList.add((String) Japan_Battleship.get("name"))));
-		Japan_CruiserJSONList.stream().forEach((Japan_Cruiser -> Japan_CruiserNameList.add((String) Japan_Cruiser.get("name"))));
-		Japan_DestroyerJSONList.stream().forEach((Japan_Destroyer -> Japan_DestroyerNameList.add((String) Japan_Destroyer.get("name"))));
+		Japan_AirCarrierJSONList.forEach((Japan_AirCarrier -> Japan_AirCarrierNameList.add((String) Japan_AirCarrier.get("name"))));
+		Japan_BattleshipJSONList.forEach((Japan_Battleship -> Japan_BattleshipNameList.add((String) Japan_Battleship.get("name"))));
+		Japan_CruiserJSONList.forEach((Japan_Cruiser -> Japan_CruiserNameList.add((String) Japan_Cruiser.get("name"))));
+		Japan_DestroyerJSONList.forEach((Japan_Destroyer -> Japan_DestroyerNameList.add((String) Japan_Destroyer.get("name"))));
 		
 		//Germany
 		Germany_AirCarrierJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));
@@ -432,10 +429,10 @@ public class JSON_Parser
 		Germany_CruiserJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
 		Germany_DestroyerJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
 		
-		Germany_AirCarrierJSONList.stream().forEach((Germany_AirCarrier -> Germany_AirCarrierNameList.add((String) Germany_AirCarrier.get("name"))));
-		Germany_BattleshipJSONList.stream().forEach((Germany_Battleship -> Germany_BattleshipNameList.add((String) Germany_Battleship.get("name"))));
-		Germany_CruiserJSONList.stream().forEach((Germany_Cruiser -> Germany_CruiserNameList.add((String) Germany_Cruiser.get("name"))));
-		Germany_DestroyerJSONList.stream().forEach((Germany_Destroyer -> Germany_DestroyerNameList.add((String) Germany_Destroyer.get("name"))));
+		Germany_AirCarrierJSONList.forEach((Germany_AirCarrier -> Germany_AirCarrierNameList.add((String) Germany_AirCarrier.get("name"))));
+		Germany_BattleshipJSONList.forEach((Germany_Battleship -> Germany_BattleshipNameList.add((String) Germany_Battleship.get("name"))));
+		Germany_CruiserJSONList.forEach((Germany_Cruiser -> Germany_CruiserNameList.add((String) Germany_Cruiser.get("name"))));
+		Germany_DestroyerJSONList.forEach((Germany_Destroyer -> Germany_DestroyerNameList.add((String) Germany_Destroyer.get("name"))));
 				
 		//France
 		France_AirCarrierJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));
@@ -448,10 +445,10 @@ public class JSON_Parser
 		France_CruiserJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
 		France_DestroyerJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
 		
-		France_AirCarrierJSONList.stream().forEach((France_AirCarrier -> France_AirCarrierNameList.add((String) France_AirCarrier.get("name"))));
-		France_BattleshipJSONList.stream().forEach((France_Battleship -> France_BattleshipNameList.add((String) France_Battleship.get("name"))));
-		France_CruiserJSONList.stream().forEach((France_Cruiser -> France_CruiserNameList.add((String) France_Cruiser.get("name"))));
-		France_DestroyerJSONList.stream().forEach((France_Destroyer -> France_DestroyerNameList.add((String) France_Destroyer.get("name"))));
+		France_AirCarrierJSONList.forEach((France_AirCarrier -> France_AirCarrierNameList.add((String) France_AirCarrier.get("name"))));
+		France_BattleshipJSONList.forEach((France_Battleship -> France_BattleshipNameList.add((String) France_Battleship.get("name"))));
+		France_CruiserJSONList.forEach((France_Cruiser -> France_CruiserNameList.add((String) France_Cruiser.get("name"))));
+		France_DestroyerJSONList.forEach((France_Destroyer -> France_DestroyerNameList.add((String) France_Destroyer.get("name"))));
 
 		//UK
 		UK_AirCarrierJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));
@@ -464,16 +461,18 @@ public class JSON_Parser
 		UK_CruiserJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
 		UK_DestroyerJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
 		
-		UK_AirCarrierJSONList.stream().forEach((UK_AirCarrier -> UK_AirCarrierNameList.add((String) UK_AirCarrier.get("name"))));
-		UK_BattleshipJSONList.stream().forEach((UK_Battleship -> UK_BattleshipNameList.add((String) UK_Battleship.get("name"))));
-		UK_CruiserJSONList.stream().forEach((UK_Cruiser -> UK_CruiserNameList.add((String) UK_Cruiser.get("name"))));
-		UK_DestroyerJSONList.stream().forEach((UK_Destroyer -> UK_DestroyerNameList.add((String) UK_Destroyer.get("name"))));
+		UK_AirCarrierJSONList.forEach((UK_AirCarrier -> UK_AirCarrierNameList.add((String) UK_AirCarrier.get("name"))));
+		UK_BattleshipJSONList.forEach((UK_Battleship -> UK_BattleshipNameList.add((String) UK_Battleship.get("name"))));
+		UK_CruiserJSONList.forEach((UK_Cruiser -> UK_CruiserNameList.add((String) UK_Cruiser.get("name"))));
+		UK_DestroyerJSONList.forEach((UK_Destroyer -> UK_DestroyerNameList.add((String) UK_Destroyer.get("name"))));
 		
 		//Poland
 		Poland_DestroyerJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
-		
+		Poland_DestroyerJSONList.forEach((Poland_Destroyer -> Poland_DestroyerNameList.add((String) Poland_Destroyer.get("name"))));
+
 		//Pan_Asia
-		Pan_Asia_DestroyerJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));		
+		Pan_Asia_DestroyerJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo(Long.valueOf((long) o2.get("tier")))));
+		Pan_Asia_DestroyerJSONList.forEach((Pan_Asia_Destroyer -> Pan_Asia_DestroyerNameList.add((String) Pan_Asia_Destroyer.get("name"))));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -581,7 +580,7 @@ public class JSON_Parser
 		
 	}
 
-	public void setTurretStats2(String aTurret)
+	public void setTurretStats(String aTurret)
 	{
 		if (aTurret == null)
 		{
