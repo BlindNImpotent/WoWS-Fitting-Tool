@@ -607,7 +607,7 @@ public class JSON_Parser
 		JSONObject components = (JSONObject) module.get("components");
 		JSONArray artillery = (JSONArray) components.get("artillery");
 
-		GP_ArtilleryJSON = (JSONObject) GPParser.getShipJSON().get(artillery.get(0));
+		GP_ArtilleryJSON = (JSONObject) GPParser.getShipJSON().get(artillery.get(artillery.size()-1));
 
 	}
 
