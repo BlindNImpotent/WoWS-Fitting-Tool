@@ -83,8 +83,8 @@ public class Calculate
 				calc.calcGunFireControlSystemMod2();
 			}
 			else if (mod1.equals("Torpedo_Mod_III"))
-			{
-				
+			{	
+				calc.calcTorpedoTubesModificationMod3();
 			}
 			else if (mod1.equals("DamageControl_Mod_I"))
 			{

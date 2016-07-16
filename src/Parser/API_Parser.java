@@ -29,7 +29,7 @@ public class API_Parser
 	private JSONObject APIJSON;	
 	private JSONObject APIShipsJSON;
 		
-	private List<JSONObject> APIShipJSONList = new ArrayList<JSONObject>();
+	private List<JSONObject> APIShipsJSONList = new ArrayList<JSONObject>();
 	private JSONObject shipJSON;
 	
 	private String ship_id_str;
@@ -45,13 +45,13 @@ public class API_Parser
 	@SuppressWarnings("unchecked")
 	private void setShipJSON(String aShipName)
 	{				
-		APIShipJSONList.addAll(APIShipsJSON.values());
+		APIShipsJSONList.addAll(APIShipsJSON.values());
 			
-		for (int i = 0; i < APIShipJSONList.size(); i++)
+		for (int i = 0; i < APIShipsJSONList.size(); i++)
 		{
-			if (APIShipJSONList.get(i).containsValue(aShipName))
+			if (APIShipsJSONList.get(i).containsValue(aShipName))
 			{
-				shipJSON = APIShipJSONList.get(i);	
+				shipJSON = APIShipsJSONList.get(i);	
 				ship_id_str = (String) shipJSON.get("ship_id_str");
 				break;
 			}	

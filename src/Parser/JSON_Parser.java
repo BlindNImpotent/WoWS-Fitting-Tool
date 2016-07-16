@@ -327,10 +327,10 @@ public class JSON_Parser
 	
 	private void setShipsJSONAndName()
 	{
-		List<JSONObject> APIJSONList = (List<JSONObject>) APIParser.getAPIShipJSONList();
+		List<JSONObject> APIJSONList = (List<JSONObject>) APIParser.getAPIShipsJSONList();
 		JSONObject APIJSON;
 		
-		for (int i = 0; i < APIParser.getAPIShipJSONList().size(); i++)
+		for (int i = 0; i < APIParser.getAPIShipsJSONList().size(); i++)
 		{	
 			APIJSON = (JSONObject) APIJSONList.get(i);
 			

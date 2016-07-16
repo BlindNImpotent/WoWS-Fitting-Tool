@@ -35,7 +35,7 @@ public class Controller
 	ActionListener SearchListener = new ActionListener()
 	{		
 		public void actionPerformed(ActionEvent ae)
-		{
+		{			
 			Calc answer = null;
 			try 
 			{					
@@ -62,6 +62,10 @@ public class Controller
 			view.setEngineBox(answer.getEngineList());
 			view.setRadarBox(answer.getRadarList());
 			view.setTorpedoBox(answer.getTorpedoList());			
+			
+			
+			
+			
 		}		
 	};
 
@@ -244,6 +248,7 @@ public class Controller
 			view.setExpFactor(answer.getExpFactor());
 			view.setCaptainExpFactor(answer.getCaptainExpFactor());
 			
+			view.setConsume1Count(answer.getConsume1Count());
 			view.setConsume2Count(answer.getConsume2Count());
 			view.setConsume3Count(answer.getConsume3Count());
 			view.setConsume4Count(answer.getConsume4Count());

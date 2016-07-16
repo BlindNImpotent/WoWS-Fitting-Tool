@@ -82,6 +82,7 @@ public class Calc
 	
 	private List<String> flags = new ArrayList<String>();
 	
+	private int count1;
 	private int count2;
 	private int count3;
 	private int count4;
@@ -288,27 +289,6 @@ public class Calc
 		
 	}
 	
-	public void calcArtilleryPlottingRoomMod2US() //Slot 3
-	{
-		//"PCM029_FireControl_Mod_II_US"
-		JSONObject APR2 = (JSONObject) jsp.getGameParams().get("PCM029_FireControl_Mod_II_US");
-		double GMIdealRadius = (double) APR2.get("GMIdealRadius");
-		
-		mainGunDispersionRange = mainGunDispersionRange * GMIdealRadius;
-	}
-	
-	/**
-	 * 
-	 */
-	public void calcGunFireControlSystemMod2() //Slot 3
-	{
-		//PCM015_FireControl_Mod_II
-		JSONObject GFCSM2 = (JSONObject) jsp.getGameParams().get("PCM015_FireControl_Mod_II");
-		double GMMaxDist = (double) GFCSM2.get("GMMaxDist");
-		
-		maxMainGunRange = maxMainGunRange * GMMaxDist;
-	}
-	
 	/**
 	 * 
 	 */
@@ -321,6 +301,31 @@ public class Calc
 				
 		mainGunReload = mainGunReload * GMShotDelay;
 		mainGunRotation = mainGunRotation * GMRotationSpeed;
+	}
+	
+	public void calcTorpedoTubesModificationMod3() // Slot 3
+	{
+		//"PCM014_Torpedo_Mod_III"
+		JSONObject TTMM3 = (JSONObject) jsp.getGameParams().get("PCM014_Torpedo_Mod_III");
+		double GTCritProb = (double) TTMM3.get("GTCritProb");
+		double GTShotDelay = (double) TTMM3.get("GTShotDelay");
+		
+		torpedoReload = torpedoReload * GTShotDelay;
+		
+		
+		
+	}
+	
+	/**
+	 * 
+	 */
+	public void calcGunFireControlSystemMod2() //Slot 3
+	{
+		//PCM015_FireControl_Mod_II
+		JSONObject GFCSM2 = (JSONObject) jsp.getGameParams().get("PCM015_FireControl_Mod_II");
+		double GMMaxDist = (double) GFCSM2.get("GMMaxDist");
+		
+		maxMainGunRange = maxMainGunRange * GMMaxDist;
 	}
 	
 	/**
@@ -346,6 +351,15 @@ public class Calc
 		
 		
 		
+	}
+	
+	public void calcArtilleryPlottingRoomMod2US() //Slot 3
+	{
+		//"PCM029_FireControl_Mod_II_US"
+		JSONObject APR2 = (JSONObject) jsp.getGameParams().get("PCM029_FireControl_Mod_II_US");
+		double GMIdealRadius = (double) APR2.get("GMIdealRadius");
+		
+		mainGunDispersionRange = mainGunDispersionRange * GMIdealRadius;
 	}
 	
 	public void calcDamageControlSystemMod1() //Slot 4
@@ -530,6 +544,7 @@ public class Calc
 	
 	public void calcSuperintendent() // Skill 3
 	{
+		count1 = count1 + 1;
 		count2 = count2 + 1;
 		count3 = count3 + 1;
 		count4 = count4 + 1;
@@ -1445,6 +1460,7 @@ public class Calc
 			{
 				JSONObject a2 = (JSONObject) jsp.getGameParams().get(consumable);
 				JSONObject a3 = (JSONObject) a2.get(a1.get(1));
+				count1 = count1 + (int) (long) a3.get("numConsumables");
 				reloadTime1 = (double) a3.get("reloadTime");
 			}
 		}
@@ -1536,6 +1552,11 @@ public class Calc
 				reloadTime4 = (double) a3.get("reloadTime");
 			}
 		}
+	}
+	
+	public int getConsume1Count()
+	{
+		return count1;
 	}
 	
 	public int getConsume2Count()
