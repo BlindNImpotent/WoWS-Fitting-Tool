@@ -65,7 +65,63 @@ public class Controller
 			
 			
 			
+			view.setExpFactor(answer.getExpFactor());
+			view.setCaptainExpFactor(answer.getCaptainExpFactor());
 			
+			view.setConsume1Count(answer.getConsume1Count());
+			view.setConsume2Count(answer.getConsume2Count());
+			view.setConsume3Count(answer.getConsume3Count());
+			view.setConsume4Count(answer.getConsume4Count());
+			view.setConsume1Reload(answer.getConsume1Reload());
+			view.setConsume2Reload(answer.getConsume2Reload());
+			view.setConsume3Reload(answer.getConsume3Reload());
+			view.setConsume4Reload(answer.getConsume4Reload());
+			
+			view.setTier(answer.getTier());
+			view.setShipType(answer.getShipType());
+			view.setMaxRepairCost(answer.getMaxRepairCost());
+			view.setHealth(answer.getHealth());
+			view.setSpeed(answer.getSpeed());
+			view.setHorsePower(answer.getHorsePower());
+			view.setRudderShift(answer.getRudderShift());
+			view.setSConceal(answer.getSConceal());
+			view.setAConceal(answer.getAConceal());
+			view.setStealthFireRange(answer.getSConceal() + answer.getStealthFireSurfaceDetection());
+			view.setAAFireAirDetection(answer.getAConceal() + answer.getAAFireAirDetection());
+			
+			view.setTurretBarrelDiameter(answer.getTurretBarrelDiameter());
+			view.setMGRange(answer.getMaxMainGunRange());
+			view.setMGReload(answer.getMainGunReload());
+			view.setMGDegs(answer.getMainGunRotation());
+			view.setMGTime(answer.getMainGunRotationTime());
+			view.setMGDispersion(answer.getMainGunDispersionRange());
+			view.setSigmaCount(answer.getSigmaCount());
+			view.setAPShellSpeed(answer.getAPShellSpeed());
+			view.setAPShellDMG(answer.getAPShellDMG());
+			view.setHEShellSpeed(answer.getHEShellSpeed());
+			view.setHEShellDMG(answer.getHEShellDMG());
+			view.setHEShellBurnProb(answer.getHEShellBurnProb());
+			view.setNumBarrels(answer.getNumTurrets(), answer.getNumBarrels());
+			
+			view.setSecondaryMaxDist(answer.getSecondaryMaxDist());
+			
+			view.setTorpDiameter(answer.getTorpDiameter());
+			view.setTubeCount(answer.getTorpTurrets(), answer.getTorpTubes());
+			view.setTorpRange(answer.getMaxTorpedoRange());
+			view.setTorpReload(answer.getTorpedoReload());
+			view.setTorpSpeed(answer.getTorpedoSpeed());
+			view.setTorpedoVisibilityFactor(answer.getTorpedoVisibilityFactor());
+			
+			view.setFloodTime(answer.getFloodTime());
+			view.setBurnTime(answer.getBurnTime());
+			
+			view.setAARangeFar(answer.getAntiAirAuraDistanceFar());
+			view.setAARangeMedium(answer.getAntiAirAuraDistanceMedium());
+			view.setAARangeNear(answer.getAntiAirAuraDistanceNear());			
+			
+			view.setAAFarDPS(answer.getAAFarDPS());
+			view.setAAMediumDPS(answer.getAAMediumDPS());
+			view.setAANearDPS(answer.getAANearDPS());
 		}		
 	};
 

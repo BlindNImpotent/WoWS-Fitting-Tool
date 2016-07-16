@@ -1,9 +1,12 @@
 package Parser;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,7 +39,9 @@ public class API_Parser
 	
 	public API_Parser(String aShipName) throws FileNotFoundException, IOException, ParseException
 	{
-		APIJSON = (JSONObject) JSONParser.parse(new FileReader(APIFile));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("API.json"),"UTF8"));		
+		
+		APIJSON = (JSONObject) JSONParser.parse(reader);
 		APIShipsJSON = (JSONObject) APIJSON.get("ships");
 		
 		setShipJSON(aShipName);	
