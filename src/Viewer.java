@@ -1668,14 +1668,7 @@ public class Viewer extends JFrame
 			{
 				comboBoxCamouflage.addItem(aList.get(i));
 			}
-		}
-		
-		comboBoxCamouflage.addItem("Type 1");
-		comboBoxCamouflage.addItem("Type 2");
-		comboBoxCamouflage.addItem("Type 3");
-		comboBoxCamouflage.addItem("Type 5");
-		comboBoxCamouflage.addItem("Type 6");
-		
+		}		
 	}
 	
 	public String getCamouflageBox()

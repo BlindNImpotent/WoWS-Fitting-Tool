@@ -382,32 +382,8 @@ public class Calculate
 		
 		if (!camouflage.equals("None"))
 		{
-			if (camouflage.equals("Type 1"))
-			{
-				calc.calcType1Camo();
-			}
-			else if (camouflage.equals("Type 2"))
-			{
-				
-			}
-			else if (camouflage.equals("Type 3"))
-			{
-				calc.calcType3Camo();
-			}
-			else if (camouflage.equals("Type 5"))
-			{
-				calc.calcType5Camo();
-			}
-			else if (camouflage.equals("Type 6"))
-			{
-				calc.calcType6Camo();
-			}
-			else
-			{
-				calc.setPermaflage2(camouflage);
-				calc.calcPermaflage();
-			}
-			
+			calc.setPermaflage2(camouflage);
+			calc.calcPermaflage();
 		}		
 		
 		if (JY2 == true)

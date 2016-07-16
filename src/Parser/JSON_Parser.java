@@ -100,8 +100,6 @@ public class JSON_Parser
 	private List<String> Ability2 = new ArrayList<String>();
 	private List<String> Ability3 = new ArrayList<String>();
 
-	private List<String> permaflage = new ArrayList<String>();
-
 	private double afterBattleRepair;
 	private double visibilityFactorPermaCamo;
 	private double visibilityFactorByPlanePermaCamo;
@@ -141,6 +139,12 @@ public class JSON_Parser
 	private List<String> modSlot4Name = new ArrayList<>();
 	private List<String> modSlot5Name = new ArrayList<>();
 	private List<String> modSlot6Name = new ArrayList<>();
+	
+	private List<String> permaflage = new ArrayList<>();
+	private HashMap<String, JSONObject> permaflageHashMap = new HashMap<>();	
+	
+	private List<JSONObject> CamouflageJSONList = new ArrayList<>();
+	private List<String> CamouflageNameList = new ArrayList<>();	
 	
 	private List<JSONObject> API_ArtilleryUpgradeJSONList = new ArrayList<>();
 	private List<String> API_ArtilleryUpgradeNameList = new ArrayList<>();
@@ -244,8 +248,8 @@ public class JSON_Parser
 		setUpgrades();
 		setNationList();
 		setShipTypeList();
-		setCamouflageAndFlags();
 		setPermaflage();
+		//setCamouflage();
 		setConsumablesList();
 
 		if (GPParser.getShipJSON().get("level") instanceof Long)
@@ -678,12 +682,8 @@ public class JSON_Parser
 		ShipTypeList.addAll(APIShipType.keySet());
 		Collections.sort(ShipTypeList);
 	}
-	
-	private void setCamouflageAndFlags()
-	{
-		
-	}
 
+	@SuppressWarnings("unchecked")
 	public void setTurretStats(String aTurret)
 	{
 		if (aTurret == null)
@@ -1249,6 +1249,7 @@ public class JSON_Parser
 		torpedoVisibilityFactor = (double) ammoObj.get("visibilityFactor");
 	}
 
+	@SuppressWarnings("unchecked")
 	private void setConsumablesList()
 	{
 		JSONObject ShipAbilities = (JSONObject) GPParser.getShipJSON().get("ShipAbilities");
@@ -1280,24 +1281,52 @@ public class JSON_Parser
 			Ability3.add(Abil3.get(i).get(0).toString());
 		}
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	private void setPermaflage()
 	{
 		JSONArray pf = (JSONArray) GPParser.getShipJSON().get("permoflages");
-
+		JSONObject permoflage = (JSONObject) APIParser.getAPIJSON().get("permoflage");
+		JSONObject camouflage = (JSONObject) APIParser.getAPIJSON().get("camouflage");
+		
+		List<JSONObject> camouList = new ArrayList<>();
+		camouList.addAll(camouflage.values());
+		camouList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));		
+		
+		for (int i = 0; i < camouList.size(); i++)
+		{
+			long camouID = (long) camouList.get(i).get("exterior_id");
+						
+			for (int j = 0; j < GPParser.getGameParamsValues().size(); j++)
+			{				
+				if (GPParser.getGameParamsValues().get(j).get("id").equals(camouID))
+				{					
+					permaflage.add((String) camouList.get(i).get("name"));
+					permaflageHashMap.put((String) camouList.get(i).get("name"), GPParser.getGameParamsValues().get(j));
+					break;
+				}
+			}			
+		}		
+				
 		if (pf != null)
 		{
 			for (int i = 0; i < pf.size(); i++)
 			{
-				permaflage.add(pf.get(i).toString());
+				JSONObject pfJSON = (JSONObject) GPParser.getGameParams().get(pf.get(i));
+				long id = (long) pfJSON.get("id");
+				
+				JSONObject permo = (JSONObject) permoflage.get(String.valueOf(id));				
+				
+				permaflage.add((String) permo.get("name"));
+				permaflageHashMap.put((String) permo.get("name"), pfJSON);
 			}
-		}
+		}	
 	}
-
+	
 	public void setPermaflage2(String aPermaflage)
 	{
-		JSONObject pf = (JSONObject) GPParser.getGameParams().get(aPermaflage);
-
+		JSONObject pf = (JSONObject) permaflageHashMap.get(aPermaflage);		
+		
 		if (pf.get("afterBattleRepair") != null)
 		{
 			afterBattleRepair = (double) pf.get("afterBattleRepair");
@@ -1306,9 +1335,17 @@ public class JSON_Parser
 		{
 			afterBattleRepair = 1.00;
 		}
-
+		
 		visibilityFactorPermaCamo = (double) pf.get("visibilityFactor");
 		visibilityFactorByPlanePermaCamo = (double) pf.get("visibilityFactorByPlane");
-		expFactorPermaCamo = (double) pf.get("expFactor") - 1;
+		
+		if (pf.get("expFactor") != null)
+		{
+			expFactorPermaCamo = (double) pf.get("expFactor") - 1;
+		}
+		else
+		{
+			expFactorPermaCamo = 0;
+		}		
 	}
 }

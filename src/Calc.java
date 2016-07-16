@@ -641,36 +641,6 @@ public class Calc
 		reloadTime4 = reloadTime4 * reloadCoefficient;
 	}
 	
-	
-	
-	public void calcType1Camo()
-	{	
-		sConceal = sConceal * 0.97;
-		aConceal = aConceal * 1.00;
-	}
-	
-	public void calcType3Camo()
-	{	
-		sConceal = sConceal * 0.97;
-		aConceal = aConceal * 1.00;
-		expFactor = 100;
-		captainExpFactor = 100;
-	}
-	
-	public void calcType5Camo()
-	{	
-		sConceal = sConceal * 0.97;
-		aConceal = aConceal * 1.00;
-	}
-	
-	public void calcType6Camo()
-	{	
-		sConceal = sConceal * 0.97;
-		aConceal = aConceal * 1.00;
-		expFactor = 100;
-		captainExpFactor = 100;
-	}
-	
 	public double getExpFactor()
 	{
 		return expFactor;

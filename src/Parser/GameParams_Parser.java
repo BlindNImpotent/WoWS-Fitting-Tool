@@ -30,6 +30,7 @@ public class GameParams_Parser
 	private HashMap<String, JSONObject> GameParamsHashMap = new HashMap<String, JSONObject>();
 	
 	private List<String> GameParamsKeySet = new ArrayList<String>();
+	private List<JSONObject> GameParamsValues = new ArrayList<>();
 	private JSONObject shipJSON;
 	
 	private String ship_id_str;
@@ -40,6 +41,8 @@ public class GameParams_Parser
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("GameParams.json"),"UTF8"));		
 		GameParams = (JSONObject) JSONParser.parse(reader);
 		GameParamsKeySet.addAll(GameParams.keySet());
+		
+		GameParamsValues.addAll(GameParams.values());
 		
 		setGameParamsHashMap();
 		setShipJSON(aShip_id_str);
