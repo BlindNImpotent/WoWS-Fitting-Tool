@@ -716,7 +716,7 @@ public class JSON_Parser
 			ModernizationSlot6_mods = (JSONArray) ModernizationSlot6.get("mods");
 		}
 
-		JSONObject ship_modifications = (JSONObject) APIParser.getAPIJSON().get("ship_modifications");
+		JSONObject ship_modifications = (JSONObject) APIParser.getAPI_InfoEncyclopediaJSON().get("ship_modifications");
 
 		if (ModernizationSlot1_mods != null) {
 			for (int i = 0; i < ModernizationSlot1_mods.size(); i++) {
@@ -772,7 +772,7 @@ public class JSON_Parser
 	@SuppressWarnings("unchecked")
 	private void setNationList()
 	{
-		JSONObject APINations = (JSONObject) APIParser.getAPIJSON().get("ship_nations");
+		JSONObject APINations = (JSONObject) APIParser.getAPI_InfoEncyclopediaJSON().get("ship_nations");
 		NationList.addAll(APINations.values());
 		Collections.sort(NationList);
 
@@ -782,7 +782,7 @@ public class JSON_Parser
 	@SuppressWarnings("unchecked")
 	private void setShipTypeList()
 	{
-		JSONObject APIShipType = (JSONObject) APIParser.getAPIJSON().get("ship_types");
+		JSONObject APIShipType = (JSONObject) APIParser.getAPI_InfoEncyclopediaJSON().get("ship_types");
 		ShipTypeList.addAll(APIShipType.keySet());
 		Collections.sort(ShipTypeList);
 	}
@@ -1392,8 +1392,8 @@ public class JSON_Parser
 	private void setPermaflage()
 	{
 		JSONArray pf = (JSONArray) GPParser.getShipJSON().get("permoflages");
-		JSONObject permoflage = (JSONObject) APIParser.getAPIJSON().get("permoflage");
-		JSONObject camouflage = (JSONObject) APIParser.getAPIJSON().get("camouflage");
+		JSONObject permoflage = (JSONObject) APIParser.getAPI_Exterior_PermoflageJSON();
+		JSONObject camouflage = (JSONObject) APIParser.getAPI_Exterior_CamouflageJSON();
 		
 		List<JSONObject> camouList = new ArrayList<>();
 		camouList.addAll(camouflage.values());

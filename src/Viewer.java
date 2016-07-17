@@ -501,7 +501,7 @@ public class Viewer extends JFrame
 		stealthFireRange.setBounds(398, 415, 70, 21);
 		contentPane.add(stealthFireRange);
 		
-		lblStealthFire = new JLabel("Stealth MG");
+		lblStealthFire = new JLabel("Stealth");
 		lblStealthFire.setBounds(329, 419, 70, 15);
 		contentPane.add(lblStealthFire);
 		

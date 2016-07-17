@@ -1,0 +1,122 @@
+
+{
+"status":"ok",
+"meta":
+{
+"count":8
+},
+"data":
+{
+"ships_updated_at":1468239062,"ship_types":
+{
+"Cruiser":"Cruiser",
+"AirCarrier":"Aircraft Carrier",
+"Battleship":"Battleship",
+"Destroyer":"Destroyer"
+},
+"languages":
+{
+"ru":"Русский",
+"fr":"Français",
+"en":"English",
+"zh-tw":"繁體中文",
+"de":"Deutsch",
+"tr":"Türkçe",
+"es-mx":"Español (México)",
+"zh-cn":"中文",
+"pt-br":"Português do Brasil",
+"pl":"Polski",
+"th":"ไทย",
+"cs":"Čeština",
+"ja":"日本語",
+"es":"Español"
+},
+"ship_modifications":
+{
+"PCM005_SecondaryGun_Mod_I":"Secondary Battery Modification 1",
+"PCM019_SecondaryGun_Mod_III":"Secondary Battery Modification 3",
+"PCM006_MainGun_Mod_II":"Main Battery Modification 2",
+"PCM026_LookoutStation_Mod_I":"Target Acquisition System Modification 1",
+"PCM004_AirDefense_Mod_I":"AA Guns Modification 1",
+"PCM021_Engine_Mod_I":"Propulsion Modification 1",
+"PCM030_MainWeapon_Mod_I":"Main Armaments Modification 1",
+"PCM027_ConcealmentMeasures_Mod_I":"Concealment System Modification 1",
+"PCM010_Airplanes_Mod_II":"Air Groups Modification 2",
+"PCM001_MainGun_Mod_I":"Main Battery Modification 1",
+"PCM028_FireControl_Mod_I_US":"Artillery Plotting Room Modification 1",
+"PCM020_DamageControl_Mod_I":"Damage Control System Modification 1",
+"PCM017_Airplanes_Mod_III":"Air Groups Modification 3",
+"PCM034_Guidance_Mod_0":"Aiming Systems Modification 0",
+"PCM032_PowderMagazine_Mod_I":"Magazine Modification 1",
+"PCM031_SecondaryWeapon_Mod_I":"Auxiliary Armaments Modification 1",
+"PCM014_Torpedo_Mod_III":"Torpedo Tubes Modification 3",
+"PCM003_Airplanes_Mod_I":"Air Groups Modification 1",
+"PCM007_Torpedo_Mod_II":"Torpedo Tubes Modification 2",
+"PCM023_DamageControl_Mod_II":"Damage Control System Modification 2",
+"PCM022_SteeringGear_Mod_I":"Steering Gears Modification 1",
+"PCM011_AirDefense_Mod_II":"AA Guns Modification 2",
+"PCM016_FlightControl_Mod_II":"Flight Control Modification 2",
+"PCM008_FireControl_Mod_I":"Gun Fire Control System Modification 1",
+"PCM025_SteeringGear_Mod_II":"Steering Gears Modification 2",
+"PCM009_FlightControl_Mod_I":"Flight Control Modification 1",
+"PCM024_Engine_Mod_II":"Propulsion Modification 2",
+"PCM012_SecondaryGun_Mod_II":"Secondary Battery Modification 2",
+"PCM015_FireControl_Mod_II":"Gun Fire Control System Modification 2",
+"PCM018_AirDefense_Mod_III":"AA Guns Modification 3",
+"PCM002_Torpedo_Mod_I":"Torpedo Tubes Modification 1",
+"PCM029_FireControl_Mod_II_US":"Artillery Plotting Room Modification 2",
+"PCM033_Guidance_Mod_I":"Aiming Systems Modification 1",
+"PCM013_MainGun_Mod_III":"Main Battery Modification 3"
+},
+"ship_modules":
+{
+"Engine":"Engine",
+"Fighter":"Fighters",
+"FlightControl":"Flight Control",
+"Suo":"Gun Fire Control System",
+"Hull":"Hull",
+"Artillery":"Main Battery",
+"Torpedoes":"Torpedoes",
+"TorpedoBomber":"Torpedo Bombers",
+"DiveBomber":"Dive Bombers"
+},
+"ship_type_images":
+{
+"Cruiser":
+{
+"image_premium":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Cruiser\/premium.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Cruiser\/normal.png",
+"image_elite":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Cruiser\/elite.png"
+},
+"AirCarrier":
+{
+"image_premium":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/AirCarrier\/premium.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/AirCarrier\/normal.png",
+"image_elite":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/AirCarrier\/elite.png"
+},
+"Battleship":
+{
+"image_premium":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Battleship\/premium.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Battleship\/normal.png",
+"image_elite":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Battleship\/elite.png"
+},
+"Destroyer":
+{
+"image_premium":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Destroyer\/premium.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Destroyer\/normal.png",
+"image_elite":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Destroyer\/elite.png"
+}
+},
+"ship_nations":
+{
+"usa":"U.S.A.",
+"pan_asia":"Pan-Asia",
+"ussr":"U.S.S.R.",
+"germany":"Germany",
+"uk":"U.K.",
+"japan":"Japan",
+"poland":"Poland"
+},
+"game_version":"0.5.8.1"
+}
+}

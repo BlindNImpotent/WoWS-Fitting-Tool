@@ -1,0 +1,221 @@
+
+{
+"status":"ok",
+"meta":
+{
+"count":15
+},
+"data":
+{
+"4286508976":
+{
+"description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
+"price_gold":50,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC008_Camo_Eco_Tile.png"
+},
+"price_credit":0,"type":"camouflage",
+"exterior_id":4286508976,"name":"Type 6"
+},
+"4287557552":
+{
+"description":"Decreases the firing accuracy of the enemy and reduces ship detectability.",
+"price_gold":0,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC007_Camo_3_Tile_Double.png"
+},
+"price_credit":22500,"type":"camouflage",
+"exterior_id":4287557552,"name":"Type 5"
+},
+"4291751856":
+{
+"description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
+"price_gold":30,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC003_Camo_Halloween.png"
+},
+"price_credit":0,"type":"camouflage",
+"exterior_id":4291751856,"name":"Type 3 – Halloween"
+},
+"4292800432":
+{
+"description":"Decreases the firing accuracy of the enemy.",
+"price_gold":0,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC002_Camo_2.png"
+},
+"price_credit":12000,"type":"camouflage",
+"exterior_id":4292800432,"name":"Type 2"
+},
+"4293849008":
+{
+"description":"Reduces ship detectability.",
+"price_gold":0,"ttc_coef":
+{
+"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC001_Camo_1.png"
+},
+"price_credit":8000,"type":"camouflage",
+"exterior_id":4293849008,"name":"Type 1"
+},
+"4289654704":
+{
+"description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
+"price_gold":30,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC005_Camo_NY_3.png"
+},
+"price_credit":0,"type":"camouflage",
+"exterior_id":4289654704,"name":"Type 3 – New Year"
+},
+"4288606128":
+{
+"description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
+"price_gold":50,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC006_Tile_Supertest.png"
+},
+"price_credit":0,"type":"camouflage",
+"exterior_id":4288606128,"name":"Type 4 – Supertest"
+},
+"4285460400":
+{
+"description":"Purchase this Camouflage to cast one vote for Team Germany",
+"price_gold":0,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC009_Camo_Basketball_Tile_1.png"
+},
+"price_credit":22500,"type":"camouflage",
+"exterior_id":4285460400,"name":"German Layup"
+},
+"4290703280":
+{
+"description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
+"price_gold":30,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC004_Camo_XP_Boost.png"
+},
+"price_credit":0,"type":"camouflage",
+"exterior_id":4290703280,"name":"Type 3 – Ranked"
+},
+"4279168944":
+{
+"description":"Reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
+"price_gold":50,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC015_Camo_CN_Special.png"
+},
+"price_credit":0,"type":"camouflage",
+"exterior_id":4279168944,"name":"Ocean Soul"
+},
+"4280217520":
+{
+"description":"Captain? Captain! Why would you do this to your boat? Now everyone can see we're ruthless sea dogs! We're sure to be primaried!",
+"price_gold":25,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC014_Camo_GNB_May_2016.png"
+},
+"price_credit":0,"type":"camouflage",
+"exterior_id":4280217520,"name":"GNB May 2016 Camouflage"
+},
+"4281266096":
+{
+"description":"Camouflage granted for encountering the MGT-20 during an official offline event.",
+"price_gold":25,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC013_Camo_MGT.png"
+},
+"price_credit":0,"type":"camouflage",
+"exterior_id":4281266096,"name":"MGT-20"
+},
+"4282314672":
+{
+"description":"Purchase this Camouflage to cast one vote for Team Japan",
+"price_gold":0,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC012_Camo_Basketball_Tile_4.png"
+},
+"price_credit":22500,"type":"camouflage",
+"exterior_id":4282314672,"name":"Japanese Slam Dunk"
+},
+"4283363248":
+{
+"description":"Purchase this Camouflage to cast one vote for Team Russia",
+"price_gold":0,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC011_Camo_Basketball_Tile_3.png"
+},
+"price_credit":22500,"type":"camouflage",
+"exterior_id":4283363248,"name":"Russian Nothing but Net"
+},
+"4284411824":
+{
+"description":"Purchase this Camouflage to cast one vote for Team U.S.A.",
+"price_gold":0,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC010_Camo_Basketball_Tile_2.png"
+},
+"price_credit":22500,"type":"camouflage",
+"exterior_id":4284411824,"name":"American Alley-Oop"
+}
+}
+}
