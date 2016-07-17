@@ -25,7 +25,7 @@ import lombok.Data;
 public class GameParams_Parser 
 {
 	private JSONParser JSONParser = new JSONParser();
-	private File GameParamsFile = new File("GameParams.json");
+	private File GameParamsFile = new File("GP_JSON/GameParams.json");
 	private JSONObject GameParams;
 	private HashMap<String, JSONObject> GameParamsHashMap = new HashMap<String, JSONObject>();
 	
@@ -38,7 +38,7 @@ public class GameParams_Parser
 	@SuppressWarnings("unchecked")
 	public GameParams_Parser(String aShip_id_str) throws FileNotFoundException, IOException, ParseException
 	{
-		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("GameParams.json"),"UTF8"));		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GameParamsFile),"UTF8"));		
 		GameParams = (JSONObject) JSONParser.parse(reader);
 		GameParamsKeySet.addAll(GameParams.keySet());
 		
