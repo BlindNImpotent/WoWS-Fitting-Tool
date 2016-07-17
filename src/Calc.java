@@ -8,11 +8,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import Parser.JSON_Parser;
+import lombok.Data;
 
 /**
  * @author Aesis (BlindNImpotent)
  * Calculates ship stats according to modules and skills.
  */
+@Data
 public class Calc 
 {
 	private JSON_Parser jsp;
@@ -22,6 +24,7 @@ public class Calc
 	private long maxRepairCost;
 	private double health;
 	private double speed;
+	private double turningRadius;
 	private int horsePower;
 	private double rudderShift;
 	
@@ -131,6 +134,8 @@ public class Calc
 		maxRepairCost = jsp.getMaxRepairCost();
 		health = jsp.getMaxHP();
 		speed = jsp.getSpeed();
+		turningRadius = jsp.getTurningRadius();
+				
 		horsePower = jsp.getHorsePower();
 		rudderShift = jsp.getRudderShift();
 		
@@ -884,50 +889,9 @@ public class Calc
 		captainExpFactor = captainExpFactor * PremAcc;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getRudderShift()
-	{
-		return rudderShift;
-	}
-	
 	public double getTurretBarrelDiameter()
 	{
 		return jsp.getTurretBarrelDiameter() * 1000;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getMaxMainGunRange()
-	{
-		return maxMainGunRange;
-	}
-	
-	public double getSigmaCount()
-	{
-		return sigmaCount;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getMainGunReload()
-	{
-		return mainGunReload;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getMainGunRotation()
-	{
-		return mainGunRotation;
 	}
 	
 	/**
@@ -944,82 +908,10 @@ public class Calc
 		return rotationDeg; 
 	}
 	
-	public double getMainGunDispersionTangent()
-	{
-		return mainGunDispersionTangent;
-	}
-	
-	public double getMainGunDispersionRange()
-	{
-		return mainGunDispersionRange;
-	}
-	
-	public int getNumBarrels()
-	{
-		return numBarrels;
-	}
-	
-	public int getNumTurrets()
-	{
-		return numTurrets;
-	}
-	
-	public double getAPShellSpeed()
-	{
-		return APShellSpeed;
-	}
-	
-	public double getAPShellDMG()
-	{
-		return APShellDMG;
-	}
-	
-	public double getHEShellSpeed()
-	{
-		return HEShellSpeed;
-	}
-	
-	public double getHEShellDMG()
-	{
-		return HEShellDMG;
-	}
-	
-	public double getHEShellBurnProb()
-	{
-		return HEShellBurnProb;
-	}
-	
 	public double getSecondaryMaxDist()
 	{
 		secondaryMaxDist = secondaryMaxDist / 1000;
 		return secondaryMaxDist;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getMaxTorpedoRange()
-	{
-		return maxTorpedoRange;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getTorpedoReload()
-	{
-		return torpedoReload;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getTorpedoRotation()
-	{
-		return torpedoRotation;
 	}
 	
 	/**
@@ -1034,20 +926,6 @@ public class Calc
 			rotationDeg = 180.0 / getTorpedoRotation();
 		}
 		return rotationDeg;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getTorpedoSpeed()
-	{
-		return torpedoSpeed;
-	}
-	
-	public double getTorpedoVisibilityFactor()
-	{
-		return torpedoVisibilityFactor;
 	}
 	
 	public double getTorpDiameter()
@@ -1069,56 +947,6 @@ public class Calc
 	 * 
 	 * @return
 	 */
-	public double getSConceal()
-	{
-		return sConceal;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getAConceal()
-	{
-		return aConceal;
-	}
-	
-	public long getMaxRepairCost()
-	{
-		return maxRepairCost;
-	}	
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getHealth()
-	{		
-		return health;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public int getTier()
-	{
-		return tier;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getNation()
-	{
-		return nation;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
 	public String getShipType()
 	{
 		return shiptype;
@@ -1128,132 +956,9 @@ public class Calc
 	 * 
 	 * @return
 	 */
-	public double getSpeed()
-	{
-		return speed;
-	}
-	
-	public int getHorsePower()
-	{
-		return horsePower;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
 	public JSON_Parser getJSP()
 	{
 		return jsp;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public int getUpgradeSlots()
-	{
-		return upgradeSlots;
-	}	
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getBurnTime()
-	{
-		return burnTime;
-	}
-		
-	/**
-	 * 
-	 * @return
-	 */
-	public double getFloodTime()
-	{
-		return floodTime;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getEngineRepairTime()
-	{
-		return engineRepairTime;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getAntiAirAuraDistanceFar()
-	{
-		return antiAirAuraDistanceFar;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getAntiAirAuraDistanceMedium()
-	{
-		return antiAirAuraDistanceMedium;	
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getAntiAirAuraDistanceNear()
-	{
-		return antiAirAuraDistanceNear;	
-	}
-	
-	public double getAAFarBarrelDiameter()
-	{
-		return AAFarBarrelDiameter;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getAAFarDPS()
-	{
-		return AAFarDPS;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getAAMediumDPS()
-	{
-		return AAMediumDPS;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getAANearDPS()
-	{
-		return AANearDPS;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getStealthFireSurfaceDetection()
-	{
-		return stealthFireSurfaceDetection;
-	}	
-	
-	public double getAAFireAirDetection()
-	{
-		return AAFireAirDetection;
 	}
 	
 	/**

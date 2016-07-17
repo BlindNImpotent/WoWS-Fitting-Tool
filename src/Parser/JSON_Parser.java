@@ -62,6 +62,7 @@ public class JSON_Parser
 	private double maxHP;
 	private double rudderShift;
 	private double speed;
+	private double turningRadius;
 	private JSONObject engineObj;
 	private double speedCoef;
 	private double sConceal;
@@ -975,7 +976,9 @@ public class JSON_Parser
 		{
 			speed = (double) (long) GP_HullJSON.get("maxSpeed") * speedCoef;
 		}
-
+		
+		turningRadius = (double) GP_HullJSON.get("turningRadius");
+		
 		sConceal = (double) GP_HullJSON.get("visibilityFactor");
 		aConceal = (double) GP_HullJSON.get("visibilityFactorByPlane");
 		stealthFireSurfaceDetection = (double) GP_HullJSON.get("visibilityCoefGK");

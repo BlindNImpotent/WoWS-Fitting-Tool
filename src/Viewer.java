@@ -43,6 +43,9 @@ public class Viewer extends JFrame
 	private JLabel lblRudder;
 	private JLabel lblSConceal;
 	
+	private JTextArea turnRadius;
+	private JLabel lblTurnRadius;
+	
 	private JCheckBox chckbxConcealment;
 	private JCheckBox chckbxSurvivability;
 	private JCheckBox chckbxAft;
@@ -276,7 +279,7 @@ public class Viewer extends JFrame
 		sConceal = new JTextArea();
 		sConceal.setEditable(false);
 		sConceal.setText("km");
-		sConceal.setBounds(91, 415, 70, 21);
+		sConceal.setBounds(91, 446, 70, 21);
 		contentPane.add(sConceal);
 		
 		lblTier = new JLabel("Tier");
@@ -300,7 +303,7 @@ public class Viewer extends JFrame
 		contentPane.add(lblRudder);
 		
 		lblSConceal = new JLabel("S Conceal");
-		lblSConceal.setBounds(12, 419, 70, 15);
+		lblSConceal.setBounds(12, 450, 70, 15);
 		contentPane.add(lblSConceal);
 		
 		lblMGRange = new JLabel("Max Range");
@@ -354,13 +357,13 @@ public class Viewer extends JFrame
 		contentPane.add(lblMgTime);
 		
 		lblAConceal = new JLabel("A Conceal");
-		lblAConceal.setBounds(12, 450, 70, 15);
+		lblAConceal.setBounds(12, 478, 70, 15);
 		contentPane.add(lblAConceal);
 		
 		aConceal = new JTextArea();
 		aConceal.setEditable(false);
 		aConceal.setText("km");
-		aConceal.setBounds(91, 446, 70, 21);
+		aConceal.setBounds(91, 474, 70, 21);
 		contentPane.add(aConceal);
 		
 		chckbxBft = new JCheckBox("BFT");
@@ -427,21 +430,21 @@ public class Viewer extends JFrame
 		burnTime = new JTextArea();
 		burnTime.setEditable(false);
 		burnTime.setText("s");
-		burnTime.setBounds(91, 474, 70, 21);
+		burnTime.setBounds(91, 505, 70, 21);
 		contentPane.add(burnTime);
 		
 		floodTime = new JTextArea();
 		floodTime.setEditable(false);
 		floodTime.setText("s");
-		floodTime.setBounds(91, 505, 70, 21);
+		floodTime.setBounds(91, 536, 70, 21);
 		contentPane.add(floodTime);
 		
 		lblBurnTime = new JLabel("Burn Time");
-		lblBurnTime.setBounds(12, 478, 70, 15);
+		lblBurnTime.setBounds(12, 509, 70, 15);
 		contentPane.add(lblBurnTime);
 		
 		lblFloodTime = new JLabel("Flood Time");
-		lblFloodTime.setBounds(12, 509, 70, 15);
+		lblFloodTime.setBounds(12, 540, 70, 15);
 		contentPane.add(lblFloodTime);
 		
 		aaFar = new JTextArea();
@@ -931,6 +934,16 @@ public class Viewer extends JFrame
 		consume1Number.setEditable(false);
 		consume1Number.setBounds(129, 105, 31, 21);
 		contentPane.add(consume1Number);
+		
+		turnRadius = new JTextArea();
+		turnRadius.setText("m");
+		turnRadius.setEditable(false);
+		turnRadius.setBounds(91, 415, 70, 21);
+		contentPane.add(turnRadius);
+		
+		lblTurnRadius = new JLabel("Turn Radius");
+		lblTurnRadius.setBounds(12, 419, 78, 15);
+		contentPane.add(lblTurnRadius);
 	}
 
 	/**
@@ -1179,6 +1192,11 @@ public class Viewer extends JFrame
 	public void setRudderShift(double rudderShift)
 	{
 		this.rudder.setText(String.format("%.2f", rudderShift) + " s");
+	}
+	
+	public void setTurningRadius(double turningRadius)
+	{
+		this.turnRadius.setText(String.format("%.0f", turningRadius) + " m");
 	}
 	
 	/**

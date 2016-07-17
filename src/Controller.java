@@ -84,6 +84,7 @@ public class Controller
 			view.setSpeed(answer.getSpeed());
 			view.setHorsePower(answer.getHorsePower());
 			view.setRudderShift(answer.getRudderShift());
+			view.setTurningRadius(answer.getTurningRadius());
 			view.setSConceal(answer.getSConceal());
 			view.setAConceal(answer.getAConceal());
 			view.setStealthFireRange(answer.getSConceal() + answer.getStealthFireSurfaceDetection());
@@ -320,6 +321,7 @@ public class Controller
 			view.setSpeed(answer.getSpeed());
 			view.setHorsePower(answer.getHorsePower());
 			view.setRudderShift(answer.getRudderShift());
+			view.setTurningRadius(answer.getTurningRadius());
 			view.setSConceal(answer.getSConceal());
 			view.setAConceal(answer.getAConceal());
 			view.setStealthFireRange(answer.getSConceal() + answer.getStealthFireSurfaceDetection());
