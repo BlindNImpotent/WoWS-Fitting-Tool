@@ -2,6 +2,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import Parser.API_ShipNameList;
+
 import org.json.simple.parser.ParseException;
 
 /**
@@ -13,10 +15,14 @@ public class Controller
 	private static Viewer view;
 	private static Model model;
 
+	private static API_ShipNameList API_ShipNameList;
+	
 	/**
 	 * Constructor
+	 * @throws ParseException 
+	 * @throws IOException 
 	 */
-	private Controller()
+	private Controller() throws IOException, ParseException
 	{		
 		model = new Model();
 		view = new Viewer();
@@ -27,6 +33,8 @@ public class Controller
 		view.setNationList();
 		view.setShipTypeList();
 		view.setShipListener(ShipNameList);		
+		
+		API_ShipNameList = new API_ShipNameList();
 	}
 	
 	/**
@@ -136,11 +144,15 @@ public class Controller
 			
 			if (nation.equals("USA") && type.equals("Battleship"))
 			{
-				view.setUSABattleshipList();
+				view.setShipNameList(API_ShipNameList.getUSA_BattleshipNameList());
+				
+				//view.setUSABattleshipList();
 			}
 			else if (nation.equals("USA") && type.equals("Cruiser"))
 			{
-				view.setUSACruiserList();
+				view.setShipNameList(API_ShipNameList.getUSA_CruiserNameList());
+				
+				//view.setUSACruiserList();
 			}	
 			else if (nation.equals("USA") && type.equals("AirCarrier"))
 			{
@@ -366,8 +378,10 @@ public class Controller
 	/**
 	 * Main method.
 	 * @param args
+	 * @throws ParseException 
+	 * @throws IOException 
 	 */
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException, ParseException
 	{	
 		new Controller();
 	}	

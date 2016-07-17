@@ -17,7 +17,8 @@ public class APIParserTest
 	@Before
 	public void setUp() throws FileNotFoundException, IOException, ParseException
 	{
-		APIParser = new API_Parser("Iowa");
+		APIParser = new API_Parser();
+		APIParser.setShipJSON("Iowa");
 	}	
 	
 	@Test

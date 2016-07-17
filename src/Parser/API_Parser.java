@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -60,7 +61,13 @@ public class API_Parser
 	
 	private String ship_id_str;
 	
-	public API_Parser(String aShipName) throws FileNotFoundException, IOException, ParseException
+	@SuppressWarnings("unchecked")
+	public API_Parser() throws FileNotFoundException, IOException, ParseException
+	{
+		setup();
+	}
+
+	private void setup() throws IOException, ParseException
 	{
 		BufferedReader reader ;
 		
@@ -112,15 +119,11 @@ public class API_Parser
 		API_WarshipsJSON = (JSONObject) JSONParser.parse(reader);
 		API_WarshipsJSON = (JSONObject) API_WarshipsJSON.get("data");
 		
-		
-		setShipJSON(aShipName);	
-	}
-
-	@SuppressWarnings("unchecked")
-	private void setShipJSON(String aShipName)
-	{				
 		APIShipsJSONList.addAll(API_WarshipsJSON.values());
-			
+	}
+	
+	public void setShipJSON(String aShipName)
+	{							
 		for (int i = 0; i < APIShipsJSONList.size(); i++)
 		{
 			if (APIShipsJSONList.get(i).containsValue(aShipName))

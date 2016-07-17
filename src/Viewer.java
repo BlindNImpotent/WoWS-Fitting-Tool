@@ -1863,6 +1863,7 @@ public class Viewer extends JFrame
 	{
 		comboBoxNationList.removeAllItems();
 		comboBoxNationList.addItem("");
+		comboBoxNationList.addItem("ARP");
 		comboBoxNationList.addItem("Germany");
 		comboBoxNationList.addItem("Japan");
 		comboBoxNationList.addItem("Russia");
@@ -1899,6 +1900,16 @@ public class Viewer extends JFrame
 	public JComboBox<String> getShipNameListComboBox()
 	{
 		return comboBoxShipNameList;
+	}
+	
+	public void setShipNameList(List<String> aList)
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		for (String ship : aList)
+		{
+			comboBoxShipNameList.addItem(ship);
+		}
 	}
 	
 	public void setUSABattleshipList() 
