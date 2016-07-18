@@ -397,6 +397,25 @@ public class API_ShipNameList
 		Japan_DestroyerJSONList.forEach((Japan_Destroyer -> Japan_DestroyerNameList.add((String) Japan_Destroyer.get("name"))));
 		Japan_PremiumJSONList.forEach((Japan_Premium -> Japan_PremiumNameList.add((String) Japan_Premium.get("name"))));
 
+		//ARP
+		ARP_AirCarrierJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));
+		ARP_BattleshipJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));
+		ARP_CruiserJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));
+		ARP_DestroyerJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));				
+		ARP_PremiumJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));				
+		
+		ARP_AirCarrierJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo((long) o2.get("tier"))));
+		ARP_BattleshipJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo((long) o2.get("tier"))));
+		ARP_CruiserJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo((long) o2.get("tier"))));
+		ARP_DestroyerJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo((long) o2.get("tier"))));
+		ARP_PremiumJSONList.sort((o1, o2) -> (Long.valueOf((long) o1.get("tier")).compareTo((long) o2.get("tier"))));
+		
+		ARP_AirCarrierJSONList.forEach((ARP_AirCarrier -> ARP_AirCarrierNameList.add((String) ARP_AirCarrier.get("name"))));
+		ARP_BattleshipJSONList.forEach((ARP_Battleship -> ARP_BattleshipNameList.add((String) ARP_Battleship.get("name"))));
+		ARP_CruiserJSONList.forEach((ARP_Cruiser -> ARP_CruiserNameList.add((String) ARP_Cruiser.get("name"))));
+		ARP_DestroyerJSONList.forEach((ARP_Destroyer -> ARP_DestroyerNameList.add((String) ARP_Destroyer.get("name"))));
+		ARP_PremiumJSONList.forEach((ARP_Premium -> ARP_PremiumNameList.add((String) ARP_Premium.get("name"))));
+		
 		//Germany
 		Germany_AirCarrierJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));
 		Germany_BattleshipJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));

@@ -166,6 +166,26 @@ public class Controller
 			{
 				view.setUSAPremiumList();
 			}
+			else if (nation.equals("ARP") && type.equals("Battleship"))
+			{
+				view.setShipNameList(API_ShipNameList.getARP_BattleshipNameList());
+			}
+			else if (nation.equals("ARP") && type.equals("Cruiser"))
+			{
+				view.setShipNameList(API_ShipNameList.getARP_CruiserNameList());				
+			}	
+			else if (nation.equals("ARP") && type.equals("AirCarrier"))
+			{
+				view.setShipNameList(API_ShipNameList.getARP_AirCarrierNameList());
+			}
+			else if (nation.equals("ARP") && type.equals("Destroyer"))
+			{
+				view.setShipNameList(API_ShipNameList.getARP_DestroyerNameList());
+			}
+			else if (nation.equals("ARP") && type.equals("Premium"))
+			{
+				view.setShipNameList(API_ShipNameList.getARP_PremiumNameList());
+			}
 			else if (nation.equals("Russia") && type.equals("Destroyer"))
 			{
 				view.setRussiaDestroyerList();
