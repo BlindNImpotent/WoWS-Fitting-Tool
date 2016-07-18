@@ -2088,15 +2088,14 @@ public class Viewer extends JFrame
 	{
 		comboBoxShipNameList.removeAllItems();
 		
-		comboBoxShipNameList.addItem(""); //2
-		comboBoxShipNameList.addItem(""); //3
-		comboBoxShipNameList.addItem("Kaiser"); //4
-		comboBoxShipNameList.addItem(""); //5
-		comboBoxShipNameList.addItem(""); //6
-		comboBoxShipNameList.addItem(""); //7
-		comboBoxShipNameList.addItem(""); //8
-		comboBoxShipNameList.addItem(""); //9
-		comboBoxShipNameList.addItem(""); //10
+		comboBoxShipNameList.addItem("Nassau");
+		comboBoxShipNameList.addItem("Kaiser");
+		comboBoxShipNameList.addItem("Koenig");
+		comboBoxShipNameList.addItem("Bayern");
+		comboBoxShipNameList.addItem("Gneisenau");
+		comboBoxShipNameList.addItem("Bismarck");
+		comboBoxShipNameList.addItem("Friedrich_der_Grosse");
+		comboBoxShipNameList.addItem("Grossdeutschland");
 	}
 	
 	public void setGermanyCruiserList()
