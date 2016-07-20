@@ -51,6 +51,7 @@ public class JSParser
 	private double maxHP;
 	private double rudderShift;
 	private double speed;
+	private double turningRadius;
 	private int horsePower;
 	
 	private double maxMainGunRange;
@@ -497,6 +498,11 @@ public class JSParser
 	public double getSpeed()
 	{
 		return speed;
+	}
+	
+	public double getTurningRadius()
+	{
+		return turningRadius;
 	}
 	
 	public int getHorsePower()
@@ -1182,6 +1188,9 @@ public class JSParser
 		{
 			speed = (double) (long) hpobj.get("maxSpeed") * speedCoef;
 		}
+		
+		turningRadius = (double) hpobj.get("turningRadius");
+
 		
 		sConceal = (double) hpobj.get("visibilityFactor");
 		aConceal = (double) hpobj.get("visibilityFactorByPlane");

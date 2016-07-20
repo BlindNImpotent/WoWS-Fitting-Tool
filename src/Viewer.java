@@ -33,6 +33,7 @@ public class Viewer extends JFrame
 	private JTextArea shipType;
 	private JTextArea health;
 	private JTextArea speed;
+	private JTextArea turningRadius;	
 	private JTextArea sConceal;
 	private JTextArea MGRange;
 	private JLabel lblMGRange;
@@ -40,6 +41,7 @@ public class Viewer extends JFrame
 	private JLabel lblShipType;
 	private JLabel lblHealth;
 	private JLabel lblSpeed;
+	private JLabel lblTurnRadius;
 	private JLabel lblRudder;
 	private JLabel lblSConceal;
 	
@@ -193,6 +195,7 @@ public class Viewer extends JFrame
 	private JCheckBox chckbxJoAT;
 	
 	
+	
 	/**
 	 * Creates the frame.
 	 */
@@ -241,7 +244,7 @@ public class Viewer extends JFrame
 		rudder = new JTextArea();
 		rudder.setEditable(false);
 		rudder.setText("s");
-		rudder.setBounds(218, 322, 70, 21);
+		rudder.setBounds(218, 353, 70, 21);
 		contentPane.add(rudder);
 		
 		tier = new JTextArea();
@@ -275,7 +278,7 @@ public class Viewer extends JFrame
 		sConceal = new JTextArea();
 		sConceal.setEditable(false);
 		sConceal.setText("km");
-		sConceal.setBounds(218, 353, 70, 21);
+		sConceal.setBounds(218, 384, 70, 21);
 		contentPane.add(sConceal);
 		
 		lblTier = new JLabel("Tier");
@@ -295,11 +298,11 @@ public class Viewer extends JFrame
 		contentPane.add(lblSpeed);
 		
 		lblRudder = new JLabel("Rudder Shift");
-		lblRudder.setBounds(140, 326, 78, 15);
+		lblRudder.setBounds(140, 357, 78, 15);
 		contentPane.add(lblRudder);
 		
 		lblSConceal = new JLabel("S Conceal");
-		lblSConceal.setBounds(140, 357, 70, 15);
+		lblSConceal.setBounds(140, 388, 70, 15);
 		contentPane.add(lblSConceal);
 		
 		lblMGRange = new JLabel("Max Range");
@@ -353,13 +356,13 @@ public class Viewer extends JFrame
 		contentPane.add(lblMgTime);
 		
 		lblAConceal = new JLabel("A Conceal");
-		lblAConceal.setBounds(140, 388, 70, 15);
+		lblAConceal.setBounds(140, 419, 70, 15);
 		contentPane.add(lblAConceal);
 		
 		aConceal = new JTextArea();
 		aConceal.setEditable(false);
 		aConceal.setText("km");
-		aConceal.setBounds(218, 384, 70, 21);
+		aConceal.setBounds(218, 415, 70, 21);
 		contentPane.add(aConceal);
 		
 		chckbxBft = new JCheckBox("BFT");
@@ -426,21 +429,21 @@ public class Viewer extends JFrame
 		burnTime = new JTextArea();
 		burnTime.setEditable(false);
 		burnTime.setText("s");
-		burnTime.setBounds(218, 415, 70, 21);
+		burnTime.setBounds(218, 446, 70, 21);
 		contentPane.add(burnTime);
 		
 		floodTime = new JTextArea();
 		floodTime.setEditable(false);
 		floodTime.setText("s");
-		floodTime.setBounds(218, 446, 70, 21);
+		floodTime.setBounds(218, 477, 70, 21);
 		contentPane.add(floodTime);
 		
 		lblBurnTime = new JLabel("Burn Time");
-		lblBurnTime.setBounds(140, 419, 70, 15);
+		lblBurnTime.setBounds(140, 450, 70, 15);
 		contentPane.add(lblBurnTime);
 		
 		lblFloodTime = new JLabel("Flood Time");
-		lblFloodTime.setBounds(140, 450, 70, 15);
+		lblFloodTime.setBounds(140, 481, 70, 15);
 		contentPane.add(lblFloodTime);
 		
 		aaFar = new JTextArea();
@@ -721,11 +724,11 @@ public class Viewer extends JFrame
 		
 		horsePower = new JTextArea();
 		horsePower.setEditable(false);
-		horsePower.setBounds(218, 291, 70, 21);
+		horsePower.setBounds(218, 322, 70, 21);
 		contentPane.add(horsePower);
 		
 		lblHorsePower = new JLabel("Horse Power");
-		lblHorsePower.setBounds(140, 295, 78, 15);
+		lblHorsePower.setBounds(140, 326, 78, 15);
 		contentPane.add(lblHorsePower);
 		
 		turretBarrelDiameter = new JTextArea();
@@ -925,6 +928,16 @@ public class Viewer extends JFrame
 		chckbxJoAT.setToolTipText("-15% reload of all consumables");
 		chckbxJoAT.setBounds(479, 698, 89, 23);
 		contentPane.add(chckbxJoAT);
+		
+		turningRadius = new JTextArea();
+		turningRadius.setText("m");
+		turningRadius.setEditable(false);
+		turningRadius.setBounds(218, 291, 70, 21);
+		contentPane.add(turningRadius);
+		
+		lblTurnRadius = new JLabel("Turn Radius");
+		lblTurnRadius.setBounds(140, 295, 78, 15);
+		contentPane.add(lblTurnRadius);
 	}
 
 	/**
@@ -1159,6 +1172,11 @@ public class Viewer extends JFrame
 	public void setSpeed(double speed)
 	{
 		this.speed.setText(String.format("%.1f", speed) + " kts");
+	}
+	
+	public void setTurningRadius(double turningRadius)
+	{
+		this.turningRadius.setText(String.format(NumberFormat.getIntegerInstance().format(turningRadius)) + " m");
 	}
 	
 	public void setHorsePower(int horsePower)

@@ -20,6 +20,7 @@ public class Calc
 	private long maxRepairCost;
 	private double health;
 	private double speed;
+	private double turningRadius;
 	private int horsePower;
 	private double rudderShift;
 	
@@ -128,6 +129,7 @@ public class Calc
 		maxRepairCost = jsp.getMaxRepairCost();
 		health = jsp.getHealth();
 		speed = jsp.getSpeed();
+		turningRadius = jsp.getTurningRadius();
 		horsePower = jsp.getHorsePower();
 		rudderShift = jsp.getRudderShift();
 		
@@ -1154,6 +1156,11 @@ public class Calc
 	public double getSpeed()
 	{
 		return speed;
+	}
+	
+	public double getTurningRadius()
+	{
+		return turningRadius;
 	}
 	
 	public int getHorsePower()

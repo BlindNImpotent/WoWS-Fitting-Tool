@@ -257,6 +257,7 @@ public class Controller
 			view.setMaxRepairCost(answer.getMaxRepairCost());
 			view.setHealth(answer.getHealth());
 			view.setSpeed(answer.getSpeed());
+			view.setTurningRadius(answer.getTurningRadius());
 			view.setHorsePower(answer.getHorsePower());
 			view.setRudderShift(answer.getRudderShift());
 			view.setSConceal(answer.getSConceal());
