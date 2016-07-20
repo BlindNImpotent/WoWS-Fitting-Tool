@@ -180,32 +180,6 @@ public class API_ShipNameList
 					Japan_PremiumJSONList.add(APIJSON);
 				}
 			}
-			else if (APIJSON.get("name").toString().contains("ARP "))
-			{
-				if ((boolean) APIJSON.get("is_premium") != true)
-				{
-					if (APIJSON.get("type").equals("AirCarrier"))
-					{
-						ARP_AirCarrierJSONList.add(APIJSON);
-					}
-					else if (APIJSON.get("type").equals("Battleship"))
-					{
-						ARP_BattleshipJSONList.add(APIJSON);
-					}
-					else if (APIJSON.get("type").equals("Cruiser"))
-					{
-						ARP_CruiserJSONList.add(APIJSON);
-					}
-					else if (APIJSON.get("type").equals("Destroyer"))
-					{
-						ARP_DestroyerJSONList.add(APIJSON);
-					}
-				}
-				else
-				{
-					ARP_PremiumJSONList.add(APIJSON);
-				}
-			}
 			else if (APIJSON.get("nation").equals("ussr"))
 			{
 				if ((boolean) APIJSON.get("is_premium") != true)

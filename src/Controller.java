@@ -145,102 +145,78 @@ public class Controller
 			if (nation.equals("USA") && type.equals("Battleship"))
 			{
 				view.setShipNameList(API_ShipNameList.getUSA_BattleshipNameList());
-				
-				//view.setUSABattleshipList();
 			}
 			else if (nation.equals("USA") && type.equals("Cruiser"))
 			{
 				view.setShipNameList(API_ShipNameList.getUSA_CruiserNameList());
-				
-				//view.setUSACruiserList();
 			}	
 			else if (nation.equals("USA") && type.equals("AirCarrier"))
 			{
-				view.setUSACVList();
+				view.setShipNameList(API_ShipNameList.getUSA_AirCarrierNameList());
 			}
 			else if (nation.equals("USA") && type.equals("Destroyer"))
 			{
-				view.setUSADestroyerList();
+				view.setShipNameList(API_ShipNameList.getUSA_DestroyerNameList());
 			}
 			else if (nation.equals("USA") && type.equals("Premium"))
 			{
-				view.setUSAPremiumList();
-			}
-			else if (nation.equals("ARP") && type.equals("Battleship"))
-			{
-				view.setShipNameList(API_ShipNameList.getARP_BattleshipNameList());
-			}
-			else if (nation.equals("ARP") && type.equals("Cruiser"))
-			{
-				view.setShipNameList(API_ShipNameList.getARP_CruiserNameList());				
-			}	
-			else if (nation.equals("ARP") && type.equals("AirCarrier"))
-			{
-				view.setShipNameList(API_ShipNameList.getARP_AirCarrierNameList());
-			}
-			else if (nation.equals("ARP") && type.equals("Destroyer"))
-			{
-				view.setShipNameList(API_ShipNameList.getARP_DestroyerNameList());
-			}
-			else if (nation.equals("ARP") && type.equals("Premium"))
-			{
-				view.setShipNameList(API_ShipNameList.getARP_PremiumNameList());
+				view.setShipNameList(API_ShipNameList.getUSA_PremiumNameList());
 			}
 			else if (nation.equals("Russia") && type.equals("Destroyer"))
 			{
-				view.setRussiaDestroyerList();
+				view.setShipNameList(API_ShipNameList.getUSSR_DestroyerNameList());
 			}
 			else if (nation.equals("Russia") && type.equals("Cruiser"))
 			{
-				view.setRussiaCruiserList();
+				view.setShipNameList(API_ShipNameList.getUSSR_CruiserNameList());
 			}
 			else if (nation.equals("Russia") && type.equals("Premium"))
 			{
-				view.setRussiaPremiumList();
+				view.setShipNameList(API_ShipNameList.getUSSR_PremiumNameList());
 			}
 			else if (nation.equals("Japan") && type.equals("Battleship"))
 			{
-				view.setJapanBattleshipList();
+				view.setShipNameList(API_ShipNameList.getJapan_BattleshipNameList());
 			}
 			else if (nation.equals("Japan") && type.equals("Cruiser"))
 			{
-				view.setJapanCruiserList();
+				view.setShipNameList(API_ShipNameList.getJapan_CruiserNameList());
 			}	
 			else if (nation.equals("Japan") && type.equals("AirCarrier"))
 			{
-				view.setJapanCVList();
+				view.setShipNameList(API_ShipNameList.getJapan_AirCarrierNameList());
 			}
 			else if (nation.equals("Japan") && type.equals("Destroyer"))
 			{
-				view.setJapanDestroyerList();
+				view.setShipNameList(API_ShipNameList.getJapan_DestroyerNameList());
 			}
 			else if (nation.equals("Japan") && type.equals("Premium"))
 			{
-				view.setJapanPremiumList();
+				view.setShipNameList(API_ShipNameList.getJapan_PremiumNameList());
 			}
 			else if (nation.equals("Germany") && type.equals("Battleship"))
 			{
-				view.setGermanyBattleshipList();
-			}	
+				view.setShipNameList(API_ShipNameList.getGermany_BattleshipNameList());
+			}
 			else if (nation.equals("Germany") && type.equals("Cruiser"))
 			{
-				view.setGermanyCruiserList();
-			}			
+				view.setShipNameList(API_ShipNameList.getGermany_CruiserNameList());
+			}
 			else if (nation.equals("Germany") && type.equals("Premium"))
 			{
-				view.setGermanyPremiumList();
+				view.setShipNameList(API_ShipNameList.getGermany_PremiumNameList());
 			}
 			else if (nation.equals("Pan Asia") && type.equals("Premium"))
 			{
-				view.setPanAsiaPremiumList();
+				view.setShipNameList(API_ShipNameList.getPan_Asia_PremiumNameList());
 			}
 			else if (nation.equals("United Kingdom") && type.equals("Premium"))
 			{
-				view.setUKPremiumList();
+				view.setShipNameList(API_ShipNameList.getUK_PremiumNameList());
 			}
 			else if (nation.equals("Poland") && type.equals("Premium"))
 			{
-				view.setPolandPremiumList();
+				view.setShipNameList(API_ShipNameList.getPoland_PremiumNameList());
 			}
 			else
 			{
