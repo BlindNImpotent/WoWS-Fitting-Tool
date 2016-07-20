@@ -207,6 +207,10 @@ public class JSParser
 		{
 			ship = ship.replace("Myoko", "PJSC008_Myoko_1945");
 		}
+		else if (ship.equals("Koenig"))
+		{
+			ship = ship.replace("Koenig", "PGSB105_Koenig");
+		}
 		
 		ship = ship.replaceAll(" ", "_");
 		
@@ -1048,6 +1052,10 @@ public class JSParser
 			{
 				tobj2 = (JSONObject) tobj.get("HP_BGM_1");
 			}
+			else if (getNation().equals("France"))
+			{
+				tobj2 = (JSONObject) tobj.get("HP_FGM_1");
+			}
 					
 			maxMainGunRange = (double) tobj.get("maxDist") * maxDistCoef;
 			
@@ -1298,6 +1306,11 @@ public class JSParser
 		
 		if (AAMedium.size() != 0)
 		{
+			if (position >= AAMedium.size())
+			{
+				position = 0;
+			}
+			
 			String AirDefenseNameMedium = AAMedium.get(position);
 			JSONObject AirDefenseMedium = (JSONObject) shipJSON.get(AirDefenseNameMedium);
 			if (AirDefenseMedium.get("AuraMedium") != null)
