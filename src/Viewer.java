@@ -399,6 +399,7 @@ public class Viewer extends JFrame
 		contentPane.add(chckbxTorpArmExp);
 		
 		comboBoxNationList = new JComboBox<String>();
+		comboBoxNationList.setMaximumRowCount(10);
 		comboBoxNationList.setBounds(12, 14, 89, 21);
 		contentPane.add(comboBoxNationList);
 		
@@ -1849,6 +1850,7 @@ public class Viewer extends JFrame
 		comboBoxNationList.removeAllItems();
 		comboBoxNationList.addItem("");
 		comboBoxNationList.addItem("Germany");
+		comboBoxNationList.addItem("France");
 		comboBoxNationList.addItem("Japan");
 		comboBoxNationList.addItem("Russia");
 		comboBoxNationList.addItem("USA");
@@ -2170,6 +2172,14 @@ public class Viewer extends JFrame
 		
 		//Destroyer
 		comboBoxShipNameList.addItem("Blyskawica");
+	}
+	
+	public void setFrancePremiumList()
+	{
+		comboBoxShipNameList.removeAllItems();
+		
+		//Battleship
+		comboBoxShipNameList.addItem("Dunkerque");
 	}
 	
 	public void setNoneList()

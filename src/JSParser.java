@@ -283,6 +283,7 @@ public class JSParser
 					&& !shipList.get(i).toString().matches("(PRSD).*")
 					&& !shipList.get(i).toString().matches("(PWSD).*")
 					&& !shipList.get(i).toString().matches("(PZSD).*")
+					&& !shipList.get(i).toString().matches("(PFSB).*")
 					|| shipList.get(i).toString().matches(".*(Halloween)")
 					|| shipList.get(i).toString().matches(".*(_FALSE_).*")
 					|| shipList.get(i).toString().matches(".*(_False_).*")

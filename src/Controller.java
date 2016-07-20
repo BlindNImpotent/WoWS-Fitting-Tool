@@ -149,6 +149,10 @@ public class Controller
 			{
 				view.setPolandPremiumList();
 			}
+			else if (nation.equals("France") && type.equals("Premium"))
+			{
+				view.setFrancePremiumList();
+			}
 			else
 			{
 				view.setNoneList();
