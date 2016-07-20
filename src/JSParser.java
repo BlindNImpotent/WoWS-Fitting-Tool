@@ -1485,6 +1485,7 @@ public class JSParser
 				|| string.matches("(?i)(P).*(UT).*")
 				&& !string.contains("Kutuzov")
 				&& !string.contains("KUTUZOV")
+				&& !string.contains("GROSSDEUTSCHLAND")
 					)
 	        {
 				torpedoList.add(string);
