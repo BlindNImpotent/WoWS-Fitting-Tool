@@ -2,6 +2,7 @@ package Parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.json.simple.JSONObject;
@@ -10,9 +11,12 @@ import org.json.simple.parser.ParseException;
 import lombok.Data;
 
 @Data
-public class API_ShipNameList 
+public class API_NameLists 
 {
 	private API_Parser APIParser;
+	
+	private List<String> NationNameList = new ArrayList<>();
+	private List<String> ShipTypeNameList = new ArrayList<>();
 	
 	private List<JSONObject> USA_AirCarrierJSONList = new ArrayList<>();
 	private List<JSONObject> USA_BattleshipJSONList = new ArrayList<>();
@@ -112,12 +116,28 @@ public class API_ShipNameList
 	private List<String> Pan_Asia_DestroyerNameList = new ArrayList<>();
 	private List<String> Pan_Asia_PremiumNameList = new ArrayList<>();
 
-	public API_ShipNameList() throws IOException, ParseException
+	public API_NameLists() throws IOException, ParseException
 	{
 		APIParser = new API_Parser();
 		
+		setNationAndShipTypeName();
 		setShipsJSONAndName();
-	}	
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void setNationAndShipTypeName()
+	{
+		JSONObject APIJSON = APIParser.getAPI_InfoEncyclopediaJSON();
+		JSONObject APIJSONInfo;
+				
+		APIJSONInfo = (JSONObject) APIJSON.get("ship_nations");
+		NationNameList.addAll(APIJSONInfo.values());
+		NationNameList.sort((o1, o2) -> o1.compareTo(o2));
+		
+		APIJSONInfo = (JSONObject) APIJSON.get("ship_types");
+		ShipTypeNameList.addAll(APIJSONInfo.keySet());
+		ShipTypeNameList.sort((o1, o2) -> o1.compareTo(o2));
+	}
 	
 	private void setShipsJSONAndName()
 	{

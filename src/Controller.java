@@ -2,7 +2,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import Parser.API_ShipNameList;
+import Parser.API_NameLists;
 
 import org.json.simple.parser.ParseException;
 
@@ -15,7 +15,7 @@ public class Controller
 	private static Viewer view;
 	private static Model model;
 
-	private static API_ShipNameList API_ShipNameList;
+	private static API_NameLists API_NameLists;
 	
 	/**
 	 * Constructor
@@ -26,15 +26,17 @@ public class Controller
 	{		
 		model = new Model();
 		view = new Viewer();
+		API_NameLists = new API_NameLists();
+		
 		view.setVisible(true);		
 		view.setSearchListener(SearchListener);
 		view.setCalculateListener(CalculateListener);
 		
-		view.setNationList();
-		view.setShipTypeList();
+		view.setNationList(API_NameLists.getNationNameList());
+		view.setShipTypeList(API_NameLists.getShipTypeNameList());
 		view.setShipListener(ShipNameList);		
 		
-		API_ShipNameList = new API_ShipNameList();
+
 	}
 	
 	/**
@@ -90,7 +92,6 @@ public class Controller
 			view.setMaxRepairCost(answer.getMaxRepairCost());
 			view.setHealth(answer.getHealth());
 			view.setSpeed(answer.getSpeed());
-			view.setHorsePower(answer.getHorsePower());
 			view.setRudderShift(answer.getRudderShift());
 			view.setTurningRadius(answer.getTurningRadius());
 			view.setSConceal(answer.getSConceal());
@@ -98,7 +99,6 @@ public class Controller
 			view.setStealthFireRange(answer.getSConceal() + answer.getStealthFireSurfaceDetection());
 			view.setAAFireAirDetection(answer.getAConceal() + answer.getAAFireAirDetection());
 			
-			view.setTurretBarrelDiameter(answer.getTurretBarrelDiameter());
 			view.setMGRange(answer.getMaxMainGunRange());
 			view.setMGReload(answer.getMainGunReload());
 			view.setMGDegs(answer.getMainGunRotation());
@@ -142,81 +142,81 @@ public class Controller
 			String nation = view.getNationListComboBox().getSelectedItem().toString();
 			String type = view.getShipTypeListComboBox().getSelectedItem().toString();
 			
-			if (nation.equals("USA") && type.equals("Battleship"))
+			if (nation.equals("U.S.A.") && type.equals("Battleship"))
 			{
-				view.setShipNameList(API_ShipNameList.getUSA_BattleshipNameList());
+				view.setShipNameList(API_NameLists.getUSA_BattleshipNameList());
 			}
-			else if (nation.equals("USA") && type.equals("Cruiser"))
+			else if (nation.equals("U.S.A.") && type.equals("Cruiser"))
 			{
-				view.setShipNameList(API_ShipNameList.getUSA_CruiserNameList());
+				view.setShipNameList(API_NameLists.getUSA_CruiserNameList());
 			}	
-			else if (nation.equals("USA") && type.equals("AirCarrier"))
+			else if (nation.equals("U.S.A.") && type.equals("AirCarrier"))
 			{
-				view.setShipNameList(API_ShipNameList.getUSA_AirCarrierNameList());
+				view.setShipNameList(API_NameLists.getUSA_AirCarrierNameList());
 			}
-			else if (nation.equals("USA") && type.equals("Destroyer"))
+			else if (nation.equals("U.S.A.") && type.equals("Destroyer"))
 			{
-				view.setShipNameList(API_ShipNameList.getUSA_DestroyerNameList());
+				view.setShipNameList(API_NameLists.getUSA_DestroyerNameList());
 			}
-			else if (nation.equals("USA") && type.equals("Premium"))
+			else if (nation.equals("U.S.A.") && type.equals("Premium"))
 			{
-				view.setShipNameList(API_ShipNameList.getUSA_PremiumNameList());
+				view.setShipNameList(API_NameLists.getUSA_PremiumNameList());
 			}
-			else if (nation.equals("Russia") && type.equals("Destroyer"))
+			else if (nation.equals("U.S.S.R.") && type.equals("Destroyer"))
 			{
-				view.setShipNameList(API_ShipNameList.getUSSR_DestroyerNameList());
+				view.setShipNameList(API_NameLists.getUSSR_DestroyerNameList());
 			}
-			else if (nation.equals("Russia") && type.equals("Cruiser"))
+			else if (nation.equals("U.S.S.R.") && type.equals("Cruiser"))
 			{
-				view.setShipNameList(API_ShipNameList.getUSSR_CruiserNameList());
+				view.setShipNameList(API_NameLists.getUSSR_CruiserNameList());
 			}
-			else if (nation.equals("Russia") && type.equals("Premium"))
+			else if (nation.equals("U.S.S.R.") && type.equals("Premium"))
 			{
-				view.setShipNameList(API_ShipNameList.getUSSR_PremiumNameList());
+				view.setShipNameList(API_NameLists.getUSSR_PremiumNameList());
 			}
 			else if (nation.equals("Japan") && type.equals("Battleship"))
 			{
-				view.setShipNameList(API_ShipNameList.getJapan_BattleshipNameList());
+				view.setShipNameList(API_NameLists.getJapan_BattleshipNameList());
 			}
 			else if (nation.equals("Japan") && type.equals("Cruiser"))
 			{
-				view.setShipNameList(API_ShipNameList.getJapan_CruiserNameList());
+				view.setShipNameList(API_NameLists.getJapan_CruiserNameList());
 			}	
 			else if (nation.equals("Japan") && type.equals("AirCarrier"))
 			{
-				view.setShipNameList(API_ShipNameList.getJapan_AirCarrierNameList());
+				view.setShipNameList(API_NameLists.getJapan_AirCarrierNameList());
 			}
 			else if (nation.equals("Japan") && type.equals("Destroyer"))
 			{
-				view.setShipNameList(API_ShipNameList.getJapan_DestroyerNameList());
+				view.setShipNameList(API_NameLists.getJapan_DestroyerNameList());
 			}
 			else if (nation.equals("Japan") && type.equals("Premium"))
 			{
-				view.setShipNameList(API_ShipNameList.getJapan_PremiumNameList());
+				view.setShipNameList(API_NameLists.getJapan_PremiumNameList());
 			}
 			else if (nation.equals("Germany") && type.equals("Battleship"))
 			{
-				view.setShipNameList(API_ShipNameList.getGermany_BattleshipNameList());
+				view.setShipNameList(API_NameLists.getGermany_BattleshipNameList());
 			}
 			else if (nation.equals("Germany") && type.equals("Cruiser"))
 			{
-				view.setShipNameList(API_ShipNameList.getGermany_CruiserNameList());
+				view.setShipNameList(API_NameLists.getGermany_CruiserNameList());
 			}
 			else if (nation.equals("Germany") && type.equals("Premium"))
 			{
-				view.setShipNameList(API_ShipNameList.getGermany_PremiumNameList());
+				view.setShipNameList(API_NameLists.getGermany_PremiumNameList());
 			}
-			else if (nation.equals("Pan Asia") && type.equals("Premium"))
+			else if (nation.equals("Pan-Asia") && type.equals("Premium"))
 			{
-				view.setShipNameList(API_ShipNameList.getPan_Asia_PremiumNameList());
+				view.setShipNameList(API_NameLists.getPan_Asia_PremiumNameList());
 			}
-			else if (nation.equals("United Kingdom") && type.equals("Premium"))
+			else if (nation.equals("U.K.") && type.equals("Premium"))
 			{
-				view.setShipNameList(API_ShipNameList.getUK_PremiumNameList());
+				view.setShipNameList(API_NameLists.getUK_PremiumNameList());
 			}
 			else if (nation.equals("Poland") && type.equals("Premium"))
 			{
-				view.setShipNameList(API_ShipNameList.getPoland_PremiumNameList());
+				view.setShipNameList(API_NameLists.getPoland_PremiumNameList());
 			}
 			else
 			{
@@ -327,7 +327,6 @@ public class Controller
 			view.setMaxRepairCost(answer.getMaxRepairCost());
 			view.setHealth(answer.getHealth());
 			view.setSpeed(answer.getSpeed());
-			view.setHorsePower(answer.getHorsePower());
 			view.setRudderShift(answer.getRudderShift());
 			view.setTurningRadius(answer.getTurningRadius());
 			view.setSConceal(answer.getSConceal());
@@ -335,7 +334,6 @@ public class Controller
 			view.setStealthFireRange(answer.getSConceal() + answer.getStealthFireSurfaceDetection());
 			view.setAAFireAirDetection(answer.getAConceal() + answer.getAAFireAirDetection());
 			
-			view.setTurretBarrelDiameter(answer.getTurretBarrelDiameter());
 			view.setMGRange(answer.getMaxMainGunRange());
 			view.setMGReload(answer.getMainGunReload());
 			view.setMGDegs(answer.getMainGunRotation());

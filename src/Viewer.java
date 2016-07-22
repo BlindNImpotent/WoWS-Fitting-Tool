@@ -144,11 +144,6 @@ public class Viewer extends JFrame
 	private JTextArea consume3Number;
 	private JTextArea consume2Number;
 	private JTextArea consume1Number;
-	
-	private JTextArea horsePower;	
-	private JLabel lblHorsePower;
-	private JTextArea turretBarrelDiameter;
-	private JLabel lblBarrelDiameter;
 	private JTextArea textNumTubes;
 	private JTextArea tubeDiameter;
 	private JLabel lblTubes;
@@ -245,7 +240,7 @@ public class Viewer extends JFrame
 		rudder = new JTextArea();
 		rudder.setEditable(false);
 		rudder.setText("s");
-		rudder.setBounds(91, 384, 70, 21);
+		rudder.setBounds(91, 353, 70, 21);
 		contentPane.add(rudder);
 		
 		tier = new JTextArea();
@@ -273,13 +268,13 @@ public class Viewer extends JFrame
 		MGRange = new JTextArea();
 		MGRange.setEditable(false);
 		MGRange.setText("km");
-		MGRange.setBounds(248, 260, 70, 21);
+		MGRange.setBounds(248, 229, 70, 21);
 		contentPane.add(MGRange);
 		
 		sConceal = new JTextArea();
 		sConceal.setEditable(false);
 		sConceal.setText("km");
-		sConceal.setBounds(91, 446, 70, 21);
+		sConceal.setBounds(91, 415, 70, 21);
 		contentPane.add(sConceal);
 		
 		lblTier = new JLabel("Tier");
@@ -299,15 +294,15 @@ public class Viewer extends JFrame
 		contentPane.add(lblSpeed);
 		
 		lblRudder = new JLabel("Rudder Shift");
-		lblRudder.setBounds(12, 388, 78, 15);
+		lblRudder.setBounds(12, 357, 78, 15);
 		contentPane.add(lblRudder);
 		
 		lblSConceal = new JLabel("S Conceal");
-		lblSConceal.setBounds(12, 450, 70, 15);
+		lblSConceal.setBounds(12, 419, 70, 15);
 		contentPane.add(lblSConceal);
 		
 		lblMGRange = new JLabel("Max Range");
-		lblMGRange.setBounds(166, 264, 70, 15);
+		lblMGRange.setBounds(166, 233, 70, 15);
 		contentPane.add(lblMGRange);
 		
 		chckbxConcealment = new JCheckBox("Conc Exp");
@@ -329,41 +324,41 @@ public class Viewer extends JFrame
 		txtrMgReload = new JTextArea();
 		txtrMgReload.setEditable(false);
 		txtrMgReload.setText("s");
-		txtrMgReload.setBounds(248, 291, 70, 21);
+		txtrMgReload.setBounds(248, 260, 70, 21);
 		contentPane.add(txtrMgReload);
 		
 		lblMgReload = new JLabel("Reload");
-		lblMgReload.setBounds(166, 295, 70, 15);
+		lblMgReload.setBounds(166, 264, 70, 15);
 		contentPane.add(lblMgReload);
 		
 		txtrMgDegs = new JTextArea();
 		txtrMgDegs.setEditable(false);
 		txtrMgDegs.setText("deg/s");
-		txtrMgDegs.setBounds(248, 322, 70, 21);
+		txtrMgDegs.setBounds(248, 291, 70, 21);
 		contentPane.add(txtrMgDegs);
 		
 		lblMgDegs = new JLabel("Rotation");
-		lblMgDegs.setBounds(166, 326, 70, 15);
+		lblMgDegs.setBounds(166, 295, 70, 15);
 		contentPane.add(lblMgDegs);
 		
 		txtrMgTime = new JTextArea();
 		txtrMgTime.setEditable(false);
 		txtrMgTime.setText("s/180 deg");
-		txtrMgTime.setBounds(248, 353, 70, 21);
+		txtrMgTime.setBounds(248, 322, 70, 21);
 		contentPane.add(txtrMgTime);
 		
 		lblMgTime = new JLabel("Rotation");
-		lblMgTime.setBounds(166, 357, 70, 15);
+		lblMgTime.setBounds(166, 326, 70, 15);
 		contentPane.add(lblMgTime);
 		
 		lblAConceal = new JLabel("A Conceal");
-		lblAConceal.setBounds(12, 478, 70, 15);
+		lblAConceal.setBounds(12, 447, 70, 15);
 		contentPane.add(lblAConceal);
 		
 		aConceal = new JTextArea();
 		aConceal.setEditable(false);
 		aConceal.setText("km");
-		aConceal.setBounds(91, 474, 70, 21);
+		aConceal.setBounds(91, 443, 70, 21);
 		contentPane.add(aConceal);
 		
 		chckbxBft = new JCheckBox("BFT");
@@ -372,23 +367,23 @@ public class Viewer extends JFrame
 		contentPane.add(chckbxBft);
 		
 		lblTorpRange = new JLabel("Torp Range");
-		lblTorpRange.setBounds(166, 450, 68, 15);
+		lblTorpRange.setBounds(166, 421, 68, 15);
 		contentPane.add(lblTorpRange);
 		
 		lblTorpReload = new JLabel("Torp Reload");
-		lblTorpReload.setBounds(166, 478, 70, 15);
+		lblTorpReload.setBounds(166, 449, 70, 15);
 		contentPane.add(lblTorpReload);
 		
 		torpRange = new JTextArea();
 		torpRange.setEditable(false);
 		torpRange.setText("km");
-		torpRange.setBounds(248, 446, 70, 21);
+		torpRange.setBounds(248, 415, 70, 21);
 		contentPane.add(torpRange);
 		
 		torpReload = new JTextArea();
 		torpReload.setEditable(false);
 		torpReload.setText("s");
-		torpReload.setBounds(248, 474, 70, 21);
+		torpReload.setBounds(248, 443, 70, 21);
 		contentPane.add(torpReload);
 		
 		chckbxTorpAccel = new JCheckBox("Torp Accel");
@@ -413,13 +408,13 @@ public class Viewer extends JFrame
 		contentPane.add(comboBoxShipNameList);
 		
 		lblTorpSpeed = new JLabel("Torp Speed");
-		lblTorpSpeed.setBounds(166, 509, 70, 15);
+		lblTorpSpeed.setBounds(166, 480, 70, 15);
 		contentPane.add(lblTorpSpeed);
 		
 		torpSpeed = new JTextArea();
 		torpSpeed.setEditable(false);
 		torpSpeed.setText("kts");
-		torpSpeed.setBounds(248, 505, 70, 21);
+		torpSpeed.setBounds(248, 474, 70, 21);
 		contentPane.add(torpSpeed);
 		
 		chckbxBoS = new JCheckBox("BoS");
@@ -430,21 +425,21 @@ public class Viewer extends JFrame
 		burnTime = new JTextArea();
 		burnTime.setEditable(false);
 		burnTime.setText("s");
-		burnTime.setBounds(91, 505, 70, 21);
+		burnTime.setBounds(91, 474, 70, 21);
 		contentPane.add(burnTime);
 		
 		floodTime = new JTextArea();
 		floodTime.setEditable(false);
 		floodTime.setText("s");
-		floodTime.setBounds(91, 536, 70, 21);
+		floodTime.setBounds(91, 505, 70, 21);
 		contentPane.add(floodTime);
 		
 		lblBurnTime = new JLabel("Burn Time");
-		lblBurnTime.setBounds(12, 509, 70, 15);
+		lblBurnTime.setBounds(12, 478, 70, 15);
 		contentPane.add(lblBurnTime);
 		
 		lblFloodTime = new JLabel("Flood Time");
-		lblFloodTime.setBounds(12, 540, 70, 15);
+		lblFloodTime.setBounds(12, 509, 70, 15);
 		contentPane.add(lblFloodTime);
 		
 		aaFar = new JTextArea();
@@ -548,11 +543,11 @@ public class Viewer extends JFrame
 		secondaryMaxDist = new JTextArea();
 		secondaryMaxDist.setText("km");
 		secondaryMaxDist.setEditable(false);
-		secondaryMaxDist.setBounds(560, 446, 70, 21);
+		secondaryMaxDist.setBounds(560, 472, 70, 21);
 		contentPane.add(secondaryMaxDist);
 		
 		lblSecondary = new JLabel("Secondary");
-		lblSecondary.setBounds(480, 450, 68, 15);
+		lblSecondary.setBounds(480, 476, 68, 15);
 		contentPane.add(lblSecondary);
 		
 		HEShellBurnProb = new JTextArea();
@@ -641,7 +636,7 @@ public class Viewer extends JFrame
 		
 		textNumBarrels = new JTextArea();
 		textNumBarrels.setEditable(false);
-		textNumBarrels.setBounds(250, 198, 70, 21);
+		textNumBarrels.setBounds(248, 198, 70, 21);
 		contentPane.add(textNumBarrels);
 		
 		labelBarrels = new JLabel("Barrels");
@@ -723,42 +718,23 @@ public class Viewer extends JFrame
 		chckbxSuperintendent.setBounds(480, 614, 89, 23);
 		contentPane.add(chckbxSuperintendent);
 		
-		horsePower = new JTextArea();
-		horsePower.setEditable(false);
-		horsePower.setBounds(91, 353, 70, 21);
-		contentPane.add(horsePower);
-		
-		lblHorsePower = new JLabel("Horse Power");
-		lblHorsePower.setBounds(12, 357, 78, 15);
-		contentPane.add(lblHorsePower);
-		
-		turretBarrelDiameter = new JTextArea();
-		turretBarrelDiameter.setText("mm");
-		turretBarrelDiameter.setEditable(false);
-		turretBarrelDiameter.setBounds(250, 229, 70, 21);
-		contentPane.add(turretBarrelDiameter);
-		
-		lblBarrelDiameter = new JLabel("Barrel Size");
-		lblBarrelDiameter.setBounds(166, 233, 70, 15);
-		contentPane.add(lblBarrelDiameter);
-		
 		textNumTubes = new JTextArea();
 		textNumTubes.setEditable(false);
-		textNumTubes.setBounds(248, 384, 70, 21);
+		textNumTubes.setBounds(248, 353, 70, 21);
 		contentPane.add(textNumTubes);
 		
 		tubeDiameter = new JTextArea();
 		tubeDiameter.setText("mm");
 		tubeDiameter.setEditable(false);
-		tubeDiameter.setBounds(250, 415, 70, 21);
+		tubeDiameter.setBounds(248, 384, 70, 21);
 		contentPane.add(tubeDiameter);
 		
 		lblTubes = new JLabel("Torp Tubes");
-		lblTubes.setBounds(166, 388, 70, 15);
+		lblTubes.setBounds(166, 357, 70, 15);
 		contentPane.add(lblTubes);
 		
 		labelTubeDiameter = new JLabel("Torp Size");
-		labelTubeDiameter.setBounds(166, 419, 70, 15);
+		labelTubeDiameter.setBounds(166, 388, 70, 15);
 		contentPane.add(labelTubeDiameter);
 		
 		chckbxJY2 = new JCheckBox("JY2");
@@ -799,11 +775,11 @@ public class Viewer extends JFrame
 		torpDetection = new JTextArea();
 		torpDetection.setText("km");
 		torpDetection.setEditable(false);
-		torpDetection.setBounds(248, 536, 70, 21);
+		torpDetection.setBounds(248, 505, 70, 21);
 		contentPane.add(torpDetection);
 		
 		lblTorpDetection = new JLabel("Torp Detect");
-		lblTorpDetection.setBounds(166, 540, 70, 15);
+		lblTorpDetection.setBounds(166, 511, 70, 15);
 		contentPane.add(lblTorpDetection);
 		
 		sigmaCount = new JTextArea();
@@ -825,11 +801,11 @@ public class Viewer extends JFrame
 		contentPane.add(lblMaxRepairCost);
 		
 		comboBoxCamouflage = new JComboBox<String>();
-		comboBoxCamouflage.setBounds(642, 199, 140, 21);
+		comboBoxCamouflage.setBounds(513, 15, 155, 21);
 		contentPane.add(comboBoxCamouflage);
 		
 		lblCamouflage = new JLabel("Camouflage");
-		lblCamouflage.setBounds(642, 185, 78, 15);
+		lblCamouflage.setBounds(513, 0, 78, 15);
 		contentPane.add(lblCamouflage);
 		
 		consume4Reload = new JTextArea();
@@ -871,21 +847,21 @@ public class Viewer extends JFrame
 		expFactor = new JTextArea();
 		expFactor.setText("%");
 		expFactor.setEditable(false);
-		expFactor.setBounds(716, 260, 70, 21);
+		expFactor.setBounds(716, 229, 70, 21);
 		contentPane.add(expFactor);
 		
 		lblExpFactor = new JLabel("XP");
-		lblExpFactor.setBounds(642, 264, 70, 15);
+		lblExpFactor.setBounds(642, 233, 70, 15);
 		contentPane.add(lblExpFactor);
 		
 		captainExpFactor = new JTextArea();
 		captainExpFactor.setText("%");
 		captainExpFactor.setEditable(false);
-		captainExpFactor.setBounds(716, 291, 70, 21);
+		captainExpFactor.setBounds(716, 260, 70, 21);
 		contentPane.add(captainExpFactor);
 		
 		lblCaptainXp = new JLabel("Captain XP");
-		lblCaptainXp.setBounds(642, 295, 70, 15);
+		lblCaptainXp.setBounds(642, 264, 70, 15);
 		contentPane.add(lblCaptainXp);
 		
 		chckbxNF = new JCheckBox("NF");
@@ -904,7 +880,7 @@ public class Viewer extends JFrame
 		contentPane.add(chckbxESCL);
 		
 		chckbxPremAcc = new JCheckBox("Prem Acc");
-		chckbxPremAcc.setBounds(642, 229, 87, 23);
+		chckbxPremAcc.setBounds(642, 198, 87, 23);
 		contentPane.add(chckbxPremAcc);
 		
 		chckbxIB3 = new JCheckBox("IB3");
@@ -938,11 +914,11 @@ public class Viewer extends JFrame
 		turnRadius = new JTextArea();
 		turnRadius.setText("m");
 		turnRadius.setEditable(false);
-		turnRadius.setBounds(91, 415, 70, 21);
+		turnRadius.setBounds(91, 384, 70, 21);
 		contentPane.add(turnRadius);
 		
 		lblTurnRadius = new JLabel("Turn Radius");
-		lblTurnRadius.setBounds(12, 419, 78, 15);
+		lblTurnRadius.setBounds(12, 388, 78, 15);
 		contentPane.add(lblTurnRadius);
 	}
 
@@ -1180,11 +1156,6 @@ public class Viewer extends JFrame
 		this.speed.setText(String.format("%.1f", speed) + " kts");
 	}
 	
-	public void setHorsePower(int horsePower)
-	{
-		this.horsePower.setText(String.valueOf(NumberFormat.getIntegerInstance().format(horsePower)) + " hp");
-	}
-	
 	/**
 	 * Sets rudder shift to returned rudder shift.
 	 * @param rudderShift
@@ -1301,11 +1272,6 @@ public class Viewer extends JFrame
 	public void setNumBarrels(int numTurrets, int numBarrels)
 	{
 		this.textNumBarrels.setText(String.valueOf(numTurrets) + " X " + String.valueOf(numBarrels));
-	}
-	
-	public void setTurretBarrelDiameter(double barrelDiameter)
-	{
-		this.turretBarrelDiameter.setText(String.format("%.0f", barrelDiameter) + " mm");
 	}
 	
 	public void setSecondaryMaxDist(double secondaryMaxDist)
@@ -1859,31 +1825,30 @@ public class Viewer extends JFrame
 	/**
 	 * Sets nation list.
 	 */
-	public void setNationList()
+	public void setNationList(List<String> aList)
 	{
 		comboBoxNationList.removeAllItems();
 		comboBoxNationList.addItem("");
-		//comboBoxNationList.addItem("ARP");
-		comboBoxNationList.addItem("Germany");
-		comboBoxNationList.addItem("Japan");
-		comboBoxNationList.addItem("Russia");
-		comboBoxNationList.addItem("USA");
-		comboBoxNationList.addItem("United Kingdom");
-		comboBoxNationList.addItem("Poland");
-		comboBoxNationList.addItem("Pan Asia");
+
+		for (String nation : aList)
+		{
+			comboBoxNationList.addItem(nation);
+		}
 	}
 	
 	/**
 	 * Sets ship type list.
 	 */
-	public void setShipTypeList()
+	public void setShipTypeList(List<String> aList)
 	{
 		comboBoxShipTypeList.removeAllItems();
 		comboBoxShipTypeList.addItem("");
-		comboBoxShipTypeList.addItem("AirCarrier");
-		comboBoxShipTypeList.addItem("Battleship");
-		comboBoxShipTypeList.addItem("Cruiser");
-		comboBoxShipTypeList.addItem("Destroyer");
+		
+		for (String shipType : aList)
+		{
+			comboBoxShipTypeList.addItem(shipType);
+		}
+		
 		comboBoxShipTypeList.addItem("Premium");
 	}
 		

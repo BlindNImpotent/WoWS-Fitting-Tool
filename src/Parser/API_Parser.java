@@ -61,12 +61,12 @@ public class API_Parser
 	
 	private String ship_id_str;
 	
-	@SuppressWarnings("unchecked")
 	public API_Parser() throws FileNotFoundException, IOException, ParseException
 	{
 		setup();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void setup() throws IOException, ParseException
 	{
 		BufferedReader reader ;
