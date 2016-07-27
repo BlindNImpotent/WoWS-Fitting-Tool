@@ -3,35 +3,33 @@
 "status":"ok",
 "meta":
 {
-"count":17
+"count":18
 },
 "data":
 {
-"4274876336":
+"4273827760":
 {
-"description":"Leak is dangerous.",
-"price_gold":5,"ttc_coef":
-{
-"ammo_detonation_chance_coef":1.05
+"description":"Naval elite",
+"price_gold":33,"ttc_coef":{
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/flags\/PCEF019_JW1_SignalFlag.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/flags\/PCEF020_Blue_Dragon_Flag.png"
 },
 "price_credit":0,"type":"flags",
-"exterior_id":4274876336,"name":"Juliet Whiskey Unaone"
+"exterior_id":4273827760,"name":"Dragon Flag"
 },
-"4279070640":
+"4278022064":
 {
-"description":"Exercise has been completed.",
-"price_gold":6,"ttc_coef":{
+"description":"You should proceed with great caution; hostile aircraft sighted.",
+"price_gold":5,"ttc_coef":{
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/flags\/PCEF015_ZH_SignalFlag.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/flags\/PCEF016_NE7_SignalFlag.png"
 },
 "price_credit":0,"type":"flags",
-"exterior_id":4279070640,"name":"Zulu Hotel"
+"exterior_id":4278022064,"name":"November Echo Setteseven"
 },
 "4284313520":
 {
@@ -47,31 +45,31 @@
 "price_credit":0,"type":"flags",
 "exterior_id":4284313520,"name":"Juliet Charlie"
 },
-"4278022064":
+"4276973488":
 {
-"description":"You should proceed with great caution; hostile aircraft sighted.",
-"price_gold":5,"ttc_coef":{
+"description":"Hurricane is approaching. You should take appropriate precautions.",
+"price_gold":10,"ttc_coef":{
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/flags\/PCEF016_NE7_SignalFlag.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/flags\/PCEF017_VL_SignalFlag.png"
 },
 "price_credit":0,"type":"flags",
-"exterior_id":4278022064,"name":"November Echo Setteseven"
+"exterior_id":4276973488,"name":"Victor Lima"
 },
-"4275924912":
+"4274876336":
 {
-"description":"Fire is gaining.",
+"description":"Leak is dangerous.",
 "price_gold":5,"ttc_coef":
 {
 "ammo_detonation_chance_coef":1.05
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/flags\/PCEF018_IX_SignalFlag.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/flags\/PCEF019_JW1_SignalFlag.png"
 },
 "price_credit":0,"type":"flags",
-"exterior_id":4275924912,"name":"India X-Ray"
+"exterior_id":4274876336,"name":"Juliet Whiskey Unaone"
 },
 "4281167792":
 {
@@ -111,17 +109,19 @@
 "price_credit":0,"type":"flags",
 "exterior_id":4283264944,"name":"India Bravo Terrathree"
 },
-"4276973488":
+"4275924912":
 {
-"description":"Hurricane is approaching. You should take appropriate precautions.",
-"price_gold":10,"ttc_coef":{
+"description":"Fire is gaining.",
+"price_gold":5,"ttc_coef":
+{
+"ammo_detonation_chance_coef":1.05
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/flags\/PCEF017_VL_SignalFlag.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/flags\/PCEF018_IX_SignalFlag.png"
 },
 "price_credit":0,"type":"flags",
-"exterior_id":4276973488,"name":"Victor Lima"
+"exterior_id":4275924912,"name":"India X-Ray"
 },
 "4285362096":
 {
@@ -202,6 +202,18 @@
 },
 "price_credit":0,"type":"flags",
 "exterior_id":4291653552,"name":"Equal Speed Charlie London"
+},
+"4279070640":
+{
+"description":"Exercise has been completed.",
+"price_gold":6,"ttc_coef":{
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/flags\/PCEF015_ZH_SignalFlag.png"
+},
+"price_credit":0,"type":"flags",
+"exterior_id":4279070640,"name":"Zulu Hotel"
 },
 "4293750704":
 {

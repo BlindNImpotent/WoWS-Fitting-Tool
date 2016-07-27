@@ -432,6 +432,10 @@ public class JSON_Parser
 		{
 			GP_TurretJSON = (JSONObject) GP_ArtilleryJSON.get("HP_ZGM_1");
 		}
+		else if (nation.equals("france"))
+		{
+			GP_TurretJSON = (JSONObject) GP_ArtilleryJSON.get("HP_FGM_1");
+		}
 		
 		maxMainGunRange = (double) GP_ArtilleryJSON.get("maxDist") * maxDistCoef;
 		
@@ -539,16 +543,8 @@ public class JSON_Parser
 		JSONObject module = (JSONObject) ShipUpgradeInfoJSON.get(GP_hullKey);
 		JSONObject components = (JSONObject) module.get("components");
 		JSONArray hull = (JSONArray) components.get("hull");
-
-		int position = 0;
-
-		for (int i = 0; i < API_HullUpgradeNameList.size(); i++)
-		{
-			if (API_HullUpgradeNameList.get(i).contains(aHull))
-			{
-				position = i;
-			}
-		}
+		JSONArray ATBAArray = (JSONArray) components.get("atba");
+		JSONArray AirDefenseArray = (JSONArray) components.get("airDefense");
 
 		GP_HullJSON = (JSONObject) GPParser.getShipJSON().get(hull.get(hull.size()-1));
 
@@ -596,41 +592,10 @@ public class JSON_Parser
 			AAFarBarrelDiameter = turretBarrelDiameter;
 		}
 		else if (turretBarrelDiameter >= 0.140 || GP_TurretJSON == null)
-		{
-			List<String> ATBAList = new ArrayList<String>();
-
-			ATBAList.addAll(GPParser.getShipJSON().keySet());
-			for (int i = ATBAList.size() - 1; i >= 0; i--)
+		{					
+			if (ATBAArray != null)
 			{
-				if (!ATBAList.get(i).toString().matches(".*(ATBA).*"))
-				{
-					ATBAList.remove(i);
-				}
-			}
-			Collections.sort(ATBAList);
-
-			if (ATBAList.size() != 0)
-			{
-				JSONObject ATBA;
-				if (ATBAList.size() == 1)
-				{
-					String ATBAName = ATBAList.get(0);
-					ATBA = (JSONObject) GPParser.getShipJSON().get(ATBAName);
-					secondaryMaxDist = (double) ATBA.get("maxDist");
-				}
-				else if (ATBAList.size() <= position)
-				{
-					String ATBAName = ATBAList.get(ATBAList.size()-1);
-					ATBA = (JSONObject) GPParser.getShipJSON().get(ATBAName);
-					secondaryMaxDist = (double) ATBA.get("maxDist");
-				}
-				else
-				{
-					String ATBAName = ATBAList.get(position);
-					ATBA = (JSONObject) GPParser.getShipJSON().get(ATBAName);
-					secondaryMaxDist = (double) ATBA.get("maxDist");
-				}
-
+				JSONObject ATBA = (JSONObject) GPParser.getShipJSON().get(ATBAArray.get(ATBAArray.size()-1));
 				//AA Aura Far
 				if (ATBA.get("AuraFar") != null)
 				{
@@ -658,110 +623,88 @@ public class JSON_Parser
 				}
 			}
 		}
-
-		List<String> AAMedium = new ArrayList<String>();
-
-		AAMedium.addAll(GPParser.getShipJSON().keySet());
-		for (int i = AAMedium.size() - 1; i >= 0; i--)
+		
+		if (AirDefenseArray.size() > 0)
 		{
-			if (!AAMedium.get(i).toString().matches(".*(AirDefense).*"))
-			{
-				AAMedium.remove(i);
-			}
-		}
-		Collections.sort(AAMedium);
-
-		if (AAMedium.size() != 0)
-		{
-			String AirDefenseNameMedium = AAMedium.get(position);
-			JSONObject AirDefenseMedium = (JSONObject) GPParser.getShipJSON().get(AirDefenseNameMedium);
-			if (AirDefenseMedium.get("AuraMedium") != null)
-			{
-				JSONObject AuraMedium = null;
-				if (AirDefenseMedium.get("AuraMedium1") != null)
+			JSONObject AirDefense = (JSONObject) GPParser.getShipJSON().get(AirDefenseArray.get(AirDefenseArray.size()-1));
+	
+			if (AirDefense != null)
+			{			
+				if (AirDefense.get("AuraMedium") != null)
 				{
-					AuraMedium = (JSONObject) AirDefenseMedium.get("AuraMedium1");
-				}
-				else
-				{
-					AuraMedium = (JSONObject) AirDefenseMedium.get("AuraMedium");
-				}
-
-				JSONArray guns = (JSONArray) AuraMedium.get("guns");
-				String AAMediumGunString = guns.get(0).toString();
-				JSONObject AAMediumGun = (JSONObject) AirDefenseMedium.get(AAMediumGunString);
-				antiAirAuraDistanceMedium = (double) AAMediumGun.get("antiAirAuraDistance") * 0.03;
-
-				int count = 0;
-				while (count < guns.size())
-				{
-					String tempStr = (String) guns.get(count);
-					JSONObject tempObj = (JSONObject) AirDefenseMedium.get(tempStr);
-					double dps = (double) tempObj.get("antiAirAuraStrength");
-
-					AAMediumDPS = AAMediumDPS + dps;
-
-					count++;
-				}
-				AAMediumDPS = AAMediumDPS * 100;
-			}
-
-			List<String> AANear = new ArrayList<String>();
-
-			AANear.addAll(GPParser.getShipJSON().keySet());
-			for (int i = AANear.size() - 1; i >= 0; i--)
-			{
-				if (!AANear.get(i).toString().matches(".*(AirDefense).*"))
-				{
-					AANear.remove(i);
-				}
-			}
-			Collections.sort(AANear);
-			String AirDefenseNameNear = AANear.get(position);
-			JSONObject AirDefenseNear = (JSONObject) GPParser.getShipJSON().get(AirDefenseNameNear);
-			if (AirDefenseNear.get("AuraNear") != null)
-			{
-				JSONObject AuraNear = (JSONObject) AirDefenseNear.get("AuraNear");
-				JSONArray guns = (JSONArray) AuraNear.get("guns");
-				String AANearGunString = guns.get(0).toString();
-				JSONObject AANearGun = (JSONObject) AirDefenseNear.get(AANearGunString);
-				antiAirAuraDistanceNear = (double) AANearGun.get("antiAirAuraDistance") * 0.03;
-
-				int count = 0;
-				while (count < guns.size())
-				{
-					String tempStr = (String) guns.get(count);
-					JSONObject tempObj = (JSONObject) AirDefenseNear.get(tempStr);
-					double dps = (double) tempObj.get("antiAirAuraStrength");
-
-					AANearDPS = AANearDPS + dps;
-
-					count++;
-				}
-				AANearDPS = AANearDPS * 100;
-			}
-			else if (AirDefenseMedium.get("AuraMedium1") != null)
-			{
-				JSONObject AuraMedium = (JSONObject) AirDefenseMedium.get("AuraMedium");
-				if (AuraMedium != null)
-				{
+					JSONObject AuraMedium = null;
+					if (AirDefense.get("AuraMedium1") != null)
+					{
+						AuraMedium = (JSONObject) AirDefense.get("AuraMedium1");
+					}
+					else
+					{
+						AuraMedium = (JSONObject) AirDefense.get("AuraMedium");
+					}
+	
 					JSONArray guns = (JSONArray) AuraMedium.get("guns");
-					String AANearGunString = guns.get(0).toString();
-					JSONObject AANearGun = (JSONObject) AirDefenseNear.get(AANearGunString);
-					antiAirAuraDistanceNear = (double) AANearGun.get("antiAirAuraDistance") * 0.03;
-
+					String AAMediumGunString = guns.get(0).toString();
+					JSONObject AAMediumGun = (JSONObject) AirDefense.get(AAMediumGunString);
+					antiAirAuraDistanceMedium = (double) AAMediumGun.get("antiAirAuraDistance") * 0.03;
+	
 					int count = 0;
 					while (count < guns.size())
 					{
 						String tempStr = (String) guns.get(count);
-						JSONObject tempObj = (JSONObject) AirDefenseNear.get(tempStr);
+						JSONObject tempObj = (JSONObject) AirDefense.get(tempStr);
 						double dps = (double) tempObj.get("antiAirAuraStrength");
-
+	
+						AAMediumDPS = AAMediumDPS + dps;
+	
+						count++;
+					}
+					AAMediumDPS = AAMediumDPS * 100;
+				}
+				
+				if (AirDefense.get("AuraNear") != null)
+				{
+					JSONObject AuraNear = (JSONObject) AirDefense.get("AuraNear");
+					JSONArray guns = (JSONArray) AuraNear.get("guns");
+					String AANearGunString = guns.get(0).toString();
+					JSONObject AANearGun = (JSONObject) AirDefense.get(AANearGunString);
+					antiAirAuraDistanceNear = (double) AANearGun.get("antiAirAuraDistance") * 0.03;
+	
+					int count = 0;
+					while (count < guns.size())
+					{
+						String tempStr = (String) guns.get(count);
+						JSONObject tempObj = (JSONObject) AirDefense.get(tempStr);
+						double dps = (double) tempObj.get("antiAirAuraStrength");
+	
 						AANearDPS = AANearDPS + dps;
-
+	
 						count++;
 					}
 					AANearDPS = AANearDPS * 100;
+				}
+				else if (AirDefense.get("AuraMedium1") != null)
+				{
+					JSONObject AuraMedium = (JSONObject) AirDefense.get("AuraMedium");
+					if (AuraMedium != null)
+					{
+						JSONArray guns = (JSONArray) AuraMedium.get("guns");
+						String AANearGunString = guns.get(0).toString();
+						JSONObject AANearGun = (JSONObject) AirDefense.get(AANearGunString);
+						antiAirAuraDistanceNear = (double) AANearGun.get("antiAirAuraDistance") * 0.03;
+	
+						int count = 0;
+						while (count < guns.size())
+						{
+							String tempStr = (String) guns.get(count);
+							JSONObject tempObj = (JSONObject) AirDefense.get(tempStr);
+							double dps = (double) tempObj.get("antiAirAuraStrength");
+	
+							AANearDPS = AANearDPS + dps;
+	
+							count++;
+						}
+						AANearDPS = AANearDPS * 100;
+					}
 				}
 			}
 		}

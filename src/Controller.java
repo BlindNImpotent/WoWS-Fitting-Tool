@@ -206,6 +206,18 @@ public class Controller
 			{
 				view.setShipNameList(API_NameLists.getGermany_PremiumNameList());
 			}
+			else if (nation.equals("France") && type.equals("Battleship"))
+			{
+				view.setShipNameList(API_NameLists.getFrance_BattleshipNameList());
+			}
+			else if (nation.equals("France") && type.equals("Cruiser"))
+			{
+				view.setShipNameList(API_NameLists.getFrance_CruiserNameList());
+			}
+			else if (nation.equals("France") && type.equals("Premium"))
+			{
+				view.setShipNameList(API_NameLists.getFrance_PremiumNameList());
+			}
 			else if (nation.equals("Pan-Asia") && type.equals("Premium"))
 			{
 				view.setShipNameList(API_NameLists.getPan_Asia_PremiumNameList());

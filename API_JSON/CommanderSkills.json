@@ -3,7 +3,7 @@
 "status":"ok",
 "meta":
 {
-"count":26
+"count":25
 },
 "data":
 {
@@ -58,14 +58,6 @@
 "perk_id":0,"description":"-10% to reload time of the Damage Control Party consumable"
 }],"name":"High Alert",
 "icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_EmergencyTeamCooldownModifier.png"
-},
-"6":
-{
-"tier":1,"perks":[
-{
-"perk_id":0,"description":"An indicator is displayed when your ship is detected by an enemy ship or aircraft"
-}],"name":"Situation Awareness",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_SixthSenseAbility.png"
 },
 "7":
 {

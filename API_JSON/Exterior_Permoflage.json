@@ -3,7 +3,7 @@
 "status":"ok",
 "meta":
 {
-"count":74
+"count":75
 },
 "data":
 {
@@ -748,6 +748,20 @@
 },
 "price_credit":0,"type":"permoflage",
 "exterior_id":3866652112,"name":"Type 10 – Mikhail Kutuzov"
+},
+"3973607248":
+{
+"description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
+"price_gold":2000,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/permoflage\/PFEP306_Dunkerque_1940.png"
+},
+"price_credit":0,"type":"permoflage",
+"exterior_id":3973607248,"name":"Type 10 – Dunkerque"
 },
 "3769134544":
 {

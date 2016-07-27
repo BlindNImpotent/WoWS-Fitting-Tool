@@ -3,25 +3,25 @@
 "status":"ok",
 "meta":
 {
-"count":117
+"count":118
 },
 "data":
 {
-"3454414544":
+"3555077840":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":62,"shot_speed":0.6,"max_damage":17233,"distance":10.0
+"max_damage":20966,"shot_speed":0.7,"torpedo_speed":67,"distance":10.0
 }
 },
-"name":"Type90 mod. 1",
+"name":"Type93 mod. 2",
 "image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PJUT801_C9_TORP_STOCK",
-"module_id_str":"PJUT801",
-"module_id":3454414544,"type":"Torpedoes",
-"price_credit":0
+"tag":"PJUT705_D8_TORP_TOP",
+"module_id_str":"PJUT705",
+"module_id":3555077840,"type":"Torpedoes",
+"price_credit":1800000
 },
 "4187369456":
 {
@@ -29,7 +29,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":49,"shot_speed":2.7,"max_damage":5900,"distance":4.5
+"max_damage":5900,"shot_speed":2.7,"torpedo_speed":49,"distance":4.5
 }
 },
 "name":"Whitehead Mk5",
@@ -45,7 +45,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":64,"shot_speed":0.9,"max_damage":14400,"distance":4.0
+"max_damage":14400,"shot_speed":0.9,"torpedo_speed":64,"distance":4.0
 }
 },
 "name":"53-36 mod. 1",
@@ -55,21 +55,37 @@
 "module_id":3852873168,"type":"Torpedoes",
 "price_credit":0
 },
-"4177932272":
+"3978702640":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":54,"shot_speed":5.5,"max_damage":6033,"distance":4.5
+"max_damage":11200,"shot_speed":1.1,"torpedo_speed":57,"distance":6.0
 }
 },
-"name":"Bliss Leavitt Mk7",
+"name":"H8",
 "image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PAUT111_457_SMITH",
-"module_id_str":"PAUT111",
-"module_id":4177932272,"type":"Torpedoes",
-"price_credit":0
+"tag":"PGUT301_C4_TORP_TOP",
+"module_id_str":"PGUT301",
+"module_id":3978702640,"type":"Torpedoes",
+"price_credit":100000
+},
+"3663080912":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":17933,"shot_speed":0.5,"torpedo_speed":65,"distance":4.0
+}
+},
+"name":"53-38U",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PRUT602_D7_TORP_TOP",
+"module_id_str":"PRUT602",
+"module_id":3663080912,"type":"Torpedoes",
+"price_credit":800000
 },
 "3663081168":
 {
@@ -77,7 +93,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
+"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -93,7 +109,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":57,"shot_speed":0.7,"max_damage":17233,"distance":15.0
+"max_damage":17233,"shot_speed":0.7,"torpedo_speed":57,"distance":15.0
 }
 },
 "name":"Type90 mod. 2",
@@ -109,7 +125,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":66,"shot_speed":0.6,"max_damage":19033,"distance":10.5
+"max_damage":19033,"shot_speed":0.6,"torpedo_speed":66,"distance":10.5
 }
 },
 "name":"Mk16 mod. 1",
@@ -125,7 +141,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":56,"shot_speed":1.5,"max_damage":9900,"distance":5.0
+"max_damage":9900,"shot_speed":1.5,"torpedo_speed":56,"distance":5.0
 }
 },
 "name":"Bliss Leavitt Mk9",
@@ -141,7 +157,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":57,"shot_speed":1.4,"max_damage":10833,"distance":7.0
+"max_damage":10833,"shot_speed":1.4,"torpedo_speed":57,"distance":7.0
 }
 },
 "name":"Type 6",
@@ -151,29 +167,13 @@
 "module_id":3976605392,"type":"Torpedoes",
 "price_credit":0
 },
-"3349556688":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":56,"shot_speed":0.5,"max_damage":15100,"distance":10.0
-}
-},
-"name":"53-39 mod. 3",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PRUT901_D10_TORP_STOCK",
-"module_id_str":"PRUT901",
-"module_id":3349556688,"type":"Torpedoes",
-"price_credit":0
-},
 "3346411216":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":67,"shot_speed":0.4,"max_damage":23766,"distance":12.0
+"max_damage":23766,"shot_speed":0.4,"torpedo_speed":67,"distance":12.0
 }
 },
 "name":"Type93 mod. 3",
@@ -183,29 +183,13 @@
 "module_id":3346411216,"type":"Torpedoes",
 "price_credit":2500000
 },
-"3345362640":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":76,"shot_speed":0.5,"max_damage":21366,"distance":8.0
-}
-},
-"name":"Type F3",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PJUT905_D10_TORP_TOP",
-"module_id_str":"PJUT905",
-"module_id":3345362640,"type":"Torpedoes",
-"price_credit":2500000
-},
 "3664129488":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":70,"shot_speed":0.5,"max_damage":15100,"distance":4.0
+"max_damage":15100,"shot_speed":0.5,"torpedo_speed":70,"distance":4.0
 }
 },
 "name":"53-39 mod. 1",
@@ -215,13 +199,29 @@
 "module_id":3664129488,"type":"Torpedoes",
 "price_credit":480000
 },
+"3873845040":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":13700,"shot_speed":0.9,"torpedo_speed":64,"distance":6.0
+}
+},
+"name":"G7a T1",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PGUT401_C5_TORP_STOCK",
+"module_id_str":"PGUT401",
+"module_id":3873845040,"type":"Torpedoes",
+"price_credit":0
+},
 "3557174992":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
+"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -237,7 +237,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":66,"shot_speed":0.6,"max_damage":19033,"distance":10.5
+"max_damage":19033,"shot_speed":0.6,"torpedo_speed":66,"distance":10.5
 }
 },
 "name":"Mk16 mod. 1",
@@ -247,13 +247,29 @@
 "module_id":3451269104,"type":"Torpedoes",
 "price_credit":2400000
 },
+"3863358928":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":14400,"shot_speed":0.9,"torpedo_speed":55,"distance":8.0
+}
+},
+"name":"53-39",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PRUT411_533_3_39U",
+"module_id_str":"PRUT411",
+"module_id":3863358928,"type":"Torpedoes",
+"price_credit":0
+},
 "3936759248":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":52,"shot_speed":1.5,"max_damage":7233,"distance":5.0
+"max_damage":7233,"shot_speed":1.5,"torpedo_speed":52,"distance":5.0
 }
 },
 "name":"Torpedo Model 1912",
@@ -269,7 +285,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
+"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -285,7 +301,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":59,"shot_speed":0.6,"max_damage":16266,"distance":10.0
+"max_damage":16266,"shot_speed":0.6,"torpedo_speed":59,"distance":10.0
 }
 },
 "name":"Type8 mod. 2",
@@ -301,7 +317,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":68,"shot_speed":1.3,"max_damage":14400,"distance":7.0
+"max_damage":14400,"shot_speed":1.3,"torpedo_speed":68,"distance":7.0
 }
 },
 "name":"Type 92",
@@ -317,7 +333,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":65,"shot_speed":0.7,"max_damage":11600,"distance":5.5
+"max_damage":11600,"shot_speed":0.7,"torpedo_speed":65,"distance":5.5
 }
 },
 "name":"Mk15 mod. 0",
@@ -333,7 +349,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":51,"shot_speed":2.7,"max_damage":6166,"distance":4.0
+"max_damage":6166,"shot_speed":2.7,"torpedo_speed":51,"distance":4.0
 }
 },
 "name":"Torpedo Model 1910",
@@ -349,7 +365,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":56,"shot_speed":0.9,"max_damage":11733,"distance":5.5
+"max_damage":11733,"shot_speed":0.9,"torpedo_speed":56,"distance":5.5
 }
 },
 "name":"Mark 11",
@@ -365,7 +381,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":57,"shot_speed":1.5,"max_damage":9066,"distance":7.0
+"max_damage":9066,"shot_speed":1.5,"torpedo_speed":57,"distance":7.0
 }
 },
 "name":"Type44 mod. 2",
@@ -381,7 +397,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":60,"shot_speed":0.5,"max_damage":15100,"distance":8.0
+"max_damage":15100,"shot_speed":0.5,"torpedo_speed":60,"distance":8.0
 }
 },
 "name":"53-39 mod. 2",
@@ -391,21 +407,37 @@
 "module_id":3453365712,"type":"Torpedoes",
 "price_credit":1500000
 },
-"3450220240":
+"3663081264":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":62,"shot_speed":0.8,"max_damage":17233,"distance":10.0
+"max_damage":13700,"shot_speed":0.9,"torpedo_speed":64,"distance":6.0
 }
 },
-"name":"Type90 mod. 1",
+"name":"G7a T1",
 "image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PJUT805_610_TONE",
-"module_id_str":"PJUT805",
-"module_id":3450220240,"type":"Torpedoes",
+"tag":"PGUT602_B7_TORP_STOCK",
+"module_id_str":"PGUT602",
+"module_id":3663081264,"type":"Torpedoes",
 "price_credit":0
+},
+"3758501872":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":11733,"shot_speed":0.7,"torpedo_speed":64,"distance":6.4
+}
+},
+"name":"Mark 12",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PAUT511_D6_TORP_TOP",
+"module_id_str":"PAUT511",
+"module_id":3758501872,"type":"Torpedoes",
+"price_credit":575000
 },
 "3559272144":
 {
@@ -413,7 +445,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":62,"shot_speed":0.6,"max_damage":17233,"distance":10.0
+"max_damage":17233,"shot_speed":0.6,"torpedo_speed":62,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -429,7 +461,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":68,"shot_speed":0.5,"max_damage":16633,"distance":6.0
+"max_damage":16633,"shot_speed":0.5,"torpedo_speed":68,"distance":6.0
 }
 },
 "name":"533 mm Mk31",
@@ -439,13 +471,29 @@
 "module_id":3558223056,"type":"Torpedoes",
 "price_credit":0
 },
+"3978702832":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":11733,"shot_speed":1.4,"torpedo_speed":56,"distance":5.5
+}
+},
+"name":"Mark 11",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PAUT301_C4_TORP_STOCK",
+"module_id_str":"PAUT301",
+"module_id":3978702832,"type":"Torpedoes",
+"price_credit":0
+},
 "3727044592":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":49,"shot_speed":1.6,"max_damage":6233,"distance":8.2
+"max_damage":6233,"shot_speed":1.6,"torpedo_speed":49,"distance":8.2
 }
 },
 "name":"Mk9 mod. 1",
@@ -461,7 +509,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":51,"shot_speed":1.8,"max_damage":6166,"distance":4.0
+"max_damage":6166,"shot_speed":1.8,"torpedo_speed":51,"distance":4.0
 }
 },
 "name":"Torpedo Model 1910",
@@ -477,7 +525,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
+"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -493,7 +541,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":55,"shot_speed":0.5,"max_damage":16633,"distance":9.2
+"max_damage":16633,"shot_speed":0.5,"torpedo_speed":55,"distance":9.2
 }
 },
 "name":"Mk15 mod. 3",
@@ -503,52 +551,36 @@
 "module_id":3454414832,"type":"Torpedoes",
 "price_credit":0
 },
-"3454414640":
+"3851824592":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":64,"shot_speed":0.7,"max_damage":13700,"distance":6.0
-}
-},
-"name":"G7a T1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PGUT801_C9_TORP_STOCK",
-"module_id_str":"PGUT801",
-"module_id":3454414640,"type":"Torpedoes",
-"price_credit":0
-},
-"3527814608":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":65,"shot_speed":0.8,"max_damage":17933,"distance":4.0
-}
-},
-"name":"53-38U",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PRUT731_C8_TORP_STOCK",
-"module_id_str":"PRUT731",
-"module_id":3527814608,"type":"Torpedoes",
-"price_credit":0
-},
-"3768987088":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":65,"shot_speed":0.9,"max_damage":14400,"distance":4.0
+"max_damage":14400,"shot_speed":0.9,"torpedo_speed":65,"distance":4.0
 }
 },
 "name":"53-38",
 "image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PRUT501_MOLOTOV",
-"module_id_str":"PRUT501",
-"module_id":3768987088,"type":"Torpedoes",
+"tag":"PRUT422_D5_TORP_TOP",
+"module_id_str":"PRUT422",
+"module_id":3851824592,"type":"Torpedoes",
+"price_credit":260000
+},
+"3349556688":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":15100,"shot_speed":0.5,"torpedo_speed":56,"distance":10.0
+}
+},
+"name":"53-39 mod. 3",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PRUT901_D10_TORP_STOCK",
+"module_id_str":"PRUT901",
+"module_id":3349556688,"type":"Torpedoes",
 "price_credit":0
 },
 "3830853328":
@@ -557,7 +589,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":68,"shot_speed":1.3,"max_damage":14400,"distance":7.0
+"max_damage":14400,"shot_speed":1.3,"torpedo_speed":68,"distance":7.0
 }
 },
 "name":"Type 92",
@@ -567,189 +599,13 @@
 "module_id":3830853328,"type":"Torpedoes",
 "price_credit":0
 },
-"4081462992":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":57,"shot_speed":1.4,"max_damage":10833,"distance":7.0
-}
-},
-"name":"Type 6",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PJUT203_D3_TORP_TOP",
-"module_id_str":"PJUT203",
-"module_id":4081462992,"type":"Torpedoes",
-"price_credit":95000
-},
-"3443928528":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":55,"shot_speed":0.5,"max_damage":14400,"distance":8.0
-}
-},
-"name":"53-36 mod. 2",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PRUT811_C9_TORP_STOCK",
-"module_id_str":"PRUT811",
-"module_id":3443928528,"type":"Torpedoes",
-"price_credit":0
-},
-"3768987632":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":56,"shot_speed":0.7,"max_damage":11733,"distance":5.5
-}
-},
-"name":"Mark 11",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PAUT501_D6_TORP_STOCK",
-"module_id_str":"PAUT501",
-"module_id":3768987632,"type":"Torpedoes",
-"price_credit":0
-},
-"3767938768":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":59,"shot_speed":0.8,"max_damage":16266,"distance":10.0
-}
-},
-"name":"Type8 mod. 2",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PJUT502_D6_TORP_TOP",
-"module_id_str":"PJUT502",
-"module_id":3767938768,"type":"Torpedoes",
-"price_credit":400000
-},
-"3947245264":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":63,"shot_speed":1.2,"max_damage":14600,"distance":6.0
-}
-},
-"name":"Type8",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PJUT331_610_2_JGT010",
-"module_id_str":"PJUT331",
-"module_id":3947245264,"type":"Torpedoes",
-"price_credit":0
-},
-"3555077840":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":67,"shot_speed":0.7,"max_damage":20966,"distance":10.0
-}
-},
-"name":"Type93 mod. 2",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PJUT705_D8_TORP_TOP",
-"module_id_str":"PJUT705",
-"module_id":3555077840,"type":"Torpedoes",
-"price_credit":1800000
-},
-"4183174864":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":44,"shot_speed":2.7,"max_damage":6133,"distance":5.0
-}
-},
-"name":"Ho Type42",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PJUT106_450_TACHIBANA",
-"module_id_str":"PJUT106",
-"module_id":4183174864,"type":"Torpedoes",
-"price_credit":0
-},
-"3758501872":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":64,"shot_speed":0.7,"max_damage":11733,"distance":6.4
-}
-},
-"name":"Mark 12",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PAUT511_D6_TORP_TOP",
-"module_id_str":"PAUT511",
-"module_id":3758501872,"type":"Torpedoes",
-"price_credit":575000
-},
-"3339071472":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":64,"shot_speed":0.7,"max_damage":11733,"distance":6.4
-}
-},
-"name":"Mk12",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PAUT911_533_4_PAPT023_BUFF",
-"module_id_str":"PAUT911",
-"module_id":3339071472,"type":"Torpedoes",
-"price_credit":1
-},
-"3653643728":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":70,"shot_speed":0.8,"max_damage":15100,"distance":4.0
-}
-},
-"name":"53-39 mod. 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PRUT611_C7_TORP_STOCK",
-"module_id_str":"PRUT611",
-"module_id":3653643728,"type":"Torpedoes",
-"price_credit":0
-},
-"3564515024":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
-}
-},
-"name":"Type90 mod. 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PJUT696_610_TYPE_90_MOD_1_ASHIGARA",
-"module_id_str":"PJUT696",
-"module_id":3564515024,"type":"Torpedoes",
-"price_credit":0
-},
 "3664129744":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":59,"shot_speed":0.8,"max_damage":16266,"distance":10.0
+"max_damage":16266,"shot_speed":0.8,"torpedo_speed":59,"distance":10.0
 }
 },
 "name":"Type8 mod. 2",
@@ -759,13 +615,189 @@
 "module_id":3664129744,"type":"Torpedoes",
 "price_credit":0
 },
+"3947245264":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":14600,"shot_speed":1.2,"torpedo_speed":63,"distance":6.0
+}
+},
+"name":"Type8",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PJUT331_610_2_JGT010",
+"module_id_str":"PJUT331",
+"module_id":3947245264,"type":"Torpedoes",
+"price_credit":0
+},
+"3768987632":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":11733,"shot_speed":0.7,"torpedo_speed":56,"distance":5.5
+}
+},
+"name":"Mark 11",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PAUT501_D6_TORP_STOCK",
+"module_id_str":"PAUT501",
+"module_id":3768987632,"type":"Torpedoes",
+"price_credit":0
+},
+"3564515024":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
+}
+},
+"name":"Type90 mod. 1",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PJUT696_610_TYPE_90_MOD_1_ASHIGARA",
+"module_id_str":"PJUT696",
+"module_id":3564515024,"type":"Torpedoes",
+"price_credit":0
+},
+"3873844944":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":14600,"shot_speed":0.8,"torpedo_speed":63,"distance":6.0
+}
+},
+"name":"Type8",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PJUT401_C5_TORP_STOCK",
+"module_id_str":"PJUT401",
+"module_id":3873844944,"type":"Torpedoes",
+"price_credit":0
+},
+"3767938768":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":16266,"shot_speed":0.8,"torpedo_speed":59,"distance":10.0
+}
+},
+"name":"Type8 mod. 2",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PJUT502_D6_TORP_TOP",
+"module_id_str":"PJUT502",
+"module_id":3767938768,"type":"Torpedoes",
+"price_credit":400000
+},
+"4183174864":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":6133,"shot_speed":2.7,"torpedo_speed":44,"distance":5.0
+}
+},
+"name":"Ho Type42",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PJUT106_450_TACHIBANA",
+"module_id_str":"PJUT106",
+"module_id":4183174864,"type":"Torpedoes",
+"price_credit":0
+},
+"4177932272":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":6033,"shot_speed":5.5,"torpedo_speed":54,"distance":4.5
+}
+},
+"name":"Bliss Leavitt Mk7",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PAUT111_457_SMITH",
+"module_id_str":"PAUT111",
+"module_id":4177932272,"type":"Torpedoes",
+"price_credit":0
+},
+"3339071472":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":11733,"shot_speed":0.7,"torpedo_speed":64,"distance":6.4
+}
+},
+"name":"Mk12",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PAUT911_533_4_PAPT023_BUFF",
+"module_id_str":"PAUT911",
+"module_id":3339071472,"type":"Torpedoes",
+"price_credit":1
+},
+"3454414544":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":17233,"shot_speed":0.6,"torpedo_speed":62,"distance":10.0
+}
+},
+"name":"Type90 mod. 1",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PJUT801_C9_TORP_STOCK",
+"module_id_str":"PJUT801",
+"module_id":3454414544,"type":"Torpedoes",
+"price_credit":0
+},
+"3653643728":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":15100,"shot_speed":0.8,"torpedo_speed":70,"distance":4.0
+}
+},
+"name":"53-39 mod. 1",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PRUT611_C7_TORP_STOCK",
+"module_id_str":"PRUT611",
+"module_id":3653643728,"type":"Torpedoes",
+"price_credit":0
+},
+"3345362640":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":21366,"shot_speed":0.5,"torpedo_speed":76,"distance":8.0
+}
+},
+"name":"Type F3",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PJUT905_D10_TORP_TOP",
+"module_id_str":"PJUT905",
+"module_id":3345362640,"type":"Torpedoes",
+"price_credit":2500000
+},
 "3558223856":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":55,"shot_speed":0.5,"max_damage":16633,"distance":9.2
+"max_damage":16633,"shot_speed":0.5,"torpedo_speed":55,"distance":9.2
 }
 },
 "name":"Mk15 mod. 3",
@@ -775,21 +807,21 @@
 "module_id":3558223856,"type":"Torpedoes",
 "price_credit":1470000
 },
-"3664129328":
+"4081462992":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":57,"shot_speed":0.9,"max_damage":14400,"distance":8.0
+"max_damage":10833,"shot_speed":1.4,"torpedo_speed":57,"distance":7.0
 }
 },
-"name":"Mark 10",
+"name":"Type 6",
 "image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PWUT601_533_MARK_X",
-"module_id_str":"PWUT601",
-"module_id":3664129328,"type":"Torpedoes",
-"price_credit":0
+"tag":"PJUT203_D3_TORP_TOP",
+"module_id_str":"PJUT203",
+"module_id":4081462992,"type":"Torpedoes",
+"price_credit":95000
 },
 "3349557040":
 {
@@ -797,7 +829,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":64,"shot_speed":0.7,"max_damage":13700,"distance":6.0
+"max_damage":13700,"shot_speed":0.7,"torpedo_speed":64,"distance":6.0
 }
 },
 "name":"G7a T1",
@@ -807,29 +839,13 @@
 "module_id":3349557040,"type":"Torpedoes",
 "price_credit":0
 },
-"3451268816":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":62,"shot_speed":0.6,"max_damage":17233,"distance":10.0
-}
-},
-"name":"Type90 mod. 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PJUT804_610_ATAGO",
-"module_id_str":"PJUT804",
-"module_id":3451268816,"type":"Torpedoes",
-"price_credit":0
-},
 "3537251792":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":55,"shot_speed":0.9,"max_damage":14400,"distance":8.0
+"max_damage":14400,"shot_speed":0.9,"torpedo_speed":55,"distance":8.0
 }
 },
 "name":"53-36 mod. 2",
@@ -839,29 +855,13 @@
 "module_id":3537251792,"type":"Torpedoes",
 "price_credit":1300000
 },
-"3559272240":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":64,"shot_speed":0.7,"max_damage":13700,"distance":6.0
-}
-},
-"name":"G7a T1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PGUT701_533_TIRPITZ",
-"module_id_str":"PGUT701",
-"module_id":3559272240,"type":"Torpedoes",
-"price_credit":0
-},
 "3664129840":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":64,"shot_speed":0.9,"max_damage":13700,"distance":6.0
+"max_damage":13700,"shot_speed":0.9,"torpedo_speed":64,"distance":6.0
 }
 },
 "name":"G7a T1",
@@ -871,13 +871,29 @@
 "module_id":3664129840,"type":"Torpedoes",
 "price_credit":0
 },
+"3977654064":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":10433,"shot_speed":1.4,"torpedo_speed":58,"distance":4.0
+}
+},
+"name":"G7",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PGUT302_C4_TORP_STOCK",
+"module_id_str":"PGUT302",
+"module_id":3977654064,"type":"Torpedoes",
+"price_credit":0
+},
 "4185272016":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":48,"shot_speed":2.5,"max_damage":6800,"distance":8.0
+"max_damage":6800,"shot_speed":2.5,"torpedo_speed":48,"distance":8.0
 }
 },
 "name":"Type44 mod. 2",
@@ -893,7 +909,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":55,"shot_speed":0.6,"max_damage":11600,"distance":9.2
+"max_damage":11600,"shot_speed":0.6,"torpedo_speed":55,"distance":9.2
 }
 },
 "name":"Mk15 mod. 0",
@@ -903,21 +919,21 @@
 "module_id":3559272432,"type":"Torpedoes",
 "price_credit":0
 },
-"3978702640":
+"3559272240":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":57,"shot_speed":1.1,"max_damage":11200,"distance":6.0
+"max_damage":13700,"shot_speed":0.7,"torpedo_speed":64,"distance":6.0
 }
 },
-"name":"H8",
+"name":"G7a T1",
 "image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PGUT301_C4_TORP_TOP",
-"module_id_str":"PGUT301",
-"module_id":3978702640,"type":"Torpedoes",
-"price_credit":100000
+"tag":"PGUT701_533_TIRPITZ",
+"module_id_str":"PGUT701",
+"module_id":3559272240,"type":"Torpedoes",
+"price_credit":0
 },
 "3748015568":
 {
@@ -925,7 +941,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":65,"shot_speed":0.9,"max_damage":14400,"distance":4.0
+"max_damage":14400,"shot_speed":0.9,"torpedo_speed":65,"distance":4.0
 }
 },
 "name":"53-38",
@@ -935,20 +951,20 @@
 "module_id":3748015568,"type":"Torpedoes",
 "price_credit":0
 },
-"3977654064":
+"3664129328":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":58,"shot_speed":1.4,"max_damage":10433,"distance":4.0
+"max_damage":14400,"shot_speed":0.9,"torpedo_speed":57,"distance":8.0
 }
 },
-"name":"G7",
+"name":"Mark 10",
 "image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PGUT302_C4_TORP_STOCK",
-"module_id_str":"PGUT302",
-"module_id":3977654064,"type":"Torpedoes",
+"tag":"PWUT601_533_MARK_X",
+"module_id_str":"PWUT601",
+"module_id":3664129328,"type":"Torpedoes",
 "price_credit":0
 },
 "3448123088":
@@ -957,7 +973,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":76,"shot_speed":0.6,"max_damage":21366,"distance":8.0
+"max_damage":21366,"shot_speed":0.6,"torpedo_speed":76,"distance":8.0
 }
 },
 "name":"Type F3",
@@ -973,7 +989,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":66,"shot_speed":0.4,"max_damage":17900,"distance":16.5
+"max_damage":17900,"shot_speed":0.4,"torpedo_speed":66,"distance":16.5
 }
 },
 "name":"Mark 17",
@@ -989,7 +1005,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":52,"shot_speed":1.5,"max_damage":7233,"distance":5.0
+"max_damage":7233,"shot_speed":1.5,"torpedo_speed":52,"distance":5.0
 }
 },
 "name":"Torpedo Model 1912",
@@ -1005,7 +1021,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":62,"shot_speed":0.6,"max_damage":17233,"distance":10.0
+"max_damage":17233,"shot_speed":0.6,"torpedo_speed":62,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -1021,7 +1037,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":68,"shot_speed":1.3,"max_damage":14400,"distance":7.0
+"max_damage":14400,"shot_speed":1.3,"torpedo_speed":68,"distance":7.0
 }
 },
 "name":"Type 92",
@@ -1037,7 +1053,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":64,"shot_speed":0.9,"max_damage":13700,"distance":6.0
+"max_damage":13700,"shot_speed":0.9,"torpedo_speed":64,"distance":6.0
 }
 },
 "name":"G7a T1",
@@ -1053,7 +1069,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":45,"shot_speed":1.8,"max_damage":6133,"distance":4.0
+"max_damage":6133,"shot_speed":1.8,"torpedo_speed":45,"distance":4.0
 }
 },
 "name":"Torpedo Model 1908",
@@ -1069,7 +1085,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":56,"shot_speed":0.9,"max_damage":11733,"distance":5.5
+"max_damage":11733,"shot_speed":0.9,"torpedo_speed":56,"distance":5.5
 }
 },
 "name":"Mark 11",
@@ -1085,7 +1101,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":64,"shot_speed":0.9,"max_damage":13700,"distance":6.0
+"max_damage":13700,"shot_speed":0.9,"torpedo_speed":64,"distance":6.0
 }
 },
 "name":"G7a T1",
@@ -1101,7 +1117,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":68,"shot_speed":1.3,"max_damage":14400,"distance":7.0
+"max_damage":14400,"shot_speed":1.3,"torpedo_speed":68,"distance":7.0
 }
 },
 "name":"Type 92",
@@ -1117,7 +1133,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":49,"shot_speed":1.6,"max_damage":6233,"distance":8.2
+"max_damage":6233,"shot_speed":1.6,"torpedo_speed":49,"distance":8.2
 }
 },
 "name":"Mk9 mod. 1",
@@ -1133,7 +1149,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":64,"shot_speed":0.9,"max_damage":13700,"distance":6.0
+"max_damage":13700,"shot_speed":0.9,"torpedo_speed":64,"distance":6.0
 }
 },
 "name":"G7a T1",
@@ -1149,7 +1165,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":70,"shot_speed":0.8,"max_damage":15100,"distance":4.0
+"max_damage":15100,"shot_speed":0.8,"torpedo_speed":70,"distance":4.0
 }
 },
 "name":"53-39 mod. 1",
@@ -1165,7 +1181,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":65,"shot_speed":0.8,"max_damage":17933,"distance":4.0
+"max_damage":17933,"shot_speed":0.8,"torpedo_speed":65,"distance":4.0
 }
 },
 "name":"53-38U",
@@ -1181,7 +1197,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
+"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -1197,7 +1213,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":56,"shot_speed":1.5,"max_damage":9900,"distance":5.0
+"max_damage":9900,"shot_speed":1.5,"torpedo_speed":56,"distance":5.0
 }
 },
 "name":"Bliss Leavitt Mk9",
@@ -1207,29 +1223,13 @@
 "module_id":4081463280,"type":"Torpedoes",
 "price_credit":70000
 },
-"3851824592":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":65,"shot_speed":0.9,"max_damage":14400,"distance":4.0
-}
-},
-"name":"53-38",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PRUT422_D5_TORP_TOP",
-"module_id_str":"PRUT422",
-"module_id":3851824592,"type":"Torpedoes",
-"price_credit":260000
-},
 "3978702544":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":57,"shot_speed":1.4,"max_damage":10833,"distance":7.0
+"max_damage":10833,"shot_speed":1.4,"torpedo_speed":57,"distance":7.0
 }
 },
 "name":"Type 6",
@@ -1245,7 +1245,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":44,"shot_speed":2.7,"max_damage":6133,"distance":5.0
+"max_damage":6133,"shot_speed":2.7,"torpedo_speed":44,"distance":5.0
 }
 },
 "name":"Ho Type42",
@@ -1261,7 +1261,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":57,"shot_speed":1.5,"max_damage":9066,"distance":7.0
+"max_damage":9066,"shot_speed":1.5,"torpedo_speed":57,"distance":7.0
 }
 },
 "name":"Type44 mod. 2",
@@ -1277,7 +1277,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":76,"shot_speed":0.4,"max_damage":21366,"distance":8.0
+"max_damage":21366,"shot_speed":0.4,"torpedo_speed":76,"distance":8.0
 }
 },
 "name":"Type F3",
@@ -1293,7 +1293,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":64,"shot_speed":0.9,"max_damage":14400,"distance":4.0
+"max_damage":14400,"shot_speed":0.9,"torpedo_speed":64,"distance":4.0
 }
 },
 "name":"53-36 mod. 1",
@@ -1309,7 +1309,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":65,"shot_speed":0.9,"max_damage":14400,"distance":4.0
+"max_damage":14400,"shot_speed":0.9,"torpedo_speed":65,"distance":4.0
 }
 },
 "name":"53-38",
@@ -1325,7 +1325,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":59,"shot_speed":0.8,"max_damage":16266,"distance":10.0
+"max_damage":16266,"shot_speed":0.8,"torpedo_speed":59,"distance":10.0
 }
 },
 "name":"Type8 mod. 2",
@@ -1341,7 +1341,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":62,"shot_speed":0.4,"max_damage":20966,"distance":20.0
+"max_damage":20966,"shot_speed":0.4,"torpedo_speed":62,"distance":20.0
 }
 },
 "name":"Type93",
@@ -1357,7 +1357,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":55,"shot_speed":0.7,"max_damage":11600,"distance":9.2
+"max_damage":11600,"shot_speed":0.7,"torpedo_speed":55,"distance":9.2
 }
 },
 "name":"Mk15 mod. 0",
@@ -1367,20 +1367,20 @@
 "module_id":3663081456,"type":"Torpedoes",
 "price_credit":780000
 },
-"3873845040":
+"3454414640":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":64,"shot_speed":0.9,"max_damage":13700,"distance":6.0
+"max_damage":13700,"shot_speed":0.7,"torpedo_speed":64,"distance":6.0
 }
 },
 "name":"G7a T1",
 "image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PGUT401_C5_TORP_STOCK",
-"module_id_str":"PGUT401",
-"module_id":3873845040,"type":"Torpedoes",
+"tag":"PGUT801_C9_TORP_STOCK",
+"module_id_str":"PGUT801",
+"module_id":3454414640,"type":"Torpedoes",
 "price_credit":0
 },
 "3632672752":
@@ -1389,7 +1389,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":49,"shot_speed":0.8,"max_damage":8500,"distance":9.2
+"max_damage":8500,"shot_speed":0.8,"torpedo_speed":49,"distance":9.2
 }
 },
 "name":"Bliss Leavitt Mk7 mod. 2B",
@@ -1405,7 +1405,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
+"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -1421,7 +1421,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":63,"shot_speed":0.8,"max_damage":14600,"distance":6.0
+"max_damage":14600,"shot_speed":0.8,"torpedo_speed":63,"distance":6.0
 }
 },
 "name":"Type8 mod. 1",
@@ -1431,20 +1431,20 @@
 "module_id":3768987344,"type":"Torpedoes",
 "price_credit":0
 },
-"3978702832":
+"3451268816":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":56,"shot_speed":1.4,"max_damage":11733,"distance":5.5
+"max_damage":17233,"shot_speed":0.6,"torpedo_speed":62,"distance":10.0
 }
 },
-"name":"Mark 11",
+"name":"Type90 mod. 1",
 "image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PAUT301_C4_TORP_STOCK",
-"module_id_str":"PAUT301",
-"module_id":3978702832,"type":"Torpedoes",
+"tag":"PJUT804_610_ATAGO",
+"module_id_str":"PJUT804",
+"module_id":3451268816,"type":"Torpedoes",
 "price_credit":0
 },
 "3664130032":
@@ -1453,7 +1453,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":64,"shot_speed":0.7,"max_damage":11733,"distance":6.4
+"max_damage":11733,"shot_speed":0.7,"torpedo_speed":64,"distance":6.4
 }
 },
 "name":"Mark 12",
@@ -1469,7 +1469,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":68,"shot_speed":1.3,"max_damage":14400,"distance":7.0
+"max_damage":14400,"shot_speed":1.3,"torpedo_speed":68,"distance":7.0
 }
 },
 "name":"Type 92",
@@ -1485,7 +1485,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":56,"shot_speed":1.4,"max_damage":11733,"distance":5.5
+"max_damage":11733,"shot_speed":1.4,"torpedo_speed":56,"distance":5.5
 }
 },
 "name":"Mark 11",
@@ -1501,7 +1501,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":57,"shot_speed":1.0,"max_damage":9066,"distance":7.0
+"max_damage":9066,"shot_speed":1.0,"torpedo_speed":57,"distance":7.0
 }
 },
 "name":"Type44 mod. 2",
@@ -1517,7 +1517,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":67,"shot_speed":0.5,"max_damage":20966,"distance":10.0
+"max_damage":20966,"shot_speed":0.5,"torpedo_speed":67,"distance":10.0
 }
 },
 "name":"Type93 mod. 2",
@@ -1533,7 +1533,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":55,"shot_speed":0.9,"max_damage":14400,"distance":8.0
+"max_damage":14400,"shot_speed":0.9,"torpedo_speed":55,"distance":8.0
 }
 },
 "name":"53-36 mod. 2",
@@ -1543,13 +1543,29 @@
 "module_id":3454414288,"type":"Torpedoes",
 "price_credit":1300000
 },
+"3768987088":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":14400,"shot_speed":0.9,"torpedo_speed":65,"distance":4.0
+}
+},
+"name":"53-38",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PRUT501_MOLOTOV",
+"module_id_str":"PRUT501",
+"module_id":3768987088,"type":"Torpedoes",
+"price_credit":0
+},
 "3978702288":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":51,"shot_speed":1.8,"max_damage":6166,"distance":4.0
+"max_damage":6166,"shot_speed":1.8,"torpedo_speed":51,"distance":4.0
 }
 },
 "name":"Torpedo Model 1910",
@@ -1565,7 +1581,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
+"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -1581,7 +1597,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":59,"shot_speed":0.8,"max_damage":16266,"distance":10.0
+"max_damage":16266,"shot_speed":0.8,"torpedo_speed":59,"distance":10.0
 }
 },
 "name":"Type8 mod. 2",
@@ -1597,7 +1613,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":65,"shot_speed":0.9,"max_damage":13200,"distance":3.7
+"max_damage":13200,"shot_speed":0.9,"torpedo_speed":65,"distance":5.0
 }
 },
 "name":"53-27",
@@ -1613,7 +1629,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":54,"shot_speed":2.6,"max_damage":6033,"distance":4.5
+"max_damage":6033,"shot_speed":2.6,"torpedo_speed":54,"distance":4.5
 }
 },
 "name":"Bliss Leavitt Mk7",
@@ -1629,7 +1645,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":55,"shot_speed":0.6,"max_damage":16633,"distance":9.2
+"max_damage":16633,"shot_speed":0.6,"torpedo_speed":55,"distance":9.2
 }
 },
 "name":"Mk15 mod. 3",
@@ -1645,7 +1661,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":55,"shot_speed":0.6,"max_damage":11600,"distance":9.2
+"max_damage":11600,"shot_speed":0.6,"torpedo_speed":55,"distance":9.2
 }
 },
 "name":"533 mm Mk15 mod. 0",
@@ -1655,45 +1671,13 @@
 "module_id":3557174480,"type":"Torpedoes",
 "price_credit":0
 },
-"3663080912":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":65,"shot_speed":0.5,"max_damage":17933,"distance":4.0
-}
-},
-"name":"53-38U",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PRUT602_D7_TORP_TOP",
-"module_id_str":"PRUT602",
-"module_id":3663080912,"type":"Torpedoes",
-"price_credit":800000
-},
-"3449171664":
-{
-"profile":
-{
-"torpedoes":
-{
-"torpedo_speed":62,"shot_speed":0.5,"max_damage":20966,"distance":20.0
-}
-},
-"name":"Type93",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PJUT806_D9_TORP_MED",
-"module_id_str":"PJUT806",
-"module_id":3449171664,"type":"Torpedoes",
-"price_credit":2200000
-},
 "3348508112":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":53,"shot_speed":0.5,"max_damage":19500,"distance":6.0
+"max_damage":19500,"shot_speed":0.5,"torpedo_speed":53,"distance":6.0
 }
 },
 "name":"ET-46",
@@ -1703,13 +1687,45 @@
 "module_id":3348508112,"type":"Torpedoes",
 "price_credit":2200000
 },
+"3449171664":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":20966,"shot_speed":0.5,"torpedo_speed":62,"distance":20.0
+}
+},
+"name":"Type93",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PJUT806_D9_TORP_MED",
+"module_id_str":"PJUT806",
+"module_id":3449171664,"type":"Torpedoes",
+"price_credit":2200000
+},
+"3527814608":
+{
+"profile":
+{
+"torpedoes":
+{
+"max_damage":17933,"shot_speed":0.8,"torpedo_speed":65,"distance":4.0
+}
+},
+"name":"53-38U",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
+"tag":"PRUT731_C8_TORP_STOCK",
+"module_id_str":"PRUT731",
+"module_id":3527814608,"type":"Torpedoes",
+"price_credit":0
+},
 "3767938256":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":60,"shot_speed":0.8,"max_damage":14400,"distance":8.0
+"max_damage":14400,"shot_speed":0.8,"torpedo_speed":60,"distance":8.0
 }
 },
 "name":"533 mm 53-51",
@@ -1719,20 +1735,20 @@
 "module_id":3767938256,"type":"Torpedoes",
 "price_credit":0
 },
-"3873844944":
+"3450220240":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":63,"shot_speed":0.8,"max_damage":14600,"distance":6.0
+"max_damage":17233,"shot_speed":0.8,"torpedo_speed":62,"distance":10.0
 }
 },
-"name":"Type8",
+"name":"Type90 mod. 1",
 "image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PJUT401_C5_TORP_STOCK",
-"module_id_str":"PJUT401",
-"module_id":3873844944,"type":"Torpedoes",
+"tag":"PJUT805_610_TONE",
+"module_id_str":"PJUT805",
+"module_id":3450220240,"type":"Torpedoes",
 "price_credit":0
 },
 "4081463248":
@@ -1741,7 +1757,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":57,"shot_speed":1.0,"max_damage":11966,"distance":7.5
+"max_damage":11966,"shot_speed":1.0,"torpedo_speed":57,"distance":7.5
 }
 },
 "name":"533 mm Mk IV",
@@ -1757,7 +1773,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":67,"shot_speed":0.5,"max_damage":20966,"distance":10.0
+"max_damage":20966,"shot_speed":0.5,"torpedo_speed":67,"distance":10.0
 }
 },
 "name":"Type93 mod. 2",
@@ -1773,7 +1789,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":65,"shot_speed":0.6,"max_damage":16633,"distance":4.5
+"max_damage":16633,"shot_speed":0.6,"torpedo_speed":65,"distance":4.5
 }
 },
 "name":"Mk15 mod. 3",
@@ -1789,7 +1805,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":59,"shot_speed":0.8,"max_damage":16266,"distance":10.0
+"max_damage":16266,"shot_speed":0.8,"torpedo_speed":59,"distance":10.0
 }
 },
 "name":"Type8 mod. 2",
@@ -1805,7 +1821,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":48,"shot_speed":1.9,"max_damage":6400,"distance":4.5
+"max_damage":6400,"shot_speed":1.9,"torpedo_speed":48,"distance":4.5
 }
 },
 "name":"Bliss Leavitt Mk3",
@@ -1821,7 +1837,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":44,"shot_speed":2.7,"max_damage":6133,"distance":5.0
+"max_damage":6133,"shot_speed":2.7,"torpedo_speed":44,"distance":5.0
 }
 },
 "name":"Type 42",
@@ -1837,7 +1853,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":60,"shot_speed":0.5,"max_damage":14400,"distance":8.0
+"max_damage":14400,"shot_speed":0.5,"torpedo_speed":60,"distance":8.0
 }
 },
 "name":"53-51",
@@ -1853,7 +1869,7 @@
 {
 "torpedoes":
 {
-"torpedo_speed":65,"shot_speed":0.9,"max_damage":14400,"distance":4.0
+"max_damage":14400,"shot_speed":0.9,"torpedo_speed":65,"distance":4.0
 }
 },
 "name":"533 mm 53-38",
@@ -1863,20 +1879,20 @@
 "module_id":3768986832,"type":"Torpedoes",
 "price_credit":0
 },
-"3863358928":
+"3443928528":
 {
 "profile":
 {
 "torpedoes":
 {
-"torpedo_speed":55,"shot_speed":0.9,"max_damage":14400,"distance":8.0
+"max_damage":14400,"shot_speed":0.5,"torpedo_speed":55,"distance":8.0
 }
 },
-"name":"53-39",
+"name":"53-36 mod. 2",
 "image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/module\/icon_module_torpedoes.png",
-"tag":"PRUT411_533_3_39U",
-"module_id_str":"PRUT411",
-"module_id":3863358928,"type":"Torpedoes",
+"tag":"PRUT811_C9_TORP_STOCK",
+"module_id_str":"PRUT811",
+"module_id":3443928528,"type":"Torpedoes",
 "price_credit":0
 }
 }
