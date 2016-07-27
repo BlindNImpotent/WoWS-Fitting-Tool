@@ -596,6 +596,9 @@ public class JSON_Parser
 			if (ATBAArray != null)
 			{
 				JSONObject ATBA = (JSONObject) GPParser.getShipJSON().get(ATBAArray.get(ATBAArray.size()-1));
+				
+				secondaryMaxDist = (double) ATBA.get("maxDist");
+				
 				//AA Aura Far
 				if (ATBA.get("AuraFar") != null)
 				{
