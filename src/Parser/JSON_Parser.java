@@ -473,29 +473,10 @@ public class JSON_Parser
 		Collections.sort(ammoList);
 					
 		JSONObject APShell = null;
-		JSONObject HEShell = null;
-		
-		for (int i = 0; i < ammoList.size(); i++)
-		{
-			if (   ammoList.get(i).toString().contains("_AP_") 
-				|| ammoList.get(i).toString().contains("_B")
-										
-					)
-			{
-				APShell = (JSONObject) GPParser.getGameParams().get(ammoList.get(i));	
-			}
-		}
-		for (int i = 0; i < ammoList.size(); i++)
-		{
-			if (	ammoList.get(i).toString().contains("_HE_") 
-				 || ammoList.get(i).toString().contains("_OF")
-					)
-			{
-				HEShell = (JSONObject) GPParser.getGameParams().get(ammoList.get(i));
-			}
-		}
-		
-		JSONArray tobj3;
+		JSONObject HEShell = null;		
+
+		APShell = (JSONObject) GPParser.getGameParams().get(ammoList.get(0));	
+		HEShell = (JSONObject) GPParser.getGameParams().get(ammoList.get(1));
 		
 		APShellSpeed = (double) APShell.get("bulletSpeed");
 		APShellDMG = (double) APShell.get("alphaDamage");
@@ -503,6 +484,8 @@ public class JSON_Parser
 		HEShellDMG = (double) HEShell.get("alphaDamage");
 		HEShellBurnProb = (double) HEShell.get("burnProb");
 		
+		JSONArray tobj3;
+
 		tobj3 = (JSONArray) GP_TurretJSON.get("rotationSpeed");
 		mainGunRotation = (double) tobj3.get(0);
 		mainGunReload = (double) GP_TurretJSON.get("shotDelay");
