@@ -83,7 +83,7 @@ public class Calc
 	private JSONObject crew;
 	private JSONObject skills;
 	
-	private List<String> flags = new ArrayList<String>();
+	private List<JSONObject> flags = new ArrayList<>();
 	
 	private int count1;
 	private int count2;
@@ -181,6 +181,8 @@ public class Calc
 		
 		burnTime = jsp.getBurnTime();
 		floodTime = jsp.getFloodTime();
+		
+		flags = jsp.getFlagsJSONList();
 		
 		setSkills();
 	}
@@ -681,13 +683,16 @@ public class Calc
 	}
 	public void calcNF()
 	{
-		JSONObject flag = null; 
+		JSONObject flag = null;
+		String flagName = null;
 		
 		for (int i = 0; i < flags.size(); i++)
 		{
-			if (flags.get(i).contains("NF"))
+			flagName = (String) flags.get(i).get("name");			
+			
+			if (flagName.contains("NF"))
 			{
-				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+				flag = flags.get(i);
 			}
 		}
 		
@@ -702,13 +707,16 @@ public class Calc
 	}
 	public void calcJY2()
 	{
-		JSONObject flag = null; 
+		JSONObject flag = null;
+		String flagName = null;
 		
 		for (int i = 0; i < flags.size(); i++)
 		{
-			if (flags.get(i).contains("JY"))
+			flagName = (String) flags.get(i).get("name");			
+			
+			if (flagName.contains("JY2"))
 			{
-				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+				flag = flags.get(i);
 			}
 		}
 		
@@ -720,13 +728,16 @@ public class Calc
 	}
 	public void calcIY()
 	{
-		JSONObject flag = null; 
+		JSONObject flag = null;
+		String flagName = null;
 		
 		for (int i = 0; i < flags.size(); i++)
 		{
-			if (flags.get(i).contains("IY"))
+			flagName = (String) flags.get(i).get("name");			
+			
+			if (flagName.contains("IY"))
 			{
-				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+				flag = flags.get(i);
 			}
 		}
 		
@@ -734,13 +745,16 @@ public class Calc
 	}
 	public void calcNE7()
 	{
-		JSONObject flag = null; 
+		JSONObject flag = null;
+		String flagName = null;
 		
 		for (int i = 0; i < flags.size(); i++)
 		{
-			if (flags.get(i).contains("NE7"))
+			flagName = (String) flags.get(i).get("name");			
+			
+			if (flagName.contains("NE7"))
 			{
-				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+				flag = flags.get(i);
 			}
 		}
 		
@@ -750,13 +764,16 @@ public class Calc
 	}
 	public void calcZH()
 	{
-		JSONObject flag = null; 
-
+		JSONObject flag = null;
+		String flagName = null;
+		
 		for (int i = 0; i < flags.size(); i++)
 		{
-			if (flags.get(i).contains("ZH"))
+			flagName = (String) flags.get(i).get("name");			
+			
+			if (flagName.contains("ZH"))
 			{
-				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+				flag = flags.get(i);
 			}
 		}
 		
@@ -766,13 +783,16 @@ public class Calc
 	}
 	public void calcIB3()
 	{
-		JSONObject flag = null; 
+		JSONObject flag = null;
+		String flagName = null;
 		
 		for (int i = 0; i < flags.size(); i++)
 		{
-			if (flags.get(i).contains("IB3"))
+			flagName = (String) flags.get(i).get("name");			
+			
+			if (flagName.contains("IB3"))
 			{
-				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+				flag = flags.get(i);
 			}
 		}
 		
@@ -780,13 +800,16 @@ public class Calc
 	}
 	public void calcSM()
 	{
-		JSONObject flag = null; 
+		JSONObject flag = null;
+		String flagName = null;
 		
 		for (int i = 0; i < flags.size(); i++)
 		{
-			if (flags.get(i).contains("SM"))
+			flagName = (String) flags.get(i).get("name");			
+			
+			if (flagName.contains("SM"))
 			{
-				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+				flag = flags.get(i);
 			}
 		}
 		
@@ -794,13 +817,16 @@ public class Calc
 	}
 	public void calcVL()
 	{
-		JSONObject flag = null; 
+		JSONObject flag = null;
+		String flagName = null;
 		
 		for (int i = 0; i < flags.size(); i++)
 		{
-			if (flags.get(i).contains("VL"))
+			flagName = (String) flags.get(i).get("name");			
+			
+			if (flagName.contains("VL"))
 			{
-				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+				flag = flags.get(i);
 			}
 		}
 		
@@ -815,13 +841,16 @@ public class Calc
 	}
 	public void calcMY6()
 	{
-		JSONObject flag = null; 
+		JSONObject flag = null;
+		String flagName = null;
 		
 		for (int i = 0; i < flags.size(); i++)
 		{
-			if (flags.get(i).contains("MY6"))
+			flagName = (String) flags.get(i).get("name");			
+			
+			if (flagName.contains("MY6"))
 			{
-				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+				flag = flags.get(i);
 			}
 		}
 		
@@ -833,13 +862,16 @@ public class Calc
 	}
 	public void calcIX()
 	{
-		JSONObject flag = null; 
+		JSONObject flag = null;
+		String flagName = null;
 		
 		for (int i = 0; i < flags.size(); i++)
 		{
-			if (flags.get(i).contains("IX"))
+			flagName = (String) flags.get(i).get("name");			
+			
+			if (flagName.contains("IX"))
 			{
-				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+				flag = flags.get(i);
 			}
 		}
 		
@@ -854,13 +886,16 @@ public class Calc
 	}
 	public void calcESCL()
 	{
-		JSONObject flag = null; 
+		JSONObject flag = null;
+		String flagName = null;
 		
 		for (int i = 0; i < flags.size(); i++)
 		{
-			if (flags.get(i).contains("EqualSpeed"))
+			flagName = (String) flags.get(i).get("name");			
+			
+			if (flagName.contains("EqualSpeed"))
 			{
-				flag = (JSONObject) jsp.getGameParams().get(flags.get(i));
+				flag = flags.get(i);
 			}
 		}
 		

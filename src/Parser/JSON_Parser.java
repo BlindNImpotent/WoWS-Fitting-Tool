@@ -167,6 +167,7 @@ public class JSON_Parser
 	private List<String> API_TorpedoesUpgradeNameList = new ArrayList<>();
 	private HashMap<String, JSONObject> API_TorpedoesUpgradeJSONHashMap = new HashMap<>();
 	
+	private List<JSONObject> FlagsJSONList = new ArrayList<>();
 	
 	
 	public JSON_Parser(String aShipName) throws IOException, ParseException
@@ -185,7 +186,8 @@ public class JSON_Parser
 		setShipTypeList();
 		setPermaflage();
 		//setCamouflage();
-		setConsumablesList();
+		setConsumablesList();		
+		setFlagsList();
 
 		if (GPParser.getShipJSON().get("level") instanceof Long)
 		{
@@ -988,5 +990,24 @@ public class JSON_Parser
 		{
 			expFactorPermaCamo = 0;
 		}		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void setFlagsList()
+	{
+		List<String> API_Flags_keySet = new ArrayList<>();
+		API_Flags_keySet.addAll(APIParser.getAPI_Exterior_FlagsJSON().keySet());
+		
+		for (int i = 0; i < GPParser.getGameParamsKeySet().size(); i++)
+		{
+			for (int j = 0; j < API_Flags_keySet.size(); j++)
+			{
+				String flagId = String.valueOf(GPParser.getGameParamsValues().get(i).get("id"));
+				if (flagId.matches(API_Flags_keySet.get(j)))
+				{
+					FlagsJSONList.add(GPParser.getGameParamsHashMap().get(GPParser.getGameParamsKeySet().get(i)));
+				}				
+			}
+		}
 	}
 }
