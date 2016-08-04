@@ -389,8 +389,8 @@ public class Controller
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws IOException, ParseException
-	{	
-		new Controller();
-	}	
+//	public static void main(String[] args) throws IOException, ParseException
+//	{
+//		new Controller();
+//	}
 }
