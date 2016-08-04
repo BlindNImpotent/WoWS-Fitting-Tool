@@ -104,18 +104,73 @@ public class Calc
 	/**
 	 * Constructor to set ship stats.
 	 * @param ship Ship name
-	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-	public Calc(String ship) throws FileNotFoundException, IOException, ParseException
+	public Calc(String ship) throws IOException, ParseException
 	{
 		jsp = new JSON_Parser(ship);
+
+		tier = jsp.getTier();
+		nation = jsp.getNation();
+		shiptype = jsp.getShipType();
+		maxRepairCost = jsp.getMaxRepairCost();
+		health = jsp.getMaxHP();
+		speed = jsp.getSpeed();
+		turningRadius = jsp.getTurningRadius();
+
+		horsePower = jsp.getHorsePower();
+		rudderShift = jsp.getRudderShift();
+
+		maxMainGunRange = jsp.getMaxMainGunRange() / 1000;
+		sigmaCount = jsp.getSigmaCount();
+		mainGunReload = jsp.getMainGunReload();
+		mainGunRotation = jsp.getMainGunRotation();
+		mainGunDispersionTangent = jsp.getMainGunDispersionTangent();
+		mainGunDispersionRange = maxMainGunRange * mainGunDispersionTangent * 2 * 1000;
+		numBarrels = jsp.getNumBarrels();
+		numTurrets = jsp.getNumTurrets();
+		APShellSpeed = jsp.getAPShellSpeed();
+		APShellDMG = jsp.getAPShellDMG();
+		HEShellSpeed = jsp.getHEShellSpeed();
+		HEShellDMG = jsp.getHEShellDMG();
+		HEShellBurnProb = jsp.getHEShellBurnProb() * 100;
+
+		secondaryMaxDist = jsp.getSecondaryMaxDist();
+
+		torpedoReload = jsp.getTorpedoReload();
+		torpedoRotation = jsp.getTorpedoRotation();
+		maxTorpedoRange = jsp.getMaxTorpedoRange();
+		torpedoSpeed = jsp.getTorpedoSpeed();
+		torpedoVisibilityFactor = jsp.getTorpedoVisibilityFactor();
+
+		sConceal = jsp.getSConceal();
+		aConceal = jsp.getAConceal();
+		stealthFireSurfaceDetection = jsp.getStealthFireSurfaceDetection();
+		AAFireAirDetection = jsp.getAAFireAirDetection();
+
+		//forwardEngineUpTime = (double) jsp.getEngineObj().get("forwardEngineUpTime");
+		//backwardEngineUpTime = (double) jsp.getEngineObj().get("backwardEngineUpTime");
+
+		antiAirAuraDistanceFar = jsp.getAntiAirAuraDistanceFar();
+		antiAirAuraDistanceMedium = jsp.getAntiAirAuraDistanceMedium();
+		antiAirAuraDistanceNear = jsp.getAntiAirAuraDistanceNear();
+
+		AAFarBarrelDiameter = jsp.getAAFarBarrelDiameter();
+
+		AAFarDPS = jsp.getAAFarDPS();
+		AAMediumDPS = jsp.getAAMediumDPS();
+		AANearDPS = jsp.getAANearDPS();
+
+		burnTime = jsp.getBurnTime();
+		floodTime = jsp.getFloodTime();
+
+		flags = jsp.getFlagsJSONList();
 	}
 	
 	public Calc(String ship, String turret, String aHull, String engine, String radar, String torpedo,
 			String consume1, String consume2, String consume3, String consume4) 
-			throws FileNotFoundException, IOException, ParseException
+			throws IOException, ParseException
 	{
 		jsp = new JSON_Parser(ship);
 		

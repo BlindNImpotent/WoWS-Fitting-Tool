@@ -6,5 +6,40 @@
     <title>World of Warships Fitting Tool</title>
 </head>
 <body>
+<div class="nation">
+    <ul>
+        <li th:each="nation : ${name.nationList}">
+            <span th:text="${nation}"/>
+            <ul>
+                <li th:each="shipType : ${name.shipTypeList}">
+                    <span th:text="${shipType}"/>
+                    <ul th:if="${nation == 'Germany' and shipType == 'Battleship'}">
+                        <li th:each="GermanyBattleship : ${name.GermanyBattleshipList}">
+                            <span th:text="${GermanyBattleship}"/>
+                        </li>
+                    </ul>
+                    <ul th:if="${nation == 'Germany' and shipType == 'Cruiser'}">
+                        <li th:each="GermanyCruiser : ${name.GermanyCruiserList}">
+                            <span th:text="${GermanyCruiser}"/>
+                        </li>
+                    </ul>
+                    <ul th:if="${nation == 'Germany' and shipType == 'Premium'}">
+                        <li th:each="GermanyPremium : ${name.GermanyPremiumList}">
+                            <span th:text="${GermanyPremium}"/>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<script th:inline="javascript">
+
+
+
+
+
+
+</script>
 </body>
 </html>

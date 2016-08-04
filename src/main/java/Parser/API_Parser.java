@@ -61,7 +61,7 @@ public class API_Parser
 	
 	private String ship_id_str;
 	
-	public API_Parser() throws FileNotFoundException, IOException, ParseException
+	public API_Parser() throws IOException, ParseException
 	{
 		setup();
 	}

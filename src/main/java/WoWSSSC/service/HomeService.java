@@ -1,11 +1,15 @@
 package WoWSSSC.service;
 
 import JAR.Calc;
+import Parser.API_NameLists;
+import Parser.API_Parser;
 import WoWSSSC.model.Ship;
+import WoWSSSC.model.ShipNameList;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Aesis on 2016-08-04.
@@ -15,12 +19,26 @@ public class HomeService
 {
     private Calc calc;
 
-    public Calc getCalc(Ship ship) throws IOException, ParseException
+    private API_NameLists apiNameLists;
+
+    public HomeService() throws IOException, ParseException {
+        apiNameLists = new API_NameLists();
+    }
+
+    public ShipNameList getNameList() throws IOException, ParseException
     {
-        calc = new Calc(ship.getName());
-        calc = new Calc(ship.getName(), ship.getTurret(), ship.getHull(), ship.getEngine(), ship.getRadar(), ship.getTorpedo(), ship.getConsume1(), ship.getConsume2(), ship.getConsume3(), ship.getConsume4());
+        ShipNameList shipNameList = new ShipNameList();
+
+        return shipNameList;
+    }
+
+    public Calc getCalc(String name) throws IOException, ParseException
+    {
+        calc = new Calc(name);
 
         return calc;
     }
+
+
 
 }
