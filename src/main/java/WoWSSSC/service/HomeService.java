@@ -2,14 +2,11 @@ package WoWSSSC.service;
 
 import JAR.Calc;
 import Parser.API_NameLists;
-import Parser.API_Parser;
-import WoWSSSC.model.Ship;
 import WoWSSSC.model.ShipNameList;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by Aesis on 2016-08-04.
@@ -34,7 +31,10 @@ public class HomeService
 
     public Calc getCalc(String name) throws IOException, ParseException
     {
-        calc = new Calc(name);
+        if (!name.equals(""))
+        {
+            calc = new Calc(name);
+        }
 
         return calc;
     }

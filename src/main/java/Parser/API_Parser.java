@@ -60,6 +60,8 @@ public class API_Parser
 	private JSONObject shipJSON;
 	
 	private String ship_id_str;
+
+	private String shipContour;
 	
 	public API_Parser() throws IOException, ParseException
 	{
@@ -123,13 +125,18 @@ public class API_Parser
 	}
 	
 	public void setShipJSON(String aShipName)
-	{							
+	{
+		JSONObject images;
+
 		for (int i = 0; i < APIShipsJSONList.size(); i++)
 		{
 			if (APIShipsJSONList.get(i).containsValue(aShipName))
 			{
 				shipJSON = APIShipsJSONList.get(i);	
 				ship_id_str = (String) shipJSON.get("ship_id_str");
+
+				images = (JSONObject) shipJSON.get("images");
+				shipContour = (String) images.get("contour");
 				break;
 			}	
 		}

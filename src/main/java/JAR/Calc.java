@@ -100,6 +100,14 @@ public class Calc
 	private double expFactor;
 	private double captainExpFactor;
 	private static double PremAcc = 1.50;
+
+	private String shipContour;
+
+	private List<String> turretList = new ArrayList<String>();
+	private List<String> hullList = new ArrayList<String>();
+	private List<String> engineList = new ArrayList<String>();
+	private List<String> radarList = new ArrayList<String>();
+	private List<String> torpedoList = new ArrayList<String>();
 	
 	/**
 	 * Constructor to set ship stats.
@@ -111,61 +119,7 @@ public class Calc
 	{
 		jsp = new JSON_Parser(ship);
 
-		tier = jsp.getTier();
-		nation = jsp.getNation();
-		shiptype = jsp.getShipType();
-		maxRepairCost = jsp.getMaxRepairCost();
-		health = jsp.getMaxHP();
-		speed = jsp.getSpeed();
-		turningRadius = jsp.getTurningRadius();
-
-		horsePower = jsp.getHorsePower();
-		rudderShift = jsp.getRudderShift();
-
-		maxMainGunRange = jsp.getMaxMainGunRange() / 1000;
-		sigmaCount = jsp.getSigmaCount();
-		mainGunReload = jsp.getMainGunReload();
-		mainGunRotation = jsp.getMainGunRotation();
-		mainGunDispersionTangent = jsp.getMainGunDispersionTangent();
-		mainGunDispersionRange = maxMainGunRange * mainGunDispersionTangent * 2 * 1000;
-		numBarrels = jsp.getNumBarrels();
-		numTurrets = jsp.getNumTurrets();
-		APShellSpeed = jsp.getAPShellSpeed();
-		APShellDMG = jsp.getAPShellDMG();
-		HEShellSpeed = jsp.getHEShellSpeed();
-		HEShellDMG = jsp.getHEShellDMG();
-		HEShellBurnProb = jsp.getHEShellBurnProb() * 100;
-
-		secondaryMaxDist = jsp.getSecondaryMaxDist();
-
-		torpedoReload = jsp.getTorpedoReload();
-		torpedoRotation = jsp.getTorpedoRotation();
-		maxTorpedoRange = jsp.getMaxTorpedoRange();
-		torpedoSpeed = jsp.getTorpedoSpeed();
-		torpedoVisibilityFactor = jsp.getTorpedoVisibilityFactor();
-
-		sConceal = jsp.getSConceal();
-		aConceal = jsp.getAConceal();
-		stealthFireSurfaceDetection = jsp.getStealthFireSurfaceDetection();
-		AAFireAirDetection = jsp.getAAFireAirDetection();
-
-		//forwardEngineUpTime = (double) jsp.getEngineObj().get("forwardEngineUpTime");
-		//backwardEngineUpTime = (double) jsp.getEngineObj().get("backwardEngineUpTime");
-
-		antiAirAuraDistanceFar = jsp.getAntiAirAuraDistanceFar();
-		antiAirAuraDistanceMedium = jsp.getAntiAirAuraDistanceMedium();
-		antiAirAuraDistanceNear = jsp.getAntiAirAuraDistanceNear();
-
-		AAFarBarrelDiameter = jsp.getAAFarBarrelDiameter();
-
-		AAFarDPS = jsp.getAAFarDPS();
-		AAMediumDPS = jsp.getAAMediumDPS();
-		AANearDPS = jsp.getAANearDPS();
-
-		burnTime = jsp.getBurnTime();
-		floodTime = jsp.getFloodTime();
-
-		flags = jsp.getFlagsJSONList();
+		shipContour = jsp.getShipContour();
 	}
 	
 	public Calc(String ship, String turret, String aHull, String engine, String radar, String torpedo,
@@ -1370,9 +1324,6 @@ public class Calc
 
 	public List<String> getTurretList()
 	{
-		List<String> turretList = new ArrayList<String>();
-		
-		
 		for (int i = 0; i < jsp.getAPI_ArtilleryUpgradeNameList().size(); i++)
 		{
 			turretList.add(i, jsp.getAPI_ArtilleryUpgradeNameList().get(i));
@@ -1383,8 +1334,6 @@ public class Calc
 	
 	public List<String> getHullList()
 	{
-		List<String> hullList = new ArrayList<String>();
-		
 		for (int i = 0; i < jsp.getAPI_HullUpgradeNameList().size(); i++)
 		{
 			hullList.add(i, jsp.getAPI_HullUpgradeNameList().get(i));
@@ -1395,8 +1344,6 @@ public class Calc
 	
 	public List<String> getEngineList()
 	{
-		List<String> engineList = new ArrayList<String>();		
-		
 		for (int i = 0; i < jsp.getAPI_EngineUpgradeNameList().size(); i++)
 		{			
 			engineList.add(i, jsp.getAPI_EngineUpgradeNameList().get(i));
@@ -1406,8 +1353,6 @@ public class Calc
 	
 	public List<String> getRadarList()
 	{
-		List<String> radarList = new ArrayList<String>();		
-		
 		for (int i = 0; i < jsp.getAPI_SuoUpgradeNameList().size(); i++)
 		{			
 			radarList.add(i, jsp.getAPI_SuoUpgradeNameList().get(i));
@@ -1417,8 +1362,6 @@ public class Calc
 	
 	public List<String> getTorpedoList()
 	{
-		List<String> torpedoList = new ArrayList<String>();
-		
 		if (jsp.getAPI_TorpedoesUpgradeNameList().size() == 0)
 		{
 			torpedoList.add("None");

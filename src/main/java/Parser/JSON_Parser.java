@@ -106,7 +106,6 @@ public class JSON_Parser
 	private double visibilityFactorByPlanePermaCamo;
 	private double expFactorPermaCamo;
 
-
 	private List<Long> API_UpgradesIDList = new ArrayList<>();
 	private JSONObject GP_UpgradesJSON;
 	private List<String> UpgradesNameList = new ArrayList<>();
@@ -168,7 +167,8 @@ public class JSON_Parser
 	private HashMap<String, JSONObject> API_TorpedoesUpgradeJSONHashMap = new HashMap<>();
 	
 	private List<JSONObject> FlagsJSONList = new ArrayList<>();
-	
+
+	private String shipContour;
 	
 	public JSON_Parser(String aShipName) throws IOException, ParseException
 	{
@@ -176,6 +176,8 @@ public class JSON_Parser
 		APIParser.setShipJSON(aShipName);
 		GPParser = new GameParams_Parser(APIParser.getShip_id_str());
 		ShipUpgradeInfoJSON = (JSONObject) GPParser.getShipJSON().get("ShipUpgradeInfo");
+
+		shipContour = APIParser.getShipContour();
 
 		GameParams = GPParser.getGameParams();
 
