@@ -30,7 +30,7 @@
                         <li th:each="FranceAirCarrier : ${nameList.FranceAirCarrierList}">
                             <a th:href="@{/ship/{name}(name = ${FranceAirCarrier})}">
                                 <span th:text="${FranceAirCarrier}"/>
-                            </a>    
+                            </a>
                         </li>
                     </ul>
                     <ul th:if="${nation == 'France' and shipType == 'Battleship'}">
