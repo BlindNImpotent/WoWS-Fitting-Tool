@@ -108,8 +108,6 @@
         {
             background-color:#fff;
             text-align: center;
-            padding: 5px;
-            margin: 2px;
             border-color: rgb(0,0,0);
             border-width: 1px;
             border-style: solid;
@@ -120,10 +118,10 @@
         .button_module
         {
             font-size: 12px;
-            min-width: 80px;
-            max-width: 80px;
-            min-height: 80px;
-            max-height: 80px;
+            min-width: 100px;
+            max-width: 100px;
+            min-height: 100px;
+            max-height: 100px;
             word-wrap: normal;
             cursor: pointer;
         }
@@ -134,13 +132,11 @@
             margin-bottom: -2px;
         }
 
-        .button-selected
+        .button_module_selected
         {
             background-color:#fff;
             text-align: center;
-            padding: 5px;
-            margin: 2px;
-            border-color: rgb(0,0,0);
+            border-color: rgb(256,0,0);
             border-width: 1px;
             border-style: solid;
             border-radius: 5px;
@@ -434,7 +430,7 @@
             <img th:src="${ship.shipContour}"/><br />
             <div class="modules">
                 <div id="turretList">
-                    <li th:each="turret : ${ship.turretList}">
+                    <li th:each="turret : ${turretList}">
                         <button class="button button_module" th:id="${turret}">
                             <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_maingun.png"/><br />
                             <span th:text="${turret}"/>
@@ -442,15 +438,15 @@
                     </li>
                 </div>
                 <div id="hullList">
-                    <li th:each="hull : ${ship.hullList}">
-                        <button class="button button_module" th:id="${hull}">
+                    <li th:each="hull : ${hullList}">
+                        <button th:onclick="'javascript:click(\'' + ${hull} +'\',\''+ ${hullList} + '\');'" class="button button_module" th:id="${hull}">
                             <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_hull.png"/><br />
                             <span th:text="${hull}"/>
                         </button>
                     </li>
                 </div>
                 <div id="engineList">
-                    <li th:each="engine : ${ship.engineList}" th:id="${engine}">
+                    <li th:each="engine : ${engineList}" th:id="${engine}">
                         <button class="button button_module">
                             <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_engine.png"/><br />
                             <span th:text="${engine}"/>
@@ -458,7 +454,7 @@
                     </li>
                 </div>
                 <div id="radarList">
-                    <li th:each="radar : ${ship.radarList}">
+                    <li th:each="radar : ${radarList}">
                         <button class="button button_module" th:id="${radar}">
                             <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_radar.png"/><br />
                             <span th:text="${radar}"/>
@@ -466,7 +462,7 @@
                     </li>
                 </div>
                 <div id="torpedoList">
-                    <li th:each="torpedo : ${ship.torpedoList}" th:id="${torpedo}">
+                    <li th:each="torpedo : ${torpedoList}" th:id="${torpedo}">
                         <button class="button button_module">
                             <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_torpedoes.png"/><br />
                             <span th:text="${torpedo}"/>
@@ -540,10 +536,26 @@
 </main>
 <script th:inline="javascript">
 
-    var turretList = [[${ship.turretList}]];
-    console.log(turretList[0]);
-    document.getElementById(turretList[0]).className = "button-module button-selected";
+    var turretList = [[${turretList}]];
+    var hullList = [[${hullList}]];
+    var engineList = [[${engineList}]];
+    var radarList = [[${radarList}]];
+    var torpedoList = [[${torpedoList}]];
 
+    function onLoad()
+    {
+        document.getElementById(turretList[0]).className = "button button_module button_module_selected";
+        document.getElementById(hullList[0]).className = "button button_module button_module_selected";
+        document.getElementById(engineList[0]).className = "button button_module button_module_selected";
+        document.getElementById(radarList[0]).className = "button button_module button_module_selected";
+        document.getElementById(torpedoList[0]).className = "button button_module button_module_selected";
+    }
+    window.onload = onLoad()
+
+    function click(name, list)
+    {
+
+    }
 
     var tier = [[${ship.tier}]]
     var health = [[${ship.health}]];
@@ -618,12 +630,14 @@
     document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = AANearDPS.toLocaleString();
     document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = secondaryMaxDist.toLocaleString() + " km";
 
-    document.querySelector('.torpedo .tubes').innerHTML = torpTurrets.toLocaleString() + " X " + torpTubes.toLocaleString();
-    document.querySelector('.torpedo .maxTorpedoRange').innerHTML = maxTorpedoRange.toLocaleString() + " km";
-    document.querySelector('.torpedo .torpedoReload').innerHTML = torpedoReload.toLocaleString() + " s";
-    document.querySelector('.torpedo .torpedoSpeed').innerHTML = torpedoSpeed.toLocaleString() + " kts";
-    document.querySelector('.torpedo .torpedoVisibilityFactor').innerHTML = torpedoVisibilityFactor.toLocaleString() + " km";
-    
+    if (torpTubes > 0)
+    {
+        document.querySelector('.torpedo .tubes').innerHTML = torpTurrets.toLocaleString() + " X " + torpTubes.toLocaleString();
+        document.querySelector('.torpedo .maxTorpedoRange').innerHTML = maxTorpedoRange.toLocaleString() + " km";
+        document.querySelector('.torpedo .torpedoReload').innerHTML = torpedoReload.toLocaleString() + " s";
+        document.querySelector('.torpedo .torpedoSpeed').innerHTML = torpedoSpeed.toLocaleString() + " kts";
+        document.querySelector('.torpedo .torpedoVisibilityFactor').innerHTML = torpedoVisibilityFactor.toLocaleString() + " km";
+    }
 </script>
 </body>
 </html>

@@ -1323,10 +1323,8 @@ public class Calc
 
 	public List<String> getTurretList()
 	{
-		for (int i = 0; i < jsp.getAPI_ArtilleryUpgradeNameList().size(); i++)
-		{
-			turretList.add(i, jsp.getAPI_ArtilleryUpgradeNameList().get(i));
-		}
+		jsp.getAPI_ArtilleryUpgradeNameList().forEach(turret -> turretList.add(turret));
+
 		return turretList;
 	}
 	

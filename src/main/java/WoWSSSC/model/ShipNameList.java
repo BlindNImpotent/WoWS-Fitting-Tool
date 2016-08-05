@@ -108,45 +108,5 @@ public class ShipNameList
         USSRCruiserList = apiNameLists.getUSSR_CruiserNameList();
         USSRDestroyerList = apiNameLists.getUSSR_DestroyerNameList();
         USSRPremiumList = apiNameLists.getUSSR_PremiumNameList();
-        
-        AllShipNameList.addAll(FranceAirCarrierList);
-        AllShipNameList.addAll(FranceBattleshipList);
-        AllShipNameList.addAll(FranceCruiserList);
-        AllShipNameList.addAll(FranceDestroyerList);
-        AllShipNameList.addAll(FrancePremiumList);
-
-        AllShipNameList.addAll(GermanyAirCarrierList);
-        AllShipNameList.addAll(GermanyBattleshipList);
-        AllShipNameList.addAll(GermanyCruiserList);
-        AllShipNameList.addAll(GermanyDestroyerList);
-        AllShipNameList.addAll(GermanyPremiumList);
-
-        AllShipNameList.addAll(JapanAirCarrierList);
-        AllShipNameList.addAll(JapanBattleshipList);
-        AllShipNameList.addAll(JapanCruiserList);
-        AllShipNameList.addAll(JapanDestroyerList);
-        AllShipNameList.addAll(JapanPremiumList);
-
-        AllShipNameList.addAll(PanAsiaPremiumList);
-
-        AllShipNameList.addAll(PolandPremiumList);
-
-        AllShipNameList.addAll(UKAirCarrierList);
-        AllShipNameList.addAll(UKBattleshipList);
-        AllShipNameList.addAll(UKCruiserList);
-        AllShipNameList.addAll(UKDestroyerList);
-        AllShipNameList.addAll(UKPremiumList);
-
-        AllShipNameList.addAll(USAAirCarrierList);
-        AllShipNameList.addAll(USABattleshipList);
-        AllShipNameList.addAll(USACruiserList);
-        AllShipNameList.addAll(USADestroyerList);
-        AllShipNameList.addAll(USAPremiumList);
-
-        AllShipNameList.addAll(USSRAirCarrierList);
-        AllShipNameList.addAll(USSRBattleshipList);
-        AllShipNameList.addAll(USSRCruiserList);
-        AllShipNameList.addAll(USSRDestroyerList);
-        AllShipNameList.addAll(USSRPremiumList);
     }
 }

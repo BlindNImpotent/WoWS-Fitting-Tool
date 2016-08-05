@@ -39,6 +39,12 @@ public class HomeController
         model.addAttribute("name", name);
         model.addAttribute("ship", homeService.getCalc(name));
 
+        model.addAttribute("turretList", homeService.getCalc(name).getTurretList());
+        model.addAttribute("hullList", homeService.getCalc(name).getHullList());
+        model.addAttribute("engineList", homeService.getCalc(name).getEngineList());
+        model.addAttribute("radarList", homeService.getCalc(name).getRadarList());
+        model.addAttribute("torpedoList", homeService.getCalc(name).getTorpedoList());
+
 
         return "ship";
     }
