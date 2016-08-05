@@ -4,7 +4,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css"/>
-    <link rel="stylesheet" href="/resources/demos/style.css"/>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
     <title>World of Warships Fitting Tool</title>
@@ -31,33 +30,113 @@
             text-align: center;
         }
 
-        #turret
+        #turretList
         {
             display: inline-block;
             vertical-align: text-top;
         }
-        #hull
+        #hullList
         {
             display: inline-block;
             vertical-align: text-top;
         }
-        #engine
+        #engineList
+        {
+            display: inline-block;
+            vertical-align: text-top;
+        }
+        #radarList
+        {
+            display: inline-block;
+            vertical-align: text-top;
+        }
+        #torpedoList
         {
             display: inline-block;
             vertical-align: text-top;
         }
 
-        #radar
+        #hullStats
         {
             display: inline-block;
+            text-align: left;
             vertical-align: text-top;
         }
-
+        #blank1
+        {
+            display: inline-block;
+            text-align: center;
+            vertical-align: text-top;
+        }
+        #mainWeaponStats
+        {
+            display: inline-block;
+            text-align: left;
+            vertical-align: text-top;
+        }
+        #blank2
+        {
+            display: inline-block;
+            text-align: center;
+            vertical-align: text-top;
+        }
+        #AASecondaryStats
+        {
+            display: inline-block;
+            text-align: left;
+            vertical-align: text-top;
+        }
+        #blank3
+        {
+            display: inline-block;
+            text-align: center;
+            vertical-align: text-top;
+        }
         #torpedo
         {
             display: inline-block;
+            text-align: left;
             vertical-align: text-top;
         }
+
+        .tier { float:right }
+        .health { float:right }
+        .speed { float:right }
+        .rudderShift { float:right }
+        .turningRadius { float:right }
+        .sConceal { float:right }
+        .aConceal { float:right }
+        .burnTime { float:right }
+        .floodTime { float:right }
+
+        .barrels { float:right }
+        .maxMainGunRange { float:right }
+        .mainGunReload { float:right }
+        .mainGunRotation { float:right }
+        .mainGunRotationTime { float:right }
+        .APShellSpeed { float:right }
+        .APShellDMG { float:right }
+        .HEShellSpeed { float:right }
+        .HEShellDMG { float:right }
+        .HEShellBurnProb { float:right }
+        .mainGunDispersionRange { float:right }
+        .sigmaCount { float:right }
+        .stealthFireSurfaceDetection { float:right }
+
+        .antiAirAuraDistanceFar { float:right }
+        .AAFarDPS { float:right }
+        .antiAirAuraDistanceMedium { float:right }
+        .AAMediumDPS { float:right }
+        .antiAirAuraDistanceNear { float:right }
+        .AANearDPS { float:right }
+        .secondaryMaxDist { float:right }
+
+        .tubes { float:right }
+        .maxTorpedoRange { float:right }
+        .torpedoReload { float:right }
+        .torpedoSpeed { float:right }
+        .torpedoVisibilityFactor { float:right }
+
     </style>
 </head>
 <body>
@@ -305,44 +384,186 @@
             </header>
             <img th:src="${ship.shipContour}"/>
             <div class="modules">
-                <div id="turret">
+                <div id="turretList">
                     <ul>
                         <li th:each="turret : ${ship.turretList}">
                             <button><span th:text="${turret}"/></button>
                         </li>
                     </ul>
                 </div>
-                <div id="hull">
+                <div id="hullList">
                     <ul>
                         <li th:each="hull : ${ship.hullList}">
                             <button><span th:text="${hull}"/></button>
                         </li>
                     </ul>
                 </div>
-                <div id="engine">
+                <div id="engineList">
                     <ul>
                         <li th:each="engine : ${ship.engineList}">
                             <button><span th:text="${engine}"/></button>
                         </li>
                     </ul>
                 </div>
-                <div id="radar">
+                <div id="radarList">
                     <ul>
                         <li th:each="radar : ${ship.radarList}">
                             <button><span th:text="${radar}"/></button>
                         </li>
                     </ul>
                 </div>
-                <div id="torpedo">
+                <div id="torpedoList">
                     <ul>
                         <li th:each="torpedo : ${ship.torpedoList}">
                             <button><span th:text="${torpedo}"/></button>
                         </li>
                     </ul>
                 </div>
+                <div>
+                    <div id="hullStats" class="hullStats">
+                        <b>Hull</b><br />
+                        Tier<span class="tier"/><br />
+                        Health<span class="health"/><br />
+                        Speed<span class="speed"/><br />
+                        Rudder Shift<span class="rudderShift"/><br />
+                        Turn Radius<span class="turningRadius"/><br />
+                        Surface Conceal&emsp;&emsp;&emsp;<span class="sConceal"/><br />
+                        Air Conceal<span class="aConceal"/><br />
+                        Burn Time<span class="burnTime"/><br />
+                        Flood Time<span class="floodTime"/><br />
+                    </div>
+                    <div id="blank1" class="blank">
+                        &emsp;
+                    </div>
+                    <div id="mainWeaponStats" class="mainWeaponStats">
+                        <b>Main Battery</b><br />
+                        Barrels<span class="barrels"/><br />
+                        Range<span class="maxMainGunRange"/><br />
+                        Reload<span class="mainGunReload"/><br />
+                        Rotation<span class="mainGunRotation"/><br />
+                        <span class="mainGunRotationTime"/><br />
+                        <br />
+                        <b>Shells</b><br />
+                        AP Speed<span class="APShellSpeed"/><br />
+                        AP Damage<span class="APShellDMG"/><br />
+                        HE Speed<span class="HEShellSpeed"/><br />
+                        HE Damage<span class="HEShellDMG"/><br />
+                        Burn Probability&emsp;&emsp;&emsp;<span class="HEShellBurnProb"/><br />
+                        Dispersion<span class="mainGunDispersionRange"/><br />
+                        Sigma<span class="sigmaCount"/><br />
+                        Stealth<span class="stealthFireSurfaceDetection"/><br />
+                    </div>
+                    <div id="blank2" class="blank">
+                        &emsp;
+                    </div>
+                    <div id="AASecondaryStats" class="AASecondaryStats">
+                        <b>Anti-Air</b><br />
+                        Far Range<span class="antiAirAuraDistanceFar"/><br />
+                        Far DPS<span class="AAFarDPS"/><br />
+                        Medium Range&emsp;&emsp;&emsp;<span class="antiAirAuraDistanceMedium"/><br />
+                        Medium DPS<span class="AAMediumDPS"/><br />
+                        Near Range<span class="antiAirAuraDistanceNear"/><br />
+                        Near DPS<span class="AANearDPS"/><br />
+                        <br />
+                        <b>Secondary</b><br />
+                        Range<span class="secondaryMaxDist"/><br />
+                    </div>
+                    <div id="blank3" class="blank">
+                        &emsp;
+                    </div>
+                    <div id="torpedo" class="torpedo">
+                        <b th:if="${ship.torpTubes}">Torpedoes</b><br />
+                        <span th:if="${ship.torpTubes}">Tubes</span><span th:if="${ship.torpTubes}" class="tubes"/><br />
+                        <span th:if="${ship.maxTorpedoRange}">Range</span><span th:if="${ship.maxTorpedoRange}" class="maxTorpedoRange"/><br />
+                        <span th:if="${ship.torpedoReload}">Reload</span><span th:if="${ship.torpedoReload}" class="torpedoReload"/><br />
+                        <span th:if="${ship.torpedoSpeed}">Speed</span><span th:if="${ship.torpedoSpeed}" class="torpedoSpeed"/><br />
+                        <span th:if="${ship.torpedoVisibilityFactor}">Detection&emsp;&emsp;&emsp;</span><span th:if="${ship.torpedoVisibilityFactor}" class="torpedoVisibilityFactor"/><br />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </main>
+<script th:inline="javascript">
+    var tier = [[${ship.tier}]]
+    var health = [[${ship.health}]];
+    var speed = [[${ship.speed}]];
+    var rudderShift = [[${ship.rudderShift}]];
+    var turningRadius = [[${ship.turningRadius}]];
+    var sConceal = [[${ship.sConceal}]];
+    var aConceal = [[${ship.aConceal}]];
+    var burnTime = [[${ship.burnTime}]]
+    var floodTime = [[${ship.floodTime}]]
+
+    var numTurrets = [[${ship.numTurrets}]];
+    var numBarrels = [[${ship.numBarrels}]]
+    var maxMainGunRange = [[${ship.maxMainGunRange}]];
+    var mainGunReload = [[${ship.mainGunReload}]];
+    var mainGunRotation = [[${ship.mainGunRotation}]];
+    var mainGunRotationTime = [[${ship.mainGunRotationTime}]];
+
+    var APShellSpeed = [[${ship.APShellSpeed}]];
+    var APShellDMG = [[${ship.APShellDMG}]];
+    var HEShellSpeed = [[${ship.HEShellSpeed}]];
+    var HEShellDMG = [[${ship.HEShellDMG}]];
+    var HEShellBurnProb = [[${ship.HEShellBurnProb}]];
+    var mainGunDispersionRange = [[${ship.mainGunDispersionRange}]];
+    var sigmaCount = [[${ship.sigmaCount}]];
+    var stealthFireSurfaceDetection = [[${ship.stealthFireSurfaceDetection}]];
+
+    var antiAirAuraDistanceFar = [[${ship.antiAirAuraDistanceFar}]];
+    var AAFarDPS = [[${ship.AAFarDPS}]];
+    var antiAirAuraDistanceMedium = [[${ship.antiAirAuraDistanceMedium}]];
+    var AAMediumDPS = [[${ship.AAMediumDPS}]];
+    var antiAirAuraDistanceNear = [[${ship.antiAirAuraDistanceNear}]];
+    var AANearDPS = [[${ship.AANearDPS}]];
+    var secondaryMaxDist = [[${ship.secondaryMaxDist}]];
+
+    var torpTubes = [[${ship.torpTubes}]];
+    var torpTurrets = [[${ship.torpTurrets}]];
+    var maxTorpedoRange = [[${ship.maxTorpedoRange}]];
+    var torpedoReload = [[${ship.torpedoReload}]];
+    var torpedoSpeed = [[${ship.torpedoSpeed}]];
+    var torpedoVisibilityFactor = [[${ship.torpedoVisibilityFactor}]];
+
+    document.querySelector('.hullStats .tier').innerHTML = tier.toLocaleString();
+    document.querySelector('.hullStats .health').innerHTML = health.toLocaleString();
+    document.querySelector('.hullStats .speed').innerHTML = speed.toLocaleString() + " kts";
+    document.querySelector('.hullStats .rudderShift').innerHTML = rudderShift.toLocaleString() + " s";
+    document.querySelector('.hullStats .turningRadius').innerHTML = turningRadius.toLocaleString() + " m";
+    document.querySelector('.hullStats .sConceal').innerHTML = sConceal.toLocaleString() + " km";
+    document.querySelector('.hullStats .aConceal').innerHTML = aConceal.toLocaleString() + " km";
+    document.querySelector('.hullStats .burnTime').innerHTML = burnTime.toLocaleString() + " s";
+    document.querySelector('.hullStats .floodTime').innerHTML = floodTime.toLocaleString() + " s";
+
+    document.querySelector('.mainWeaponStats .barrels').innerHTML = numBarrels.toLocaleString() + " X " + numTurrets.toLocaleString();
+    document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = maxMainGunRange.toLocaleString() + " km";
+    document.querySelector('.mainWeaponStats .mainGunReload').innerHTML = mainGunReload.toLocaleString() + " s";
+    document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = mainGunRotation.toLocaleString() + " deg/s";
+    document.querySelector('.mainWeaponStats .mainGunRotationTime').innerHTML = mainGunRotationTime.toLocaleString() + " s";
+    document.querySelector('.mainWeaponStats .APShellSpeed').innerHTML = APShellSpeed.toLocaleString() + " m/s";
+    document.querySelector('.mainWeaponStats .APShellDMG').innerHTML = APShellDMG.toLocaleString();
+    document.querySelector('.mainWeaponStats .HEShellSpeed').innerHTML = HEShellSpeed.toLocaleString() + " m/s";
+    document.querySelector('.mainWeaponStats .HEShellDMG').innerHTML = HEShellDMG.toLocaleString();
+    document.querySelector('.mainWeaponStats .HEShellBurnProb').innerHTML = HEShellBurnProb.toLocaleString() + " %";
+    document.querySelector('.mainWeaponStats .mainGunDispersionRange').innerHTML = mainGunDispersionRange.toLocaleString() + " m";
+    document.querySelector('.mainWeaponStats .sigmaCount').innerHTML = sigmaCount.toLocaleString();
+    document.querySelector('.mainWeaponStats .stealthFireSurfaceDetection').innerHTML = (sConceal + stealthFireSurfaceDetection).toLocaleString() + " km";
+
+    document.querySelector('.AASecondaryStats .antiAirAuraDistanceFar').innerHTML = antiAirAuraDistanceFar.toLocaleString() + " km";
+    document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = AAFarDPS.toLocaleString();
+    document.querySelector('.AASecondaryStats .antiAirAuraDistanceMedium').innerHTML = antiAirAuraDistanceMedium.toLocaleString() + " km";
+    document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = AAMediumDPS.toLocaleString();
+    document.querySelector('.AASecondaryStats .antiAirAuraDistanceNear').innerHTML = antiAirAuraDistanceNear.toLocaleString() + " km";
+    document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = AANearDPS.toLocaleString();
+    document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = secondaryMaxDist.toLocaleString() + " km";
+
+    document.querySelector('.torpedo .tubes').innerHTML = torpTurrets.toLocaleString() + " X " + torpTubes.toLocaleString();
+    document.querySelector('.torpedo .maxTorpedoRange').innerHTML = maxTorpedoRange.toLocaleString() + " km";
+    document.querySelector('.torpedo .torpedoReload').innerHTML = torpedoReload.toLocaleString() + " s";
+    document.querySelector('.torpedo .torpedoSpeed').innerHTML = torpedoSpeed.toLocaleString() + " kts";
+    document.querySelector('.torpedo .torpedoVisibilityFactor').innerHTML = torpedoVisibilityFactor.toLocaleString() + " km";
+    
+</script>
 </body>
 </html>

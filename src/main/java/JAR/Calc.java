@@ -34,6 +34,7 @@ public class Calc
 	private double sigmaCount;
 	private double mainGunReload;
 	private double mainGunRotation;
+	private double mainGunRotationTime;
 	private double mainGunDispersionTangent;
 	private double mainGunDispersionRange;
 	private int numBarrels;
@@ -45,7 +46,9 @@ public class Calc
 	private double HEShellBurnProb;
 	
 	private double secondaryMaxDist;
-	
+
+	private int torpTubes;
+	private int torpTurrets;
 	private double torpedoReload;
 	private double torpedoRotation;
 	private double maxTorpedoRange;
@@ -138,7 +141,9 @@ public class Calc
 		setConsume2(consume2);
 		setConsume3(consume3);
 		setConsume4(consume4);
-		
+
+		shipContour = jsp.getShipContour();
+
 		tier = jsp.getTier();
 		nation = jsp.getNation();
 		shiptype = jsp.getShipType();
@@ -165,7 +170,9 @@ public class Calc
 		HEShellBurnProb = jsp.getHEShellBurnProb() * 100;
 		
 		secondaryMaxDist = jsp.getSecondaryMaxDist();
-		
+
+		torpTubes = jsp.getNumTubes();
+		torpTurrets = jsp.getNumTorpTurrets();
 		torpedoReload = jsp.getTorpedoReload();
 		torpedoRotation = jsp.getTorpedoRotation();
 		maxTorpedoRange = jsp.getMaxTorpedoRange();
@@ -946,12 +953,11 @@ public class Calc
 	 */
 	public double getMainGunRotationTime()
 	{
-		double rotationDeg = 0;
 		if (getMainGunRotation() != 0 )
 		{
-			rotationDeg = 180.0 / getMainGunRotation();
+			mainGunRotationTime = 180.0 / getMainGunRotation();
 		}
-		return rotationDeg; 
+		return mainGunRotationTime;
 	}
 	
 	public double getSecondaryMaxDist()
@@ -977,16 +983,6 @@ public class Calc
 	public double getTorpDiameter()
 	{
 		return jsp.getTorpDiameter() * 1000;
-	}
-	
-	public int getTorpTubes()
-	{
-		return jsp.getNumTubes();
-	}
-	
-	public int getTorpTurrets()
-	{
-		return jsp.getNumTorpTurrets();
 	}
 	
 	/**

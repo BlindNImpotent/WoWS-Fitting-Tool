@@ -34,11 +34,12 @@ public class HomeService
         if (!name.equals(""))
         {
             calc = new Calc(name);
+            calc = new Calc(name, calc.getTurretList().get(0), calc.getHullList().get(0), calc.getEngineList().get(0), calc.getRadarList().get(0), calc.getTorpedoList().get(0),
+                    calc.getConsumable1().get(0), calc.getConsumable2().get(0), calc.getConsumable3().get(0), calc.getConsumable4().get(0));
         }
 
         return calc;
     }
-
 
 
 }
