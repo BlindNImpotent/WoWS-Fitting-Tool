@@ -104,6 +104,7 @@ public class Calc
 	private double captainExpFactor;
 	private static double PremAcc = 1.50;
 
+	private String shipSmallImage;
 	private String shipContour;
 
 	private List<String> turretList = new ArrayList<String>();
@@ -122,6 +123,7 @@ public class Calc
 	{
 		jsp = new JSON_Parser(ship);
 
+		shipSmallImage = jsp.getShipSmallImage();
 		shipContour = jsp.getShipContour();
 	}
 	
@@ -142,6 +144,7 @@ public class Calc
 		setConsume3(consume3);
 		setConsume4(consume4);
 
+		shipSmallImage = jsp.getShipSmallImage();
 		shipContour = jsp.getShipContour();
 
 		tier = jsp.getTier();

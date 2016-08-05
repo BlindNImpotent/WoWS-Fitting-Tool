@@ -20,6 +20,11 @@
             width:auto;
         }
 
+        li
+        {
+            list-style-type: none;
+        }
+
         .ui-menu
         {
             width: 175px;
@@ -97,6 +102,49 @@
             display: inline-block;
             text-align: left;
             vertical-align: text-top;
+        }
+
+        .button
+        {
+            background-color:#fff;
+            text-align: center;
+            padding: 5px;
+            margin: 2px;
+            border-color: rgb(0,0,0);
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 5px;
+            cursor: default;
+        }
+
+        .button_module
+        {
+            font-size: 12px;
+            min-width: 80px;
+            max-width: 80px;
+            min-height: 80px;
+            max-height: 80px;
+            word-wrap: normal;
+            cursor: pointer;
+        }
+
+        .button_module img
+        {
+            width: 40px;
+            margin-bottom: -2px;
+        }
+
+        .button-selected
+        {
+            background-color:#fff;
+            text-align: center;
+            padding: 5px;
+            margin: 2px;
+            border-color: rgb(0,0,0);
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 5px;
+            cursor: default;
         }
 
         .tier { float:right }
@@ -382,42 +430,48 @@
             <header>
                 <h1 th:text="${name}"/>
             </header>
-            <img th:src="${ship.shipContour}"/>
+            <img th:src="${ship.shipSmallImage}"/>
+            <img th:src="${ship.shipContour}"/><br />
             <div class="modules">
                 <div id="turretList">
-                    <ul>
-                        <li th:each="turret : ${ship.turretList}">
-                            <button><span th:text="${turret}"/></button>
-                        </li>
-                    </ul>
+                    <li th:each="turret : ${ship.turretList}">
+                        <button class="button button_module" th:id="${turret}">
+                            <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_maingun.png"/><br />
+                            <span th:text="${turret}"/>
+                        </button>
+                    </li>
                 </div>
                 <div id="hullList">
-                    <ul>
-                        <li th:each="hull : ${ship.hullList}">
-                            <button><span th:text="${hull}"/></button>
-                        </li>
-                    </ul>
+                    <li th:each="hull : ${ship.hullList}">
+                        <button class="button button_module" th:id="${hull}">
+                            <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_hull.png"/><br />
+                            <span th:text="${hull}"/>
+                        </button>
+                    </li>
                 </div>
                 <div id="engineList">
-                    <ul>
-                        <li th:each="engine : ${ship.engineList}">
-                            <button><span th:text="${engine}"/></button>
-                        </li>
-                    </ul>
+                    <li th:each="engine : ${ship.engineList}" th:id="${engine}">
+                        <button class="button button_module">
+                            <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_engine.png"/><br />
+                            <span th:text="${engine}"/>
+                        </button>
+                    </li>
                 </div>
                 <div id="radarList">
-                    <ul>
-                        <li th:each="radar : ${ship.radarList}">
-                            <button><span th:text="${radar}"/></button>
-                        </li>
-                    </ul>
+                    <li th:each="radar : ${ship.radarList}">
+                        <button class="button button_module" th:id="${radar}">
+                            <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_radar.png"/><br />
+                            <span th:text="${radar}"/>
+                        </button>
+                    </li>
                 </div>
                 <div id="torpedoList">
-                    <ul>
-                        <li th:each="torpedo : ${ship.torpedoList}">
-                            <button><span th:text="${torpedo}"/></button>
-                        </li>
-                    </ul>
+                    <li th:each="torpedo : ${ship.torpedoList}" th:id="${torpedo}">
+                        <button class="button button_module">
+                            <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_torpedoes.png"/><br />
+                            <span th:text="${torpedo}"/>
+                        </button>
+                    </li>
                 </div>
                 <div>
                     <div id="hullStats" class="hullStats">
@@ -471,13 +525,13 @@
                     <div id="blank3" class="blank">
                         &emsp;
                     </div>
-                    <div id="torpedo" class="torpedo">
-                        <b th:if="${ship.torpTubes}">Torpedoes</b><br />
-                        <span th:if="${ship.torpTubes}">Tubes</span><span th:if="${ship.torpTubes}" class="tubes"/><br />
-                        <span th:if="${ship.maxTorpedoRange}">Range</span><span th:if="${ship.maxTorpedoRange}" class="maxTorpedoRange"/><br />
-                        <span th:if="${ship.torpedoReload}">Reload</span><span th:if="${ship.torpedoReload}" class="torpedoReload"/><br />
-                        <span th:if="${ship.torpedoSpeed}">Speed</span><span th:if="${ship.torpedoSpeed}" class="torpedoSpeed"/><br />
-                        <span th:if="${ship.torpedoVisibilityFactor}">Detection&emsp;&emsp;&emsp;</span><span th:if="${ship.torpedoVisibilityFactor}" class="torpedoVisibilityFactor"/><br />
+                    <div  th:if="${ship.torpTubes}" id="torpedo" class="torpedo">
+                        <b>Torpedoes</b><br />
+                        Tubes<span class="tubes"/><br />
+                        Range<span class="maxTorpedoRange"/><br />
+                        Reload<span class="torpedoReload"/><br />
+                        Speed<span  class="torpedoSpeed"/><br />
+                        Detection&emsp;&emsp;&emsp;<span class="torpedoVisibilityFactor"/><br />
                     </div>
                 </div>
             </div>
@@ -485,6 +539,12 @@
     </div>
 </main>
 <script th:inline="javascript">
+
+    var turretList = [[${ship.turretList}]];
+    console.log(turretList[0]);
+    document.getElementById(turretList[0]).className = "button-module button-selected";
+
+
     var tier = [[${ship.tier}]]
     var health = [[${ship.health}]];
     var speed = [[${ship.speed}]];

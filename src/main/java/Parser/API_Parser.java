@@ -3,17 +3,11 @@ package Parser;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -61,8 +55,9 @@ public class API_Parser
 	
 	private String ship_id_str;
 
+	private String shipSmallImage;
 	private String shipContour;
-	
+
 	public API_Parser() throws IOException, ParseException
 	{
 		setup();
@@ -104,7 +99,7 @@ public class API_Parser
 		reader = new BufferedReader(new InputStreamReader(new FileInputStream(API_Modules_Hull),"UTF8"));
 		API_Modules_HullJSON = (JSONObject) JSONParser.parse(reader);
 		API_Modules_HullJSON = (JSONObject) API_Modules_HullJSON.get("data");
-		
+
 		reader = new BufferedReader(new InputStreamReader(new FileInputStream(API_Modules_Radar),"UTF8"));
 		API_Modules_RadarJSON = (JSONObject) JSONParser.parse(reader);
 		API_Modules_RadarJSON = (JSONObject) API_Modules_RadarJSON.get("data");
@@ -136,6 +131,7 @@ public class API_Parser
 				ship_id_str = (String) shipJSON.get("ship_id_str");
 
 				images = (JSONObject) shipJSON.get("images");
+				shipSmallImage = (String) images.get("small");
 				shipContour = (String) images.get("contour");
 				break;
 			}	

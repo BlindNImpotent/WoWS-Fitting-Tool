@@ -168,6 +168,7 @@ public class JSON_Parser
 	
 	private List<JSONObject> FlagsJSONList = new ArrayList<>();
 
+	private String shipSmallImage;
 	private String shipContour;
 	
 	public JSON_Parser(String aShipName) throws IOException, ParseException
@@ -177,6 +178,7 @@ public class JSON_Parser
 		GPParser = new GameParams_Parser(APIParser.getShip_id_str());
 		ShipUpgradeInfoJSON = (JSONObject) GPParser.getShipJSON().get("ShipUpgradeInfo");
 
+		shipSmallImage = APIParser.getShipSmallImage();
 		shipContour = APIParser.getShipContour();
 
 		GameParams = GPParser.getGameParams();
