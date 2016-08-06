@@ -392,17 +392,19 @@ public class JSON_Parser
 
 		JSONObject API_JSON = API_ArtilleryUpgradeJSONHashMap.get(aTurret);
 		String API_module_id_str;
-		String GP_turretKey = null;
+		String GP_turretKey;
+		API_module_id_str = (String) API_JSON.get("module_id_str");
 
-		for (int i = 0; i < GPParser.getGameParamsKeySet().size(); i++)
-		{
-			API_module_id_str = (String) API_JSON.get("module_id_str");
-
-			if (GPParser.getGameParamsKeySet().get(i).contains(API_module_id_str))
-			{
-				GP_turretKey = GPParser.getGameParamsKeySet().get(i);
-			}
-		}
+//		for (int i = 0; i < GPParser.getGameParamsKeySet().size(); i++)
+//		{
+//
+//
+//			if (GPParser.getGameParamsKeySet().get(i).contains(API_module_id_str))
+//			{
+//				GP_turretKey = GPParser.getGameParamsKeySet().get(i);
+//			}
+//		}
+		GP_turretKey = (String) GPParser.getGameParamsHashMap().get(API_module_id_str).get("name");
 
 		JSONObject module = (JSONObject) ShipUpgradeInfoJSON.get(GP_turretKey);
 		JSONObject components = (JSONObject) module.get("components");

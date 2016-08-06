@@ -50,22 +50,29 @@ public class GameParams_Parser
 	
 	private void setGameParamsHashMap()
 	{
+		JSONObject json;
 		for (int i = 0; i < GameParamsKeySet.size(); i++)
 		{
-			GameParamsHashMap.put(GameParamsKeySet.get(i), (JSONObject) GameParams.get(GameParamsKeySet.get(i)));
+			json = (JSONObject) GameParams.get(GameParamsKeySet.get(i));
+			GameParamsHashMap.put((String) json.get("index"), json);
 		}
 	}
 	
 	private void setShipJSON(String aShip_id_str)	
 	{
-		for (int i = 0; i < GameParamsKeySet.size(); i++)
-		{			
-			if (GameParamsKeySet.get(i).contains(aShip_id_str))
-			{
-				ship_id_str = GameParamsKeySet.get(i);
-				shipJSON = (JSONObject) GameParamsHashMap.get(ship_id_str);				
-				break;
-			}			
-		}		
+		ship_id_str = aShip_id_str;
+		shipJSON = GameParamsHashMap.get(ship_id_str);
+
+
+
+//		for (int i = 0; i < GameParamsKeySet.size(); i++)
+//		{
+//			if (GameParamsKeySet.get(i).contains(aShip_id_str))
+//			{
+//				ship_id_str = GameParamsKeySet.get(i);
+//				shipJSON = (JSONObject) GameParamsHashMap.get(ship_id_str);
+//				break;
+//			}
+//		}
 	}	
 }

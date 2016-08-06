@@ -439,7 +439,7 @@
                 </div>
                 <div id="hullList">
                     <li th:each="hull : ${hullList}">
-                        <button th:onclick="'javascript:click(\'' + ${hull} +'\',\''+ ${hullList} + '\');'" class="button button_module" th:id="${hull}">
+                        <button class="button button_module" th:id="${hull}">
                             <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_hull.png"/><br />
                             <span th:text="${hull}"/>
                         </button>
