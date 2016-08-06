@@ -57,6 +57,9 @@ public class API_Parser
 	private JSONObject API_WarshipsJSON;
 		
 	private List<JSONObject> APIShipsJSONList = new ArrayList<JSONObject>();
+	
+	private HashMap<String, JSONObject> APIShipsHashMap = new HashMap<>();
+	
 	private JSONObject shipJSON;
 	
 	private String ship_id_str;
@@ -120,18 +123,16 @@ public class API_Parser
 		API_WarshipsJSON = (JSONObject) API_WarshipsJSON.get("data");
 		
 		APIShipsJSONList.addAll(API_WarshipsJSON.values());
+		
+		for (JSONObject shipJSON : APIShipsJSONList)
+		{
+			APIShipsHashMap.put((String) shipJSON.get("name"), shipJSON);
+		}
 	}
 	
 	public void setShipJSON(String aShipName)
-	{							
-		for (int i = 0; i < APIShipsJSONList.size(); i++)
-		{
-			if (APIShipsJSONList.get(i).containsValue(aShipName))
-			{
-				shipJSON = APIShipsJSONList.get(i);	
-				ship_id_str = (String) shipJSON.get("ship_id_str");
-				break;
-			}	
-		}
+	{
+		shipJSON = APIShipsHashMap.get(aShipName);
+		ship_id_str = (String) shipJSON.get("ship_id_str");
 	}
 }
