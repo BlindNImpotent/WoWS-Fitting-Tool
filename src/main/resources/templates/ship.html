@@ -128,8 +128,8 @@
 
         .button_module img
         {
-            width: 40px;
-            margin-bottom: -2px;
+            width: 50px;
+            margin-bottom: 0px;
         }
 
         .button_module_selected
@@ -186,7 +186,7 @@
 <body>
 <main>
     <div class="container">
-        <div class="dropDownList">
+        <div class="dropDownList" id="dropDownList">
             <ul id="shipList">
                 <li th:each="nation : ${nameList.nationList}">
                     <span th:text="${nation}"/>
@@ -422,7 +422,7 @@
                 </li>
             </ul>
         </div>
-        <div id="ship">
+        <div class="ship" id="ship">
             <header>
                 <h1 th:text="${name}"/>
             </header>
@@ -430,7 +430,7 @@
             <img th:src="${ship.shipContour}"/><br />
             <div class="modules">
                 <div id="turretList">
-                    <li th:each="turret : ${turretList}">
+                    <li th:onclick="'turret(\'' + ${turret} +'\', \''+ ${turretList} + '\');'" th:each="turret : ${turretList}" th:id="${turret}">
                         <button class="button button_module" th:id="${turret}">
                             <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_maingun.png"/><br />
                             <span th:text="${turret}"/>
@@ -438,7 +438,7 @@
                     </li>
                 </div>
                 <div id="hullList">
-                    <li th:each="hull : ${hullList}">
+                    <li th:onclick="'hull(\'' + ${hull} +'\', \''+ ${hullList} + '\');'" th:each="hull : ${hullList}" th:id="${hull}">
                         <button class="button button_module" th:id="${hull}">
                             <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_hull.png"/><br />
                             <span th:text="${hull}"/>
@@ -446,15 +446,15 @@
                     </li>
                 </div>
                 <div id="engineList">
-                    <li th:each="engine : ${engineList}" th:id="${engine}">
-                        <button class="button button_module">
+                    <li th:onclick="'engine(\'' + ${engine} +'\', \''+ ${engineList} + '\');'" th:each="engine : ${engineList}" th:id="${engine}">
+                        <button class="button button_module" th:id="${engine}">
                             <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_engine.png"/><br />
                             <span th:text="${engine}"/>
                         </button>
                     </li>
                 </div>
                 <div id="radarList">
-                    <li th:each="radar : ${radarList}">
+                    <li th:onclick="'radar(\'' + ${radar} +'\', \''+ ${radarList} + '\');'" th:each="radar : ${radarList}" th:id="${radar}">
                         <button class="button button_module" th:id="${radar}">
                             <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_radar.png"/><br />
                             <span th:text="${radar}"/>
@@ -462,8 +462,8 @@
                     </li>
                 </div>
                 <div id="torpedoList">
-                    <li th:each="torpedo : ${torpedoList}" th:id="${torpedo}">
-                        <button class="button button_module">
+                    <li th:onclick="'torpedo(\'' + ${torpedo} +'\', \''+ ${torpedoList} + '\');'" th:each="torpedo : ${torpedoList}" th:id="${torpedo}">
+                        <button class="button button_module" th:id="${torpedo}">
                             <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_torpedoes.png"/><br />
                             <span th:text="${torpedo}"/>
                         </button>
@@ -521,7 +521,7 @@
                     <div id="blank3" class="blank">
                         &emsp;
                     </div>
-                    <div  th:if="${ship.torpTubes}" id="torpedo" class="torpedo">
+                    <div  th:if="${ship.numTubes}" id="torpedo" class="torpedo">
                         <b>Torpedoes</b><br />
                         Tubes<span class="tubes"/><br />
                         Range<span class="maxTorpedoRange"/><br />
@@ -536,29 +536,50 @@
 </main>
 <script th:inline="javascript">
 
+    HashMap = function(){
+        this.map = new Array();
+    };
+    HashMap.prototype = {
+        put : function(key, value){
+            this.map[key] = value;
+        },
+        get : function(key){
+            return this.map[key];
+        },
+        getAll : function(){
+            return this.map;
+        },
+        clear : function(){
+            this.map = new Array();
+        },
+        getKeys : function(){
+            var keys = new Array();
+            for(i in this.map){
+                keys.push(i);
+            }
+            return keys;
+        }
+    };
+
     var turretList = [[${turretList}]];
     var hullList = [[${hullList}]];
     var engineList = [[${engineList}]];
     var radarList = [[${radarList}]];
     var torpedoList = [[${torpedoList}]];
 
-    function onLoad()
-    {
-        document.getElementById(turretList[0]).className = "button button_module button_module_selected";
-        document.getElementById(hullList[0]).className = "button button_module button_module_selected";
-        document.getElementById(engineList[0]).className = "button button_module button_module_selected";
-        document.getElementById(radarList[0]).className = "button button_module button_module_selected";
-        document.getElementById(torpedoList[0]).className = "button button_module button_module_selected";
-    }
-    window.onload = onLoad()
+    var GP_GameParamsJSON = [[${ship.GP_GameParamsJSON}]];
+    var GP_ShipJSON = [[${ship.GP_ShipJSON}]];
+    var GP_ShipUpgradeInfo = GP_ShipJSON.ShipUpgradeInfo;
 
-    function click(name, list)
-    {
 
-    }
+    var API_ArtilleryUpgradeJSON = [[${ship.API_ArtilleryUpgradeJSON}]];
+    var API_HullUpgradeJSON = [[${ship.API_HullUpgradeJSON}]];
+    var API_EngineUpgradeJSON = [[${ship.API_EngineUpgradeJSON}]];
+    var API_RadarUpgradeJSON = [[${ship.API_RadarUpgradeJSON}]];
+    var API_TorpedoUpgradeJSON = [[${ship.API_TorpedoUpgradeJSON}]];
 
-    var tier = [[${ship.tier}]]
-    var health = [[${ship.health}]];
+    var tier = GP_ShipJSON.level;
+    var health = [[${ship.maxHP}]];
     var speed = [[${ship.speed}]];
     var rudderShift = [[${ship.rudderShift}]];
     var turningRadius = [[${ship.turningRadius}]];
@@ -591,8 +612,8 @@
     var AANearDPS = [[${ship.AANearDPS}]];
     var secondaryMaxDist = [[${ship.secondaryMaxDist}]];
 
-    var torpTubes = [[${ship.torpTubes}]];
-    var torpTurrets = [[${ship.torpTurrets}]];
+    var torpTubes = [[${ship.numTubes}]];
+    var torpTurrets = [[${ship.numTorpTurrets}]];
     var maxTorpedoRange = [[${ship.maxTorpedoRange}]];
     var torpedoReload = [[${ship.torpedoReload}]];
     var torpedoSpeed = [[${ship.torpedoSpeed}]];
@@ -609,7 +630,7 @@
     document.querySelector('.hullStats .floodTime').innerHTML = floodTime.toLocaleString() + " s";
 
     document.querySelector('.mainWeaponStats .barrels').innerHTML = numBarrels.toLocaleString() + " X " + numTurrets.toLocaleString();
-    document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = maxMainGunRange.toLocaleString() + " km";
+    document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = maxMainGunRange.toLocaleString() + " m";
     document.querySelector('.mainWeaponStats .mainGunReload').innerHTML = mainGunReload.toLocaleString() + " s";
     document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = mainGunRotation.toLocaleString() + " deg/s";
     document.querySelector('.mainWeaponStats .mainGunRotationTime').innerHTML = mainGunRotationTime.toLocaleString() + " s";
@@ -617,7 +638,7 @@
     document.querySelector('.mainWeaponStats .APShellDMG').innerHTML = APShellDMG.toLocaleString();
     document.querySelector('.mainWeaponStats .HEShellSpeed').innerHTML = HEShellSpeed.toLocaleString() + " m/s";
     document.querySelector('.mainWeaponStats .HEShellDMG').innerHTML = HEShellDMG.toLocaleString();
-    document.querySelector('.mainWeaponStats .HEShellBurnProb').innerHTML = HEShellBurnProb.toLocaleString() + " %";
+    document.querySelector('.mainWeaponStats .HEShellBurnProb').innerHTML = HEShellBurnProb.toLocaleString();
     document.querySelector('.mainWeaponStats .mainGunDispersionRange').innerHTML = mainGunDispersionRange.toLocaleString() + " m";
     document.querySelector('.mainWeaponStats .sigmaCount').innerHTML = sigmaCount.toLocaleString();
     document.querySelector('.mainWeaponStats .stealthFireSurfaceDetection').innerHTML = (sConceal + stealthFireSurfaceDetection).toLocaleString() + " km";
@@ -628,7 +649,7 @@
     document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = AAMediumDPS.toLocaleString();
     document.querySelector('.AASecondaryStats .antiAirAuraDistanceNear').innerHTML = antiAirAuraDistanceNear.toLocaleString() + " km";
     document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = AANearDPS.toLocaleString();
-    document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = secondaryMaxDist.toLocaleString() + " km";
+    document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = secondaryMaxDist.toLocaleString() + " m";
 
     if (torpTubes > 0)
     {
@@ -638,6 +659,136 @@
         document.querySelector('.torpedo .torpedoSpeed').innerHTML = torpedoSpeed.toLocaleString() + " kts";
         document.querySelector('.torpedo .torpedoVisibilityFactor').innerHTML = torpedoVisibilityFactor.toLocaleString() + " km";
     }
+
+    function onLoad()
+    {
+        if (radarList != '')
+        {
+            document.getElementById(radarList[0]).className = "button button_module button_module_selected";
+            radar(radarList[0], radarList);
+        }
+
+        if (turretList != '')
+        {
+            document.getElementById(turretList[0]).className = "button button_module button_module_selected";
+            turret(turretList[0], turretList);
+        }
+
+        document.getElementById(engineList[0]).className = "button button_module button_module_selected";
+        engine(engineList[0], engineList);
+
+        document.getElementById(hullList[0]).className = "button button_module button_module_selected";
+        hull(hullList[0], hullList);
+
+        if (torpedoList != '')
+        {
+            document.getElementById(torpedoList[0]).className = "button button_module button_module_selected";
+            torpedo(torpedoList[0], torpedoList);
+        }
+    }
+    window.onload = onLoad()
+
+    function turret(id, list)
+    {
+        if (typeof list == 'string')
+        {
+            list = list.substring(1, list.length - 1);
+            list = list.split(', ');
+        }
+
+        for (var i in list)
+        {
+            document.getElementById(list[i]).className = "button button_module";
+        }
+        document.getElementById(id).className = "button button_module button_module_selected";
+
+        setTurretStats(id);
+    }
+
+    function hull(id, list)
+    {
+        if (typeof list == 'string')
+        {
+            list = list.substring(1, list.length - 1);
+            list = list.split(', ');
+        }
+
+        for (var i in list)
+        {
+            document.getElementById(list[i]).className = "button button_module";
+        }
+        document.getElementById(id).className = "button button_module button_module_selected";
+    }
+
+    function engine(id, list)
+    {
+        if (typeof list == 'string')
+        {
+            list = list.substring(1, list.length - 1);
+            list = list.split(', ');
+        }
+
+        for (var i in list)
+        {
+            document.getElementById(list[i]).className = "button button_module";
+        }
+        document.getElementById(id).className = "button button_module button_module_selected";
+    }
+
+    function radar(id, list)
+    {
+        if (typeof list == 'string')
+        {
+            list = list.substring(1, list.length - 1);
+            list = list.split(', ');
+        }
+
+        for (var i in list)
+        {
+            document.getElementById(list[i]).className = "button button_module";
+        }
+        document.getElementById(id).className = "button button_module button_module_selected";
+    }
+
+    function torpedo(id, list)
+    {
+        if (typeof list == 'string')
+        {
+            list = list.substring(1, list.length - 1);
+            list = list.split(', ');
+        }
+
+        for (var i in list)
+        {
+            document.getElementById(list[i]).className = "button button_module";
+        }
+        document.getElementById(id).className = "button button_module button_module_selected";
+    }
+
+    function setTurretStats(id)
+    {
+        if (id == null)
+        {
+            return;
+        }
+        var API_JSON = API_ArtilleryUpgradeJSON[id];
+        var API_module_id_str = API_JSON['module_id_str'];
+        var GP_turretKey = GP_GameParamsJSON[API_module_id_str]['name'];
+
+        var module = GP_ShipUpgradeInfo[GP_turretKey];
+        var components = module['components'];
+        var artillery = components['artillery'];
+
+        var GP_ArtilleryJSON = GP_ShipJSON[artillery[artillery.length - 1]];
+
+        console.log(GP_ArtilleryJSON);
+
+    }
+
+
+
+
+
 </script>
 </body>
 </html>

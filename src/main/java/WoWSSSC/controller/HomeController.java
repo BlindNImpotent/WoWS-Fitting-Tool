@@ -1,5 +1,9 @@
 package WoWSSSC.controller;
 
+import JAR.Calc;
+import JAR.JSParser;
+import Parser.GameParams_Parser;
+import Parser.JSON_Parser;
 import WoWSSSC.model.ShipNameList;
 import WoWSSSC.service.HomeService;
 import org.json.simple.parser.ParseException;
@@ -24,27 +28,28 @@ public class HomeController
     private HomeService homeService;
 
     @RequestMapping (value = "/", method = RequestMethod.GET)
-    public String home(Model model, @RequestParam(required = false, defaultValue = "") String name) throws IOException, ParseException
+    public String home(Model model) throws IOException, ParseException
     {
         model.addAttribute("nameList", homeService.getNameList());
-        model.addAttribute("ship", homeService.getCalc(name));
 
         return "home";
     }
 
     @RequestMapping (value = "/ship/{name}", method = RequestMethod.GET)
-    public String getShip(Model model, @PathVariable("name") String name) throws IOException, ParseException
+    public String getConfig(Model model, @PathVariable("name") String name) throws IOException, ParseException
     {
         model.addAttribute("nameList", homeService.getNameList());
         model.addAttribute("name", name);
-        model.addAttribute("ship", homeService.getCalc(name));
 
-        model.addAttribute("turretList", homeService.getCalc(name).getTurretList());
-        model.addAttribute("hullList", homeService.getCalc(name).getHullList());
-        model.addAttribute("engineList", homeService.getCalc(name).getEngineList());
-        model.addAttribute("radarList", homeService.getCalc(name).getRadarList());
-        model.addAttribute("torpedoList", homeService.getCalc(name).getTorpedoList());
+        JSON_Parser jsonParser = new JSON_Parser(name);
 
+        model.addAttribute("ship", jsonParser);
+
+        model.addAttribute("turretList", jsonParser.getAPI_ArtilleryUpgradeNameList());
+        model.addAttribute("hullList", jsonParser.getAPI_HullUpgradeNameList());
+        model.addAttribute("engineList", jsonParser.getAPI_EngineUpgradeNameList());
+        model.addAttribute("radarList", jsonParser.getAPI_SuoUpgradeNameList());
+        model.addAttribute("torpedoList", jsonParser.getAPI_TorpedoesUpgradeNameList());
 
         return "ship";
     }

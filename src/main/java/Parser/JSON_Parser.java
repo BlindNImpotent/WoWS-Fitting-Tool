@@ -23,6 +23,8 @@ public class JSON_Parser
 	private API_Parser APIParser;
 	private GameParams_Parser GPParser;
 
+	private HashMap<String, JSONObject> GameParamsHashMap = new HashMap<>();
+
 	private JSONObject GameParams;
 	
 	private List<String> NationList = new ArrayList<>();
@@ -33,7 +35,9 @@ public class JSON_Parser
 	private List<String> modules_treeList = new ArrayList<>();
 	private List<JSONObject> default_loadouts = new ArrayList<>();
 	private List<JSONObject> upgradeModules = new ArrayList<>();
-	
+
+	private JSONObject GP_ShipJSON;
+
 	private JSONObject ShipUpgradeInfoJSON;
 	private List<String> ShipUpgradeInfoList = new ArrayList<>();
 
@@ -55,7 +59,9 @@ public class JSON_Parser
 	private double HEShellBurnProb;
 	private double mainGunRotation;
 	private double mainGunReload;
+	private double mainGunRotationTime;
 	private double mainGunDispersionTangent;
+	private double mainGunDispersionRange;
 
 	private JSONObject GP_HullJSON;
 	private long maxRepairCost;
@@ -170,12 +176,25 @@ public class JSON_Parser
 
 	private String shipSmallImage;
 	private String shipContour;
+
+	private JSONObject GP_GameParamsJSON;
+	private JSONObject API_ArtilleryUpgradeJSON;
+	private JSONObject API_HullUpgradeJSON;
+	private JSONObject API_EngineUpgradeJSON;
+	private JSONObject API_RadarUpgradeJSON;
+	private JSONObject API_TorpedoUpgradeJSON;
 	
 	public JSON_Parser(String aShipName) throws IOException, ParseException
 	{
 		APIParser = new API_Parser();
 		APIParser.setShipJSON(aShipName);
 		GPParser = new GameParams_Parser(APIParser.getShip_id_str());
+
+		GameParamsHashMap = GPParser.getGameParamsHashMap();
+		GP_GameParamsJSON = new JSONObject(GameParamsHashMap);
+
+		GP_ShipJSON = GPParser.getShipJSON();
+
 		ShipUpgradeInfoJSON = (JSONObject) GPParser.getShipJSON().get("ShipUpgradeInfo");
 
 		shipSmallImage = APIParser.getShipSmallImage();
@@ -262,6 +281,12 @@ public class JSON_Parser
 				API_TorpedoesUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
 			}
 		}
+
+		API_ArtilleryUpgradeJSON = new JSONObject(API_ArtilleryUpgradeJSONHashMap);
+		API_HullUpgradeJSON = new JSONObject(API_HullUpgradeJSONHashMap);
+		API_EngineUpgradeJSON = new JSONObject(API_EngineUpgradeJSONHashMap);
+		API_RadarUpgradeJSON = new JSONObject(API_SuoUpgradeJSONHashMap);
+		API_TorpedoUpgradeJSON = new JSONObject(API_TorpedoesUpgradeJSONHashMap);
 
 		Collections.sort(API_ArtilleryUpgradeNameList);
 		Collections.sort(API_HullUpgradeNameList);
@@ -494,6 +519,10 @@ public class JSON_Parser
 
 		tobj3 = (JSONArray) GP_TurretJSON.get("rotationSpeed");
 		mainGunRotation = (double) tobj3.get(0);
+		if (getMainGunRotation() != 0 )
+		{
+			mainGunRotationTime = 180.0 / getMainGunRotation();
+		}
 		mainGunReload = (double) GP_TurretJSON.get("shotDelay");
 
 		if (GP_TurretJSON.get("idealRadius") instanceof Double)
@@ -508,6 +537,7 @@ public class JSON_Parser
 			mainGunDispersionTangent = Math.toRadians(mainGunDispersionTangent * 0.03);
 			mainGunDispersionTangent = Math.tan(mainGunDispersionTangent);
 		}
+		mainGunDispersionRange = maxMainGunRange * mainGunDispersionTangent * 2;
 	}
 
 	public void setHullStats(String aHull)

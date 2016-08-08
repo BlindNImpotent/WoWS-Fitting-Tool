@@ -1001,7 +1001,7 @@ public class Calc
 	 * 
 	 * @return
 	 */
-	public JSON_Parser getJSP()
+	public JSON_Parser getJsp()
 	{
 		return jsp;
 	}
