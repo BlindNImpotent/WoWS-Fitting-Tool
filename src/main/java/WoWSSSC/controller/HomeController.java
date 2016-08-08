@@ -2,6 +2,7 @@ package WoWSSSC.controller;
 
 import JAR.Calc;
 import JAR.JSParser;
+import Parser.API_Parser;
 import Parser.GameParams_Parser;
 import Parser.JSON_Parser;
 import WoWSSSC.model.ShipNameList;
@@ -42,9 +43,7 @@ public class HomeController
         model.addAttribute("name", name);
 
         JSON_Parser jsonParser = new JSON_Parser(name);
-
         model.addAttribute("ship", jsonParser);
-
         model.addAttribute("turretList", jsonParser.getAPI_ArtilleryUpgradeNameList());
         model.addAttribute("hullList", jsonParser.getAPI_HullUpgradeNameList());
         model.addAttribute("engineList", jsonParser.getAPI_EngineUpgradeNameList());

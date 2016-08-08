@@ -27,8 +27,9 @@ public class GameParams_Parser
 	private JSONParser JSONParser = new JSONParser();
 	private File GameParamsFile = new File("src/main/java/GP_JSON/GameParams.json");
 	private JSONObject GameParams;
-	private HashMap<String, JSONObject> GameParamsHashMap = new HashMap<String, JSONObject>();
-	
+	private HashMap<String, JSONObject> GameParamsIndexHashMap = new HashMap<>();
+	private HashMap<String, JSONObject> GameParamsNameHashMap = new HashMap<>();
+
 	private List<String> GameParamsKeySet = new ArrayList<String>();
 	private List<JSONObject> GameParamsValues = new ArrayList<>();
 	private JSONObject shipJSON;
@@ -36,43 +37,32 @@ public class GameParams_Parser
 	private String ship_id_str;
 
 	@SuppressWarnings("unchecked")
-	public GameParams_Parser(String aShip_id_str) throws FileNotFoundException, IOException, ParseException
+	public GameParams_Parser(String aShip_id_str) throws IOException, ParseException
 	{
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GameParamsFile),"UTF8"));		
 		GameParams = (JSONObject) JSONParser.parse(reader);
 		GameParamsKeySet.addAll(GameParams.keySet());
-		
+
 		GameParamsValues.addAll(GameParams.values());
-		
-		setGameParamsHashMap();
+
+		setGameParamsIndexHashMap();
 		setShipJSON(aShip_id_str);
 	}	
 	
-	private void setGameParamsHashMap()
+	private void setGameParamsIndexHashMap()
 	{
 		JSONObject json;
 		for (int i = 0; i < GameParamsKeySet.size(); i++)
 		{
 			json = (JSONObject) GameParams.get(GameParamsKeySet.get(i));
-			GameParamsHashMap.put((String) json.get("index"), json);
+			GameParamsIndexHashMap.put((String) json.get("index"), json);
+			GameParamsNameHashMap.put((String) json.get("name"), json);
 		}
 	}
 	
 	private void setShipJSON(String aShip_id_str)	
 	{
 		ship_id_str = aShip_id_str;
-		shipJSON = GameParamsHashMap.get(ship_id_str);
-
-
-
-//		for (int i = 0; i < GameParamsKeySet.size(); i++)
-//		{
-//			if (GameParamsKeySet.get(i).contains(aShip_id_str))
-//			{
-//				ship_id_str = GameParamsKeySet.get(i);
-//				shipJSON = (JSONObject) GameParamsHashMap.get(ship_id_str);
-//				break;
-//			}
-//		}
+		shipJSON = GameParamsIndexHashMap.get(ship_id_str);
 	}	
 }

@@ -23,7 +23,7 @@ public class JSON_Parser
 	private API_Parser APIParser;
 	private GameParams_Parser GPParser;
 
-	private HashMap<String, JSONObject> GameParamsHashMap = new HashMap<>();
+	private HashMap<String, JSONObject> GameParamsIndexHashMap = new HashMap<>();
 
 	private JSONObject GameParams;
 	
@@ -177,6 +177,8 @@ public class JSON_Parser
 	private String shipSmallImage;
 	private String shipContour;
 
+	private JSONObject GP_GameParamsIndexHashMapJSON;
+	private JSONObject GP_GameParamsNameHashMapJSON;
 	private JSONObject GP_GameParamsJSON;
 	private JSONObject API_ArtilleryUpgradeJSON;
 	private JSONObject API_HullUpgradeJSON;
@@ -190,9 +192,11 @@ public class JSON_Parser
 		APIParser.setShipJSON(aShipName);
 		GPParser = new GameParams_Parser(APIParser.getShip_id_str());
 
-		GameParamsHashMap = GPParser.getGameParamsHashMap();
-		GP_GameParamsJSON = new JSONObject(GameParamsHashMap);
+		GameParamsIndexHashMap = GPParser.getGameParamsIndexHashMap();
+		GP_GameParamsIndexHashMapJSON = new JSONObject(GameParamsIndexHashMap);
+		GP_GameParamsNameHashMapJSON = new JSONObject(GPParser.getGameParamsNameHashMap());
 
+		GP_GameParamsJSON = new JSONObject(GPParser.getGameParams());
 		GP_ShipJSON = GPParser.getShipJSON();
 
 		ShipUpgradeInfoJSON = (JSONObject) GPParser.getShipJSON().get("ShipUpgradeInfo");
@@ -340,42 +344,42 @@ public class JSON_Parser
 
 		if (ModernizationSlot1_mods != null) {
 			for (int i = 0; i < ModernizationSlot1_mods.size(); i++) {
-				mods1.put((String) ship_modifications.get(ModernizationSlot1_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot1_mods.get(i)));
+				mods1.put((String) ship_modifications.get(ModernizationSlot1_mods.get(i)), GPParser.getGameParamsIndexHashMap().get(ModernizationSlot1_mods.get(i)));
 				modSlot1.add((String) ModernizationSlot1_mods.get(i));
 			}
 		}
 
 		if (ModernizationSlot2_mods != null) {
 			for (int i = 0; i < ModernizationSlot2_mods.size(); i++) {
-				mods2.put((String) ship_modifications.get(ModernizationSlot2_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot2_mods.get(i)));
+				mods2.put((String) ship_modifications.get(ModernizationSlot2_mods.get(i)), GPParser.getGameParamsIndexHashMap().get(ModernizationSlot2_mods.get(i)));
 				modSlot2.add((String) ModernizationSlot2_mods.get(i));
 			}
 		}
 
 		if (ModernizationSlot3_mods != null) {
 			for (int i = 0; i < ModernizationSlot3_mods.size(); i++) {
-				mods3.put((String) ship_modifications.get(ModernizationSlot3_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot3_mods.get(i)));
+				mods3.put((String) ship_modifications.get(ModernizationSlot3_mods.get(i)), GPParser.getGameParamsIndexHashMap().get(ModernizationSlot3_mods.get(i)));
 				modSlot3.add((String) ModernizationSlot3_mods.get(i));
 			}
 		}
 
 		if (ModernizationSlot4_mods != null) {
 			for (int i = 0; i < ModernizationSlot4_mods.size(); i++) {
-				mods4.put((String) ship_modifications.get(ModernizationSlot4_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot4_mods.get(i)));
+				mods4.put((String) ship_modifications.get(ModernizationSlot4_mods.get(i)), GPParser.getGameParamsIndexHashMap().get(ModernizationSlot4_mods.get(i)));
 				modSlot4.add((String) ModernizationSlot4_mods.get(i));
 			}
 		}
 
 		if (ModernizationSlot5_mods != null) {
 			for (int i = 0; i < ModernizationSlot5_mods.size(); i++) {
-				mods5.put((String) ship_modifications.get(ModernizationSlot5_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot5_mods.get(i)));
+				mods5.put((String) ship_modifications.get(ModernizationSlot5_mods.get(i)), GPParser.getGameParamsIndexHashMap().get(ModernizationSlot5_mods.get(i)));
 				modSlot5.add((String) ModernizationSlot5_mods.get(i));
 			}
 		}
 
 		if (ModernizationSlot6_mods != null) {
 			for (int i = 0; i < ModernizationSlot6_mods.size(); i++) {
-				mods6.put((String) ship_modifications.get(ModernizationSlot6_mods.get(i)), GPParser.getGameParamsHashMap().get(ModernizationSlot6_mods.get(i)));
+				mods6.put((String) ship_modifications.get(ModernizationSlot6_mods.get(i)), GPParser.getGameParamsIndexHashMap().get(ModernizationSlot6_mods.get(i)));
 				modSlot6.add((String) ModernizationSlot6_mods.get(i));
 			}
 		}
@@ -429,7 +433,7 @@ public class JSON_Parser
 //				GP_turretKey = GPParser.getGameParamsKeySet().get(i);
 //			}
 //		}
-		GP_turretKey = (String) GPParser.getGameParamsHashMap().get(API_module_id_str).get("name");
+		GP_turretKey = (String) GPParser.getGameParamsIndexHashMap().get(API_module_id_str).get("name");
 
 		JSONObject module = (JSONObject) ShipUpgradeInfoJSON.get(GP_turretKey);
 		JSONObject components = (JSONObject) module.get("components");
@@ -1024,7 +1028,7 @@ public class JSON_Parser
 				String flagId = String.valueOf(GPParser.getGameParamsValues().get(i).get("id"));
 				if (flagId.matches(API_Flags_keySet.get(j)))
 				{
-					FlagsJSONList.add(GPParser.getGameParamsHashMap().get(GPParser.getGameParamsKeySet().get(i)));
+					FlagsJSONList.add(GPParser.getGameParamsIndexHashMap().get(GPParser.getGameParamsKeySet().get(i)));
 				}				
 			}
 		}

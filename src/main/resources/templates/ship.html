@@ -567,10 +567,9 @@
     var radarList = [[${radarList}]];
     var torpedoList = [[${torpedoList}]];
 
-    var GP_GameParamsJSON = [[${ship.GP_GameParamsJSON}]];
     var GP_ShipJSON = [[${ship.GP_ShipJSON}]];
     var GP_ShipUpgradeInfo = GP_ShipJSON.ShipUpgradeInfo;
-
+    var nation = [[${ship.nation}]];
 
     var API_ArtilleryUpgradeJSON = [[${ship.API_ArtilleryUpgradeJSON}]];
     var API_HullUpgradeJSON = [[${ship.API_HullUpgradeJSON}]];
@@ -579,86 +578,48 @@
     var API_TorpedoUpgradeJSON = [[${ship.API_TorpedoUpgradeJSON}]];
 
     var tier = GP_ShipJSON.level;
-    var health = [[${ship.maxHP}]];
-    var speed = [[${ship.speed}]];
-    var rudderShift = [[${ship.rudderShift}]];
-    var turningRadius = [[${ship.turningRadius}]];
-    var sConceal = [[${ship.sConceal}]];
-    var aConceal = [[${ship.aConceal}]];
-    var burnTime = [[${ship.burnTime}]]
-    var floodTime = [[${ship.floodTime}]]
+    var health = 0;
+    var speed = 0;
+    var rudderShift = 0;
+    var turningRadius = 0;
+    var sConceal = 0;
+    var aConceal = 0;
+    var burnTime = 0;
+    var floodTime = 0;
 
-    var numTurrets = [[${ship.numTurrets}]];
-    var numBarrels = [[${ship.numBarrels}]]
-    var maxMainGunRange = [[${ship.maxMainGunRange}]];
-    var mainGunReload = [[${ship.mainGunReload}]];
-    var mainGunRotation = [[${ship.mainGunRotation}]];
-    var mainGunRotationTime = [[${ship.mainGunRotationTime}]];
+    var numTurrets = 0;
+    var numBarrels = 0;
+    var turretBarrelDiameter = 0;
+    var maxMainGunRange = 0;
+    var maxDistCoef = 0;
+    var mainGunReload = 0;
+    var mainGunRotation = 0;
+    var mainGunRotationTime = 0;
 
-    var APShellSpeed = [[${ship.APShellSpeed}]];
-    var APShellDMG = [[${ship.APShellDMG}]];
-    var HEShellSpeed = [[${ship.HEShellSpeed}]];
-    var HEShellDMG = [[${ship.HEShellDMG}]];
-    var HEShellBurnProb = [[${ship.HEShellBurnProb}]];
-    var mainGunDispersionRange = [[${ship.mainGunDispersionRange}]];
-    var sigmaCount = [[${ship.sigmaCount}]];
-    var stealthFireSurfaceDetection = [[${ship.stealthFireSurfaceDetection}]];
+    var APShellSpeed = 0;
+    var APShellDMG = 0;
+    var HEShellSpeed = 0;
+    var HEShellDMG = 0;
+    var HEShellBurnProb = 0;
+    var mainGunDispersionTangent = 0
+    var mainGunDispersionRange = 0;
+    var sigmaCount = 0;
+    var stealthFireSurfaceDetection = 0;
 
-    var antiAirAuraDistanceFar = [[${ship.antiAirAuraDistanceFar}]];
-    var AAFarDPS = [[${ship.AAFarDPS}]];
-    var antiAirAuraDistanceMedium = [[${ship.antiAirAuraDistanceMedium}]];
-    var AAMediumDPS = [[${ship.AAMediumDPS}]];
-    var antiAirAuraDistanceNear = [[${ship.antiAirAuraDistanceNear}]];
-    var AANearDPS = [[${ship.AANearDPS}]];
-    var secondaryMaxDist = [[${ship.secondaryMaxDist}]];
+    var antiAirAuraDistanceFar = 0;
+    var AAFarDPS = 0;
+    var antiAirAuraDistanceMedium = 0;
+    var AAMediumDPS = 0;
+    var antiAirAuraDistanceNear = 0;
+    var AANearDPS = 0;
+    var secondaryMaxDist = 0;
 
-    var torpTubes = [[${ship.numTubes}]];
-    var torpTurrets = [[${ship.numTorpTurrets}]];
-    var maxTorpedoRange = [[${ship.maxTorpedoRange}]];
-    var torpedoReload = [[${ship.torpedoReload}]];
-    var torpedoSpeed = [[${ship.torpedoSpeed}]];
-    var torpedoVisibilityFactor = [[${ship.torpedoVisibilityFactor}]];
-
-    document.querySelector('.hullStats .tier').innerHTML = tier.toLocaleString();
-    document.querySelector('.hullStats .health').innerHTML = health.toLocaleString();
-    document.querySelector('.hullStats .speed').innerHTML = speed.toLocaleString() + " kts";
-    document.querySelector('.hullStats .rudderShift').innerHTML = rudderShift.toLocaleString() + " s";
-    document.querySelector('.hullStats .turningRadius').innerHTML = turningRadius.toLocaleString() + " m";
-    document.querySelector('.hullStats .sConceal').innerHTML = sConceal.toLocaleString() + " km";
-    document.querySelector('.hullStats .aConceal').innerHTML = aConceal.toLocaleString() + " km";
-    document.querySelector('.hullStats .burnTime').innerHTML = burnTime.toLocaleString() + " s";
-    document.querySelector('.hullStats .floodTime').innerHTML = floodTime.toLocaleString() + " s";
-
-    document.querySelector('.mainWeaponStats .barrels').innerHTML = numBarrels.toLocaleString() + " X " + numTurrets.toLocaleString();
-    document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = maxMainGunRange.toLocaleString() + " m";
-    document.querySelector('.mainWeaponStats .mainGunReload').innerHTML = mainGunReload.toLocaleString() + " s";
-    document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = mainGunRotation.toLocaleString() + " deg/s";
-    document.querySelector('.mainWeaponStats .mainGunRotationTime').innerHTML = mainGunRotationTime.toLocaleString() + " s";
-    document.querySelector('.mainWeaponStats .APShellSpeed').innerHTML = APShellSpeed.toLocaleString() + " m/s";
-    document.querySelector('.mainWeaponStats .APShellDMG').innerHTML = APShellDMG.toLocaleString();
-    document.querySelector('.mainWeaponStats .HEShellSpeed').innerHTML = HEShellSpeed.toLocaleString() + " m/s";
-    document.querySelector('.mainWeaponStats .HEShellDMG').innerHTML = HEShellDMG.toLocaleString();
-    document.querySelector('.mainWeaponStats .HEShellBurnProb').innerHTML = HEShellBurnProb.toLocaleString();
-    document.querySelector('.mainWeaponStats .mainGunDispersionRange').innerHTML = mainGunDispersionRange.toLocaleString() + " m";
-    document.querySelector('.mainWeaponStats .sigmaCount').innerHTML = sigmaCount.toLocaleString();
-    document.querySelector('.mainWeaponStats .stealthFireSurfaceDetection').innerHTML = (sConceal + stealthFireSurfaceDetection).toLocaleString() + " km";
-
-    document.querySelector('.AASecondaryStats .antiAirAuraDistanceFar').innerHTML = antiAirAuraDistanceFar.toLocaleString() + " km";
-    document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = AAFarDPS.toLocaleString();
-    document.querySelector('.AASecondaryStats .antiAirAuraDistanceMedium').innerHTML = antiAirAuraDistanceMedium.toLocaleString() + " km";
-    document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = AAMediumDPS.toLocaleString();
-    document.querySelector('.AASecondaryStats .antiAirAuraDistanceNear').innerHTML = antiAirAuraDistanceNear.toLocaleString() + " km";
-    document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = AANearDPS.toLocaleString();
-    document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = secondaryMaxDist.toLocaleString() + " m";
-
-    if (torpTubes > 0)
-    {
-        document.querySelector('.torpedo .tubes').innerHTML = torpTurrets.toLocaleString() + " X " + torpTubes.toLocaleString();
-        document.querySelector('.torpedo .maxTorpedoRange').innerHTML = maxTorpedoRange.toLocaleString() + " km";
-        document.querySelector('.torpedo .torpedoReload').innerHTML = torpedoReload.toLocaleString() + " s";
-        document.querySelector('.torpedo .torpedoSpeed').innerHTML = torpedoSpeed.toLocaleString() + " kts";
-        document.querySelector('.torpedo .torpedoVisibilityFactor').innerHTML = torpedoVisibilityFactor.toLocaleString() + " km";
-    }
+    var torpTubes = 0;
+    var torpTurrets = 0;
+    var maxTorpedoRange = 0;
+    var torpedoReload = 0;
+    var torpedoSpeed = 0;
+    var torpedoVisibilityFactor = 0;
 
     function onLoad()
     {
@@ -748,6 +709,8 @@
             document.getElementById(list[i]).className = "button button_module";
         }
         document.getElementById(id).className = "button button_module button_module_selected";
+
+        setRadarStats(id);
     }
 
     function torpedo(id, list)
@@ -773,7 +736,7 @@
         }
         var API_JSON = API_ArtilleryUpgradeJSON[id];
         var API_module_id_str = API_JSON['module_id_str'];
-        var GP_turretKey = GP_GameParamsJSON[API_module_id_str]['name'];
+        var GP_turretKey = [[${ship.GP_GameParamsIndexHashMapJSON}]][API_module_id_str]['name'];
 
         var module = GP_ShipUpgradeInfo[GP_turretKey];
         var components = module['components'];
@@ -781,13 +744,142 @@
 
         var GP_ArtilleryJSON = GP_ShipJSON[artillery[artillery.length - 1]];
 
-        console.log(GP_ArtilleryJSON);
+        var GP_TurretJSON;
+        
+        if (nation == 'usa')
+        {
+            GP_TurretJSON = GP_ArtilleryJSON['HP_AGM_1'];
+        }
+        else if (nation == 'germany')
+        {
+            GP_TurretJSON = GP_ArtilleryJSON['HP_GGM_1'];
+        }
+        else if (nation == 'japan')
+        {
+            GP_TurretJSON = GP_ArtilleryJSON['HP_JGM_1'];
+        }
+        else if (nation == 'ussr')
+        {
+            GP_TurretJSON = GP_ArtilleryJSON['HP_RGM_1'];
+        }
+        else if (nation == 'uk')
+        {
+            GP_TurretJSON = GP_ArtilleryJSON['HP_BGM_1'];
+        }
+        else if (nation == 'poland')
+        {
+            GP_TurretJSON = GP_ArtilleryJSON['HP_WGM_2'];
+        }
+        else if (nation == 'pan_asia')
+        {
+            GP_TurretJSON = GP_ArtilleryJSON['HP_ZGM_1'];
+        }
+        else if (nation == 'france')
+        {
+            GP_TurretJSON = GP_ArtilleryJSON['HP_FGM_1'];
+        }
 
+        maxMainGunRange = GP_ArtilleryJSON['maxDist'] * maxDistCoef;
+        sigmaCount = GP_ArtilleryJSON['sigmaCount'];
+        numBarrels = GP_TurretJSON['numBarrels'];
+
+        for (var i in Object.keys(GP_ArtilleryJSON))
+        {
+            if (!(Object.keys(GP_ArtilleryJSON)[i]).indexOf('HP_'))
+            {
+                numTurrets = numTurrets + 1;
+            }
+        }
+
+        turretBarrelDiameter = GP_TurretJSON['barrelDiameter'];
+
+        var ammoList = GP_TurretJSON['ammoList'];
+        ammoList.sort();
+
+        var APShell = [[${ship.GP_GameParamsNameHashMapJSON}]][ammoList[0]];
+        var HEShell = [[${ship.GP_GameParamsNameHashMapJSON}]][ammoList[1]];
+
+        APShellSpeed = APShell['bulletSpeed'];
+        APShellDMG = APShell['alphaDamage'];
+        HEShellSpeed = HEShell['bulletSpeed'];
+        HEShellDMG = HEShell['alphaDamage'];
+        HEShellBurnProb = HEShell['burnProb'];
+
+        mainGunRotation = GP_TurretJSON['rotationSpeed'][0];
+        if (mainGunRotation != 0)
+        {
+            mainGunRotationTime = 180 / mainGunRotation;
+        }
+
+        mainGunReload = GP_TurretJSON['shotDelay'];
+
+        mainGunDispersionTangent = GP_TurretJSON['idealRadius'];
+        mainGunDispersionTangent = mainGunDispersionTangent * 0.03 * Math.PI / 180;
+        mainGunDispersionTangent = Math.tan(mainGunDispersionTangent);
+
+        mainGunDispersionRange = maxMainGunRange * mainGunDispersionTangent * 2;
+    }
+
+    function setRadarStats(id)
+    {
+        if (id == null)
+        {
+            return;
+        }
+
+        var API_JSON = API_RadarUpgradeJSON[id];
+        var API_module_id_str = API_JSON['module_id_str'];
+        var GP_radarKey = [[${ship.GP_GameParamsIndexHashMapJSON}]][API_module_id_str]['name'];
+
+        var module = GP_ShipUpgradeInfo[GP_radarKey];
+        var components = module['components'];
+        var radar = components['fireControl'];
+
+        var GP_RadarJSON = GP_ShipJSON[radar[radar.length - 1]];
+        maxDistCoef = GP_RadarJSON['maxDistCoef'];
     }
 
 
+    document.querySelector('.hullStats .tier').innerHTML = tier.toLocaleString();
+    document.querySelector('.hullStats .health').innerHTML = health.toLocaleString();
+    document.querySelector('.hullStats .speed').innerHTML = speed.toLocaleString() + " kts";
+    document.querySelector('.hullStats .rudderShift').innerHTML = rudderShift.toLocaleString() + " s";
+    document.querySelector('.hullStats .turningRadius').innerHTML = turningRadius.toLocaleString() + " m";
+    document.querySelector('.hullStats .sConceal').innerHTML = sConceal.toLocaleString() + " km";
+    document.querySelector('.hullStats .aConceal').innerHTML = aConceal.toLocaleString() + " km";
+    document.querySelector('.hullStats .burnTime').innerHTML = burnTime.toLocaleString() + " s";
+    document.querySelector('.hullStats .floodTime').innerHTML = floodTime.toLocaleString() + " s";
 
+    document.querySelector('.mainWeaponStats .barrels').innerHTML = numBarrels.toLocaleString() + " X " + numTurrets.toLocaleString();
+    document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = maxMainGunRange.toLocaleString() + " m";
+    document.querySelector('.mainWeaponStats .mainGunReload').innerHTML = mainGunReload.toLocaleString() + " s";
+    document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = mainGunRotation.toLocaleString() + " deg/s";
+    document.querySelector('.mainWeaponStats .mainGunRotationTime').innerHTML = mainGunRotationTime.toLocaleString() + " s";
+    document.querySelector('.mainWeaponStats .APShellSpeed').innerHTML = APShellSpeed.toLocaleString() + " m/s";
+    document.querySelector('.mainWeaponStats .APShellDMG').innerHTML = APShellDMG.toLocaleString();
+    document.querySelector('.mainWeaponStats .HEShellSpeed').innerHTML = HEShellSpeed.toLocaleString() + " m/s";
+    document.querySelector('.mainWeaponStats .HEShellDMG').innerHTML = HEShellDMG.toLocaleString();
+    document.querySelector('.mainWeaponStats .HEShellBurnProb').innerHTML = HEShellBurnProb.toLocaleString();
+    document.querySelector('.mainWeaponStats .mainGunDispersionRange').innerHTML = mainGunDispersionRange.toLocaleString() + " m";
+    document.querySelector('.mainWeaponStats .sigmaCount').innerHTML = sigmaCount.toLocaleString();
+    document.querySelector('.mainWeaponStats .stealthFireSurfaceDetection').innerHTML = (sConceal + stealthFireSurfaceDetection).toLocaleString() + " km";
 
+    document.querySelector('.AASecondaryStats .antiAirAuraDistanceFar').innerHTML = antiAirAuraDistanceFar.toLocaleString() + " km";
+    document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = AAFarDPS.toLocaleString();
+    document.querySelector('.AASecondaryStats .antiAirAuraDistanceMedium').innerHTML = antiAirAuraDistanceMedium.toLocaleString() + " km";
+    document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = AAMediumDPS.toLocaleString();
+    document.querySelector('.AASecondaryStats .antiAirAuraDistanceNear').innerHTML = antiAirAuraDistanceNear.toLocaleString() + " km";
+    document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = AANearDPS.toLocaleString();
+    document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = secondaryMaxDist.toLocaleString() + " m";
+
+    if (torpTubes > 0)
+    {
+        document.querySelector('.torpedo .tubes').innerHTML = torpTurrets.toLocaleString() + " X " + torpTubes.toLocaleString();
+        document.querySelector('.torpedo .maxTorpedoRange').innerHTML = maxTorpedoRange.toLocaleString() + " km";
+        document.querySelector('.torpedo .torpedoReload').innerHTML = torpedoReload.toLocaleString() + " s";
+        document.querySelector('.torpedo .torpedoSpeed').innerHTML = torpedoSpeed.toLocaleString() + " kts";
+        document.querySelector('.torpedo .torpedoVisibilityFactor').innerHTML = torpedoVisibilityFactor.toLocaleString() + " km";
+    }
 
 </script>
 </body>
