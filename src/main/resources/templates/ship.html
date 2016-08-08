@@ -561,6 +561,20 @@
         }
     };
 
+    var GameParams;
+
+    $.ajax({
+        url: "/GameParams",
+        type: "GET",
+
+        contentType: 'application/json; charset=utf-8',
+        success: function (data)
+        {
+            GameParams = data;
+        }
+    });
+
+
     var turretList = [[${turretList}]];
     var hullList = [[${hullList}]];
     var engineList = [[${engineList}]];

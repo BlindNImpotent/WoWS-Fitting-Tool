@@ -185,7 +185,7 @@ public class JSON_Parser
 	private JSONObject API_EngineUpgradeJSON;
 	private JSONObject API_RadarUpgradeJSON;
 	private JSONObject API_TorpedoUpgradeJSON;
-	
+
 	public JSON_Parser(String aShipName) throws IOException, ParseException
 	{
 		APIParser = new API_Parser();
