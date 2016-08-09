@@ -41,7 +41,7 @@ public class HomeController
 
         model.addAttribute("nameList", homeService.getNameList());
         model.addAttribute("name", name);
-
+        model.addAttribute("ship_id_str", jsonService.getShip_id_str());
 
         model.addAttribute("nation", jsonService.getNation());
 
@@ -54,11 +54,11 @@ public class HomeController
         model.addAttribute("torpedoList", jsonService.getAPI_TorpedoesUpgradeNameList());
 
         model.addAttribute("apiTurretJSON", jsonService.getAPI_ArtilleryUpgradeJSON());
-        model.addAttribute("apiHullJSON", jsonService.getAPI_RadarUpgradeJSON());
+        model.addAttribute("apiHullJSON", jsonService.getAPI_HullUpgradeJSON());
         model.addAttribute("apiEngineJSON", jsonService.getAPI_EngineUpgradeJSON());
         model.addAttribute("apiRadarJSON", jsonService.getAPI_RadarUpgradeJSON());
         model.addAttribute("apiTorpedoJSON", jsonService.getAPI_TorpedoUpgradeJSON());
 
-        return "home";
+        return "ship";
     }
 }

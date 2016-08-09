@@ -31,6 +31,8 @@ public class JSONService
 
     private String nation;
 
+    private String ship_id_str;
+
     private JSONObject modules_treeJSON;
     private List<String> modules_treeList;
     private List<JSONObject> default_loadouts;
@@ -74,6 +76,8 @@ public class JSONService
         gpShipJSON = gameParamsParser.getGameParamsIndexHashMap().get(apiShipJSON.get("ship_id_str"));
 
         nation = (String) apiShipJSON.get("nation");
+
+        ship_id_str = (String) apiShipJSON.get("ship_id_str");
 
         modules_treeList = new ArrayList<>();
         default_loadouts = new ArrayList<>();
