@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css"/>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
     <title>World of Warships Fitting Tool</title>
 
     <script>
@@ -194,163 +195,227 @@
                         <li th:each="shipType : ${nameList.shipTypeList}">
                             <span th:text="${shipType}"/>
                             <ul th:if="${nation == 'France' and shipType == 'AirCarrier'}">
-                                <li th:onclick="'setShipName(\'' + ${FranceAirCarrier} +'\');'" th:each="FranceAirCarrier : ${nameList.FranceAirCarrierList}">
-                                    <span th:text="${FranceAirCarrier}"/>
+                                <li th:each="FranceAirCarrier : ${nameList.FranceAirCarrierList}">
+                                    <a th:href="@{/ship/{name}(name = ${FranceAirCarrier})}">
+                                        <span th:text="${FranceAirCarrier}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'France' and shipType == 'Battleship'}">
-                                <li th:onclick="'setShipName(\'' + ${FranceBattleship} +'\');'" th:each="FranceBattleship : ${nameList.FranceBattleshipList}">
-                                    <span th:text="${FranceBattleship}"/>
+                                <li th:each="FranceBattleship : ${nameList.FranceBattleshipList}">
+                                    <a th:href="@{/ship/{name}(name = ${FranceBattleship})}">
+                                        <span th:text="${FranceBattleship}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'France' and shipType == 'Cruiser'}">
-                                <li th:onclick="'setShipName(\'' + ${FranceCruiser} +'\');'" th:each="FranceCruiser : ${nameList.FranceCruiserList}">
-                                    <span th:text="${FranceCruiser}"/>
+                                <li th:each="FranceCruiser : ${nameList.FranceCruiserList}">
+                                    <a th:href="@{/ship/{name}(name = ${FranceCruiser})}">
+                                        <span th:text="${FranceCruiser}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'France' and shipType == 'Destroyer'}">
-                                <li th:onclick="'setShipName(\'' + ${FranceDestroyer} +'\');'" th:each="FranceDestroyer : ${nameList.FranceDestroyerList}">
-                                    <span th:text="${FranceDestroyer}"/>
+                                <li th:each="FranceDestroyer : ${nameList.FranceDestroyerList}">
+                                    <a th:href="@{/ship/{name}(name = ${FranceDestroyer})}">
+                                        <span th:text="${FranceDestroyer}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'France' and shipType == 'Premium'}">
-                                <li th:onclick="'setShipName(\'' + ${FrancePremium} +'\');'" th:each="FrancePremium : ${nameList.FrancePremiumList}">
-                                    <span th:text="${FrancePremium}"/>
+                                <li th:each="FrancePremium : ${nameList.FrancePremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${FrancePremium})}">
+                                        <span th:text="${FrancePremium}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'Germany' and shipType == 'AirCarrier'}">
-                                <li th:onclick="'setShipName(\'' + ${GermanyAirCarrier} +'\');'" th:each="GermanyAirCarrier : ${nameList.GermanyAirCarrierList}">
-                                    <span th:text="${GermanyAirCarrier}"/>
+                                <li th:each="GermanyAirCarrier : ${nameList.GermanyAirCarrierList}">
+                                    <a th:href="@{/ship/{name}(name = ${GermanyAirCarrier})}">
+                                        <span th:text="${GermanyAirCarrier}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'Germany' and shipType == 'Battleship'}">
-                                <li th:onclick="'setShipName(\'' + ${GermanyBattleship} +'\');'" th:each="GermanyBattleship : ${nameList.GermanyBattleshipList}">
-                                    <span th:text="${GermanyBattleship}"/>
+                                <li th:each="GermanyBattleship : ${nameList.GermanyBattleshipList}">
+                                    <a th:href="@{/ship/{name}(name = ${GermanyBattleship})}">
+                                        <span th:text="${GermanyBattleship}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'Germany' and shipType == 'Cruiser'}">
-                                <li th:onclick="'setShipName(\'' + ${GermanyCruiser} +'\');'" th:each="GermanyCruiser : ${nameList.GermanyCruiserList}">
-                                    <span th:text="${GermanyCruiser}"/>
+                                <li th:each="GermanyCruiser : ${nameList.GermanyCruiserList}">
+                                    <a th:href="@{/ship/{name}(name = ${GermanyCruiser})}">
+                                        <span th:text="${GermanyCruiser}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'Germany' and shipType == 'Destroyer'}">
-                                <li th:onclick="'setShipName(\'' + ${GermanyDestroyer} +'\');'" th:each="GermanyDestroyer : ${nameList.GermanyDestroyerList}">
-                                    <span th:text="${GermanyDestroyer}"/>
+                                <li th:each="GermanyDestroyer : ${nameList.GermanyDestroyerList}">
+                                    <a th:href="@{/ship/{name}(name = ${GermanyDestroyer})}">
+                                        <span th:text="${GermanyDestroyer}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'Germany' and shipType == 'Premium'}">
-                                <li th:onclick="'setShipName(\'' + ${GermanyPremium} +'\');'" th:each="GermanyPremium : ${nameList.GermanyPremiumList}">
-                                    <span th:text="${GermanyPremium}"/>
+                                <li th:each="GermanyPremium : ${nameList.GermanyPremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${GermanyPremium})}">
+                                        <span th:text="${GermanyPremium}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'Japan' and shipType == 'AirCarrier'}">
-                                <li th:onclick="'setShipName(\'' + ${JapanAirCarrier} +'\');'" th:each="JapanAirCarrier : ${nameList.JapanAirCarrierList}">
-                                    <span th:text="${JapanAirCarrier}"/>
+                                <li th:each="JapanAirCarrier : ${nameList.JapanAirCarrierList}">
+                                    <a th:href="@{/ship/{name}(name = ${JapanAirCarrier})}">
+                                        <span th:text="${JapanAirCarrier}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'Japan' and shipType == 'Battleship'}">
-                                <li th:onclick="'setShipName(\'' + ${JapanBattleship} +'\');'" th:each="JapanBattleship : ${nameList.JapanBattleshipList}">
-                                    <span th:text="${JapanBattleship}"/>
+                                <li th:each="JapanBattleship : ${nameList.JapanBattleshipList}">
+                                    <a th:href="@{/ship/{name}(name = ${JapanBattleship})}">
+                                        <span th:text="${JapanBattleship}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'Japan' and shipType == 'Cruiser'}">
-                                <li th:onclick="'setShipName(\'' + ${JapanCruiser} +'\');'" th:each="JapanCruiser : ${nameList.JapanCruiserList}">
-                                    <span th:text="${JapanCruiser}"/>
+                                <li th:each="JapanCruiser : ${nameList.JapanCruiserList}">
+                                    <a th:href="@{/ship/{name}(name = ${JapanCruiser})}">
+                                        <span th:text="${JapanCruiser}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'Japan' and shipType == 'Destroyer'}">
-                                <li th:onclick="'setShipName(\'' + ${JapanDestroyer} +'\');'" th:each="JapanDestroyer : ${nameList.JapanDestroyerList}">
-                                    <span th:text="${JapanDestroyer}"/>
+                                <li th:each="JapanDestroyer : ${nameList.JapanDestroyerList}">
+                                    <a th:href="@{/ship/{name}(name = ${JapanDestroyer})}">
+                                        <span th:text="${JapanDestroyer}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'Japan' and shipType == 'Premium'}">
-                                <li th:onclick="'setShipName(\'' + ${JapanPremium} +'\');'" th:each="JapanPremium : ${nameList.JapanPremiumList}">
-                                    <span th:text="${JapanPremium}"/>
+                                <li th:each="JapanPremium : ${nameList.JapanPremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${JapanPremium})}">
+                                        <span th:text="${JapanPremium}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'Pan-Asia' and shipType == 'Premium'}">
-                                <li th:onclick="'setShipName(\'' + ${PanAsiaPremium} +'\');'" th:each="PanAsiaPremium : ${nameList.PanAsiaPremiumList}">
-                                    <span th:text="${PanAsiaPremium}"/>
+                                <li th:each="PanAsiaPremium : ${nameList.PanAsiaPremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${PanAsiaPremium})}">
+                                        <span th:text="${PanAsiaPremium}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'Poland' and shipType == 'Premium'}">
-                                <li th:onclick="'setShipName(\'' + ${PolandPremium} +'\');'" th:each="PolandPremium : ${nameList.PolandPremiumList}">
-                                    <span th:text="${PolandPremium}"/>
+                                <li th:each="PolandPremium : ${nameList.PolandPremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${PolandPremium})}">
+                                        <span th:text="${PolandPremium}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'U.K.' and shipType == 'AirCarrier'}">
-                                <li th:onclick="'setShipName(\'' + ${UKAirCarrier} +'\');'" th:each="UKAirCarrier : ${nameList.UKAirCarrierList}">
-                                    <span th:text="${UKAirCarrier}"/>
+                                <li th:each="UKAirCarrier : ${nameList.UKAirCarrierList}">
+                                    <a th:href="@{/ship/{name}(name = ${UKAirCarrier})}">
+                                        <span th:text="${UKAirCarrier}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'U.K.' and shipType == 'Battleship'}">
-                                <li th:onclick="'setShipName(\'' + ${UKBattleship} +'\');'" th:each="UKBattleship : ${nameList.UKBattleshipList}">
-                                    <span th:text="${UKBattleship}"/>
+                                <li th:each="UKBattleship : ${nameList.UKBattleshipList}">
+                                    <a th:href="@{/ship/{name}(name = ${UKBattleship})}">
+                                        <span th:text="${UKBattleship}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'U.K.' and shipType == 'Cruiser'}">
-                                <li th:onclick="'setShipName(\'' + ${UKCruiser} +'\');'" th:each="UKCruiser : ${nameList.UKCruiserList}">
-                                    <span th:text="${UKCruiser}"/>
+                                <li th:each="UKCruiser : ${nameList.UKCruiserList}">
+                                    <a th:href="@{/ship/{name}(name = ${UKCruiser})}">
+                                        <span th:text="${UKCruiser}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'U.K.' and shipType == 'Destroyer'}">
-                                <li th:onclick="'setShipName(\'' + ${UKDestroyer} +'\');'" th:each="UKDestroyer : ${nameList.UKDestroyerList}">
-                                    <span th:text="${UKDestroyer}"/>
+                                <li th:each="UKDestroyer : ${nameList.UKDestroyerList}">
+                                    <a th:href="@{/ship/{name}(name = ${UKDestroyer})}">
+                                        <span th:text="${UKDestroyer}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'U.K.' and shipType == 'Premium'}">
-                                <li th:onclick="'setShipName(\'' + ${UKPremium} +'\');'" th:each="UKPremium : ${nameList.UKPremiumList}">
-                                    <span th:text="${UKPremium}"/>
+                                <li th:each="UKPremium : ${nameList.UKPremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${UKPremium})}">
+                                        <span th:text="${UKPremium}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'U.S.A.' and shipType == 'AirCarrier'}">
-                                <li th:onclick="'setShipName(\'' + ${USAAirCarrier} +'\');'" th:each="USAAirCarrier : ${nameList.USAAirCarrierList}">
-                                    <span th:text="${USAAirCarrier}"/>
+                                <li th:each="USAAirCarrier : ${nameList.USAAirCarrierList}">
+                                    <a th:href="@{/ship/{name}(name = ${USAAirCarrier})}">
+                                        <span th:text="${USAAirCarrier}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'U.S.A.' and shipType == 'Battleship'}">
-                                <li th:onclick="'setShipName(\'' + ${USABattleship} +'\', \'' + ${nation} +'\');'" th:each="USABattleship : ${nameList.USABattleshipList}">
-                                    <span th:text="${USABattleship}"/>
+                                <li th:each="USABattleship : ${nameList.USABattleshipList}">
+                                    <a th:href="@{/ship/{name}(name = ${USABattleship})}">
+                                        <span th:text="${USABattleship}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'U.S.A.' and shipType == 'Cruiser'}">
-                                <li th:onclick="'setShipName(\'' + ${USACruiser} +'\');'" th:each="USACruiser : ${nameList.USACruiserList}">
-                                    <span th:text="${USACruiser}"/>
+                                <li th:each="USACruiser : ${nameList.USACruiserList}">
+                                    <a th:href="@{/ship/{name}(name = ${USACruiser})}">
+                                        <span th:text="${USACruiser}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'U.S.A.' and shipType == 'Destroyer'}">
-                                <li th:onclick="'setShipName(\'' + ${USADestroyer} +'\');'" th:each="USADestroyer : ${nameList.USADestroyerList}">
-                                    <span th:text="${USADestroyer}"/>
+                                <li th:each="USADestroyer : ${nameList.USADestroyerList}">
+                                    <a th:href="@{/ship/{name}(name = ${USADestroyer})}">
+                                        <span th:text="${USADestroyer}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'U.S.A.' and shipType == 'Premium'}">
-                                <li th:onclick="'setShipName(\'' + ${USAPremium} +'\');'" th:each="USAPremium : ${nameList.USAPremiumList}">
-                                    <span th:text="${USAPremium}"/>
+                                <li th:each="USAPremium : ${nameList.USAPremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${USAPremium})}">
+                                        <span th:text="${USAPremium}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'U.S.S.R.' and shipType == 'AirCarrier'}">
-                                <li th:onclick="'setShipName(\'' + ${USSRAirCarrier} +'\');'" th:each="USSRAirCarrier : ${nameList.USSRAirCarrierList}">
-                                    <span th:text="${USSRAirCarrier}"/>
+                                <li th:each="USSRAirCarrier : ${nameList.USSRAirCarrierList}">
+                                    <a th:href="@{/ship/{name}(name = ${USSRAirCarrier})}">
+                                        <span th:text="${USSRAirCarrier}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'U.S.S.R.' and shipType == 'Battleship'}">
-                                <li th:onclick="'setShipName(\'' + ${USSRBattleship} +'\');'" th:each="USSRBattleship : ${nameList.USSRBattleshipList}">
-                                    <span th:text="${USSRBattleship}"/>
+                                <li th:each="USSRBattleship : ${nameList.USSRBattleshipList}">
+                                    <a th:href="@{/ship/{name}(name = ${USSRBattleship})}">
+                                        <span th:text="${USSRBattleship}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'U.S.S.R.' and shipType == 'Cruiser'}">
-                                <li th:onclick="'setShipName(\'' + ${USSRCruiser} +'\');'" th:each="USSRCruiser : ${nameList.USSRCruiserList}">
-                                    <span th:text="${USSRCruiser}"/>
+                                <li th:each="USSRCruiser : ${nameList.USSRCruiserList}">
+                                    <a th:href="@{/ship/{name}(name = ${USSRCruiser})}">
+                                        <span th:text="${USSRCruiser}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'U.S.S.R.' and shipType == 'Destroyer'}">
-                                <li th:onclick="'setShipName(\'' + ${USSRDestroyer} +'\');'" th:each="USSRDestroyer : ${nameList.USSRDestroyerList}">
-                                    <span th:text="${USSRDestroyer}"/>
+                                <li th:each="USSRDestroyer : ${nameList.USSRDestroyerList}">
+                                    <a th:href="@{/ship/{name}(name = ${USSRDestroyer})}">
+                                        <span th:text="${USSRDestroyer}"/>
+                                    </a>
                                 </li>
                             </ul>
                             <ul th:if="${nation == 'U.S.S.R.' and shipType == 'Premium'}">
-                                <li th:onclick="'setShipName(\'' + ${USSRPremium} +'\');'" th:each="USSRPremium : ${nameList.USSRPremiumList}">
-                                    <span th:text="${USSRPremium}"/>
+                                <li th:each="USSRPremium : ${nameList.USSRPremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${USSRPremium})}">
+                                        <span th:text="${USSRPremium}"/>
+                                    </a>
                                 </li>
                             </ul>
                         </li>
@@ -360,48 +425,48 @@
         </div>
         <div class="ship" id="ship">
             <header>
-                <h1 class="shipName"/>
+                <h1 th:text="${name}"/>
             </header>
             <div class="modules">
                 <div id="turretList">
-                        <li th:onclick="'turret(\'' + ${turret} +'\', \''+ ${turretList} + '\');'" th:each="turret : ${turretList}" th:id="${turret}">
-                            <button class="button button_module" th:id="${turret}">
-                                <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_maingun.png"/><br />
-                                <span th:text="${turret}"/>
-                            </button>
-                        </li>
-                    </div>
-                    <div id="hullList">
-                        <li th:onclick="'hull(\'' + ${hull} +'\', \''+ ${hullList} + '\');'" th:each="hull : ${hullList}" th:id="${hull}">
-                            <button class="button button_module" th:id="${hull}">
-                                <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_hull.png"/><br />
-                                <span th:text="${hull}"/>
-                            </button>
-                        </li>
-                    </div>
-                    <div id="engineList">
-                        <li th:onclick="'engine(\'' + ${engine} +'\', \''+ ${engineList} + '\');'" th:each="engine : ${engineList}" th:id="${engine}">
-                            <button class="button button_module" th:id="${engine}">
-                                <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_engine.png"/><br />
-                                <span th:text="${engine}"/>
-                            </button>
-                        </li>
-                    </div>
-                    <div id="radarList">
-                        <li th:onclick="'radar(\'' + ${radar} +'\', \''+ ${radarList} + '\');'" th:each="radar : ${radarList}" th:id="${radar}">
-                            <button class="button button_module" th:id="${radar}">
-                                <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_radar.png"/><br />
-                                <span th:text="${radar}"/>
-                            </button>
-                        </li>
-                    </div>
-                    <div id="torpedoList">
-                        <li th:onclick="'torpedo(\'' + ${torpedo} +'\', \''+ ${torpedoList} + '\');'" th:each="torpedo : ${torpedoList}" th:id="${torpedo}">
-                            <button class="button button_module" th:id="${torpedo}">
-                                <img src="http://api.worldofwarships.com//static//1.8.3//wows//encyclopedia//module//icon_module_torpedoes.png"/><br />
-                                <span th:text="${torpedo}"/>
-                            </button>
-                        </li>
+                    <li th:onclick="'turret(\'' + ${turret} +'\', \''+ ${turretList} + '\');'" th:each="turret : ${turretList}" th:id="${turret}">
+                        <button class="button button_module" th:id="${turret}">
+                            <img th:src="@{/images/icon_module_maingun.png}" /><br />
+                            <span th:text="${turret}"/>
+                        </button>
+                    </li>
+                </div>
+                <div id="hullList">
+                    <li th:onclick="'hull(\'' + ${hull} +'\', \''+ ${hullList} + '\');'" th:each="hull : ${hullList}" th:id="${hull}">
+                        <button class="button button_module" th:id="${hull}">
+                            <img th:src="@{/images/icon_module_hull.png}" /><br />
+                            <span th:text="${hull}"/>
+                        </button>
+                    </li>
+                </div>
+                <div id="engineList">
+                    <li th:onclick="'engine(\'' + ${engine} +'\', \''+ ${engineList} + '\');'" th:each="engine : ${engineList}" th:id="${engine}">
+                        <button class="button button_module" th:id="${engine}">
+                            <img th:src="@{/images/icon_module_engine.png}" /><br />
+                            <span th:text="${engine}"/>
+                        </button>
+                    </li>
+                </div>
+                <div id="radarList">
+                    <li th:onclick="'radar(\'' + ${radar} +'\', \''+ ${radarList} + '\');'" th:each="radar : ${radarList}" th:id="${radar}">
+                        <button class="button button_module" th:id="${radar}">
+                            <img th:src="@{/images/icon_module_radar.png}" /><br />
+                            <span th:text="${radar}"/>
+                        </button>
+                    </li>
+                </div>
+                <div id="torpedoList">
+                    <li th:onclick="'torpedo(\'' + ${torpedo} +'\', \''+ ${torpedoList} + '\');'" th:each="torpedo : ${torpedoList}" th:id="${torpedo}">
+                        <button class="button button_module" th:id="${torpedo}">
+                            <img th:src="@{/images/icon_module_torpedoes.png}" /><br />
+                            <span th:text="${torpedo}"/>
+                        </button>
+                    </li>
                 </div>
                 <div>
                     <div id="hullStats" class="hullStats">
@@ -455,7 +520,7 @@
                     <div id="blank3" class="blank">
                         &emsp;
                     </div>
-                    <div id="torpedo" class="torpedo">
+                    <div th:if="${not #lists.isEmpty(torpedoList)}" id="torpedo" class="torpedo">
                         <b>Torpedoes</b><br />
                         Tubes<span class="tubes"/><br />
                         Range<span class="maxTorpedoRange"/><br />
@@ -495,54 +560,19 @@
         }
     };
 
-    var shipName = '';
-    var shipNation = '';
+    var shipName = [[${name}]];
+    var shipNation = [[${nation}]];
+
     var apiShipJSON;
-    var apiArtilleryUpgradeHashMap = new HashMap();
-    var apiHullUpgradeHashMap = new HashMap();
-    var apiEngineUpgradeHashMap = new HashMap();
-    var apiRadarUpgradeHashMap = new HashMap();
-    var apiTorpedoUpgradeHashMap = new HashMap();
 
-    var gpShipJSON;
-    var gpShipUpgradeInfo;
+    var apiArtilleryUpgradeJSON = [[${apiTurretJSON}]];
+    var apiHullUpgradeJSON = [[${apiHullJSON}]];
+    var apiEngineUpgradeJSON = [[${apiEngineJSON}]];
+    var apiRadarUpgradeJSON = [[${apiRadarJSON}]];
+    var apiTorpedoUpgradeJSON = [[${apiTorpedoJSON}]];
 
-    function setShipName(name, nation)
-    {
-        shipName = name;
-        shipNation = nation;
-        document.querySelector('.shipName').innerHTML = shipName.toString();
-
-        $.ajax({
-            url: "/apiShipJSON/" + shipName,
-            type: "GET",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data)
-            {
-                apiShipJSON = data;
-
-                $.ajax({
-                    url: "/gpShipJSON",
-                    type: "GET",
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (data)
-                    {
-                        gpShipJSON = data;
-                        gpShipUpgradeInfo = gpShipJSON['ShipUpgradeInfo'];
-                    }
-                });
-            }
-        });
-
-
-
-
-
-    }
-
-
-
-
+    var gpShipJSON = [[${gpShipJSON}]];
+    var gpShipUpgradeInfo = gpShipJSON['ShipUpgradeInfo'];
 
     var tier = 0;
     var health = 0;
@@ -589,6 +619,28 @@
     var torpedoVisibilityFactor = 0;
 
 
+    function load()
+    {
+        if ([[${radarList}]].length > 0)
+        {
+            radar([[${radarList}]][0], [[${radarList}]]);
+        }
+
+        if ([[${turretList}]].length > 0)
+        {
+            turret([[${turretList}]][0], [[${turretList}]]);
+        }
+
+        engine([[${engineList}]][0], [[${engineList}]]);
+
+        hull([[${hullList}]][0], [[${hullList}]]);
+
+        if ([[${torpedoList}]].length > 0)
+        {
+            torpedo([[${torpedoList}]][0], [[${torpedoList}]]);
+        }
+    }
+    window.onload = load();
 
     function turret(id, list)
     {
@@ -673,90 +725,117 @@
         {
             return;
         }
-        var API_JSON = apiArtilleryUpgradeHashMap.get(id);
+        var API_JSON = apiArtilleryUpgradeJSON[id];
         var API_module_id_str = API_JSON['module_id_str'];
-        var GP_turretKey = null;
+        var GP_turretKey;
 
-        var module = gpShipUpgradeInfo[GP_turretKey];
-        var components = module['components'];
-        var artillery = components['artillery'];
+        $.ajax({
+            url: "/GameParams/index/" + API_module_id_str,
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data)
+            {
+                GP_turretKey = data['name'];
+                var module = gpShipUpgradeInfo[GP_turretKey];
+                var components = module['components'];
+                var artillery = components['artillery'];
 
-        var GP_ArtilleryJSON = gpShipJSON[artillery[artillery.length - 1]];
+                var GP_ArtilleryJSON = gpShipJSON[artillery[artillery.length - 1]];
 
-        var GP_TurretJSON;
+                var GP_TurretJSON;
 
-        if (shipNation == 'U.S.A.')
-        {
-             GP_TurretJSON = GP_ArtilleryJSON['HP_AGM_1'];
-        }
-        else if (shipNation == 'Germany')
-        {
-             GP_TurretJSON = GP_ArtilleryJSON['HP_GGM_1'];
-        }
-        else if (shipNation == 'Japan')
-        {
-             GP_TurretJSON = GP_ArtilleryJSON['HP_JGM_1'];
-        }
-        else if (shipNation == 'U.S.S.R')
-        {
-            GP_TurretJSON = GP_ArtilleryJSON['HP_RGM_1'];
-        }
-        else if (shipNation == 'U.K.')
-        {
-             GP_TurretJSON = GP_ArtilleryJSON['HP_BGM_1'];
-        }
-        else if (shipNation == 'Poland')
-        {
-             GP_TurretJSON = GP_ArtilleryJSON['HP_WGM_2'];
-        }
-        else if (shipNation == 'Pan-Asia')
-        {
-             GP_TurretJSON = GP_ArtilleryJSON['HP_ZGM_1'];
-        }
-        else if (shipNation == 'France')
-        {
-             GP_TurretJSON = GP_ArtilleryJSON['HP_FGM_1'];
-        }
+                if (shipNation == 'usa')
+                {
+                    GP_TurretJSON = GP_ArtilleryJSON['HP_AGM_1'];
+                }
+                else if (shipNation == 'germany')
+                {
+                    GP_TurretJSON = GP_ArtilleryJSON['HP_GGM_1'];
+                }
+                else if (shipNation == 'japan')
+                {
+                    GP_TurretJSON = GP_ArtilleryJSON['HP_JGM_1'];
+                }
+                else if (shipNation == 'ussr')
+                {
+                    GP_TurretJSON = GP_ArtilleryJSON['HP_RGM_1'];
+                }
+                else if (shipNation == 'uk')
+                {
+                    GP_TurretJSON = GP_ArtilleryJSON['HP_BGM_1'];
+                }
+                else if (shipNation == 'poland')
+                {
+                    GP_TurretJSON = GP_ArtilleryJSON['HP_WGM_2'];
+                }
+                else if (shipNation == 'pan_asia')
+                {
+                    GP_TurretJSON = GP_ArtilleryJSON['HP_ZGM_1'];
+                }
+                else if (shipNation == 'france')
+                {
+                    GP_TurretJSON = GP_ArtilleryJSON['HP_FGM_1'];
+                }
 
-        maxMainGunRange = GP_ArtilleryJSON['maxDist'] * maxDistCoef;
-        sigmaCount = GP_ArtilleryJSON['sigmaCount'];
-        numBarrels = GP_TurretJSON['numBarrels'];
+                maxMainGunRange = GP_ArtilleryJSON['maxDist'] * maxDistCoef;
+                sigmaCount = GP_ArtilleryJSON['sigmaCount'];
+                numBarrels = GP_TurretJSON['numBarrels'];
 
-        for (var i in Object.keys(GP_ArtilleryJSON))
-        {
-             if (!(Object.keys(GP_ArtilleryJSON)[i]).indexOf('HP_'))
-             {
-                numTurrets = numTurrets + 1;
-             }
-         }
-        turretBarrelDiameter = GP_TurretJSON['barrelDiameter'];
+                numTurrets = 0;
+                for (var i in Object.keys(GP_ArtilleryJSON))
+                {
+                    if (!(Object.keys(GP_ArtilleryJSON)[i]).indexOf('HP_'))
+                    {
+                        numTurrets = numTurrets + 1;
+                    }
+                }
+                turretBarrelDiameter = GP_TurretJSON['barrelDiameter'];
 
-        var ammoList = GP_TurretJSON['ammoList'];
+                var ammoList = GP_TurretJSON['ammoList'];
 
-        ammoList.sort();
+                ammoList.sort();
 
-        var APShell = [ammoList[0]];
-        var HEShell = [ammoList[1]];
+                $.ajax({
+                    url: "/GameParams/name/" + ammoList[0],
+                    type: "GET",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data)
+                    {
+                        var APShell = data;
+                        APShellSpeed = APShell['bulletSpeed'];
+                        APShellDMG = APShell['alphaDamage'];
 
-        APShellSpeed = APShell['bulletSpeed'];
-        APShellDMG = APShell['alphaDamage'];
-        HEShellSpeed = HEShell['bulletSpeed'];
-        HEShellDMG = HEShell['alphaDamage'];
-        HEShellBurnProb = HEShell['burnProb'];
+                        $.ajax({
+                            url: "/GameParams/name/" + ammoList[1],
+                            type: "GET",
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (data) {
+                                var HEShell = data;
+                                HEShellSpeed = HEShell['bulletSpeed'];
+                                HEShellDMG = HEShell['alphaDamage'];
+                                HEShellBurnProb = HEShell['burnProb'];
 
-        mainGunRotation = GP_TurretJSON['rotationSpeed'][0];
-        if (mainGunRotation != 0)
-        {
-            mainGunRotationTime = 180 / mainGunRotation;
-        }
+                                mainGunRotation = GP_TurretJSON['rotationSpeed'][0];
+                                if (mainGunRotation != 0)
+                                {
+                                    mainGunRotationTime = 180 / mainGunRotation;
+                                }
 
-        mainGunReload = GP_TurretJSON['shotDelay'];
+                                mainGunReload = GP_TurretJSON['shotDelay'];
 
-        mainGunDispersionTangent = GP_TurretJSON['idealRadius'];
-        mainGunDispersionTangent = mainGunDispersionTangent * 0.03 * Math.PI / 180;
-        mainGunDispersionTangent = Math.tan(mainGunDispersionTangent);
+                                mainGunDispersionTangent = GP_TurretJSON['idealRadius'];
+                                mainGunDispersionTangent = mainGunDispersionTangent * 0.03 * Math.PI / 180;
+                                mainGunDispersionTangent = Math.tan(mainGunDispersionTangent);
 
-        mainGunDispersionRange = maxMainGunRange * mainGunDispersionTangent * 2;
+                                mainGunDispersionRange = maxMainGunRange * mainGunDispersionTangent * 2;
+
+                                refresh();
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 
     function setRadarStats(id)
@@ -765,60 +844,72 @@
          {
             return;
         }
-
-         var API_JSON = apiRadarUpgradeHashMap.get(id);
+         var API_JSON = apiRadarUpgradeJSON[id];
          var API_module_id_str = API_JSON['module_id_str'];
-         var GP_radarKey = [API_module_id_str]['name'];
 
-         var module = gpShipUpgradeInfo[GP_radarKey];
-         var components = module['components'];
-         var radar = components['fireControl'];
+        $.ajax({
+            url: "/GameParams/index/" + API_module_id_str,
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                var GP_radarKey = data['name']
 
-         var GP_RadarJSON = gpShipJSON[radar[radar.length - 1]];
-         maxDistCoef = GP_RadarJSON['maxDistCoef'];
+                var module = gpShipUpgradeInfo[GP_radarKey];
+                var components = module['components'];
+                var radar = components['fireControl'];
+
+                var GP_RadarJSON = gpShipJSON[radar[radar.length - 1]];
+                maxDistCoef = GP_RadarJSON['maxDistCoef'];
+
+                refresh()
+            }
+        });
     }
 
-
-    document.querySelector('.hullStats .tier').innerHTML = tier.toLocaleString();
-    document.querySelector('.hullStats .health').innerHTML = health.toLocaleString();
-    document.querySelector('.hullStats .speed').innerHTML = speed.toLocaleString() + " kts";
-    document.querySelector('.hullStats .rudderShift').innerHTML = rudderShift.toLocaleString() + " s";
-    document.querySelector('.hullStats .turningRadius').innerHTML = turningRadius.toLocaleString() + " m";
-    document.querySelector('.hullStats .sConceal').innerHTML = sConceal.toLocaleString() + " km";
-    document.querySelector('.hullStats .aConceal').innerHTML = aConceal.toLocaleString() + " km";
-    document.querySelector('.hullStats .burnTime').innerHTML = burnTime.toLocaleString() + " s";
-    document.querySelector('.hullStats .floodTime').innerHTML = floodTime.toLocaleString() + " s";
-
-    document.querySelector('.mainWeaponStats .barrels').innerHTML = numBarrels.toLocaleString() + " X " + numTurrets.toLocaleString();
-    document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = maxMainGunRange.toLocaleString() + " m";
-    document.querySelector('.mainWeaponStats .mainGunReload').innerHTML = mainGunReload.toLocaleString() + " s";
-    document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = mainGunRotation.toLocaleString() + " deg/s";
-    document.querySelector('.mainWeaponStats .mainGunRotationTime').innerHTML = mainGunRotationTime.toLocaleString() + " s";
-    document.querySelector('.mainWeaponStats .APShellSpeed').innerHTML = APShellSpeed.toLocaleString() + " m/s";
-    document.querySelector('.mainWeaponStats .APShellDMG').innerHTML = APShellDMG.toLocaleString();
-    document.querySelector('.mainWeaponStats .HEShellSpeed').innerHTML = HEShellSpeed.toLocaleString() + " m/s";
-    document.querySelector('.mainWeaponStats .HEShellDMG').innerHTML = HEShellDMG.toLocaleString();
-    document.querySelector('.mainWeaponStats .HEShellBurnProb').innerHTML = HEShellBurnProb.toLocaleString();
-    document.querySelector('.mainWeaponStats .mainGunDispersionRange').innerHTML = mainGunDispersionRange.toLocaleString() + " m";
-    document.querySelector('.mainWeaponStats .sigmaCount').innerHTML = sigmaCount.toLocaleString();
-    document.querySelector('.mainWeaponStats .stealthFireSurfaceDetection').innerHTML = (sConceal + stealthFireSurfaceDetection).toLocaleString() + " km";
-
-    document.querySelector('.AASecondaryStats .antiAirAuraDistanceFar').innerHTML = antiAirAuraDistanceFar.toLocaleString() + " km";
-    document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = AAFarDPS.toLocaleString();
-    document.querySelector('.AASecondaryStats .antiAirAuraDistanceMedium').innerHTML = antiAirAuraDistanceMedium.toLocaleString() + " km";
-    document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = AAMediumDPS.toLocaleString();
-    document.querySelector('.AASecondaryStats .antiAirAuraDistanceNear').innerHTML = antiAirAuraDistanceNear.toLocaleString() + " km";
-    document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = AANearDPS.toLocaleString();
-    document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = secondaryMaxDist.toLocaleString() + " m";
-
-    if (torpTubes > 0)
+    function refresh()
     {
-        document.querySelector('.torpedo .tubes').innerHTML = torpTurrets.toLocaleString() + " X " + torpTubes.toLocaleString();
-        document.querySelector('.torpedo .maxTorpedoRange').innerHTML = maxTorpedoRange.toLocaleString() + " km";
-        document.querySelector('.torpedo .torpedoReload').innerHTML = torpedoReload.toLocaleString() + " s";
-        document.querySelector('.torpedo .torpedoSpeed').innerHTML = torpedoSpeed.toLocaleString() + " kts";
-        document.querySelector('.torpedo .torpedoVisibilityFactor').innerHTML = torpedoVisibilityFactor.toLocaleString() + " km";
+        document.querySelector('.hullStats .tier').innerHTML = tier.toLocaleString();
+        document.querySelector('.hullStats .health').innerHTML = health.toLocaleString();
+        document.querySelector('.hullStats .speed').innerHTML = speed.toLocaleString() + " kts";
+        document.querySelector('.hullStats .rudderShift').innerHTML = rudderShift.toLocaleString() + " s";
+        document.querySelector('.hullStats .turningRadius').innerHTML = turningRadius.toLocaleString() + " m";
+        document.querySelector('.hullStats .sConceal').innerHTML = sConceal.toLocaleString() + " km";
+        document.querySelector('.hullStats .aConceal').innerHTML = aConceal.toLocaleString() + " km";
+        document.querySelector('.hullStats .burnTime').innerHTML = burnTime.toLocaleString() + " s";
+        document.querySelector('.hullStats .floodTime').innerHTML = floodTime.toLocaleString() + " s";
+
+        document.querySelector('.mainWeaponStats .barrels').innerHTML = numBarrels.toLocaleString() + " X " + numTurrets.toLocaleString();
+        document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = maxMainGunRange.toLocaleString() + " m";
+        document.querySelector('.mainWeaponStats .mainGunReload').innerHTML = mainGunReload.toLocaleString() + " s";
+        document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = mainGunRotation.toLocaleString() + " deg/s";
+        document.querySelector('.mainWeaponStats .mainGunRotationTime').innerHTML = mainGunRotationTime.toLocaleString() + " s";
+        document.querySelector('.mainWeaponStats .APShellSpeed').innerHTML = APShellSpeed.toLocaleString() + " m/s";
+        document.querySelector('.mainWeaponStats .APShellDMG').innerHTML = APShellDMG.toLocaleString();
+        document.querySelector('.mainWeaponStats .HEShellSpeed').innerHTML = HEShellSpeed.toLocaleString() + " m/s";
+        document.querySelector('.mainWeaponStats .HEShellDMG').innerHTML = HEShellDMG.toLocaleString();
+        document.querySelector('.mainWeaponStats .HEShellBurnProb').innerHTML = HEShellBurnProb.toLocaleString();
+        document.querySelector('.mainWeaponStats .mainGunDispersionRange').innerHTML = mainGunDispersionRange.toLocaleString() + " m";
+        document.querySelector('.mainWeaponStats .sigmaCount').innerHTML = sigmaCount.toLocaleString();
+        document.querySelector('.mainWeaponStats .stealthFireSurfaceDetection').innerHTML = (sConceal + stealthFireSurfaceDetection).toLocaleString() + " km";
+
+        document.querySelector('.AASecondaryStats .antiAirAuraDistanceFar').innerHTML = antiAirAuraDistanceFar.toLocaleString() + " km";
+        document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = AAFarDPS.toLocaleString();
+        document.querySelector('.AASecondaryStats .antiAirAuraDistanceMedium').innerHTML = antiAirAuraDistanceMedium.toLocaleString() + " km";
+        document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = AAMediumDPS.toLocaleString();
+        document.querySelector('.AASecondaryStats .antiAirAuraDistanceNear').innerHTML = antiAirAuraDistanceNear.toLocaleString() + " km";
+        document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = AANearDPS.toLocaleString();
+        document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = secondaryMaxDist.toLocaleString() + " m";
+
+        if (torpTubes > 0)
+        {
+            document.querySelector('.torpedo .tubes').innerHTML = torpTurrets.toLocaleString() + " X " + torpTubes.toLocaleString();
+            document.querySelector('.torpedo .maxTorpedoRange').innerHTML = maxTorpedoRange.toLocaleString() + " km";
+            document.querySelector('.torpedo .torpedoReload').innerHTML = torpedoReload.toLocaleString() + " s";
+            document.querySelector('.torpedo .torpedoSpeed').innerHTML = torpedoSpeed.toLocaleString() + " kts";
+            document.querySelector('.torpedo .torpedoVisibilityFactor').innerHTML = torpedoVisibilityFactor.toLocaleString() + " km";
+        }
     }
+
 
 </script>
 </body>

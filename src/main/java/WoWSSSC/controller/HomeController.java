@@ -7,6 +7,7 @@ import Parser.GameParams_Parser;
 import Parser.JSON_Parser;
 import WoWSSSC.model.ShipNameList;
 import WoWSSSC.service.HomeService;
+import WoWSSSC.service.JSONService;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -30,10 +31,33 @@ public class HomeController
     @Autowired
     private HomeService homeService;
 
-    @RequestMapping (value = "/", method = RequestMethod.GET)
-    public String home(Model model) throws IOException, ParseException
+    @Autowired
+    private JSONService jsonService;
+
+    @RequestMapping (value = "/ship/{name}", method = RequestMethod.GET)
+    public String home(Model model, @PathVariable("name") String name) throws IOException, ParseException
     {
+        jsonService.setShipJSON(name);
+
         model.addAttribute("nameList", homeService.getNameList());
+        model.addAttribute("name", name);
+
+
+        model.addAttribute("nation", jsonService.getNation());
+
+        model.addAttribute("gpShipJSON", jsonService.getGpShipJSON());
+
+        model.addAttribute("turretList", jsonService.getAPI_ArtilleryUpgradeNameList());
+        model.addAttribute("hullList", jsonService.getAPI_HullUpgradeNameList());
+        model.addAttribute("engineList", jsonService.getAPI_EngineUpgradeNameList());
+        model.addAttribute("radarList", jsonService.getAPI_SuoUpgradeNameList());
+        model.addAttribute("torpedoList", jsonService.getAPI_TorpedoesUpgradeNameList());
+
+        model.addAttribute("apiTurretJSON", jsonService.getAPI_ArtilleryUpgradeJSON());
+        model.addAttribute("apiHullJSON", jsonService.getAPI_RadarUpgradeJSON());
+        model.addAttribute("apiEngineJSON", jsonService.getAPI_EngineUpgradeJSON());
+        model.addAttribute("apiRadarJSON", jsonService.getAPI_RadarUpgradeJSON());
+        model.addAttribute("apiTorpedoJSON", jsonService.getAPI_TorpedoUpgradeJSON());
 
         return "home";
     }

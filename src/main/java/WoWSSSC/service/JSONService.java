@@ -23,34 +23,38 @@ public class JSONService
     private API_Parser apiParser;
     private GameParams_Parser gameParamsParser;
 
-    private JSONObject GameParams;
+    private HashMap<String, JSONObject> GameParamsIndexHashMap;
+    private HashMap<String, JSONObject> GameParamsNameHashMap;
 
     private JSONObject apiShipJSON;
     private JSONObject gpShipJSON;
+
+    private String nation;
+
     private JSONObject modules_treeJSON;
-    private List<String> modules_treeList = new ArrayList<>();
-    private List<JSONObject> default_loadouts = new ArrayList<>();
-    private List<JSONObject> upgradeModules = new ArrayList<>();
+    private List<String> modules_treeList;
+    private List<JSONObject> default_loadouts;
+    private List<JSONObject> upgradeModules;
 
-    private List<JSONObject> API_ArtilleryUpgradeJSONList = new ArrayList<>();
-    private List<String> API_ArtilleryUpgradeNameList = new ArrayList<>();
-    private HashMap<String, JSONObject> API_ArtilleryUpgradeJSONHashMap = new HashMap<>();
+    private List<JSONObject> API_ArtilleryUpgradeJSONList;
+    private List<String> API_ArtilleryUpgradeNameList;
+    private HashMap<String, JSONObject> API_ArtilleryUpgradeJSONHashMap;
 
-    private List<JSONObject> API_HullUpgradeJSONList = new ArrayList<>();
-    private List<String> API_HullUpgradeNameList = new ArrayList<>();
-    private HashMap<String, JSONObject> API_HullUpgradeJSONHashMap = new HashMap<>();
+    private List<JSONObject> API_HullUpgradeJSONList;
+    private List<String> API_HullUpgradeNameList;
+    private HashMap<String, JSONObject> API_HullUpgradeJSONHashMap;
 
-    private List<JSONObject> API_EngineUpgradeJSONList = new ArrayList<>();
-    private List<String> API_EngineUpgradeNameList = new ArrayList<>();
-    private HashMap<String, JSONObject> API_EngineUpgradeJSONHashMap = new HashMap<>();
+    private List<JSONObject> API_EngineUpgradeJSONList;
+    private List<String> API_EngineUpgradeNameList;
+    private HashMap<String, JSONObject> API_EngineUpgradeJSONHashMap;
 
-    private List<JSONObject> API_SuoUpgradeJSONList = new ArrayList<>();
-    private List<String> API_SuoUpgradeNameList = new ArrayList<>();
-    private HashMap<String, JSONObject> API_SuoUpgradeJSONHashMap = new HashMap<>();
+    private List<JSONObject> API_SuoUpgradeJSONList;
+    private List<String> API_SuoUpgradeNameList;
+    private HashMap<String, JSONObject> API_SuoUpgradeJSONHashMap;
 
-    private List<JSONObject> API_TorpedoesUpgradeJSONList = new ArrayList<>();
-    private List<String> API_TorpedoesUpgradeNameList = new ArrayList<>();
-    private HashMap<String, JSONObject> API_TorpedoesUpgradeJSONHashMap = new HashMap<>();
+    private List<JSONObject> API_TorpedoesUpgradeJSONList;
+    private List<String> API_TorpedoesUpgradeNameList;
+    private HashMap<String, JSONObject> API_TorpedoesUpgradeJSONHashMap;
 
     private JSONObject API_ArtilleryUpgradeJSON;
     private JSONObject API_HullUpgradeJSON;
@@ -63,15 +67,52 @@ public class JSONService
         apiParser = new API_Parser();
         gameParamsParser = new GameParams_Parser();
 
-        GameParams = gameParamsParser.getGameParams();
+        GameParamsIndexHashMap = gameParamsParser.getGameParamsIndexHashMap();
+        GameParamsNameHashMap = gameParamsParser.getGameParamsNameHashMap();
 
         apiShipJSON = apiParser.getAPIShipsHashMap().get(name);
         gpShipJSON = gameParamsParser.getGameParamsIndexHashMap().get(apiShipJSON.get("ship_id_str"));
+
+        nation = (String) apiShipJSON.get("nation");
+
+        modules_treeList = new ArrayList<>();
+        default_loadouts = new ArrayList<>();
+        upgradeModules = new ArrayList<>();
+
+        API_ArtilleryUpgradeJSONList = new ArrayList<>();
+        API_ArtilleryUpgradeNameList = new ArrayList<>();
+        API_ArtilleryUpgradeJSONHashMap = new HashMap<>();
+        API_HullUpgradeJSONList = new ArrayList<>();
+        API_HullUpgradeNameList = new ArrayList<>();
+        API_HullUpgradeJSONHashMap = new HashMap<>();
+        API_EngineUpgradeJSONList = new ArrayList<>();
+        API_EngineUpgradeNameList = new ArrayList<>();
+        API_EngineUpgradeJSONHashMap = new HashMap<>();
+        API_SuoUpgradeJSONList = new ArrayList<>();
+        API_SuoUpgradeNameList = new ArrayList<>();
+        API_SuoUpgradeJSONHashMap = new HashMap<>();
+        API_TorpedoesUpgradeJSONList = new ArrayList<>();
+        API_TorpedoesUpgradeNameList = new ArrayList<>();
+        API_TorpedoesUpgradeJSONHashMap = new HashMap<>();
+        
+        setShipUpgradeModulesInfo();
+    }
+
+    public JSONObject getGameParamsIndexJSON(String index)
+    {
+        return GameParamsIndexHashMap.get(index);
+    }
+
+    public JSONObject getGameParamsNameJSON(String name)
+    {
+        return GameParamsNameHashMap.get(name);
     }
 
     private void setShipUpgradeModulesInfo()
     {
-        modules_treeJSON = (JSONObject) apiParser.getShipJSON().get("modules_tree");
+        modules_treeJSON = (JSONObject) apiShipJSON.get("modules_tree");
+
+        modules_treeList.clear();
         modules_treeList.addAll(modules_treeJSON.keySet());
 
         JSONObject API_suiJSON;
@@ -79,12 +120,6 @@ public class JSONService
         for (int i = 0; i < modules_treeList.size(); i++)
         {
             API_suiJSON = (JSONObject) modules_treeJSON.get(modules_treeList.get(i));
-
-            if (API_suiJSON.get("is_default").equals(true)) {
-                default_loadouts.add(API_suiJSON);
-            } else {
-                upgradeModules.add(API_suiJSON);
-            }
 
             String API_suiJSONName = (String) API_suiJSON.get("name");
 

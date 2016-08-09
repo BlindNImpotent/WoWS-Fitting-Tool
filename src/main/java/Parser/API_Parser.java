@@ -156,63 +156,63 @@ public class API_Parser
 			APIShipsHashMap.put((String) shipJSON.get("name"), shipJSON);
 		}
 	}
-	private void setShipUpgradeModulesInfo()
-	{
-		modules_treeJSON = (JSONObject) getShipJSON().get("modules_tree");
-		modules_treeList.addAll(modules_treeJSON.keySet());
-
-		JSONObject API_suiJSON;
-
-		for (int i = 0; i < modules_treeList.size(); i++)
-		{
-			API_suiJSON = (JSONObject) modules_treeJSON.get(modules_treeList.get(i));
-
-			String API_suiJSONName = (String) API_suiJSON.get("name");
-
-			if (API_suiJSON.get("type").equals("Artillery"))
-			{
-				API_ArtilleryUpgradeJSONList.add(API_suiJSON);
-				API_ArtilleryUpgradeNameList.add(API_suiJSONName);
-				API_ArtilleryUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
-			}
-			else if (API_suiJSON.get("type").equals("Hull"))
-			{
-				API_HullUpgradeJSONList.add(API_suiJSON);
-				API_HullUpgradeNameList.add(API_suiJSONName);
-				API_HullUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
-			}
-			else if (API_suiJSON.get("type").equals("Engine"))
-			{
-				API_EngineUpgradeJSONList.add(API_suiJSON);
-				API_EngineUpgradeNameList.add(API_suiJSONName);
-				API_EngineUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
-			}
-			else if (API_suiJSON.get("type").equals("Suo"))
-			{
-				API_SuoUpgradeJSONList.add(API_suiJSON);
-				API_SuoUpgradeNameList.add(API_suiJSONName);
-				API_SuoUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
-			}
-			else if (API_suiJSON.get("type").equals("Torpedoes"))
-			{
-				API_TorpedoesUpgradeJSONList.add(API_suiJSON);
-				API_TorpedoesUpgradeNameList.add(API_suiJSONName);
-				API_TorpedoesUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
-			}
-		}
-
-		API_ArtilleryUpgradeJSON = new JSONObject(API_ArtilleryUpgradeJSONHashMap);
-		API_HullUpgradeJSON = new JSONObject(API_HullUpgradeJSONHashMap);
-		API_EngineUpgradeJSON = new JSONObject(API_EngineUpgradeJSONHashMap);
-		API_RadarUpgradeJSON = new JSONObject(API_SuoUpgradeJSONHashMap);
-		API_TorpedoUpgradeJSON = new JSONObject(API_TorpedoesUpgradeJSONHashMap);
-
-		Collections.sort(API_ArtilleryUpgradeNameList);
-		Collections.sort(API_HullUpgradeNameList);
-		Collections.sort(API_EngineUpgradeNameList);
-		Collections.sort(API_SuoUpgradeNameList);
-		Collections.sort(API_TorpedoesUpgradeNameList);
-	}
+//	private void setShipUpgradeModulesInfo()
+//	{
+//		modules_treeJSON = (JSONObject) getShipJSON().get("modules_tree");
+//		modules_treeList.addAll(modules_treeJSON.keySet());
+//
+//		JSONObject API_suiJSON;
+//
+//		for (int i = 0; i < modules_treeList.size(); i++)
+//		{
+//			API_suiJSON = (JSONObject) modules_treeJSON.get(modules_treeList.get(i));
+//
+//			String API_suiJSONName = (String) API_suiJSON.get("name");
+//
+//			if (API_suiJSON.get("type").equals("Artillery"))
+//			{
+//				API_ArtilleryUpgradeJSONList.add(API_suiJSON);
+//				API_ArtilleryUpgradeNameList.add(API_suiJSONName);
+//				API_ArtilleryUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
+//			}
+//			else if (API_suiJSON.get("type").equals("Hull"))
+//			{
+//				API_HullUpgradeJSONList.add(API_suiJSON);
+//				API_HullUpgradeNameList.add(API_suiJSONName);
+//				API_HullUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
+//			}
+//			else if (API_suiJSON.get("type").equals("Engine"))
+//			{
+//				API_EngineUpgradeJSONList.add(API_suiJSON);
+//				API_EngineUpgradeNameList.add(API_suiJSONName);
+//				API_EngineUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
+//			}
+//			else if (API_suiJSON.get("type").equals("Suo"))
+//			{
+//				API_SuoUpgradeJSONList.add(API_suiJSON);
+//				API_SuoUpgradeNameList.add(API_suiJSONName);
+//				API_SuoUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
+//			}
+//			else if (API_suiJSON.get("type").equals("Torpedoes"))
+//			{
+//				API_TorpedoesUpgradeJSONList.add(API_suiJSON);
+//				API_TorpedoesUpgradeNameList.add(API_suiJSONName);
+//				API_TorpedoesUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
+//			}
+//		}
+//
+//		API_ArtilleryUpgradeJSON = new JSONObject(API_ArtilleryUpgradeJSONHashMap);
+//		API_HullUpgradeJSON = new JSONObject(API_HullUpgradeJSONHashMap);
+//		API_EngineUpgradeJSON = new JSONObject(API_EngineUpgradeJSONHashMap);
+//		API_RadarUpgradeJSON = new JSONObject(API_SuoUpgradeJSONHashMap);
+//		API_TorpedoUpgradeJSON = new JSONObject(API_TorpedoesUpgradeJSONHashMap);
+//
+//		Collections.sort(API_ArtilleryUpgradeNameList);
+//		Collections.sort(API_HullUpgradeNameList);
+//		Collections.sort(API_EngineUpgradeNameList);
+//		Collections.sort(API_SuoUpgradeNameList);
+//		Collections.sort(API_TorpedoesUpgradeNameList);
+//	}
 
 //	public void setShipJSON(String aShipName)
 //	{

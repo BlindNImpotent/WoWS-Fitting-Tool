@@ -35,4 +35,15 @@ public class JSONController
         return jsonService.getGpShipJSON();
     }
 
+    @RequestMapping (value = "/GameParams/index/{index}", method = RequestMethod.GET)
+    public JSONObject GameParamsIndexJSON(@PathVariable("index") String index)
+    {
+        return jsonService.getGameParamsIndexJSON(index);
+    }
+    @RequestMapping (value = "/GameParams/name/{name}", method = RequestMethod.GET)
+    public JSONObject GameParamsNameJSON(@PathVariable("name") String name)
+    {
+        return jsonService.getGameParamsNameJSON(name);
+    }
+
 }
