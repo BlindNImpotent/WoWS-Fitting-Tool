@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<title>Talk2Me Tutor <?php echo $phaseType?> Web</title>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/tinymce/js/tinymce/tinymce.min.js"></script>
+<script>
+
+tinymce.init({
+	auto_focus:"text",
+    selector: "textarea",
+    plugins: [
+        "textcolor code autoresize spellchecker"
+    ],
+	formats : {
+		custom_format : {inline : 'span', styles : {backgroundColor : "#ff0000"}}
+	},
+    toolbar: "hili removeformat code | undo redo",
+	setup: function(editor) {
+        editor.addButton('hili', {
+            text: 'HL',
+            icon: false,
+            onclick: function() {
+                tinymce.activeEditor.formatter.apply('custom_format');
+            }
+        });
+    },
+	statusbar : false,
+	resize: false,
+	menubar:false,
+	browser_spellcheck : true 
+});
+
+</script>
+</head>
+<body>
+<textarea id="text"></textarea>
+
+</div>
+</body>
+</html>
