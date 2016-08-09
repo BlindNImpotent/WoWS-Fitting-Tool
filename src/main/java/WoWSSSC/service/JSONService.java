@@ -1,42 +1,135 @@
 package WoWSSSC.service;
 
+import Parser.API_Parser;
+import Parser.GameParams_Parser;
+import lombok.Data;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.zip.GZIPOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Aesis on 2016-08-08.
  */
 @Service
+@Data
 public class JSONService
 {
-    public JSONObject getGameParams() throws IOException, ParseException
-    {
-        JSONParser JSONParser = new JSONParser();
-        File GameParamsFile = new File("src/main/java/GP_JSON/GameParams.json");
-        JSONObject GameParams;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GameParamsFile),"UTF8"));
-        GameParams = (JSONObject) JSONParser.parse(reader);
+    private API_Parser apiParser;
+    private GameParams_Parser gameParamsParser;
 
-        return GameParams;
+    private JSONObject GameParams;
+
+    private JSONObject apiShipJSON;
+    private JSONObject gpShipJSON;
+    private JSONObject modules_treeJSON;
+    private List<String> modules_treeList = new ArrayList<>();
+    private List<JSONObject> default_loadouts = new ArrayList<>();
+    private List<JSONObject> upgradeModules = new ArrayList<>();
+
+    private List<JSONObject> API_ArtilleryUpgradeJSONList = new ArrayList<>();
+    private List<String> API_ArtilleryUpgradeNameList = new ArrayList<>();
+    private HashMap<String, JSONObject> API_ArtilleryUpgradeJSONHashMap = new HashMap<>();
+
+    private List<JSONObject> API_HullUpgradeJSONList = new ArrayList<>();
+    private List<String> API_HullUpgradeNameList = new ArrayList<>();
+    private HashMap<String, JSONObject> API_HullUpgradeJSONHashMap = new HashMap<>();
+
+    private List<JSONObject> API_EngineUpgradeJSONList = new ArrayList<>();
+    private List<String> API_EngineUpgradeNameList = new ArrayList<>();
+    private HashMap<String, JSONObject> API_EngineUpgradeJSONHashMap = new HashMap<>();
+
+    private List<JSONObject> API_SuoUpgradeJSONList = new ArrayList<>();
+    private List<String> API_SuoUpgradeNameList = new ArrayList<>();
+    private HashMap<String, JSONObject> API_SuoUpgradeJSONHashMap = new HashMap<>();
+
+    private List<JSONObject> API_TorpedoesUpgradeJSONList = new ArrayList<>();
+    private List<String> API_TorpedoesUpgradeNameList = new ArrayList<>();
+    private HashMap<String, JSONObject> API_TorpedoesUpgradeJSONHashMap = new HashMap<>();
+
+    private JSONObject API_ArtilleryUpgradeJSON;
+    private JSONObject API_HullUpgradeJSON;
+    private JSONObject API_EngineUpgradeJSON;
+    private JSONObject API_RadarUpgradeJSON;
+    private JSONObject API_TorpedoUpgradeJSON;
+
+    public void setShipJSON(String name) throws IOException, ParseException
+    {
+        apiParser = new API_Parser();
+        gameParamsParser = new GameParams_Parser();
+
+        GameParams = gameParamsParser.getGameParams();
+
+        apiShipJSON = apiParser.getAPIShipsHashMap().get(name);
+        gpShipJSON = gameParamsParser.getGameParamsIndexHashMap().get(apiShipJSON.get("ship_id_str"));
     }
 
-    public String test() throws IOException, ParseException {
-        JSONParser JSONParser = new JSONParser();
-        File GameParamsFile = new File("src/main/java/GP_JSON/GameParams.json");
-        JSONObject GameParams;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GameParamsFile),"UTF8"));
-        GameParams = (JSONObject) JSONParser.parse(reader);
+    private void setShipUpgradeModulesInfo()
+    {
+        modules_treeJSON = (JSONObject) apiParser.getShipJSON().get("modules_tree");
+        modules_treeList.addAll(modules_treeJSON.keySet());
 
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        GZIPOutputStream gzip = new GZIPOutputStream(out);
-        gzip.write(GameParams.toString().getBytes());
-        gzip.close();
-        String outStr = out.toString("UTF-8");
-        return outStr;
+        JSONObject API_suiJSON;
+
+        for (int i = 0; i < modules_treeList.size(); i++)
+        {
+            API_suiJSON = (JSONObject) modules_treeJSON.get(modules_treeList.get(i));
+
+            if (API_suiJSON.get("is_default").equals(true)) {
+                default_loadouts.add(API_suiJSON);
+            } else {
+                upgradeModules.add(API_suiJSON);
+            }
+
+            String API_suiJSONName = (String) API_suiJSON.get("name");
+
+            if (API_suiJSON.get("type").equals("Artillery"))
+            {
+                API_ArtilleryUpgradeJSONList.add(API_suiJSON);
+                API_ArtilleryUpgradeNameList.add(API_suiJSONName);
+                API_ArtilleryUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
+            }
+            else if (API_suiJSON.get("type").equals("Hull"))
+            {
+                API_HullUpgradeJSONList.add(API_suiJSON);
+                API_HullUpgradeNameList.add(API_suiJSONName);
+                API_HullUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
+            }
+            else if (API_suiJSON.get("type").equals("Engine"))
+            {
+                API_EngineUpgradeJSONList.add(API_suiJSON);
+                API_EngineUpgradeNameList.add(API_suiJSONName);
+                API_EngineUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
+            }
+            else if (API_suiJSON.get("type").equals("Suo"))
+            {
+                API_SuoUpgradeJSONList.add(API_suiJSON);
+                API_SuoUpgradeNameList.add(API_suiJSONName);
+                API_SuoUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
+            }
+            else if (API_suiJSON.get("type").equals("Torpedoes"))
+            {
+                API_TorpedoesUpgradeJSONList.add(API_suiJSON);
+                API_TorpedoesUpgradeNameList.add(API_suiJSONName);
+                API_TorpedoesUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
+            }
+        }
+
+        API_ArtilleryUpgradeJSON = new JSONObject(API_ArtilleryUpgradeJSONHashMap);
+        API_HullUpgradeJSON = new JSONObject(API_HullUpgradeJSONHashMap);
+        API_EngineUpgradeJSON = new JSONObject(API_EngineUpgradeJSONHashMap);
+        API_RadarUpgradeJSON = new JSONObject(API_SuoUpgradeJSONHashMap);
+        API_TorpedoUpgradeJSON = new JSONObject(API_TorpedoesUpgradeJSONHashMap);
+
+        Collections.sort(API_ArtilleryUpgradeNameList);
+        Collections.sort(API_HullUpgradeNameList);
+        Collections.sort(API_EngineUpgradeNameList);
+        Collections.sort(API_SuoUpgradeNameList);
+        Collections.sort(API_TorpedoesUpgradeNameList);
     }
 }

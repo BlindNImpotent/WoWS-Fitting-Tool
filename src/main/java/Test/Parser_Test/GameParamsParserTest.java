@@ -18,11 +18,11 @@ public class GameParamsParserTest
 	@Before
 	public void setUp() throws FileNotFoundException, IOException, ParseException
 	{
-		GameParamsParser = new GameParams_Parser(ship_id_str);
+		//GameParamsParser = new GameParams_Parser(ship_id_str);
 	}	
 	
 	@Test
-	public void test1() 
+	public void test1()
 	{
 		assertNotNull(GameParamsParser);
 	}

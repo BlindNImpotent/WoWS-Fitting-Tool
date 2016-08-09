@@ -37,21 +37,4 @@ public class HomeController
 
         return "home";
     }
-
-    @RequestMapping (value = "/ship/{name}", method = RequestMethod.GET)
-    public String getConfig(Model model, @PathVariable("name") String name) throws IOException, ParseException
-    {
-        model.addAttribute("nameList", homeService.getNameList());
-        model.addAttribute("name", name);
-
-        JSON_Parser jsonParser = new JSON_Parser(name);
-        model.addAttribute("ship", jsonParser);
-        model.addAttribute("turretList", jsonParser.getAPI_ArtilleryUpgradeNameList());
-        model.addAttribute("hullList", jsonParser.getAPI_HullUpgradeNameList());
-        model.addAttribute("engineList", jsonParser.getAPI_EngineUpgradeNameList());
-        model.addAttribute("radarList", jsonParser.getAPI_SuoUpgradeNameList());
-        model.addAttribute("torpedoList", jsonParser.getAPI_TorpedoesUpgradeNameList());
-
-        return "ship";
-    }
 }

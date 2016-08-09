@@ -189,8 +189,8 @@ public class JSON_Parser
 	public JSON_Parser(String aShipName) throws IOException, ParseException
 	{
 		APIParser = new API_Parser();
-		APIParser.setShipJSON(aShipName);
-		GPParser = new GameParams_Parser(APIParser.getShip_id_str());
+		//APIParser.setShipJSON(aShipName);
+		//GPParser = new GameParams_Parser(APIParser.getShip_id_str());
 
 		GameParamsIndexHashMap = GPParser.getGameParamsIndexHashMap();
 		GP_GameParamsIndexHashMapJSON = new JSONObject(GameParamsIndexHashMap);

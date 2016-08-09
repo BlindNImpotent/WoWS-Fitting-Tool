@@ -32,7 +32,7 @@ public class GameParams_Parser
 	private String ship_id_str;
 
 	@SuppressWarnings("unchecked")
-	public GameParams_Parser(String aShip_id_str) throws IOException, ParseException
+	public GameParams_Parser() throws IOException, ParseException
 	{
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GameParamsFile),"UTF8"));		
 		GameParams = (JSONObject) JSONParser.parse(reader);
@@ -41,7 +41,7 @@ public class GameParams_Parser
 		GameParamsValues.addAll(GameParams.values());
 
 		setGameParamsIndexHashMap();
-		setShipJSON(aShip_id_str);
+//		setShipJSON(aShip_id_str);
 	}	
 	
 	private void setGameParamsIndexHashMap()
@@ -55,9 +55,9 @@ public class GameParams_Parser
 		}
 	}
 	
-	private void setShipJSON(String aShip_id_str)	
-	{
-		ship_id_str = aShip_id_str;
-		shipJSON = GameParamsIndexHashMap.get(ship_id_str);
-	}	
+//	private void setShipJSON(String aShip_id_str)
+//	{
+//		ship_id_str = aShip_id_str;
+//		shipJSON = GameParamsIndexHashMap.get(ship_id_str);
+//	}
 }
