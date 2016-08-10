@@ -298,9 +298,7 @@ public class JSON_Parser
 		Collections.sort(API_SuoUpgradeNameList);
 		Collections.sort(API_TorpedoesUpgradeNameList);
 	}
-	
-	
-	
+
 	@SuppressWarnings("unchecked")
 	private void setUpgrades()
 	{

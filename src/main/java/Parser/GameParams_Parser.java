@@ -10,6 +10,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import lombok.Data;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 /**
  * 
@@ -19,14 +21,14 @@ import lombok.Data;
 @Data
 public class GameParams_Parser 
 {
-	private JSONParser JSONParser = new JSONParser();
-	private File GameParamsFile = new File("src/main/java/GP_JSON/GameParams.json");
+	private JSONParser JSONParser;
+	private Resource GameParamsFile = new ClassPathResource("static/json/GP_JSON/GameParams.json");
 	private JSONObject GameParams;
-	private HashMap<String, JSONObject> GameParamsIndexHashMap = new HashMap<>();
-	private HashMap<String, JSONObject> GameParamsNameHashMap = new HashMap<>();
+	private HashMap<String, JSONObject> GameParamsIndexHashMap;
+	private HashMap<String, JSONObject> GameParamsNameHashMap;
 
-	private List<String> GameParamsKeySet = new ArrayList<String>();
-	private List<JSONObject> GameParamsValues = new ArrayList<>();
+	private List<String> GameParamsKeySet;
+	private List<JSONObject> GameParamsValues;
 	private JSONObject shipJSON;
 	
 	private String ship_id_str;
@@ -34,10 +36,15 @@ public class GameParams_Parser
 	@SuppressWarnings("unchecked")
 	public GameParams_Parser() throws IOException, ParseException
 	{
-		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GameParamsFile),"UTF8"));		
+		JSONParser = new JSONParser();
+		GameParamsIndexHashMap = new HashMap<>();
+		GameParamsNameHashMap = new HashMap<>();
+		GameParamsKeySet = new ArrayList<>();
+		GameParamsValues = new ArrayList<>();
+
+		BufferedReader reader = new BufferedReader(new InputStreamReader(GameParamsFile.getInputStream(),"UTF8"));
 		GameParams = (JSONObject) JSONParser.parse(reader);
 		GameParamsKeySet.addAll(GameParams.keySet());
-
 		GameParamsValues.addAll(GameParams.values());
 
 		setGameParamsIndexHashMap();

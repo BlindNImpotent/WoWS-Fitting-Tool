@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css"/>
+    <script th:src="@{/js/jquery/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/jquery/jquery-ui.js}"></script>
+
+    <title>World of Warships Fitting Tool</title>
+
+    <script>
+        $( function() {
+            $( "#shipList" ).menu();
+        } );
+    </script>
+    <style type="text/css">
+        html
+        {
+            height: 100%;
+            width:auto;
+        }
+
+        li
+        {
+            list-style-type: none;
+        }
+
+        .ui-menu
+        {
+            width: 175px;
+        }
+
+        #ship
+        {
+            text-align: center;
+        }
+
+        #turretList
+        {
+            display: inline-block;
+            vertical-align: text-top;
+        }
+        #hullList
+        {
+            display: inline-block;
+            vertical-align: text-top;
+        }
+        #engineList
+        {
+            display: inline-block;
+            vertical-align: text-top;
+        }
+        #radarList
+        {
+            display: inline-block;
+            vertical-align: text-top;
+        }
+        #torpedoList
+        {
+            display: inline-block;
+            vertical-align: text-top;
+        }
+
+        #hullStats
+        {
+            display: inline-block;
+            text-align: left;
+            vertical-align: text-top;
+        }
+        #blank1
+        {
+            display: inline-block;
+            text-align: center;
+            vertical-align: text-top;
+        }
+        #mainWeaponStats
+        {
+            display: inline-block;
+            text-align: left;
+            vertical-align: text-top;
+        }
+        #blank2
+        {
+            display: inline-block;
+            text-align: center;
+            vertical-align: text-top;
+        }
+        #AASecondaryStats
+        {
+            display: inline-block;
+            text-align: left;
+            vertical-align: text-top;
+        }
+        #blank3
+        {
+            display: inline-block;
+            text-align: center;
+            vertical-align: text-top;
+        }
+        #torpedo
+        {
+            display: inline-block;
+            text-align: left;
+            vertical-align: text-top;
+        }
+
+        .button
+        {
+            background-color:#fff;
+            text-align: center;
+            border-color: rgb(0,0,0);
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 5px;
+            cursor: default;
+        }
+
+        .button_module
+        {
+            font-size: 12px;
+            min-width: 100px;
+            max-width: 100px;
+            min-height: 100px;
+            max-height: 100px;
+            word-wrap: normal;
+            cursor: pointer;
+        }
+
+        .button_module img
+        {
+            width: 50px;
+            margin-bottom: 0px;
+        }
+
+        .button_module_selected
+        {
+            background-color:#fff;
+            text-align: center;
+            border-color: rgb(256,0,0);
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 5px;
+            font-size: 12px;
+            min-width: 100px;
+            max-width: 100px;
+            min-height: 100px;
+            max-height: 100px;
+            word-wrap: normal;
+            cursor: pointer;
+        }
+
+        .button_module_selected img
+        {
+            width: 50px;
+            margin-bottom: 0px;
+        }
+
+    </style>
+</head>
+<body>
+<main>
+    <div class="container">
+        <div class="dropDownList" id="dropDownList">
+            <ul id="shipList">
+                <li th:each="nation : ${nameList.nationList}">
+                    <span th:text="${nation}"/>
+                    <ul>
+                        <li th:each="shipType : ${nameList.shipTypeList}">
+                            <span th:text="${shipType}"/>
+                            <ul th:if="${nation == 'France' and shipType == 'AirCarrier'}">
+                                <li th:each="FranceAirCarrier : ${nameList.FranceAirCarrierList}">
+                                    <a th:href="@{/ship/{name}(name = ${FranceAirCarrier})}">
+                                        <span th:text="${FranceAirCarrier}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'France' and shipType == 'Battleship'}">
+                                <li th:each="FranceBattleship : ${nameList.FranceBattleshipList}">
+                                    <a th:href="@{/ship/{name}(name = ${FranceBattleship})}">
+                                        <span th:text="${FranceBattleship}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'France' and shipType == 'Cruiser'}">
+                                <li th:each="FranceCruiser : ${nameList.FranceCruiserList}">
+                                    <a th:href="@{/ship/{name}(name = ${FranceCruiser})}">
+                                        <span th:text="${FranceCruiser}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'France' and shipType == 'Destroyer'}">
+                                <li th:each="FranceDestroyer : ${nameList.FranceDestroyerList}">
+                                    <a th:href="@{/ship/{name}(name = ${FranceDestroyer})}">
+                                        <span th:text="${FranceDestroyer}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'France' and shipType == 'Premium'}">
+                                <li th:each="FrancePremium : ${nameList.FrancePremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${FrancePremium})}">
+                                        <span th:text="${FrancePremium}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'Germany' and shipType == 'AirCarrier'}">
+                                <li th:each="GermanyAirCarrier : ${nameList.GermanyAirCarrierList}">
+                                    <a th:href="@{/ship/{name}(name = ${GermanyAirCarrier})}">
+                                        <span th:text="${GermanyAirCarrier}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'Germany' and shipType == 'Battleship'}">
+                                <li th:each="GermanyBattleship : ${nameList.GermanyBattleshipList}">
+                                    <a th:href="@{/ship/{name}(name = ${GermanyBattleship})}">
+                                        <span th:text="${GermanyBattleship}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'Germany' and shipType == 'Cruiser'}">
+                                <li th:each="GermanyCruiser : ${nameList.GermanyCruiserList}">
+                                    <a th:href="@{/ship/{name}(name = ${GermanyCruiser})}">
+                                        <span th:text="${GermanyCruiser}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'Germany' and shipType == 'Destroyer'}">
+                                <li th:each="GermanyDestroyer : ${nameList.GermanyDestroyerList}">
+                                    <a th:href="@{/ship/{name}(name = ${GermanyDestroyer})}">
+                                        <span th:text="${GermanyDestroyer}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'Germany' and shipType == 'Premium'}">
+                                <li th:each="GermanyPremium : ${nameList.GermanyPremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${GermanyPremium})}">
+                                        <span th:text="${GermanyPremium}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'Japan' and shipType == 'AirCarrier'}">
+                                <li th:each="JapanAirCarrier : ${nameList.JapanAirCarrierList}">
+                                    <a th:href="@{/ship/{name}(name = ${JapanAirCarrier})}">
+                                        <span th:text="${JapanAirCarrier}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'Japan' and shipType == 'Battleship'}">
+                                <li th:each="JapanBattleship : ${nameList.JapanBattleshipList}">
+                                    <a th:href="@{/ship/{name}(name = ${JapanBattleship})}">
+                                        <span th:text="${JapanBattleship}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'Japan' and shipType == 'Cruiser'}">
+                                <li th:each="JapanCruiser : ${nameList.JapanCruiserList}">
+                                    <a th:href="@{/ship/{name}(name = ${JapanCruiser})}">
+                                        <span th:text="${JapanCruiser}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'Japan' and shipType == 'Destroyer'}">
+                                <li th:each="JapanDestroyer : ${nameList.JapanDestroyerList}">
+                                    <a th:href="@{/ship/{name}(name = ${JapanDestroyer})}">
+                                        <span th:text="${JapanDestroyer}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'Japan' and shipType == 'Premium'}">
+                                <li th:each="JapanPremium : ${nameList.JapanPremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${JapanPremium})}">
+                                        <span th:text="${JapanPremium}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'Pan-Asia' and shipType == 'Premium'}">
+                                <li th:each="PanAsiaPremium : ${nameList.PanAsiaPremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${PanAsiaPremium})}">
+                                        <span th:text="${PanAsiaPremium}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'Poland' and shipType == 'Premium'}">
+                                <li th:each="PolandPremium : ${nameList.PolandPremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${PolandPremium})}">
+                                        <span th:text="${PolandPremium}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'U.K.' and shipType == 'AirCarrier'}">
+                                <li th:each="UKAirCarrier : ${nameList.UKAirCarrierList}">
+                                    <a th:href="@{/ship/{name}(name = ${UKAirCarrier})}">
+                                        <span th:text="${UKAirCarrier}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'U.K.' and shipType == 'Battleship'}">
+                                <li th:each="UKBattleship : ${nameList.UKBattleshipList}">
+                                    <a th:href="@{/ship/{name}(name = ${UKBattleship})}">
+                                        <span th:text="${UKBattleship}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'U.K.' and shipType == 'Cruiser'}">
+                                <li th:each="UKCruiser : ${nameList.UKCruiserList}">
+                                    <a th:href="@{/ship/{name}(name = ${UKCruiser})}">
+                                        <span th:text="${UKCruiser}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'U.K.' and shipType == 'Destroyer'}">
+                                <li th:each="UKDestroyer : ${nameList.UKDestroyerList}">
+                                    <a th:href="@{/ship/{name}(name = ${UKDestroyer})}">
+                                        <span th:text="${UKDestroyer}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'U.K.' and shipType == 'Premium'}">
+                                <li th:each="UKPremium : ${nameList.UKPremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${UKPremium})}">
+                                        <span th:text="${UKPremium}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'U.S.A.' and shipType == 'AirCarrier'}">
+                                <li th:each="USAAirCarrier : ${nameList.USAAirCarrierList}">
+                                    <a th:href="@{/ship/{name}(name = ${USAAirCarrier})}">
+                                        <span th:text="${USAAirCarrier}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'U.S.A.' and shipType == 'Battleship'}">
+                                <li th:each="USABattleship : ${nameList.USABattleshipList}">
+                                    <a th:href="@{/ship/{name}(name = ${USABattleship})}">
+                                        <span th:text="${USABattleship}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'U.S.A.' and shipType == 'Cruiser'}">
+                                <li th:each="USACruiser : ${nameList.USACruiserList}">
+                                    <a th:href="@{/ship/{name}(name = ${USACruiser})}">
+                                        <span th:text="${USACruiser}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'U.S.A.' and shipType == 'Destroyer'}">
+                                <li th:each="USADestroyer : ${nameList.USADestroyerList}">
+                                    <a th:href="@{/ship/{name}(name = ${USADestroyer})}">
+                                        <span th:text="${USADestroyer}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'U.S.A.' and shipType == 'Premium'}">
+                                <li th:each="USAPremium : ${nameList.USAPremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${USAPremium})}">
+                                        <span th:text="${USAPremium}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'U.S.S.R.' and shipType == 'AirCarrier'}">
+                                <li th:each="USSRAirCarrier : ${nameList.USSRAirCarrierList}">
+                                    <a th:href="@{/ship/{name}(name = ${USSRAirCarrier})}">
+                                        <span th:text="${USSRAirCarrier}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'U.S.S.R.' and shipType == 'Battleship'}">
+                                <li th:each="USSRBattleship : ${nameList.USSRBattleshipList}">
+                                    <a th:href="@{/ship/{name}(name = ${USSRBattleship})}">
+                                        <span th:text="${USSRBattleship}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'U.S.S.R.' and shipType == 'Cruiser'}">
+                                <li th:each="USSRCruiser : ${nameList.USSRCruiserList}">
+                                    <a th:href="@{/ship/{name}(name = ${USSRCruiser})}">
+                                        <span th:text="${USSRCruiser}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'U.S.S.R.' and shipType == 'Destroyer'}">
+                                <li th:each="USSRDestroyer : ${nameList.USSRDestroyerList}">
+                                    <a th:href="@{/ship/{name}(name = ${USSRDestroyer})}">
+                                        <span th:text="${USSRDestroyer}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul th:if="${nation == 'U.S.S.R.' and shipType == 'Premium'}">
+                                <li th:each="USSRPremium : ${nameList.USSRPremiumList}">
+                                    <a th:href="@{/ship/{name}(name = ${USSRPremium})}">
+                                        <span th:text="${USSRPremium}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

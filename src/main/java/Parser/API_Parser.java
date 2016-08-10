@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +14,9 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 /**
  * 
@@ -22,22 +24,22 @@ import lombok.Data;
  *
  */
 @Data
-public class API_Parser 
+public class API_Parser
 {
 	private JSONParser JSONParser = new JSONParser();
-	
-	private File API_CommanderSkills = new File("src/main/java/API_JSON/CommanderSkills.json");
-	private File API_Exterior_Camouflage = new File("src/main/java/API_JSON/Exterior_Camouflage.json");
-	private File API_Exterior_Permoflage = new File("src/main/java/API_JSON/Exterior_Permoflage.json");
-	private File API_Exterior_Flags = new File("src/main/java/API_JSON/Exterior_Flags.json");
-	private File API_InfoEncyclopedia = new File("src/main/java/API_JSON/InfoEncyclopedia.json");
-	private File API_Modules_Artillery = new File("src/main/java/API_JSON/Modules_Artillery.json");
-	private File API_Modules_Engine = new File("src/main/java/API_JSON/Modules_Engine.json");
-	private File API_Modules_Hull = new File("src/main/java/API_JSON/Modules_Hull.json");
-	private File API_Modules_Radar = new File("src/main/java/API_JSON/Modules_Radar.json");
-	private File API_Modules_Torpedoes = new File("src/main/java/API_JSON/Modules_Torpedoes.json");
-	private File API_Upgrades = new File("src/main/java/API_JSON/Upgrades.json");
-	private File API_Warships = new File("src/main/java/API_JSON/Warships.json");
+
+	private Resource API_CommanderSkills = new ClassPathResource("static/json/API_JSON/CommanderSkills.json");
+	private Resource API_Exterior_Camouflage = new ClassPathResource("static/json/API_JSON/Exterior_Camouflage.json");
+	private Resource API_Exterior_Permoflage = new ClassPathResource("static/json/API_JSON/Exterior_Permoflage.json");
+	private Resource API_Exterior_Flags = new ClassPathResource("static/json/API_JSON/Exterior_Flags.json");
+	private Resource API_InfoEncyclopedia = new ClassPathResource("static/json/API_JSON/InfoEncyclopedia.json");
+	private Resource API_Modules_Artillery = new ClassPathResource("static/json/API_JSON/Modules_Artillery.json");
+	private Resource API_Modules_Engine = new ClassPathResource("static/json/API_JSON/Modules_Engine.json");
+	private Resource API_Modules_Hull = new ClassPathResource("static/json/API_JSON/Modules_Hull.json");
+	private Resource API_Modules_Radar = new ClassPathResource("static/json/API_JSON/Modules_Radar.json");
+	private Resource API_Modules_Torpedoes = new ClassPathResource("static/json/API_JSON/Modules_Torpedoes.json");
+	private Resource API_Upgrades = new ClassPathResource("static/json/API_JSON/Upgrades.json");
+	private Resource API_Warships = new ClassPathResource("static/json/API_JSON/Warships.json");
 	
 	private JSONObject API_CommanderSkillsJSON;
 	private JSONObject API_Exterior_CamouflageJSON;
@@ -100,52 +102,52 @@ public class API_Parser
 	private void setup() throws IOException, ParseException
 	{
 		BufferedReader reader ;
-		
-		reader = new BufferedReader(new InputStreamReader(new FileInputStream(API_CommanderSkills),"UTF8"));
+
+		reader = new BufferedReader(new InputStreamReader(API_CommanderSkills.getInputStream(),"UTF8"));
 		API_CommanderSkillsJSON = (JSONObject) JSONParser.parse(reader);
 		API_CommanderSkillsJSON = (JSONObject) API_CommanderSkillsJSON.get("data");
 		
-		reader = new BufferedReader(new InputStreamReader(new FileInputStream(API_Exterior_Camouflage),"UTF8"));
+		reader = new BufferedReader(new InputStreamReader(API_Exterior_Camouflage.getInputStream(),"UTF8"));
 		API_Exterior_CamouflageJSON = (JSONObject) JSONParser.parse(reader);
 		API_Exterior_CamouflageJSON = (JSONObject) API_Exterior_CamouflageJSON.get("data");
 		
-		reader = new BufferedReader(new InputStreamReader(new FileInputStream(API_Exterior_Permoflage),"UTF8"));
+		reader = new BufferedReader(new InputStreamReader(API_Exterior_Permoflage.getInputStream(),"UTF8"));
 		API_Exterior_PermoflageJSON = (JSONObject) JSONParser.parse(reader);
 		API_Exterior_PermoflageJSON = (JSONObject) API_Exterior_PermoflageJSON.get("data");
 		
-		reader = new BufferedReader(new InputStreamReader(new FileInputStream(API_Exterior_Flags),"UTF8"));
+		reader = new BufferedReader(new InputStreamReader(API_Exterior_Flags.getInputStream(),"UTF8"));
 		API_Exterior_FlagsJSON = (JSONObject) JSONParser.parse(reader);
 		API_Exterior_FlagsJSON = (JSONObject) API_Exterior_FlagsJSON.get("data");
 		
-		reader = new BufferedReader(new InputStreamReader(new FileInputStream(API_InfoEncyclopedia),"UTF8"));
+		reader = new BufferedReader(new InputStreamReader(API_InfoEncyclopedia.getInputStream(),"UTF8"));
 		API_InfoEncyclopediaJSON = (JSONObject) JSONParser.parse(reader);
 		API_InfoEncyclopediaJSON = (JSONObject) API_InfoEncyclopediaJSON.get("data");
 		
-		reader = new BufferedReader(new InputStreamReader(new FileInputStream(API_Modules_Artillery),"UTF8"));
+		reader = new BufferedReader(new InputStreamReader(API_Modules_Artillery.getInputStream(),"UTF8"));
 		API_Modules_ArtilleryJSON = (JSONObject) JSONParser.parse(reader);
 		API_Modules_ArtilleryJSON = (JSONObject) API_Modules_ArtilleryJSON.get("data");
 		
-		reader = new BufferedReader(new InputStreamReader(new FileInputStream(API_Modules_Engine),"UTF8"));
+		reader = new BufferedReader(new InputStreamReader(API_Modules_Engine.getInputStream(), "UTF8"));
 		API_Modules_EngineJSON = (JSONObject) JSONParser.parse(reader);
 		API_Modules_EngineJSON = (JSONObject) API_Modules_EngineJSON.get("data");
 		
-		reader = new BufferedReader(new InputStreamReader(new FileInputStream(API_Modules_Hull),"UTF8"));
+		reader = new BufferedReader(new InputStreamReader(API_Modules_Hull.getInputStream(),"UTF8"));
 		API_Modules_HullJSON = (JSONObject) JSONParser.parse(reader);
 		API_Modules_HullJSON = (JSONObject) API_Modules_HullJSON.get("data");
 
-		reader = new BufferedReader(new InputStreamReader(new FileInputStream(API_Modules_Radar),"UTF8"));
+		reader = new BufferedReader(new InputStreamReader(API_Modules_Radar.getInputStream(),"UTF8"));
 		API_Modules_RadarJSON = (JSONObject) JSONParser.parse(reader);
 		API_Modules_RadarJSON = (JSONObject) API_Modules_RadarJSON.get("data");
 		
-		reader = new BufferedReader(new InputStreamReader(new FileInputStream(API_Modules_Torpedoes),"UTF8"));
+		reader = new BufferedReader(new InputStreamReader(API_Modules_Torpedoes.getInputStream(),"UTF8"));
 		API_Modules_TorpedoesJSON = (JSONObject) JSONParser.parse(reader);
 		API_Modules_TorpedoesJSON = (JSONObject) API_Modules_TorpedoesJSON.get("data");
 		
-		reader = new BufferedReader(new InputStreamReader(new FileInputStream(API_Upgrades),"UTF8"));
+		reader = new BufferedReader(new InputStreamReader(API_Upgrades.getInputStream(),"UTF8"));
 		API_UpgradesJSON = (JSONObject) JSONParser.parse(reader);
 		API_UpgradesJSON = (JSONObject) API_UpgradesJSON.get("data");
 		
-		reader = new BufferedReader(new InputStreamReader(new FileInputStream(API_Warships),"UTF8"));
+		reader = new BufferedReader(new InputStreamReader(API_Warships.getInputStream(),"UTF8"));
 		API_WarshipsJSON = (JSONObject) JSONParser.parse(reader);
 		API_WarshipsJSON = (JSONObject) API_WarshipsJSON.get("data");
 		

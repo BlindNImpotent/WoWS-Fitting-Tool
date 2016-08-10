@@ -34,13 +34,23 @@ public class HomeController
     @Autowired
     private JSONService jsonService;
 
+    @RequestMapping (value = "/", method = RequestMethod.GET)
+    public String home(Model model) throws IOException, ParseException
+    {
+        model.addAttribute("nameList", homeService.getNameList());
+
+        return "home";
+    }
+
     @RequestMapping (value = "/ship/{name}", method = RequestMethod.GET)
-    public String home(Model model, @PathVariable("name") String name) throws IOException, ParseException
+    public String ship(Model model, @PathVariable("name") String name) throws IOException, ParseException
     {
         jsonService.setShipJSON(name);
 
         model.addAttribute("nameList", homeService.getNameList());
         model.addAttribute("name", name);
+
+        model.addAttribute("imagesMedium", jsonService.getImagesMedium());
         model.addAttribute("ship_id_str", jsonService.getShip_id_str());
 
         model.addAttribute("nation", jsonService.getNation());
@@ -64,12 +74,6 @@ public class HomeController
         model.addAttribute("engineIndexList", jsonService.getAPI_EngineUpgradeIndexList());
         model.addAttribute("radarIndexList", jsonService.getAPI_RadarUpgradeIndexList());
         model.addAttribute("torpedoIndexList", jsonService.getAPI_TorpedoUpgradeIndexList());
-
-//        model.addAttribute("apiTurretJSON", jsonService.getAPI_ArtilleryUpgradeJSON());
-//        model.addAttribute("apiHullJSON", jsonService.getAPI_HullUpgradeJSON());
-//        model.addAttribute("apiEngineJSON", jsonService.getAPI_EngineUpgradeJSON());
-//        model.addAttribute("apiRadarJSON", jsonService.getAPI_RadarUpgradeJSON());
-//        model.addAttribute("apiTorpedoJSON", jsonService.getAPI_TorpedoUpgradeJSON());
 
         return "ship";
     }
