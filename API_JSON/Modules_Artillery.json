@@ -13,7 +13,7 @@
 {
 "artillery":
 {
-"rotation_time":60.0,"max_damage_HE":3400,"gun_rate":2.0,"max_damage_AP":8300
+"rotation_time":60.0,"max_damage_AP":8300,"max_damage_HE":3400,"gun_rate":2.0
 }
 },
 "name":"305 mm L\/50 Drh LC\/1909",
@@ -29,7 +29,7 @@
 {
 "artillery":
 {
-"rotation_time":18.56,"max_damage_HE":1600,"gun_rate":12.0,"max_damage_AP":2500
+"rotation_time":18.56,"max_damage_AP":2500,"max_damage_HE":1600,"gun_rate":12.0
 }
 },
 "name":"130 mm\/50 B-2LM",
@@ -45,7 +45,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":1900,"gun_rate":6.0,"max_damage_AP":2400
+"rotation_time":36.0,"max_damage_AP":2400,"max_damage_HE":1900,"gun_rate":6.0
 }
 },
 "name":"130 mm\/55 Model 1913",
@@ -61,7 +61,7 @@
 {
 "artillery":
 {
-"rotation_time":45.0,"max_damage_HE":3300,"gun_rate":4.3,"max_damage_AP":4700
+"rotation_time":45.0,"max_damage_AP":4700,"max_damage_HE":3300,"gun_rate":4.3
 }
 },
 "name":"203 mm\/50 Type3",
@@ -77,7 +77,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":1900,"gun_rate":12.0,"max_damage_AP":2500
+"rotation_time":36.0,"max_damage_AP":2500,"max_damage_HE":1900,"gun_rate":12.0
 }
 },
 "name":"130 mm\/50 B-13",
@@ -93,7 +93,7 @@
 {
 "artillery":
 {
-"rotation_time":45.0,"max_damage_HE":3300,"gun_rate":4.3,"max_damage_AP":4700
+"rotation_time":45.0,"max_damage_AP":4700,"max_damage_HE":3300,"gun_rate":4.3
 }
 },
 "name":"203 mm\/50 Type3",
@@ -109,7 +109,7 @@
 {
 "artillery":
 {
-"rotation_time":24.0,"max_damage_HE":2200,"gun_rate":8.6,"max_damage_AP":3100
+"rotation_time":24.0,"max_damage_AP":3100,"max_damage_HE":2200,"gun_rate":8.6
 }
 },
 "name":"152 mm\/53 Mk13\/Mk16",
@@ -125,7 +125,7 @@
 {
 "artillery":
 {
-"rotation_time":27.69,"max_damage_HE":2800,"gun_rate":4.3,"max_damage_AP":4600
+"rotation_time":27.69,"max_damage_AP":4600,"max_damage_HE":2800,"gun_rate":4.3
 }
 },
 "name":"203 mm\/55 Mk14",
@@ -141,7 +141,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":3300,"gun_rate":4.0,"max_damage_AP":4700
+"rotation_time":36.0,"max_damage_AP":4700,"max_damage_HE":3300,"gun_rate":4.0
 }
 },
 "name":"203 mm\/50 Type3",
@@ -157,7 +157,7 @@
 {
 "artillery":
 {
-"rotation_time":16.36,"max_damage_HE":2100,"gun_rate":6.0,"max_damage_AP":3000
+"rotation_time":16.36,"max_damage_AP":3000,"max_damage_HE":2100,"gun_rate":6.0
 }
 },
 "name":"152 mm\/50 Mk8",
@@ -173,7 +173,7 @@
 {
 "artillery":
 {
-"rotation_time":29.03,"max_damage_HE":3300,"gun_rate":3.8,"max_damage_AP":4700
+"rotation_time":29.03,"max_damage_AP":4700,"max_damage_HE":3300,"gun_rate":3.8
 }
 },
 "name":"203 mm\/50 3rd Year Type",
@@ -189,7 +189,7 @@
 {
 "artillery":
 {
-"rotation_time":18.56,"max_damage_HE":1600,"gun_rate":12.0,"max_damage_AP":2500
+"rotation_time":18.56,"max_damage_AP":2500,"max_damage_HE":1600,"gun_rate":12.0
 }
 },
 "name":"130 mm\/50 B-2LM",
@@ -205,7 +205,7 @@
 {
 "artillery":
 {
-"rotation_time":54.55,"max_damage_HE":6500,"gun_rate":1.7,"max_damage_AP":12400
+"rotation_time":54.55,"max_damage_AP":12400,"max_damage_HE":6500,"gun_rate":1.7
 }
 },
 "name":"410 mm\/45 Type3",
@@ -221,7 +221,7 @@
 {
 "artillery":
 {
-"rotation_time":54.55,"max_damage_HE":5700,"gun_rate":2.0,"max_damage_AP":10200
+"rotation_time":54.55,"max_damage_AP":10200,"max_damage_HE":5700,"gun_rate":2.0
 }
 },
 "name":"356 mm\/45 Type41",
@@ -237,7 +237,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":2000,"gun_rate":5.0,"max_damage_AP":2000
+"rotation_time":30.0,"max_damage_AP":2000,"max_damage_HE":2000,"gun_rate":5.0
 }
 },
 "name":"120 mm\/45 Type3",
@@ -253,7 +253,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":2500,"gun_rate":6.0,"max_damage_AP":5900
+"rotation_time":22.5,"max_damage_AP":5900,"max_damage_HE":2500,"gun_rate":6.0
 }
 },
 "name":"203 mm L\/60 Drh LC\/34",
@@ -269,7 +269,7 @@
 {
 "artillery":
 {
-"rotation_time":60.0,"max_damage_HE":5000,"gun_rate":1.8,"max_damage_AP":10300
+"rotation_time":60.0,"max_damage_AP":10300,"max_damage_HE":5000,"gun_rate":1.8
 }
 },
 "name":"356 mm\/45 Mk8",
@@ -285,7 +285,7 @@
 {
 "artillery":
 {
-"rotation_time":45.0,"max_damage_HE":3300,"gun_rate":4.3,"max_damage_AP":4700
+"rotation_time":45.0,"max_damage_AP":4700,"max_damage_HE":3300,"gun_rate":4.3
 }
 },
 "name":"203 mm\/50 Type3",
@@ -301,7 +301,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":2000,"gun_rate":6.0,"max_damage_AP":2000
+"rotation_time":30.0,"max_damage_AP":2000,"max_damage_HE":2000,"gun_rate":6.0
 }
 },
 "name":"120 mm\/45 Type3",
@@ -317,7 +317,7 @@
 {
 "artillery":
 {
-"rotation_time":16.36,"max_damage_HE":1300,"gun_rate":12.0,"max_damage_AP":1000
+"rotation_time":16.36,"max_damage_AP":1000,"max_damage_HE":1300,"gun_rate":12.0
 }
 },
 "name":"76 mm\/40 Type41",
@@ -333,7 +333,7 @@
 {
 "artillery":
 {
-"rotation_time":18.56,"max_damage_HE":1600,"gun_rate":12.0,"max_damage_AP":2500
+"rotation_time":18.56,"max_damage_AP":2500,"max_damage_HE":1600,"gun_rate":12.0
 }
 },
 "name":"130 mm\/50 B-2LM",
@@ -349,7 +349,7 @@
 {
 "artillery":
 {
-"rotation_time":18.0,"max_damage_HE":2000,"gun_rate":10.9,"max_damage_AP":2000
+"rotation_time":18.0,"max_damage_AP":2000,"max_damage_HE":2000,"gun_rate":10.9
 }
 },
 "name":"120 mm\/45 Type3",
@@ -365,7 +365,7 @@
 {
 "artillery":
 {
-"rotation_time":45.0,"max_damage_HE":5700,"gun_rate":2.0,"max_damage_AP":13500
+"rotation_time":45.0,"max_damage_AP":13500,"max_damage_HE":5700,"gun_rate":2.0
 }
 },
 "name":"406 mm\/50 Mk7",
@@ -381,7 +381,7 @@
 {
 "artillery":
 {
-"rotation_time":40.0,"max_damage_HE":5000,"gun_rate":1.9,"max_damage_AP":13600
+"rotation_time":40.0,"max_damage_AP":13500,"max_damage_HE":5000,"gun_rate":1.9
 }
 },
 "name":"420 mm L\/48 Drh LC\/40",
@@ -397,7 +397,7 @@
 {
 "artillery":
 {
-"rotation_time":18.0,"max_damage_HE":1800,"gun_rate":12.0,"max_damage_AP":2200
+"rotation_time":18.0,"max_damage_AP":2200,"max_damage_HE":1800,"gun_rate":12.0
 }
 },
 "name":"127 mm\/51 Mk7",
@@ -413,7 +413,7 @@
 {
 "artillery":
 {
-"rotation_time":24.0,"max_damage_HE":2200,"gun_rate":8.6,"max_damage_AP":3100
+"rotation_time":24.0,"max_damage_AP":3100,"max_damage_HE":2200,"gun_rate":8.6
 }
 },
 "name":"152 mm\/53 Mk16\/Mk13",
@@ -429,7 +429,7 @@
 {
 "artillery":
 {
-"rotation_time":45.0,"max_damage_HE":5700,"gun_rate":2.0,"max_damage_AP":13100
+"rotation_time":45.0,"max_damage_AP":13100,"max_damage_HE":5700,"gun_rate":2.0
 }
 },
 "name":"406 mm\/45 Mk6",
@@ -445,7 +445,7 @@
 {
 "artillery":
 {
-"rotation_time":7.2,"max_damage_HE":2200,"gun_rate":12.0,"max_damage_AP":3200
+"rotation_time":7.2,"max_damage_AP":3200,"max_damage_HE":2200,"gun_rate":12.0
 }
 },
 "name":"152 mm\/47 DP Mk16",
@@ -461,7 +461,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":2500,"gun_rate":4.8,"max_damage_AP":4400
+"rotation_time":22.5,"max_damage_AP":4400,"max_damage_HE":2500,"gun_rate":4.8
 }
 },
 "name":"180 mm\/57 MK-3-180",
@@ -477,7 +477,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":3300,"gun_rate":4.0,"max_damage_AP":4700
+"rotation_time":30.0,"max_damage_AP":4700,"max_damage_HE":3300,"gun_rate":4.0
 }
 },
 "name":"203 mm\/50 Type3",
@@ -493,7 +493,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":2500,"gun_rate":4.6,"max_damage_AP":5900
+"rotation_time":30.0,"max_damage_AP":5900,"max_damage_HE":2500,"gun_rate":4.6
 }
 },
 "name":"203 mm L\/60 Drh LC\/34",
@@ -509,7 +509,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":1500,"gun_rate":12.0,"max_damage_AP":1800
+"rotation_time":22.5,"max_damage_AP":1800,"max_damage_HE":1500,"gun_rate":12.0
 }
 },
 "name":"102 mm\/60 Model 1911",
@@ -525,7 +525,7 @@
 {
 "artillery":
 {
-"rotation_time":21.18,"max_damage_HE":2400,"gun_rate":10.0,"max_damage_AP":2700
+"rotation_time":21.18,"max_damage_AP":2700,"max_damage_HE":2400,"gun_rate":10.0
 }
 },
 "name":"140 mm\/50",
@@ -541,7 +541,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":1500,"gun_rate":12.0,"max_damage_AP":1800
+"rotation_time":22.5,"max_damage_AP":1800,"max_damage_HE":1500,"gun_rate":12.0
 }
 },
 "name":"102 mm\/60 Model 1911",
@@ -557,7 +557,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":2100,"gun_rate":6.7,"max_damage_AP":2200
+"rotation_time":30.0,"max_damage_AP":2200,"max_damage_HE":2100,"gun_rate":6.7
 }
 },
 "name":"127 mm\/50 Type3",
@@ -573,7 +573,7 @@
 {
 "artillery":
 {
-"rotation_time":24.0,"max_damage_HE":2200,"gun_rate":8.6,"max_damage_AP":3100
+"rotation_time":24.0,"max_damage_AP":3100,"max_damage_HE":2200,"gun_rate":8.6
 }
 },
 "name":"152 mm\/53 Mk13\/Mk16",
@@ -589,7 +589,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":2800,"gun_rate":4.0,"max_damage_AP":4600
+"rotation_time":30.0,"max_damage_AP":4600,"max_damage_HE":2800,"gun_rate":4.0
 }
 },
 "name":"203 mm\/55 Mk14",
@@ -605,7 +605,7 @@
 {
 "artillery":
 {
-"rotation_time":24.0,"max_damage_HE":2400,"gun_rate":8.6,"max_damage_AP":2700
+"rotation_time":24.0,"max_damage_AP":2700,"max_damage_HE":2400,"gun_rate":8.6
 }
 },
 "name":"140 mm\/50 Type3",
@@ -621,7 +621,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":3300,"gun_rate":5.5,"max_damage_AP":4700
+"rotation_time":36.0,"max_damage_AP":4700,"max_damage_HE":3300,"gun_rate":5.5
 }
 },
 "name":"203 mm\/50 Type3",
@@ -637,7 +637,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":2200,"gun_rate":6.0,"max_damage_AP":3200
+"rotation_time":22.5,"max_damage_AP":3200,"max_damage_HE":2200,"gun_rate":6.0
 }
 },
 "name":"152 mm\/47 Mk16",
@@ -653,7 +653,7 @@
 {
 "artillery":
 {
-"rotation_time":24.0,"max_damage_HE":2200,"gun_rate":8.6,"max_damage_AP":3100
+"rotation_time":24.0,"max_damage_AP":3100,"max_damage_HE":2200,"gun_rate":8.6
 }
 },
 "name":"152 mm\/53 Mk13\/Mk16",
@@ -669,7 +669,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":2800,"gun_rate":4.0,"max_damage_AP":4600
+"rotation_time":30.0,"max_damage_AP":4600,"max_damage_HE":2800,"gun_rate":4.0
 }
 },
 "name":"203 mm\/55 Mk15",
@@ -685,7 +685,7 @@
 {
 "artillery":
 {
-"rotation_time":25.0,"max_damage_HE":2200,"gun_rate":7.5,"max_damage_AP":3300
+"rotation_time":25.0,"max_damage_AP":3300,"max_damage_HE":2200,"gun_rate":7.5
 }
 },
 "name":"152 mm\/57 MK-5-bis",
@@ -701,7 +701,7 @@
 {
 "artillery":
 {
-"rotation_time":25.0,"max_damage_HE":2200,"gun_rate":7.5,"max_damage_AP":3300
+"rotation_time":25.0,"max_damage_AP":3300,"max_damage_HE":2200,"gun_rate":7.5
 }
 },
 "name":"152 mm\/57 MK-5",
@@ -717,7 +717,7 @@
 {
 "artillery":
 {
-"rotation_time":16.36,"max_damage_HE":1300,"gun_rate":12.0,"max_damage_AP":1000
+"rotation_time":16.36,"max_damage_AP":1000,"max_damage_HE":1300,"gun_rate":12.0
 }
 },
 "name":"76 mm\/40 Type41",
@@ -733,7 +733,7 @@
 {
 "artillery":
 {
-"rotation_time":20.0,"max_damage_HE":2200,"gun_rate":8.6,"max_damage_AP":3000
+"rotation_time":20.0,"max_damage_AP":3000,"max_damage_HE":2200,"gun_rate":8.6
 }
 },
 "name":"152 mm\/47 Mk17",
@@ -749,7 +749,7 @@
 {
 "artillery":
 {
-"rotation_time":20.0,"max_damage_HE":2600,"gun_rate":5.0,"max_damage_AP":2900
+"rotation_time":20.0,"max_damage_AP":2900,"max_damage_HE":2600,"gun_rate":5.0
 }
 },
 "name":"152 mm\/45 Type41",
@@ -765,7 +765,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":2500,"gun_rate":4.8,"max_damage_AP":4400
+"rotation_time":22.5,"max_damage_AP":4400,"max_damage_HE":2500,"gun_rate":4.8
 }
 },
 "name":"180 mm\/57 MK-3-180M",
@@ -781,7 +781,7 @@
 {
 "artillery":
 {
-"rotation_time":5.29,"max_damage_HE":1800,"gun_rate":18.0,"max_damage_AP":2100
+"rotation_time":5.29,"max_damage_AP":2100,"max_damage_HE":1800,"gun_rate":18.0
 }
 },
 "name":"127 mm\/38 Mk30",
@@ -797,7 +797,7 @@
 {
 "artillery":
 {
-"rotation_time":41.86,"max_damage_HE":5200,"gun_rate":2.4,"max_damage_AP":8000
+"rotation_time":41.86,"max_damage_AP":8000,"max_damage_HE":5200,"gun_rate":2.4
 }
 },
 "name":"305 mm \/45 Mk10",
@@ -813,7 +813,7 @@
 {
 "artillery":
 {
-"rotation_time":25.71,"max_damage_HE":2800,"gun_rate":4.0,"max_damage_AP":4600
+"rotation_time":25.71,"max_damage_AP":4600,"max_damage_HE":2800,"gun_rate":4.0
 }
 },
 "name":"203 mm\/55 Mk14",
@@ -829,7 +829,7 @@
 {
 "artillery":
 {
-"rotation_time":60.0,"max_damage_HE":3400,"gun_rate":2.3,"max_damage_AP":8300
+"rotation_time":60.0,"max_damage_AP":8300,"max_damage_HE":3400,"gun_rate":2.3
 }
 },
 "name":"305 mm L\/50 Drh LC\/1909",
@@ -845,7 +845,7 @@
 {
 "artillery":
 {
-"rotation_time":45.0,"max_damage_HE":5600,"gun_rate":2.0,"max_damage_AP":12200
+"rotation_time":45.0,"max_damage_AP":12200,"max_damage_HE":5600,"gun_rate":2.0
 }
 },
 "name":"406 mm\/45 Mk1",
@@ -861,7 +861,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":3300,"gun_rate":4.0,"max_damage_AP":4700
+"rotation_time":36.0,"max_damage_AP":4700,"max_damage_HE":3300,"gun_rate":4.0
 }
 },
 "name":"203 mm\/50 Type3",
@@ -877,7 +877,7 @@
 {
 "artillery":
 {
-"rotation_time":45.0,"max_damage_HE":3300,"gun_rate":4.3,"max_damage_AP":4700
+"rotation_time":45.0,"max_damage_AP":4700,"max_damage_HE":3300,"gun_rate":4.3
 }
 },
 "name":"203 mm\/50 Type3",
@@ -893,7 +893,7 @@
 {
 "artillery":
 {
-"rotation_time":12.0,"max_damage_HE":1800,"gun_rate":7.5,"max_damage_AP":2100
+"rotation_time":12.0,"max_damage_AP":2100,"max_damage_HE":1800,"gun_rate":7.5
 }
 },
 "name":"127 mm\/50 Mk5",
@@ -909,7 +909,7 @@
 {
 "artillery":
 {
-"rotation_time":18.56,"max_damage_HE":1600,"gun_rate":12.0,"max_damage_AP":2500
+"rotation_time":18.56,"max_damage_AP":2500,"max_damage_HE":1600,"gun_rate":12.0
 }
 },
 "name":"130 mm\/50 B-2LM",
@@ -925,7 +925,7 @@
 {
 "artillery":
 {
-"rotation_time":60.0,"max_damage_HE":5700,"gun_rate":1.8,"max_damage_AP":10000
+"rotation_time":60.0,"max_damage_AP":10000,"max_damage_HE":5700,"gun_rate":1.8
 }
 },
 "name":"356 mm\/45 Type41",
@@ -941,7 +941,7 @@
 {
 "artillery":
 {
-"rotation_time":25.71,"max_damage_HE":2000,"gun_rate":6.0,"max_damage_AP":2000
+"rotation_time":25.71,"max_damage_AP":2000,"max_damage_HE":2000,"gun_rate":6.0
 }
 },
 "name":"120 mm\/45 3rd Year Type",
@@ -957,7 +957,7 @@
 {
 "artillery":
 {
-"rotation_time":12.0,"max_damage_HE":1800,"gun_rate":15.0,"max_damage_AP":2100
+"rotation_time":12.0,"max_damage_AP":2100,"max_damage_HE":1800,"gun_rate":15.0
 }
 },
 "name":"127 mm\/38 Mk21",
@@ -973,7 +973,7 @@
 {
 "artillery":
 {
-"rotation_time":9.0,"max_damage_HE":1600,"gun_rate":13.0,"max_damage_AP":2600
+"rotation_time":9.0,"max_damage_AP":2600,"max_damage_HE":1600,"gun_rate":13.0
 }
 },
 "name":"130 mm\/55 B-2-U",
@@ -989,7 +989,7 @@
 {
 "artillery":
 {
-"rotation_time":25.71,"max_damage_HE":1800,"gun_rate":9.2,"max_damage_AP":3700
+"rotation_time":25.71,"max_damage_AP":3700,"max_damage_HE":1800,"gun_rate":9.2
 }
 },
 "name":"150 mm L\/45 MPL C\/16",
@@ -1005,7 +1005,7 @@
 {
 "artillery":
 {
-"rotation_time":32.73,"max_damage_HE":5000,"gun_rate":1.9,"max_damage_AP":13600
+"rotation_time":32.73,"max_damage_AP":13500,"max_damage_HE":5000,"gun_rate":1.9
 }
 },
 "name":"420 mm L\/48 Drh LC\/40",
@@ -1021,7 +1021,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":1600,"gun_rate":12.0,"max_damage_AP":2500
+"rotation_time":30.0,"max_damage_AP":2500,"max_damage_HE":1600,"gun_rate":12.0
 }
 },
 "name":"130 mm\/50 M1936 shì",
@@ -1037,7 +1037,7 @@
 {
 "artillery":
 {
-"rotation_time":15.65,"max_damage_HE":1500,"gun_rate":8.6,"max_damage_AP":1700
+"rotation_time":15.65,"max_damage_AP":1700,"max_damage_HE":1500,"gun_rate":8.6
 }
 },
 "name":"102 mm\/50 Mk12",
@@ -1053,7 +1053,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":1900,"gun_rate":6.5,"max_damage_AP":2500
+"rotation_time":22.5,"max_damage_AP":2500,"max_damage_HE":1900,"gun_rate":6.5
 }
 },
 "name":"130 mm\/55 B-7",
@@ -1069,7 +1069,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":1700,"gun_rate":12.0,"max_damage_AP":2000
+"rotation_time":22.5,"max_damage_AP":2000,"max_damage_HE":1700,"gun_rate":12.0
 }
 },
 "name":"120 mm\/45 Model 1892",
@@ -1085,7 +1085,7 @@
 {
 "artillery":
 {
-"rotation_time":40.0,"max_damage_HE":6500,"gun_rate":2.0,"max_damage_AP":12900
+"rotation_time":40.0,"max_damage_AP":12900,"max_damage_HE":6500,"gun_rate":2.0
 }
 },
 "name":"410 mm\/50 10th Year Type",
@@ -1101,7 +1101,7 @@
 {
 "artillery":
 {
-"rotation_time":25.71,"max_damage_HE":2100,"gun_rate":8.6,"max_damage_AP":2200
+"rotation_time":25.71,"max_damage_AP":2200,"max_damage_HE":2100,"gun_rate":8.6
 }
 },
 "name":"127 mm\/50 Type3",
@@ -1117,7 +1117,7 @@
 {
 "artillery":
 {
-"rotation_time":40.0,"max_damage_HE":5100,"gun_rate":2.0,"max_damage_AP":7700
+"rotation_time":40.0,"max_damage_AP":7700,"max_damage_HE":5100,"gun_rate":2.0
 }
 },
 "name":"305 mm\/40 Type41",
@@ -1133,7 +1133,7 @@
 {
 "artillery":
 {
-"rotation_time":18.0,"max_damage_HE":2200,"gun_rate":8.6,"max_damage_AP":3100
+"rotation_time":18.0,"max_damage_AP":3100,"max_damage_HE":2200,"gun_rate":8.6
 }
 },
 "name":"152 mm\/53 Mk14",
@@ -1149,7 +1149,7 @@
 {
 "artillery":
 {
-"rotation_time":25.71,"max_damage_HE":2100,"gun_rate":6.7,"max_damage_AP":2200
+"rotation_time":25.71,"max_damage_AP":2200,"max_damage_HE":2100,"gun_rate":6.7
 }
 },
 "name":"127 mm\/50 Type3",
@@ -1165,7 +1165,7 @@
 {
 "artillery":
 {
-"rotation_time":18.0,"max_damage_HE":1200,"gun_rate":15.0,"max_damage_AP":2300
+"rotation_time":18.0,"max_damage_AP":2300,"max_damage_HE":1200,"gun_rate":15.0
 }
 },
 "name":"105 mm L\/40 MPL C\/04",
@@ -1181,7 +1181,7 @@
 {
 "artillery":
 {
-"rotation_time":51.43,"max_damage_HE":2600,"gun_rate":6.0,"max_damage_AP":3300
+"rotation_time":51.43,"max_damage_AP":3300,"max_damage_HE":2600,"gun_rate":6.0
 }
 },
 "name":"155 mm\/60 3rd Year Type",
@@ -1197,7 +1197,7 @@
 {
 "artillery":
 {
-"rotation_time":18.0,"max_damage_HE":1700,"gun_rate":9.2,"max_damage_AP":2200
+"rotation_time":18.0,"max_damage_AP":2200,"max_damage_HE":1700,"gun_rate":9.2
 }
 },
 "name":"120 mm\/50 wz. 34\/36 Bofors",
@@ -1213,7 +1213,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":2100,"gun_rate":6.7,"max_damage_AP":2700
+"rotation_time":36.0,"max_damage_AP":2700,"max_damage_HE":2100,"gun_rate":6.7
 }
 },
 "name":"152 mm\/45 Model 1892",
@@ -1229,7 +1229,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":2000,"gun_rate":6.0,"max_damage_AP":1800
+"rotation_time":22.5,"max_damage_AP":1800,"max_damage_HE":2000,"gun_rate":6.0
 }
 },
 "name":"120 mm\/40 Type41",
@@ -1245,7 +1245,7 @@
 {
 "artillery":
 {
-"rotation_time":45.0,"max_damage_HE":4100,"gun_rate":2.0,"max_damage_AP":8100
+"rotation_time":45.0,"max_damage_AP":8100,"max_damage_HE":4100,"gun_rate":2.0
 }
 },
 "name":"305 mm\/45 Mk5",
@@ -1261,7 +1261,7 @@
 {
 "artillery":
 {
-"rotation_time":23.68,"max_damage_HE":1700,"gun_rate":10.0,"max_damage_AP":3900
+"rotation_time":23.68,"max_damage_AP":3900,"max_damage_HE":1700,"gun_rate":10.0
 }
 },
 "name":"150 mm L\/60 Drh Tr C\/28",
@@ -1277,7 +1277,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":2300,"gun_rate":4.6,"max_damage_AP":5900
+"rotation_time":22.5,"max_damage_AP":5900,"max_damage_HE":2300,"gun_rate":4.6
 }
 },
 "name":"203 mm L\/60 Drh LC\/34",
@@ -1293,7 +1293,7 @@
 {
 "artillery":
 {
-"rotation_time":51.43,"max_damage_HE":4500,"gun_rate":2.0,"max_damage_AP":10900
+"rotation_time":51.43,"max_damage_AP":10900,"max_damage_HE":4500,"gun_rate":2.0
 }
 },
 "name":"380 mm L\/45 Drh LC\/1913",
@@ -1309,7 +1309,7 @@
 {
 "artillery":
 {
-"rotation_time":60.0,"max_damage_HE":4900,"gun_rate":1.8,"max_damage_AP":10000
+"rotation_time":60.0,"max_damage_AP":10000,"max_damage_HE":4900,"gun_rate":1.8
 }
 },
 "name":"356 mm\/45 Mk2",
@@ -1325,7 +1325,7 @@
 {
 "artillery":
 {
-"rotation_time":34.62,"max_damage_HE":2900,"gun_rate":5.0,"max_damage_AP":5500
+"rotation_time":34.62,"max_damage_AP":5500,"max_damage_HE":2900,"gun_rate":5.0
 }
 },
 "name":"210 mm L\/45 Drl C\/06",
@@ -1341,7 +1341,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":2000,"gun_rate":5.0,"max_damage_AP":2000
+"rotation_time":30.0,"max_damage_AP":2000,"max_damage_HE":2000,"gun_rate":5.0
 }
 },
 "name":"120 mm\/45 Type3",
@@ -1357,7 +1357,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":2100,"gun_rate":6.0,"max_damage_AP":3000
+"rotation_time":30.0,"max_damage_AP":3000,"max_damage_HE":2100,"gun_rate":6.0
 }
 },
 "name":"152 mm\/50 Mk6",
@@ -1373,7 +1373,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":2500,"gun_rate":4.0,"max_damage_AP":4100
+"rotation_time":22.5,"max_damage_AP":4100,"max_damage_HE":2500,"gun_rate":4.0
 }
 },
 "name":"180 mm\/57 MK-3-180",
@@ -1389,7 +1389,7 @@
 {
 "artillery":
 {
-"rotation_time":21.18,"max_damage_HE":2400,"gun_rate":10.0,"max_damage_AP":2700
+"rotation_time":21.18,"max_damage_AP":2700,"max_damage_HE":2400,"gun_rate":10.0
 }
 },
 "name":"140 mm\/50 Type3",
@@ -1405,7 +1405,7 @@
 {
 "artillery":
 {
-"rotation_time":15.65,"max_damage_HE":1500,"gun_rate":8.6,"max_damage_AP":1700
+"rotation_time":15.65,"max_damage_AP":1700,"max_damage_HE":1500,"gun_rate":8.6
 }
 },
 "name":"102 mm\/50 Mk12",
@@ -1421,7 +1421,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":2800,"gun_rate":4.6,"max_damage_AP":5000
+"rotation_time":30.0,"max_damage_AP":5000,"max_damage_HE":2800,"gun_rate":4.6
 }
 },
 "name":"203 mm\/55 Mk15",
@@ -1437,7 +1437,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":2800,"gun_rate":10.0,"max_damage_AP":5000
+"rotation_time":30.0,"max_damage_AP":5000,"max_damage_HE":2800,"gun_rate":10.0
 }
 },
 "name":"203 mm\/55 Mk16",
@@ -1453,7 +1453,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":3400,"gun_rate":4.4,"max_damage_AP":5400
+"rotation_time":36.0,"max_damage_AP":5400,"max_damage_HE":3400,"gun_rate":4.4
 }
 },
 "name":"203 mm\/50 Type18",
@@ -1469,7 +1469,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":4400,"gun_rate":2.3,"max_damage_AP":11600
+"rotation_time":36.0,"max_damage_AP":11600,"max_damage_HE":4400,"gun_rate":2.3
 }
 },
 "name":"380 mm L\/52 Drh LC\/34",
@@ -1485,7 +1485,7 @@
 {
 "artillery":
 {
-"rotation_time":54.55,"max_damage_HE":5700,"gun_rate":2.0,"max_damage_AP":10200
+"rotation_time":54.55,"max_damage_AP":10200,"max_damage_HE":5700,"gun_rate":2.0
 }
 },
 "name":"356 mm\/45 Type41",
@@ -1501,7 +1501,7 @@
 {
 "artillery":
 {
-"rotation_time":45.0,"max_damage_HE":5700,"gun_rate":2.0,"max_damage_AP":13500
+"rotation_time":45.0,"max_damage_AP":13500,"max_damage_HE":5700,"gun_rate":2.0
 }
 },
 "name":"406 mm\/50 Mk7",
@@ -1517,7 +1517,7 @@
 {
 "artillery":
 {
-"rotation_time":18.56,"max_damage_HE":1600,"gun_rate":12.0,"max_damage_AP":2500
+"rotation_time":18.56,"max_damage_AP":2500,"max_damage_HE":1600,"gun_rate":12.0
 }
 },
 "name":"130 mm\/50 B-2LM",
@@ -1533,7 +1533,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":4800,"gun_rate":2.1,"max_damage_AP":9700
+"rotation_time":36.0,"max_damage_AP":9700,"max_damage_HE":4800,"gun_rate":2.1
 }
 },
 "name":"330 mm\/52 St. Chamond Mle 1932",
@@ -1549,7 +1549,7 @@
 {
 "artillery":
 {
-"rotation_time":54.55,"max_damage_HE":6500,"gun_rate":1.7,"max_damage_AP":12400
+"rotation_time":54.55,"max_damage_AP":12400,"max_damage_HE":6500,"gun_rate":1.7
 }
 },
 "name":"410 mm\/45 Type3",
@@ -1565,7 +1565,7 @@
 {
 "artillery":
 {
-"rotation_time":25.71,"max_damage_HE":2100,"gun_rate":6.0,"max_damage_AP":2200
+"rotation_time":25.71,"max_damage_AP":2200,"max_damage_HE":2100,"gun_rate":6.0
 }
 },
 "name":"127 mm\/50 Type3",
@@ -1581,7 +1581,7 @@
 {
 "artillery":
 {
-"rotation_time":18.0,"max_damage_HE":1800,"gun_rate":11.0,"max_damage_AP":2000
+"rotation_time":18.0,"max_damage_AP":2000,"max_damage_HE":1800,"gun_rate":11.0
 }
 },
 "name":"120 mm\/45 10th Year Type",
@@ -1597,7 +1597,7 @@
 {
 "artillery":
 {
-"rotation_time":7.2,"max_damage_HE":1800,"gun_rate":12.0,"max_damage_AP":2100
+"rotation_time":7.2,"max_damage_AP":2100,"max_damage_HE":1800,"gun_rate":12.0
 }
 },
 "name":"127 mm\/38 Mk32",
@@ -1613,7 +1613,7 @@
 {
 "artillery":
 {
-"rotation_time":12.0,"max_damage_HE":1800,"gun_rate":15.0,"max_damage_AP":2100
+"rotation_time":12.0,"max_damage_AP":2100,"max_damage_HE":1800,"gun_rate":15.0
 }
 },
 "name":"127 mm\/38 Mk21",
@@ -1629,7 +1629,7 @@
 {
 "artillery":
 {
-"rotation_time":72.0,"max_damage_HE":5300,"gun_rate":2.0,"max_damage_AP":11400
+"rotation_time":72.0,"max_damage_AP":11400,"max_damage_HE":5300,"gun_rate":2.0
 }
 },
 "name":"381 mm\/42 Mk I",
@@ -1645,7 +1645,7 @@
 {
 "artillery":
 {
-"rotation_time":40.0,"max_damage_HE":4800,"gun_rate":2.1,"max_damage_AP":12700
+"rotation_time":40.0,"max_damage_AP":12700,"max_damage_HE":4800,"gun_rate":2.1
 }
 },
 "name":"406 mm L\/52 Drh C\/34",
@@ -1661,7 +1661,7 @@
 {
 "artillery":
 {
-"rotation_time":25.0,"max_damage_HE":2200,"gun_rate":7.5,"max_damage_AP":3300
+"rotation_time":25.0,"max_damage_AP":3300,"max_damage_HE":2200,"gun_rate":7.5
 }
 },
 "name":"152 mm\/57 MK-5",
@@ -1677,7 +1677,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":2200,"gun_rate":7.5,"max_damage_AP":3100
+"rotation_time":22.5,"max_damage_AP":3100,"max_damage_HE":2200,"gun_rate":7.5
 }
 },
 "name":"152 mm\/53 Mk13\/Mk16",
@@ -1693,7 +1693,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":2100,"gun_rate":7.0,"max_damage_AP":2700
+"rotation_time":36.0,"max_damage_AP":2700,"max_damage_HE":2100,"gun_rate":7.0
 }
 },
 "name":"152 mm\/45 Canet naval gun",
@@ -1709,7 +1709,7 @@
 {
 "artillery":
 {
-"rotation_time":45.0,"max_damage_HE":4200,"gun_rate":2.0,"max_damage_AP":8300
+"rotation_time":45.0,"max_damage_AP":8300,"max_damage_HE":4200,"gun_rate":2.0
 }
 },
 "name":"305 mm\/50 Mk7",
@@ -1725,7 +1725,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":2800,"gun_rate":4.0,"max_damage_AP":5000
+"rotation_time":30.0,"max_damage_AP":5000,"max_damage_HE":2800,"gun_rate":4.0
 }
 },
 "name":"203 mm\/55 Mk15",
@@ -1741,7 +1741,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":2000,"gun_rate":6.0,"max_damage_AP":1800
+"rotation_time":22.5,"max_damage_AP":1800,"max_damage_HE":2000,"gun_rate":6.0
 }
 },
 "name":"120 mm\/40 Type41",
@@ -1757,7 +1757,7 @@
 {
 "artillery":
 {
-"rotation_time":60.0,"max_damage_HE":4900,"gun_rate":1.8,"max_damage_AP":10200
+"rotation_time":60.0,"max_damage_AP":10200,"max_damage_HE":4900,"gun_rate":1.8
 }
 },
 "name":"356 mm\/50 Mk4",
@@ -1773,7 +1773,7 @@
 {
 "artillery":
 {
-"rotation_time":25.0,"max_damage_HE":2200,"gun_rate":7.5,"max_damage_AP":3300
+"rotation_time":25.0,"max_damage_AP":3300,"max_damage_HE":2200,"gun_rate":7.5
 }
 },
 "name":"152 mm\/57 MK-5",
@@ -1789,7 +1789,7 @@
 {
 "artillery":
 {
-"rotation_time":51.43,"max_damage_HE":3200,"gun_rate":2.7,"max_damage_AP":7200
+"rotation_time":51.43,"max_damage_AP":7200,"max_damage_HE":3200,"gun_rate":2.7
 }
 },
 "name":"283 mm L\/45 Drh LC\/1906",
@@ -1805,7 +1805,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":2800,"gun_rate":4.0,"max_damage_AP":4600
+"rotation_time":30.0,"max_damage_AP":4600,"max_damage_HE":2800,"gun_rate":4.0
 }
 },
 "name":"203 mm\/55 Mk14",
@@ -1821,7 +1821,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":3300,"gun_rate":2.7,"max_damage_AP":4500
+"rotation_time":36.0,"max_damage_AP":4500,"max_damage_HE":3300,"gun_rate":2.7
 }
 },
 "name":"200 mm\/50 3rd Year Type",
@@ -1837,7 +1837,7 @@
 {
 "artillery":
 {
-"rotation_time":56.25,"max_damage_HE":4500,"gun_rate":1.7,"max_damage_AP":8600
+"rotation_time":56.25,"max_damage_AP":8600,"max_damage_HE":4500,"gun_rate":1.7
 }
 },
 "name":"305 mm\/52 Model 1907",
@@ -1853,7 +1853,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":4400,"gun_rate":2.3,"max_damage_AP":11600
+"rotation_time":36.0,"max_damage_AP":11600,"max_damage_HE":4400,"gun_rate":2.3
 }
 },
 "name":"380 mm L\/52 Drh LC\/34",
@@ -1869,7 +1869,7 @@
 {
 "artillery":
 {
-"rotation_time":18.0,"max_damage_HE":1100,"gun_rate":17.1,"max_damage_AP":1100
+"rotation_time":18.0,"max_damage_AP":1100,"max_damage_HE":1100,"gun_rate":17.1
 }
 },
 "name":"76.2 mm\/50 Mk5",
@@ -1885,7 +1885,7 @@
 {
 "artillery":
 {
-"rotation_time":54.55,"max_damage_HE":5700,"gun_rate":2.0,"max_damage_AP":10200
+"rotation_time":54.55,"max_damage_AP":10200,"max_damage_HE":5700,"gun_rate":2.0
 }
 },
 "name":"356 mm\/45 Type41",
@@ -1901,7 +1901,7 @@
 {
 "artillery":
 {
-"rotation_time":25.0,"max_damage_HE":3200,"gun_rate":3.0,"max_damage_AP":7600
+"rotation_time":25.0,"max_damage_AP":7600,"max_damage_HE":3200,"gun_rate":3.0
 }
 },
 "name":"283 mm L\/54.5 Drh LC\/34",
@@ -1917,7 +1917,7 @@
 {
 "artillery":
 {
-"rotation_time":72.0,"max_damage_HE":7300,"gun_rate":2.0,"max_damage_AP":14800
+"rotation_time":72.0,"max_damage_AP":14800,"max_damage_HE":7300,"gun_rate":2.0
 }
 },
 "name":"460 mm\/45 Type94",
@@ -1933,7 +1933,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":2500,"gun_rate":6.0,"max_damage_AP":5900
+"rotation_time":22.5,"max_damage_AP":5900,"max_damage_HE":2500,"gun_rate":6.0
 }
 },
 "name":"203 mm L\/60 Drh LC\/34",
@@ -1949,7 +1949,7 @@
 {
 "artillery":
 {
-"rotation_time":20.0,"max_damage_HE":1500,"gun_rate":12.0,"max_damage_AP":3000
+"rotation_time":20.0,"max_damage_AP":3000,"max_damage_HE":1500,"gun_rate":12.0
 }
 },
 "name":"128 mm L\/61 SK C\/42",
@@ -1965,7 +1965,7 @@
 {
 "artillery":
 {
-"rotation_time":25.71,"max_damage_HE":1900,"gun_rate":6.0,"max_damage_AP":2500
+"rotation_time":25.71,"max_damage_AP":2500,"max_damage_HE":1900,"gun_rate":6.0
 }
 },
 "name":"130 mm\/55 Model 1913",
@@ -1981,7 +1981,7 @@
 {
 "artillery":
 {
-"rotation_time":5.29,"max_damage_HE":1800,"gun_rate":18.0,"max_damage_AP":2100
+"rotation_time":5.29,"max_damage_AP":2100,"max_damage_HE":1800,"gun_rate":18.0
 }
 },
 "name":"127 mm\/38 MK30",
@@ -1997,7 +1997,7 @@
 {
 "artillery":
 {
-"rotation_time":25.71,"max_damage_HE":2000,"gun_rate":6.0,"max_damage_AP":2000
+"rotation_time":25.71,"max_damage_AP":2000,"max_damage_HE":2000,"gun_rate":6.0
 }
 },
 "name":"120 mm\/45 3rd Year Type",
@@ -2013,7 +2013,7 @@
 {
 "artillery":
 {
-"rotation_time":45.0,"max_damage_HE":2800,"gun_rate":4.0,"max_damage_AP":4500
+"rotation_time":45.0,"max_damage_AP":4500,"max_damage_HE":2800,"gun_rate":4.0
 }
 },
 "name":"203 mm\/50 Mk14",
@@ -2029,7 +2029,7 @@
 {
 "artillery":
 {
-"rotation_time":45.0,"max_damage_HE":3300,"gun_rate":4.3,"max_damage_AP":4700
+"rotation_time":45.0,"max_damage_AP":4700,"max_damage_HE":3300,"gun_rate":4.3
 }
 },
 "name":"203 mm\/50 Type3",
@@ -2045,7 +2045,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":2100,"gun_rate":6.7,"max_damage_AP":2200
+"rotation_time":30.0,"max_damage_AP":2200,"max_damage_HE":2100,"gun_rate":6.7
 }
 },
 "name":"127 mm\/50 Type3",
@@ -2061,7 +2061,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":2100,"gun_rate":7.5,"max_damage_AP":3000
+"rotation_time":22.5,"max_damage_AP":3000,"max_damage_HE":2100,"gun_rate":7.5
 }
 },
 "name":"152 mm\/50 Mk6",
@@ -2077,7 +2077,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":2000,"gun_rate":5.0,"max_damage_AP":2000
+"rotation_time":30.0,"max_damage_AP":2000,"max_damage_HE":2000,"gun_rate":5.0
 }
 },
 "name":"120 mm\/45 Type3",
@@ -2093,7 +2093,7 @@
 {
 "artillery":
 {
-"rotation_time":18.0,"max_damage_HE":1500,"gun_rate":15.0,"max_damage_AP":3000
+"rotation_time":18.0,"max_damage_AP":3000,"max_damage_HE":1500,"gun_rate":15.0
 }
 },
 "name":"128 mm L\/61 SK C\/42",
@@ -2109,7 +2109,7 @@
 {
 "artillery":
 {
-"rotation_time":60.0,"max_damage_HE":5000,"gun_rate":1.7,"max_damage_AP":10300
+"rotation_time":60.0,"max_damage_AP":10300,"max_damage_HE":5000,"gun_rate":1.7
 }
 },
 "name":"356 mm\/45 Mk9",
@@ -2125,7 +2125,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":1900,"gun_rate":6.0,"max_damage_AP":2400
+"rotation_time":36.0,"max_damage_AP":2400,"max_damage_HE":1900,"gun_rate":6.0
 }
 },
 "name":"130 mm\/55 Model 1913",
@@ -2141,7 +2141,7 @@
 {
 "artillery":
 {
-"rotation_time":21.18,"max_damage_HE":2400,"gun_rate":10.0,"max_damage_AP":2700
+"rotation_time":21.18,"max_damage_AP":2700,"max_damage_HE":2400,"gun_rate":10.0
 }
 },
 "name":"140 mm\/50 Type3",
@@ -2157,7 +2157,7 @@
 {
 "artillery":
 {
-"rotation_time":60.0,"max_damage_HE":3400,"gun_rate":2.3,"max_damage_AP":8300
+"rotation_time":60.0,"max_damage_AP":8300,"max_damage_HE":3400,"gun_rate":2.3
 }
 },
 "name":"305 mm L\/50 Drh LC\/1911",
@@ -2173,7 +2173,7 @@
 {
 "artillery":
 {
-"rotation_time":7.2,"max_damage_HE":1800,"gun_rate":20.0,"max_damage_AP":2100
+"rotation_time":7.2,"max_damage_AP":2100,"max_damage_HE":1800,"gun_rate":20.0
 }
 },
 "name":"127 mm\/38 Mk38",
@@ -2189,7 +2189,7 @@
 {
 "artillery":
 {
-"rotation_time":18.0,"max_damage_HE":1800,"gun_rate":10.0,"max_damage_AP":2000
+"rotation_time":18.0,"max_damage_AP":2000,"max_damage_HE":1800,"gun_rate":10.0
 }
 },
 "name":"120 mm\/45 10th Year Type",
@@ -2205,7 +2205,7 @@
 {
 "artillery":
 {
-"rotation_time":18.0,"max_damage_HE":1500,"gun_rate":8.6,"max_damage_AP":1700
+"rotation_time":18.0,"max_damage_AP":1700,"max_damage_HE":1500,"gun_rate":8.6
 }
 },
 "name":"102 mm\/50 Mk14",
@@ -2221,7 +2221,7 @@
 {
 "artillery":
 {
-"rotation_time":60.0,"max_damage_HE":4200,"gun_rate":2.0,"max_damage_AP":8300
+"rotation_time":60.0,"max_damage_AP":8300,"max_damage_HE":4200,"gun_rate":2.0
 }
 },
 "name":"305 mm\/50 Mk7",
@@ -2237,7 +2237,7 @@
 {
 "artillery":
 {
-"rotation_time":18.0,"max_damage_HE":1200,"gun_rate":15.0,"max_damage_AP":1700
+"rotation_time":18.0,"max_damage_AP":1700,"max_damage_HE":1200,"gun_rate":15.0
 }
 },
 "name":"105 mm L\/40 MPL C\/04",
@@ -2253,7 +2253,7 @@
 {
 "artillery":
 {
-"rotation_time":45.0,"max_damage_HE":5100,"gun_rate":1.8,"max_damage_AP":7900
+"rotation_time":45.0,"max_damage_AP":7900,"max_damage_HE":5100,"gun_rate":1.8
 }
 },
 "name":"305 mm\/45 Type41",
@@ -2269,7 +2269,7 @@
 {
 "artillery":
 {
-"rotation_time":18.0,"max_damage_HE":1200,"gun_rate":15.0,"max_damage_AP":2300
+"rotation_time":18.0,"max_damage_AP":2300,"max_damage_HE":1200,"gun_rate":15.0
 }
 },
 "name":"105 mm L\/45 MPL C\/06",
@@ -2285,7 +2285,7 @@
 {
 "artillery":
 {
-"rotation_time":32.73,"max_damage_HE":2200,"gun_rate":7.5,"max_damage_AP":3200
+"rotation_time":32.73,"max_damage_AP":3200,"max_damage_HE":2200,"gun_rate":7.5
 }
 },
 "name":"152 mm\/47 Mk16",
@@ -2301,7 +2301,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":1600,"gun_rate":12.0,"max_damage_AP":2500
+"rotation_time":36.0,"max_damage_AP":2500,"max_damage_HE":1600,"gun_rate":12.0
 }
 },
 "name":"130 mm\/50 B-13",
@@ -2317,7 +2317,7 @@
 {
 "artillery":
 {
-"rotation_time":5.29,"max_damage_HE":1800,"gun_rate":18.0,"max_damage_AP":2100
+"rotation_time":5.29,"max_damage_AP":2100,"max_damage_HE":1800,"gun_rate":18.0
 }
 },
 "name":"127 mm\/38 Mk30",
@@ -2333,7 +2333,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":2100,"gun_rate":7.5,"max_damage_AP":3000
+"rotation_time":22.5,"max_damage_AP":3000,"max_damage_HE":2100,"gun_rate":7.5
 }
 },
 "name":"152 mm\/50 Mk6",
@@ -2349,7 +2349,7 @@
 {
 "artillery":
 {
-"rotation_time":9.0,"max_damage_HE":1600,"gun_rate":13.0,"max_damage_AP":2600
+"rotation_time":9.0,"max_damage_AP":2600,"max_damage_HE":1600,"gun_rate":13.0
 }
 },
 "name":"130 mm\/55 B-2-U",
@@ -2365,7 +2365,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":2100,"gun_rate":7.0,"max_damage_AP":2700
+"rotation_time":36.0,"max_damage_AP":2700,"max_damage_HE":2100,"gun_rate":7.0
 }
 },
 "name":"152 mm\/45 Canet naval gun",
@@ -2381,7 +2381,7 @@
 {
 "artillery":
 {
-"rotation_time":45.0,"max_damage_HE":3300,"gun_rate":4.3,"max_damage_AP":4700
+"rotation_time":45.0,"max_damage_AP":4700,"max_damage_HE":3300,"gun_rate":4.3
 }
 },
 "name":"203 mm\/50 Type3",
@@ -2397,7 +2397,7 @@
 {
 "artillery":
 {
-"rotation_time":5.29,"max_damage_HE":1800,"gun_rate":18.0,"max_damage_AP":2100
+"rotation_time":5.29,"max_damage_AP":2100,"max_damage_HE":1800,"gun_rate":18.0
 }
 },
 "name":"127 mm\/38 MK30",
@@ -2413,7 +2413,7 @@
 {
 "artillery":
 {
-"rotation_time":32.73,"max_damage_HE":4800,"gun_rate":2.1,"max_damage_AP":12700
+"rotation_time":32.73,"max_damage_AP":12700,"max_damage_HE":4800,"gun_rate":2.1
 }
 },
 "name":"406 mm L\/52 Drh C\/34",
@@ -2429,7 +2429,7 @@
 {
 "artillery":
 {
-"rotation_time":25.71,"max_damage_HE":2000,"gun_rate":6.0,"max_damage_AP":2000
+"rotation_time":25.71,"max_damage_AP":2000,"max_damage_HE":2000,"gun_rate":6.0
 }
 },
 "name":"120 mm\/45 3rd Year Type",
@@ -2445,7 +2445,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":1500,"gun_rate":12.0,"max_damage_AP":1800
+"rotation_time":22.5,"max_damage_AP":1800,"max_damage_HE":1500,"gun_rate":12.0
 }
 },
 "name":"102 mm\/60 Model 1911",
@@ -2461,7 +2461,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":3300,"gun_rate":4.0,"max_damage_AP":4700
+"rotation_time":36.0,"max_damage_AP":4700,"max_damage_HE":3300,"gun_rate":4.0
 }
 },
 "name":"203 mm\/50 3rd Year Type",
@@ -2477,7 +2477,7 @@
 {
 "artillery":
 {
-"rotation_time":21.18,"max_damage_HE":2400,"gun_rate":10.0,"max_damage_AP":2700
+"rotation_time":21.18,"max_damage_AP":2700,"max_damage_HE":2400,"gun_rate":10.0
 }
 },
 "name":"140 mm\/50 Type3",
@@ -2493,7 +2493,7 @@
 {
 "artillery":
 {
-"rotation_time":7.2,"max_damage_HE":1800,"gun_rate":12.0,"max_damage_AP":2100
+"rotation_time":7.2,"max_damage_AP":2100,"max_damage_HE":1800,"gun_rate":12.0
 }
 },
 "name":"127 mm\/38",
@@ -2509,7 +2509,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":4400,"gun_rate":2.3,"max_damage_AP":11600
+"rotation_time":36.0,"max_damage_AP":11600,"max_damage_HE":4400,"gun_rate":2.3
 }
 },
 "name":"380 mm L\/52 Drh LC\/34",
@@ -2525,7 +2525,7 @@
 {
 "artillery":
 {
-"rotation_time":15.65,"max_damage_HE":1500,"gun_rate":8.6,"max_damage_AP":1700
+"rotation_time":15.65,"max_damage_AP":1700,"max_damage_HE":1500,"gun_rate":8.6
 }
 },
 "name":"102 mm\/50 Mk12",
@@ -2541,7 +2541,7 @@
 {
 "artillery":
 {
-"rotation_time":54.55,"max_damage_HE":5700,"gun_rate":2.0,"max_damage_AP":10200
+"rotation_time":54.55,"max_damage_AP":10200,"max_damage_HE":5700,"gun_rate":2.0
 }
 },
 "name":"356 mm\/45 Type41",
@@ -2557,7 +2557,7 @@
 {
 "artillery":
 {
-"rotation_time":32.73,"max_damage_HE":3100,"gun_rate":5.8,"max_damage_AP":5800
+"rotation_time":32.73,"max_damage_AP":5800,"max_damage_HE":3100,"gun_rate":5.8
 }
 },
 "name":"220 mm\/65 SM-6",
@@ -2573,7 +2573,7 @@
 {
 "artillery":
 {
-"rotation_time":54.55,"max_damage_HE":5700,"gun_rate":2.0,"max_damage_AP":10200
+"rotation_time":54.55,"max_damage_AP":10200,"max_damage_HE":5700,"gun_rate":2.0
 }
 },
 "name":"356 mm\/45 Type41",
@@ -2589,7 +2589,7 @@
 {
 "artillery":
 {
-"rotation_time":36.0,"max_damage_HE":2100,"gun_rate":7.0,"max_damage_AP":2700
+"rotation_time":36.0,"max_damage_AP":2700,"max_damage_HE":2100,"gun_rate":7.0
 }
 },
 "name":"152 mm\/45 Canet naval gun",
@@ -2605,7 +2605,7 @@
 {
 "artillery":
 {
-"rotation_time":18.0,"max_damage_HE":1500,"gun_rate":8.6,"max_damage_AP":1700
+"rotation_time":18.0,"max_damage_AP":1700,"max_damage_HE":1500,"gun_rate":8.6
 }
 },
 "name":"102 mm\/50 Mk12",
@@ -2621,7 +2621,7 @@
 {
 "artillery":
 {
-"rotation_time":5.29,"max_damage_HE":1800,"gun_rate":18.0,"max_damage_AP":2100
+"rotation_time":5.29,"max_damage_AP":2100,"max_damage_HE":1800,"gun_rate":18.0
 }
 },
 "name":"127 mm\/38 Mk30 mod. 0",
@@ -2637,7 +2637,7 @@
 {
 "artillery":
 {
-"rotation_time":24.0,"max_damage_HE":2400,"gun_rate":9.2,"max_damage_AP":2700
+"rotation_time":24.0,"max_damage_AP":2700,"max_damage_HE":2400,"gun_rate":9.2
 }
 },
 "name":"140 mm\/50 Type3",
@@ -2653,7 +2653,7 @@
 {
 "artillery":
 {
-"rotation_time":22.5,"max_damage_HE":2100,"gun_rate":8.6,"max_damage_AP":3000
+"rotation_time":22.5,"max_damage_AP":3000,"max_damage_HE":2100,"gun_rate":8.6
 }
 },
 "name":"152 mm\/50 Mk6",
@@ -2669,7 +2669,7 @@
 {
 "artillery":
 {
-"rotation_time":12.0,"max_damage_HE":1800,"gun_rate":9.2,"max_damage_AP":2200
+"rotation_time":12.0,"max_damage_AP":2200,"max_damage_HE":1800,"gun_rate":9.2
 }
 },
 "name":"127 mm Mk7\/Mk21",
@@ -2685,7 +2685,7 @@
 {
 "artillery":
 {
-"rotation_time":64.29,"max_damage_HE":5700,"gun_rate":1.8,"max_damage_AP":10000
+"rotation_time":64.29,"max_damage_AP":10000,"max_damage_HE":5700,"gun_rate":1.8
 }
 },
 "name":"356 mm\/45 Type41",
@@ -2701,7 +2701,7 @@
 {
 "artillery":
 {
-"rotation_time":30.0,"max_damage_HE":1700,"gun_rate":8.0,"max_damage_AP":3900
+"rotation_time":30.0,"max_damage_AP":3900,"max_damage_HE":1700,"gun_rate":8.0
 }
 },
 "name":"150 mm L\/60 Drh Tr C\/25",

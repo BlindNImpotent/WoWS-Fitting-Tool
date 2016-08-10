@@ -29496,7 +29496,7 @@
 }
 },
 "nation":"germany",
-"is_premium":false,"ship_id_str":"PGSB507",
+"is_premium":true,"ship_id_str":"PGSB507",
 "price_credit":0,"default_profile":
 {
 "engine":

@@ -3,7 +3,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -37,11 +36,11 @@ public class GameParams_Parser
 
 	@SuppressWarnings("unchecked")
 	public GameParams_Parser(String aShip_id_str) throws FileNotFoundException, IOException, ParseException
-	{
+	{		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GameParamsFile),"UTF8"));		
 		GameParams = (JSONObject) JSONParser.parse(reader);
-		GameParamsKeySet.addAll(GameParams.keySet());
 		
+		GameParamsKeySet.addAll(GameParams.keySet());
 		GameParamsValues.addAll(GameParams.values());
 		
 		setGameParamsHashMap();

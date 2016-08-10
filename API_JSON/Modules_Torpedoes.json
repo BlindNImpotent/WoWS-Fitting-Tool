@@ -13,7 +13,7 @@
 {
 "torpedoes":
 {
-"max_damage":20966,"shot_speed":0.7,"torpedo_speed":67,"distance":10.0
+"torpedo_speed":67,"shot_speed":0.7,"max_damage":20966,"distance":10.0
 }
 },
 "name":"Type93 mod. 2",
@@ -29,7 +29,7 @@
 {
 "torpedoes":
 {
-"max_damage":5900,"shot_speed":2.7,"torpedo_speed":49,"distance":4.5
+"torpedo_speed":49,"shot_speed":2.7,"max_damage":5900,"distance":4.5
 }
 },
 "name":"Whitehead Mk5",
@@ -45,7 +45,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":0.9,"torpedo_speed":64,"distance":4.0
+"torpedo_speed":64,"shot_speed":0.9,"max_damage":14400,"distance":4.0
 }
 },
 "name":"53-36 mod. 1",
@@ -61,7 +61,7 @@
 {
 "torpedoes":
 {
-"max_damage":11200,"shot_speed":1.1,"torpedo_speed":57,"distance":6.0
+"torpedo_speed":57,"shot_speed":1.1,"max_damage":11200,"distance":6.0
 }
 },
 "name":"H8",
@@ -77,7 +77,7 @@
 {
 "torpedoes":
 {
-"max_damage":17933,"shot_speed":0.5,"torpedo_speed":65,"distance":4.0
+"torpedo_speed":65,"shot_speed":0.5,"max_damage":17933,"distance":4.0
 }
 },
 "name":"53-38U",
@@ -93,7 +93,7 @@
 {
 "torpedoes":
 {
-"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
+"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -109,7 +109,7 @@
 {
 "torpedoes":
 {
-"max_damage":17233,"shot_speed":0.7,"torpedo_speed":57,"distance":15.0
+"torpedo_speed":57,"shot_speed":0.7,"max_damage":17233,"distance":15.0
 }
 },
 "name":"Type90 mod. 2",
@@ -125,7 +125,7 @@
 {
 "torpedoes":
 {
-"max_damage":19033,"shot_speed":0.6,"torpedo_speed":66,"distance":10.5
+"torpedo_speed":66,"shot_speed":0.6,"max_damage":19033,"distance":10.5
 }
 },
 "name":"Mk16 mod. 1",
@@ -141,7 +141,7 @@
 {
 "torpedoes":
 {
-"max_damage":9900,"shot_speed":1.5,"torpedo_speed":56,"distance":5.0
+"torpedo_speed":56,"shot_speed":1.5,"max_damage":9900,"distance":5.0
 }
 },
 "name":"Bliss Leavitt Mk9",
@@ -157,7 +157,7 @@
 {
 "torpedoes":
 {
-"max_damage":10833,"shot_speed":1.4,"torpedo_speed":57,"distance":7.0
+"torpedo_speed":57,"shot_speed":1.4,"max_damage":10833,"distance":7.0
 }
 },
 "name":"Type 6",
@@ -173,7 +173,7 @@
 {
 "torpedoes":
 {
-"max_damage":23766,"shot_speed":0.4,"torpedo_speed":67,"distance":12.0
+"torpedo_speed":67,"shot_speed":0.4,"max_damage":23766,"distance":12.0
 }
 },
 "name":"Type93 mod. 3",
@@ -189,7 +189,7 @@
 {
 "torpedoes":
 {
-"max_damage":15100,"shot_speed":0.5,"torpedo_speed":70,"distance":4.0
+"torpedo_speed":70,"shot_speed":0.5,"max_damage":15100,"distance":4.0
 }
 },
 "name":"53-39 mod. 1",
@@ -205,7 +205,7 @@
 {
 "torpedoes":
 {
-"max_damage":13700,"shot_speed":0.9,"torpedo_speed":64,"distance":6.0
+"torpedo_speed":64,"shot_speed":0.9,"max_damage":13700,"distance":6.0
 }
 },
 "name":"G7a T1",
@@ -221,7 +221,7 @@
 {
 "torpedoes":
 {
-"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
+"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -237,7 +237,7 @@
 {
 "torpedoes":
 {
-"max_damage":19033,"shot_speed":0.6,"torpedo_speed":66,"distance":10.5
+"torpedo_speed":66,"shot_speed":0.6,"max_damage":19033,"distance":10.5
 }
 },
 "name":"Mk16 mod. 1",
@@ -253,7 +253,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":0.9,"torpedo_speed":55,"distance":8.0
+"torpedo_speed":55,"shot_speed":0.9,"max_damage":14400,"distance":8.0
 }
 },
 "name":"53-39",
@@ -269,7 +269,7 @@
 {
 "torpedoes":
 {
-"max_damage":7233,"shot_speed":1.5,"torpedo_speed":52,"distance":5.0
+"torpedo_speed":52,"shot_speed":1.5,"max_damage":7233,"distance":5.0
 }
 },
 "name":"Torpedo Model 1912",
@@ -285,7 +285,7 @@
 {
 "torpedoes":
 {
-"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
+"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -301,7 +301,7 @@
 {
 "torpedoes":
 {
-"max_damage":16266,"shot_speed":0.6,"torpedo_speed":59,"distance":10.0
+"torpedo_speed":59,"shot_speed":0.6,"max_damage":16266,"distance":10.0
 }
 },
 "name":"Type8 mod. 2",
@@ -317,7 +317,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":1.3,"torpedo_speed":68,"distance":7.0
+"torpedo_speed":68,"shot_speed":1.3,"max_damage":14400,"distance":7.0
 }
 },
 "name":"Type 92",
@@ -333,7 +333,7 @@
 {
 "torpedoes":
 {
-"max_damage":11600,"shot_speed":0.7,"torpedo_speed":65,"distance":5.5
+"torpedo_speed":65,"shot_speed":0.7,"max_damage":11600,"distance":5.5
 }
 },
 "name":"Mk15 mod. 0",
@@ -349,7 +349,7 @@
 {
 "torpedoes":
 {
-"max_damage":6166,"shot_speed":2.7,"torpedo_speed":51,"distance":4.0
+"torpedo_speed":51,"shot_speed":2.7,"max_damage":6166,"distance":4.0
 }
 },
 "name":"Torpedo Model 1910",
@@ -365,7 +365,7 @@
 {
 "torpedoes":
 {
-"max_damage":11733,"shot_speed":0.9,"torpedo_speed":56,"distance":5.5
+"torpedo_speed":56,"shot_speed":0.9,"max_damage":11733,"distance":5.5
 }
 },
 "name":"Mark 11",
@@ -381,7 +381,7 @@
 {
 "torpedoes":
 {
-"max_damage":9066,"shot_speed":1.5,"torpedo_speed":57,"distance":7.0
+"torpedo_speed":57,"shot_speed":1.5,"max_damage":9066,"distance":7.0
 }
 },
 "name":"Type44 mod. 2",
@@ -397,7 +397,7 @@
 {
 "torpedoes":
 {
-"max_damage":15100,"shot_speed":0.5,"torpedo_speed":60,"distance":8.0
+"torpedo_speed":60,"shot_speed":0.5,"max_damage":15100,"distance":8.0
 }
 },
 "name":"53-39 mod. 2",
@@ -413,7 +413,7 @@
 {
 "torpedoes":
 {
-"max_damage":13700,"shot_speed":0.9,"torpedo_speed":64,"distance":6.0
+"torpedo_speed":64,"shot_speed":0.9,"max_damage":13700,"distance":6.0
 }
 },
 "name":"G7a T1",
@@ -429,7 +429,7 @@
 {
 "torpedoes":
 {
-"max_damage":11733,"shot_speed":0.7,"torpedo_speed":64,"distance":6.4
+"torpedo_speed":64,"shot_speed":0.7,"max_damage":11733,"distance":6.4
 }
 },
 "name":"Mark 12",
@@ -445,7 +445,7 @@
 {
 "torpedoes":
 {
-"max_damage":17233,"shot_speed":0.6,"torpedo_speed":62,"distance":10.0
+"torpedo_speed":62,"shot_speed":0.6,"max_damage":17233,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -461,7 +461,7 @@
 {
 "torpedoes":
 {
-"max_damage":16633,"shot_speed":0.5,"torpedo_speed":68,"distance":6.0
+"torpedo_speed":68,"shot_speed":0.5,"max_damage":16633,"distance":6.0
 }
 },
 "name":"533 mm Mk31",
@@ -477,7 +477,7 @@
 {
 "torpedoes":
 {
-"max_damage":11733,"shot_speed":1.4,"torpedo_speed":56,"distance":5.5
+"torpedo_speed":56,"shot_speed":1.4,"max_damage":11733,"distance":5.5
 }
 },
 "name":"Mark 11",
@@ -493,7 +493,7 @@
 {
 "torpedoes":
 {
-"max_damage":6233,"shot_speed":1.6,"torpedo_speed":49,"distance":8.2
+"torpedo_speed":49,"shot_speed":1.6,"max_damage":6233,"distance":8.2
 }
 },
 "name":"Mk9 mod. 1",
@@ -509,7 +509,7 @@
 {
 "torpedoes":
 {
-"max_damage":6166,"shot_speed":1.8,"torpedo_speed":51,"distance":4.0
+"torpedo_speed":51,"shot_speed":1.8,"max_damage":6166,"distance":4.0
 }
 },
 "name":"Torpedo Model 1910",
@@ -525,7 +525,7 @@
 {
 "torpedoes":
 {
-"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
+"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -541,7 +541,7 @@
 {
 "torpedoes":
 {
-"max_damage":16633,"shot_speed":0.5,"torpedo_speed":55,"distance":9.2
+"torpedo_speed":55,"shot_speed":0.5,"max_damage":16633,"distance":9.2
 }
 },
 "name":"Mk15 mod. 3",
@@ -557,7 +557,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":0.9,"torpedo_speed":65,"distance":4.0
+"torpedo_speed":65,"shot_speed":0.9,"max_damage":14400,"distance":4.0
 }
 },
 "name":"53-38",
@@ -573,7 +573,7 @@
 {
 "torpedoes":
 {
-"max_damage":15100,"shot_speed":0.5,"torpedo_speed":56,"distance":10.0
+"torpedo_speed":56,"shot_speed":0.5,"max_damage":15100,"distance":10.0
 }
 },
 "name":"53-39 mod. 3",
@@ -589,7 +589,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":1.3,"torpedo_speed":68,"distance":7.0
+"torpedo_speed":68,"shot_speed":1.3,"max_damage":14400,"distance":7.0
 }
 },
 "name":"Type 92",
@@ -605,7 +605,7 @@
 {
 "torpedoes":
 {
-"max_damage":16266,"shot_speed":0.8,"torpedo_speed":59,"distance":10.0
+"torpedo_speed":59,"shot_speed":0.8,"max_damage":16266,"distance":10.0
 }
 },
 "name":"Type8 mod. 2",
@@ -621,7 +621,7 @@
 {
 "torpedoes":
 {
-"max_damage":14600,"shot_speed":1.2,"torpedo_speed":63,"distance":6.0
+"torpedo_speed":63,"shot_speed":1.2,"max_damage":14600,"distance":6.0
 }
 },
 "name":"Type8",
@@ -637,7 +637,7 @@
 {
 "torpedoes":
 {
-"max_damage":11733,"shot_speed":0.7,"torpedo_speed":56,"distance":5.5
+"torpedo_speed":56,"shot_speed":0.7,"max_damage":11733,"distance":5.5
 }
 },
 "name":"Mark 11",
@@ -653,7 +653,7 @@
 {
 "torpedoes":
 {
-"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
+"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -669,7 +669,7 @@
 {
 "torpedoes":
 {
-"max_damage":14600,"shot_speed":0.8,"torpedo_speed":63,"distance":6.0
+"torpedo_speed":63,"shot_speed":0.8,"max_damage":14600,"distance":6.0
 }
 },
 "name":"Type8",
@@ -685,7 +685,7 @@
 {
 "torpedoes":
 {
-"max_damage":16266,"shot_speed":0.8,"torpedo_speed":59,"distance":10.0
+"torpedo_speed":59,"shot_speed":0.8,"max_damage":16266,"distance":10.0
 }
 },
 "name":"Type8 mod. 2",
@@ -701,7 +701,7 @@
 {
 "torpedoes":
 {
-"max_damage":6133,"shot_speed":2.7,"torpedo_speed":44,"distance":5.0
+"torpedo_speed":44,"shot_speed":2.7,"max_damage":6133,"distance":5.0
 }
 },
 "name":"Ho Type42",
@@ -717,7 +717,7 @@
 {
 "torpedoes":
 {
-"max_damage":6033,"shot_speed":5.5,"torpedo_speed":54,"distance":4.5
+"torpedo_speed":54,"shot_speed":5.5,"max_damage":6033,"distance":4.5
 }
 },
 "name":"Bliss Leavitt Mk7",
@@ -733,7 +733,7 @@
 {
 "torpedoes":
 {
-"max_damage":11733,"shot_speed":0.7,"torpedo_speed":64,"distance":6.4
+"torpedo_speed":64,"shot_speed":0.7,"max_damage":11733,"distance":6.4
 }
 },
 "name":"Mk12",
@@ -749,7 +749,7 @@
 {
 "torpedoes":
 {
-"max_damage":17233,"shot_speed":0.6,"torpedo_speed":62,"distance":10.0
+"torpedo_speed":62,"shot_speed":0.6,"max_damage":17233,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -765,7 +765,7 @@
 {
 "torpedoes":
 {
-"max_damage":15100,"shot_speed":0.8,"torpedo_speed":70,"distance":4.0
+"torpedo_speed":70,"shot_speed":0.8,"max_damage":15100,"distance":4.0
 }
 },
 "name":"53-39 mod. 1",
@@ -781,7 +781,7 @@
 {
 "torpedoes":
 {
-"max_damage":21366,"shot_speed":0.5,"torpedo_speed":76,"distance":8.0
+"torpedo_speed":76,"shot_speed":0.5,"max_damage":21366,"distance":8.0
 }
 },
 "name":"Type F3",
@@ -797,7 +797,7 @@
 {
 "torpedoes":
 {
-"max_damage":16633,"shot_speed":0.5,"torpedo_speed":55,"distance":9.2
+"torpedo_speed":55,"shot_speed":0.5,"max_damage":16633,"distance":9.2
 }
 },
 "name":"Mk15 mod. 3",
@@ -813,7 +813,7 @@
 {
 "torpedoes":
 {
-"max_damage":10833,"shot_speed":1.4,"torpedo_speed":57,"distance":7.0
+"torpedo_speed":57,"shot_speed":1.4,"max_damage":10833,"distance":7.0
 }
 },
 "name":"Type 6",
@@ -829,7 +829,7 @@
 {
 "torpedoes":
 {
-"max_damage":13700,"shot_speed":0.7,"torpedo_speed":64,"distance":6.0
+"torpedo_speed":64,"shot_speed":0.7,"max_damage":13700,"distance":6.0
 }
 },
 "name":"G7a T1",
@@ -845,7 +845,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":0.9,"torpedo_speed":55,"distance":8.0
+"torpedo_speed":55,"shot_speed":0.9,"max_damage":14400,"distance":8.0
 }
 },
 "name":"53-36 mod. 2",
@@ -861,7 +861,7 @@
 {
 "torpedoes":
 {
-"max_damage":13700,"shot_speed":0.9,"torpedo_speed":64,"distance":6.0
+"torpedo_speed":64,"shot_speed":0.9,"max_damage":13700,"distance":6.0
 }
 },
 "name":"G7a T1",
@@ -877,7 +877,7 @@
 {
 "torpedoes":
 {
-"max_damage":10433,"shot_speed":1.4,"torpedo_speed":58,"distance":4.0
+"torpedo_speed":58,"shot_speed":1.4,"max_damage":10433,"distance":4.0
 }
 },
 "name":"G7",
@@ -893,7 +893,7 @@
 {
 "torpedoes":
 {
-"max_damage":6800,"shot_speed":2.5,"torpedo_speed":48,"distance":8.0
+"torpedo_speed":48,"shot_speed":2.5,"max_damage":6800,"distance":8.0
 }
 },
 "name":"Type44 mod. 2",
@@ -909,7 +909,7 @@
 {
 "torpedoes":
 {
-"max_damage":11600,"shot_speed":0.6,"torpedo_speed":55,"distance":9.2
+"torpedo_speed":55,"shot_speed":0.6,"max_damage":11600,"distance":9.2
 }
 },
 "name":"Mk15 mod. 0",
@@ -925,7 +925,7 @@
 {
 "torpedoes":
 {
-"max_damage":13700,"shot_speed":0.7,"torpedo_speed":64,"distance":6.0
+"torpedo_speed":64,"shot_speed":0.7,"max_damage":13700,"distance":6.0
 }
 },
 "name":"G7a T1",
@@ -941,7 +941,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":0.9,"torpedo_speed":65,"distance":4.0
+"torpedo_speed":65,"shot_speed":0.9,"max_damage":14400,"distance":4.0
 }
 },
 "name":"53-38",
@@ -957,7 +957,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":0.9,"torpedo_speed":57,"distance":8.0
+"torpedo_speed":57,"shot_speed":0.9,"max_damage":14400,"distance":8.0
 }
 },
 "name":"Mark 10",
@@ -973,7 +973,7 @@
 {
 "torpedoes":
 {
-"max_damage":21366,"shot_speed":0.6,"torpedo_speed":76,"distance":8.0
+"torpedo_speed":76,"shot_speed":0.6,"max_damage":21366,"distance":8.0
 }
 },
 "name":"Type F3",
@@ -989,7 +989,7 @@
 {
 "torpedoes":
 {
-"max_damage":17900,"shot_speed":0.4,"torpedo_speed":66,"distance":16.5
+"torpedo_speed":66,"shot_speed":0.4,"max_damage":17900,"distance":16.5
 }
 },
 "name":"Mark 17",
@@ -1005,7 +1005,7 @@
 {
 "torpedoes":
 {
-"max_damage":7233,"shot_speed":1.5,"torpedo_speed":52,"distance":5.0
+"torpedo_speed":52,"shot_speed":1.5,"max_damage":7233,"distance":5.0
 }
 },
 "name":"Torpedo Model 1912",
@@ -1021,7 +1021,7 @@
 {
 "torpedoes":
 {
-"max_damage":17233,"shot_speed":0.6,"torpedo_speed":62,"distance":10.0
+"torpedo_speed":62,"shot_speed":0.6,"max_damage":17233,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -1037,7 +1037,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":1.3,"torpedo_speed":68,"distance":7.0
+"torpedo_speed":68,"shot_speed":1.3,"max_damage":14400,"distance":7.0
 }
 },
 "name":"Type 92",
@@ -1053,7 +1053,7 @@
 {
 "torpedoes":
 {
-"max_damage":13700,"shot_speed":0.9,"torpedo_speed":64,"distance":6.0
+"torpedo_speed":64,"shot_speed":0.9,"max_damage":13700,"distance":6.0
 }
 },
 "name":"G7a T1",
@@ -1069,7 +1069,7 @@
 {
 "torpedoes":
 {
-"max_damage":6133,"shot_speed":1.8,"torpedo_speed":45,"distance":4.0
+"torpedo_speed":45,"shot_speed":1.8,"max_damage":6133,"distance":4.0
 }
 },
 "name":"Torpedo Model 1908",
@@ -1085,7 +1085,7 @@
 {
 "torpedoes":
 {
-"max_damage":11733,"shot_speed":0.9,"torpedo_speed":56,"distance":5.5
+"torpedo_speed":56,"shot_speed":0.9,"max_damage":11733,"distance":5.5
 }
 },
 "name":"Mark 11",
@@ -1101,7 +1101,7 @@
 {
 "torpedoes":
 {
-"max_damage":13700,"shot_speed":0.9,"torpedo_speed":64,"distance":6.0
+"torpedo_speed":64,"shot_speed":0.9,"max_damage":13700,"distance":6.0
 }
 },
 "name":"G7a T1",
@@ -1117,7 +1117,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":1.3,"torpedo_speed":68,"distance":7.0
+"torpedo_speed":68,"shot_speed":1.3,"max_damage":14400,"distance":7.0
 }
 },
 "name":"Type 92",
@@ -1133,7 +1133,7 @@
 {
 "torpedoes":
 {
-"max_damage":6233,"shot_speed":1.6,"torpedo_speed":49,"distance":8.2
+"torpedo_speed":49,"shot_speed":1.6,"max_damage":6233,"distance":8.2
 }
 },
 "name":"Mk9 mod. 1",
@@ -1149,7 +1149,7 @@
 {
 "torpedoes":
 {
-"max_damage":13700,"shot_speed":0.9,"torpedo_speed":64,"distance":6.0
+"torpedo_speed":64,"shot_speed":0.9,"max_damage":13700,"distance":6.0
 }
 },
 "name":"G7a T1",
@@ -1165,7 +1165,7 @@
 {
 "torpedoes":
 {
-"max_damage":15100,"shot_speed":0.8,"torpedo_speed":70,"distance":4.0
+"torpedo_speed":70,"shot_speed":0.8,"max_damage":15100,"distance":4.0
 }
 },
 "name":"53-39 mod. 1",
@@ -1181,7 +1181,7 @@
 {
 "torpedoes":
 {
-"max_damage":17933,"shot_speed":0.8,"torpedo_speed":65,"distance":4.0
+"torpedo_speed":65,"shot_speed":0.8,"max_damage":17933,"distance":4.0
 }
 },
 "name":"53-38U",
@@ -1197,7 +1197,7 @@
 {
 "torpedoes":
 {
-"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
+"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -1213,7 +1213,7 @@
 {
 "torpedoes":
 {
-"max_damage":9900,"shot_speed":1.5,"torpedo_speed":56,"distance":5.0
+"torpedo_speed":56,"shot_speed":1.5,"max_damage":9900,"distance":5.0
 }
 },
 "name":"Bliss Leavitt Mk9",
@@ -1229,7 +1229,7 @@
 {
 "torpedoes":
 {
-"max_damage":10833,"shot_speed":1.4,"torpedo_speed":57,"distance":7.0
+"torpedo_speed":57,"shot_speed":1.4,"max_damage":10833,"distance":7.0
 }
 },
 "name":"Type 6",
@@ -1245,7 +1245,7 @@
 {
 "torpedoes":
 {
-"max_damage":6133,"shot_speed":2.7,"torpedo_speed":44,"distance":5.0
+"torpedo_speed":44,"shot_speed":2.7,"max_damage":6133,"distance":5.0
 }
 },
 "name":"Ho Type42",
@@ -1261,7 +1261,7 @@
 {
 "torpedoes":
 {
-"max_damage":9066,"shot_speed":1.5,"torpedo_speed":57,"distance":7.0
+"torpedo_speed":57,"shot_speed":1.5,"max_damage":9066,"distance":7.0
 }
 },
 "name":"Type44 mod. 2",
@@ -1277,7 +1277,7 @@
 {
 "torpedoes":
 {
-"max_damage":21366,"shot_speed":0.4,"torpedo_speed":76,"distance":8.0
+"torpedo_speed":76,"shot_speed":0.4,"max_damage":21366,"distance":8.0
 }
 },
 "name":"Type F3",
@@ -1293,7 +1293,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":0.9,"torpedo_speed":64,"distance":4.0
+"torpedo_speed":64,"shot_speed":0.9,"max_damage":14400,"distance":4.0
 }
 },
 "name":"53-36 mod. 1",
@@ -1309,7 +1309,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":0.9,"torpedo_speed":65,"distance":4.0
+"torpedo_speed":65,"shot_speed":0.9,"max_damage":14400,"distance":4.0
 }
 },
 "name":"53-38",
@@ -1325,7 +1325,7 @@
 {
 "torpedoes":
 {
-"max_damage":16266,"shot_speed":0.8,"torpedo_speed":59,"distance":10.0
+"torpedo_speed":59,"shot_speed":0.8,"max_damage":16266,"distance":10.0
 }
 },
 "name":"Type8 mod. 2",
@@ -1341,7 +1341,7 @@
 {
 "torpedoes":
 {
-"max_damage":20966,"shot_speed":0.4,"torpedo_speed":62,"distance":20.0
+"torpedo_speed":62,"shot_speed":0.4,"max_damage":20966,"distance":20.0
 }
 },
 "name":"Type93",
@@ -1357,7 +1357,7 @@
 {
 "torpedoes":
 {
-"max_damage":11600,"shot_speed":0.7,"torpedo_speed":55,"distance":9.2
+"torpedo_speed":55,"shot_speed":0.7,"max_damage":11600,"distance":9.2
 }
 },
 "name":"Mk15 mod. 0",
@@ -1373,7 +1373,7 @@
 {
 "torpedoes":
 {
-"max_damage":13700,"shot_speed":0.7,"torpedo_speed":64,"distance":6.0
+"torpedo_speed":64,"shot_speed":0.7,"max_damage":13700,"distance":6.0
 }
 },
 "name":"G7a T1",
@@ -1389,7 +1389,7 @@
 {
 "torpedoes":
 {
-"max_damage":8500,"shot_speed":0.8,"torpedo_speed":49,"distance":9.2
+"torpedo_speed":49,"shot_speed":0.8,"max_damage":8500,"distance":9.2
 }
 },
 "name":"Bliss Leavitt Mk7 mod. 2B",
@@ -1405,7 +1405,7 @@
 {
 "torpedoes":
 {
-"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
+"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -1421,7 +1421,7 @@
 {
 "torpedoes":
 {
-"max_damage":14600,"shot_speed":0.8,"torpedo_speed":63,"distance":6.0
+"torpedo_speed":63,"shot_speed":0.8,"max_damage":14600,"distance":6.0
 }
 },
 "name":"Type8 mod. 1",
@@ -1437,7 +1437,7 @@
 {
 "torpedoes":
 {
-"max_damage":17233,"shot_speed":0.6,"torpedo_speed":62,"distance":10.0
+"torpedo_speed":62,"shot_speed":0.6,"max_damage":17233,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -1453,7 +1453,7 @@
 {
 "torpedoes":
 {
-"max_damage":11733,"shot_speed":0.7,"torpedo_speed":64,"distance":6.4
+"torpedo_speed":64,"shot_speed":0.7,"max_damage":11733,"distance":6.4
 }
 },
 "name":"Mark 12",
@@ -1469,7 +1469,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":1.3,"torpedo_speed":68,"distance":7.0
+"torpedo_speed":68,"shot_speed":1.3,"max_damage":14400,"distance":7.0
 }
 },
 "name":"Type 92",
@@ -1485,7 +1485,7 @@
 {
 "torpedoes":
 {
-"max_damage":11733,"shot_speed":1.4,"torpedo_speed":56,"distance":5.5
+"torpedo_speed":56,"shot_speed":1.4,"max_damage":11733,"distance":5.5
 }
 },
 "name":"Mark 11",
@@ -1501,7 +1501,7 @@
 {
 "torpedoes":
 {
-"max_damage":9066,"shot_speed":1.0,"torpedo_speed":57,"distance":7.0
+"torpedo_speed":57,"shot_speed":1.0,"max_damage":9066,"distance":7.0
 }
 },
 "name":"Type44 mod. 2",
@@ -1517,7 +1517,7 @@
 {
 "torpedoes":
 {
-"max_damage":20966,"shot_speed":0.5,"torpedo_speed":67,"distance":10.0
+"torpedo_speed":67,"shot_speed":0.5,"max_damage":20966,"distance":10.0
 }
 },
 "name":"Type93 mod. 2",
@@ -1533,7 +1533,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":0.9,"torpedo_speed":55,"distance":8.0
+"torpedo_speed":55,"shot_speed":0.9,"max_damage":14400,"distance":8.0
 }
 },
 "name":"53-36 mod. 2",
@@ -1549,7 +1549,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":0.9,"torpedo_speed":65,"distance":4.0
+"torpedo_speed":65,"shot_speed":0.9,"max_damage":14400,"distance":4.0
 }
 },
 "name":"53-38",
@@ -1565,7 +1565,7 @@
 {
 "torpedoes":
 {
-"max_damage":6166,"shot_speed":1.8,"torpedo_speed":51,"distance":4.0
+"torpedo_speed":51,"shot_speed":1.8,"max_damage":6166,"distance":4.0
 }
 },
 "name":"Torpedo Model 1910",
@@ -1581,7 +1581,7 @@
 {
 "torpedoes":
 {
-"max_damage":17233,"shot_speed":0.7,"torpedo_speed":62,"distance":10.0
+"torpedo_speed":62,"shot_speed":0.7,"max_damage":17233,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -1597,7 +1597,7 @@
 {
 "torpedoes":
 {
-"max_damage":16266,"shot_speed":0.8,"torpedo_speed":59,"distance":10.0
+"torpedo_speed":59,"shot_speed":0.8,"max_damage":16266,"distance":10.0
 }
 },
 "name":"Type8 mod. 2",
@@ -1613,7 +1613,7 @@
 {
 "torpedoes":
 {
-"max_damage":13200,"shot_speed":0.9,"torpedo_speed":65,"distance":5.0
+"torpedo_speed":65,"shot_speed":0.9,"max_damage":13200,"distance":5.0
 }
 },
 "name":"53-27",
@@ -1629,7 +1629,7 @@
 {
 "torpedoes":
 {
-"max_damage":6033,"shot_speed":2.6,"torpedo_speed":54,"distance":4.5
+"torpedo_speed":54,"shot_speed":2.6,"max_damage":6033,"distance":4.5
 }
 },
 "name":"Bliss Leavitt Mk7",
@@ -1645,7 +1645,7 @@
 {
 "torpedoes":
 {
-"max_damage":16633,"shot_speed":0.6,"torpedo_speed":55,"distance":9.2
+"torpedo_speed":55,"shot_speed":0.6,"max_damage":16633,"distance":9.2
 }
 },
 "name":"Mk15 mod. 3",
@@ -1661,7 +1661,7 @@
 {
 "torpedoes":
 {
-"max_damage":11600,"shot_speed":0.6,"torpedo_speed":55,"distance":9.2
+"torpedo_speed":55,"shot_speed":0.6,"max_damage":11600,"distance":9.2
 }
 },
 "name":"533 mm Mk15 mod. 0",
@@ -1677,7 +1677,7 @@
 {
 "torpedoes":
 {
-"max_damage":19500,"shot_speed":0.5,"torpedo_speed":53,"distance":6.0
+"torpedo_speed":53,"shot_speed":0.5,"max_damage":19500,"distance":6.0
 }
 },
 "name":"ET-46",
@@ -1693,7 +1693,7 @@
 {
 "torpedoes":
 {
-"max_damage":20966,"shot_speed":0.5,"torpedo_speed":62,"distance":20.0
+"torpedo_speed":62,"shot_speed":0.5,"max_damage":20966,"distance":20.0
 }
 },
 "name":"Type93",
@@ -1709,7 +1709,7 @@
 {
 "torpedoes":
 {
-"max_damage":17933,"shot_speed":0.8,"torpedo_speed":65,"distance":4.0
+"torpedo_speed":65,"shot_speed":0.8,"max_damage":17933,"distance":4.0
 }
 },
 "name":"53-38U",
@@ -1725,7 +1725,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":0.8,"torpedo_speed":60,"distance":8.0
+"torpedo_speed":60,"shot_speed":0.8,"max_damage":14400,"distance":8.0
 }
 },
 "name":"533 mm 53-51",
@@ -1741,7 +1741,7 @@
 {
 "torpedoes":
 {
-"max_damage":17233,"shot_speed":0.8,"torpedo_speed":62,"distance":10.0
+"torpedo_speed":62,"shot_speed":0.8,"max_damage":17233,"distance":10.0
 }
 },
 "name":"Type90 mod. 1",
@@ -1757,7 +1757,7 @@
 {
 "torpedoes":
 {
-"max_damage":11966,"shot_speed":1.0,"torpedo_speed":57,"distance":7.5
+"torpedo_speed":57,"shot_speed":1.0,"max_damage":11966,"distance":7.5
 }
 },
 "name":"533 mm Mk IV",
@@ -1773,7 +1773,7 @@
 {
 "torpedoes":
 {
-"max_damage":20966,"shot_speed":0.5,"torpedo_speed":67,"distance":10.0
+"torpedo_speed":67,"shot_speed":0.5,"max_damage":20966,"distance":10.0
 }
 },
 "name":"Type93 mod. 2",
@@ -1789,7 +1789,7 @@
 {
 "torpedoes":
 {
-"max_damage":16633,"shot_speed":0.6,"torpedo_speed":65,"distance":4.5
+"torpedo_speed":65,"shot_speed":0.6,"max_damage":16633,"distance":4.5
 }
 },
 "name":"Mk15 mod. 3",
@@ -1805,7 +1805,7 @@
 {
 "torpedoes":
 {
-"max_damage":16266,"shot_speed":0.8,"torpedo_speed":59,"distance":10.0
+"torpedo_speed":59,"shot_speed":0.8,"max_damage":16266,"distance":10.0
 }
 },
 "name":"Type8 mod. 2",
@@ -1821,7 +1821,7 @@
 {
 "torpedoes":
 {
-"max_damage":6400,"shot_speed":1.9,"torpedo_speed":48,"distance":4.5
+"torpedo_speed":48,"shot_speed":1.9,"max_damage":6400,"distance":4.5
 }
 },
 "name":"Bliss Leavitt Mk3",
@@ -1837,7 +1837,7 @@
 {
 "torpedoes":
 {
-"max_damage":6133,"shot_speed":2.7,"torpedo_speed":44,"distance":5.0
+"torpedo_speed":44,"shot_speed":2.7,"max_damage":6133,"distance":5.0
 }
 },
 "name":"Type 42",
@@ -1853,7 +1853,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":0.5,"torpedo_speed":60,"distance":8.0
+"torpedo_speed":60,"shot_speed":0.5,"max_damage":14400,"distance":8.0
 }
 },
 "name":"53-51",
@@ -1869,7 +1869,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":0.9,"torpedo_speed":65,"distance":4.0
+"torpedo_speed":65,"shot_speed":0.9,"max_damage":14400,"distance":4.0
 }
 },
 "name":"533 mm 53-38",
@@ -1885,7 +1885,7 @@
 {
 "torpedoes":
 {
-"max_damage":14400,"shot_speed":0.5,"torpedo_speed":55,"distance":8.0
+"torpedo_speed":55,"shot_speed":0.5,"max_damage":14400,"distance":8.0
 }
 },
 "name":"53-36 mod. 2",

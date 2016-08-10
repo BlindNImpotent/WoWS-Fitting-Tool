@@ -7,7 +7,7 @@
 },
 "data":
 {
-"ships_updated_at":1469461457,"ship_types":
+"ships_updated_at":1470058518,"ship_types":
 {
 "Destroyer":"Destroyer",
 "AirCarrier":"Aircraft Carrier",
@@ -118,6 +118,6 @@
 "japan":"Japan",
 "poland":"Poland"
 },
-"game_version":"0.5.9.0"
+"game_version":"0.5.9.1"
 }
 }
