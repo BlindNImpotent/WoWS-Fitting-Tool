@@ -4,7 +4,7 @@ function setTurretStats(id)
     {
         return;
     }
-    var API_JSON = apiArtilleryUpgradeJSON[id];
+    var API_JSON = id['json'];
     var API_module_id_str = API_JSON['module_id_str'];
     var GP_turretKey;
 
@@ -132,7 +132,7 @@ function setHullStats(id)
     {
         return;
     }
-    var API_JSON = apiHullUpgradeJSON[id];
+    var API_JSON = id['json'];
     var API_module_id_str = API_JSON['module_id_str'];
     var GP_hullKey;
     $.ajax({
@@ -307,7 +307,7 @@ function setEngineStats(id)
         return;
     }
 
-    var API_JSON = apiEngineUpgradeJSON[id];
+    var API_JSON = id['json'];
     var API_module_id_str = API_JSON['module_id_str'];
     var GP_engineKey;
     $.ajax({
@@ -338,7 +338,7 @@ function setRadarStats(id)
     {
         return;
     }
-    var API_JSON = apiRadarUpgradeJSON[id];
+    var API_JSON = id['json'];
     var API_module_id_str = API_JSON['module_id_str'];
 
     var GP_radarKey;
@@ -369,7 +369,7 @@ function setTorpedoStats(id)
         return;
     }
 
-    var API_JSON = apiTorpedoUpgradeJSON[id];
+    var API_JSON = id['json'];
     var API_module_id_str = API_JSON['module_id_str'];
     var GP_torpedoKey;
     $.ajax({
