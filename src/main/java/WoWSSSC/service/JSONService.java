@@ -45,31 +45,37 @@ public class JSONService
     private List<Upgrade> API_RadarUpgrade;
     private List<Upgrade> API_TorpedoUpgrade;
 
+    private List<String> API_ArtilleryUpgradeIndexList;
+    private List<String> API_HullUpgradeIndexList;
+    private List<String> API_EngineUpgradeIndexList;
+    private List<String> API_RadarUpgradeIndexList;
+    private List<String> API_TorpedoUpgradeIndexList;
+
 //    private List<JSONObject> API_ArtilleryUpgradeJSONList;
 //    private List<String> API_ArtilleryUpgradeNameList;
-//    private HashMap<String, JSONObject> API_ArtilleryUpgradeJSONHashMap;
+    private HashMap<String, JSONObject> API_ArtilleryUpgradeJSONHashMap;
 //
 //    private List<JSONObject> API_HullUpgradeJSONList;
 //    private List<String> API_HullUpgradeNameList;
-//    private HashMap<String, JSONObject> API_HullUpgradeJSONHashMap;
+    private HashMap<String, JSONObject> API_HullUpgradeJSONHashMap;
 //
 //    private List<JSONObject> API_EngineUpgradeJSONList;
 //    private List<String> API_EngineUpgradeNameList;
-//    private HashMap<String, JSONObject> API_EngineUpgradeJSONHashMap;
+    private HashMap<String, JSONObject> API_EngineUpgradeJSONHashMap;
 //
 //    private List<JSONObject> API_SuoUpgradeJSONList;
 //    private List<String> API_SuoUpgradeNameList;
-//    private HashMap<String, JSONObject> API_SuoUpgradeJSONHashMap;
+    private HashMap<String, JSONObject> API_SuoUpgradeJSONHashMap;
 //
 //    private List<JSONObject> API_TorpedoesUpgradeJSONList;
 //    private List<String> API_TorpedoesUpgradeNameList;
-//    private HashMap<String, JSONObject> API_TorpedoesUpgradeJSONHashMap;
+    private HashMap<String, JSONObject> API_TorpedoesUpgradeJSONHashMap;
 
-//    private JSONObject API_ArtilleryUpgradeJSON;
-//    private JSONObject API_HullUpgradeJSON;
-//    private JSONObject API_EngineUpgradeJSON;
-//    private JSONObject API_RadarUpgradeJSON;
-//    private JSONObject API_TorpedoUpgradeJSON;
+    private JSONObject API_ArtilleryUpgradeJSON;
+    private JSONObject API_HullUpgradeJSON;
+    private JSONObject API_EngineUpgradeJSON;
+    private JSONObject API_RadarUpgradeJSON;
+    private JSONObject API_TorpedoUpgradeJSON;
 
     public void setShipJSON(String name) throws IOException, ParseException
     {
@@ -92,25 +98,31 @@ public class JSONService
 
 //        API_ArtilleryUpgradeJSONList = new ArrayList<>();
 //        API_ArtilleryUpgradeNameList = new ArrayList<>();
-//        API_ArtilleryUpgradeJSONHashMap = new HashMap<>();
+        API_ArtilleryUpgradeJSONHashMap = new HashMap<>();
 //        API_HullUpgradeJSONList = new ArrayList<>();
 //        API_HullUpgradeNameList = new ArrayList<>();
-//        API_HullUpgradeJSONHashMap = new HashMap<>();
+        API_HullUpgradeJSONHashMap = new HashMap<>();
 //        API_EngineUpgradeJSONList = new ArrayList<>();
 //        API_EngineUpgradeNameList = new ArrayList<>();
-//        API_EngineUpgradeJSONHashMap = new HashMap<>();
+        API_EngineUpgradeJSONHashMap = new HashMap<>();
 //        API_SuoUpgradeJSONList = new ArrayList<>();
 //        API_SuoUpgradeNameList = new ArrayList<>();
-//        API_SuoUpgradeJSONHashMap = new HashMap<>();
+        API_SuoUpgradeJSONHashMap = new HashMap<>();
 //        API_TorpedoesUpgradeJSONList = new ArrayList<>();
 //        API_TorpedoesUpgradeNameList = new ArrayList<>();
-//        API_TorpedoesUpgradeJSONHashMap = new HashMap<>();
+        API_TorpedoesUpgradeJSONHashMap = new HashMap<>();
 
         API_ArtilleryUpgrade = new ArrayList<>();
         API_HullUpgrade = new ArrayList<>();
         API_EngineUpgrade = new ArrayList<>();
         API_RadarUpgrade = new ArrayList<>();
         API_TorpedoUpgrade = new ArrayList<>();
+
+        API_ArtilleryUpgradeIndexList = new ArrayList<>();
+        API_HullUpgradeIndexList = new ArrayList<>();
+        API_EngineUpgradeIndexList = new ArrayList<>();
+        API_RadarUpgradeIndexList = new ArrayList<>();
+        API_TorpedoUpgradeIndexList = new ArrayList<>();
         
         setShipUpgradeModulesInfo();
     }
@@ -145,54 +157,55 @@ public class JSONService
             {
 //                API_ArtilleryUpgradeJSONList.add(API_suiJSON);
 //                API_ArtilleryUpgradeNameList.add(API_suiJSONName);
-//                API_ArtilleryUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
+                API_ArtilleryUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
+                API_ArtilleryUpgradeIndexList.add(API_suiJSONIndex);
                 API_ArtilleryUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("Hull"))
             {
 //                API_HullUpgradeJSONList.add(API_suiJSON);
 //                API_HullUpgradeNameList.add(API_suiJSONName);
-//                API_HullUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
+                API_HullUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
+                API_HullUpgradeIndexList.add(API_suiJSONIndex);
                 API_HullUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("Engine"))
             {
 //                API_EngineUpgradeJSONList.add(API_suiJSON);
 //                API_EngineUpgradeNameList.add(API_suiJSONName);
-//                API_EngineUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
+                API_EngineUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
+                API_EngineUpgradeIndexList.add(API_suiJSONIndex);
                 API_EngineUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("Suo"))
             {
 //                API_SuoUpgradeJSONList.add(API_suiJSON);
 //                API_SuoUpgradeNameList.add(API_suiJSONName);
-//                API_SuoUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
+                API_SuoUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
+                API_RadarUpgradeIndexList.add(API_suiJSONIndex);
                 API_RadarUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("Torpedoes"))
             {
 //                API_TorpedoesUpgradeJSONList.add(API_suiJSON);
 //                API_TorpedoesUpgradeNameList.add(API_suiJSONName);
-//                API_TorpedoesUpgradeJSONHashMap.put(API_suiJSONName, API_suiJSON);
+                API_TorpedoesUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
+                API_TorpedoUpgradeIndexList.add(API_suiJSONIndex);
                 API_TorpedoUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSON));
             }
         }
 
         API_ArtilleryUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
-
         API_HullUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
-
         API_EngineUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
-
         API_RadarUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
-
         API_TorpedoUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
 
-//        API_ArtilleryUpgradeJSON = new JSONObject(API_ArtilleryUpgradeJSONHashMap);
-//        API_HullUpgradeJSON = new JSONObject(API_HullUpgradeJSONHashMap);
-//        API_EngineUpgradeJSON = new JSONObject(API_EngineUpgradeJSONHashMap);
-//        API_RadarUpgradeJSON = new JSONObject(API_SuoUpgradeJSONHashMap);
-//        API_TorpedoUpgradeJSON = new JSONObject(API_TorpedoesUpgradeJSONHashMap);
+        API_ArtilleryUpgradeJSON = new JSONObject(API_ArtilleryUpgradeJSONHashMap);
+        API_HullUpgradeJSON = new JSONObject(API_HullUpgradeJSONHashMap);
+        API_EngineUpgradeJSON = new JSONObject(API_EngineUpgradeJSONHashMap);
+        API_RadarUpgradeJSON = new JSONObject(API_SuoUpgradeJSONHashMap);
+        API_TorpedoUpgradeJSON = new JSONObject(API_TorpedoesUpgradeJSONHashMap);
 
 //        Collections.sort(API_ArtilleryUpgradeNameList);
 //        Collections.sort(API_HullUpgradeNameList);

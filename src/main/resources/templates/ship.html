@@ -141,7 +141,19 @@
             border-width: 1px;
             border-style: solid;
             border-radius: 5px;
-            cursor: default;
+            font-size: 12px;
+            min-width: 100px;
+            max-width: 100px;
+            min-height: 100px;
+            max-height: 100px;
+            word-wrap: normal;
+            cursor: pointer;
+        }
+
+        .button_module_selected img
+        {
+            width: 50px;
+            margin-bottom: 0px;
         }
 
         .tier { float:right }
@@ -429,7 +441,7 @@
             </header>
             <div class="modules">
                 <div id="turretList">
-                    <li th:onclick="'turret(\'' + ${turret} +'\', \''+ ${turretList} + '\');'" th:each="turret : ${turretList}" th:id="${turret.index}">
+                    <li th:onclick="'turret(\'' + ${turret.index} +'\', \''+ ${turretIndexList} + '\');'" th:each="turret : ${turretUpgradeList}" th:id="${turret}">
                         <button class="button button_module" th:id="${turret.index}">
                             <img th:src="@{/images/icon_module_maingun.png}" /><br />
                             <span th:text="${turret.name}"/>
@@ -437,7 +449,7 @@
                     </li>
                 </div>
                 <div id="hullList">
-                    <li th:onclick="'hull(\'' + ${hull} +'\', \''+ ${hullList} + '\');'" th:each="hull : ${hullList}" th:id="${hull.index}">
+                    <li th:onclick="'hull(\'' + ${hull.index} +'\', \''+ ${hullIndexList} + '\');'" th:each="hull : ${hullUpgradeList}" th:id="${hull}">
                         <button class="button button_module" th:id="${hull.index}">
                             <img th:src="@{/images/icon_module_hull.png}" /><br />
                             <span th:text="${hull.name}"/>
@@ -445,7 +457,7 @@
                     </li>
                 </div>
                 <div id="engineList">
-                    <li th:onclick="'engine(\'' + ${engine} +'\', \''+ ${engineList} + '\');'" th:each="engine : ${engineList}" th:id="${engine.index}">
+                    <li th:onclick="'engine(\'' + ${engine.index} +'\', \''+ ${engineIndexList} + '\');'" th:each="engine : ${engineUpgradeList}" th:id="${engine}">
                         <button class="button button_module" th:id="${engine.index}">
                             <img th:src="@{/images/icon_module_engine.png}" /><br />
                             <span th:text="${engine.name}"/>
@@ -453,7 +465,7 @@
                     </li>
                 </div>
                 <div id="radarList">
-                    <li th:onclick="'test(\''+ ${radarList} + '\');'" th:each="radar : ${radarList}" th:id="${radar.index}">
+                    <li th:onclick="'radar(\'' + ${radar.index} +'\', \''+ ${radarIndexList} + '\');'" th:each="radar : ${radarUpgradeList}" th:id="${radar}">
                         <button class="button button_module" th:id="${radar.index}">
                             <img th:src="@{/images/icon_module_radar.png}" /><br />
                             <span th:text="${radar.name}"/>
@@ -461,7 +473,7 @@
                     </li>
                 </div>
                 <div id="torpedoList">
-                    <li th:onclick="'torpedo(\'' + ${torpedo} +'\', \''+ ${torpedoList} + '\');'" th:each="torpedo : ${torpedoList}" th:id="${torpedo.index}">
+                    <li th:onclick="'torpedo(\'' + ${torpedo.index} +'\', \''+ ${torpedoIndexList} + '\');'" th:each="torpedo : ${torpedoUpgradeList}" th:id="${torpedo}">
                         <button class="button button_module" th:id="${torpedo.index}">
                             <img th:src="@{/images/icon_module_torpedoes.png}" /><br />
                             <span th:text="${torpedo.name}"/>
@@ -484,7 +496,7 @@
                     <div id="blank1" class="blank">
                         &emsp;
                     </div>
-                    <div th:if="${not #lists.isEmpty(turretList)}" id="mainWeaponStats" class="mainWeaponStats">
+                    <div th:if="${not #lists.isEmpty(turretIndexList)}" id="mainWeaponStats" class="mainWeaponStats">
                         <b>Main Battery</b><br />
                         Barrels<span class="barrels"/><br />
                         Range<span class="maxMainGunRange"/><br />
@@ -520,7 +532,7 @@
                     <div id="blank3" class="blank">
                         &emsp;
                     </div>
-                    <div th:if="${not #lists.isEmpty(torpedoList)}" id="torpedo" class="torpedo">
+                    <div th:if="${not #lists.isEmpty(torpedoIndexList)}" id="torpedo" class="torpedo">
                         <b>Torpedoes</b><br />
                         Tubes<span class="tubes"/><br />
                         Range<span class="maxTorpedoRange"/><br />
@@ -546,6 +558,12 @@
     var gpShipJSON = [[${gpShipJSON}]];
     var gpShipUpgradeInfo = gpShipJSON['ShipUpgradeInfo'];
     var GP_TurretJSON;
+
+    var apiArtilleryUpgradeJSON = [[${apiTurretJSON}]];
+    var apiHullUpgradeJSON = [[${apiHullJSON}]];
+    var apiEngineUpgradeJSON = [[${apiEngineJSON}]];
+    var apiRadarUpgradeJSON = [[${apiRadarJSON}]];
+    var apiTorpedoUpgradeJSON = [[${apiTorpedoJSON}]];
 
     var tier = 0;
     var maxRepairCost = 0;
@@ -601,84 +619,148 @@
 
     function load()
     {
-        if ([[${radarList}]].length > 0)
+        if ([[${radarUpgradeList}]].length > 0)
         {
-            radar([[${radarList}]][0], [[${radarList}]]);
+            radar([[${radarUpgradeList}]][0], [[${radarUpgradeList}]]);
         }
 
-        if ([[${turretList}]].length > 0)
+        if ([[${turretUpgradeList}]].length > 0)
         {
-            turret([[${turretList}]][0], [[${turretList}]]);
+            turret([[${turretUpgradeList}]][0], [[${turretUpgradeList}]]);
         }
 
-        engine([[${engineList}]][0], [[${engineList}]]);
+        engine([[${engineUpgradeList}]][0], [[${engineUpgradeList}]]);
 
-        hull([[${hullList}]][0], [[${hullList}]]);
+        hull([[${hullUpgradeList}]][0], [[${hullUpgradeList}]]);
 
-        if ([[${torpedoList}]].length > 0)
+        if ([[${torpedoUpgradeList}]].length > 0)
         {
-            torpedo([[${torpedoList}]][0], [[${torpedoList}]]);
+            torpedo([[${torpedoUpgradeList}]][0], [[${torpedoUpgradeList}]]);
         }
     }
     window.onload = load();
 
-    function test(list)
-    {
-        console.log(typeof list)
-        console.log(list[0]);
-    }
-
     function turret(id, list)
     {
-        for (var i in list)
+        if (typeof list == 'string')
         {
-            document.getElementById(list[i]['index']).className = "button button_module";
+            list = list.substring(1, list.length - 1);
+            list = list.split(', ');
+
+            for (var i in list)
+            {
+                document.getElementById(list[i]).className = "button button_module";
+            }
+            document.getElementById(id).className = "button button_module_selected";
         }
-        document.getElementById(id['index']).className = "button button_module_selected";
+        else
+        {
+            for (var i in list)
+            {
+                document.getElementById(list[i]['index']).className = "button button_module";
+            }
+            document.getElementById(id['index']).className = "button button_module_selected";
+        }      
 
         setTurretStats(id);
     }
 
     function hull(id, list)
     {
-         for (var i in list)
-         {
-             document.getElementById(list[i]['index']).className = "button button_module";
-         }
-        document.getElementById(id['index']).className = "button button_module_selected";
+        if (typeof list == 'string')
+        {
+            list = list.substring(1, list.length - 1);
+            list = list.split(', ');
+
+            for (var i in list)
+            {
+                document.getElementById(list[i]).className = "button button_module";
+            }
+            document.getElementById(id).className = "button button_module_selected";
+        }
+        else
+        {
+            for (var i in list)
+            {
+                document.getElementById(list[i]['index']).className = "button button_module";
+            }
+            document.getElementById(id['index']).className = "button button_module_selected";
+        }
 
         setHullStats(id);
     }
 
     function engine(id, list)
     {
-        for (var i in list)
-         {
-            document.getElementById(list[i]['index']).className = "button button_module";
-         }
-         document.getElementById(id['index']).className = "button button_module_selected";
+        if (typeof list == 'string')
+        {
+            list = list.substring(1, list.length - 1);
+            list = list.split(', ');
+
+            for (var i in list)
+            {
+                document.getElementById(list[i]).className = "button button_module";
+            }
+            document.getElementById(id).className = "button button_module_selected";
+        }
+        else
+        {
+            for (var i in list)
+            {
+                document.getElementById(list[i]['index']).className = "button button_module";
+            }
+            document.getElementById(id['index']).className = "button button_module_selected";
+        }
 
         setEngineStats(id);
     }
 
     function radar(id, list)
     {
-        for (var i in list)
+        if (typeof list == 'string')
         {
-            document.getElementById(list[i]['index']).className = "button button_module";
+            list = list.substring(1, list.length - 1);
+            list = list.split(', ');
+
+            for (var i in list)
+            {
+                document.getElementById(list[i]).className = "button button_module";
+            }
+            document.getElementById(id).className = "button button_module_selected";
         }
-        document.getElementById(id['index']).className = "button button_module_selected";
+        else
+        {
+            for (var i in list)
+            {
+                document.getElementById(list[i]['index']).className = "button button_module";
+            }
+            document.getElementById(id['index']).className = "button button_module_selected";
+        }
 
         setRadarStats(id);
     }
 
     function torpedo(id, list)
     {
-        for (var i in list)
+        if (typeof list == 'string')
         {
-            document.getElementById(list[i]['index']).className = "button button_module";
+            list = list.substring(1, list.length - 1);
+            list = list.split(', ');
+
+            for (var i in list)
+            {
+                document.getElementById(list[i]).className = "button button_module";
+            }
+            document.getElementById(id).className = "button button_module_selected";
         }
-        document.getElementById(id['index']).className = "button button_module_selected";
+        else
+        {
+            for (var i in list)
+            {
+                document.getElementById(list[i]['index']).className = "button button_module";
+            }
+            document.getElementById(id['index']).className = "button button_module_selected";
+        }
 
         setTorpedoStats(id);
     }
@@ -701,7 +783,7 @@
 
         if (numBarrels > 0)
         {
-            document.querySelector('.mainWeaponStats .barrels').innerHTML = numBarrels.toLocaleString() + " X " + numTurrets.toLocaleString();
+            document.querySelector('.mainWeaponStats .barrels').innerHTML = numTurrets.toLocaleString() + " X " + numBarrels.toLocaleString();
             document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = (maxMainGunRange * maxDistCoef).toLocaleString() + " m";
             document.querySelector('.mainWeaponStats .mainGunReload').innerHTML = mainGunReload.toLocaleString() + " s";
             document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = mainGunRotation.toLocaleString() + " deg/s";

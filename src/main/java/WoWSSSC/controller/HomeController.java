@@ -47,11 +47,23 @@ public class HomeController
 
         model.addAttribute("gpShipJSON", jsonService.getGpShipJSON());
 
-        model.addAttribute("turretList", jsonService.getAPI_ArtilleryUpgrade());
-        model.addAttribute("hullList", jsonService.getAPI_HullUpgrade());
-        model.addAttribute("engineList", jsonService.getAPI_EngineUpgrade());
-        model.addAttribute("radarList", jsonService.getAPI_RadarUpgrade());
-        model.addAttribute("torpedoList", jsonService.getAPI_TorpedoUpgrade());
+        model.addAttribute("turretUpgradeList", jsonService.getAPI_ArtilleryUpgrade());
+        model.addAttribute("hullUpgradeList", jsonService.getAPI_HullUpgrade());
+        model.addAttribute("engineUpgradeList", jsonService.getAPI_EngineUpgrade());
+        model.addAttribute("radarUpgradeList", jsonService.getAPI_RadarUpgrade());
+        model.addAttribute("torpedoUpgradeList", jsonService.getAPI_TorpedoUpgrade());
+
+        model.addAttribute("apiTurretJSON", jsonService.getAPI_ArtilleryUpgradeJSON());
+        model.addAttribute("apiHullJSON", jsonService.getAPI_HullUpgradeJSON());
+        model.addAttribute("apiEngineJSON", jsonService.getAPI_EngineUpgradeJSON());
+        model.addAttribute("apiRadarJSON", jsonService.getAPI_RadarUpgradeJSON());
+        model.addAttribute("apiTorpedoJSON", jsonService.getAPI_TorpedoUpgradeJSON());
+        
+        model.addAttribute("turretIndexList", jsonService.getAPI_ArtilleryUpgradeIndexList());
+        model.addAttribute("hullIndexList", jsonService.getAPI_HullUpgradeIndexList());
+        model.addAttribute("engineIndexList", jsonService.getAPI_EngineUpgradeIndexList());
+        model.addAttribute("radarIndexList", jsonService.getAPI_RadarUpgradeIndexList());
+        model.addAttribute("torpedoIndexList", jsonService.getAPI_TorpedoUpgradeIndexList());
 
 //        model.addAttribute("apiTurretJSON", jsonService.getAPI_ArtilleryUpgradeJSON());
 //        model.addAttribute("apiHullJSON", jsonService.getAPI_HullUpgradeJSON());

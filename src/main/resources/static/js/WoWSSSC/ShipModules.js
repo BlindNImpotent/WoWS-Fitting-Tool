@@ -4,7 +4,17 @@ function setTurretStats(id)
     {
         return;
     }
-    var API_JSON = id['json'];
+    var API_JSON;
+
+    if (typeof id == 'string')
+    {
+        API_JSON = apiArtilleryUpgradeJSON[id];
+    }
+    else
+    {
+        API_JSON = id['json'];
+    }
+
     var API_module_id_str = API_JSON['module_id_str'];
     var GP_turretKey;
 
@@ -132,7 +142,17 @@ function setHullStats(id)
     {
         return;
     }
-    var API_JSON = id['json'];
+    var API_JSON;
+
+    if (typeof id == 'string')
+    {
+        API_JSON = apiHullUpgradeJSON[id];
+    }
+    else
+    {
+        API_JSON = id['json'];
+    }
+
     var API_module_id_str = API_JSON['module_id_str'];
     var GP_hullKey;
     $.ajax({
@@ -306,8 +326,17 @@ function setEngineStats(id)
     {
         return;
     }
+    var API_JSON;
 
-    var API_JSON = id['json'];
+    if (typeof id == 'string')
+    {
+        API_JSON = apiEngineUpgradeJSON[id];
+    }
+    else
+    {
+        API_JSON = id['json'];
+    }
+
     var API_module_id_str = API_JSON['module_id_str'];
     var GP_engineKey;
     $.ajax({
@@ -338,7 +367,17 @@ function setRadarStats(id)
     {
         return;
     }
-    var API_JSON = id['json'];
+    var API_JSON;
+
+    if (typeof id == 'string')
+    {
+        API_JSON = apiRadarUpgradeJSON[id];
+    }
+    else
+    {
+        API_JSON = id['json'];
+    }
+
     var API_module_id_str = API_JSON['module_id_str'];
 
     var GP_radarKey;
@@ -368,8 +407,17 @@ function setTorpedoStats(id)
     {
         return;
     }
+    var API_JSON;
 
-    var API_JSON = id['json'];
+    if (typeof id == 'string')
+    {
+        API_JSON = apiTorpedoUpgradeJSON[id];
+    }
+    else
+    {
+        API_JSON = id['json'];
+    }
+
     var API_module_id_str = API_JSON['module_id_str'];
     var GP_torpedoKey;
     $.ajax({
