@@ -75,6 +75,13 @@ public class HomeController
         model.addAttribute("radarIndexList", jsonService.getAPI_RadarUpgradeIndexList());
         model.addAttribute("torpedoIndexList", jsonService.getAPI_TorpedoUpgradeIndexList());
 
+        model.addAttribute("modSlot1", jsonService.getModSlot1());
+        model.addAttribute("modSlot2", jsonService.getModSlot2());
+        model.addAttribute("modSlot3", jsonService.getModSlot3());
+        model.addAttribute("modSlot4", jsonService.getModSlot4());
+        model.addAttribute("modSlot5", jsonService.getModSlot5());
+        model.addAttribute("modSlot6", jsonService.getModSlot6());
+
         return "ship";
     }
 }

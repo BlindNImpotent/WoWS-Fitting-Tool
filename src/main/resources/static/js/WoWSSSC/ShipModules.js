@@ -1,3 +1,128 @@
+function turret(id, list)
+{
+    if (typeof list == 'string')
+    {
+        list = list.substring(1, list.length - 1);
+        list = list.split(', ');
+
+        for (var i in list)
+        {
+            document.getElementById(list[i]).className = "button_module";
+        }
+        document.getElementById(id).className = "button_module_selected";
+    }
+    else
+    {
+        for (var i in list)
+        {
+            document.getElementById(list[i]['index']).className = "button_module";
+        }
+        document.getElementById(id['index']).className = "button_module_selected";
+    }
+
+    setTurretStats(id);
+}
+
+function hull(id, list)
+{
+    if (typeof list == 'string')
+    {
+        list = list.substring(1, list.length - 1);
+        list = list.split(', ');
+
+        for (var i in list)
+        {
+            document.getElementById(list[i]).className = "button_module";
+        }
+        document.getElementById(id).className = "button_module_selected";
+    }
+    else
+    {
+        for (var i in list)
+        {
+            document.getElementById(list[i]['index']).className = "button_module";
+        }
+        document.getElementById(id['index']).className = "button_module_selected";
+    }
+
+    setHullStats(id);
+}
+
+function engine(id, list)
+{
+    if (typeof list == 'string')
+    {
+        list = list.substring(1, list.length - 1);
+        list = list.split(', ');
+
+        for (var i in list)
+        {
+            document.getElementById(list[i]).className = "button_module";
+        }
+        document.getElementById(id).className = "button_module_selected";
+    }
+    else
+    {
+        for (var i in list)
+        {
+            document.getElementById(list[i]['index']).className = "button_module";
+        }
+        document.getElementById(id['index']).className = "button_module_selected";
+    }
+
+    setEngineStats(id);
+}
+
+function radar(id, list)
+{
+    if (typeof list == 'string')
+    {
+        list = list.substring(1, list.length - 1);
+        list = list.split(', ');
+
+        for (var i in list)
+        {
+            document.getElementById(list[i]).className = "button_module";
+        }
+        document.getElementById(id).className = "button_module_selected";
+    }
+    else
+    {
+        for (var i in list)
+        {
+            document.getElementById(list[i]['index']).className = "button_module";
+        }
+        document.getElementById(id['index']).className = "button_module_selected";
+    }
+
+    setRadarStats(id);
+}
+
+function torpedo(id, list)
+{
+    if (typeof list == 'string')
+    {
+        list = list.substring(1, list.length - 1);
+        list = list.split(', ');
+
+        for (var i in list)
+        {
+            document.getElementById(list[i]).className = "button_module";
+        }
+        document.getElementById(id).className = "button_module_selected";
+    }
+    else
+    {
+        for (var i in list)
+        {
+            document.getElementById(list[i]['index']).className = "button_module";
+        }
+        document.getElementById(id['index']).className = "button_module_selected";
+    }
+
+    setTorpedoStats(id);
+}
+
 function setTurretStats(id)
 {
     if (id == null)

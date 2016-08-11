@@ -103,6 +103,12 @@ public class JSONService
     private List<String> modSlot4;
     private List<String> modSlot5;
     private List<String> modSlot6;
+    private List<String> modSlot1Images;
+    private List<String> modSlot2Images;
+    private List<String> modSlot3Images;
+    private List<String> modSlot4Images;
+    private List<String> modSlot5Images;
+    private List<String> modSlot6Images;
     private LinkedHashMap<String, JSONObject> mods1;
     private LinkedHashMap<String, JSONObject> mods2;
     private LinkedHashMap<String, JSONObject> mods3;
@@ -136,7 +142,7 @@ public class JSONService
 
     private List<JSONObject> FlagsJSONList;
 
-    @Cacheable("setShipJSON")
+//    @Cacheable("setShipJSON")
     public void setShipJSON(String name) throws IOException, ParseException
     {
         apiParser = new API_Parser();
@@ -292,6 +298,12 @@ public class JSONService
         modSlot4 = new ArrayList<>();
         modSlot5 = new ArrayList<>();
         modSlot6 = new ArrayList<>();
+        modSlot1Images = new ArrayList<>();
+        modSlot2Images = new ArrayList<>();
+        modSlot3Images = new ArrayList<>();
+        modSlot4Images = new ArrayList<>();
+        modSlot5Images = new ArrayList<>();
+        modSlot6Images = new ArrayList<>();
         mods1 = new LinkedHashMap<>();
         mods2 = new LinkedHashMap<>();
         mods3 = new LinkedHashMap<>();
@@ -304,6 +316,7 @@ public class JSONService
         modSlot4Name = new ArrayList<>();
         modSlot5Name = new ArrayList<>();
         modSlot6Name = new ArrayList<>();
+
         
         JSONArray modules = (JSONArray) apiShipJSON.get("upgrades");
         API_UpgradesIDList.addAll(modules);
@@ -314,31 +327,37 @@ public class JSONService
         {
             ModernizationSlot1 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot1");
             ModernizationSlot1_mods = (JSONArray) ModernizationSlot1.get("mods");
+            modSlot1.add("None1");
         }
 
         if (GP_UpgradesJSON.get("ModernizationSlot2") != null) {
             ModernizationSlot2 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot2");
             ModernizationSlot2_mods = (JSONArray) ModernizationSlot2.get("mods");
+            modSlot2.add("None2");
         }
 
         if (GP_UpgradesJSON.get("ModernizationSlot3") != null) {
             ModernizationSlot3 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot3");
             ModernizationSlot3_mods = (JSONArray) ModernizationSlot3.get("mods");
+            modSlot3.add("None3");
         }
 
         if (GP_UpgradesJSON.get("ModernizationSlot4") != null) {
             ModernizationSlot4 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot4");
             ModernizationSlot4_mods = (JSONArray) ModernizationSlot4.get("mods");
+            modSlot4.add("None4");
         }
 
         if (GP_UpgradesJSON.get("ModernizationSlot5") != null) {
             ModernizationSlot5 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot5");
             ModernizationSlot5_mods = (JSONArray) ModernizationSlot5.get("mods");
+            modSlot5.add("None5");
         }
 
         if (GP_UpgradesJSON.get("ModernizationSlot6") != null) {
             ModernizationSlot6 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot6");
             ModernizationSlot6_mods = (JSONArray) ModernizationSlot6.get("mods");
+            modSlot6.add("None6");
         }
 
         JSONObject ship_modifications = (JSONObject) apiParser.getAPI_InfoEncyclopediaJSON().get("ship_modifications");
@@ -347,6 +366,7 @@ public class JSONService
             for (int i = 0; i < ModernizationSlot1_mods.size(); i++) {
                 mods1.put((String) ship_modifications.get(ModernizationSlot1_mods.get(i)), gameParamsParser.getGameParamsIndexHashMap().get(ModernizationSlot1_mods.get(i)));
                 modSlot1.add((String) ModernizationSlot1_mods.get(i));
+                modSlot1Images.add(ModernizationSlot1_mods.get(i) + ".png");
             }
         }
 

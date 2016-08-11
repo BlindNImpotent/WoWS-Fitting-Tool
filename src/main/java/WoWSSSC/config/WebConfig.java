@@ -26,17 +26,17 @@ public class WebConfig extends WebMvcConfigurerAdapter
         return resolver;
     }
 
-    @Bean
-    public WebContentInterceptor webContentInterceptor() {
-        WebContentInterceptor interceptor = new WebContentInterceptor();
-        interceptor.setCacheSeconds(31556926);
-        return interceptor;
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(webContentInterceptor());
-    }
+//    @Bean
+//    public WebContentInterceptor webContentInterceptor() {
+//        WebContentInterceptor interceptor = new WebContentInterceptor();
+//        interceptor.setCacheSeconds(4096);
+//        return interceptor;
+//    }
+//
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(webContentInterceptor());
+//    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry)

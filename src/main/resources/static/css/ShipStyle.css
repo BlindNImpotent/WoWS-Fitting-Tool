@@ -1,0 +1,302 @@
+html
+{
+    height: 100%;
+    width:auto;
+}
+
+li
+{
+    list-style-type: none;
+}
+
+.ui-menu
+{
+    width: 175px;
+}
+
+#header
+{
+    text-align:center;
+}
+
+#dropDownList
+{
+    text-align:left;
+    display: inline-block;
+    vertical-align: top;
+    float: left;
+}
+
+#name
+{
+    margin-left: -175px;
+    display: inline-block;
+}
+
+#ship
+{
+    text-align: center;
+}
+
+#modules
+{
+    text-align: center;
+}
+
+#upgrades
+{
+    display: inline-block;
+    text-align: center;
+}
+
+#modules
+{
+    display: inline-block;
+    text-align: center;
+}
+
+#turretList
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+#hullList
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+#engineList
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+#radarList
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+#torpedoList
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+#modSlot1
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+#modSlot2
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+#modSlot3
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+#modSlot4
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+#modSlot5
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+#modSlot6
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+#hullStats
+{
+    display: inline-block;
+    text-align: left;
+    vertical-align: text-top;
+}
+#blank1
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: text-top;
+}
+#mainWeaponStats
+{
+    display: inline-block;
+    text-align: left;
+    vertical-align: text-top;
+}
+#blank2
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: text-top;
+}
+#AASecondaryStats
+{
+    display: inline-block;
+    text-align: left;
+    vertical-align: text-top;
+}
+#blank3
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: text-top;
+}
+#torpedo
+{
+    display: inline-block;
+    text-align: left;
+    vertical-align: text-top;
+}
+
+.button
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    cursor: default;
+}
+
+.button_module
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 10px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    word-wrap: normal;
+    cursor: pointer;
+}
+
+.button_module img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_module_selected
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 10px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    word-wrap: normal;
+    cursor: pointer;
+}
+
+.button_module_selected img
+{
+    width: 40px;
+    margin-bottom: 0px;
+}
+
+.button_upgrade
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 10px;
+    min-width: 50px;
+    max-width: 50px;
+    min-height: 50px;
+    max-height: 50px;
+    word-wrap: normal;
+    cursor: pointer;
+}
+
+.button_upgrade img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_upgrade_selected
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 10px;
+    min-width: 50px;
+    max-width: 50px;
+    min-height: 50px;
+    max-height: 50px;
+    word-wrap: normal;
+    cursor: pointer;
+}
+
+.button_upgrade_selected img
+{
+    width: 40px;
+    margin-bottom: 0px;
+}
+
+/*.tier { float:right }*/
+.maxHP { float:right }
+.speed { float:right }
+.rudderShift { float:right }
+.turningRadius { float:right }
+.sConceal { float:right }
+.aConceal { float:right }
+.burnTime { float:right }
+.floodTime { float:right }
+
+.barrels { float:right }
+.maxMainGunRange { float:right }
+.mainGunReload { float:right }
+.mainGunRotation { float:right }
+.mainGunRotationTime { float:right }
+.APShellSpeed { float:right }
+.APShellDMG { float:right }
+.HEShellSpeed { float:right }
+.HEShellDMG { float:right }
+.HEShellBurnProb { float:right }
+.mainGunDispersionRange { float:right }
+.sigmaCount { float:right }
+.stealthFireSurfaceDetection { float:right }
+
+.antiAirAuraDistanceFar { float:right }
+.AAFarDPS { float:right }
+.antiAirAuraDistanceMedium { float:right }
+.AAMediumDPS { float:right }
+.antiAirAuraDistanceNear { float:right }
+.AANearDPS { float:right }
+.secondaryMaxDist { float:right }
+
+.tubes { float:right }
+.maxTorpedoRange { float:right }
+.torpedoReload { float:right }
+.torpedoSpeed { float:right }
+.torpedoVisibilityFactor { float:right }

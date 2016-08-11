@@ -4,8 +4,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
+
     <script th:src="@{/js/jquery/jquery-1.12.4.js}"></script>
     <script th:src="@{/js/jquery/jquery-ui.js}"></script>
+    <script th:src="@{/js/accounting/accounting.js}"></script>
 
     <title>World of Warships Fitting Tool</title>
 
@@ -14,219 +17,6 @@
             $( "#shipList" ).menu();
         } );
     </script>
-    <style type="text/css">
-        html
-        {
-            height: 100%;
-            width:auto;
-        }
-
-        li
-        {
-            list-style-type: none;
-        }
-
-        .ui-menu
-        {
-            width: 175px;
-        }
-
-        #header
-        {
-            text-align:center;
-        }
-
-        #dropDownList
-        {
-            text-align:left;
-            display: inline-block;
-            vertical-align: top;
-            float: left;
-        }
-
-        #name
-        {
-            margin-left: -175px;
-            display: inline-block;
-        }
-
-        #ship
-        {
-            text-align: center;
-        }
-
-        #modules
-        {
-            display: inline-block;
-            text-align: center;
-        }
-
-        #upgrades
-        {
-            display: inline-block;
-            text-align: center;
-        }
-
-        #turretList
-        {
-            display: inline-block;
-            vertical-align: text-top;
-        }
-        #hullList
-        {
-            display: inline-block;
-            vertical-align: text-top;
-        }
-        #engineList
-        {
-            display: inline-block;
-            vertical-align: text-top;
-        }
-        #radarList
-        {
-            display: inline-block;
-            vertical-align: text-top;
-        }
-        #torpedoList
-        {
-            display: inline-block;
-            vertical-align: text-top;
-        }
-
-        #hullStats
-        {
-            display: inline-block;
-            text-align: left;
-            vertical-align: text-top;
-        }
-        #blank1
-        {
-            display: inline-block;
-            text-align: center;
-            vertical-align: text-top;
-        }
-        #mainWeaponStats
-        {
-            display: inline-block;
-            text-align: left;
-            vertical-align: text-top;
-        }
-        #blank2
-        {
-            display: inline-block;
-            text-align: center;
-            vertical-align: text-top;
-        }
-        #AASecondaryStats
-        {
-            display: inline-block;
-            text-align: left;
-            vertical-align: text-top;
-        }
-        #blank3
-        {
-            display: inline-block;
-            text-align: center;
-            vertical-align: text-top;
-        }
-        #torpedo
-        {
-            display: inline-block;
-            text-align: left;
-            vertical-align: text-top;
-        }
-
-        .button
-        {
-            background-color:#fff;
-            text-align: center;
-            border-color: rgb(0,0,0);
-            border-width: 1px;
-            border-style: solid;
-            border-radius: 5px;
-            cursor: default;
-        }
-
-        .button_module
-        {
-            font-size: 12px;
-            min-width: 100px;
-            max-width: 100px;
-            min-height: 100px;
-            max-height: 100px;
-            word-wrap: normal;
-            cursor: pointer;
-        }
-
-        .button_module img
-        {
-            width: 50px;
-            margin-bottom: 0px;
-        }
-
-        .button_module_selected
-        {
-            background-color:#fff;
-            text-align: center;
-            border-color: rgb(256,0,0);
-            border-width: 1px;
-            border-style: solid;
-            border-radius: 5px;
-            font-size: 12px;
-            min-width: 100px;
-            max-width: 100px;
-            min-height: 100px;
-            max-height: 100px;
-            word-wrap: normal;
-            cursor: pointer;
-        }
-
-        .button_module_selected img
-        {
-            width: 50px;
-            margin-bottom: 0px;
-        }
-
-        /*.tier { float:right }*/
-        .maxHP { float:right }
-        .speed { float:right }
-        .rudderShift { float:right }
-        .turningRadius { float:right }
-        .sConceal { float:right }
-        .aConceal { float:right }
-        .burnTime { float:right }
-        .floodTime { float:right }
-
-        .barrels { float:right }
-        .maxMainGunRange { float:right }
-        .mainGunReload { float:right }
-        .mainGunRotation { float:right }
-        .mainGunRotationTime { float:right }
-        .APShellSpeed { float:right }
-        .APShellDMG { float:right }
-        .HEShellSpeed { float:right }
-        .HEShellDMG { float:right }
-        .HEShellBurnProb { float:right }
-        .mainGunDispersionRange { float:right }
-        .sigmaCount { float:right }
-        .stealthFireSurfaceDetection { float:right }
-
-        .antiAirAuraDistanceFar { float:right }
-        .AAFarDPS { float:right }
-        .antiAirAuraDistanceMedium { float:right }
-        .AAMediumDPS { float:right }
-        .antiAirAuraDistanceNear { float:right }
-        .AANearDPS { float:right }
-        .secondaryMaxDist { float:right }
-
-        .tubes { float:right }
-        .maxTorpedoRange { float:right }
-        .torpedoReload { float:right }
-        .torpedoSpeed { float:right }
-        .torpedoVisibilityFactor { float:right }
-
-    </style>
-
 </head>
 <body>
 <header>
@@ -468,10 +258,9 @@
                 </ul>
             </div>
         <div id="name">
-        <h1 th:text="${name}"/>
-        <br />
-        <img th:src="${imagesMedium}" />
-    </div>
+            <h1 th:text="${name}"/>
+            <img th:src="${imagesMedium}" />
+        </div>
     </div>
 </header>
 <main>
@@ -480,7 +269,7 @@
             <div id="modules">
                 <div id="turretList">
                     <li th:onclick="'turret(\'' + ${turret.index} +'\', \''+ ${turretIndexList} + '\');'" th:each="turret : ${turretUpgradeList}" th:id="${turret}">
-                        <button class="button button_module" th:id="${turret.index}">
+                        <button class="button_module" th:id="${turret.index}">
                             <img th:src="@{/images/Upgrades/icon_module_maingun.png}" /><br />
                             <span th:text="${turret.name}"/>
                         </button>
@@ -488,7 +277,7 @@
                 </div>
                 <div id="hullList">
                     <li th:onclick="'hull(\'' + ${hull.index} +'\', \''+ ${hullIndexList} + '\');'" th:each="hull : ${hullUpgradeList}" th:id="${hull}">
-                        <button class="button button_module" th:id="${hull.index}">
+                        <button class="button_module" th:id="${hull.index}">
                             <img th:src="@{/images/Upgrades/icon_module_hull.png}" /><br />
                             <span th:text="${hull.name}"/>
                         </button>
@@ -496,7 +285,7 @@
                 </div>
                 <div id="engineList">
                     <li th:onclick="'engine(\'' + ${engine.index} +'\', \''+ ${engineIndexList} + '\');'" th:each="engine : ${engineUpgradeList}" th:id="${engine}">
-                        <button class="button button_module" th:id="${engine.index}">
+                        <button class="button_module" th:id="${engine.index}">
                             <img th:src="@{/images/Upgrades/icon_module_engine.png}" /><br />
                             <span th:text="${engine.name}"/>
                         </button>
@@ -504,7 +293,7 @@
                 </div>
                 <div id="radarList">
                     <li th:onclick="'radar(\'' + ${radar.index} +'\', \''+ ${radarIndexList} + '\');'" th:each="radar : ${radarUpgradeList}" th:id="${radar}">
-                        <button class="button button_module" th:id="${radar.index}">
+                        <button class="button_module" th:id="${radar.index}">
                             <img th:src="@{/images/Upgrades/icon_module_radar.png}" /><br />
                             <span th:text="${radar.name}"/>
                         </button>
@@ -512,7 +301,7 @@
                 </div>
                 <div id="torpedoList">
                     <li th:onclick="'torpedo(\'' + ${torpedo.index} +'\', \''+ ${torpedoIndexList} + '\');'" th:each="torpedo : ${torpedoUpgradeList}" th:id="${torpedo}">
-                        <button class="button button_module" th:id="${torpedo.index}">
+                        <button class="button_module" th:id="${torpedo.index}">
                             <img th:src="@{/images/Upgrades/icon_module_torpedoes.png}" /><br />
                             <span th:text="${torpedo.name}"/>
                         </button>
@@ -520,74 +309,115 @@
                 </div>
             </div>
             <div id="upgrades">
-
-
-
+                <div th:if="${not #lists.isEmpty(modSlot1)}" id="modSlot1" class="modSlot1">
+                    <li th:onclick="'mod(\'' + ${mod1} +'\', \''+ ${modSlot1} + '\');'" th:each="mod1 : ${modSlot1}" th:id="${mod1}">
+                        <button class="button_upgrade" th:id="${mod1}">
+                            <img th:src="@{'/images/Modules/'+ ${mod1} +'.png'}" /><br />
+                        </button>
+                    </li>
+                </div>
+                <div th:if="${not #lists.isEmpty(modSlot2)}" id="modSlot2" class="modSlot2">
+                    <li th:onclick="'mod(\'' + ${mod2} +'\', \''+ ${modSlot2} + '\');'" th:each="mod2 : ${modSlot2}" th:id="${mod2}">
+                        <button class="button_upgrade" th:id="${mod2}">
+                            <img th:src="@{'/images/Modules/'+ ${mod2} +'.png'}" /><br />
+                        </button>
+                    </li>
+                </div>
+                <div th:if="${not #lists.isEmpty(modSlot3)}" id="modSlot3" class="modSlot3">
+                    <li th:onclick="'mod(\'' + ${mod3} +'\', \''+ ${modSlot3} + '\');'" th:each="mod3 : ${modSlot3}" th:id="${mod3}">
+                        <button class="button_upgrade" th:id="${mod3}">
+                            <img th:src="@{'/images/Modules/'+ ${mod3} +'.png'}" /><br />
+                        </button>
+                    </li>
+                </div>
+                <div th:if="${not #lists.isEmpty(modSlot4)}" id="modSlot4" class="modSlot4">
+                    <li th:onclick="'mod(\'' + ${mod4} +'\', \''+ ${modSlot4} + '\');'" th:each="mod4 : ${modSlot4}" th:id="${mod4}">
+                        <button class="button_upgrade" th:id="${mod4}">
+                            <img th:src="@{'/images/Modules/'+ ${mod4} +'.png'}" /><br />
+                        </button>
+                    </li>
+                </div>
+                <div th:if="${not #lists.isEmpty(modSlot5)}" id="modSlot5" class="modSlot5">
+                    <li th:onclick="'mod(\'' + ${mod5} +'\', \''+ ${modSlot5} + '\');'" th:each="mod5 : ${modSlot5}" th:id="${mod5}">
+                        <button class="button_upgrade" th:id="${mod5}">
+                            <img th:src="@{'/images/Modules/'+ ${mod5} +'.png'}" /><br />
+                        </button>
+                    </li>
+                </div>
+                <div th:if="${not #lists.isEmpty(modSlot6)}" id="modSlot6" class="modSlot6">
+                    <li th:onclick="'mod(\'' + ${mod6} +'\', \''+ ${modSlot6} + '\');'" th:each="mod6 : ${modSlot6}" th:id="${mod6}">
+                        <button class="button_upgrade" th:id="${mod6}">
+                            <img th:src="@{'/images/Modules/'+ ${mod6} +'.png'}" /><br />
+                        </button>
+                    </li>
+                </div>
             </div>
             <div id="stats">
-                    <div id="hullStats" class="hullStats">
-                        <b>Hull</b><br />
-                        <!--Tier<span class="tier"/><br />-->
-                        Health<span class="maxHP"/><br />
-                        Speed<span class="speed"/><br />
-                        Rudder Shift<span class="rudderShift"/><br />
-                        Turn Radius<span class="turningRadius"/><br />
-                        Surface Conceal&emsp;&emsp;&emsp;<span class="sConceal"/><br />
-                        Air Conceal<span class="aConceal"/><br />
-                        Burn Time<span class="burnTime"/><br />
-                        Flood Time<span class="floodTime"/><br />
-                    </div>
-                    <div id="blank1" class="blank">
-                        &emsp;
-                    </div>
-                    <div th:if="${not #lists.isEmpty(turretIndexList)}" id="mainWeaponStats" class="mainWeaponStats">
-                        <b>Main Battery</b><br />
-                        Barrels<span class="barrels"/><br />
-                        Range<span class="maxMainGunRange"/><br />
-                        Reload<span class="mainGunReload"/><br />
-                        Rotation<span class="mainGunRotation"/><br />
-                        <span class="mainGunRotationTime"/><br />
-                        <b>Shells</b><br />
-                        AP Speed<span class="APShellSpeed"/><br />
-                        AP Damage<span class="APShellDMG"/><br />
-                        HE Speed<span class="HEShellSpeed"/><br />
-                        HE Damage<span class="HEShellDMG"/><br />
-                        Burn Probability&emsp;&emsp;&emsp;&emsp;<span class="HEShellBurnProb"/><br />
-                        Dispersion<span class="mainGunDispersionRange"/><br />
-                        Sigma<span class="sigmaCount"/><br />
-                        Stealth<span class="stealthFireSurfaceDetection"/><br />
-                    </div>
-                    <div id="blank2" class="blank">
-                        &emsp;
-                    </div>
-                    <div id="AASecondaryStats" class="AASecondaryStats">
-                        <b>Anti-Air</b><br />
-                        Far Range<span class="antiAirAuraDistanceFar"/><br />
-                        Far DPS<span class="AAFarDPS"/><br />
-                        Medium Range&emsp;&emsp;&emsp;&emsp;<span class="antiAirAuraDistanceMedium"/><br />
-                        Medium DPS<span class="AAMediumDPS"/><br />
-                        Near Range<span class="antiAirAuraDistanceNear"/><br />
-                        Near DPS<span class="AANearDPS"/><br />
-                        <br />
-                        <b>Secondary</b><br />
-                        Range<span class="secondaryMaxDist"/><br />
-                    </div>
-                    <div id="blank3" class="blank">
-                        &emsp;
-                    </div>
-                    <div th:if="${not #lists.isEmpty(torpedoIndexList)}" id="torpedo" class="torpedo">
-                        <b>Torpedoes</b><br />
-                        Tubes<span class="tubes"/><br />
-                        Range<span class="maxTorpedoRange"/><br />
-                        Reload<span class="torpedoReload"/><br />
-                        Speed<span  class="torpedoSpeed"/><br />
-                        Detection&emsp;&emsp;&emsp;&emsp;<span class="torpedoVisibilityFactor"/><br />
-                    </div>
+                <div id="hullStats" class="hullStats">
+                    <b>Hull</b><br />
+                    <!--Tier<span class="tier"/><br />-->
+                    Health<span class="maxHP"/><br />
+                    Speed<span class="speed"/><br />
+                    Rudder Shift<span class="rudderShift"/><br />
+                    Turn Radius<span class="turningRadius"/><br />
+                    Surface Conceal<span style="padding-left: 4em" class="sConceal"/><br />
+                    Air Conceal<span class="aConceal"/><br />
+                    Burn Time<span class="burnTime"/><br />
+                    Flood Time<span class="floodTime"/><br />
                 </div>
+                <div id="blank1" class="blank">
+                    <span style="padding-left: 1em"/>
+                </div>
+                <div th:if="${not #lists.isEmpty(turretIndexList)}" id="mainWeaponStats" class="mainWeaponStats">
+                    <b>Main Battery</b><br />
+                    Barrels<span class="barrels"/><br />
+                    Range<span class="maxMainGunRange"/><br />
+                    Reload<span class="mainGunReload"/><br />
+                    Rotation<span class="mainGunRotation"/><br />
+                    <span class="mainGunRotationTime"/><br />
+                    <b>Shells</b><br />
+                    AP Speed<span class="APShellSpeed"/><br />
+                    AP Damage<span class="APShellDMG"/><br />
+                    HE Speed<span class="HEShellSpeed"/><br />
+                    HE Damage<span class="HEShellDMG"/><br />
+                    Burn Probability<span style="padding-left: 4em" class="HEShellBurnProb"/><br />
+                    Dispersion<span class="mainGunDispersionRange"/><br />
+                    Sigma<span class="sigmaCount"/><br />
+                    Stealth<span class="stealthFireSurfaceDetection"/><br />
+                </div>
+                <div id="blank2" class="blank">
+                    <span style="padding-left: 1em"/>
+                </div>
+                <div id="AASecondaryStats" class="AASecondaryStats">
+                    <b>Anti-Air</b><br />
+                    Far Range<span class="antiAirAuraDistanceFar"/><br />
+                    Far DPS<span class="AAFarDPS"/><br />
+                    Medium Range<span style="padding-left: 4em" class="antiAirAuraDistanceMedium"/><br />
+                    Medium DPS<span class="AAMediumDPS"/><br />
+                    Near Range<span class="antiAirAuraDistanceNear"/><br />
+                    Near DPS<span class="AANearDPS"/><br />
+                    <br />
+                    <b>Secondary</b><br />
+                    Range<span class="secondaryMaxDist"/><br />
+                </div>
+                <div id="blank3" class="blank">
+                    <span style="padding-left: 1em" />
+                </div>
+                <div th:if="${not #lists.isEmpty(torpedoIndexList)}" id="torpedo" class="torpedo">
+                    <b>Torpedoes</b><br />
+                    Tubes<span class="tubes"/><br />
+                    Range<span class="maxTorpedoRange"/><br />
+                    Reload<span class="torpedoReload"/><br />
+                    Speed<span  class="torpedoSpeed"/><br />
+                    Detection<span style="padding-left: 4em" class="torpedoVisibilityFactor"/><br />
+                </div>
+            </div>
         </div>
     </div>
 </main>
+<script th:inline="javascript" th:src="@{/js/WoWSSSC/Variables.js}"></script>
 <script th:inline="javascript" th:src="@{/js/WoWSSSC/ShipModules.js}"></script>
+<script th:inline="javascript" th:src="@{/js/WoWSSSC/ShipUpgrades.js}"></script>
 <script th:inline="javascript">
 
     var shipName = [[${name}]];
@@ -606,58 +436,6 @@
     var apiEngineUpgradeJSON = [[${apiEngineJSON}]];
     var apiRadarUpgradeJSON = [[${apiRadarJSON}]];
     var apiTorpedoUpgradeJSON = [[${apiTorpedoJSON}]];
-
-//    var tier = 0;
-    var maxRepairCost = 0;
-    var maxHP = 0;
-    var speed = 0;
-    var speedCoef = 1;
-    var rudderShift = 0;
-    var turningRadius = 0;
-    var sConceal = 0;
-    var aConceal = 0;
-    var burnTime = 0;
-    var floodTime = 0;
-    var engineObj;
-    var horsePower;
-
-    var numTurrets = 0;
-    var numBarrels = 0;
-    var turretBarrelDiameter = 0;
-    var maxMainGunRange = 0;
-    var maxDistCoef = 1;
-    var mainGunReload = 0;
-    var mainGunRotation = 0;
-    var mainGunRotationTime = 0;
-
-    var APShellSpeed = 0;
-    var APShellDMG = 0;
-    var HEShellSpeed = 0;
-    var HEShellDMG = 0;
-    var HEShellBurnProb = 0;
-    var mainGunDispersionTangent = 0
-    var mainGunDispersionRange = 0;
-    var sigmaCount = 0;
-    var stealthFireSurfaceDetection = 0;
-    var AAFireAirDetection = 0;
-
-    var AAFarBarrelDiameter = 0;
-    var antiAirAuraDistanceFar = 0;
-    var AAFarDPS = 0;
-    var antiAirAuraDistanceMedium = 0;
-    var AAMediumDPS = 0;
-    var antiAirAuraDistanceNear = 0;
-    var AANearDPS = 0;
-    var secondaryMaxDist = 0;
-
-    var torpDiameter = 0;
-    var torpedoRotation = 0;
-    var numTubes = 0;
-    var numTorpTurrets = 0;
-    var maxTorpedoRange = 0;
-    var torpedoReload = 0;
-    var torpedoSpeed = 0;
-    var torpedoVisibilityFactor = 0;
 
     function load()
     {
@@ -679,182 +457,83 @@
         {
             torpedo([[${torpedoUpgradeList}]][0], [[${torpedoUpgradeList}]]);
         }
+        
+        if ([[${modSlot1}]].length > 0)
+        {
+            mod([[${modSlot1}]][0], [[${modSlot1}]]);
+        }
+
+        if ([[${modSlot2}]].length > 0)
+        {
+            mod([[${modSlot2}]][0], [[${modSlot2}]]);
+        }
+
+        if ([[${modSlot3}]].length > 0)
+        {
+            mod([[${modSlot3}]][0], [[${modSlot3}]]);
+        }
+
+        if ([[${modSlot4}]].length > 0)
+        {
+            mod([[${modSlot4}]][0], [[${modSlot4}]]);
+        }
+
+        if ([[${modSlot5}]].length > 0)
+        {
+            mod([[${modSlot5}]][0], [[${modSlot5}]]);
+        }
+
+        if ([[${modSlot6}]].length > 0)
+        {
+            mod([[${modSlot6}]][0], [[${modSlot6}]]);
+        }
     }
     window.onload = load();
-
-    function turret(id, list)
-    {
-        if (typeof list == 'string')
-        {
-            list = list.substring(1, list.length - 1);
-            list = list.split(', ');
-
-            for (var i in list)
-            {
-                document.getElementById(list[i]).className = "button button_module";
-            }
-            document.getElementById(id).className = "button button_module_selected";
-        }
-        else
-        {
-            for (var i in list)
-            {
-                document.getElementById(list[i]['index']).className = "button button_module";
-            }
-            document.getElementById(id['index']).className = "button button_module_selected";
-        }      
-
-        setTurretStats(id);
-    }
-
-    function hull(id, list)
-    {
-        if (typeof list == 'string')
-        {
-            list = list.substring(1, list.length - 1);
-            list = list.split(', ');
-
-            for (var i in list)
-            {
-                document.getElementById(list[i]).className = "button button_module";
-            }
-            document.getElementById(id).className = "button button_module_selected";
-        }
-        else
-        {
-            for (var i in list)
-            {
-                document.getElementById(list[i]['index']).className = "button button_module";
-            }
-            document.getElementById(id['index']).className = "button button_module_selected";
-        }
-
-        setHullStats(id);
-    }
-
-    function engine(id, list)
-    {
-        if (typeof list == 'string')
-        {
-            list = list.substring(1, list.length - 1);
-            list = list.split(', ');
-
-            for (var i in list)
-            {
-                document.getElementById(list[i]).className = "button button_module";
-            }
-            document.getElementById(id).className = "button button_module_selected";
-        }
-        else
-        {
-            for (var i in list)
-            {
-                document.getElementById(list[i]['index']).className = "button button_module";
-            }
-            document.getElementById(id['index']).className = "button button_module_selected";
-        }
-
-        setEngineStats(id);
-    }
-
-    function radar(id, list)
-    {
-        if (typeof list == 'string')
-        {
-            list = list.substring(1, list.length - 1);
-            list = list.split(', ');
-
-            for (var i in list)
-            {
-                document.getElementById(list[i]).className = "button button_module";
-            }
-            document.getElementById(id).className = "button button_module_selected";
-        }
-        else
-        {
-            for (var i in list)
-            {
-                document.getElementById(list[i]['index']).className = "button button_module";
-            }
-            document.getElementById(id['index']).className = "button button_module_selected";
-        }
-
-        setRadarStats(id);
-    }
-
-    function torpedo(id, list)
-    {
-        if (typeof list == 'string')
-        {
-            list = list.substring(1, list.length - 1);
-            list = list.split(', ');
-
-            for (var i in list)
-            {
-                document.getElementById(list[i]).className = "button button_module";
-            }
-            document.getElementById(id).className = "button button_module_selected";
-        }
-        else
-        {
-            for (var i in list)
-            {
-                document.getElementById(list[i]['index']).className = "button button_module";
-            }
-            document.getElementById(id['index']).className = "button button_module_selected";
-        }
-
-        setTorpedoStats(id);
-    }
-
-
-
-
 
     function refresh()
     {
 //        document.querySelector('.hullStats .tier').innerHTML = tier.toLocaleString();
-        document.querySelector('.hullStats .maxHP').innerHTML = maxHP.toLocaleString();
-        document.querySelector('.hullStats .speed').innerHTML = (speed * speedCoef).toLocaleString() + " kts";
-        document.querySelector('.hullStats .rudderShift').innerHTML = rudderShift.toLocaleString() + " s";
-        document.querySelector('.hullStats .turningRadius').innerHTML = turningRadius.toLocaleString() + " m";
-        document.querySelector('.hullStats .sConceal').innerHTML = sConceal.toLocaleString() + " km";
-        document.querySelector('.hullStats .aConceal').innerHTML = aConceal.toLocaleString() + " km";
-        document.querySelector('.hullStats .burnTime').innerHTML = burnTime.toLocaleString() + " s";
-        document.querySelector('.hullStats .floodTime').innerHTML = floodTime.toLocaleString() + " s";
+        document.querySelector('.hullStats .maxHP').innerHTML = accounting.formatNumber(maxHP, 0, ",", ".");
+        document.querySelector('.hullStats .speed').innerHTML = accounting.formatNumber((speed * speedCoef), 1, ",", ".") + " kts";
+        document.querySelector('.hullStats .rudderShift').innerHTML = accounting.formatNumber(rudderShift, 1, ",", ".") + " s";
+        document.querySelector('.hullStats .turningRadius').innerHTML = accounting.formatNumber(turningRadius, 0, ",", ".") + " m";
+        document.querySelector('.hullStats .sConceal').innerHTML = accounting.formatNumber(sConceal, 2, ",", ".") + " km";
+        document.querySelector('.hullStats .aConceal').innerHTML = accounting.formatNumber(aConceal, 2, ",", ".") + " km";
+        document.querySelector('.hullStats .burnTime').innerHTML = accounting.formatNumber(burnTime, 1, ",", ".") + " s";
+        document.querySelector('.hullStats .floodTime').innerHTML = accounting.formatNumber(floodTime, 1, ",", ".") + " s";
 
         if (numBarrels > 0)
         {
-            document.querySelector('.mainWeaponStats .barrels').innerHTML = numTurrets.toLocaleString() + " X " + numBarrels.toLocaleString();
-            document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = (maxMainGunRange * maxDistCoef).toLocaleString() + " m";
-            document.querySelector('.mainWeaponStats .mainGunReload').innerHTML = mainGunReload.toLocaleString() + " s";
-            document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = mainGunRotation.toLocaleString() + " deg/s";
-            document.querySelector('.mainWeaponStats .mainGunRotationTime').innerHTML = mainGunRotationTime.toLocaleString() + " s";
-            document.querySelector('.mainWeaponStats .APShellSpeed').innerHTML = APShellSpeed.toLocaleString() + " m/s";
-            document.querySelector('.mainWeaponStats .APShellDMG').innerHTML = APShellDMG.toLocaleString();
-            document.querySelector('.mainWeaponStats .HEShellSpeed').innerHTML = HEShellSpeed.toLocaleString() + " m/s";
-            document.querySelector('.mainWeaponStats .HEShellDMG').innerHTML = HEShellDMG.toLocaleString();
-            document.querySelector('.mainWeaponStats .HEShellBurnProb').innerHTML = (HEShellBurnProb * 100).toLocaleString() + " %";
-            document.querySelector('.mainWeaponStats .mainGunDispersionRange').innerHTML = (maxMainGunRange * maxDistCoef * mainGunDispersionTangent * 2).toLocaleString() + " m";
-            document.querySelector('.mainWeaponStats .sigmaCount').innerHTML = sigmaCount.toLocaleString();
-            document.querySelector('.mainWeaponStats .stealthFireSurfaceDetection').innerHTML = (sConceal + stealthFireSurfaceDetection).toLocaleString() + " km";
+            document.querySelector('.mainWeaponStats .barrels').innerHTML = numTurrets.toString() + " X " + numBarrels.toString();
+            document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = accounting.formatNumber((maxMainGunRange + maxDistCoef), 0, ",", ".") + " m";
+            document.querySelector('.mainWeaponStats .mainGunReload').innerHTML = accounting.formatNumber(mainGunReload, 1, ",", ".") + " s";
+            document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = accounting.formatNumber(mainGunRotation, 1, ",", ".") + " deg/s";
+            document.querySelector('.mainWeaponStats .mainGunRotationTime').innerHTML = accounting.formatNumber(mainGunRotationTime, 1, ",", ".") + " s";
+            document.querySelector('.mainWeaponStats .APShellSpeed').innerHTML = APShellSpeed.toString() + " m/s";
+            document.querySelector('.mainWeaponStats .APShellDMG').innerHTML = accounting.formatNumber(APShellDMG, 0, ",", ".");
+            document.querySelector('.mainWeaponStats .HEShellSpeed').innerHTML = HEShellSpeed.toString() + " m/s";
+            document.querySelector('.mainWeaponStats .HEShellDMG').innerHTML = accounting.formatNumber(HEShellDMG, 0, ",", ".");
+            document.querySelector('.mainWeaponStats .HEShellBurnProb').innerHTML = accounting.formatNumber(HEShellBurnProb * 100, 0, ",", ".") + " %";
+            document.querySelector('.mainWeaponStats .mainGunDispersionRange').innerHTML = accounting.formatNumber((maxMainGunRange * maxDistCoef * mainGunDispersionTangent * 2), 0, ",", ".") + " m";
+            document.querySelector('.mainWeaponStats .sigmaCount').innerHTML = sigmaCount.toString();
+            document.querySelector('.mainWeaponStats .stealthFireSurfaceDetection').innerHTML = accounting.formatNumber((sConceal + stealthFireSurfaceDetection), 2, ",", ".") + " km";
         }
 
         document.querySelector('.AASecondaryStats .antiAirAuraDistanceFar').innerHTML = antiAirAuraDistanceFar.toLocaleString() + " km";
-        document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = AAFarDPS.toLocaleString();
+        document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = AAFarDPS.toFixed(1).toLocaleString();
         document.querySelector('.AASecondaryStats .antiAirAuraDistanceMedium').innerHTML = antiAirAuraDistanceMedium.toLocaleString() + " km";
-        document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = AAMediumDPS.toLocaleString();
+        document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = AAMediumDPS.toFixed(1).toLocaleString();
         document.querySelector('.AASecondaryStats .antiAirAuraDistanceNear').innerHTML = antiAirAuraDistanceNear.toLocaleString() + " km";
-        document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = AANearDPS.toLocaleString();
+        document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = AANearDPS.toFixed(1).toLocaleString();
         document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = secondaryMaxDist.toLocaleString() + " m";
 
         if (numTubes > 0)
         {
-            document.querySelector('.torpedo .tubes').innerHTML = numTorpTurrets.toLocaleString() + " X " + numTubes.toLocaleString();
-            document.querySelector('.torpedo .maxTorpedoRange').innerHTML = maxTorpedoRange.toLocaleString() + " km";
-            document.querySelector('.torpedo .torpedoReload').innerHTML = torpedoReload.toLocaleString() + " s";
-            document.querySelector('.torpedo .torpedoSpeed').innerHTML = torpedoSpeed.toLocaleString() + " kts";
-            document.querySelector('.torpedo .torpedoVisibilityFactor').innerHTML = torpedoVisibilityFactor.toLocaleString() + " km";
+            document.querySelector('.torpedo .tubes').innerHTML = numTorpTurrets.toString() + " X " + numTubes.toString();
+            document.querySelector('.torpedo .maxTorpedoRange').innerHTML = accounting.formatNumber(maxTorpedoRange, 2, ",", ".") + " km";
+            document.querySelector('.torpedo .torpedoReload').innerHTML = accounting.formatNumber(torpedoReload, 1, ",", ".") + " s";
+            document.querySelector('.torpedo .torpedoSpeed').innerHTML = accounting.formatNumber(torpedoSpeed, 1, ",", ".") + " kts";
+            document.querySelector('.torpedo .torpedoVisibilityFactor').innerHTML = accounting.formatNumber(torpedoVisibilityFactor, 2, ",", ".") + " km";
         }
     }
 
