@@ -31,5 +31,5 @@ function modCalc(id, list)
 
 
 
-
+    refresh();
 }

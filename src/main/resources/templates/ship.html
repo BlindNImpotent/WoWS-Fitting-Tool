@@ -519,13 +519,13 @@
             document.querySelector('.mainWeaponStats .stealthFireSurfaceDetection').innerHTML = accounting.formatNumber((sConceal + stealthFireSurfaceDetection), 2, ",", ".") + " km";
         }
 
-        document.querySelector('.AASecondaryStats .antiAirAuraDistanceFar').innerHTML = antiAirAuraDistanceFar.toLocaleString() + " km";
-        document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = AAFarDPS.toFixed(1).toLocaleString();
-        document.querySelector('.AASecondaryStats .antiAirAuraDistanceMedium').innerHTML = antiAirAuraDistanceMedium.toLocaleString() + " km";
-        document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = AAMediumDPS.toFixed(1).toLocaleString();
-        document.querySelector('.AASecondaryStats .antiAirAuraDistanceNear').innerHTML = antiAirAuraDistanceNear.toLocaleString() + " km";
-        document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = AANearDPS.toFixed(1).toLocaleString();
-        document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = secondaryMaxDist.toLocaleString() + " m";
+        document.querySelector('.AASecondaryStats .antiAirAuraDistanceFar').innerHTML = accounting.formatNumber(antiAirAuraDistanceFar, 2, ",", ".") + " km";
+        document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = accounting.formatNumber(AAFarDPS, 1, ",", ".");
+        document.querySelector('.AASecondaryStats .antiAirAuraDistanceMedium').innerHTML = accounting.formatNumber(antiAirAuraDistanceMedium, 2, ",", ".") + " km";
+        document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = accounting.formatNumber(AAMediumDPS, 1, ",", ".");
+        document.querySelector('.AASecondaryStats .antiAirAuraDistanceNear').innerHTML = accounting.formatNumber(antiAirAuraDistanceNear, 2, ",", ".") + " km";
+        document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = accounting.formatNumber(AANearDPS, 1, ",", ".");
+        document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = accounting.formatNumber(secondaryMaxDist, 0, ",", ".") + " m";
 
         if (numTubes > 0)
         {
