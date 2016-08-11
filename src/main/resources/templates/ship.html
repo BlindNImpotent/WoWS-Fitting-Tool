@@ -495,43 +495,43 @@
 //        document.querySelector('.hullStats .tier').innerHTML = tier.toLocaleString();
         document.querySelector('.hullStats .maxHP').innerHTML = accounting.formatNumber(maxHP, 0, ",", ".");
         document.querySelector('.hullStats .speed').innerHTML = accounting.formatNumber((speed * speedCoef), 1, ",", ".") + " kts";
-        document.querySelector('.hullStats .rudderShift').innerHTML = accounting.formatNumber(rudderShift, 1, ",", ".") + " s";
+        document.querySelector('.hullStats .rudderShift').innerHTML = accounting.formatNumber(rudderShift * SGM2_SGRudderTime, 1, ",", ".") + " s";
         document.querySelector('.hullStats .turningRadius').innerHTML = accounting.formatNumber(turningRadius, 0, ",", ".") + " m";
-        document.querySelector('.hullStats .sConceal').innerHTML = accounting.formatNumber(sConceal, 2, ",", ".") + " km";
-        document.querySelector('.hullStats .aConceal').innerHTML = accounting.formatNumber(aConceal, 2, ",", ".") + " km";
-        document.querySelector('.hullStats .burnTime').innerHTML = accounting.formatNumber(burnTime, 1, ",", ".") + " s";
-        document.querySelector('.hullStats .floodTime').innerHTML = accounting.formatNumber(floodTime, 1, ",", ".") + " s";
+        document.querySelector('.hullStats .sConceal').innerHTML = accounting.formatNumber(sConceal * CSM1_visibilityDistCoeff, 2, ",", ".") + " km";
+        document.querySelector('.hullStats .aConceal').innerHTML = accounting.formatNumber(aConceal * CSM1_visibilityDistCoeff, 2, ",", ".") + " km";
+        document.querySelector('.hullStats .burnTime').innerHTML = accounting.formatNumber(burnTime * DCSM2_burnTime, 1, ",", ".") + " s";
+        document.querySelector('.hullStats .floodTime').innerHTML = accounting.formatNumber(floodTime * DCSM2_floodTime, 1, ",", ".") + " s";
 
         if (numBarrels > 0)
         {
             document.querySelector('.mainWeaponStats .barrels').innerHTML = numTurrets.toString() + " X " + numBarrels.toString();
-            document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = accounting.formatNumber((maxMainGunRange + maxDistCoef), 0, ",", ".") + " m";
-            document.querySelector('.mainWeaponStats .mainGunReload').innerHTML = accounting.formatNumber(mainGunReload, 1, ",", ".") + " s";
-            document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = accounting.formatNumber(mainGunRotation, 1, ",", ".") + " deg/s";
-            document.querySelector('.mainWeaponStats .mainGunRotationTime').innerHTML = accounting.formatNumber(mainGunRotationTime, 1, ",", ".") + " s";
+            document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = accounting.formatNumber(maxMainGunRange * maxDistCoef * APRM1_GMMaxDist * GFCSM2_GMMaxDist, 0, ",", ".") + " m";
+            document.querySelector('.mainWeaponStats .mainGunReload').innerHTML = accounting.formatNumber(mainGunReload * MBM2_GMShotDelay * MBM3_GMShotDelay, 1, ",", ".") + " s";
+            document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = accounting.formatNumber(mainGunRotation * MBM2_GMRotationSpeed * MBM3_GMRotationSpeed, 1, ",", ".") + " deg/s";
+            document.querySelector('.mainWeaponStats .mainGunRotationTime').innerHTML = accounting.formatNumber(mainGunRotationTime / MBM2_GMRotationSpeed / MBM3_GMRotationSpeed, 1, ",", ".") + " s";
             document.querySelector('.mainWeaponStats .APShellSpeed').innerHTML = APShellSpeed.toString() + " m/s";
             document.querySelector('.mainWeaponStats .APShellDMG').innerHTML = accounting.formatNumber(APShellDMG, 0, ",", ".");
             document.querySelector('.mainWeaponStats .HEShellSpeed').innerHTML = HEShellSpeed.toString() + " m/s";
             document.querySelector('.mainWeaponStats .HEShellDMG').innerHTML = accounting.formatNumber(HEShellDMG, 0, ",", ".");
             document.querySelector('.mainWeaponStats .HEShellBurnProb').innerHTML = accounting.formatNumber(HEShellBurnProb * 100, 0, ",", ".") + " %";
-            document.querySelector('.mainWeaponStats .mainGunDispersionRange').innerHTML = accounting.formatNumber((maxMainGunRange * maxDistCoef * mainGunDispersionTangent * 2), 0, ",", ".") + " m";
+            document.querySelector('.mainWeaponStats .mainGunDispersionRange').innerHTML = accounting.formatNumber(maxMainGunRange * maxDistCoef * mainGunDispersionTangent * 2 * ASM1_GMIdealRadius * APRM2_GMIdealRadius, 0, ",", ".") + " m";
             document.querySelector('.mainWeaponStats .sigmaCount').innerHTML = sigmaCount.toString();
             document.querySelector('.mainWeaponStats .stealthFireSurfaceDetection').innerHTML = accounting.formatNumber((sConceal + stealthFireSurfaceDetection), 2, ",", ".") + " km";
         }
 
-        document.querySelector('.AASecondaryStats .antiAirAuraDistanceFar').innerHTML = accounting.formatNumber(antiAirAuraDistanceFar, 2, ",", ".") + " km";
-        document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = accounting.formatNumber(AAFarDPS, 1, ",", ".");
-        document.querySelector('.AASecondaryStats .antiAirAuraDistanceMedium').innerHTML = accounting.formatNumber(antiAirAuraDistanceMedium, 2, ",", ".") + " km";
-        document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = accounting.formatNumber(AAMediumDPS, 1, ",", ".");
-        document.querySelector('.AASecondaryStats .antiAirAuraDistanceNear').innerHTML = accounting.formatNumber(antiAirAuraDistanceNear, 2, ",", ".") + " km";
-        document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = accounting.formatNumber(AANearDPS, 1, ",", ".");
-        document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = accounting.formatNumber(secondaryMaxDist, 0, ",", ".") + " m";
+        document.querySelector('.AASecondaryStats .antiAirAuraDistanceFar').innerHTML = accounting.formatNumber(antiAirAuraDistanceFar * AAGM2_AAMaxDist, 2, ",", ".") + " km";
+        document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = accounting.formatNumber(AAFarDPS * AAGM3_AAAura, 1, ",", ".");
+        document.querySelector('.AASecondaryStats .antiAirAuraDistanceMedium').innerHTML = accounting.formatNumber(antiAirAuraDistanceMedium * AAGM2_AAMaxDist, 2, ",", ".") + " km";
+        document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = accounting.formatNumber(AAMediumDPS * AAGM3_AAAura, 1, ",", ".");
+        document.querySelector('.AASecondaryStats .antiAirAuraDistanceNear').innerHTML = accounting.formatNumber(antiAirAuraDistanceNear * AAGM2_AAMaxDist, 2, ",", ".") + " km";
+        document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = accounting.formatNumber(AANearDPS * AAGM3_AAAura, 1, ",", ".");
+        document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = accounting.formatNumber(secondaryMaxDist * ASM1_GSMaxDist * APRM1_GSMaxDist * SBM2_GSMaxDist, 0, ",", ".") + " m";
 
         if (numTubes > 0)
         {
             document.querySelector('.torpedo .tubes').innerHTML = numTorpTurrets.toString() + " X " + numTubes.toString();
             document.querySelector('.torpedo .maxTorpedoRange').innerHTML = accounting.formatNumber(maxTorpedoRange, 2, ",", ".") + " km";
-            document.querySelector('.torpedo .torpedoReload').innerHTML = accounting.formatNumber(torpedoReload, 1, ",", ".") + " s";
+            document.querySelector('.torpedo .torpedoReload').innerHTML = accounting.formatNumber(torpedoReload * TTMM3_GTShotDelay, 1, ",", ".") + " s";
             document.querySelector('.torpedo .torpedoSpeed').innerHTML = accounting.formatNumber(torpedoSpeed, 1, ",", ".") + " kts";
             document.querySelector('.torpedo .torpedoVisibilityFactor').innerHTML = accounting.formatNumber(torpedoVisibilityFactor, 2, ",", ".") + " km";
         }
