@@ -62,18 +62,30 @@ public class HomeController
         model.addAttribute("engineUpgradeList", jsonService.getAPI_EngineUpgrade());
         model.addAttribute("radarUpgradeList", jsonService.getAPI_RadarUpgrade());
         model.addAttribute("torpedoUpgradeList", jsonService.getAPI_TorpedoUpgrade());
+        model.addAttribute("flightControlUpgradeList", jsonService.getAPI_FlightControlUpgrade());
+        model.addAttribute("fighterUpgradeList", jsonService.getAPI_FighterUpgrade());
+        model.addAttribute("torpedoBomberUpgradeList", jsonService.getAPI_TorpedoBomberUpgrade());
+        model.addAttribute("diveBomberUpgradeList", jsonService.getAPI_DiveBomberUpgrade());
 
         model.addAttribute("apiTurretJSON", jsonService.getAPI_ArtilleryUpgradeJSON());
         model.addAttribute("apiHullJSON", jsonService.getAPI_HullUpgradeJSON());
         model.addAttribute("apiEngineJSON", jsonService.getAPI_EngineUpgradeJSON());
         model.addAttribute("apiRadarJSON", jsonService.getAPI_RadarUpgradeJSON());
         model.addAttribute("apiTorpedoJSON", jsonService.getAPI_TorpedoUpgradeJSON());
-        
+        model.addAttribute("apiFlightControlJSON", jsonService.getAPI_FlightControlUpgradeJSON());
+        model.addAttribute("apiFighterJSON", jsonService.getAPI_FighterUpgradeJSON());
+        model.addAttribute("apiTorpedoBomberJSON", jsonService.getAPI_TorpedoBomberUpgradeJSON());
+        model.addAttribute("apiDiveBomberJSON", jsonService.getAPI_DiveBomberUpgradeJSON());
+
         model.addAttribute("turretIndexList", jsonService.getAPI_ArtilleryUpgradeIndexList());
         model.addAttribute("hullIndexList", jsonService.getAPI_HullUpgradeIndexList());
         model.addAttribute("engineIndexList", jsonService.getAPI_EngineUpgradeIndexList());
         model.addAttribute("radarIndexList", jsonService.getAPI_RadarUpgradeIndexList());
         model.addAttribute("torpedoIndexList", jsonService.getAPI_TorpedoUpgradeIndexList());
+        model.addAttribute("flightControlIndexList", jsonService.getAPI_FlightControlUpgradeIndexList());
+        model.addAttribute("fighterIndexList", jsonService.getAPI_FighterUpgradeIndexList());
+        model.addAttribute("torpedoBomberIndexList", jsonService.getAPI_TorpedoBomberUpgradeIndexList());
+        model.addAttribute("diveBomberIndexList", jsonService.getAPI_DiveBomberUpgradeIndexList());
 
         model.addAttribute("modSlot1", jsonService.getModSlot1());
         model.addAttribute("modSlot2", jsonService.getModSlot2());

@@ -114,7 +114,7 @@ function modCalc(id, list)
     else if (id == 'PCM029_FireControl_Mod_II_US')
     {
         APRM2US_GMIdealRadius = moduleData['GMIdealRadius'];
-    }    
+    }
     else if (id == 'PCM020_DamageControl_Mod_I')
     {
         DCSM1_burnProb = moduleData['burnProb'];
@@ -156,6 +156,34 @@ function modCalc(id, list)
     {
         CSM1_visibilityDistCoeff = moduleData['visibilityDistCoeff'];
     }
+    else if (id == 'PCM003_Airplanes_Mod_I')
+    {
+        AGM1_airplanesAntiAirAura = moduleData['airplanesAntiAirAura'];
+    }
+    else if (id == 'PCM009_FlightControl_Mod_I')
+    {
+        FCM1_airplanesPrepareTime = moduleData['airplanesPrepareTime'];
+    }
+    else if (id == 'PCM010_Airplanes_Mod_II')
+    {
+        AGM2_airplanesFighterVitalityTime = moduleData['airplanesFighterVitalityTime']
+    }
+    else if (id =='PCM016_FlightControl_Mod_II')
+    {
+        FCM2_airplanesSpeed = moduleData['airplanesSpeed'];
+    }
+    else if (id == 'PCM017_Airplanes_Mod_III')
+    {
+        AGM3_airplanesBomberVitalityTime = moduleData['airplanesBomberVitalityTime'];
+    }
+    else if (id == 'PCM034_Guidance_Mod_0')
+    {
+        ASM0_GMIdealRadius = moduleData['GMIdealRadius'];
+        ASM0_GMRotationSpeed = moduleData['GMRotationSpeed'];
+        ASM0_GSIdealRadius = moduleData['GSIdealRadius'];
+        ASM0_GSMaxDist = moduleData['GSMaxDist'];
+        ASM0_GTRotationSpeed = moduleData['GTRotationSpeed'];
+    }
     else if (id == 'None1' || id == 'None2' || id == 'None3' || id == 'None4' || id == 'None5' || id == 'None6')
     {
         
@@ -163,7 +191,7 @@ function modCalc(id, list)
 
     else
     {
-        alert(id);
+        console.log(moduleData);
     }
 
     refresh();
@@ -283,7 +311,34 @@ function reset(id)
     {
         CSM1_visibilityDistCoeff = 1;
     }
-    
+    else if (id == 'PCM003_Airplanes_Mod_I')
+    {
+        AGM1_airplanesAntiAirAura =1;
+    }
+    else if (id == 'PCM009_FlightControl_Mod_I')
+    {
+        FCM1_airplanesPrepareTime = 1;
+    }
+    else if (id == 'PCM010_Airplanes_Mod_II')
+    {
+        AGM2_airplanesFighterVitalityTime = 1;
+    }
+    else if (id =='PCM016_FlightControl_Mod_II')
+    {
+        FCM2_airplanesSpeed = 1;
+    }
+    else if (id == 'PCM017_Airplanes_Mod_III')
+    {
+        AGM3_airplanesBomberVitalityTime = 1;
+    }
+    else if (id == 'PCM034_Guidance_Mod_0')
+    {
+        ASM0_GMIdealRadius = 1;
+        ASM0_GMRotationSpeed = 1;
+        ASM0_GSIdealRadius = 1;
+        ASM0_GSMaxDist = 1;
+        ASM0_GTRotationSpeed = 1;
+    }
     
     
 }

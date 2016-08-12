@@ -123,6 +123,106 @@ function torpedo(id, list)
     setTorpedoStats(id);
 }
 
+function flightControl(id, list)
+{
+    if (typeof list == 'string')
+    {
+        list = list.substring(1, list.length - 1);
+        list = list.split(', ');
+
+        for (var i in list)
+        {
+            document.getElementById(list[i]).className = "button_module";
+        }
+        document.getElementById(id).className = "button_module_selected";
+    }
+    else
+    {
+        for (var i in list)
+        {
+            document.getElementById(list[i]['index']).className = "button_module";
+        }
+        document.getElementById(id['index']).className = "button_module_selected";
+    }
+
+    setFlightControlStats(id);
+}
+
+function fighter(id, list)
+{
+    if (typeof list == 'string')
+    {
+        list = list.substring(1, list.length - 1);
+        list = list.split(', ');
+
+        for (var i in list)
+        {
+            document.getElementById(list[i]).className = "button_module";
+        }
+        document.getElementById(id).className = "button_module_selected";
+    }
+    else
+    {
+        for (var i in list)
+        {
+            document.getElementById(list[i]['index']).className = "button_module";
+        }
+        document.getElementById(id['index']).className = "button_module_selected";
+    }
+
+    setFighterStats(id);
+}
+
+function torpedoBomber(id, list)
+{
+    if (typeof list == 'string')
+    {
+        list = list.substring(1, list.length - 1);
+        list = list.split(', ');
+
+        for (var i in list)
+        {
+            document.getElementById(list[i]).className = "button_module";
+        }
+        document.getElementById(id).className = "button_module_selected";
+    }
+    else
+    {
+        for (var i in list)
+        {
+            document.getElementById(list[i]['index']).className = "button_module";
+        }
+        document.getElementById(id['index']).className = "button_module_selected";
+    }
+
+    setTorpedoBomberStats(id);
+}
+
+function diveBomber(id, list)
+{
+    if (typeof list == 'string')
+    {
+        list = list.substring(1, list.length - 1);
+        list = list.split(', ');
+
+        for (var i in list)
+        {
+            document.getElementById(list[i]).className = "button_module";
+        }
+        document.getElementById(id).className = "button_module_selected";
+    }
+    else
+    {
+        for (var i in list)
+        {
+            document.getElementById(list[i]['index']).className = "button_module";
+        }
+        document.getElementById(id['index']).className = "button_module_selected";
+    }
+
+    setDiveBomberStats(id);
+}
+
 function setTurretStats(id)
 {
     if (id == null)
@@ -263,6 +363,9 @@ function setHullStats(id)
     AANearDPS = 0;
     secondaryMaxDist = 0;
 
+    planesReserveCapacity = 0;
+
+
     if (id == null)
     {
         return;
@@ -295,6 +398,15 @@ function setHullStats(id)
     var hull = components['hull'];
     var ATBAArray = components['atba'];
     var AirDefenseArray = components['airDefense'];
+    var airArmament = components['airArmament'];
+
+    var GP_AirArmamentJSON = gpShipJSON[airArmament[airArmament.length - 1]];
+
+    if (GP_AirArmamentJSON != null)
+    {
+        planesReserveCapacity = GP_AirArmamentJSON['planesReserveCapacity'];
+    }
+
 
     var GP_HullJSON = gpShipJSON[hull[hull.length - 1]];
 
@@ -330,31 +442,34 @@ function setHullStats(id)
         {
             var ATBA = gpShipJSON[ATBAArray[ATBAArray.length - 1]];
 
-            secondaryMaxDist = ATBA['maxDist'];
-        }
-
-        if (ATBA['AuraFar'] != null)
-        {
-            var AuraFar = ATBA['AuraFar'];
-            var guns = AuraFar['guns'];
-            var AAFarGunString = guns[0];
-            var AAFarGun = ATBA[AAFarGunString];
-
-            AAFarBarrelDiameter = AAFarGun['barrelDiameter'];
-            antiAirAuraDistanceFar = AAFarGun['antiAirAuraDistance'] * 0.03;
-
-            var count = 0;
-            while (count < guns.length)
+            if (ATBA != null)
             {
-                var tempStr = guns[count];
-                var tempObj = ATBA[tempStr];
-                var dps = tempObj['antiAirAuraStrength'];
+                secondaryMaxDist = ATBA['maxDist'];
 
-                AAFarDPS = AAFarDPS + dps;
+                if (ATBA['AuraFar'] != null)
+                {
+                    var AuraFar = ATBA['AuraFar'];
+                    var guns = AuraFar['guns'];
+                    var AAFarGunString = guns[0];
+                    var AAFarGun = ATBA[AAFarGunString];
 
-                count++;
+                    AAFarBarrelDiameter = AAFarGun['barrelDiameter'];
+                    antiAirAuraDistanceFar = AAFarGun['antiAirAuraDistance'] * 0.03;
+
+                    var count = 0;
+                    while (count < guns.length)
+                    {
+                        var tempStr = guns[count];
+                        var tempObj = ATBA[tempStr];
+                        var dps = tempObj['antiAirAuraStrength'];
+
+                        AAFarDPS = AAFarDPS + dps;
+
+                        count++;
+                    }
+                    AAFarDPS = AAFarDPS * 100;
+                }
             }
-            AAFarDPS = AAFarDPS * 100;
         }
     }
 
@@ -631,6 +746,156 @@ function setTorpedoStats(id)
     maxTorpedoRange = ammoObj['maxDist'] * 0.03;
     torpedoSpeed = ammoObj['speed'];
     torpedoVisibilityFactor = ammoObj['visibilityFactor'];
+
+    refresh();
+}
+
+function setFlightControlStats(id)
+{
+    torpedoBomberSquadronCount = 0;
+    diveBomberSquadronCount = 0;
+    fighterSquadronCount = 0;
+    scoutSquadronCount = 0;
+    totalSquadronCount = 0;
+    torpedoBomberSquadronSize = 0;
+    diveBomberSquadronSize = 0;
+    fighterSquadronSize = 0;
+    scoutSquadronSize = 0;
+    torpedoBomberCount = 0;
+    diveBomberCount = 0;
+    fighterCount = 0;
+    scoutCount = 0;
+    
+    if (id == null)
+    {
+        return;
+    }
+    var API_JSON;
+
+    if (typeof id == 'string')
+    {
+        API_JSON = apiFlightControlUpgradeJSON[id];
+    }
+    else
+    {
+        API_JSON = id['json'];
+    }
+
+    var API_module_id_str = API_JSON['module_id_str'];
+    var GP_flightControlKey;
+    $.ajax({
+        url: "/GameParams/index/" + API_module_id_str,
+        type: "GET",
+        async: false,
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            GP_flightControlKey = data['name'];
+        }
+    });
+
+    var module = gpShipUpgradeInfo[GP_flightControlKey];
+    var components = module['components'];
+    var flightControl = components['flightControl'];
+
+    var GP_FlightControlJSON = gpShipJSON[flightControl[flightControl.length - 1]];
+
+    var planesReserveAssignment = GP_FlightControlJSON['planesReserveAssignment'];
+    torpedoBomberSquadronCount = planesReserveAssignment['Bomber'];
+    diveBomberSquadronCount = planesReserveAssignment['Dive'];
+    fighterSquadronCount = planesReserveAssignment['Fighter'];
+    scoutSquadronCount = planesReserveAssignment['Scout'];
+    totalSquadronCount = torpedoBomberSquadronCount + diveBomberSquadronCount + fighterSquadronCount + scoutSquadronCount;
+
+    var squadrons =  GP_FlightControlJSON['squadrons'];
+
+    for (var i in squadrons)
+    {
+        if (squadrons[i][0] == 'Bomber')
+        {
+            torpedoBomberSquadronSize = squadrons[i][1];
+        }
+        else if (squadrons[i][0] == 'Dive')
+        {
+            diveBomberSquadronSize = squadrons[i][1];
+        }
+        else if (squadrons[i][0] == 'Fighter')
+        {
+            fighterSquadronSize = squadrons[i][1];
+        }
+        else if (squadrons[i][0] == 'Scout')
+        {
+            scoutSquadronSize = squadrons[i][1];
+        }
+    }
+    
+    torpedoBomberCount = planesReserveCapacity / totalSquadronCount * torpedoBomberSquadronCount;
+    diveBomberCount = planesReserveCapacity / totalSquadronCount * diveBomberSquadronCount;
+    fighterCount = planesReserveCapacity / totalSquadronCount * fighterSquadronCount;
+    scoutCount = planesReserveCapacity / totalSquadronCount * scoutSquadronCount;
+
+    refresh();
+}
+
+function setFighterStats(id)
+{
+    if (id == null)
+    {
+        return;
+    }
+    var API_JSON;
+
+    if (typeof id == 'string')
+    {
+        API_JSON = apiFighterUpgradeJSON[id];
+    }
+    else
+    {
+        API_JSON = id['json'];
+    }
+
+    var API_module_id_str = API_JSON['module_id_str'];
+    var GP_fighterKey;
+    $.ajax({
+        url: "/GameParams/index/" + API_module_id_str,
+        type: "GET",
+        async: false,
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            GP_fighterKey = data['name'];
+        }
+    });
+
+    var module = gpShipUpgradeInfo[GP_fighterKey];
+    var components = module['components'];
+    var fighter = components['fighter'];
+
+    var planeType = gpShipJSON[fighter[fighter.length - 1]]['planeType'];
+    var GP_FighterJSON;
+
+    $.ajax({
+        url: "/GameParams/name/" + planeType,
+        type: "GET",
+        async: false,
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            GP_FighterJSON = data;
+        }
+    });
+
+
+    refresh();
+}
+
+function setTorpedoBomberStats(id)
+{
+
+
+    refresh();
+}
+
+function setDiveBomberStats(id)
+{
+
 
     refresh();
 }

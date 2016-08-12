@@ -11,12 +11,16 @@ public class Upgrade
 {
     private String name;
     private String index;
+    private long moduleId;
+    private boolean isDefault;
     private JSONObject json;
 
-    public Upgrade(String name, String index, JSONObject json)
+    public Upgrade(String name, String index, long moduleId, boolean isDefault, JSONObject json)
     {
         this.name = name;
         this.index = index;
+        this.moduleId = moduleId;
+        this.isDefault = isDefault;
         this.json = json;
     }
 }

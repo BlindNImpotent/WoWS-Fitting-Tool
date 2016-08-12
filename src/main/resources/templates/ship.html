@@ -267,7 +267,15 @@
     <div class="container">
         <div id="ship">
             <div id="modules">
-                <div id="turretList">
+                <div th:if="${not #lists.isEmpty(flightControlIndexList)}" id="flightControlList">
+                    <li th:onclick="'flightControl(\'' + ${flightControl.index} +'\', \''+ ${flightControlIndexList} + '\');'" th:each="flightControl : ${flightControlUpgradeList}" th:id="${flightControl}">
+                        <button class="button_module" th:id="${flightControl.index}">
+                            <img th:src="@{/images/Upgrades/icon_module_flightcontrol.png}" /><br />
+                            <span th:text="${flightControl.name}"/>
+                        </button>
+                    </li>
+                </div>
+                <div th:if="${not #lists.isEmpty(turretIndexList)}" id="turretList">
                     <li th:onclick="'turret(\'' + ${turret.index} +'\', \''+ ${turretIndexList} + '\');'" th:each="turret : ${turretUpgradeList}" th:id="${turret}">
                         <button class="button_module" th:id="${turret.index}">
                             <img th:src="@{/images/Upgrades/icon_module_maingun.png}" /><br />
@@ -283,6 +291,30 @@
                         </button>
                     </li>
                 </div>
+                <div th:if="${not #lists.isEmpty(fighterIndexList)}" id="fighterList">
+                    <li th:onclick="'fighter(\'' + ${fighter.index} +'\', \''+ ${fighterIndexList} + '\');'" th:each="fighter : ${fighterUpgradeList}" th:id="${fighter}">
+                        <button class="button_module" th:id="${fighter.index}">
+                            <img th:src="@{/images/Upgrades/icon_module_fighter.png}" /><br />
+                            <span th:text="${fighter.name}"/>
+                        </button>
+                    </li>
+                </div>
+                <div th:if="${not #lists.isEmpty(torpedoBomberIndexList)}" id="torpedoBomberList">
+                    <li th:onclick="'torpedoBomber(\'' + ${torpedoBomber.index} +'\', \''+ ${torpedoBomberIndexList} + '\');'" th:each="torpedoBomber : ${torpedoBomberUpgradeList}" th:id="${torpedoBomber}">
+                        <button class="button_module" th:id="${torpedoBomber.index}">
+                            <img th:src="@{/images/Upgrades/icon_module_torpedoBomber.png}" /><br />
+                            <span th:text="${torpedoBomber.name}"/>
+                        </button>
+                    </li>
+                </div>
+                <div th:if="${not #lists.isEmpty(diveBomberIndexList)}" id="diveBomberList">
+                    <li th:onclick="'diveBomber(\'' + ${diveBomber.index} +'\', \''+ ${diveBomberIndexList} + '\');'" th:each="diveBomber : ${diveBomberUpgradeList}" th:id="${diveBomber}">
+                        <button class="button_module" th:id="${diveBomber.index}">
+                            <img th:src="@{/images/Upgrades/icon_module_diveBomber.png}" /><br />
+                            <span th:text="${diveBomber.name}"/>
+                        </button>
+                    </li>
+                </div>
                 <div id="engineList">
                     <li th:onclick="'engine(\'' + ${engine.index} +'\', \''+ ${engineIndexList} + '\');'" th:each="engine : ${engineUpgradeList}" th:id="${engine}">
                         <button class="button_module" th:id="${engine.index}">
@@ -291,7 +323,7 @@
                         </button>
                     </li>
                 </div>
-                <div id="radarList">
+                <div th:if="${not #lists.isEmpty(radarIndexList)}" id="radarList">
                     <li th:onclick="'radar(\'' + ${radar.index} +'\', \''+ ${radarIndexList} + '\');'" th:each="radar : ${radarUpgradeList}" th:id="${radar}">
                         <button class="button_module" th:id="${radar.index}">
                             <img th:src="@{/images/Upgrades/icon_module_radar.png}" /><br />
@@ -299,7 +331,7 @@
                         </button>
                     </li>
                 </div>
-                <div id="torpedoList">
+                <div th:if="${not #lists.isEmpty(torpedoIndexList)}" id="torpedoList">
                     <li th:onclick="'torpedo(\'' + ${torpedo.index} +'\', \''+ ${torpedoIndexList} + '\');'" th:each="torpedo : ${torpedoUpgradeList}" th:id="${torpedo}">
                         <button class="button_module" th:id="${torpedo.index}">
                             <img th:src="@{/images/Upgrades/icon_module_torpedoes.png}" /><br />
@@ -368,22 +400,51 @@
                 <div id="blank1" class="blank">
                     <span style="padding-left: 1em"/>
                 </div>
-                <div th:if="${not #lists.isEmpty(turretIndexList)}" id="mainWeaponStats" class="mainWeaponStats">
-                    <b>Main Battery</b><br />
-                    Barrels<span class="barrels"/><br />
-                    Range<span class="maxMainGunRange"/><br />
-                    Reload<span class="mainGunReload"/><br />
-                    Rotation<span class="mainGunRotation"/><br />
-                    <span class="mainGunRotationTime"/><br />
-                    <b>Shells</b><br />
-                    AP Speed<span class="APShellSpeed"/><br />
-                    AP Damage<span class="APShellDMG"/><br />
-                    HE Speed<span class="HEShellSpeed"/><br />
-                    HE Damage<span class="HEShellDMG"/><br />
-                    Burn Probability<span style="padding-left: 4em" class="HEShellBurnProb"/><br />
-                    Dispersion<span class="mainGunDispersionRange"/><br />
-                    Sigma<span class="sigmaCount"/><br />
-                    Stealth<span class="stealthFireSurfaceDetection"/><br />
+                <div id="mainWeaponStats" class="mainWeaponStats">
+                    <div th:if="${not #lists.isEmpty(turretIndexList)}" id="mainGun" class="mainGun">
+                        <b>Main Battery</b><br />
+                        Barrels<span class="barrels"/><br />
+                        Range<span class="maxMainGunRange"/><br />
+                        Reload<span class="mainGunReload"/><br />
+                        Rotation<span class="mainGunRotation"/><br />
+                        <span class="mainGunRotationTime"/><br />
+                        <b>Shells</b><br />
+                        AP Speed<span class="APShellSpeed"/><br />
+                        AP Damage<span class="APShellDMG"/><br />
+                        HE Speed<span class="HEShellSpeed"/><br />
+                        HE Damage<span class="HEShellDMG"/><br />
+                        Burn Probability<span style="padding-left: 4em" class="HEShellBurnProb"/><br />
+                        Dispersion<span class="mainGunDispersionRange"/><br />
+                        Sigma<span class="sigmaCount"/><br />
+                        Stealth<span class="stealthFireSurfaceDetection"/><br />
+                        <br />
+                    </div>
+                    <div th:if="${not #lists.isEmpty(torpedoIndexList)}" id="torpedo" class="torpedo">
+                        <b>Torpedoes</b><br />
+                        Tubes<span class="tubes"/><br />
+                        Range<span class="maxTorpedoRange"/><br />
+                        Reload<span class="torpedoReload"/><br />
+                        Speed<span  class="torpedoSpeed"/><br />
+                        Detection<span style="padding-left: 6em" class="torpedoVisibilityFactor"/><br />
+                        <br />
+                    </div>
+                    <div th:if="${not #lists.isEmpty(flightControlIndexList)}" id="aircraft" class="aircraft">
+                        <b>Fighter</b><br />
+                        Squadrons<span style="padding-left: 6em" class="fighterSquadrons"/><br />
+                        Size<span class="fighterSquadronSize"/><br />
+                        Reserves<span class="fighterReserves"/><br />
+                        <br />
+                        <b>Torpedo Bomber</b><br />
+                        Squadrons<span class="torpedoBomberSquadrons"/><br />
+                        Size<span class="torpedoBomberSquadronSize"/><br />
+                        Reserves<span class="torpedoBomberReserves"/><br />
+                        <br />
+                        <b>Dive Bombers</b><br />
+                        Squadrons<span class="diveBomberSquadrons"/><br />
+                        Size<span class="diveBomberSquadronSize"/><br />
+                        Reserves<span class="diveBomberReserves"/><br />
+                        <br />
+                    </div>
                 </div>
                 <div id="blank2" class="blank">
                     <span style="padding-left: 1em"/>
@@ -399,17 +460,6 @@
                     <br />
                     <b>Secondary</b><br />
                     Range<span class="secondaryMaxDist"/><br />
-                </div>
-                <div id="blank3" class="blank">
-                    <span style="padding-left: 1em" />
-                </div>
-                <div th:if="${not #lists.isEmpty(torpedoIndexList)}" id="torpedo" class="torpedo">
-                    <b>Torpedoes</b><br />
-                    Tubes<span class="tubes"/><br />
-                    Range<span class="maxTorpedoRange"/><br />
-                    Reload<span class="torpedoReload"/><br />
-                    Speed<span  class="torpedoSpeed"/><br />
-                    Detection<span style="padding-left: 4em" class="torpedoVisibilityFactor"/><br />
                 </div>
             </div>
         </div>
@@ -436,6 +486,11 @@
     var apiEngineUpgradeJSON = [[${apiEngineJSON}]];
     var apiRadarUpgradeJSON = [[${apiRadarJSON}]];
     var apiTorpedoUpgradeJSON = [[${apiTorpedoJSON}]];
+    var apiFlightControlUpgradeJSON = [[${apiFlightControlJSON}]];
+    var apiFighterUpgradeJSON = [[${apiFighterJSON}]];
+    var apiTorpedoBomberUpgradeJSON = [[${apiTorpedoBomberJSON}]];
+    var apiDiveBomberUpgradeJSON = [[${apiDiveBomberJSON}]];
+
 
     function load()
     {
@@ -456,6 +511,26 @@
         if ([[${torpedoUpgradeList}]].length > 0)
         {
             torpedo([[${torpedoUpgradeList}]][0], [[${torpedoUpgradeList}]]);
+        }
+
+        if ([[${flightControlUpgradeList}]].length > 0)
+        {
+            flightControl([[${flightControlUpgradeList}]][0], [[${flightControlUpgradeList}]]);
+        }
+
+        if ([[${fighterUpgradeList}]].length > 0)
+        {
+            fighter([[${fighterUpgradeList}]][0], [[${fighterUpgradeList}]]);
+        }
+
+        if ([[${torpedoBomberUpgradeList}]].length > 0)
+        {
+            torpedoBomber([[${torpedoBomberUpgradeList}]][0], [[${torpedoBomberUpgradeList}]]);
+        }
+
+        if ([[${diveBomberUpgradeList}]].length > 0)
+        {
+            diveBomber([[${diveBomberUpgradeList}]][0], [[${diveBomberUpgradeList}]]);
         }
         
         if ([[${modSlot1}]].length > 0)
@@ -507,14 +582,14 @@
             document.querySelector('.mainWeaponStats .barrels').innerHTML = numTurrets.toString() + " X " + numBarrels.toString();
             document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = accounting.formatNumber(maxMainGunRange * maxDistCoef * APRM1US_GMMaxDist * GFCSM2_GMMaxDist, 0, ",", ".") + " m";
             document.querySelector('.mainWeaponStats .mainGunReload').innerHTML = accounting.formatNumber(mainGunReload * MBM2_GMShotDelay * MBM3_GMShotDelay, 1, ",", ".") + " s";
-            document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = accounting.formatNumber(mainGunRotation * MBM2_GMRotationSpeed * MBM3_GMRotationSpeed, 1, ",", ".") + " deg/s";
-            document.querySelector('.mainWeaponStats .mainGunRotationTime').innerHTML = accounting.formatNumber(mainGunRotationTime / MBM2_GMRotationSpeed / MBM3_GMRotationSpeed, 1, ",", ".") + " s";
+            document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = accounting.formatNumber(mainGunRotation * ASM0_GMRotationSpeed * MBM2_GMRotationSpeed * MBM3_GMRotationSpeed, 1, ",", ".") + " deg/s";
+            document.querySelector('.mainWeaponStats .mainGunRotationTime').innerHTML = accounting.formatNumber(mainGunRotationTime / ASM0_GMRotationSpeed / MBM2_GMRotationSpeed / MBM3_GMRotationSpeed, 1, ",", ".") + " s";
             document.querySelector('.mainWeaponStats .APShellSpeed').innerHTML = APShellSpeed.toString() + " m/s";
             document.querySelector('.mainWeaponStats .APShellDMG').innerHTML = accounting.formatNumber(APShellDMG, 0, ",", ".");
             document.querySelector('.mainWeaponStats .HEShellSpeed').innerHTML = HEShellSpeed.toString() + " m/s";
             document.querySelector('.mainWeaponStats .HEShellDMG').innerHTML = accounting.formatNumber(HEShellDMG, 0, ",", ".");
             document.querySelector('.mainWeaponStats .HEShellBurnProb').innerHTML = accounting.formatNumber(HEShellBurnProb * 100, 0, ",", ".") + " %";
-            document.querySelector('.mainWeaponStats .mainGunDispersionRange').innerHTML = accounting.formatNumber(maxMainGunRange * maxDistCoef * mainGunDispersionTangent * 2 * ASM1_GMIdealRadius * APRM2US_GMIdealRadius, 0, ",", ".") + " m";
+            document.querySelector('.mainWeaponStats .mainGunDispersionRange').innerHTML = accounting.formatNumber(maxMainGunRange * maxDistCoef * mainGunDispersionTangent * 2 * ASM0_GMIdealRadius * ASM1_GMIdealRadius * APRM2US_GMIdealRadius, 0, ",", ".") + " m";
             document.querySelector('.mainWeaponStats .sigmaCount').innerHTML = sigmaCount.toString();
             document.querySelector('.mainWeaponStats .stealthFireSurfaceDetection').innerHTML = accounting.formatNumber((sConceal + stealthFireSurfaceDetection), 2, ",", ".") + " km";
         }
@@ -525,7 +600,7 @@
         document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = accounting.formatNumber(AAMediumDPS * AAGM3_AAAura, 1, ",", ".");
         document.querySelector('.AASecondaryStats .antiAirAuraDistanceNear').innerHTML = accounting.formatNumber(antiAirAuraDistanceNear * AAGM2_AAMaxDist, 2, ",", ".") + " km";
         document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = accounting.formatNumber(AANearDPS * AAGM3_AAAura, 1, ",", ".");
-        document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = accounting.formatNumber(secondaryMaxDist * ASM1_GSMaxDist * APRM1US_GSMaxDist * SBM2_GSMaxDist, 0, ",", ".") + " m";
+        document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = accounting.formatNumber(secondaryMaxDist * ASM0_GSMaxDist * ASM1_GSMaxDist * APRM1US_GSMaxDist * SBM2_GSMaxDist, 0, ",", ".") + " m";
 
         if (numTubes > 0)
         {
@@ -535,6 +610,21 @@
             document.querySelector('.torpedo .torpedoSpeed').innerHTML = accounting.formatNumber(torpedoSpeed, 1, ",", ".") + " kts";
             document.querySelector('.torpedo .torpedoVisibilityFactor').innerHTML = accounting.formatNumber(torpedoVisibilityFactor, 2, ",", ".") + " km";
         }
+
+        if (totalSquadronCount > 0)
+        {
+            document.querySelector('.aircraft .fighterSquadrons').innerHTML = accounting.formatNumber(fighterSquadronCount, 0, ",", ".");
+            document.querySelector('.aircraft .fighterSquadronSize').innerHTML = accounting.formatNumber(fighterSquadronSize, 0, ",", ".");
+            document.querySelector('.aircraft .fighterReserves').innerHTML = accounting.formatNumber(fighterCount, 0, ",", ".");
+            document.querySelector('.aircraft .torpedoBomberSquadrons').innerHTML = accounting.formatNumber(torpedoBomberSquadronCount, 0, ",", ".");
+            document.querySelector('.aircraft .torpedoBomberSquadronSize').innerHTML = accounting.formatNumber(torpedoBomberSquadronSize, 0, ",", ".");
+            document.querySelector('.aircraft .torpedoBomberReserves').innerHTML = accounting.formatNumber(torpedoBomberCount, 0, ",", ".");
+            document.querySelector('.aircraft .diveBomberSquadrons').innerHTML = accounting.formatNumber(diveBomberSquadronCount, 0, ",", ".");
+            document.querySelector('.aircraft .diveBomberSquadronSize').innerHTML = accounting.formatNumber(diveBomberSquadronSize, 0, ",", ".");
+            document.querySelector('.aircraft .diveBomberReserves').innerHTML = accounting.formatNumber(diveBomberCount, 0, ",", ".");
+        }
+
+
     }
 
 

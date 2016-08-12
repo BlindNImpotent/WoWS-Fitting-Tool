@@ -141,6 +141,27 @@ public class JSONService
     private HashMap<String, JSONObject> permaflageHashMap;
 
     private List<JSONObject> FlagsJSONList;
+    
+    private HashMap<String, JSONObject> API_FlightControlUpgradeJSONHashMap; 
+    private List<String> API_FlightControlUpgradeIndexList;
+    private List<Upgrade> API_FlightControlUpgrade;
+    private JSONObject API_FlightControlUpgradeJSON;
+
+    private HashMap<String, JSONObject> API_FighterUpgradeJSONHashMap;
+    private List<String> API_FighterUpgradeIndexList;
+    private List<Upgrade> API_FighterUpgrade;
+    private JSONObject API_FighterUpgradeJSON;
+
+    private HashMap<String, JSONObject> API_TorpedoBomberUpgradeJSONHashMap;
+    private List<String> API_TorpedoBomberUpgradeIndexList;
+    private List<Upgrade> API_TorpedoBomberUpgrade;
+    private JSONObject API_TorpedoBomberUpgradeJSON;
+
+    private HashMap<String, JSONObject> API_DiveBomberUpgradeJSONHashMap;
+    private List<String> API_DiveBomberUpgradeIndexList;
+    private List<Upgrade> API_DiveBomberUpgrade;
+    private JSONObject API_DiveBomberUpgradeJSON;
+    
 
     @Cacheable("setShipJSON")
     public void setShipJSON(String name) throws IOException, ParseException
@@ -211,6 +232,22 @@ public class JSONService
         API_EngineUpgradeIndexList = new ArrayList<>();
         API_RadarUpgradeIndexList = new ArrayList<>();
         API_TorpedoUpgradeIndexList = new ArrayList<>();
+
+        API_FlightControlUpgradeJSONHashMap = new HashMap<>();
+        API_FlightControlUpgradeIndexList = new ArrayList<>();
+        API_FlightControlUpgrade = new ArrayList<>();
+
+        API_FighterUpgradeJSONHashMap = new HashMap<>();
+        API_FighterUpgradeIndexList = new ArrayList<>();
+        API_FighterUpgrade = new ArrayList<>();
+
+        API_TorpedoBomberUpgradeJSONHashMap = new HashMap<>();
+        API_TorpedoBomberUpgradeIndexList = new ArrayList<>();
+        API_TorpedoBomberUpgrade = new ArrayList<>();
+
+        API_DiveBomberUpgradeJSONHashMap = new HashMap<>();
+        API_DiveBomberUpgradeIndexList = new ArrayList<>();
+        API_DiveBomberUpgrade = new ArrayList<>();
         
         modules_treeJSON = (JSONObject) apiShipJSON.get("modules_tree");
 
@@ -225,6 +262,8 @@ public class JSONService
 
             String API_suiJSONName = (String) API_suiJSON.get("name");
             String API_suiJSONIndex = (String) API_suiJSON.get("module_id_str");
+            long API_suiJSONId = (long) API_suiJSON.get("module_id");
+            boolean API_suiJSONIsDefault = (boolean) API_suiJSON.get("is_default");
 
             if (API_suiJSON.get("type").equals("Artillery"))
             {
@@ -232,7 +271,7 @@ public class JSONService
 //                API_ArtilleryUpgradeNameList.add(API_suiJSONName);
                 API_ArtilleryUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
                 API_ArtilleryUpgradeIndexList.add(API_suiJSONIndex);
-                API_ArtilleryUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSON));
+                API_ArtilleryUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("Hull"))
             {
@@ -240,7 +279,7 @@ public class JSONService
 //                API_HullUpgradeNameList.add(API_suiJSONName);
                 API_HullUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
                 API_HullUpgradeIndexList.add(API_suiJSONIndex);
-                API_HullUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSON));
+                API_HullUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("Engine"))
             {
@@ -248,7 +287,7 @@ public class JSONService
 //                API_EngineUpgradeNameList.add(API_suiJSONName);
                 API_EngineUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
                 API_EngineUpgradeIndexList.add(API_suiJSONIndex);
-                API_EngineUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSON));
+                API_EngineUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("Suo"))
             {
@@ -256,7 +295,7 @@ public class JSONService
 //                API_SuoUpgradeNameList.add(API_suiJSONName);
                 API_SuoUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
                 API_RadarUpgradeIndexList.add(API_suiJSONIndex);
-                API_RadarUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSON));
+                API_RadarUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("Torpedoes"))
             {
@@ -264,8 +303,33 @@ public class JSONService
 //                API_TorpedoesUpgradeNameList.add(API_suiJSONName);
                 API_TorpedoesUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
                 API_TorpedoUpgradeIndexList.add(API_suiJSONIndex);
-                API_TorpedoUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSON));
+                API_TorpedoUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
             }
+            else if (API_suiJSON.get("type").equals("FlightControl"))
+            {
+                API_FlightControlUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
+                API_FlightControlUpgradeIndexList.add(API_suiJSONIndex);
+                API_FlightControlUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
+            }
+            else if (API_suiJSON.get("type").equals("Fighter"))
+            {
+                API_FighterUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
+                API_FighterUpgradeIndexList.add(API_suiJSONIndex);
+                API_FighterUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
+            }
+            else if (API_suiJSON.get("type").equals("TorpedoBomber"))
+            {
+                API_TorpedoBomberUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
+                API_TorpedoBomberUpgradeIndexList.add(API_suiJSONIndex);
+                API_TorpedoBomberUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
+            }
+            else if (API_suiJSON.get("type").equals("DiveBomber"))
+            {
+                API_DiveBomberUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
+                API_DiveBomberUpgradeIndexList.add(API_suiJSONIndex);
+                API_DiveBomberUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
+            }
+
         }
 
         API_ArtilleryUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
@@ -273,13 +337,43 @@ public class JSONService
         API_EngineUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
         API_RadarUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
         API_TorpedoUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
+        API_FlightControlUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
+        API_FighterUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
+        API_TorpedoBomberUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
+        API_DiveBomberUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
 
+        API_ArtilleryUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_HullUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_EngineUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_RadarUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_TorpedoUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_FlightControlUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_FighterUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_TorpedoBomberUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_DiveBomberUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        
+//        API_ArtilleryUpgrade.sort((o1, o2) -> ((int) o1.getModuleId()) - (int) (o2.getModuleId()));
+//        API_HullUpgrade.sort((o1, o2) -> ((int) o1.getModuleId()) - ((int) o2.getModuleId()));
+//        API_EngineUpgrade.sort((o1, o2) -> ((int) o1.getModuleId()) - ((int) o2.getModuleId()));
+//        API_RadarUpgrade.sort((o1, o2) -> ((int) o1.getModuleId()) - ((int) o2.getModuleId()));
+//        API_TorpedoUpgrade.sort((o1, o2) -> ((int) o1.getModuleId()) - ((int) o2.getModuleId()));
+//        API_FlightControlUpgrade.sort((o1, o2) -> ((int) o1.getModuleId()) - ((int) o2.getModuleId()));
+//        API_FighterUpgrade.sort((o1, o2) -> ((int) o1.getModuleId()) - ((int) o2.getModuleId()));
+//        API_TorpedoBomberUpgrade.sort((o1, o2) -> ((int) o1.getModuleId()) - ((int) o2.getModuleId()));
+//        API_DiveBomberUpgrade.sort((o1, o2) -> ((int) o1.getModuleId()) - ((int) o2.getModuleId()));
+        
+        
         API_ArtilleryUpgradeJSON = new JSONObject(API_ArtilleryUpgradeJSONHashMap);
         API_HullUpgradeJSON = new JSONObject(API_HullUpgradeJSONHashMap);
         API_EngineUpgradeJSON = new JSONObject(API_EngineUpgradeJSONHashMap);
         API_RadarUpgradeJSON = new JSONObject(API_SuoUpgradeJSONHashMap);
         API_TorpedoUpgradeJSON = new JSONObject(API_TorpedoesUpgradeJSONHashMap);
-
+        API_FlightControlUpgradeJSON = new JSONObject(API_FlightControlUpgradeJSONHashMap);
+        API_FighterUpgradeJSON = new JSONObject(API_FighterUpgradeJSONHashMap);
+        API_TorpedoBomberUpgradeJSON = new JSONObject(API_TorpedoBomberUpgradeJSONHashMap);
+        API_DiveBomberUpgradeJSON = new JSONObject(API_DiveBomberUpgradeJSONHashMap);
+        
+        
 //        Collections.sort(API_ArtilleryUpgradeNameList);
 //        Collections.sort(API_HullUpgradeNameList);
 //        Collections.sort(API_EngineUpgradeNameList);

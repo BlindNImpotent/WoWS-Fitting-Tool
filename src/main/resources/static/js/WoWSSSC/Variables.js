@@ -52,6 +52,24 @@ var torpedoReload = 0;
 var torpedoSpeed = 0;
 var torpedoVisibilityFactor = 0;
 
+var planesReserveCapacity = 0;
+var torpedoBomberSquadronCount = 0;
+var diveBomberSquadronCount = 0;
+var fighterSquadronCount = 0;
+var scoutSquadronCount = 0;
+var totalSquadronCount = 0;
+var torpedoBomberSquadronSize = 0;
+var diveBomberSquadronSize = 0;
+var fighterSquadronSize = 0;
+var scoutSquadronSize = 0;
+var torpedoBomberCount = 0;
+var diveBomberCount = 0;
+var fighterCount = 0;
+var scoutCount = 0;
+
+//PCM003_Airplanes_Mod_I Slot 1
+var AGM1_airplanesAntiAirAura = 1;
+
 //PCM030_MainWeapon_Mod_I Slot 1
 var MAM1_GMCritProb = 1;
 var MAM1_GMMaxHP = 1;
@@ -66,6 +84,19 @@ var AAM1_GSMaxHP = 1;
 
 //PCM032_PowderMagazine_Mod_I Slot 1
 var MM1_PMDetonationProb = 1;
+
+//PCM034_Guidance_Mod_0 Slot 1
+var ASM0_GMIdealRadius = 1;
+var ASM0_GMRotationSpeed = 1;
+var ASM0_GSIdealRadius = 1;
+var ASM0_GSMaxDist = 1;
+var ASM0_GTRotationSpeed = 1;
+
+//PCM009_FlightControl_Mod_I Slot 2
+var FCM1_airplanesPrepareTime = 1;
+
+//PCM010_Airplanes_Mod_II Slot 2
+var AGM2_airplanesFighterVitalityTime = 1;
 
 //PCM033_Guidance_Mod_I Slot 2
 var ASM1_GMIdealRadius = 1;
@@ -88,6 +119,12 @@ var AAGM2_AAMaxDist = 1;
 //PCM012_SecondaryGun_Mod_II Slot 2
 var SBM2_GSMaxDist = 1;
 var SBM2_GSIdealRadius = 1;
+
+//PCM016_FlightControl_Mod_II Slot 3
+var FCM2_airplanesSpeed = 1;
+
+//PCM017_Airplanes_Mod_III Slot 3
+var AGM3_airplanesBomberVitalityTime = 1;
 
 //PCM013_MainGun_Mod_III Slot 3
 var MBM3_GMRotationSpeed = 1;

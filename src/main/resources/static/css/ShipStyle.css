@@ -54,7 +54,11 @@ li
     display: inline-block;
     text-align: center;
 }
-
+#flightControlList
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
 #turretList
 {
     display: inline-block;
@@ -66,6 +70,26 @@ li
     vertical-align: text-top;
 }
 #engineList
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+#flightControlList
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+#fighterList
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+#torpedoBomberList
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+#diveBomberList
 {
     display: inline-block;
     vertical-align: text-top;
@@ -179,7 +203,7 @@ li
     border-width: 0px;
     border-style: solid;
     border-radius: 5px;
-    font-size: 10px;
+    font-size: 9px;
     min-width: 80px;
     max-width: 80px;
     min-height: 80px;
@@ -202,7 +226,7 @@ li
     border-width: 1px;
     border-style: solid;
     border-radius: 5px;
-    font-size: 10px;
+    font-size: 11px;
     min-width: 80px;
     max-width: 80px;
     min-height: 80px;
@@ -300,3 +324,13 @@ li
 .torpedoReload { float:right }
 .torpedoSpeed { float:right }
 .torpedoVisibilityFactor { float:right }
+
+.fighterSquadrons { float:right }
+.fighterSquadronSize { float:right }
+.fighterReserves { float:right }
+.torpedoBomberSquadrons { float:right }
+.torpedoBomberSquadronSize { float:right }
+.torpedoBomberReserves { float:right }
+.diveBomberSquadrons { float:right }
+.diveBomberSquadronSize { float:right }
+.diveBomberReserves { float:right }
