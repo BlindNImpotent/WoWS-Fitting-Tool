@@ -302,7 +302,7 @@
                 <div th:if="${not #lists.isEmpty(torpedoBomberIndexList)}" id="torpedoBomberList">
                     <li th:onclick="'torpedoBomber(\'' + ${torpedoBomber.index} +'\', \''+ ${torpedoBomberIndexList} + '\');'" th:each="torpedoBomber : ${torpedoBomberUpgradeList}" th:id="${torpedoBomber}">
                         <button class="button_module" th:id="${torpedoBomber.index}">
-                            <img th:src="@{/images/Upgrades/icon_module_torpedoBomber.png}" /><br />
+                            <img th:src="@{/images/Upgrades/icon_module_torpedobomber.png}" /><br />
                             <span th:text="${torpedoBomber.name}"/>
                         </button>
                     </li>
@@ -310,7 +310,7 @@
                 <div th:if="${not #lists.isEmpty(diveBomberIndexList)}" id="diveBomberList">
                     <li th:onclick="'diveBomber(\'' + ${diveBomber.index} +'\', \''+ ${diveBomberIndexList} + '\');'" th:each="diveBomber : ${diveBomberUpgradeList}" th:id="${diveBomber}">
                         <button class="button_module" th:id="${diveBomber.index}">
-                            <img th:src="@{/images/Upgrades/icon_module_diveBomber.png}" /><br />
+                            <img th:src="@{/images/Upgrades/icon_module_divebomber.png}" /><br />
                             <span th:text="${diveBomber.name}"/>
                         </button>
                     </li>
