@@ -1,4 +1,23 @@
+var shipName;
+var shipNation;
 
+var apiShipJSON;
+
+var ship_id_str;
+
+var gpShipJSON;
+var gpShipUpgradeInfo;
+var GP_TurretJSON;
+
+var apiArtilleryUpgradeJSON;
+var apiHullUpgradeJSON;
+var apiEngineUpgradeJSON;
+var apiRadarUpgradeJSON;
+var apiTorpedoUpgradeJSON;
+var apiFlightControlUpgradeJSON;
+var apiFighterUpgradeJSON;
+var apiTorpedoBomberUpgradeJSON;
+var apiDiveBomberUpgradeJSON;
 
 //    var tier = 0;
 var maxRepairCost = 0;
@@ -66,6 +85,10 @@ var torpedoBomberCount = 0;
 var diveBomberCount = 0;
 var fighterCount = 0;
 var scoutCount = 0;
+
+var fighterName;
+var torpedoBomberName;
+var diveBomberName;
 
 //PCM003_Airplanes_Mod_I Slot 1
 var AGM1_airplanesAntiAirAura = 1;

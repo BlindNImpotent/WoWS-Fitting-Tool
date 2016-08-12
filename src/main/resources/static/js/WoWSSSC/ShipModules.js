@@ -160,6 +160,11 @@ function fighter(id, list)
             document.getElementById(list[i]).className = "button_module";
         }
         document.getElementById(id).className = "button_module_selected";
+        document.getElementsByClassName("fighterName")[0].setAttribute("id", id);
+
+        fighterName = apiFighterUpgradeJSON[id]['name'];
+
+        refresh();
     }
     else
     {
@@ -168,9 +173,15 @@ function fighter(id, list)
             document.getElementById(list[i]['index']).className = "button_module";
         }
         document.getElementById(id['index']).className = "button_module_selected";
+        document.getElementsByClassName("fighterName")[0].setAttribute("id", id['index']);
+        fighterName = id['name'];
+        refresh();
     }
+}
 
-    setFighterStats(id);
+function test(id)
+{
+    alert(id);
 }
 
 function torpedoBomber(id, list)
@@ -185,6 +196,11 @@ function torpedoBomber(id, list)
             document.getElementById(list[i]).className = "button_module";
         }
         document.getElementById(id).className = "button_module_selected";
+        document.getElementsByClassName("torpedoBomberName")[0].setAttribute("id", id);
+
+        torpedoBomberName = apiTorpedoBomberUpgradeJSON[id]['name'];
+
+        refresh();
     }
     else
     {
@@ -193,9 +209,12 @@ function torpedoBomber(id, list)
             document.getElementById(list[i]['index']).className = "button_module";
         }
         document.getElementById(id['index']).className = "button_module_selected";
-    }
+        document.getElementsByClassName("torpedoBomberName")[0].setAttribute("id", id['index']);
 
-    setTorpedoBomberStats(id);
+        torpedoBomberName = id['name'];
+
+        refresh();
+    }
 }
 
 function diveBomber(id, list)
@@ -210,6 +229,11 @@ function diveBomber(id, list)
             document.getElementById(list[i]).className = "button_module";
         }
         document.getElementById(id).className = "button_module_selected";
+        document.getElementsByClassName("diveBomberName")[0].setAttribute("id", id);
+
+        diveBomberName = apiDiveBomberUpgradeJSON[id]['name'];
+
+        refresh();
     }
     else
     {
@@ -218,9 +242,12 @@ function diveBomber(id, list)
             document.getElementById(list[i]['index']).className = "button_module";
         }
         document.getElementById(id['index']).className = "button_module_selected";
-    }
+        document.getElementsByClassName("diveBomberName")[0].setAttribute("id", id['index']);
 
-    setDiveBomberStats(id);
+        diveBomberName = id['name'];
+
+        refresh();
+    }
 }
 
 function setTurretStats(id)
@@ -310,33 +337,43 @@ function setTurretStats(id)
 
     ammoList.sort();
 
-    var APShell;
+    var Shell1;
     $.ajax({
         url: "/GameParams/name/" + ammoList[0],
         type: "GET",
         async: false,
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
-            APShell = data;
+            Shell1 = data;
         }
     });
 
-    APShellSpeed = APShell['bulletSpeed'];
-    APShellDMG = APShell['alphaDamage'];
-
-    var HEShell;
+    var Shell2;
     $.ajax({
         url: "/GameParams/name/" + ammoList[1],
         type: "GET",
         async: false,
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
-            HEShell = data;
+            Shell2 = data;
         }
     });
-    HEShellSpeed = HEShell['bulletSpeed'];
-    HEShellDMG = HEShell['alphaDamage'];
-    HEShellBurnProb = HEShell['burnProb'];
+    if (Shell1['ammoType'] == 'AP')
+    {
+        APShellSpeed = Shell1['bulletSpeed'];
+        APShellDMG = Shell1['alphaDamage'];
+        HEShellSpeed = Shell2['bulletSpeed'];
+        HEShellDMG = Shell2['alphaDamage'];
+        HEShellBurnProb = Shell2['burnProb'];
+    }
+    else if (Shell2['ammoType'] == 'AP')
+    {
+        APShellSpeed = Shell2['bulletSpeed'];
+        APShellDMG = Shell2['alphaDamage'];
+        HEShellSpeed = Shell1['bulletSpeed'];
+        HEShellDMG = Shell1['alphaDamage'];
+        HEShellBurnProb = Shell1['burnProb'];
+    }
 
     mainGunRotation = GP_TurretJSON['rotationSpeed'][0];
     if (mainGunRotation != 0)
@@ -836,41 +873,72 @@ function setFlightControlStats(id)
     refresh();
 }
 
-function setFighterStats(id)
+function showPlanes(id)
 {
     if (id == null)
     {
         return;
     }
     var API_JSON;
+    var test1;
+    var test2;
+    var test3;
 
     if (typeof id == 'string')
     {
-        API_JSON = apiFighterUpgradeJSON[id];
+        test1 = apiFighterUpgradeJSON[id];
+        test2 = apiTorpedoBomberUpgradeJSON[id];
+        test3 = apiDiveBomberUpgradeJSON[id];
     }
     else
     {
         API_JSON = id['json'];
     }
 
+    if (test1 != null)
+    {
+        API_JSON = test1;
+    }
+    else if (test2 != null)
+    {
+        API_JSON = test2;
+    }
+    else if (test3 != null)
+    {
+        API_JSON = test3;
+    }
+
     var API_module_id_str = API_JSON['module_id_str'];
-    var GP_fighterKey;
+    var GP_planeKey;
     $.ajax({
         url: "/GameParams/index/" + API_module_id_str,
         type: "GET",
         async: false,
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
-            GP_fighterKey = data['name'];
+            GP_planeKey = data['name'];
         }
     });
 
-    var module = gpShipUpgradeInfo[GP_fighterKey];
+    var module = gpShipUpgradeInfo[GP_planeKey];
     var components = module['components'];
-    var fighter = components['fighter'];
+    var plane;
 
-    var planeType = gpShipJSON[fighter[fighter.length - 1]]['planeType'];
-    var GP_FighterJSON;
+    if (test1 != null)
+    {
+        plane = components['fighter'];
+    }
+    else if (test2 != null)
+    {
+        plane = components['torpedoBomber'];
+    }
+    else if (test3 != null)
+    {
+        plane = components['diveBomber'];
+    }
+
+    var planeType = gpShipJSON[plane[plane.length - 1]]['planeType'];
+    var GP_PlaneJSON;
 
     $.ajax({
         url: "/GameParams/name/" + planeType,
@@ -878,23 +946,11 @@ function setFighterStats(id)
         async: false,
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
-            GP_FighterJSON = data;
+            GP_PlaneJSON = data;
         }
     });
 
 
-    refresh();
-}
-
-function setTorpedoBomberStats(id)
-{
-
-
-    refresh();
-}
-
-function setDiveBomberStats(id)
-{
 
 
     refresh();
