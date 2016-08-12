@@ -42,7 +42,7 @@ public class HomeController
         return "home";
     }
 
-    @RequestMapping (value = "/ship/{name}", method = RequestMethod.GET)
+    @RequestMapping (value = "/ship/{name:.+}", method = RequestMethod.GET)
     public String ship(Model model, @PathVariable("name") String name) throws IOException, ParseException
     {
         jsonService.setShipJSON(name);

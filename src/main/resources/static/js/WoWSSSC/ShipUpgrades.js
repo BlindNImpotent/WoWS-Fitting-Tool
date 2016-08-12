@@ -69,11 +69,11 @@ function modCalc(id, list)
         ASM1_GSMaxDist = moduleData['GSMaxDist'];
         ASM1_GTRotationSpeed = moduleData['GTRotationSpeed'];
     }
-    else if (id == 'PCM033_Guidance_Mod_I')
+    else if (id == 'PCM028_FireControl_Mod_I_US')
     {
-        APRM1_GMMaxDist = moduleData['GMMaxDist'];
-        APRM1_GSMaxDist = moduleData['GSMaxDist'];
-        APRM1_GSIdealRadius = moduleData['GSIdealRadius'];
+        APRM1US_GMMaxDist = moduleData['GMMaxDist'];
+        APRM1US_GSMaxDist = moduleData['GSMaxDist'];
+        APRM1US_GSIdealRadius = moduleData['GSIdealRadius'];
     }
     else if (id == 'PCM006_MainGun_Mod_II')
     {
@@ -113,7 +113,7 @@ function modCalc(id, list)
     }
     else if (id == 'PCM029_FireControl_Mod_II_US')
     {
-        APRM2_GMIdealRadius = moduleData['GMIdealRadius'];  
+        APRM2US_GMIdealRadius = moduleData['GMIdealRadius'];
     }    
     else if (id == 'PCM020_DamageControl_Mod_I')
     {
@@ -198,9 +198,9 @@ function reset(id)
     }
     else if (id == 'PCM033_Guidance_Mod_I')
     {
-        APRM1_GMMaxDist = 1;
-        APRM1_GSMaxDist = 1;
-        APRM1_GSIdealRadius = 1;
+        APRM1US_GMMaxDist = 1;
+        APRM1US_GSMaxDist = 1;
+        APRM1US_GSIdealRadius = 1;
     }
     else if (id == 'PCM006_MainGun_Mod_II')
     {
@@ -240,7 +240,7 @@ function reset(id)
     }
     else if (id == 'PCM029_FireControl_Mod_II_US')
     {
-        APRM2_GMIdealRadius = 1;
+        APRM2US_GMIdealRadius = 1;
     }
     else if (id == 'PCM020_DamageControl_Mod_I')
     {

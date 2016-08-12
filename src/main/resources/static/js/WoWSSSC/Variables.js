@@ -73,10 +73,10 @@ var ASM1_GSIdealRadius = 1;
 var ASM1_GSMaxDist = 1;
 var ASM1_GTRotationSpeed = 1;
 
-//PCM033_Guidance_Mod_I Slot 2
-var APRM1_GMMaxDist = 1;
-var APRM1_GSMaxDist = 1;
-var APRM1_GSIdealRadius = 1;
+//PCM028_FireControl_Mod_I_US Slot 2
+var APRM1US_GMMaxDist = 1;
+var APRM1US_GSMaxDist = 1;
+var APRM1US_GSIdealRadius = 1;
 
 //PCM006_MainGun_Mod_II Slot 2
 var MBM2_GMRotationSpeed = 1;
@@ -107,7 +107,7 @@ var AAGM3_AAAura = 1;
 var SBM3_GSShotDelay = 1;
 
 //PCM029_FireControl_Mod_II_US Slot 3
-var APRM2_GMIdealRadius = 1;
+var APRM2US_GMIdealRadius = 1;
 
 //PCM020_DamageControl_Mod_I Slot 4
 var DCSM1_burnProb = 1;

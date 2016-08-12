@@ -142,7 +142,7 @@ public class JSONService
 
     private List<JSONObject> FlagsJSONList;
 
-//    @Cacheable("setShipJSON")
+    @Cacheable("setShipJSON")
     public void setShipJSON(String name) throws IOException, ParseException
     {
         apiParser = new API_Parser();
@@ -292,6 +292,13 @@ public class JSONService
     {
         API_UpgradesIDList = new ArrayList<>();        
         UpgradesNameList = new ArrayList<>();
+        ModernizationSlot1_mods = null;
+        ModernizationSlot2_mods = null;
+        ModernizationSlot3_mods = null;
+        ModernizationSlot4_mods = null;
+        ModernizationSlot5_mods = null;
+        ModernizationSlot6_mods = null;
+
         modSlot1 = new ArrayList<>();
         modSlot2 = new ArrayList<>();
         modSlot3 = new ArrayList<>();
