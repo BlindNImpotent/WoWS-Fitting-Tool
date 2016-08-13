@@ -239,7 +239,7 @@ function reset(id)
         APRM1US_GSMaxDist = 1;
         APRM1US_GSIdealRadius = 1;
     }
-    else if (id == 'PCM028_FireControl_Mod_I_US')
+    if (id == 'PCM028_FireControl_Mod_I_US')
     {
         APRM1US_GMMaxDist = 1;
         APRM1US_GSMaxDist = 1;
