@@ -432,19 +432,19 @@
                     </div>
                     <div th:if="${not #lists.isEmpty(flightControlIndexList)}" id="aircraft" class="aircraft">
                         <b>Fighter</b><br />
-                        <button onclick="showPlanes(this.id)" class="fighterName"/><br />
+                        <!--<button onclick="showPlanes(this.id)" class="fighterName"/><br />-->
                         Squadrons<span style="padding-left: 6em" class="fighterSquadrons"/><br />
                         Size<span class="fighterSquadronSize"/><br />
                         Reserves<span class="fighterReserves"/><br />
                         <br />
                         <b>Torpedo Bomber</b><br />
-                        <button onclick="showPlanes(this.id)" class="torpedoBomberName"/><br />
+                        <!--<button onclick="showPlanes(this.id)" class="torpedoBomberName"/><br />-->
                         Squadrons<span class="torpedoBomberSquadrons"/><br />
                         Size<span class="torpedoBomberSquadronSize"/><br />
                         Reserves<span class="torpedoBomberReserves"/><br />
                         <br />
                         <b>Dive Bomber</b><br />
-                        <button onclick="showPlanes(this.id)" class="diveBomberName"/><br />
+                        <!--<button onclick="showPlanes(this.id)" class="diveBomberName"/><br />-->
                         Squadrons<span class="diveBomberSquadrons"/><br />
                         Size<span class="diveBomberSquadronSize"/><br />
                         Reserves<span class="diveBomberReserves"/><br />
@@ -619,9 +619,9 @@
 
         if (totalSquadronCount > 0)
         {
-            document.querySelector('.aircraft .fighterName').innerHTML = fighterName;
-            document.querySelector('.aircraft .torpedoBomberName').innerHTML = torpedoBomberName;
-            document.querySelector('.aircraft .diveBomberName').innerHTML = diveBomberName;
+//            document.querySelector('.aircraft .fighterName').innerHTML = fighterName;
+//            document.querySelector('.aircraft .torpedoBomberName').innerHTML = torpedoBomberName;
+//            document.querySelector('.aircraft .diveBomberName').innerHTML = diveBomberName;
             document.querySelector('.aircraft .fighterSquadrons').innerHTML = accounting.formatNumber(fighterSquadronCount, 0, ",", ".");
             document.querySelector('.aircraft .fighterSquadronSize').innerHTML = accounting.formatNumber(fighterSquadronSize, 0, ",", ".");
             document.querySelector('.aircraft .fighterReserves').innerHTML = accounting.formatNumber(fighterCount, 0, ",", ".");

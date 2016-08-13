@@ -160,7 +160,7 @@ function fighter(id, list)
             document.getElementById(list[i]).className = "button_module";
         }
         document.getElementById(id).className = "button_module_selected";
-        document.getElementsByClassName("fighterName")[0].setAttribute("id", id);
+        // document.getElementsByClassName("fighterName")[0].setAttribute("id", id);
 
         fighterName = apiFighterUpgradeJSON[id]['name'];
 
@@ -173,15 +173,10 @@ function fighter(id, list)
             document.getElementById(list[i]['index']).className = "button_module";
         }
         document.getElementById(id['index']).className = "button_module_selected";
-        document.getElementsByClassName("fighterName")[0].setAttribute("id", id['index']);
+        // document.getElementsByClassName("fighterName")[0].setAttribute("id", id['index']);
         fighterName = id['name'];
         refresh();
     }
-}
-
-function test(id)
-{
-    alert(id);
 }
 
 function torpedoBomber(id, list)
@@ -196,7 +191,7 @@ function torpedoBomber(id, list)
             document.getElementById(list[i]).className = "button_module";
         }
         document.getElementById(id).className = "button_module_selected";
-        document.getElementsByClassName("torpedoBomberName")[0].setAttribute("id", id);
+        // document.getElementsByClassName("torpedoBomberName")[0].setAttribute("id", id);
 
         torpedoBomberName = apiTorpedoBomberUpgradeJSON[id]['name'];
 
@@ -209,7 +204,7 @@ function torpedoBomber(id, list)
             document.getElementById(list[i]['index']).className = "button_module";
         }
         document.getElementById(id['index']).className = "button_module_selected";
-        document.getElementsByClassName("torpedoBomberName")[0].setAttribute("id", id['index']);
+        // document.getElementsByClassName("torpedoBomberName")[0].setAttribute("id", id['index']);
 
         torpedoBomberName = id['name'];
 
@@ -229,7 +224,7 @@ function diveBomber(id, list)
             document.getElementById(list[i]).className = "button_module";
         }
         document.getElementById(id).className = "button_module_selected";
-        document.getElementsByClassName("diveBomberName")[0].setAttribute("id", id);
+        // document.getElementsByClassName("diveBomberName")[0].setAttribute("id", id);
 
         diveBomberName = apiDiveBomberUpgradeJSON[id]['name'];
 
@@ -242,7 +237,7 @@ function diveBomber(id, list)
             document.getElementById(list[i]['index']).className = "button_module";
         }
         document.getElementById(id['index']).className = "button_module_selected";
-        document.getElementsByClassName("diveBomberName")[0].setAttribute("id", id['index']);
+        // document.getElementsByClassName("diveBomberName")[0].setAttribute("id", id['index']);
 
         diveBomberName = id['name'];
 
@@ -384,7 +379,7 @@ function setTurretStats(id)
     mainGunReload = GP_TurretJSON['shotDelay'];
 
     mainGunDispersionTangent = GP_TurretJSON['idealRadius'];
-    mainGunDispersionTangent = mainGunDispersionTangent * 0.03 * Math.PI / 180;
+    mainGunDispersionTangent = mainGunDispersionTangent * scaleDist * Math.PI / 180;
     mainGunDispersionTangent = Math.tan(mainGunDispersionTangent);
 
     refresh();
@@ -461,7 +456,7 @@ function setHullStats(id)
 
     if (turretBarrelDiameter < 0.140 && GP_TurretJSON != null)
     {
-        antiAirAuraDistanceFar = GP_TurretJSON['antiAirAuraDistance'] * 0.03;
+        antiAirAuraDistanceFar = GP_TurretJSON['antiAirAuraDistance'] * scaleDist;
 
         var AuraFar = GP_TurretJSON['AuraFar'];
         if (AuraFar != null)
@@ -491,7 +486,7 @@ function setHullStats(id)
                     var AAFarGun = ATBA[AAFarGunString];
 
                     AAFarBarrelDiameter = AAFarGun['barrelDiameter'];
-                    antiAirAuraDistanceFar = AAFarGun['antiAirAuraDistance'] * 0.03;
+                    antiAirAuraDistanceFar = AAFarGun['antiAirAuraDistance'] * scaleDist;
 
                     var count = 0;
                     while (count < guns.length)
@@ -531,7 +526,7 @@ function setHullStats(id)
                 var guns = AuraMedium['guns'];
                 var AAMediumGunString = guns[0];
                 var AAMediumGun = AirDefense[AAMediumGunString];
-                antiAirAuraDistanceMedium = AAMediumGun['antiAirAuraDistance'] * 0.03;
+                antiAirAuraDistanceMedium = AAMediumGun['antiAirAuraDistance'] * scaleDist;
 
                 var count = 0;
                 while (count < guns.length)
@@ -553,7 +548,7 @@ function setHullStats(id)
                 var guns = AuraNear['guns'];
                 var AANearGunString = guns[0];
                 var AANearGun = AirDefense[AANearGunString];
-                antiAirAuraDistanceNear = AANearGun['antiAirAuraDistance'] * 0.03;
+                antiAirAuraDistanceNear = AANearGun['antiAirAuraDistance'] * scaleDist;
 
                 var count = 0;
                 while (count < guns.length)
@@ -576,7 +571,7 @@ function setHullStats(id)
                     var guns = AuraMedium['guns'];
                     var AANearGunString = guns[0];
                     var AANearGun = AirDefense[AANearGunString];
-                    antiAirAuraDistanceNear = AANearGun['antiAirAuraDistance'] * 0.03;
+                    antiAirAuraDistanceNear = AANearGun['antiAirAuraDistance'] * scaleDist;
 
                     var count = 0;
                     while (count < guns.length)
@@ -780,7 +775,7 @@ function setTorpedoStats(id)
             ammoObj = data;
         }
     });
-    maxTorpedoRange = ammoObj['maxDist'] * 0.03;
+    maxTorpedoRange = ammoObj['maxDist'] * scaleDist;
     torpedoSpeed = ammoObj['speed'];
     torpedoVisibilityFactor = ammoObj['visibilityFactor'];
 
@@ -950,6 +945,37 @@ function showPlanes(id)
         }
     });
 
+    if (GP_PlaneJSON['typeinfo']['species'] == 'Fighter')
+    {
+        fighterVitalityTime = GP_PlaneJSON['vitalityTime'];
+        fighterAaAmmoAmount = GP_PlaneJSON['aaAmmoAmount'];
+        fighterPrepareTime = GP_PlaneJSON['prepareTime'];
+        fighterFlightHeight = GP_PlaneJSON['flightHeight'] * scaleDist;
+        fighterSpeedMove = GP_PlaneJSON['speedMove'];
+        fighterPlaneTurnRadius = GP_PlaneJSON['planeTurnRadius'] * scaleDist;
+        fighterSquadronTurnRadius = GP_PlaneJSON['squadronTurnRadius'] * scaleDist;
+        fighterActiveAntiAirAura = GP_PlaneJSON['activeAntiAirAura'];
+        fighterPatrolAttackDist = GP_PlaneJSON['patrolAttackDist'] * scaleDist;
+        fighterPatrolChaseDist = GP_PlaneJSON['patrolChaseDist'] * scaleDist;
+        fighterEscortShipFollowDistance = GP_PlaneJSON['escortShipFollowDistance'] * scaleDist;
+        fighterEscortShipAttackDist = GP_PlaneJSON['escortShipAttackDist'] * scaleDist;
+        fighterEscortShipChaseDist = GP_PlaneJSON['escortShipChaseDist'] * scaleDist;
+        fighterEscortPlaneFollowDistance = GP_PlaneJSON['escortPlaneFollowDistance'] * scaleDist;
+        fighterEscortPlaneAttackDist = GP_PlaneJSON['escortPlaneAttackDist'] * scaleDist;
+        fighterEscortPlaneChaseDist = GP_PlaneJSON['escortPlaneChaseDist'] * scaleDist;
+        fighterVisionToPlane = GP_PlaneJSON['visionToPlane'];
+        fighterVisionToShip = GP_PlaneJSON['visionToShip'];
+        fighterVisionToTorpedo = GP_PlaneJSON['visionToTorpedo'];
+
+        // var div = document.createElement('div');
+        // div.setAttribute('id', 'fighterStats');
+        // div.innerHTML += 'Vitality<span style="padding-left: 6em" class="fighterVitalityTime"/>'
+
+
+
+
+
+    }
 
 
 

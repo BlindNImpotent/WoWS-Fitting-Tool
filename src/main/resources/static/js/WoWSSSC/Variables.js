@@ -1,6 +1,8 @@
 var shipName;
 var shipNation;
 
+var scaleDist = 0.03;
+
 var apiShipJSON;
 
 var ship_id_str;
@@ -89,6 +91,29 @@ var scoutCount = 0;
 var fighterName;
 var torpedoBomberName;
 var diveBomberName;
+
+var fighterVitalityTime = 0;
+var fighterAaAmmoAmount = 0;
+var fighterPrepareTime = 0;
+var fighterFlightHeight = 0;
+var fighterSpeedMove = 0;
+var fighterPlaneTurnRadius = 0;
+var fighterSquadronTurnRadius = 0;
+var fighterActiveAntiAirAura = 0;
+var fighterPatrolAttackDist = 0;
+var fighterPatrolChaseDist = 0;
+var fighterEscortShipFollowDistance = 0;
+var fighterEscortShipAttackDist = 0;
+var fighterEscortShipChaseDist = 0;
+var fighterEscortPlaneFollowDistance = 0;
+var fighterEscortPlaneAttackDist = 0;
+var fighterEscortPlaneChaseDist = 0;
+var fighterVisionToPlane = 0;
+var fighterVisionToShip = 0;
+var fighterVisionToTorpedo = 0;
+
+
+
 
 //PCM003_Airplanes_Mod_I Slot 1
 var AGM1_airplanesAntiAirAura = 1;
