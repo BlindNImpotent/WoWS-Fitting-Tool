@@ -164,7 +164,7 @@ public class JSONService
     private JSONObject API_DiveBomberUpgradeJSON;
     
 
-    @Cacheable("setShipJSON")
+//    @Cacheable("setShipJSON")
     public void setShipJSON(String name) throws IOException, ParseException
     {
         apiParser = new API_Parser();
