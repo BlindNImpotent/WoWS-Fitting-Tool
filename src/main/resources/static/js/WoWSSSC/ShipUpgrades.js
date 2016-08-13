@@ -15,6 +15,7 @@ function mod(id, list)
         for (var i in list)
         {
             document.getElementById(list[i]).className = "button_upgrade";
+            reset(list[i]);
         }
         document.getElementById(id).className = "button_upgrade_selected";
 
@@ -24,6 +25,7 @@ function mod(id, list)
         for (var i in list)
         {
             document.getElementById(list[i]).className = "button_upgrade";
+            reset(list[i]);
         }
         document.getElementById(id).className = "button_upgrade_selected";
     }
