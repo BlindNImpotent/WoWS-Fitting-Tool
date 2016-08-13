@@ -1,5 +1,12 @@
 function mod(id, list)
 {
+    if (document.getElementById(id).className == "button_upgrade_selected")
+    {
+        document.getElementById(id).className = "button_upgrade"
+        reset(id)
+        return;
+    }
+
     if (typeof list == 'string')
     {
         list = list.substring(1, list.length - 1);
@@ -10,6 +17,7 @@ function mod(id, list)
             document.getElementById(list[i]).className = "button_upgrade";
         }
         document.getElementById(id).className = "button_upgrade_selected";
+
     }
     else
     {
@@ -184,11 +192,10 @@ function modCalc(id, list)
         ASM0_GSMaxDist = moduleData['GSMaxDist'];
         ASM0_GTRotationSpeed = moduleData['GTRotationSpeed'];
     }
-    else if (id == 'None1' || id == 'None2' || id == 'None3' || id == 'None4' || id == 'None5' || id == 'None6')
-    {
-        
-    }
-
+    // else if (id == 'None1' || id == 'None2' || id == 'None3' || id == 'None4' || id == 'None5' || id == 'None6')
+    // {
+    //
+    // }
     else
     {
         console.log(moduleData);
@@ -208,130 +215,130 @@ function reset(id)
         MAM1_GTMaxHP = 1;
         MAM1_GTRepairTime = 1;
     }
-    else if (id == 'PCM031_SecondaryWeapon_Mod_I')
+    if (id == 'PCM031_SecondaryWeapon_Mod_I')
     {
         AAM1_ADMaxHP = 1;
         AAM1_GSMaxHP = 1;
     }
-    else if (id == 'PCM032_PowderMagazine_Mod_I')
+    if (id == 'PCM032_PowderMagazine_Mod_I')
     {
         MM1_PMDetonationProb = 1;
     }
-    else if (id == 'PCM033_Guidance_Mod_I')
+    if (id == 'PCM033_Guidance_Mod_I')
     {
         ASM1_GMIdealRadius = 1;
         ASM1_GSIdealRadius = 1;
         ASM1_GSMaxDist = 1;
         ASM1_GTRotationSpeed = 1;
     }
-    else if (id == 'PCM033_Guidance_Mod_I')
+    if (id == 'PCM033_Guidance_Mod_I')
     {
         APRM1US_GMMaxDist = 1;
         APRM1US_GSMaxDist = 1;
         APRM1US_GSIdealRadius = 1;
     }
-    else if (id == 'PCM006_MainGun_Mod_II')
+    if (id == 'PCM006_MainGun_Mod_II')
     {
         MBM2_GMRotationSpeed = 1;
         MBM2_GMShotDelay = 1;
     }
-    else if (id == 'PCM011_AirDefense_Mod_II')
+    if (id == 'PCM011_AirDefense_Mod_II')
     {
         AAGM2_AAMaxDist = 1;
     }
-    else if (id == 'PCM012_SecondaryGun_Mod_II')
+    if (id == 'PCM012_SecondaryGun_Mod_II')
     {
         SBM2_GSMaxDist = 1;
         SBM2_GSIdealRadius = 1;
     }
-    else if (id == 'PCM013_MainGun_Mod_III')
+    if (id == 'PCM013_MainGun_Mod_III')
     {
         MBM3_GMRotationSpeed = 1;
         MBM3_GMShotDelay = 1;
     }
-    else if (id == 'PCM014_Torpedo_Mod_III')
+    if (id == 'PCM014_Torpedo_Mod_III')
     {
         TTMM3_GTCritProb = 1;
             TTMM3_GTShotDelay = 1;
     }
-    else if (id == 'PCM015_FireControl_Mod_II')
+    if (id == 'PCM015_FireControl_Mod_II')
     {
         GFCSM2_GMMaxDist = 1;
     }
-    else if (id == 'PCM018_AirDefense_Mod_III')
+    if (id == 'PCM018_AirDefense_Mod_III')
     {
         AAGM3_AAAura = 1;
     }
-    else if (id == 'PCM019_SecondaryGun_Mod_III')
+    if (id == 'PCM019_SecondaryGun_Mod_III')
     {
         SBM3_GSShotDelay = 1;
     }
-    else if (id == 'PCM029_FireControl_Mod_II_US')
+    if (id == 'PCM029_FireControl_Mod_II_US')
     {
         APRM2US_GMIdealRadius = 1;
     }
-    else if (id == 'PCM020_DamageControl_Mod_I')
+    if (id == 'PCM020_DamageControl_Mod_I')
     {
         DCSM1_burnProb = 1;
         DCSM1_floodProb = 1;
     }
-    else if (id == 'PCM021_Engine_Mod_I')
+    if (id == 'PCM021_Engine_Mod_I')
     {
         PM1_engineCritProb = 1;
         PM1_engineRepairTime = 1;
     }
-    else if (id == 'PCM022_SteeringGear_Mod_I')
+    if (id == 'PCM022_SteeringGear_Mod_I')
     {
         SGM1_SGCritProb = 1;
         SGM1_SGRepairTime = 1;
     }
-    else if (id == 'PCM023_DamageControl_Mod_II')
+    if (id == 'PCM023_DamageControl_Mod_II')
     {
         DCSM2_burnTime = 1;
         DCSM2_floodTime = 1;
     }
-    else if (id == 'PCM024_Engine_Mod_II')
+    if (id == 'PCM024_Engine_Mod_II')
     {
         PM2_engineBackwardForsageMaxSpeed = 1;
         PM2_engineBackwardUpTime = 1;
         PM2_engineForwardForsageMaxSpeed = 1;
         PM2_engineForwardUpTime = 1;
     }
-    else if (id == 'PCM025_SteeringGear_Mod_II')
+    if (id == 'PCM025_SteeringGear_Mod_II')
     {
         SGM2_SGRudderTime = 1;
     }
-    else if (id == 'PCM026_LookoutStation_Mod_I')
+    if (id == 'PCM026_LookoutStation_Mod_I')
     {
         TASM1_visionDistCoeff = 1;
         TASM1_visionTorpedoCoeff = 1;
         TASM1_visionXRayShipCoeff = 1;
     }
-    else if (id == 'PCM027_ConcealmentMeasures_Mod_I')
+    if (id == 'PCM027_ConcealmentMeasures_Mod_I')
     {
         CSM1_visibilityDistCoeff = 1;
     }
-    else if (id == 'PCM003_Airplanes_Mod_I')
+    if (id == 'PCM003_Airplanes_Mod_I')
     {
         AGM1_airplanesAntiAirAura =1;
     }
-    else if (id == 'PCM009_FlightControl_Mod_I')
+    if (id == 'PCM009_FlightControl_Mod_I')
     {
         FCM1_airplanesPrepareTime = 1;
     }
-    else if (id == 'PCM010_Airplanes_Mod_II')
+    if (id == 'PCM010_Airplanes_Mod_II')
     {
         AGM2_airplanesFighterVitalityTime = 1;
     }
-    else if (id =='PCM016_FlightControl_Mod_II')
+    if (id =='PCM016_FlightControl_Mod_II')
     {
         FCM2_airplanesSpeed = 1;
     }
-    else if (id == 'PCM017_Airplanes_Mod_III')
+    if (id == 'PCM017_Airplanes_Mod_III')
     {
         AGM3_airplanesBomberVitalityTime = 1;
     }
-    else if (id == 'PCM034_Guidance_Mod_0')
+    if (id == 'PCM034_Guidance_Mod_0')
     {
         ASM0_GMIdealRadius = 1;
         ASM0_GMRotationSpeed = 1;
@@ -340,5 +347,5 @@ function reset(id)
         ASM0_GTRotationSpeed = 1;
     }
     
-    
+    refresh();
 }

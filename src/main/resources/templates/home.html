@@ -384,11 +384,15 @@
                     </li>
                 </div>
             </div>
+            <div id="skills">
+                <table id="skillsTable" align="center">
+                </table>
+            </div>
             <div id="stats">
                 <div id="hullStats" class="hullStats">
                     <div th:if="${not #lists.isEmpty(hullIndexList)}" id="hull" class="hull">
                         <b>Hull</b><br />
-                        <!--Tier<span class="tier"/><br />-->
+                        Tier<span class="tier"/><br />
                         Health<span class="maxHP"/><br />
                         Speed<span class="speed"/><br />
                         Rudder Shift<span class="rudderShift"/><br />
@@ -475,6 +479,7 @@
 <script th:inline="javascript" th:src="@{/js/WoWSSSC/Variables.js}"></script>
 <script th:inline="javascript" th:src="@{/js/WoWSSSC/ShipModules.js}"></script>
 <script th:inline="javascript" th:src="@{/js/WoWSSSC/ShipUpgrades.js}"></script>
+<script th:inline="javascript" th:src="@{/js/WoWSSSC/ShipSkills.js}"></script>
 <script th:inline="javascript">
 
     function load(name)
@@ -483,6 +488,12 @@
         {
             shipName = name;
             shipNation = [[${nation}]];
+            tier = [[${tier}]];
+            shipType = [[${shipType}]];
+
+            skillsImageLocation = [[@{/images/Skills/}]];
+
+            setCrewSkills();
 
             ship_id_str = [[${ship_id_str}]];
 
@@ -538,82 +549,92 @@
                 diveBomber([[${diveBomberUpgradeList}]][0], [[${diveBomberUpgradeList}]]);
             }
 
-            if ([[${modSlot1}]].length > 0)
-            {
-                mod([[${modSlot1}]][0], [[${modSlot1}]]);
-            }
-
-            if ([[${modSlot2}]].length > 0)
-            {
-                mod([[${modSlot2}]][0], [[${modSlot2}]]);
-            }
-
-            if ([[${modSlot3}]].length > 0)
-            {
-                mod([[${modSlot3}]][0], [[${modSlot3}]]);
-            }
-
-            if ([[${modSlot4}]].length > 0)
-            {
-                mod([[${modSlot4}]][0], [[${modSlot4}]]);
-            }
-
-            if ([[${modSlot5}]].length > 0)
-            {
-                mod([[${modSlot5}]][0], [[${modSlot5}]]);
-            }
-
-            if ([[${modSlot6}]].length > 0)
-            {
-                mod([[${modSlot6}]][0], [[${modSlot6}]]);
-            }
+//            if ([[${modSlot1}]].length > 0)
+//            {
+//                mod([[${modSlot1}]][0], [[${modSlot1}]]);
+//            }
+//
+//            if ([[${modSlot2}]].length > 0)
+//            {
+//                mod([[${modSlot2}]][0], [[${modSlot2}]]);
+//            }
+//
+//            if ([[${modSlot3}]].length > 0)
+//            {
+//                mod([[${modSlot3}]][0], [[${modSlot3}]]);
+//            }
+//
+//            if ([[${modSlot4}]].length > 0)
+//            {
+//                mod([[${modSlot4}]][0], [[${modSlot4}]]);
+//            }
+//
+//            if ([[${modSlot5}]].length > 0)
+//            {
+//                mod([[${modSlot5}]][0], [[${modSlot5}]]);
+//            }
+//
+//            if ([[${modSlot6}]].length > 0)
+//            {
+//                mod([[${modSlot6}]][0], [[${modSlot6}]]);
+//            }
         }
     }
     window.onload = load([[${name}]]);
 
     function refresh()
     {
-//        document.querySelector('.hullStats .tier').innerHTML = tier.toLocaleString();
-        document.querySelector('.hullStats .maxHP').innerHTML = accounting.formatNumber(maxHP, 0, ",", ".");
+        document.querySelector('.hullStats .tier').innerHTML = tier.toString();
+        document.querySelector('.hullStats .maxHP').innerHTML = accounting.formatNumber(maxHP + healthPerLevel * tier, 0, ",", ".");
         document.querySelector('.hullStats .speed').innerHTML = accounting.formatNumber((speed * speedCoef), 1, ",", ".") + " kts";
         document.querySelector('.hullStats .rudderShift').innerHTML = accounting.formatNumber(rudderShift * SGM2_SGRudderTime, 1, ",", ".") + " s";
         document.querySelector('.hullStats .turningRadius').innerHTML = accounting.formatNumber(turningRadius, 0, ",", ".") + " m";
-        document.querySelector('.hullStats .sConceal').innerHTML = accounting.formatNumber(sConceal * CSM1_visibilityDistCoeff, 2, ",", ".") + " km";
-        document.querySelector('.hullStats .aConceal').innerHTML = accounting.formatNumber(aConceal * CSM1_visibilityDistCoeff, 2, ",", ".") + " km";
+        document.querySelector('.hullStats .sConceal').innerHTML = accounting.formatNumber(sConceal * CSM1_visibilityDistCoeff * VisibilityModifier, 2, ",", ".") + " km";
+        document.querySelector('.hullStats .aConceal').innerHTML = accounting.formatNumber(aConceal * CSM1_visibilityDistCoeff * VisibilityModifier, 2, ",", ".") + " km";
         document.querySelector('.hullStats .burnTime').innerHTML = accounting.formatNumber(burnTime * DCSM2_burnTime, 1, ",", ".") + " s";
         document.querySelector('.hullStats .floodTime').innerHTML = accounting.formatNumber(floodTime * DCSM2_floodTime, 1, ",", ".") + " s";
 
         if (numBarrels > 0)
         {
             document.querySelector('.mainWeaponStats .barrels').innerHTML = numTurrets.toString() + " X " + numBarrels.toString();
-            document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = accounting.formatNumber(maxMainGunRange * maxDistCoef * APRM1US_GMMaxDist * GFCSM2_GMMaxDist, 0, ",", ".") + " m";
-            document.querySelector('.mainWeaponStats .mainGunReload').innerHTML = accounting.formatNumber(mainGunReload * MBM2_GMShotDelay * MBM3_GMShotDelay, 1, ",", ".") + " s";
-            document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = accounting.formatNumber(mainGunRotation * ASM0_GMRotationSpeed * MBM2_GMRotationSpeed * MBM3_GMRotationSpeed, 1, ",", ".") + " deg/s";
-            document.querySelector('.mainWeaponStats .mainGunRotationTime').innerHTML = accounting.formatNumber(mainGunRotationTime / ASM0_GMRotationSpeed / MBM2_GMRotationSpeed / MBM3_GMRotationSpeed, 1, ",", ".") + " s";
+            if (0.140 > turretBarrelDiameter)
+            {
+                document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = accounting.formatNumber(maxMainGunRange * maxDistCoef * APRM1US_GMMaxDist * GFCSM2_GMMaxDist * smallGunRangeCoefficient, 0, ",", ".") + " m";
+                document.querySelector('.mainWeaponStats .mainGunReload').innerHTML = accounting.formatNumber(mainGunReload * MBM2_GMShotDelay * MBM3_GMShotDelay * smallGunReloadCoefficient, 1, ",", ".") + " s";
+                document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = accounting.formatNumber((mainGunRotation + smallGunBonus) * ASM0_GMRotationSpeed * MBM2_GMRotationSpeed * MBM3_GMRotationSpeed, 1, ",", ".") + " deg/s";
+                document.querySelector('.mainWeaponStats .mainGunRotationTime').innerHTML = accounting.formatNumber(180 / (mainGunRotation + smallGunBonus) / ASM0_GMRotationSpeed / MBM2_GMRotationSpeed / MBM3_GMRotationSpeed, 1, ",", ".") + " s";
+            }
+            else
+            {
+                document.querySelector('.mainWeaponStats .maxMainGunRange').innerHTML = accounting.formatNumber(maxMainGunRange * maxDistCoef * APRM1US_GMMaxDist * GFCSM2_GMMaxDist, 0, ",", ".") + " m";
+                document.querySelector('.mainWeaponStats .mainGunReload').innerHTML = accounting.formatNumber(mainGunReload * MBM2_GMShotDelay * MBM3_GMShotDelay, 1, ",", ".") + " s";
+                document.querySelector('.mainWeaponStats .mainGunRotation').innerHTML = accounting.formatNumber((mainGunRotation + bigGunBonus) * ASM0_GMRotationSpeed * MBM2_GMRotationSpeed * MBM3_GMRotationSpeed, 1, ",", ".") + " deg/s";
+                document.querySelector('.mainWeaponStats .mainGunRotationTime').innerHTML = accounting.formatNumber(180 / (mainGunRotation + bigGunBonus) / ASM0_GMRotationSpeed / MBM2_GMRotationSpeed / MBM3_GMRotationSpeed, 1, ",", ".") + " s";
+            }
             document.querySelector('.mainWeaponStats .APShellSpeed').innerHTML = APShellSpeed.toString() + " m/s";
             document.querySelector('.mainWeaponStats .APShellDMG').innerHTML = accounting.formatNumber(APShellDMG, 0, ",", ".");
             document.querySelector('.mainWeaponStats .HEShellSpeed').innerHTML = HEShellSpeed.toString() + " m/s";
             document.querySelector('.mainWeaponStats .HEShellDMG').innerHTML = accounting.formatNumber(HEShellDMG, 0, ",", ".");
-            document.querySelector('.mainWeaponStats .HEShellBurnProb').innerHTML = accounting.formatNumber(HEShellBurnProb * 100, 0, ",", ".") + " %";
+            document.querySelector('.mainWeaponStats .HEShellBurnProb').innerHTML = accounting.formatNumber((HEShellBurnProb + probabilityBonusFire) * 100, 0, ",", ".") + " %";
             document.querySelector('.mainWeaponStats .mainGunDispersionRange').innerHTML = accounting.formatNumber(maxMainGunRange * maxDistCoef * mainGunDispersionTangent * 2 * ASM0_GMIdealRadius * ASM1_GMIdealRadius * APRM2US_GMIdealRadius, 0, ",", ".") + " m";
             document.querySelector('.mainWeaponStats .sigmaCount').innerHTML = sigmaCount.toString();
-            document.querySelector('.mainWeaponStats .stealthFireSurfaceDetection').innerHTML = accounting.formatNumber((sConceal + stealthFireSurfaceDetection), 2, ",", ".") + " km";
+            document.querySelector('.mainWeaponStats .stealthFireSurfaceDetection').innerHTML = accounting.formatNumber((sConceal * CSM1_visibilityDistCoeff * VisibilityModifier + stealthFireSurfaceDetection), 2, ",", ".") + " km";
         }
 
-        document.querySelector('.AASecondaryStats .antiAirAuraDistanceFar').innerHTML = accounting.formatNumber(antiAirAuraDistanceFar * AAGM2_AAMaxDist, 2, ",", ".") + " km";
-        document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = accounting.formatNumber(AAFarDPS * AAGM3_AAAura, 1, ",", ".");
-        document.querySelector('.AASecondaryStats .antiAirAuraDistanceMedium').innerHTML = accounting.formatNumber(antiAirAuraDistanceMedium * AAGM2_AAMaxDist, 2, ",", ".") + " km";
-        document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = accounting.formatNumber(AAMediumDPS * AAGM3_AAAura, 1, ",", ".");
-        document.querySelector('.AASecondaryStats .antiAirAuraDistanceNear').innerHTML = accounting.formatNumber(antiAirAuraDistanceNear * AAGM2_AAMaxDist, 2, ",", ".") + " km";
-        document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = accounting.formatNumber(AANearDPS * AAGM3_AAAura, 1, ",", ".");
-        document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = accounting.formatNumber(secondaryMaxDist * ASM0_GSMaxDist * ASM1_GSMaxDist * APRM1US_GSMaxDist * SBM2_GSMaxDist, 0, ",", ".") + " m";
+        document.querySelector('.AASecondaryStats .antiAirAuraDistanceFar').innerHTML = accounting.formatNumber(antiAirAuraDistanceFar * AAGM2_AAMaxDist * airDefenceRangeCoefficient, 2, ",", ".") + " km";
+        document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = accounting.formatNumber(AAFarDPS * AAGM3_AAAura * airDefenceEfficiencyCoefficient, 1, ",", ".");
+        document.querySelector('.AASecondaryStats .antiAirAuraDistanceMedium').innerHTML = accounting.formatNumber(antiAirAuraDistanceMedium * AAGM2_AAMaxDist * airDefenceRangeCoefficient, 2, ",", ".") + " km";
+        document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = accounting.formatNumber(AAMediumDPS * AAGM3_AAAura * airDefenceEfficiencyCoefficient, 1, ",", ".");
+        document.querySelector('.AASecondaryStats .antiAirAuraDistanceNear').innerHTML = accounting.formatNumber(antiAirAuraDistanceNear * AAGM2_AAMaxDist * airDefenceRangeCoefficient, 2, ",", ".") + " km";
+        document.querySelector('.AASecondaryStats .AANearDPS').innerHTML = accounting.formatNumber(AANearDPS * AAGM3_AAAura * airDefenceEfficiencyCoefficient, 1, ",", ".");
+        document.querySelector('.AASecondaryStats .secondaryMaxDist').innerHTML = accounting.formatNumber(secondaryMaxDist * ASM0_GSMaxDist * ASM1_GSMaxDist * APRM1US_GSMaxDist * SBM2_GSMaxDist * smallGunRangeCoefficient, 0, ",", ".") + " m";
 
         if (numTubes > 0)
         {
             document.querySelector('.torpedo .tubes').innerHTML = numTorpTurrets.toString() + " X " + numTubes.toString();
-            document.querySelector('.torpedo .maxTorpedoRange').innerHTML = accounting.formatNumber(maxTorpedoRange, 2, ",", ".") + " km";
-            document.querySelector('.torpedo .torpedoReload').innerHTML = accounting.formatNumber(torpedoReload * TTMM3_GTShotDelay, 1, ",", ".") + " s";
-            document.querySelector('.torpedo .torpedoSpeed').innerHTML = accounting.formatNumber(torpedoSpeed, 1, ",", ".") + " kts";
+            document.querySelector('.torpedo .maxTorpedoRange').innerHTML = accounting.formatNumber(maxTorpedoRange * torpedoRangeCoefficient, 2, ",", ".") + " km";
+            document.querySelector('.torpedo .torpedoReload').innerHTML = accounting.formatNumber(torpedoReload * TTMM3_GTShotDelay * launcherCoefficientTorpedoReload, 1, ",", ".") + " s";
+            document.querySelector('.torpedo .torpedoSpeed').innerHTML = accounting.formatNumber(torpedoSpeed + torpedoSpeedBonus, 1, ",", ".") + " kts";
             document.querySelector('.torpedo .torpedoVisibilityFactor').innerHTML = accounting.formatNumber(torpedoVisibilityFactor, 2, ",", ".") + " km";
         }
 
@@ -623,13 +644,13 @@
 //            document.querySelector('.aircraft .torpedoBomberName').innerHTML = torpedoBomberName;
 //            document.querySelector('.aircraft .diveBomberName').innerHTML = diveBomberName;
             document.querySelector('.aircraft .fighterSquadrons').innerHTML = accounting.formatNumber(fighterSquadronCount, 0, ",", ".");
-            document.querySelector('.aircraft .fighterSquadronSize').innerHTML = accounting.formatNumber(fighterSquadronSize, 0, ",", ".");
+            document.querySelector('.aircraft .fighterSquadronSize').innerHTML = accounting.formatNumber(fighterSquadronSize + fighterCountSkill, 0, ",", ".");
             document.querySelector('.aircraft .fighterReserves').innerHTML = accounting.formatNumber(fighterCount, 0, ",", ".");
             document.querySelector('.aircraft .torpedoBomberSquadrons').innerHTML = accounting.formatNumber(torpedoBomberSquadronCount, 0, ",", ".");
-            document.querySelector('.aircraft .torpedoBomberSquadronSize').innerHTML = accounting.formatNumber(torpedoBomberSquadronSize, 0, ",", ".");
+            document.querySelector('.aircraft .torpedoBomberSquadronSize').innerHTML = accounting.formatNumber(torpedoBomberSquadronSize + torpedoBomberCountSkill, 0, ",", ".");
             document.querySelector('.aircraft .torpedoBomberReserves').innerHTML = accounting.formatNumber(torpedoBomberCount, 0, ",", ".");
             document.querySelector('.aircraft .diveBomberSquadrons').innerHTML = accounting.formatNumber(diveBomberSquadronCount, 0, ",", ".");
-            document.querySelector('.aircraft .diveBomberSquadronSize').innerHTML = accounting.formatNumber(diveBomberSquadronSize, 0, ",", ".");
+            document.querySelector('.aircraft .diveBomberSquadronSize').innerHTML = accounting.formatNumber(diveBomberSquadronSize + diveBomberCountSkill, 0, ",", ".");
             document.querySelector('.aircraft .diveBomberReserves').innerHTML = accounting.formatNumber(diveBomberCount, 0, ",", ".");
         }
     }

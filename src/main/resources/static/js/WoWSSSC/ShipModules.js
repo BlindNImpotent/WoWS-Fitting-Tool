@@ -371,10 +371,10 @@ function setTurretStats(id)
     }
 
     mainGunRotation = GP_TurretJSON['rotationSpeed'][0];
-    if (mainGunRotation != 0)
-    {
-        mainGunRotationTime = 180 / mainGunRotation;
-    }
+    // if (mainGunRotation != 0)
+    // {
+    //     mainGunRotationTime = 180 / mainGunRotation;
+    // }
 
     mainGunReload = GP_TurretJSON['shotDelay'];
 

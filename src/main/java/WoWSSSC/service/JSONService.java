@@ -32,8 +32,9 @@ public class JSONService
     private JSONObject apiShipJSON;
     private JSONObject gpShipJSON;
 
-    private int tier;
+    private long tier;
     private String nation;
+    private String shipType;
 
     private String ship_id_str;
 
@@ -176,6 +177,8 @@ public class JSONService
         gpShipJSON = gameParamsParser.getGameParamsIndexHashMap().get(apiShipJSON.get("ship_id_str"));
 
         nation = (String) apiShipJSON.get("nation");
+        tier = (long) apiShipJSON.get("tier");
+        shipType = (String) apiShipJSON.get("type");
 
         ship_id_str = (String) apiShipJSON.get("ship_id_str");
 
@@ -428,37 +431,37 @@ public class JSONService
         {
             ModernizationSlot1 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot1");
             ModernizationSlot1_mods = (JSONArray) ModernizationSlot1.get("mods");
-            modSlot1.add("None1");
+//            modSlot1.add("None1");
         }
 
         if (GP_UpgradesJSON.get("ModernizationSlot2") != null) {
             ModernizationSlot2 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot2");
             ModernizationSlot2_mods = (JSONArray) ModernizationSlot2.get("mods");
-            modSlot2.add("None2");
+//            modSlot2.add("None2");
         }
 
         if (GP_UpgradesJSON.get("ModernizationSlot3") != null) {
             ModernizationSlot3 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot3");
             ModernizationSlot3_mods = (JSONArray) ModernizationSlot3.get("mods");
-            modSlot3.add("None3");
+//            modSlot3.add("None3");
         }
 
         if (GP_UpgradesJSON.get("ModernizationSlot4") != null) {
             ModernizationSlot4 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot4");
             ModernizationSlot4_mods = (JSONArray) ModernizationSlot4.get("mods");
-            modSlot4.add("None4");
+//            modSlot4.add("None4");
         }
 
         if (GP_UpgradesJSON.get("ModernizationSlot5") != null) {
             ModernizationSlot5 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot5");
             ModernizationSlot5_mods = (JSONArray) ModernizationSlot5.get("mods");
-            modSlot5.add("None5");
+//            modSlot5.add("None5");
         }
 
         if (GP_UpgradesJSON.get("ModernizationSlot6") != null) {
             ModernizationSlot6 = (JSONObject) GP_UpgradesJSON.get("ModernizationSlot6");
             ModernizationSlot6_mods = (JSONArray) ModernizationSlot6.get("mods");
-            modSlot6.add("None6");
+//            modSlot6.add("None6");
         }
 
         JSONObject ship_modifications = (JSONObject) apiParser.getAPI_InfoEncyclopediaJSON().get("ship_modifications");

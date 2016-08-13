@@ -1,5 +1,9 @@
+var skillsImageLocation;
+
 var shipName;
 var shipNation;
+var shipType;
+var crewNation;
 
 var scaleDist = 0.03;
 
@@ -21,7 +25,7 @@ var apiFighterUpgradeJSON;
 var apiTorpedoBomberUpgradeJSON;
 var apiDiveBomberUpgradeJSON;
 
-//    var tier = 0;
+var tier = 0;
 var maxRepairCost = 0;
 var maxHP = 0;
 var speed = 0;
@@ -226,3 +230,46 @@ var TASM1_visionXRayShipCoeff = 1;
 
 //PCM027_ConcealmentMeasures_Mod_I Slot 6
 var CSM1_visibilityDistCoeff = 1;
+
+
+var airDefenceEfficiencyCoefficient = 1;
+var smallGunReloadCoefficient = 1;
+var airDefenceRangeCoefficient = 1;
+var smallGunRangeCoefficient = 1;
+var diveBomberCountSkill = 0;
+var fighterCountSkill = 0;
+var torpedoBomberCountSkill = 0;
+var reloadCoefficientAllSkills = 1;
+var ArtilleryAlertModifier = 0;
+var critTimeCoefficient = 1;
+var atbaIdealRadiusHi = 1;
+var atbaIdealRadiusLo = 1;
+var airDefenceSelectedTargetCoefficient = 1;
+var reloadCoefficientDamageControl = 1;
+var fightersEfficiencyCoefficient = 0;
+var probabilityBonusFire = 0;
+var probabilityCoefficientFire = 1;
+var switchAmmoReloadCoef = 1;
+var lastChanceHp = 1;
+var lastChanceReloadCoefficient = 1;
+var critRudderTimeCoefficient = 1;
+var bigGunBonus = 0;
+var smallGunBonus = 0;
+var critProbCoefficient = 0;
+var diveBombersPrepareCoefficient = 1;
+var fightersPrepareCoefficient = 1;
+var torpedoBombersPrepareCoefficient = 1;
+var vitalityCoefficientPlane = 1;
+var fightersPassiveEfficiencyCoefficient = 1;
+var additionalConsumables = 0;
+var healthPerLevel = 0;
+var torpedoRangeCoefficient = 1;
+var torpedoSpeedBonus = 0;
+var rangeCoefficientTorpedoAlert = 0;
+var bomberCoefficientTorpedoReload = 1;
+var launcherCoefficientTorpedoReload = 1;
+var aircraftCarrierCoefficientConceal = 1;
+var battleshipCoefficientConceal = 1;
+var cruiserCoefficientConceal = 1;
+var destroyerCoefficientConceal = 1;
+var VisibilityModifier = 1;

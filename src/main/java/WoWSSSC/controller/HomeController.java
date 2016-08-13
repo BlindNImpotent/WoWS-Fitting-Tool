@@ -52,11 +52,13 @@ public class HomeController
             jsonService.setShipJSON(shipName);
 
             model.addAttribute("name", shipName);
+            model.addAttribute("shipType", jsonService.getShipType());
 
             model.addAttribute("imagesMedium", jsonService.getImagesMedium());
             model.addAttribute("ship_id_str", jsonService.getShip_id_str());
 
             model.addAttribute("nation", jsonService.getNation());
+            model.addAttribute("tier", jsonService.getTier());
 
             model.addAttribute("gpShipJSON", jsonService.getGpShipJSON());
 

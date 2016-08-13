@@ -40,6 +40,7 @@ li
 
 #modules
 {
+    display: inline-block;
     text-align: center;
 }
 
@@ -49,11 +50,13 @@ li
     text-align: center;
 }
 
-#modules
+#skills
 {
     display: inline-block;
     text-align: center;
+    vertical-align: top;
 }
+
 #flightControlList
 {
     display: inline-block;
@@ -287,7 +290,53 @@ li
     margin-bottom: 0px;
 }
 
-/*.tier { float:right }*/
+.button_skill
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 10px;
+    min-width: 50px;
+    max-width: 50px;
+    min-height: 50px;
+    max-height: 50px;
+    word-wrap: normal;
+    cursor: pointer;
+}
+
+.button_skill img
+{
+    width: 25px;
+    margin-bottom: 0px;
+}
+
+.button_skill_selected
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 10px;
+    min-width: 50px;
+    max-width: 50px;
+    min-height: 50px;
+    max-height: 50px;
+    word-wrap: normal;
+    cursor: pointer;
+}
+
+.button_skill_selected img
+{
+    width: 35px;
+    margin-bottom: 0px;
+}
+
+.tier { float:right }
 .maxHP { float:right }
 .speed { float:right }
 .rudderShift { float:right }
