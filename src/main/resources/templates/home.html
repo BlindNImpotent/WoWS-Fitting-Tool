@@ -591,8 +591,8 @@
         document.querySelector('.hullStats .turningRadius').innerHTML = accounting.formatNumber(turningRadius, 0, ",", ".") + " m";
         document.querySelector('.hullStats .sConceal').innerHTML = accounting.formatNumber(sConceal * CSM1_visibilityDistCoeff * VisibilityModifier, 2, ",", ".") + " km";
         document.querySelector('.hullStats .aConceal').innerHTML = accounting.formatNumber(aConceal * CSM1_visibilityDistCoeff * VisibilityModifier, 2, ",", ".") + " km";
-        document.querySelector('.hullStats .burnTime').innerHTML = accounting.formatNumber(burnTime * DCSM2_burnTime, 1, ",", ".") + " s";
-        document.querySelector('.hullStats .floodTime').innerHTML = accounting.formatNumber(floodTime * DCSM2_floodTime, 1, ",", ".") + " s";
+        document.querySelector('.hullStats .burnTime').innerHTML = accounting.formatNumber(burnTime * DCSM2_burnTime * critTimeCoefficient, 1, ",", ".") + " s";
+        document.querySelector('.hullStats .floodTime').innerHTML = accounting.formatNumber(floodTime * DCSM2_floodTime * critTimeCoefficient, 1, ",", ".") + " s";
 
         if (numBarrels > 0)
         {
@@ -622,7 +622,14 @@
         }
 
         document.querySelector('.AASecondaryStats .antiAirAuraDistanceFar').innerHTML = accounting.formatNumber(antiAirAuraDistanceFar * AAGM2_AAMaxDist * airDefenceRangeCoefficient, 2, ",", ".") + " km";
-        document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = accounting.formatNumber(AAFarDPS * AAGM3_AAAura * airDefenceEfficiencyCoefficient, 1, ",", ".");
+        if (AAFarBarrelDiameter > 0.085)
+        {
+            document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = accounting.formatNumber(AAFarDPS * AAGM3_AAAura * airDefenceEfficiencyCoefficient * airDefenceSelectedTargetCoefficient, 1, ",", ".");
+        }
+        else
+        {
+            document.querySelector('.AASecondaryStats .AAFarDPS').innerHTML = accounting.formatNumber(AAFarDPS * AAGM3_AAAura * airDefenceEfficiencyCoefficient, 1, ",", ".");
+        }
         document.querySelector('.AASecondaryStats .antiAirAuraDistanceMedium').innerHTML = accounting.formatNumber(antiAirAuraDistanceMedium * AAGM2_AAMaxDist * airDefenceRangeCoefficient, 2, ",", ".") + " km";
         document.querySelector('.AASecondaryStats .AAMediumDPS').innerHTML = accounting.formatNumber(AAMediumDPS * AAGM3_AAAura * airDefenceEfficiencyCoefficient, 1, ",", ".");
         document.querySelector('.AASecondaryStats .antiAirAuraDistanceNear').innerHTML = accounting.formatNumber(antiAirAuraDistanceNear * AAGM2_AAMaxDist * airDefenceRangeCoefficient, 2, ",", ".") + " km";
