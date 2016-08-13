@@ -50,6 +50,11 @@ public class HomeController
         if (!shipName.equals(""))
         {
             jsonService.setShipJSON(shipName);
+            jsonService.setShipUpgradeModulesInfo();
+            jsonService.setUpgrades();
+            jsonService.setConsumablesList();
+            jsonService.setPermaflage();
+            jsonService.setFlagsList();
 
             model.addAttribute("name", shipName);
             model.addAttribute("shipType", jsonService.getShipType());

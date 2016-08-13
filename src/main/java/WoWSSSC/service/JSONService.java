@@ -23,148 +23,148 @@ import java.util.List;
 @Data
 public class JSONService
 {
-    private API_Parser apiParser;
-    private GameParams_Parser gameParamsParser;
+    public API_Parser apiParser;
+    public GameParams_Parser gameParamsParser;
 
-    private HashMap<String, JSONObject> GameParamsIndexHashMap;
-    private HashMap<String, JSONObject> GameParamsNameHashMap;
+    public HashMap<String, JSONObject> GameParamsIndexHashMap;
+    public HashMap<String, JSONObject> GameParamsNameHashMap;
 
-    private JSONObject apiShipJSON;
-    private JSONObject gpShipJSON;
+    public JSONObject apiShipJSON;
+    public JSONObject gpShipJSON;
 
-    private long tier;
-    private String nation;
-    private String shipType;
+    public long tier;
+    public String nation;
+    public String shipType;
 
-    private String ship_id_str;
+    public String ship_id_str;
 
-    private JSONObject modules_treeJSON;
-    private List<String> modules_treeList;
-    private List<JSONObject> default_loadouts;
-    private List<JSONObject> upgradeModules;
+    public JSONObject modules_treeJSON;
+    public List<String> modules_treeList;
+    public List<JSONObject> default_loadouts;
+    public List<JSONObject> upgradeModules;
     
-    private List<Upgrade> API_ArtilleryUpgrade;
-    private List<Upgrade> API_HullUpgrade;
-    private List<Upgrade> API_EngineUpgrade;
-    private List<Upgrade> API_RadarUpgrade;
-    private List<Upgrade> API_TorpedoUpgrade;
+    public List<Upgrade> API_ArtilleryUpgrade;
+    public List<Upgrade> API_HullUpgrade;
+    public List<Upgrade> API_EngineUpgrade;
+    public List<Upgrade> API_RadarUpgrade;
+    public List<Upgrade> API_TorpedoUpgrade;
 
-    private List<String> API_ArtilleryUpgradeIndexList;
-    private List<String> API_HullUpgradeIndexList;
-    private List<String> API_EngineUpgradeIndexList;
-    private List<String> API_RadarUpgradeIndexList;
-    private List<String> API_TorpedoUpgradeIndexList;
+    public List<String> API_ArtilleryUpgradeIndexList;
+    public List<String> API_HullUpgradeIndexList;
+    public List<String> API_EngineUpgradeIndexList;
+    public List<String> API_RadarUpgradeIndexList;
+    public List<String> API_TorpedoUpgradeIndexList;
 
-//    private List<JSONObject> API_ArtilleryUpgradeJSONList;
-//    private List<String> API_ArtilleryUpgradeNameList;
-    private HashMap<String, JSONObject> API_ArtilleryUpgradeJSONHashMap;
+//    public List<JSONObject> API_ArtilleryUpgradeJSONList;
+//    public List<String> API_ArtilleryUpgradeNameList;
+    public HashMap<String, JSONObject> API_ArtilleryUpgradeJSONHashMap;
 //
-//    private List<JSONObject> API_HullUpgradeJSONList;
-//    private List<String> API_HullUpgradeNameList;
-    private HashMap<String, JSONObject> API_HullUpgradeJSONHashMap;
+//    public List<JSONObject> API_HullUpgradeJSONList;
+//    public List<String> API_HullUpgradeNameList;
+    public HashMap<String, JSONObject> API_HullUpgradeJSONHashMap;
 //
-//    private List<JSONObject> API_EngineUpgradeJSONList;
-//    private List<String> API_EngineUpgradeNameList;
-    private HashMap<String, JSONObject> API_EngineUpgradeJSONHashMap;
+//    public List<JSONObject> API_EngineUpgradeJSONList;
+//    public List<String> API_EngineUpgradeNameList;
+    public HashMap<String, JSONObject> API_EngineUpgradeJSONHashMap;
 //
-//    private List<JSONObject> API_SuoUpgradeJSONList;
-//    private List<String> API_SuoUpgradeNameList;
-    private HashMap<String, JSONObject> API_SuoUpgradeJSONHashMap;
+//    public List<JSONObject> API_SuoUpgradeJSONList;
+//    public List<String> API_SuoUpgradeNameList;
+    public HashMap<String, JSONObject> API_SuoUpgradeJSONHashMap;
 //
-//    private List<JSONObject> API_TorpedoesUpgradeJSONList;
-//    private List<String> API_TorpedoesUpgradeNameList;
-    private HashMap<String, JSONObject> API_TorpedoesUpgradeJSONHashMap;
+//    public List<JSONObject> API_TorpedoesUpgradeJSONList;
+//    public List<String> API_TorpedoesUpgradeNameList;
+    public HashMap<String, JSONObject> API_TorpedoesUpgradeJSONHashMap;
 
-    private JSONObject API_ArtilleryUpgradeJSON;
-    private JSONObject API_HullUpgradeJSON;
-    private JSONObject API_EngineUpgradeJSON;
-    private JSONObject API_RadarUpgradeJSON;
-    private JSONObject API_TorpedoUpgradeJSON;
+    public JSONObject API_ArtilleryUpgradeJSON;
+    public JSONObject API_HullUpgradeJSON;
+    public JSONObject API_EngineUpgradeJSON;
+    public JSONObject API_RadarUpgradeJSON;
+    public JSONObject API_TorpedoUpgradeJSON;
 
-    private String imagesMedium;
+    public String imagesMedium;
 
-    private List<Long> API_UpgradesIDList;
-    private JSONObject GP_UpgradesJSON;
-    private List<String> UpgradesNameList;
-    private JSONObject ModernizationSlot1;
-    private JSONObject ModernizationSlot2;
-    private JSONObject ModernizationSlot3;
-    private JSONObject ModernizationSlot4;
-    private JSONObject ModernizationSlot5;
-    private JSONObject ModernizationSlot6;
-    private JSONArray ModernizationSlot1_mods;
-    private JSONArray ModernizationSlot2_mods;
-    private JSONArray ModernizationSlot3_mods;
-    private JSONArray ModernizationSlot4_mods;
-    private JSONArray ModernizationSlot5_mods;
-    private JSONArray ModernizationSlot6_mods;
-    private List<String> modSlot1;
-    private List<String> modSlot2;
-    private List<String> modSlot3;
-    private List<String> modSlot4;
-    private List<String> modSlot5;
-    private List<String> modSlot6;
-    private List<String> modSlot1Images;
-    private List<String> modSlot2Images;
-    private List<String> modSlot3Images;
-    private List<String> modSlot4Images;
-    private List<String> modSlot5Images;
-    private List<String> modSlot6Images;
-    private LinkedHashMap<String, JSONObject> mods1;
-    private LinkedHashMap<String, JSONObject> mods2;
-    private LinkedHashMap<String, JSONObject> mods3;
-    private LinkedHashMap<String, JSONObject> mods4;
-    private LinkedHashMap<String, JSONObject> mods5;
-    private LinkedHashMap<String, JSONObject> mods6;
-    private List<String> modSlot1Name;
-    private List<String> modSlot2Name;
-    private List<String> modSlot3Name;
-    private List<String> modSlot4Name;
-    private List<String> modSlot5Name;
-    private List<String> modSlot6Name;
+    public List<Long> API_UpgradesIDList;
+    public JSONObject GP_UpgradesJSON;
+    public List<String> UpgradesNameList;
+    public JSONObject ModernizationSlot1;
+    public JSONObject ModernizationSlot2;
+    public JSONObject ModernizationSlot3;
+    public JSONObject ModernizationSlot4;
+    public JSONObject ModernizationSlot5;
+    public JSONObject ModernizationSlot6;
+    public JSONArray ModernizationSlot1_mods;
+    public JSONArray ModernizationSlot2_mods;
+    public JSONArray ModernizationSlot3_mods;
+    public JSONArray ModernizationSlot4_mods;
+    public JSONArray ModernizationSlot5_mods;
+    public JSONArray ModernizationSlot6_mods;
+    public List<String> modSlot1;
+    public List<String> modSlot2;
+    public List<String> modSlot3;
+    public List<String> modSlot4;
+    public List<String> modSlot5;
+    public List<String> modSlot6;
+    public List<String> modSlot1Images;
+    public List<String> modSlot2Images;
+    public List<String> modSlot3Images;
+    public List<String> modSlot4Images;
+    public List<String> modSlot5Images;
+    public List<String> modSlot6Images;
+    public LinkedHashMap<String, JSONObject> mods1;
+    public LinkedHashMap<String, JSONObject> mods2;
+    public LinkedHashMap<String, JSONObject> mods3;
+    public LinkedHashMap<String, JSONObject> mods4;
+    public LinkedHashMap<String, JSONObject> mods5;
+    public LinkedHashMap<String, JSONObject> mods6;
+    public List<String> modSlot1Name;
+    public List<String> modSlot2Name;
+    public List<String> modSlot3Name;
+    public List<String> modSlot4Name;
+    public List<String> modSlot5Name;
+    public List<String> modSlot6Name;
 
-    private List<JSONArray> Abil0;
-    private List<JSONArray> Abil1;
-    private List<JSONArray> Abil2;
-    private List<JSONArray> Abil3;
+    public List<JSONArray> Abil0;
+    public List<JSONArray> Abil1;
+    public List<JSONArray> Abil2;
+    public List<JSONArray> Abil3;
 
-    private List<String> Ability0;
-    private List<String> Ability1;
-    private List<String> Ability2;
-    private List<String> Ability3;
+    public List<String> Ability0;
+    public List<String> Ability1;
+    public List<String> Ability2;
+    public List<String> Ability3;
 
-    private double afterBattleRepair;
-    private double visibilityFactorPermaCamo;
-    private double visibilityFactorByPlanePermaCamo;
-    private double expFactorPermaCamo;
+    public double afterBattleRepair;
+    public double visibilityFactorPermaCamo;
+    public double visibilityFactorByPlanePermaCamo;
+    public double expFactorPermaCamo;
 
-    private List<String> permaflage;
-    private HashMap<String, JSONObject> permaflageHashMap;
+    public List<String> permaflage;
+    public HashMap<String, JSONObject> permaflageHashMap;
 
-    private List<JSONObject> FlagsJSONList;
+    public List<JSONObject> FlagsJSONList;
     
-    private HashMap<String, JSONObject> API_FlightControlUpgradeJSONHashMap; 
-    private List<String> API_FlightControlUpgradeIndexList;
-    private List<Upgrade> API_FlightControlUpgrade;
-    private JSONObject API_FlightControlUpgradeJSON;
+    public HashMap<String, JSONObject> API_FlightControlUpgradeJSONHashMap; 
+    public List<String> API_FlightControlUpgradeIndexList;
+    public List<Upgrade> API_FlightControlUpgrade;
+    public JSONObject API_FlightControlUpgradeJSON;
 
-    private HashMap<String, JSONObject> API_FighterUpgradeJSONHashMap;
-    private List<String> API_FighterUpgradeIndexList;
-    private List<Upgrade> API_FighterUpgrade;
-    private JSONObject API_FighterUpgradeJSON;
+    public HashMap<String, JSONObject> API_FighterUpgradeJSONHashMap;
+    public List<String> API_FighterUpgradeIndexList;
+    public List<Upgrade> API_FighterUpgrade;
+    public JSONObject API_FighterUpgradeJSON;
 
-    private HashMap<String, JSONObject> API_TorpedoBomberUpgradeJSONHashMap;
-    private List<String> API_TorpedoBomberUpgradeIndexList;
-    private List<Upgrade> API_TorpedoBomberUpgrade;
-    private JSONObject API_TorpedoBomberUpgradeJSON;
+    public HashMap<String, JSONObject> API_TorpedoBomberUpgradeJSONHashMap;
+    public List<String> API_TorpedoBomberUpgradeIndexList;
+    public List<Upgrade> API_TorpedoBomberUpgrade;
+    public JSONObject API_TorpedoBomberUpgradeJSON;
 
-    private HashMap<String, JSONObject> API_DiveBomberUpgradeJSONHashMap;
-    private List<String> API_DiveBomberUpgradeIndexList;
-    private List<Upgrade> API_DiveBomberUpgrade;
-    private JSONObject API_DiveBomberUpgradeJSON;
+    public HashMap<String, JSONObject> API_DiveBomberUpgradeJSONHashMap;
+    public List<String> API_DiveBomberUpgradeIndexList;
+    public List<Upgrade> API_DiveBomberUpgrade;
+    public JSONObject API_DiveBomberUpgradeJSON;
     
 
-//    @Cacheable("setShipJSON")
+    @Cacheable("setShipJSON")
     public void setShipJSON(String name) throws IOException, ParseException
     {
         apiParser = new API_Parser();
@@ -184,12 +184,8 @@ public class JSONService
 
         JSONObject images = (JSONObject) apiShipJSON.get("images");
         imagesMedium = (String) images.get("medium");
-        
-        setShipUpgradeModulesInfo();
-        setUpgrades();
-        setConsumablesList();
-        setPermaflage();
-        setFlagsList();
+
+
     }
 
     public JSONObject getGameParamsIndexJSON(String index)
@@ -202,7 +198,7 @@ public class JSONService
         return GameParamsNameHashMap.get(name);
     }
 
-    private void setShipUpgradeModulesInfo()
+    public void setShipUpgradeModulesInfo()
     {
         modules_treeList = new ArrayList<>();
         default_loadouts = new ArrayList<>();
@@ -385,7 +381,7 @@ public class JSONService
     }
 
     @SuppressWarnings("unchecked")
-    private void setUpgrades()
+    public void setUpgrades()
     {
         API_UpgradesIDList = new ArrayList<>();        
         UpgradesNameList = new ArrayList<>();
@@ -518,7 +514,7 @@ public class JSONService
     }
 
     @SuppressWarnings("unchecked")
-    private void setConsumablesList()
+    public void setConsumablesList()
     {
         Abil0 = new ArrayList<>();
         Abil1 = new ArrayList<>();
@@ -561,7 +557,7 @@ public class JSONService
     }
 
     @SuppressWarnings("unchecked")
-    private void setPermaflage()
+    public void setPermaflage()
     {
         permaflage = new ArrayList<>();
         permaflageHashMap = new HashMap<>();
@@ -631,7 +627,7 @@ public class JSONService
     }
 
     @SuppressWarnings("unchecked")
-    private void setFlagsList()
+    public void setFlagsList()
     {
         FlagsJSONList = new ArrayList<>();
 
