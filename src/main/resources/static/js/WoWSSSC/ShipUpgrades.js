@@ -3,7 +3,7 @@ function mod(id, list)
     if (document.getElementById(id).className == "button_upgrade_selected")
     {
         document.getElementById(id).className = "button_upgrade"
-        reset(id)
+        resetUpgrades(id)
         return;
     }
 
@@ -15,7 +15,7 @@ function mod(id, list)
         for (var i in list)
         {
             document.getElementById(list[i]).className = "button_upgrade";
-            reset(list[i]);
+            resetUpgrades(list[i]);
         }
         document.getElementById(id).className = "button_upgrade_selected";
 
@@ -25,7 +25,7 @@ function mod(id, list)
         for (var i in list)
         {
             document.getElementById(list[i]).className = "button_upgrade";
-            reset(list[i]);
+            resetUpgrades(list[i]);
         }
         document.getElementById(id).className = "button_upgrade_selected";
     }
@@ -37,7 +37,7 @@ function modCalc(id, list)
 {
     for (var i in list)
     {
-        reset(list[i]);
+        resetUpgrades(list[i]);
     }
 
     var moduleData;
@@ -206,7 +206,7 @@ function modCalc(id, list)
     refresh();
 }
 
-function reset(id)
+function resetUpgrades(id)
 {
     if (id == 'PCM030_MainWeapon_Mod_I')
     {

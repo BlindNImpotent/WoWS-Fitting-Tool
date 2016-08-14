@@ -2,6 +2,7 @@ package WoWSSSC.service;
 
 import Parser.API_Parser;
 import Parser.GameParams_Parser;
+import WoWSSSC.model.Camouflage;
 import WoWSSSC.model.Upgrade;
 import lombok.Data;
 import org.json.simple.JSONArray;
@@ -138,7 +139,7 @@ public class JSONService
     public double visibilityFactorByPlanePermaCamo;
     public double expFactorPermaCamo;
 
-    public List<String> permaflage;
+    public JSONObject permaflage;
     public HashMap<String, JSONObject> permaflageHashMap;
 
     public List<JSONObject> FlagsJSONList;
@@ -162,7 +163,10 @@ public class JSONService
     public List<String> API_DiveBomberUpgradeIndexList;
     public List<Upgrade> API_DiveBomberUpgrade;
     public JSONObject API_DiveBomberUpgradeJSON;
-    
+
+    public List<Camouflage> camouflages;
+
+    public List<String> camouflagesIdList;
 
 //    @Cacheable("setShipJSON")
     public void setShipJSON(String name) throws IOException, ParseException
@@ -185,7 +189,11 @@ public class JSONService
         JSONObject images = (JSONObject) apiShipJSON.get("images");
         imagesMedium = (String) images.get("medium");
 
-
+        setShipUpgradeModulesInfo();
+        setUpgrades();
+        setConsumablesList();
+        setPermaflage(name);
+        setFlagsList();
     }
 
     public JSONObject getGameParamsIndexJSON(String index)
@@ -198,7 +206,7 @@ public class JSONService
         return GameParamsNameHashMap.get(name);
     }
 
-    public void setShipUpgradeModulesInfo()
+    private void setShipUpgradeModulesInfo()
     {
         modules_treeList = new ArrayList<>();
         default_loadouts = new ArrayList<>();
@@ -381,7 +389,7 @@ public class JSONService
     }
 
     @SuppressWarnings("unchecked")
-    public void setUpgrades()
+    private void setUpgrades()
     {
         API_UpgradesIDList = new ArrayList<>();        
         UpgradesNameList = new ArrayList<>();
@@ -514,17 +522,17 @@ public class JSONService
     }
 
     @SuppressWarnings("unchecked")
-    public void setConsumablesList()
+    private void setConsumablesList()
     {
         Abil0 = new ArrayList<>();
         Abil1 = new ArrayList<>();
         Abil2 = new ArrayList<>();
         Abil3 = new ArrayList<>();
 
-        Ability0 = new ArrayList<>();
-        Ability1 = new ArrayList<>();
-        Ability2 = new ArrayList<>();
-        Ability3 = new ArrayList<>();
+//        Ability0 = new ArrayList<>();
+//        Ability1 = new ArrayList<>();
+//        Ability2 = new ArrayList<>();
+//        Ability3 = new ArrayList<>();
         
         JSONObject ShipAbilities = (JSONObject) gpShipJSON.get("ShipAbilities");
         JSONObject AbilitySlot0 = (JSONObject) ShipAbilities.get("AbilitySlot0");
@@ -536,35 +544,38 @@ public class JSONService
         Abil2 = (JSONArray) AbilitySlot2.get("abils");
         Abil3 = (JSONArray) AbilitySlot3.get("abils");
 
-        for (int i = 0; i < Abil0.size(); i++) {
-            Ability0.add(Abil0.get(i).get(0).toString());
-        }
-
-        for (int i = 0; i < Abil1.size(); i++)
-        {
-            Ability1.add(Abil1.get(i).get(0).toString());
-        }
-
-        for (int i = 0; i < Abil2.size(); i++)
-        {
-            Ability2.add(Abil2.get(i).get(0).toString());
-        }
-
-        for (int i = 0; i < Abil3.size(); i++)
-        {
-            Ability3.add(Abil3.get(i).get(0).toString());
-        }
+//        for (int i = 0; i < Abil0.size(); i++) {
+//            Ability0.add(Abil0.get(i).get(0).toString());
+//        }
+//
+//        for (int i = 0; i < Abil1.size(); i++)
+//        {
+//            Ability1.add(Abil1.get(i).get(0).toString());
+//        }
+//
+//        for (int i = 0; i < Abil2.size(); i++)
+//        {
+//            Ability2.add(Abil2.get(i).get(0).toString());
+//        }
+//
+//        for (int i = 0; i < Abil3.size(); i++)
+//        {
+//            Ability3.add(Abil3.get(i).get(0).toString());
+//        }
     }
 
+
+
     @SuppressWarnings("unchecked")
-    public void setPermaflage()
+    private void setPermaflage(String name)
     {
-        permaflage = new ArrayList<>();
         permaflageHashMap = new HashMap<>();
+        camouflages = new ArrayList<>();
+        camouflagesIdList = new ArrayList<>();
 
         JSONArray pf = (JSONArray) gpShipJSON.get("permoflages");
-        JSONObject permoflage = apiParser.getAPI_Exterior_PermoflageJSON();
         JSONObject camouflage = apiParser.getAPI_Exterior_CamouflageJSON();
+        JSONObject permoflage = apiParser.getAPI_Exterior_PermoflageJSON();
 
         List<JSONObject> camouList = new ArrayList<>();
         camouList.addAll(camouflage.values());
@@ -572,62 +583,95 @@ public class JSONService
 
         for (int i = 0; i < camouList.size(); i++)
         {
-            long camouID = (long) camouList.get(i).get("exterior_id");
-
-            for (int j = 0; j < gameParamsParser.getGameParamsValues().size(); j++)
-            {
-                if (gameParamsParser.getGameParamsValues().get(j).get("id").equals(camouID))
-                {
-                    permaflage.add((String) camouList.get(i).get("name"));
-                    permaflageHashMap.put((String) camouList.get(i).get("name"), gameParamsParser.getGameParamsValues().get(j));
-                    break;
-                }
-            }
+            JSONObject images = (JSONObject) camouList.get(i).get("image");
+            String small = (String) images.get("small");
+            small = small.replace("http://api.worldofwarships.com/static/1.8.3/wows/encyclopedia/camouflage/", "");
+            small = small.replace(".png", "");
+            camouflages.add(new Camouflage((String) camouList.get(i).get("name"), small));
+            camouflagesIdList.add(small);
         }
 
         if (pf != null)
         {
-            for (int i = 0; i < pf.size(); i++)
+            List<JSONObject> permoList = new ArrayList<>();
+            permoList.addAll(permoflage.values());
+
+            for (int i = 0; i < permoList.size(); i++)
             {
-                JSONObject pfJSON = (JSONObject) gameParamsParser.getGameParams().get(pf.get(i));
-                long id = (long) pfJSON.get("id");
-
-                JSONObject permo = (JSONObject) permoflage.get(String.valueOf(id));
-
-                permaflage.add((String) permo.get("name"));
-                permaflageHashMap.put((String) permo.get("name"), pfJSON);
+                String permoName = (String) permoList.get(i).get("name");
+                if (permoName.contains(name))
+                {
+                    JSONObject images = (JSONObject) permoList.get(i).get("image");
+                    String small = (String) images.get("small");
+                    small = small.replace("http://api.worldofwarships.com/static/1.8.3/wows/encyclopedia/permoflage/", "");
+                    small = small.replace(".png", "");
+                    camouflages.add(new Camouflage((String) permoList.get(i).get("name"), small));
+                    camouflagesIdList.add(small);
+                }
             }
         }
+
+
+
+//
+//        for (int i = 0; i < camouList.size(); i++)
+//        {
+//            long camouID = (long) camouList.get(i).get("exterior_id");
+//
+//            for (int j = 0; j < gameParamsParser.getGameParamsValues().size(); j++)
+//            {
+//                if (gameParamsParser.getGameParamsValues().get(j).get("id").equals(camouID))
+//                {
+//                    permaflage.add((String) camouList.get(i).get("name"));
+//                    permaflageHashMap.put((String) camouList.get(i).get("name"), gameParamsParser.getGameParamsValues().get(j));
+//                    break;
+//                }
+//            }
+//        }
+//
+//        if (pf != null)
+//        {
+//            for (int i = 0; i < pf.size(); i++)
+//            {
+//                JSONObject pfJSON = (JSONObject) gameParamsParser.getGameParams().get(pf.get(i));
+//                long id = (long) pfJSON.get("id");
+//
+//                JSONObject permo = (JSONObject) permoflage.get(String.valueOf(id));
+//
+//                permaflage.add((String) permo.get("name"));
+//                permaflageHashMap.put((String) permo.get("name"), pfJSON);
+//            }
+//        }
     }
 
-    public void setPermaflage2(String aPermaflage)
-    {
-        JSONObject pf = (JSONObject) permaflageHashMap.get(aPermaflage);
-
-        if (pf.get("afterBattleRepair") != null)
-        {
-            afterBattleRepair = (double) pf.get("afterBattleRepair");
-        }
-        else
-        {
-            afterBattleRepair = 1.00;
-        }
-
-        visibilityFactorPermaCamo = (double) pf.get("visibilityFactor");
-        visibilityFactorByPlanePermaCamo = (double) pf.get("visibilityFactorByPlane");
-
-        if (pf.get("expFactor") != null)
-        {
-            expFactorPermaCamo = (double) pf.get("expFactor") - 1;
-        }
-        else
-        {
-            expFactorPermaCamo = 0;
-        }
-    }
+//    public void setPermaflage2(String aPermaflage)
+//    {
+//        JSONObject pf = (JSONObject) permaflageHashMap.get(aPermaflage);
+//
+//        if (pf.get("afterBattleRepair") != null)
+//        {
+//            afterBattleRepair = (double) pf.get("afterBattleRepair");
+//        }
+//        else
+//        {
+//            afterBattleRepair = 1.00;
+//        }
+//
+//        visibilityFactorPermaCamo = (double) pf.get("visibilityFactor");
+//        visibilityFactorByPlanePermaCamo = (double) pf.get("visibilityFactorByPlane");
+//
+//        if (pf.get("expFactor") != null)
+//        {
+//            expFactorPermaCamo = (double) pf.get("expFactor") - 1;
+//        }
+//        else
+//        {
+//            expFactorPermaCamo = 0;
+//        }
+//    }
 
     @SuppressWarnings("unchecked")
-    public void setFlagsList()
+    private void setFlagsList()
     {
         FlagsJSONList = new ArrayList<>();
 

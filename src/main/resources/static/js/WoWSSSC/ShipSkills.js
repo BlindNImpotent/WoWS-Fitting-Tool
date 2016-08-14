@@ -45,11 +45,11 @@ function setCrewSkills()
     var index = [];
 
     var table = document.getElementById('skillsTable');
-    var row1 = table.insertRow(0)
-    var row2 = table.insertRow(1)
-    var row3 = table.insertRow(2)
-    var row4 = table.insertRow(3)
-    var row5 = table.insertRow(4)
+    var row1 = table.insertRow(0);
+    var row2 = table.insertRow(1);
+    var row3 = table.insertRow(2);
+    var row4 = table.insertRow(3);
+    var row5 = table.insertRow(4);
 
     for (var i = 0; i < 6; i++)
     {
@@ -75,56 +75,55 @@ function setCrewSkills()
         {
             var imgSrc = skillsImageLocation + index[i] + '.png';
 
-            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id) id=" + index[i] + "><img src=" + imgSrc + "\/></button>"
+            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id," +  skill['tier'] + ") id=" + index[i] + "><img src=" + imgSrc + "\/></button>"
             document.getElementById(index[i]).className = "button_skill";
         }
         else if (skill['tier'] == 2)
         {
             var imgSrc = skillsImageLocation + index[i] + '.png';
 
-            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id) id=" + index[i] + "><img src=" + imgSrc + "\/></button>"
+            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id," +  skill['tier'] + ") id=" + index[i] + "><img src=" + imgSrc + "\/></button>"
             document.getElementById(index[i]).className = "button_skill";
         }
         else if (skill['tier'] == 3)
         {
             var imgSrc = skillsImageLocation + index[i] + '.png';
 
-            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id) id=" + index[i] + "><img src=" + imgSrc + "\/></button>"
+            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id," +  skill['tier'] + ") id=" + index[i] + "><img src=" + imgSrc + "\/></button>"
             document.getElementById(index[i]).className = "button_skill";
         }
         else if (skill['tier'] == 4)
         {
             var imgSrc = skillsImageLocation + index[i] + '.png';
 
-            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id) id=" + index[i] + "><img src=" + imgSrc + "\/></button>"
+            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id," +  skill['tier'] + ") id=" + index[i] + "><img src=" + imgSrc + "\/></button>"
             document.getElementById(index[i]).className = "button_skill";
         }
         else if (skill['tier'] == 5)
         {
             var imgSrc = skillsImageLocation + index[i] + '.png';
 
-            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id) id=" + index[i] + "><img src=" + imgSrc + "\/></button>"
+            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id," +  skill['tier'] + ") id=" + index[i] + "><img src=" + imgSrc + "\/></button>"
             document.getElementById(index[i]).className = "button_skill";
         }
-
     }
 }
 
-function setSkill(id)
+function setSkill(id, skillTier)
 {
     if (document.getElementById(id).className == "button_skill")
     {
         document.getElementById(id).className = "button_skill_selected"
-        setSkillStats(id);
+        setSkillStats(id, skillTier);
     }
     else if (document.getElementById(id).className == "button_skill_selected")
     {
         document.getElementById(id).className = "button_skill"
-        refreshSkill(id);
+        refreshSkill(id, skillTier);
     }
 }
 
-function setSkillStats(id)
+function setSkillStats(id, skillTier)
 {
     var crewNationJSON;
     $.ajax({
@@ -139,6 +138,8 @@ function setSkillStats(id)
 
     var skills = crewNationJSON['Skills'];
     var skill = skills[id];
+
+    skillPointsCount = skillPointsCount + skillTier;
 
     if (id == 'AIGunsEfficiencyModifier')
     {
@@ -275,8 +276,10 @@ function setSkillStats(id)
     refresh();
 }
 
-function refreshSkill(id)
+function refreshSkill(id, skillTier)
 {
+    skillPointsCount = skillPointsCount - skillTier;
+
     if (id == 'AIGunsEfficiencyModifier')
     {
         airDefenceEfficiencyCoefficient = 1;

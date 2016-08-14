@@ -3,8 +3,6 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="UTF-8" />
-    <meta http-equiv="Pragma" content="no-cache"/>
-    <meta http-equiv="Cache-Control" content="no-cache"/>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
 
@@ -268,128 +266,177 @@
 <main>
     <div class="container">
         <div id="ship">
-            <div id="modules">
-                <div th:if="${not #lists.isEmpty(flightControlIndexList)}" id="flightControlList">
-                    <li th:onclick="'flightControl(\'' + ${flightControl.index} +'\', \''+ ${flightControlIndexList} + '\');'" th:each="flightControl : ${flightControlUpgradeList}" th:id="${flightControl}">
-                        <button class="button_module" th:id="${flightControl.index}">
-                            <img th:src="@{/images/Upgrades/icon_module_flightcontrol.png}" /><br />
-                            <span th:text="${flightControl.name}"/>
-                        </button>
-                    </li>
+            <div id="modulesAndUpgrades">
+                <div id="modules">
+                    <div th:if="${not #lists.isEmpty(flightControlIndexList)}" id="flightControlList">
+                        <li th:onclick="'flightControl(\'' + ${flightControl.index} +'\', \''+ ${flightControlIndexList} + '\');'" th:each="flightControl : ${flightControlUpgradeList}" th:id="${flightControl}">
+                            <button class="button_module" th:id="${flightControl.index}">
+                                <img th:src="@{/images/Upgrades/icon_module_flightcontrol.png}" /><br />
+                                <span th:text="${flightControl.name}"/>
+                            </button>
+                        </li>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(turretIndexList)}" id="turretList">
+                        <li th:onclick="'turret(\'' + ${turret.index} +'\', \''+ ${turretIndexList} + '\');'" th:each="turret : ${turretUpgradeList}" th:id="${turret}">
+                            <button class="button_module" th:id="${turret.index}">
+                                <img th:src="@{/images/Upgrades/icon_module_maingun.png}" /><br />
+                                <span th:text="${turret.name}"/>
+                            </button>
+                        </li>
+                    </div>
+                    <div id="hullList">
+                        <li th:onclick="'hull(\'' + ${hull.index} +'\', \''+ ${hullIndexList} + '\');'" th:each="hull : ${hullUpgradeList}" th:id="${hull}">
+                            <button class="button_module" th:id="${hull.index}">
+                                <img th:src="@{/images/Upgrades/icon_module_hull.png}" /><br />
+                                <span th:text="${hull.name}"/>
+                            </button>
+                        </li>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(fighterIndexList)}" id="fighterList">
+                        <li th:onclick="'fighter(\'' + ${fighter.index} +'\', \''+ ${fighterIndexList} + '\');'" th:each="fighter : ${fighterUpgradeList}" th:id="${fighter}">
+                            <button class="button_module" th:id="${fighter.index}">
+                                <img th:src="@{/images/Upgrades/icon_module_fighter.png}" /><br />
+                                <span th:text="${fighter.name}"/>
+                            </button>
+                        </li>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(torpedoBomberIndexList)}" id="torpedoBomberList">
+                        <li th:onclick="'torpedoBomber(\'' + ${torpedoBomber.index} +'\', \''+ ${torpedoBomberIndexList} + '\');'" th:each="torpedoBomber : ${torpedoBomberUpgradeList}" th:id="${torpedoBomber}">
+                            <button class="button_module" th:id="${torpedoBomber.index}">
+                                <img th:src="@{/images/Upgrades/icon_module_torpedobomber.png}" /><br />
+                                <span th:text="${torpedoBomber.name}"/>
+                            </button>
+                        </li>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(diveBomberIndexList)}" id="diveBomberList">
+                        <li th:onclick="'diveBomber(\'' + ${diveBomber.index} +'\', \''+ ${diveBomberIndexList} + '\');'" th:each="diveBomber : ${diveBomberUpgradeList}" th:id="${diveBomber}">
+                            <button class="button_module" th:id="${diveBomber.index}">
+                                <img th:src="@{/images/Upgrades/icon_module_divebomber.png}" /><br />
+                                <span th:text="${diveBomber.name}"/>
+                            </button>
+                        </li>
+                    </div>
+                    <div id="engineList">
+                        <li th:onclick="'engine(\'' + ${engine.index} +'\', \''+ ${engineIndexList} + '\');'" th:each="engine : ${engineUpgradeList}" th:id="${engine}">
+                            <button class="button_module" th:id="${engine.index}">
+                                <img th:src="@{/images/Upgrades/icon_module_engine.png}" /><br />
+                                <span th:text="${engine.name}"/>
+                            </button>
+                        </li>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(radarIndexList)}" id="radarList">
+                        <li th:onclick="'radar(\'' + ${radar.index} +'\', \''+ ${radarIndexList} + '\');'" th:each="radar : ${radarUpgradeList}" th:id="${radar}">
+                            <button class="button_module" th:id="${radar.index}">
+                                <img th:src="@{/images/Upgrades/icon_module_radar.png}" /><br />
+                                <span th:text="${radar.name}"/>
+                            </button>
+                        </li>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(torpedoIndexList)}" id="torpedoList">
+                        <li th:onclick="'torpedo(\'' + ${torpedo.index} +'\', \''+ ${torpedoIndexList} + '\');'" th:each="torpedo : ${torpedoUpgradeList}" th:id="${torpedo}">
+                            <button class="button_module" th:id="${torpedo.index}">
+                                <img th:src="@{/images/Upgrades/icon_module_torpedoes.png}" /><br />
+                                <span th:text="${torpedo.name}"/>
+                            </button>
+                        </li>
+                    </div>
                 </div>
-                <div th:if="${not #lists.isEmpty(turretIndexList)}" id="turretList">
-                    <li th:onclick="'turret(\'' + ${turret.index} +'\', \''+ ${turretIndexList} + '\');'" th:each="turret : ${turretUpgradeList}" th:id="${turret}">
-                        <button class="button_module" th:id="${turret.index}">
-                            <img th:src="@{/images/Upgrades/icon_module_maingun.png}" /><br />
-                            <span th:text="${turret.name}"/>
-                        </button>
-                    </li>
-                </div>
-                <div id="hullList">
-                    <li th:onclick="'hull(\'' + ${hull.index} +'\', \''+ ${hullIndexList} + '\');'" th:each="hull : ${hullUpgradeList}" th:id="${hull}">
-                        <button class="button_module" th:id="${hull.index}">
-                            <img th:src="@{/images/Upgrades/icon_module_hull.png}" /><br />
-                            <span th:text="${hull.name}"/>
-                        </button>
-                    </li>
-                </div>
-                <div th:if="${not #lists.isEmpty(fighterIndexList)}" id="fighterList">
-                    <li th:onclick="'fighter(\'' + ${fighter.index} +'\', \''+ ${fighterIndexList} + '\');'" th:each="fighter : ${fighterUpgradeList}" th:id="${fighter}">
-                        <button class="button_module" th:id="${fighter.index}">
-                            <img th:src="@{/images/Upgrades/icon_module_fighter.png}" /><br />
-                            <span th:text="${fighter.name}"/>
-                        </button>
-                    </li>
-                </div>
-                <div th:if="${not #lists.isEmpty(torpedoBomberIndexList)}" id="torpedoBomberList">
-                    <li th:onclick="'torpedoBomber(\'' + ${torpedoBomber.index} +'\', \''+ ${torpedoBomberIndexList} + '\');'" th:each="torpedoBomber : ${torpedoBomberUpgradeList}" th:id="${torpedoBomber}">
-                        <button class="button_module" th:id="${torpedoBomber.index}">
-                            <img th:src="@{/images/Upgrades/icon_module_torpedobomber.png}" /><br />
-                            <span th:text="${torpedoBomber.name}"/>
-                        </button>
-                    </li>
-                </div>
-                <div th:if="${not #lists.isEmpty(diveBomberIndexList)}" id="diveBomberList">
-                    <li th:onclick="'diveBomber(\'' + ${diveBomber.index} +'\', \''+ ${diveBomberIndexList} + '\');'" th:each="diveBomber : ${diveBomberUpgradeList}" th:id="${diveBomber}">
-                        <button class="button_module" th:id="${diveBomber.index}">
-                            <img th:src="@{/images/Upgrades/icon_module_divebomber.png}" /><br />
-                            <span th:text="${diveBomber.name}"/>
-                        </button>
-                    </li>
-                </div>
-                <div id="engineList">
-                    <li th:onclick="'engine(\'' + ${engine.index} +'\', \''+ ${engineIndexList} + '\');'" th:each="engine : ${engineUpgradeList}" th:id="${engine}">
-                        <button class="button_module" th:id="${engine.index}">
-                            <img th:src="@{/images/Upgrades/icon_module_engine.png}" /><br />
-                            <span th:text="${engine.name}"/>
-                        </button>
-                    </li>
-                </div>
-                <div th:if="${not #lists.isEmpty(radarIndexList)}" id="radarList">
-                    <li th:onclick="'radar(\'' + ${radar.index} +'\', \''+ ${radarIndexList} + '\');'" th:each="radar : ${radarUpgradeList}" th:id="${radar}">
-                        <button class="button_module" th:id="${radar.index}">
-                            <img th:src="@{/images/Upgrades/icon_module_radar.png}" /><br />
-                            <span th:text="${radar.name}"/>
-                        </button>
-                    </li>
-                </div>
-                <div th:if="${not #lists.isEmpty(torpedoIndexList)}" id="torpedoList">
-                    <li th:onclick="'torpedo(\'' + ${torpedo.index} +'\', \''+ ${torpedoIndexList} + '\');'" th:each="torpedo : ${torpedoUpgradeList}" th:id="${torpedo}">
-                        <button class="button_module" th:id="${torpedo.index}">
-                            <img th:src="@{/images/Upgrades/icon_module_torpedoes.png}" /><br />
-                            <span th:text="${torpedo.name}"/>
-                        </button>
-                    </li>
+                <div id="upgrades">
+                    <div th:if="${not #lists.isEmpty(modSlot1)}" id="modSlot1" class="modSlot1">
+                        <li th:onclick="'mod(\'' + ${mod1} +'\', \''+ ${modSlot1} + '\');'" th:each="mod1 : ${modSlot1}" th:id="${mod1}">
+                            <button class="button_upgrade" th:id="${mod1}">
+                                <img th:src="@{'/images/Modules/'+ ${mod1} +'.png'}" /><br />
+                            </button>
+                        </li>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(modSlot2)}" id="modSlot2" class="modSlot2">
+                        <li th:onclick="'mod(\'' + ${mod2} +'\', \''+ ${modSlot2} + '\');'" th:each="mod2 : ${modSlot2}" th:id="${mod2}">
+                            <button class="button_upgrade" th:id="${mod2}">
+                                <img th:src="@{'/images/Modules/'+ ${mod2} +'.png'}" /><br />
+                            </button>
+                        </li>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(modSlot3)}" id="modSlot3" class="modSlot3">
+                        <li th:onclick="'mod(\'' + ${mod3} +'\', \''+ ${modSlot3} + '\');'" th:each="mod3 : ${modSlot3}" th:id="${mod3}">
+                            <button class="button_upgrade" th:id="${mod3}">
+                                <img th:src="@{'/images/Modules/'+ ${mod3} +'.png'}" /><br />
+                            </button>
+                        </li>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(modSlot4)}" id="modSlot4" class="modSlot4">
+                        <li th:onclick="'mod(\'' + ${mod4} +'\', \''+ ${modSlot4} + '\');'" th:each="mod4 : ${modSlot4}" th:id="${mod4}">
+                            <button class="button_upgrade" th:id="${mod4}">
+                                <img th:src="@{'/images/Modules/'+ ${mod4} +'.png'}" /><br />
+                            </button>
+                        </li>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(modSlot5)}" id="modSlot5" class="modSlot5">
+                        <li th:onclick="'mod(\'' + ${mod5} +'\', \''+ ${modSlot5} + '\');'" th:each="mod5 : ${modSlot5}" th:id="${mod5}">
+                            <button class="button_upgrade" th:id="${mod5}">
+                                <img th:src="@{'/images/Modules/'+ ${mod5} +'.png'}" /><br />
+                            </button>
+                        </li>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(modSlot6)}" id="modSlot6" class="modSlot6">
+                        <li th:onclick="'mod(\'' + ${mod6} +'\', \''+ ${modSlot6} + '\');'" th:each="mod6 : ${modSlot6}" th:id="${mod6}">
+                            <button class="button_upgrade" th:id="${mod6}">
+                                <img th:src="@{'/images/Modules/'+ ${mod6} +'.png'}" /><br />
+                            </button>
+                        </li>
+                    </div>
                 </div>
             </div>
-            <div id="upgrades">
-                <div th:if="${not #lists.isEmpty(modSlot1)}" id="modSlot1" class="modSlot1">
-                    <li th:onclick="'mod(\'' + ${mod1} +'\', \''+ ${modSlot1} + '\');'" th:each="mod1 : ${modSlot1}" th:id="${mod1}">
-                        <button class="button_upgrade" th:id="${mod1}">
-                            <img th:src="@{'/images/Modules/'+ ${mod1} +'.png'}" /><br />
-                        </button>
-                    </li>
+            <div id="skillsConsumables">
+                <div id="skills">
+                    <b>Captain Points </b><span class="skillPointsCount"/><span> / 18</span><br />
+                    <table id="skillsTable" align="center">
+                    </table>
                 </div>
-                <div th:if="${not #lists.isEmpty(modSlot2)}" id="modSlot2" class="modSlot2">
-                    <li th:onclick="'mod(\'' + ${mod2} +'\', \''+ ${modSlot2} + '\');'" th:each="mod2 : ${modSlot2}" th:id="${mod2}">
-                        <button class="button_upgrade" th:id="${mod2}">
-                            <img th:src="@{'/images/Modules/'+ ${mod2} +'.png'}" /><br />
-                        </button>
-                    </li>
-                </div>
-                <div th:if="${not #lists.isEmpty(modSlot3)}" id="modSlot3" class="modSlot3">
-                    <li th:onclick="'mod(\'' + ${mod3} +'\', \''+ ${modSlot3} + '\');'" th:each="mod3 : ${modSlot3}" th:id="${mod3}">
-                        <button class="button_upgrade" th:id="${mod3}">
-                            <img th:src="@{'/images/Modules/'+ ${mod3} +'.png'}" /><br />
-                        </button>
-                    </li>
-                </div>
-                <div th:if="${not #lists.isEmpty(modSlot4)}" id="modSlot4" class="modSlot4">
-                    <li th:onclick="'mod(\'' + ${mod4} +'\', \''+ ${modSlot4} + '\');'" th:each="mod4 : ${modSlot4}" th:id="${mod4}">
-                        <button class="button_upgrade" th:id="${mod4}">
-                            <img th:src="@{'/images/Modules/'+ ${mod4} +'.png'}" /><br />
-                        </button>
-                    </li>
-                </div>
-                <div th:if="${not #lists.isEmpty(modSlot5)}" id="modSlot5" class="modSlot5">
-                    <li th:onclick="'mod(\'' + ${mod5} +'\', \''+ ${modSlot5} + '\');'" th:each="mod5 : ${modSlot5}" th:id="${mod5}">
-                        <button class="button_upgrade" th:id="${mod5}">
-                            <img th:src="@{'/images/Modules/'+ ${mod5} +'.png'}" /><br />
-                        </button>
-                    </li>
-                </div>
-                <div th:if="${not #lists.isEmpty(modSlot6)}" id="modSlot6" class="modSlot6">
-                    <li th:onclick="'mod(\'' + ${mod6} +'\', \''+ ${modSlot6} + '\');'" th:each="mod6 : ${modSlot6}" th:id="${mod6}">
-                        <button class="button_upgrade" th:id="${mod6}">
-                            <img th:src="@{'/images/Modules/'+ ${mod6} +'.png'}" /><br />
-                        </button>
-                    </li>
+                <div id="ConsumablesList">
+                    <div th:if="${not #lists.isEmpty(consume1List)}" id="consume1List">
+                        <li th:onclick="'consume(\'' + ${consume1} +'\', \''+ ${consume1List} + '\', \''+ 1 + '\');'" th:each="consume1 : ${consume1List}" th:id="${consume1[0]}">
+                            <button class="button_consumable" th:id="${consume1[0]}">
+                                <img th:src="@{'/images/Consumables/'+ ${consume1[0]} +'.png'}" /><br />
+                            </button>
+                        </li>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(consume2List)}" id="consume2List">
+                        <li th:onclick="'consume(\'' + ${consume2} +'\', \''+ ${consume2List} + '\', \''+ 2 + '\');'" th:each="consume2 : ${consume2List}" th:id="${consume2[0]}">
+                            <button class="button_consumable" th:id="${consume2[0]}">
+                                <img th:src="@{'/images/Consumables/'+ ${consume2[0]} +'.png'}" /><br />
+                            </button>
+                        </li>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(consume3List)}" id="consume3List">
+                        <li th:onclick="'consume(\'' + ${consume3} +'\', \''+ ${consume3List} + '\', \''+ 3 + '\');'" th:each="consume3 : ${consume3List}" th:id="${consume3[0]}">
+                            <button class="button_consumable" th:id="${consume3[0]}">
+                                <img th:src="@{'/images/Consumables/'+ ${consume3[0]} +'.png'}" /><br />
+                            </button>
+                        </li>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(consume4List)}" id="consume4List">
+                        <li th:onclick="'consume(\'' + ${consume4} +'\', \''+ ${consume4List} + '\', \''+ 4 + '\');'" th:each="consume4 : ${consume4List}" th:id="${consume4[0]}">
+                            <button class="button_consumable" th:id="${consume4[0]}">
+                                <img th:src="@{'/images/Consumables/'+ ${consume4[0]} +'.png'}" /><br />
+                            </button>
+                        </li>
+                    </div>
                 </div>
             </div>
-            <div id="skills">
-                <table id="skillsTable" align="center">
-                </table>
+            <div id="CamouflagesFlags">
+                <div id="Camouflages">
+                    <div th:if="${not #lists.isEmpty(camouflages)}" id="CamouflagesList">
+                        <table id="camouTable"></table>
+                        <!--<li th:onclick="'camouflage(\'' + ${camouflage['code']} +'\', \''+ ${camouflagesIdList} + '\');'" th:each="camouflage : ${camouflages}" th:id="${camouflage['code']}">-->
+                            <!--<button class="button_camouflage" th:id="${camouflage['code']}">-->
+                                <!--<img th:src="@{'/images/Camouflages/'+ ${camouflage['code']} +'.png'}" /><br />-->
+                                <!--<span th:text="${camouflage['name']}" />-->
+                            <!--</button>-->
+                        <!--</li>-->
+                    </div>
+                </div>
             </div>
+            <br />
             <div id="stats">
                 <div id="hullStats" class="hullStats">
                     <div th:if="${not #lists.isEmpty(hullIndexList)}" id="hull" class="hull">
@@ -474,6 +521,40 @@
                         Range<span class="secondaryMaxDist"/><br />
                     </div>
                 </div>
+                <div id="blank3" class="blank">
+                    <span style="padding-left: 1em"/>
+                </div>
+                <div id="ConsumablesStats" class="ConsumablesStats">
+                    <div th:if="${not #lists.isEmpty(consume1List)}" id="Consumables1" class="Consumables1">
+                        <b>Consumables</b><br />
+                        <b>Slot 1</b><br />
+                        Count<span style="padding-left: 4em" class="Consumable1Count"/><br />
+                        Duration<span class="Consumable1Duration"/><br />
+                        Reload<span class="Consumable1Reload"/><br />
+                        <br />
+                    </div>
+                    <div th:if="${not #lists.isEmpty(consume2List)}" id="Consumables2" class="Consumables2">
+                        <b>Slot 2</b><br />
+                        Count<span class="Consumable2Count"/><br />
+                        Duration<span class="Consumable2Duration"/><br />
+                        Reload<span class="Consumable2Reload"/><br />
+                        <br />
+                    </div>
+                    <div th:if="${not #lists.isEmpty(consume3List)}" id="Consumables3" class="Consumables3">
+                        <b>Slot 3</b><br />
+                        Count<span class="Consumable3Count"/><br />
+                        Duration<span class="Consumable3Duration"/><br />
+                        Reload<span class="Consumable3Reload"/><br />
+                        <br />
+                    </div>
+                    <div th:if="${not #lists.isEmpty(consume4List)}" id="Consumables4" class="Consumables4">
+                        <b>Slot 4</b><br />
+                        Count<span class="Consumable4Count"/><br />
+                        Duration<span class="Consumable4Duration"/><br />
+                        Reload<span class="Consumable4Reload"/><br />
+                        <br />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -482,7 +563,10 @@
 <script th:inline="javascript" th:src="@{/js/WoWSSSC/ShipModules.js}"></script>
 <script th:inline="javascript" th:src="@{/js/WoWSSSC/ShipUpgrades.js}"></script>
 <script th:inline="javascript" th:src="@{/js/WoWSSSC/ShipSkills.js}"></script>
+<script th:inline="javascript" th:src="@{/js/WoWSSSC/ShipConsumables.js}"></script>
+<script th:inline="javascript" th:src="@{/js/WoWSSSC/ShipCamouflages.js}"></script>
 <script th:inline="javascript">
+//    <![CDATA[
 
     function load(name)
     {
@@ -494,6 +578,7 @@
             shipType = [[${shipType}]];
 
             skillsImageLocation = [[@{/images/Skills/}]];
+            camouImageLocation = [[@{/images/Camouflages/}]];
 
             setCrewSkills();
 
@@ -511,6 +596,8 @@
             apiFighterUpgradeJSON = [[${apiFighterJSON}]];
             apiTorpedoBomberUpgradeJSON = [[${apiTorpedoBomberJSON}]];
             apiDiveBomberUpgradeJSON = [[${apiDiveBomberJSON}]];
+
+            camouflageList = [[${camouflages}]];
 
             if ([[${radarUpgradeList}]].length > 0)
             {
@@ -580,19 +667,38 @@
 //            {
 //                mod([[${modSlot6}]][0], [[${modSlot6}]]);
 //            }
+
+            if ([[${consume1List}]].length > 0)
+            {
+                consume([[${consume1List}]][0], [[${consume1List}]], 1);
+            }
+            if ([[${consume2List}]].length > 0)
+            {
+                consume([[${consume2List}]][0], [[${consume2List}]], 2);
+            }
+            if ([[${consume3List}]].length > 0)
+            {
+                consume([[${consume3List}]][0], [[${consume3List}]], 3);
+            }
+            if ([[${consume4List}]].length > 0)
+            {
+                consume([[${consume4List}]][0], [[${consume4List}]], 4);
+            }
+            setCamouflage();
         }
     }
     window.onload = load([[${name}]]);
 
     function refresh()
     {
+        document.querySelector('.skillPointsCount').innerHTML = skillPointsCount;
         document.querySelector('.hullStats .tier').innerHTML = tier.toString();
         document.querySelector('.hullStats .maxHP').innerHTML = accounting.formatNumber(maxHP + healthPerLevel * tier, 0, ",", ".");
         document.querySelector('.hullStats .speed').innerHTML = accounting.formatNumber((speed * speedCoef), 1, ",", ".") + " kts";
         document.querySelector('.hullStats .rudderShift').innerHTML = accounting.formatNumber(rudderShift * SGM2_SGRudderTime, 1, ",", ".") + " s";
         document.querySelector('.hullStats .turningRadius').innerHTML = accounting.formatNumber(turningRadius, 0, ",", ".") + " m";
-        document.querySelector('.hullStats .sConceal').innerHTML = accounting.formatNumber(sConceal * CSM1_visibilityDistCoeff * VisibilityModifier, 2, ",", ".") + " km";
-        document.querySelector('.hullStats .aConceal').innerHTML = accounting.formatNumber(aConceal * CSM1_visibilityDistCoeff * VisibilityModifier, 2, ",", ".") + " km";
+        document.querySelector('.hullStats .sConceal').innerHTML = accounting.formatNumber(sConceal * CSM1_visibilityDistCoeff * VisibilityModifier * visibilityFactorCamo, 2, ",", ".") + " km";
+        document.querySelector('.hullStats .aConceal').innerHTML = accounting.formatNumber(aConceal * CSM1_visibilityDistCoeff * VisibilityModifier * visibilityFactorByPlaneCamo, 2, ",", ".") + " km";
         document.querySelector('.hullStats .burnTime').innerHTML = accounting.formatNumber(burnTime * DCSM2_burnTime * critTimeCoefficient, 1, ",", ".") + " s";
         document.querySelector('.hullStats .floodTime').innerHTML = accounting.formatNumber(floodTime * DCSM2_floodTime * critTimeCoefficient, 1, ",", ".") + " s";
 
@@ -620,7 +726,7 @@
             document.querySelector('.mainWeaponStats .HEShellBurnProb').innerHTML = accounting.formatNumber((HEShellBurnProb + probabilityBonusFire) * 100, 0, ",", ".") + " %";
             document.querySelector('.mainWeaponStats .mainGunDispersionRange').innerHTML = accounting.formatNumber(maxMainGunRange * maxDistCoef * mainGunDispersionTangent * 2 * ASM0_GMIdealRadius * ASM1_GMIdealRadius * APRM2US_GMIdealRadius, 0, ",", ".") + " m";
             document.querySelector('.mainWeaponStats .sigmaCount').innerHTML = sigmaCount.toString();
-            document.querySelector('.mainWeaponStats .stealthFireSurfaceDetection').innerHTML = accounting.formatNumber((sConceal * CSM1_visibilityDistCoeff * VisibilityModifier + stealthFireSurfaceDetection), 2, ",", ".") + " km";
+            document.querySelector('.mainWeaponStats .stealthFireSurfaceDetection').innerHTML = accounting.formatNumber((sConceal * CSM1_visibilityDistCoeff * VisibilityModifier * visibilityFactorCamo + stealthFireSurfaceDetection), 2, ",", ".") + " km";
         }
 
         document.querySelector('.AASecondaryStats .antiAirAuraDistanceFar').innerHTML = accounting.formatNumber(antiAirAuraDistanceFar * AAGM2_AAMaxDist * airDefenceRangeCoefficient, 2, ",", ".") + " km";
@@ -662,9 +768,65 @@
             document.querySelector('.aircraft .diveBomberSquadronSize').innerHTML = accounting.formatNumber(diveBomberSquadronSize + diveBomberCountSkill, 0, ",", ".");
             document.querySelector('.aircraft .diveBomberReserves').innerHTML = accounting.formatNumber(diveBomberCount, 0, ",", ".");
         }
+
+        if ([[${consume1List}]].length > 0)
+        {
+            if (additionalConsumables > 0 && numConsumables1 != 'Infinite')
+            {
+                document.querySelector('.Consumables1 .Consumable1Count').innerHTML = numConsumables1 + additionalConsumables;
+            }
+            else
+            {
+                document.querySelector('.Consumables1 .Consumable1Count').innerHTML = numConsumables1;
+            }            
+            document.querySelector('.Consumables1 .Consumable1Duration').innerHTML = workTime1 + ' s';
+            document.querySelector('.Consumables1 .Consumable1Reload').innerHTML = accounting.formatNumber(reloadTime1 * critTimeCoefficient * reloadCoefficientAllSkills, 1, ",", ".") + ' s';
+        }
+
+        if ([[${consume2List}]].length > 0)
+        {
+            if (additionalConsumables > 0 && numConsumables2 != 'Infinite')
+            {
+                document.querySelector('.Consumables2 .Consumable2Count').innerHTML = numConsumables2 + additionalConsumables;
+            }
+            else
+            {
+                document.querySelector('.Consumables2 .Consumable2Count').innerHTML = numConsumables2;
+            }
+            document.querySelector('.Consumables2 .Consumable2Duration').innerHTML = workTime2 + ' s';
+            document.querySelector('.Consumables2 .Consumable2Reload').innerHTML = accounting.formatNumber(reloadTime2 * reloadCoefficientAllSkills, 1, ",", ".") + ' s';
+        }
+
+        if ([[${consume3List}]].length > 0)
+        {
+            if (additionalConsumables > 0 && numConsumables3 != 'Infinite')
+            {
+                document.querySelector('.Consumables3 .Consumable3Count').innerHTML = numConsumables3 + additionalConsumables;
+            }
+            else
+            {
+                document.querySelector('.Consumables3 .Consumable3Count').innerHTML = numConsumables3;
+            }
+            document.querySelector('.Consumables3 .Consumable3Duration').innerHTML = workTime3 + ' s';
+            document.querySelector('.Consumables3 .Consumable3Reload').innerHTML = accounting.formatNumber(reloadTime3 * reloadCoefficientAllSkills, 1, ",", ".") + ' s';
+        }
+
+        if ([[${consume4List}]].length > 0)
+        {
+            if (additionalConsumables > 0 && numConsumables4 != 'Infinite')
+            {
+                document.querySelector('.Consumables4 .Consumable4Count').innerHTML = numConsumables4 + additionalConsumables;
+            }
+            else
+            {
+                document.querySelector('.Consumables4 .Consumable4Count').innerHTML = numConsumables4;
+            }
+            document.querySelector('.Consumables4 .Consumable4Duration').innerHTML = workTime4 + ' s';
+            document.querySelector('.Consumables4 .Consumable4Reload').innerHTML = accounting.formatNumber(reloadTime4 * reloadCoefficientAllSkills, 1, ",", ".") + ' s';
+        }
     }
 
-
+//    ]]>
 </script>
 </body>
 </html>

@@ -50,11 +50,6 @@ public class HomeController
         if (!shipName.equals(""))
         {
             jsonService.setShipJSON(shipName);
-            jsonService.setShipUpgradeModulesInfo();
-            jsonService.setUpgrades();
-            jsonService.setConsumablesList();
-            jsonService.setPermaflage();
-            jsonService.setFlagsList();
 
             model.addAttribute("name", shipName);
             model.addAttribute("shipType", jsonService.getShipType());
@@ -103,6 +98,15 @@ public class HomeController
             model.addAttribute("modSlot4", jsonService.getModSlot4());
             model.addAttribute("modSlot5", jsonService.getModSlot5());
             model.addAttribute("modSlot6", jsonService.getModSlot6());
+
+            model.addAttribute("consume1List", jsonService.getAbil0());
+            model.addAttribute("consume2List", jsonService.getAbil1());
+            model.addAttribute("consume3List", jsonService.getAbil2());
+            model.addAttribute("consume4List", jsonService.getAbil3());
+
+            model.addAttribute("camouflages", jsonService.getCamouflages());
+            model.addAttribute("camouflagesIdList", jsonService.getCamouflagesIdList());
+
         }
 
         return "home";

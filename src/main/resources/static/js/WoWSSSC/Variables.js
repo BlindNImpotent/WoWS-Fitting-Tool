@@ -1,4 +1,6 @@
 var skillsImageLocation;
+var camouImageLocation;
+var camouCodeList = [];
 
 var shipName;
 var shipNation;
@@ -24,6 +26,8 @@ var apiFlightControlUpgradeJSON;
 var apiFighterUpgradeJSON;
 var apiTorpedoBomberUpgradeJSON;
 var apiDiveBomberUpgradeJSON;
+
+var camouflageList;
 
 var tier = 0;
 var maxRepairCost = 0;
@@ -231,7 +235,7 @@ var TASM1_visionXRayShipCoeff = 1;
 //PCM027_ConcealmentMeasures_Mod_I Slot 6
 var CSM1_visibilityDistCoeff = 1;
 
-
+var skillPointsCount = 0;
 var airDefenceEfficiencyCoefficient = 1;
 var smallGunReloadCoefficient = 1;
 var airDefenceRangeCoefficient = 1;
@@ -273,3 +277,29 @@ var battleshipCoefficientConceal = 1;
 var cruiserCoefficientConceal = 1;
 var destroyerCoefficientConceal = 1;
 var VisibilityModifier = 1;
+
+var consumable1Name;
+var numConsumables1 = 0;
+var reloadTime1 = 0;
+var workTime1 = 0;
+
+var consumable2Name;
+var numConsumables2 = 0;
+var reloadTime2 = 0;
+var workTime2 = 0;
+
+var consumable3Name;
+var numConsumables3 = 0;
+var reloadTime3 = 0;
+var workTime3 = 0;
+
+var consumable4Name;
+var numConsumables4 = 0;
+var reloadTime4 = 0;
+var workTime4 = 0;
+
+var visibilityFactorCamo = 1;
+var visibilityFactorByPlaneCamo = 1;
+var afterBattleRepairCamo = 1;
+var expFactorCamo = 1;
+var shootShiftCamo = 1;

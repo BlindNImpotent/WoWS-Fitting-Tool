@@ -1,7 +1,8 @@
 html
 {
     height: 100%;
-    width:auto;
+    width: auto;
+    height: auto;
 }
 
 li
@@ -40,14 +41,26 @@ li
 
 #modules
 {
-    display: inline-block;
     text-align: center;
 }
 
 #upgrades
 {
+    text-align: center;
+}
+
+#modulesAndUpgrades
+{
     display: inline-block;
     text-align: center;
+    vertical-align: top;
+}
+
+#skillsConsumables
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
 }
 
 #skills
@@ -55,6 +68,37 @@ li
     display: inline-block;
     text-align: center;
     vertical-align: top;
+}
+
+#ConsumablesList
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+}
+
+#consume1List
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+#consume2List
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+#consume3List
+{
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+#consume4List
+{
+    display: inline-block;
+    vertical-align: text-top;
 }
 
 #flightControlList
@@ -180,11 +224,24 @@ li
     text-align: center;
     vertical-align: text-top;
 }
-#torpedo
+#ConsumablesStats
 {
     display: inline-block;
     text-align: left;
     vertical-align: text-top;
+}
+
+#Camouflages
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+}
+
+#CamouflagesList li
+{
+    display:inline;
+    text-align: center;
 }
 
 .button
@@ -213,6 +270,7 @@ li
     max-height: 80px;
     word-wrap: normal;
     cursor: pointer;
+    vertical-align: top;
 }
 
 .button_module img
@@ -229,13 +287,14 @@ li
     border-width: 1px;
     border-style: solid;
     border-radius: 5px;
-    font-size: 11px;
+    font-size: 9px;
     min-width: 80px;
     max-width: 80px;
     min-height: 80px;
     max-height: 80px;
     word-wrap: normal;
     cursor: pointer;
+    vertical-align: top;
 }
 
 .button_module_selected img
@@ -259,6 +318,7 @@ li
     max-height: 50px;
     word-wrap: normal;
     cursor: pointer;
+    vertical-align: top;
 }
 
 .button_upgrade img
@@ -282,6 +342,7 @@ li
     max-height: 50px;
     word-wrap: normal;
     cursor: pointer;
+    vertical-align: top;
 }
 
 .button_upgrade_selected img
@@ -305,6 +366,7 @@ li
     max-height: 50px;
     word-wrap: normal;
     cursor: pointer;
+    vertical-align: top;
 }
 
 .button_skill img
@@ -328,6 +390,7 @@ li
     max-height: 50px;
     word-wrap: normal;
     cursor: pointer;
+    vertical-align: top;
 }
 
 .button_skill_selected img
@@ -335,6 +398,102 @@ li
     width: 35px;
     margin-bottom: 0px;
 }
+
+.button_consumable
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 10px;
+    min-width: 50px;
+    max-width: 50px;
+    min-height: 50px;
+    max-height: 50px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_consumable img
+{
+    width: 25px;
+    margin-bottom: 0px;
+}
+
+.button_consumable_selected
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 10px;
+    min-width: 50px;
+    max-width: 50px;
+    min-height: 50px;
+    max-height: 50px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_consumable_selected img
+{
+    width: 35px;
+    margin-bottom: 0px;
+}
+
+.button_camouflage
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 8px;
+    min-width: 70px;
+    max-width: 70px;
+    min-height: 70px;
+    max-height: 70px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_camouflage img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_camouflage_selected
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 8px;
+    min-width: 70px;
+    max-width: 70px;
+    min-height: 70px;
+    max-height: 70px;
+    word-wrap: normal;
+    cursor: pointer;
+}
+
+.button_camouflage_selected img
+{
+    width: 40px;
+    margin-bottom: 0px;
+}
+
 
 .tier { float:right }
 .maxHP { float:right }
@@ -383,3 +542,19 @@ li
 .diveBomberSquadrons { float:right }
 .diveBomberSquadronSize { float:right }
 .diveBomberReserves { float:right }
+
+.Consumable1Count { float:right }
+.Consumable1Duration { float:right }
+.Consumable1Reload { float:right }
+
+.Consumable2Count { float:right }
+.Consumable2Duration { float:right }
+.Consumable2Reload { float:right }
+
+.Consumable3Count { float:right }
+.Consumable3Duration { float:right }
+.Consumable3Reload { float:right }
+
+.Consumable4Count { float:right }
+.Consumable4Duration { float:right }
+.Consumable4Reload { float:right }
