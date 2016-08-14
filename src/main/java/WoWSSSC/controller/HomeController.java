@@ -107,6 +107,9 @@ public class HomeController
             model.addAttribute("camouflages", jsonService.getCamouflages());
             model.addAttribute("camouflagesIdList", jsonService.getCamouflagesIdList());
 
+            model.addAttribute("flags", jsonService.getFlagsList());
+            model.addAttribute("flagsIdList", jsonService.getFlagsIdList());
+
         }
 
         return "home";

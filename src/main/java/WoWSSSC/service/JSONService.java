@@ -3,6 +3,7 @@ package WoWSSSC.service;
 import Parser.API_Parser;
 import Parser.GameParams_Parser;
 import WoWSSSC.model.Camouflage;
+import WoWSSSC.model.Flags;
 import WoWSSSC.model.Upgrade;
 import lombok.Data;
 import org.json.simple.JSONArray;
@@ -142,7 +143,7 @@ public class JSONService
     public JSONObject permaflage;
     public HashMap<String, JSONObject> permaflageHashMap;
 
-    public List<JSONObject> FlagsJSONList;
+    public List<Flags> flagsList;
     
     public HashMap<String, JSONObject> API_FlightControlUpgradeJSONHashMap; 
     public List<String> API_FlightControlUpgradeIndexList;
@@ -167,6 +168,8 @@ public class JSONService
     public List<Camouflage> camouflages;
 
     public List<String> camouflagesIdList;
+
+    public List<String> flagsIdList;
 
 //    @Cacheable("setShipJSON")
     public void setShipJSON(String name) throws IOException, ParseException
@@ -673,21 +676,39 @@ public class JSONService
     @SuppressWarnings("unchecked")
     private void setFlagsList()
     {
-        FlagsJSONList = new ArrayList<>();
+        flagsList = new ArrayList<>();
+        flagsIdList = new ArrayList<>();
+        List<JSONObject> API_FlagsJSONList = new ArrayList<>();
+        API_FlagsJSONList.addAll(apiParser.getAPI_Exterior_FlagsJSON().values());
+        API_FlagsJSONList.sort((o1, o2) -> ((String) o1.get("name")).compareTo((String) o2.get("name")));
 
-        List<String> API_Flags_keySet = new ArrayList<>();
-        API_Flags_keySet.addAll(apiParser.getAPI_Exterior_FlagsJSON().keySet());
-
-        for (int i = 0; i < gameParamsParser.getGameParamsKeySet().size(); i++)
+        for (int i = 0; i < API_FlagsJSONList.size(); i++)
         {
-            for (int j = 0; j < API_Flags_keySet.size(); j++)
-            {
-                String flagId = String.valueOf(gameParamsParser.getGameParamsValues().get(i).get("id"));
-                if (flagId.matches(API_Flags_keySet.get(j)))
-                {
-                    FlagsJSONList.add(GameParamsIndexHashMap.get(gameParamsParser.getGameParamsKeySet().get(i)));
-                }
-            }
+            JSONObject images = (JSONObject) API_FlagsJSONList.get(i).get("image");
+            String small = (String) images.get("small");
+            small = small.replace("http://api.worldofwarships.com/static/1.8.3/wows/encyclopedia/flags/", "");
+            small = small.replace(".png", "");
+            flagsList.add(new Flags((String) API_FlagsJSONList.get(i).get("name"), small));
+            flagsIdList.add(small);
         }
+
+
+
+//        FlagsJSONList = new ArrayList<>();
+//
+//        List<String> API_Flags_keySet = new ArrayList<>();
+//        API_Flags_keySet.addAll(apiParser.getAPI_Exterior_FlagsJSON().keySet());
+//
+//        for (int i = 0; i < gameParamsParser.getGameParamsKeySet().size(); i++)
+//        {
+//            for (int j = 0; j < API_Flags_keySet.size(); j++)
+//            {
+//                String flagId = String.valueOf(gameParamsParser.getGameParamsValues().get(i).get("id"));
+//                if (flagId.matches(API_Flags_keySet.get(j)))
+//                {
+//                    FlagsJSONList.add(GameParamsIndexHashMap.get(gameParamsParser.getGameParamsKeySet().get(i)));
+//                }
+//            }
+//        }
     }
 }

@@ -238,10 +238,11 @@ li
     vertical-align: top;
 }
 
-#CamouflagesList li
+#Flags
 {
-    display:inline;
+    display: inline-block;
     text-align: center;
+    vertical-align: top;
 }
 
 .button
@@ -456,10 +457,10 @@ li
     border-style: solid;
     border-radius: 5px;
     font-size: 8px;
-    min-width: 70px;
-    max-width: 70px;
-    min-height: 70px;
-    max-height: 70px;
+    min-width: 65px;
+    max-width: 65px;
+    min-height: 65px;
+    max-height: 65px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -480,10 +481,10 @@ li
     border-style: solid;
     border-radius: 5px;
     font-size: 8px;
-    min-width: 70px;
-    max-width: 70px;
-    min-height: 70px;
-    max-height: 70px;
+    min-width: 65px;
+    max-width: 65px;
+    min-height: 65px;
+    max-height: 65px;
     word-wrap: normal;
     cursor: pointer;
 }
@@ -494,6 +495,52 @@ li
     margin-bottom: 0px;
 }
 
+.button_flag
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 8px;
+    min-width: 78px;
+    max-width: 78px;
+    min-height: 78px;
+    max-height: 78px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_flag img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_flag_selected
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 8px;
+    min-width: 78px;
+    max-width: 78px;
+    min-height: 78px;
+    max-height: 78px;
+    word-wrap: normal;
+    cursor: pointer;
+}
+
+.button_flag_selected img
+{
+    width: 40px;
+    margin-bottom: 0px;
+}
 
 .tier { float:right }
 .maxHP { float:right }

@@ -1,6 +1,6 @@
 var skillsImageLocation;
 var camouImageLocation;
-var camouCodeList = [];
+var flagImageLocation;
 
 var shipName;
 var shipNation;
@@ -28,6 +28,10 @@ var apiTorpedoBomberUpgradeJSON;
 var apiDiveBomberUpgradeJSON;
 
 var camouflageList;
+var camouCodeList = [];
+
+var flagsList;
+var flagCodeList = [];
 
 var tier = 0;
 var maxRepairCost = 0;
@@ -303,3 +307,34 @@ var visibilityFactorByPlaneCamo = 1;
 var afterBattleRepairCamo = 1;
 var expFactorCamo = 1;
 var shootShiftCamo = 1;
+
+var AAAuraFlag = 1;
+var AAPassiveAuraFlag = 1;
+var afterBattleRepairFlag = 1;
+var crewExpFactorFlag_ZH = 1;
+var crewExpFactorFlag_BD = 1;
+var expFactorFlag = 1;
+var GSIdealRadiusFlag = 1;
+var GSMaxDistFlag = 1;
+var GSShotDelayFlag = 1;
+var PMDetonationProbFlag_JC = 1;
+var PMDetonationProbFlag_IX = 1;
+var PMDetonationProbFlag_JW1 = 1;
+var abilReloadTimeFactorFlag = 1;
+var burnChanceFactorBigFlag_VL = 0;
+var burnChanceFactorSmallFlag_VL = 0;
+var burnChanceFactorBigFlag_IX = 0;
+var burnChanceFactorSmallFlag_IX = 0;
+var burnTimeFlag = 1;
+var collisionDamageApplyFlag = 1;
+var collisionDamageNerfFlag = 1;
+var creditsFactorFlag = 1;
+var floodChanceFactorFlag_VL = 1;
+var floodChanceFactorFlag_JW1 = 1;
+var floodTimeFlag = 1;
+var freeExpFactorFlag = 1;
+var regenerationHPSpeedFlag = 1;
+var shootShiftFlag = 1;
+var speedCoefFlag = 1;
+var visibilityFactorFlag = 1;
+var visibilityFactorByPlaneFlag = 1;
