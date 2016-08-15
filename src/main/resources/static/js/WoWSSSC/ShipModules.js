@@ -320,15 +320,6 @@ function setTurretStats(id)
 
     turretBarrelDiameter = GP_TurretJSON['barrelDiameter'];
 
-    if (turretBarrelDiameter < 0.140 && GP_TurretJSON != null)
-    {
-        antiAirAuraDistanceFar = GP_TurretJSON['antiAirAuraDistance'] * scaleDist;
-
-        AAFarDPS = GP_TurretJSON['antiAirAuraStrength'] * numTurrets * 100;
-
-        AAFarBarrelDiameter = turretBarrelDiameter;
-    }
-
     var ammoList = GP_TurretJSON['ammoList'];
 
     ammoList.sort();
@@ -383,13 +374,32 @@ function setTurretStats(id)
     mainGunDispersionTangent = mainGunDispersionTangent * scaleDist * Math.PI / 180;
     mainGunDispersionTangent = Math.tan(mainGunDispersionTangent);
 
+    dualPurpose();
+
+    refresh();
+}
+
+function dualPurpose()
+{
+    if (turretBarrelDiameter < 0.140 && GP_TurretJSON != null)
+    {
+        antiAirAuraDistanceFar = GP_TurretJSON['antiAirAuraDistance'] * scaleDist;
+
+        AAFarDPS = GP_TurretJSON['antiAirAuraStrength'] * numTurrets * 100;
+
+        AAFarBarrelDiameter = turretBarrelDiameter;
+    }
+
     refresh();
 }
 
 function setHullStats(id)
 {
-    antiAirAuraDistanceFar = 0;
-    AAFarDPS = 0;
+    if (turretBarrelDiameter >= 0.140)
+    {
+        antiAirAuraDistanceFar = 0;
+        AAFarDPS = 0;
+    }
     antiAirAuraDistanceMedium = 0;
     AAMediumDPS = 0;
     antiAirAuraDistanceNear = 0;
@@ -589,6 +599,9 @@ function setHullStats(id)
             }
         }
     }
+
+    dualPurpose();
+
     refresh()
 }
 
