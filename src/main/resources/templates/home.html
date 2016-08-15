@@ -266,7 +266,7 @@
 <main>
     <div class="container">
         <div id="ship">
-            <div id="modulesAndUpgrades">
+            <div id="modulesUpgradesConsumables">
                 <div id="modules">
                     <div th:if="${not #lists.isEmpty(flightControlIndexList)}" id="flightControlList">
                         <li th:onclick="'flightControl(\'' + ${flightControl.index} +'\', \''+ ${flightControlIndexList} + '\');'" th:each="flightControl : ${flightControlUpgradeList}" th:id="${flightControl}">
@@ -341,56 +341,32 @@
                         </li>
                     </div>
                 </div>
-                <div id="upgrades">
-                    <div th:if="${not #lists.isEmpty(modSlot1)}" id="modSlot1" class="modSlot1">
-                        <li th:onclick="'mod(\'' + ${mod1} +'\', \''+ ${modSlot1} + '\');'" th:each="mod1 : ${modSlot1}" th:id="${mod1}">
-                            <button class="button_upgrade" th:id="${mod1}">
-                                <img th:src="@{'/images/Modules/'+ ${mod1} +'.png'}" /><br />
-                            </button>
-                        </li>
-                    </div>
-                    <div th:if="${not #lists.isEmpty(modSlot2)}" id="modSlot2" class="modSlot2">
-                        <li th:onclick="'mod(\'' + ${mod2} +'\', \''+ ${modSlot2} + '\');'" th:each="mod2 : ${modSlot2}" th:id="${mod2}">
-                            <button class="button_upgrade" th:id="${mod2}">
-                                <img th:src="@{'/images/Modules/'+ ${mod2} +'.png'}" /><br />
-                            </button>
-                        </li>
-                    </div>
-                    <div th:if="${not #lists.isEmpty(modSlot3)}" id="modSlot3" class="modSlot3">
-                        <li th:onclick="'mod(\'' + ${mod3} +'\', \''+ ${modSlot3} + '\');'" th:each="mod3 : ${modSlot3}" th:id="${mod3}">
-                            <button class="button_upgrade" th:id="${mod3}">
-                                <img th:src="@{'/images/Modules/'+ ${mod3} +'.png'}" /><br />
-                            </button>
-                        </li>
-                    </div>
-                    <div th:if="${not #lists.isEmpty(modSlot4)}" id="modSlot4" class="modSlot4">
-                        <li th:onclick="'mod(\'' + ${mod4} +'\', \''+ ${modSlot4} + '\');'" th:each="mod4 : ${modSlot4}" th:id="${mod4}">
-                            <button class="button_upgrade" th:id="${mod4}">
-                                <img th:src="@{'/images/Modules/'+ ${mod4} +'.png'}" /><br />
-                            </button>
-                        </li>
-                    </div>
-                    <div th:if="${not #lists.isEmpty(modSlot5)}" id="modSlot5" class="modSlot5">
-                        <li th:onclick="'mod(\'' + ${mod5} +'\', \''+ ${modSlot5} + '\');'" th:each="mod5 : ${modSlot5}" th:id="${mod5}">
-                            <button class="button_upgrade" th:id="${mod5}">
-                                <img th:src="@{'/images/Modules/'+ ${mod5} +'.png'}" /><br />
-                            </button>
-                        </li>
-                    </div>
-                    <div th:if="${not #lists.isEmpty(modSlot6)}" id="modSlot6" class="modSlot6">
-                        <li th:onclick="'mod(\'' + ${mod6} +'\', \''+ ${modSlot6} + '\');'" th:each="mod6 : ${modSlot6}" th:id="${mod6}">
-                            <button class="button_upgrade" th:id="${mod6}">
-                                <img th:src="@{'/images/Modules/'+ ${mod6} +'.png'}" /><br />
-                            </button>
-                        </li>
+                <div id="upgradesList">
+                    <div th:if="${not #lists.isEmpty(upgrades1)}" id="upgrades">
+                        <table id="upgradeTable">
+                        </table>
                     </div>
                 </div>
-            </div>
-            <div id="skillsConsumables">
                 <div th:if="${not #lists.isEmpty(name)}" id="skills">
                     <b>Captain Points </b><span class="skillPointsCount"/><span> / 18</span><br />
-                    <table id="skillsTable" align="center">
+                    <table id="skillsTable">
                     </table>
+                </div>
+            </div>
+            <div id="skillsList">
+            </div>
+            <div id="CamouflagesFlags">
+                <div id="Camouflages">
+                    <div th:if="${not #lists.isEmpty(camouflages)}" id="CamouflagesList">
+                        <table id="camouTable">
+                        </table>
+                    </div>
+                </div>
+                <div id="Flags">
+                    <div th:if="${not #lists.isEmpty(flags)}" id="FlagsList">
+                        <table id="flagTable">
+                        </table>
+                    </div>
                 </div>
                 <div id="ConsumablesList">
                     <div th:if="${not #lists.isEmpty(consume1List)}" id="consume1List">
@@ -420,24 +396,6 @@
                                 <img th:src="@{'/images/Consumables/'+ ${consume4[0]} +'.png'}" /><br />
                             </button>
                         </li>
-                    </div>
-                </div>
-            </div>
-            <div id="CamouflagesFlags">
-                <div id="Camouflages">
-                    <div th:if="${not #lists.isEmpty(camouflages)}" id="CamouflagesList">
-                        <table id="camouTable"></table>
-                        <!--<li th:onclick="'camouflage(\'' + ${camouflage['code']} +'\', \''+ ${camouflagesIdList} + '\');'" th:each="camouflage : ${camouflages}" th:id="${camouflage['code']}">-->
-                            <!--<button class="button_camouflage" th:id="${camouflage['code']}">-->
-                                <!--<img th:src="@{'/images/Camouflages/'+ ${camouflage['code']} +'.png'}" /><br />-->
-                                <!--<span th:text="${camouflage['name']}" />-->
-                            <!--</button>-->
-                        <!--</li>-->
-                    </div>
-                </div>
-                <div id="Flags">
-                    <div th:if="${not #lists.isEmpty(flags)}" id="FlagsList">
-                        <table id="flagTable"></table>
                     </div>
                 </div>
             </div>
@@ -586,8 +544,7 @@
             skillsImageLocation = [[@{/images/Skills/}]];
             camouImageLocation = [[@{/images/Camouflages/}]];
             flagImageLocation = [[@{/images/Flags/}]];
-
-            setCrewSkills();
+            upgradeImageLocation = [[@{/images/Modules/}]];
 
             ship_id_str = [[${ship_id_str}]];
 
@@ -606,6 +563,8 @@
 
             camouflageList = [[${camouflages}]];
             flagsList = [[${flags}]];
+
+            skills = [[${skills}]];
 
             if ([[${radarUpgradeList}]].length > 0)
             {
@@ -692,10 +651,39 @@
             {
                 consume([[${consume4List}]][0], [[${consume4List}]], 4);
             }
+            
+            if ([[${upgrades1}]] != null)
+            {
+                upgrades1 = [[${upgrades1}]];
+            }
+            if ([[${upgrades2}]] != null)
+            {
+                upgrades2 = [[${upgrades2}]];
+            }
+            if ([[${upgrades3}]] != null)
+            {
+                upgrades3 = [[${upgrades3}]];
+            }
+            if ([[${upgrades4}]] != null)
+            {
+                upgrades4 = [[${upgrades4}]];
+            }
+            if ([[${upgrades5}]] != null)
+            {
+                upgrades5 = [[${upgrades5}]];
+            }
+            if ([[${upgrades6}]] != null)
+            {
+                upgrades6 = [[${upgrades6}]];
+            }
+
+            setUpgrades();
 
             setCamouflage();
 
             setFlag();
+
+            setCrewSkills();
         }
     }
     window.onload = load([[${name}]]);

@@ -1,6 +1,7 @@
 var skillsImageLocation;
 var camouImageLocation;
 var flagImageLocation;
+var upgradeImageLocation;
 
 var shipName;
 var shipNation;
@@ -32,6 +33,8 @@ var camouCodeList = [];
 
 var flagsList;
 var flagCodeList = [];
+
+var skills;
 
 var tier = 0;
 var maxRepairCost = 0;
@@ -338,3 +341,11 @@ var shootShiftFlag = 1;
 var speedCoefFlag = 1;
 var visibilityFactorFlag = 1;
 var visibilityFactorByPlaneFlag = 1;
+
+
+var upgrades1;
+var upgrades2;
+var upgrades3;
+var upgrades4;
+var upgrades5;
+var upgrades6;

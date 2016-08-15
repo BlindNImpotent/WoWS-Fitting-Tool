@@ -2,14 +2,11 @@ package WoWSSSC.service;
 
 import Parser.API_Parser;
 import Parser.GameParams_Parser;
-import WoWSSSC.model.Camouflage;
-import WoWSSSC.model.Flags;
-import WoWSSSC.model.Upgrade;
+import WoWSSSC.model.*;
 import lombok.Data;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -25,154 +22,163 @@ import java.util.List;
 @Data
 public class JSONService
 {
-    public API_Parser apiParser;
-    public GameParams_Parser gameParamsParser;
+    private API_Parser apiParser;
+    private GameParams_Parser gameParamsParser;
 
-    public HashMap<String, JSONObject> GameParamsIndexHashMap;
-    public HashMap<String, JSONObject> GameParamsNameHashMap;
+    private HashMap<String, JSONObject> GameParamsIndexHashMap;
+    private HashMap<String, JSONObject> GameParamsNameHashMap;
 
-    public JSONObject apiShipJSON;
-    public JSONObject gpShipJSON;
+    private JSONObject apiShipJSON;
+    private JSONObject gpShipJSON;
 
-    public long tier;
-    public String nation;
-    public String shipType;
+    private long tier;
+    private String nation;
+    private String shipType;
 
-    public String ship_id_str;
+    private String ship_id_str;
 
-    public JSONObject modules_treeJSON;
-    public List<String> modules_treeList;
-    public List<JSONObject> default_loadouts;
-    public List<JSONObject> upgradeModules;
+    private JSONObject modules_treeJSON;
+    private List<String> modules_treeList;
+    private List<JSONObject> default_loadouts;
+    private List<JSONObject> upgradeModules;
     
-    public List<Upgrade> API_ArtilleryUpgrade;
-    public List<Upgrade> API_HullUpgrade;
-    public List<Upgrade> API_EngineUpgrade;
-    public List<Upgrade> API_RadarUpgrade;
-    public List<Upgrade> API_TorpedoUpgrade;
+    private List<Module> API_ArtilleryModule;
+    private List<Module> API_HullModule;
+    private List<Module> API_EngineModule;
+    private List<Module> API_RadarModule;
+    private List<Module> API_TorpedoModule;
 
-    public List<String> API_ArtilleryUpgradeIndexList;
-    public List<String> API_HullUpgradeIndexList;
-    public List<String> API_EngineUpgradeIndexList;
-    public List<String> API_RadarUpgradeIndexList;
-    public List<String> API_TorpedoUpgradeIndexList;
+    private List<String> API_ArtilleryUpgradeIndexList;
+    private List<String> API_HullUpgradeIndexList;
+    private List<String> API_EngineUpgradeIndexList;
+    private List<String> API_RadarUpgradeIndexList;
+    private List<String> API_TorpedoUpgradeIndexList;
 
-//    public List<JSONObject> API_ArtilleryUpgradeJSONList;
-//    public List<String> API_ArtilleryUpgradeNameList;
-    public HashMap<String, JSONObject> API_ArtilleryUpgradeJSONHashMap;
+//    private List<JSONObject> API_ArtilleryUpgradeJSONList;
+//    private List<String> API_ArtilleryUpgradeNameList;
+    private HashMap<String, JSONObject> API_ArtilleryUpgradeJSONHashMap;
 //
-//    public List<JSONObject> API_HullUpgradeJSONList;
-//    public List<String> API_HullUpgradeNameList;
-    public HashMap<String, JSONObject> API_HullUpgradeJSONHashMap;
+//    private List<JSONObject> API_HullUpgradeJSONList;
+//    private List<String> API_HullUpgradeNameList;
+    private HashMap<String, JSONObject> API_HullUpgradeJSONHashMap;
 //
-//    public List<JSONObject> API_EngineUpgradeJSONList;
-//    public List<String> API_EngineUpgradeNameList;
-    public HashMap<String, JSONObject> API_EngineUpgradeJSONHashMap;
+//    private List<JSONObject> API_EngineUpgradeJSONList;
+//    private List<String> API_EngineUpgradeNameList;
+    private HashMap<String, JSONObject> API_EngineUpgradeJSONHashMap;
 //
-//    public List<JSONObject> API_SuoUpgradeJSONList;
-//    public List<String> API_SuoUpgradeNameList;
-    public HashMap<String, JSONObject> API_SuoUpgradeJSONHashMap;
+//    private List<JSONObject> API_SuoUpgradeJSONList;
+//    private List<String> API_SuoUpgradeNameList;
+    private HashMap<String, JSONObject> API_SuoUpgradeJSONHashMap;
 //
-//    public List<JSONObject> API_TorpedoesUpgradeJSONList;
-//    public List<String> API_TorpedoesUpgradeNameList;
-    public HashMap<String, JSONObject> API_TorpedoesUpgradeJSONHashMap;
+//    private List<JSONObject> API_TorpedoesUpgradeJSONList;
+//    private List<String> API_TorpedoesUpgradeNameList;
+    private HashMap<String, JSONObject> API_TorpedoesUpgradeJSONHashMap;
 
-    public JSONObject API_ArtilleryUpgradeJSON;
-    public JSONObject API_HullUpgradeJSON;
-    public JSONObject API_EngineUpgradeJSON;
-    public JSONObject API_RadarUpgradeJSON;
-    public JSONObject API_TorpedoUpgradeJSON;
+    private JSONObject API_ArtilleryUpgradeJSON;
+    private JSONObject API_HullUpgradeJSON;
+    private JSONObject API_EngineUpgradeJSON;
+    private JSONObject API_RadarUpgradeJSON;
+    private JSONObject API_TorpedoUpgradeJSON;
 
-    public String imagesMedium;
+    private String imagesMedium;
 
-    public List<Long> API_UpgradesIDList;
-    public JSONObject GP_UpgradesJSON;
-    public List<String> UpgradesNameList;
-    public JSONObject ModernizationSlot1;
-    public JSONObject ModernizationSlot2;
-    public JSONObject ModernizationSlot3;
-    public JSONObject ModernizationSlot4;
-    public JSONObject ModernizationSlot5;
-    public JSONObject ModernizationSlot6;
-    public JSONArray ModernizationSlot1_mods;
-    public JSONArray ModernizationSlot2_mods;
-    public JSONArray ModernizationSlot3_mods;
-    public JSONArray ModernizationSlot4_mods;
-    public JSONArray ModernizationSlot5_mods;
-    public JSONArray ModernizationSlot6_mods;
-    public List<String> modSlot1;
-    public List<String> modSlot2;
-    public List<String> modSlot3;
-    public List<String> modSlot4;
-    public List<String> modSlot5;
-    public List<String> modSlot6;
-    public List<String> modSlot1Images;
-    public List<String> modSlot2Images;
-    public List<String> modSlot3Images;
-    public List<String> modSlot4Images;
-    public List<String> modSlot5Images;
-    public List<String> modSlot6Images;
-    public LinkedHashMap<String, JSONObject> mods1;
-    public LinkedHashMap<String, JSONObject> mods2;
-    public LinkedHashMap<String, JSONObject> mods3;
-    public LinkedHashMap<String, JSONObject> mods4;
-    public LinkedHashMap<String, JSONObject> mods5;
-    public LinkedHashMap<String, JSONObject> mods6;
-    public List<String> modSlot1Name;
-    public List<String> modSlot2Name;
-    public List<String> modSlot3Name;
-    public List<String> modSlot4Name;
-    public List<String> modSlot5Name;
-    public List<String> modSlot6Name;
+    private List<Long> API_UpgradesIDList;
+    private JSONObject GP_UpgradesJSON;
+    private List<String> UpgradesNameList;
+    private JSONObject ModernizationSlot1;
+    private JSONObject ModernizationSlot2;
+    private JSONObject ModernizationSlot3;
+    private JSONObject ModernizationSlot4;
+    private JSONObject ModernizationSlot5;
+    private JSONObject ModernizationSlot6;
+    private JSONArray ModernizationSlot1_mods;
+    private JSONArray ModernizationSlot2_mods;
+    private JSONArray ModernizationSlot3_mods;
+    private JSONArray ModernizationSlot4_mods;
+    private JSONArray ModernizationSlot5_mods;
+    private JSONArray ModernizationSlot6_mods;
+//    private List<String> modSlot1;
+//    private List<String> modSlot2;
+//    private List<String> modSlot3;
+//    private List<String> modSlot4;
+//    private List<String> modSlot5;
+//    private List<String> modSlot6;
+//    private List<String> modSlot1Images;
+//    private List<String> modSlot2Images;
+//    private List<String> modSlot3Images;
+//    private List<String> modSlot4Images;
+//    private List<String> modSlot5Images;
+//    private List<String> modSlot6Images;
+//    private LinkedHashMap<String, JSONObject> mods1;
+//    private LinkedHashMap<String, JSONObject> mods2;
+//    private LinkedHashMap<String, JSONObject> mods3;
+//    private LinkedHashMap<String, JSONObject> mods4;
+//    private LinkedHashMap<String, JSONObject> mods5;
+//    private LinkedHashMap<String, JSONObject> mods6;
+//    private List<String> modSlot1Name;
+//    private List<String> modSlot2Name;
+//    private List<String> modSlot3Name;
+//    private List<String> modSlot4Name;
+//    private List<String> modSlot5Name;
+//    private List<String> modSlot6Name;
 
-    public List<JSONArray> Abil0;
-    public List<JSONArray> Abil1;
-    public List<JSONArray> Abil2;
-    public List<JSONArray> Abil3;
+    private List<JSONArray> Abil0;
+    private List<JSONArray> Abil1;
+    private List<JSONArray> Abil2;
+    private List<JSONArray> Abil3;
 
-    public List<String> Ability0;
-    public List<String> Ability1;
-    public List<String> Ability2;
-    public List<String> Ability3;
+    private List<String> Ability0;
+    private List<String> Ability1;
+    private List<String> Ability2;
+    private List<String> Ability3;
 
-    public double afterBattleRepair;
-    public double visibilityFactorPermaCamo;
-    public double visibilityFactorByPlanePermaCamo;
-    public double expFactorPermaCamo;
+    private double afterBattleRepair;
+    private double visibilityFactorPermaCamo;
+    private double visibilityFactorByPlanePermaCamo;
+    private double expFactorPermaCamo;
 
-    public JSONObject permaflage;
-    public HashMap<String, JSONObject> permaflageHashMap;
+    private JSONObject permaflage;
+    private HashMap<String, JSONObject> permaflageHashMap;
 
-    public List<Flags> flagsList;
+    private List<Flags> flagsList;
     
-    public HashMap<String, JSONObject> API_FlightControlUpgradeJSONHashMap; 
-    public List<String> API_FlightControlUpgradeIndexList;
-    public List<Upgrade> API_FlightControlUpgrade;
-    public JSONObject API_FlightControlUpgradeJSON;
+    private HashMap<String, JSONObject> API_FlightControlUpgradeJSONHashMap; 
+    private List<String> API_FlightControlUpgradeIndexList;
+    private List<Module> API_FlightControlModule;
+    private JSONObject API_FlightControlUpgradeJSON;
 
-    public HashMap<String, JSONObject> API_FighterUpgradeJSONHashMap;
-    public List<String> API_FighterUpgradeIndexList;
-    public List<Upgrade> API_FighterUpgrade;
-    public JSONObject API_FighterUpgradeJSON;
+    private HashMap<String, JSONObject> API_FighterUpgradeJSONHashMap;
+    private List<String> API_FighterUpgradeIndexList;
+    private List<Module> API_FighterModule;
+    private JSONObject API_FighterUpgradeJSON;
 
-    public HashMap<String, JSONObject> API_TorpedoBomberUpgradeJSONHashMap;
-    public List<String> API_TorpedoBomberUpgradeIndexList;
-    public List<Upgrade> API_TorpedoBomberUpgrade;
-    public JSONObject API_TorpedoBomberUpgradeJSON;
+    private HashMap<String, JSONObject> API_TorpedoBomberUpgradeJSONHashMap;
+    private List<String> API_TorpedoBomberUpgradeIndexList;
+    private List<Module> API_TorpedoBomberModule;
+    private JSONObject API_TorpedoBomberUpgradeJSON;
 
-    public HashMap<String, JSONObject> API_DiveBomberUpgradeJSONHashMap;
-    public List<String> API_DiveBomberUpgradeIndexList;
-    public List<Upgrade> API_DiveBomberUpgrade;
-    public JSONObject API_DiveBomberUpgradeJSON;
+    private HashMap<String, JSONObject> API_DiveBomberUpgradeJSONHashMap;
+    private List<String> API_DiveBomberUpgradeIndexList;
+    private List<Module> API_DiveBomberModule;
+    private JSONObject API_DiveBomberUpgradeJSON;
 
-    public List<Camouflage> camouflages;
+    private List<Camouflage> camouflages;
 
-    public List<String> camouflagesIdList;
+    private List<String> camouflagesIdList;
 
-    public List<String> flagsIdList;
+    private List<String> flagsIdList;
+
+    private List<Upgrade> upgrades1;
+    private List<Upgrade> upgrades2;
+    private List<Upgrade> upgrades3;
+    private List<Upgrade> upgrades4;
+    private List<Upgrade> upgrades5;
+    private List<Upgrade> upgrades6;
+    
+    private List<Skills> skillsList;
 
 //    @Cacheable("setShipJSON")
-    public void setShipJSON(String name) throws IOException, ParseException
+    public synchronized void setShipJSON(String name) throws IOException, ParseException
     {
         apiParser = new API_Parser();
         gameParamsParser = new GameParams_Parser();
@@ -197,6 +203,7 @@ public class JSONService
         setConsumablesList();
         setPermaflage(name);
         setFlagsList();
+        setCrewSkills();
     }
 
     public JSONObject getGameParamsIndexJSON(String index)
@@ -231,11 +238,11 @@ public class JSONService
 //        API_TorpedoesUpgradeNameList = new ArrayList<>();
         API_TorpedoesUpgradeJSONHashMap = new HashMap<>();
 
-        API_ArtilleryUpgrade = new ArrayList<>();
-        API_HullUpgrade = new ArrayList<>();
-        API_EngineUpgrade = new ArrayList<>();
-        API_RadarUpgrade = new ArrayList<>();
-        API_TorpedoUpgrade = new ArrayList<>();
+        API_ArtilleryModule = new ArrayList<>();
+        API_HullModule = new ArrayList<>();
+        API_EngineModule = new ArrayList<>();
+        API_RadarModule = new ArrayList<>();
+        API_TorpedoModule = new ArrayList<>();
 
         API_ArtilleryUpgradeIndexList = new ArrayList<>();
         API_HullUpgradeIndexList = new ArrayList<>();
@@ -245,19 +252,19 @@ public class JSONService
 
         API_FlightControlUpgradeJSONHashMap = new HashMap<>();
         API_FlightControlUpgradeIndexList = new ArrayList<>();
-        API_FlightControlUpgrade = new ArrayList<>();
+        API_FlightControlModule = new ArrayList<>();
 
         API_FighterUpgradeJSONHashMap = new HashMap<>();
         API_FighterUpgradeIndexList = new ArrayList<>();
-        API_FighterUpgrade = new ArrayList<>();
+        API_FighterModule = new ArrayList<>();
 
         API_TorpedoBomberUpgradeJSONHashMap = new HashMap<>();
         API_TorpedoBomberUpgradeIndexList = new ArrayList<>();
-        API_TorpedoBomberUpgrade = new ArrayList<>();
+        API_TorpedoBomberModule = new ArrayList<>();
 
         API_DiveBomberUpgradeJSONHashMap = new HashMap<>();
         API_DiveBomberUpgradeIndexList = new ArrayList<>();
-        API_DiveBomberUpgrade = new ArrayList<>();
+        API_DiveBomberModule = new ArrayList<>();
         
         modules_treeJSON = (JSONObject) apiShipJSON.get("modules_tree");
 
@@ -281,7 +288,7 @@ public class JSONService
 //                API_ArtilleryUpgradeNameList.add(API_suiJSONName);
                 API_ArtilleryUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
                 API_ArtilleryUpgradeIndexList.add(API_suiJSONIndex);
-                API_ArtilleryUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
+                API_ArtilleryModule.add(new Module(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("Hull"))
             {
@@ -289,7 +296,7 @@ public class JSONService
 //                API_HullUpgradeNameList.add(API_suiJSONName);
                 API_HullUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
                 API_HullUpgradeIndexList.add(API_suiJSONIndex);
-                API_HullUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
+                API_HullModule.add(new Module(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("Engine"))
             {
@@ -297,7 +304,7 @@ public class JSONService
 //                API_EngineUpgradeNameList.add(API_suiJSONName);
                 API_EngineUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
                 API_EngineUpgradeIndexList.add(API_suiJSONIndex);
-                API_EngineUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
+                API_EngineModule.add(new Module(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("Suo"))
             {
@@ -305,7 +312,7 @@ public class JSONService
 //                API_SuoUpgradeNameList.add(API_suiJSONName);
                 API_SuoUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
                 API_RadarUpgradeIndexList.add(API_suiJSONIndex);
-                API_RadarUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
+                API_RadarModule.add(new Module(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("Torpedoes"))
             {
@@ -313,54 +320,54 @@ public class JSONService
 //                API_TorpedoesUpgradeNameList.add(API_suiJSONName);
                 API_TorpedoesUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
                 API_TorpedoUpgradeIndexList.add(API_suiJSONIndex);
-                API_TorpedoUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
+                API_TorpedoModule.add(new Module(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("FlightControl"))
             {
                 API_FlightControlUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
                 API_FlightControlUpgradeIndexList.add(API_suiJSONIndex);
-                API_FlightControlUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
+                API_FlightControlModule.add(new Module(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("Fighter"))
             {
                 API_FighterUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
                 API_FighterUpgradeIndexList.add(API_suiJSONIndex);
-                API_FighterUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
+                API_FighterModule.add(new Module(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("TorpedoBomber"))
             {
                 API_TorpedoBomberUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
                 API_TorpedoBomberUpgradeIndexList.add(API_suiJSONIndex);
-                API_TorpedoBomberUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
+                API_TorpedoBomberModule.add(new Module(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
             }
             else if (API_suiJSON.get("type").equals("DiveBomber"))
             {
                 API_DiveBomberUpgradeJSONHashMap.put(API_suiJSONIndex, API_suiJSON);
                 API_DiveBomberUpgradeIndexList.add(API_suiJSONIndex);
-                API_DiveBomberUpgrade.add(new Upgrade(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
+                API_DiveBomberModule.add(new Module(API_suiJSONName, API_suiJSONIndex, API_suiJSONId, API_suiJSONIsDefault, API_suiJSON));
             }
 
         }
 
-        API_ArtilleryUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
-        API_HullUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
-        API_EngineUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
-        API_RadarUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
-        API_TorpedoUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
-        API_FlightControlUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
-        API_FighterUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
-        API_TorpedoBomberUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
-        API_DiveBomberUpgrade.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
+        API_ArtilleryModule.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
+        API_HullModule.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
+        API_EngineModule.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
+        API_RadarModule.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
+        API_TorpedoModule.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
+        API_FlightControlModule.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
+        API_FighterModule.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
+        API_TorpedoBomberModule.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
+        API_DiveBomberModule.sort((o1, o2) -> (o1.getName()).compareTo(o2.getName()));
 
-        API_ArtilleryUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
-        API_HullUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
-        API_EngineUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
-        API_RadarUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
-        API_TorpedoUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
-        API_FlightControlUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
-        API_FighterUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
-        API_TorpedoBomberUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
-        API_DiveBomberUpgrade.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_ArtilleryModule.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_HullModule.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_EngineModule.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_RadarModule.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_TorpedoModule.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_FlightControlModule.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_FighterModule.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_TorpedoBomberModule.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
+        API_DiveBomberModule.sort((o1, o2) -> (o2.isDefault() ? 1 : 0) - (o1.isDefault() ? 1 : 0));
         
 //        API_ArtilleryUpgrade.sort((o1, o2) -> ((int) o1.getModuleId()) - (int) (o2.getModuleId()));
 //        API_HullUpgrade.sort((o1, o2) -> ((int) o1.getModuleId()) - ((int) o2.getModuleId()));
@@ -396,6 +403,12 @@ public class JSONService
     {
         API_UpgradesIDList = new ArrayList<>();        
         UpgradesNameList = new ArrayList<>();
+        ModernizationSlot1 = null;
+        ModernizationSlot2 = null;
+        ModernizationSlot3 = null;
+        ModernizationSlot4 = null;
+        ModernizationSlot5 = null;
+        ModernizationSlot6 = null;
         ModernizationSlot1_mods = null;
         ModernizationSlot2_mods = null;
         ModernizationSlot3_mods = null;
@@ -403,31 +416,37 @@ public class JSONService
         ModernizationSlot5_mods = null;
         ModernizationSlot6_mods = null;
 
-        modSlot1 = new ArrayList<>();
-        modSlot2 = new ArrayList<>();
-        modSlot3 = new ArrayList<>();
-        modSlot4 = new ArrayList<>();
-        modSlot5 = new ArrayList<>();
-        modSlot6 = new ArrayList<>();
-        modSlot1Images = new ArrayList<>();
-        modSlot2Images = new ArrayList<>();
-        modSlot3Images = new ArrayList<>();
-        modSlot4Images = new ArrayList<>();
-        modSlot5Images = new ArrayList<>();
-        modSlot6Images = new ArrayList<>();
-        mods1 = new LinkedHashMap<>();
-        mods2 = new LinkedHashMap<>();
-        mods3 = new LinkedHashMap<>();
-        mods4 = new LinkedHashMap<>();
-        mods5 = new LinkedHashMap<>();
-        mods6 = new LinkedHashMap<>();
-        modSlot1Name = new ArrayList<>();
-        modSlot2Name = new ArrayList<>();
-        modSlot3Name = new ArrayList<>();
-        modSlot4Name = new ArrayList<>();
-        modSlot5Name = new ArrayList<>();
-        modSlot6Name = new ArrayList<>();
+//        modSlot1 = new ArrayList<>();
+//        modSlot2 = new ArrayList<>();
+//        modSlot3 = new ArrayList<>();
+//        modSlot4 = new ArrayList<>();
+//        modSlot5 = new ArrayList<>();
+//        modSlot6 = new ArrayList<>();
+//        modSlot1Images = new ArrayList<>();
+//        modSlot2Images = new ArrayList<>();
+//        modSlot3Images = new ArrayList<>();
+//        modSlot4Images = new ArrayList<>();
+//        modSlot5Images = new ArrayList<>();
+//        modSlot6Images = new ArrayList<>();
+//        mods1 = new LinkedHashMap<>();
+//        mods2 = new LinkedHashMap<>();
+//        mods3 = new LinkedHashMap<>();
+//        mods4 = new LinkedHashMap<>();
+//        mods5 = new LinkedHashMap<>();
+//        mods6 = new LinkedHashMap<>();
+//        modSlot1Name = new ArrayList<>();
+//        modSlot2Name = new ArrayList<>();
+//        modSlot3Name = new ArrayList<>();
+//        modSlot4Name = new ArrayList<>();
+//        modSlot5Name = new ArrayList<>();
+//        modSlot6Name = new ArrayList<>();
 
+        upgrades1 = new ArrayList<>();
+        upgrades2 = new ArrayList<>();
+        upgrades3 = new ArrayList<>();
+        upgrades4 = new ArrayList<>();
+        upgrades5 = new ArrayList<>();
+        upgrades6 = new ArrayList<>();
         
         JSONArray modules = (JSONArray) apiShipJSON.get("upgrades");
         API_UpgradesIDList.addAll(modules);
@@ -473,55 +492,103 @@ public class JSONService
 
         JSONObject ship_modifications = (JSONObject) apiParser.getAPI_InfoEncyclopediaJSON().get("ship_modifications");
 
-        if (ModernizationSlot1_mods != null) {
-            for (int i = 0; i < ModernizationSlot1_mods.size(); i++) {
-                mods1.put((String) ship_modifications.get(ModernizationSlot1_mods.get(i)), gameParamsParser.getGameParamsIndexHashMap().get(ModernizationSlot1_mods.get(i)));
-                modSlot1.add((String) ModernizationSlot1_mods.get(i));
-                modSlot1Images.add(ModernizationSlot1_mods.get(i) + ".png");
+        if (ModernizationSlot1_mods != null)
+        {
+            for (int i = 0; i < ModernizationSlot1_mods.size(); i++) 
+            {
+                upgrades1.add(new Upgrade((String) ModernizationSlot1_mods.get(i), (String) ship_modifications.get(ModernizationSlot1_mods.get(i)), (Long) ModernizationSlot1.get("slot"), gameParamsParser.getGameParamsNameHashMap().get(ModernizationSlot1_mods.get(i)), ModernizationSlot1_mods.get(i) + ".png"));
             }
         }
 
-        if (ModernizationSlot2_mods != null) {
-            for (int i = 0; i < ModernizationSlot2_mods.size(); i++) {
-                mods2.put((String) ship_modifications.get(ModernizationSlot2_mods.get(i)), gameParamsParser.getGameParamsIndexHashMap().get(ModernizationSlot2_mods.get(i)));
-                modSlot2.add((String) ModernizationSlot2_mods.get(i));
+        if (ModernizationSlot2_mods != null)
+        {
+            for (int i = 0; i < ModernizationSlot2_mods.size(); i++)
+            {
+                upgrades2.add(new Upgrade((String) ModernizationSlot2_mods.get(i), (String) ship_modifications.get(ModernizationSlot2_mods.get(i)), (Long) ModernizationSlot2.get("slot"), gameParamsParser.getGameParamsNameHashMap().get(ModernizationSlot2_mods.get(i)), ModernizationSlot2_mods.get(i) + ".png"));
             }
         }
 
-        if (ModernizationSlot3_mods != null) {
-            for (int i = 0; i < ModernizationSlot3_mods.size(); i++) {
-                mods3.put((String) ship_modifications.get(ModernizationSlot3_mods.get(i)), gameParamsParser.getGameParamsIndexHashMap().get(ModernizationSlot3_mods.get(i)));
-                modSlot3.add((String) ModernizationSlot3_mods.get(i));
+        if (ModernizationSlot3_mods != null)
+        {
+            for (int i = 0; i < ModernizationSlot3_mods.size(); i++)
+            {
+                upgrades3.add(new Upgrade((String) ModernizationSlot3_mods.get(i), (String) ship_modifications.get(ModernizationSlot3_mods.get(i)), (Long) ModernizationSlot3.get("slot"), gameParamsParser.getGameParamsNameHashMap().get(ModernizationSlot3_mods.get(i)), ModernizationSlot3_mods.get(i) + ".png"));
             }
         }
 
-        if (ModernizationSlot4_mods != null) {
-            for (int i = 0; i < ModernizationSlot4_mods.size(); i++) {
-                mods4.put((String) ship_modifications.get(ModernizationSlot4_mods.get(i)), gameParamsParser.getGameParamsIndexHashMap().get(ModernizationSlot4_mods.get(i)));
-                modSlot4.add((String) ModernizationSlot4_mods.get(i));
+        if (ModernizationSlot4_mods != null)
+        {
+            for (int i = 0; i < ModernizationSlot4_mods.size(); i++)
+            {
+                upgrades4.add(new Upgrade((String) ModernizationSlot4_mods.get(i), (String) ship_modifications.get(ModernizationSlot4_mods.get(i)), (Long) ModernizationSlot4.get("slot"), gameParamsParser.getGameParamsNameHashMap().get(ModernizationSlot4_mods.get(i)), ModernizationSlot4_mods.get(i) + ".png"));
             }
         }
 
-        if (ModernizationSlot5_mods != null) {
-            for (int i = 0; i < ModernizationSlot5_mods.size(); i++) {
-                mods5.put((String) ship_modifications.get(ModernizationSlot5_mods.get(i)), gameParamsParser.getGameParamsIndexHashMap().get(ModernizationSlot5_mods.get(i)));
-                modSlot5.add((String) ModernizationSlot5_mods.get(i));
+        if (ModernizationSlot5_mods != null)
+        {
+            for (int i = 0; i < ModernizationSlot5_mods.size(); i++)
+            {
+                upgrades5.add(new Upgrade((String) ModernizationSlot5_mods.get(i), (String) ship_modifications.get(ModernizationSlot5_mods.get(i)), (Long) ModernizationSlot5.get("slot"), gameParamsParser.getGameParamsNameHashMap().get(ModernizationSlot5_mods.get(i)), ModernizationSlot5_mods.get(i) + ".png"));
             }
         }
 
-        if (ModernizationSlot6_mods != null) {
-            for (int i = 0; i < ModernizationSlot6_mods.size(); i++) {
-                mods6.put((String) ship_modifications.get(ModernizationSlot6_mods.get(i)), gameParamsParser.getGameParamsIndexHashMap().get(ModernizationSlot6_mods.get(i)));
-                modSlot6.add((String) ModernizationSlot6_mods.get(i));
+        if (ModernizationSlot6_mods != null)
+        {
+            for (int i = 0; i < ModernizationSlot6_mods.size(); i++)
+            {
+                upgrades6.add(new Upgrade((String) ModernizationSlot6_mods.get(i), (String) ship_modifications.get(ModernizationSlot6_mods.get(i)), (Long) ModernizationSlot6.get("slot"), gameParamsParser.getGameParamsNameHashMap().get(ModernizationSlot6_mods.get(i)), ModernizationSlot6_mods.get(i) + ".png"));
             }
         }
 
-        modSlot1Name.addAll(mods1.keySet());
-        modSlot2Name.addAll(mods2.keySet());
-        modSlot3Name.addAll(mods3.keySet());
-        modSlot4Name.addAll(mods4.keySet());
-        modSlot5Name.addAll(mods5.keySet());
-        modSlot6Name.addAll(mods6.keySet());
+//        if (ModernizationSlot1_mods != null) {
+//            for (int i = 0; i < ModernizationSlot1_mods.size(); i++) {
+//                mods1.put((String) ship_modifications.get(ModernizationSlot1_mods.get(i)), gameParamsParser.getGameParamsIndexHashMap().get(ModernizationSlot1_mods.get(i)));
+//                modSlot1.add((String) ModernizationSlot1_mods.get(i));
+//                modSlot1Images.add(ModernizationSlot1_mods.get(i) + ".png");
+//            }
+//        }
+//
+//        if (ModernizationSlot2_mods != null) {
+//            for (int i = 0; i < ModernizationSlot2_mods.size(); i++) {
+//                mods2.put((String) ship_modifications.get(ModernizationSlot2_mods.get(i)), gameParamsParser.getGameParamsIndexHashMap().get(ModernizationSlot2_mods.get(i)));
+//                modSlot2.add((String) ModernizationSlot2_mods.get(i));
+//            }
+//        }
+//
+//        if (ModernizationSlot3_mods != null) {
+//            for (int i = 0; i < ModernizationSlot3_mods.size(); i++) {
+//                mods3.put((String) ship_modifications.get(ModernizationSlot3_mods.get(i)), gameParamsParser.getGameParamsIndexHashMap().get(ModernizationSlot3_mods.get(i)));
+//                modSlot3.add((String) ModernizationSlot3_mods.get(i));
+//            }
+//        }
+//
+//        if (ModernizationSlot4_mods != null) {
+//            for (int i = 0; i < ModernizationSlot4_mods.size(); i++) {
+//                mods4.put((String) ship_modifications.get(ModernizationSlot4_mods.get(i)), gameParamsParser.getGameParamsIndexHashMap().get(ModernizationSlot4_mods.get(i)));
+//                modSlot4.add((String) ModernizationSlot4_mods.get(i));
+//            }
+//        }
+//
+//        if (ModernizationSlot5_mods != null) {
+//            for (int i = 0; i < ModernizationSlot5_mods.size(); i++) {
+//                mods5.put((String) ship_modifications.get(ModernizationSlot5_mods.get(i)), gameParamsParser.getGameParamsIndexHashMap().get(ModernizationSlot5_mods.get(i)));
+//                modSlot5.add((String) ModernizationSlot5_mods.get(i));
+//            }
+//        }
+//
+//        if (ModernizationSlot6_mods != null) {
+//            for (int i = 0; i < ModernizationSlot6_mods.size(); i++) {
+//                mods6.put((String) ship_modifications.get(ModernizationSlot6_mods.get(i)), gameParamsParser.getGameParamsIndexHashMap().get(ModernizationSlot6_mods.get(i)));
+//                modSlot6.add((String) ModernizationSlot6_mods.get(i));
+//            }
+//        }
+//
+//        modSlot1Name.addAll(mods1.keySet());
+//        modSlot2Name.addAll(mods2.keySet());
+//        modSlot3Name.addAll(mods3.keySet());
+//        modSlot4Name.addAll(mods4.keySet());
+//        modSlot5Name.addAll(mods5.keySet());
+//        modSlot6Name.addAll(mods6.keySet());
     }
 
     @SuppressWarnings("unchecked")
@@ -566,8 +633,6 @@ public class JSONService
 //            Ability3.add(Abil3.get(i).get(0).toString());
 //        }
     }
-
-
 
     @SuppressWarnings("unchecked")
     private void setPermaflage(String name)
@@ -691,9 +756,7 @@ public class JSONService
             flagsList.add(new Flags((String) API_FlagsJSONList.get(i).get("name"), small));
             flagsIdList.add(small);
         }
-
-
-
+        
 //        FlagsJSONList = new ArrayList<>();
 //
 //        List<String> API_Flags_keySet = new ArrayList<>();
@@ -710,5 +773,56 @@ public class JSONService
 //                }
 //            }
 //        }
+    }
+    
+    private void setCrewSkills()
+    {
+        skillsList = new ArrayList<>();
+
+        String crewCode = null;
+        switch (nation)
+        {
+            case "usa":
+                crewCode = "PAW001_DefaultCrew";
+                break;
+            case "japan":
+                crewCode = "PJW001_DefaultCrew";
+                break;
+            case "ussr":
+                crewCode = "PRW001_DefaultCrew";
+                break;
+            case "germany":
+                crewCode = "PGW001_DefaultCrew";
+                break;
+            case "pan_asia":
+                crewCode = "PZW001_DefaultCrew";
+                break;
+            case "poland":
+                crewCode = "PWW001_DefaultCrew";
+                break;
+            case "uk":
+                crewCode = "PBW001_DefaultCrew";
+                break;
+            case "france":
+                crewCode = "PFW001_DefaultCrew";
+            default:
+                break;
+        }
+
+        List<JSONObject> API_SkillsJSONList = new ArrayList<>();
+        API_SkillsJSONList.addAll(apiParser.getAPI_CommanderSkillsJSON().values());
+
+        JSONObject crewJSON = getGameParamsNameJSON(crewCode);
+        JSONObject skills = (JSONObject) crewJSON.get("Skills");
+
+        for (int i = 0; i < API_SkillsJSONList.size(); i++)
+        {
+            String name = (String) API_SkillsJSONList.get(i).get("name");
+            String small = (String) API_SkillsJSONList.get(i).get("icon");
+            small = small.replace("http://api.worldofwarships.com/static/1.8.3/wows/encyclopedia/crew_perks/icon_perk_", "");
+            small = small.replace(".png", "");
+
+            skillsList.add(new Skills(small, name, (JSONObject) skills.get(small)));
+        }
     }
 }

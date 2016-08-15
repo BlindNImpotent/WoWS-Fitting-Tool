@@ -7,22 +7,17 @@ import org.json.simple.JSONObject;
  * Created by Aesis on 2016-08-15.
  */
 @Data
-public class Upgrade
+public class Skills
 {
     private String code;
     private String name;
-    private long slot;
     private JSONObject json;
-    private String image;
 
-    public Upgrade(String code, String name, long slot, JSONObject json, String image)
+    public Skills(String code, String name, JSONObject json)
     {
         this.code = code;
         this.name = name;
-        this.slot = slot;
         this.json = json;
-        this.image = image;
     }
-
 
 }

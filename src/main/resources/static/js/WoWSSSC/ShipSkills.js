@@ -1,49 +1,5 @@
 function setCrewSkills()
 {
-    crewNation = '';
-    switch (shipNation)
-    {
-        case "usa":
-            crewNation = "PAW001_DefaultCrew";
-            break;
-        case "japan":
-            crewNation = "PJW001_DefaultCrew";
-            break;
-        case "ussr":
-            crewNation = "PRW001_DefaultCrew";
-            break;
-        case "germany":
-            crewNation = "PGW001_DefaultCrew";
-            break;
-        case "pan_asia":
-            crewNation = "PZW001_DefaultCrew";
-            break;
-        case "poland":
-            crewNation = "PWW001_DefaultCrew";
-            break;
-        case "uk":
-            crewNation = "PBW001_DefaultCrew";
-            break;
-        case "france":
-            crewNation = "PFW001_DefaultCrew";
-        default:
-            break;
-    }
-
-    var crewNationJSON;
-    $.ajax({
-        url: "/GameParams/name/" + crewNation,
-        type: "GET",
-        async: false,
-        contentType: 'application/json; charset=utf-8',
-        success: function (data) {
-            crewNationJSON = data;
-        }
-    });
-
-    var skills = crewNationJSON['Skills'];
-    var index = [];
-
     var table = document.getElementById('skillsTable');
     var row1 = table.insertRow(0);
     var row2 = table.insertRow(1);
@@ -64,47 +20,42 @@ function setCrewSkills()
 
     for (var i in skills)
     {
-        index.push(i);
-    }
-
-    for (var i in index)
-    {
-        skill = skills[index[i]];
+        skill = skills[i]['json'];
 
         if (skill['tier'] == 1)
         {
-            var imgSrc = skillsImageLocation + index[i] + '.png';
+            var imgSrc = skillsImageLocation + skills[i]['code'] + '.png';
 
-            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id," +  skill['tier'] + ") id=" + index[i] + "><img src=" + imgSrc + "\/></button>"
-            document.getElementById(index[i]).className = "button_skill";
+            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id," +  skill['tier'] + ") id=" + skills[i]['code'] + "><img src=" + imgSrc + "\/><br />" + skills[i]['name'] + "</button>"
+            document.getElementById(skills[i]['code']).className = "button_skill";
         }
         else if (skill['tier'] == 2)
         {
-            var imgSrc = skillsImageLocation + index[i] + '.png';
+            var imgSrc = skillsImageLocation + skills[i]['code'] + '.png';
 
-            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id," +  skill['tier'] + ") id=" + index[i] + "><img src=" + imgSrc + "\/></button>"
-            document.getElementById(index[i]).className = "button_skill";
+            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id," +  skill['tier'] + ") id=" + skills[i]['code'] + "><img src=" + imgSrc + "\/><br />" + skills[i]['name'] + "</button>"
+            document.getElementById(skills[i]['code']).className = "button_skill";
         }
         else if (skill['tier'] == 3)
         {
-            var imgSrc = skillsImageLocation + index[i] + '.png';
+            var imgSrc = skillsImageLocation + skills[i]['code'] + '.png';
 
-            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id," +  skill['tier'] + ") id=" + index[i] + "><img src=" + imgSrc + "\/></button>"
-            document.getElementById(index[i]).className = "button_skill";
+            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id," +  skill['tier'] + ") id=" + skills[i]['code'] + "><img src=" + imgSrc + "\/><br />" + skills[i]['name'] + "</button>"
+            document.getElementById(skills[i]['code']).className = "button_skill";
         }
         else if (skill['tier'] == 4)
         {
-            var imgSrc = skillsImageLocation + index[i] + '.png';
+            var imgSrc = skillsImageLocation + skills[i]['code'] + '.png';
 
-            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id," +  skill['tier'] + ") id=" + index[i] + "><img src=" + imgSrc + "\/></button>"
-            document.getElementById(index[i]).className = "button_skill";
+            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id," +  skill['tier'] + ") id=" + skills[i]['code'] + "><img src=" + imgSrc + "\/><br />" + skills[i]['name'] + "</button>"
+            document.getElementById(skills[i]['code']).className = "button_skill";
         }
         else if (skill['tier'] == 5)
         {
-            var imgSrc = skillsImageLocation + index[i] + '.png';
+            var imgSrc = skillsImageLocation + skills[i]['code'] + '.png';
 
-            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id," +  skill['tier'] + ") id=" + index[i] + "><img src=" + imgSrc + "\/></button>"
-            document.getElementById(index[i]).className = "button_skill";
+            table.rows[skill['tier']-1].cells[skill['column']].innerHTML = "<button onclick=setSkill(id," +  skill['tier'] + ") id=" + skills[i]['code'] + "><img src=" + imgSrc + "\/><br />" + skills[i]['name'] + "</button>"
+            document.getElementById(skills[i]['code']).className = "button_skill";
         }
     }
 }
@@ -125,19 +76,16 @@ function setSkill(id, skillTier)
 
 function setSkillStats(id, skillTier)
 {
-    var crewNationJSON;
-    $.ajax({
-        url: "/GameParams/name/" + crewNation,
-        type: "GET",
-        async: false,
-        contentType: 'application/json; charset=utf-8',
-        success: function (data) {
-            crewNationJSON = data;
-        }
-    });
 
-    var skills = crewNationJSON['Skills'];
-    var skill = skills[id];
+    var skill;
+
+    for (var i in skills)
+    {
+        if (skills[i]['code'] == id)
+        {
+            skill = skills[i]['json'];
+        }
+    }
 
     skillPointsCount = skillPointsCount + skillTier;
 

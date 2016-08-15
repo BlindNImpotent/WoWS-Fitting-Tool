@@ -8,6 +8,12 @@ html
 li
 {
     list-style-type: none;
+    margin: 4px 0;
+
+}
+table
+{
+    padding-top: 1px;
 }
 
 .ui-menu
@@ -41,29 +47,45 @@ li
 
 #modules
 {
+    display: inline-block;
     text-align: center;
 }
 
 #upgrades
 {
+    display: inline-block;
     text-align: center;
+    vertical-align: top;
 }
 
-#modulesAndUpgrades
+#modulesUpgradesConsumables
 {
     display: inline-block;
     text-align: center;
     vertical-align: top;
 }
 
-#skillsConsumables
+#skillsList
 {
-    display: inline-block;
     text-align: center;
     vertical-align: top;
 }
 
 #skills
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+}
+
+#upgradesList
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+}
+
+#upgrades
 {
     display: inline-block;
     text-align: center;
@@ -105,88 +127,101 @@ li
 {
     display: inline-block;
     vertical-align: text-top;
+    
+    margin-bottom: 3px;
 }
 #turretList
 {
     display: inline-block;
     vertical-align: text-top;
+    
+    margin-bottom: 3px;
 }
 #hullList
 {
     display: inline-block;
     vertical-align: text-top;
+    
+    margin-bottom: 3px;
 }
 #engineList
 {
     display: inline-block;
     vertical-align: text-top;
-}
-#flightControlList
-{
-    display: inline-block;
-    vertical-align: text-top;
+    
+    margin-bottom: 3px;
 }
 #fighterList
 {
     display: inline-block;
     vertical-align: text-top;
+    
+    margin-bottom: 3px;
 }
 #torpedoBomberList
 {
     display: inline-block;
     vertical-align: text-top;
+    
+    margin-bottom: 3px;
 }
 #diveBomberList
 {
     display: inline-block;
     vertical-align: text-top;
+    
+    margin-bottom: 3px;
 }
 #radarList
 {
     display: inline-block;
     vertical-align: text-top;
+    
+    margin-bottom: 3px;
 }
 #torpedoList
 {
     display: inline-block;
     vertical-align: text-top;
+    
+    margin-bottom: 3px;
 }
 
-#modSlot1
-{
-    display: inline-block;
-    vertical-align: text-top;
-}
+/*#modSlot1*/
+/*{*/
+    /*display: inline-block;*/
+    /*vertical-align: text-top;*/
+/*}*/
 
-#modSlot2
-{
-    display: inline-block;
-    vertical-align: text-top;
-}
+/*#modSlot2*/
+/*{*/
+    /*display: inline-block;*/
+    /*vertical-align: text-top;*/
+/*}*/
 
-#modSlot3
-{
-    display: inline-block;
-    vertical-align: text-top;
-}
+/*#modSlot3*/
+/*{*/
+    /*display: inline-block;*/
+    /*vertical-align: text-top;*/
+/*}*/
 
-#modSlot4
-{
-    display: inline-block;
-    vertical-align: text-top;
-}
+/*#modSlot4*/
+/*{*/
+    /*display: inline-block;*/
+    /*vertical-align: text-top;*/
+/*}*/
 
-#modSlot5
-{
-    display: inline-block;
-    vertical-align: text-top;
-}
+/*#modSlot5*/
+/*{*/
+    /*display: inline-block;*/
+    /*vertical-align: text-top;*/
+/*}*/
 
-#modSlot6
-{
-    display: inline-block;
-    vertical-align: text-top;
-}
+/*#modSlot6*/
+/*{*/
+    /*display: inline-block;*/
+    /*vertical-align: text-top;*/
+/*}*/
 
 #hullStats
 {
@@ -312,11 +347,11 @@ li
     border-width: 0px;
     border-style: solid;
     border-radius: 5px;
-    font-size: 10px;
-    min-width: 50px;
-    max-width: 50px;
-    min-height: 50px;
-    max-height: 50px;
+    font-size: 8px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -336,11 +371,11 @@ li
     border-width: 1px;
     border-style: solid;
     border-radius: 5px;
-    font-size: 10px;
-    min-width: 50px;
-    max-width: 50px;
-    min-height: 50px;
-    max-height: 50px;
+    font-size: 8px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -348,7 +383,7 @@ li
 
 .button_upgrade_selected img
 {
-    width: 40px;
+    width: 30px;
     margin-bottom: 0px;
 }
 
@@ -360,11 +395,11 @@ li
     border-width: 0px;
     border-style: solid;
     border-radius: 5px;
-    font-size: 10px;
-    min-width: 50px;
-    max-width: 50px;
-    min-height: 50px;
-    max-height: 50px;
+    font-size: 8px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -384,11 +419,11 @@ li
     border-width: 1px;
     border-style: solid;
     border-radius: 5px;
-    font-size: 10px;
-    min-width: 50px;
-    max-width: 50px;
-    min-height: 50px;
-    max-height: 50px;
+    font-size: 8px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -396,7 +431,7 @@ li
 
 .button_skill_selected img
 {
-    width: 35px;
+    width: 30px;
     margin-bottom: 0px;
 }
 
@@ -457,10 +492,10 @@ li
     border-style: solid;
     border-radius: 5px;
     font-size: 8px;
-    min-width: 65px;
-    max-width: 65px;
-    min-height: 65px;
-    max-height: 65px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -481,10 +516,10 @@ li
     border-style: solid;
     border-radius: 5px;
     font-size: 8px;
-    min-width: 65px;
-    max-width: 65px;
-    min-height: 65px;
-    max-height: 65px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
     word-wrap: normal;
     cursor: pointer;
 }
@@ -504,10 +539,10 @@ li
     border-style: solid;
     border-radius: 5px;
     font-size: 8px;
-    min-width: 78px;
-    max-width: 78px;
-    min-height: 78px;
-    max-height: 78px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -528,10 +563,10 @@ li
     border-style: solid;
     border-radius: 5px;
     font-size: 8px;
-    min-width: 78px;
-    max-width: 78px;
-    min-height: 78px;
-    max-height: 78px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
     word-wrap: normal;
     cursor: pointer;
 }
