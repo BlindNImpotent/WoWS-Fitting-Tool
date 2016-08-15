@@ -790,7 +790,7 @@
                 document.querySelector('.Consumables1 .Consumable1Count').innerHTML = numConsumables1;
             }            
             document.querySelector('.Consumables1 .Consumable1Duration').innerHTML = workTime1 + ' s';
-            document.querySelector('.Consumables1 .Consumable1Reload').innerHTML = accounting.formatNumber(reloadTime1 * critTimeCoefficient * reloadCoefficientAllSkills * abilReloadTimeFactorFlag, 1, ",", ".") + ' s';
+            document.querySelector('.Consumables1 .Consumable1Reload').innerHTML = accounting.formatNumber(reloadTime1 * critTimeCoefficient * reloadCoefficientAllSkills * reloadCoefficientDamageControl * abilReloadTimeFactorFlag, 1, ",", ".") + ' s';
         }
 
         if ([[${consume2List}]].length > 0)
