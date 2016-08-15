@@ -40,10 +40,17 @@ public class JSONController
     {
         return jsonService.getGameParamsIndexJSON(index);
     }
+
     @RequestMapping (value = "/GameParams/name/{name}", method = RequestMethod.GET)
     public JSONObject GameParamsNameJSON(@PathVariable("name") String name)
     {
         return jsonService.getGameParamsNameJSON(name);
+    }
+
+    @RequestMapping (value = "/API/module_hull/{moduleId}", method = RequestMethod.GET)
+    public JSONObject Modules_HullJSON(@PathVariable("moduleId") String moduleId)
+    {
+        return jsonService.getAPI_HullJSON(moduleId);
     }
 
 }

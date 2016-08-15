@@ -216,6 +216,11 @@ public class JSONService
         return GameParamsNameHashMap.get(name);
     }
 
+    public JSONObject getAPI_HullJSON(String module_id)
+    {
+        return (JSONObject) apiParser.getAPI_Modules_HullJSON().get(module_id);
+    }
+
     private void setShipUpgradeModulesInfo()
     {
         modules_treeList = new ArrayList<>();

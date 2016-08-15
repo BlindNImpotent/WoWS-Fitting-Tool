@@ -318,15 +318,16 @@ function setTurretStats(id)
     sigmaCount = GP_ArtilleryJSON['sigmaCount'];
     numBarrels = GP_TurretJSON['numBarrels'];
 
-    numTurrets = 0;
-    for (var i in Object.keys(GP_ArtilleryJSON))
-    {
-        if (!(Object.keys(GP_ArtilleryJSON)[i]).indexOf('HP_'))
-        {
-            numTurrets = numTurrets + 1;
-        }
-    }
     turretBarrelDiameter = GP_TurretJSON['barrelDiameter'];
+
+    if (turretBarrelDiameter < 0.140 && GP_TurretJSON != null)
+    {
+        antiAirAuraDistanceFar = GP_TurretJSON['antiAirAuraDistance'] * scaleDist;
+
+        AAFarDPS = GP_TurretJSON['antiAirAuraStrength'] * numTurrets * 100;
+
+        AAFarBarrelDiameter = turretBarrelDiameter;
+    }
 
     var ammoList = GP_TurretJSON['ammoList'];
 
@@ -396,7 +397,7 @@ function setHullStats(id)
     secondaryMaxDist = 0;
 
     planesReserveCapacity = 0;
-
+    numTurrets = 0;
 
     if (id == null)
     {
@@ -414,6 +415,18 @@ function setHullStats(id)
     }
 
     var API_module_id_str = API_JSON['module_id_str'];
+    var API_module_id = API_JSON['module_id'];
+
+    $.ajax({
+        url: "/API/module_hull/" + API_module_id,
+        type: "GET",
+        async: false,
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            numTurrets = data['profile']['hull']['artillery_barrels'];
+        }
+    });
+
     var GP_hullKey;
     $.ajax({
         url: "/GameParams/index/" + API_module_id_str,
@@ -454,21 +467,8 @@ function setHullStats(id)
     burnTime = GP_HullJSON['burnNodes'][0][3];
     floodTime = GP_HullJSON['floodParams'][2];
 
-    if (turretBarrelDiameter < 0.140 && GP_TurretJSON != null)
-    {
-        antiAirAuraDistanceFar = GP_TurretJSON['antiAirAuraDistance'] * scaleDist;
 
-        var AuraFar = GP_TurretJSON['AuraFar'];
-        if (AuraFar != null)
-        {
-            var guns = AuraFar['guns'];
-
-            AAFarDPS = GP_TurretJSON['antiAirAuraStrength'] * guns.length * 100;
-        }
-
-        AAFarBarrelDiameter = turretBarrelDiameter;
-    }
-    else if (turretBarrelDiameter >= 0.140 || GP_TurretJSON == null)
+    if (turretBarrelDiameter >= 0.140 || GP_TurretJSON == null)
     {
         if (ATBAArray != null)
         {
