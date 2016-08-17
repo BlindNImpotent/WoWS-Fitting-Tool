@@ -3,7 +3,7 @@
 "status":"ok",
 "meta":
 {
-"count":15
+"count":16
 },
 "data":
 {
@@ -94,7 +94,7 @@
 "4288606128":
 {
 "description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
-"price_gold":50,"ttc_coef":
+"price_gold":60,"ttc_coef":
 {
 "enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
 },
@@ -132,6 +132,20 @@
 },
 "price_credit":0,"type":"camouflage",
 "exterior_id":4290703280,"name":"Type 3 – Ranked"
+},
+"4278120368":
+{
+"description":"World of Warships has, once again, set sail for gamescom!",
+"price_gold":50,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC016_Camo_Gamescom_2016.png"
+},
+"price_credit":0,"type":"camouflage",
+"exterior_id":4278120368,"name":"gamescom 2016"
 },
 "4279168944":
 {
