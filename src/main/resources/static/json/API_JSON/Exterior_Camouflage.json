@@ -3,7 +3,7 @@
 "status":"ok",
 "meta":
 {
-"count":16
+"count":18
 },
 "data":
 {
@@ -16,7 +16,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC008_Camo_Eco_Tile.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC008_Camo_Eco_Tile.png"
 },
 "price_credit":0,"type":"camouflage",
 "exterior_id":4286508976,"name":"Type 6"
@@ -30,7 +30,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC007_Camo_3_Tile_Double.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC007_Camo_3_Tile_Double.png"
 },
 "price_credit":22500,"type":"camouflage",
 "exterior_id":4287557552,"name":"Type 5"
@@ -44,7 +44,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC003_Camo_Halloween.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC003_Camo_Halloween.png"
 },
 "price_credit":0,"type":"camouflage",
 "exterior_id":4291751856,"name":"Type 3 – Halloween"
@@ -58,7 +58,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC002_Camo_2.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC002_Camo_2.png"
 },
 "price_credit":12000,"type":"camouflage",
 "exterior_id":4292800432,"name":"Type 2"
@@ -72,7 +72,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC001_Camo_1.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC001_Camo_1.png"
 },
 "price_credit":8000,"type":"camouflage",
 "exterior_id":4293849008,"name":"Type 1"
@@ -86,7 +86,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC005_Camo_NY_3.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC005_Camo_NY_3.png"
 },
 "price_credit":0,"type":"camouflage",
 "exterior_id":4289654704,"name":"Type 3 – New Year"
@@ -100,7 +100,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC006_Tile_Supertest.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC006_Tile_Supertest.png"
 },
 "price_credit":0,"type":"camouflage",
 "exterior_id":4288606128,"name":"Type 4 – Supertest"
@@ -114,7 +114,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC009_Camo_Basketball_Tile_1.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC009_Camo_Basketball_Tile_1.png"
 },
 "price_credit":22500,"type":"camouflage",
 "exterior_id":4285460400,"name":"German Layup"
@@ -128,10 +128,38 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC004_Camo_XP_Boost.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC004_Camo_XP_Boost.png"
 },
 "price_credit":0,"type":"camouflage",
 "exterior_id":4290703280,"name":"Type 3 – Ranked"
+},
+"4276023216":
+{
+"description":"Ignis aurum probat",
+"price_gold":50,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC018_Restless_Fire.png"
+},
+"price_credit":0,"type":"camouflage",
+"exterior_id":4276023216,"name":"Restless Fire"
+},
+"4277071792":
+{
+"description":"Camouflage in honor of World of Warships' anniversary",
+"price_gold":50,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC017_Camo_wows_birthday_tile.png"
+},
+"price_credit":0,"type":"camouflage",
+"exterior_id":4277071792,"name":"World of Warships Anniversary"
 },
 "4278120368":
 {
@@ -142,7 +170,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC016_Camo_Gamescom_2016.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC016_Camo_Gamescom_2016.png"
 },
 "price_credit":0,"type":"camouflage",
 "exterior_id":4278120368,"name":"gamescom 2016"
@@ -156,7 +184,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC015_Camo_CN_Special.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC015_Camo_CN_Special.png"
 },
 "price_credit":0,"type":"camouflage",
 "exterior_id":4279168944,"name":"Ocean Soul"
@@ -170,7 +198,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC014_Camo_GNB_May_2016.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC014_Camo_GNB_May_2016.png"
 },
 "price_credit":0,"type":"camouflage",
 "exterior_id":4280217520,"name":"GNB May 2016 Camouflage"
@@ -184,7 +212,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC013_Camo_MGT.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC013_Camo_MGT.png"
 },
 "price_credit":0,"type":"camouflage",
 "exterior_id":4281266096,"name":"MGT-20"
@@ -198,7 +226,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC012_Camo_Basketball_Tile_4.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC012_Camo_Basketball_Tile_4.png"
 },
 "price_credit":22500,"type":"camouflage",
 "exterior_id":4282314672,"name":"Japanese Slam Dunk"
@@ -212,7 +240,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC011_Camo_Basketball_Tile_3.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC011_Camo_Basketball_Tile_3.png"
 },
 "price_credit":22500,"type":"camouflage",
 "exterior_id":4283363248,"name":"Russian Nothing but Net"
@@ -226,7 +254,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/camouflage\/PCEC010_Camo_Basketball_Tile_2.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/camouflage\/PCEC010_Camo_Basketball_Tile_2.png"
 },
 "price_credit":22500,"type":"camouflage",
 "exterior_id":4284411824,"name":"American Alley-Oop"

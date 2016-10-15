@@ -3,69 +3,39 @@
 "status":"ok",
 "meta":
 {
-"count":29
+"count":35
 },
 "data":
 {
-"4264742832":
-{
-"profile":
-{
-"fire_control":
-{
-"distance_coef":1.16
-}
-},
-"name":"Artillery Plotting Room Modification 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM028_FireControl_Mod_I_US.png",
-"tag":"PCM028_FireControl_Mod_I_US",
-"price_credit":500000,"type":"fire_control",
-"upgrade_id":4264742832,"description":"Extends firing range of the main battery"
-},
-"4273131440":
-{
-"profile":
-{
-"damage_control":
-{
-"flood_starting_chance_coef":0.97,"fire_starting_chance_coef":0.95
-}
-},
-"name":"Damage Control System Modification 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM020_DamageControl_Mod_I.png",
-"tag":"PCM020_DamageControl_Mod_I",
-"price_credit":250000,"type":"damage_control",
-"upgrade_id":4273131440,"description":"Reduces the risk of flooding or fire"
-},
-"4277325744":
+"4284665776":
 {
 "profile":
 {
 "flight_control":
 {
-"speed_coef":1.05
+"prepare_time_coef":0.9
 }
 },
-"name":"Flight Control Modification 2",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM016_FlightControl_Mod_II.png",
-"tag":"PCM016_FlightControl_Mod_II",
-"price_credit":3000000,"type":"flight_control",
-"upgrade_id":4277325744,"description":"Increases aircraft speed"
+"name":"Flight Control Modification 1",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM009_FlightControl_Mod_I.png",
+"tag":"PCM009_FlightControl_Mod_I",
+"price_credit":500000,"type":"flight_control",
+"upgrade_id":4284665776,"description":"Accelerates aircraft servicing"
 },
-"4281520048":
+"4288860080":
 {
 "profile":
 {
 "atba":
 {
-"distance_coef":1.2,"accuracy_coef":0.8
+"health_coef":1.2
 }
 },
-"name":"Secondary Battery Modification 2",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM012_SecondaryGun_Mod_II.png",
-"tag":"PCM012_SecondaryGun_Mod_II",
-"price_credit":500000,"type":"atba",
-"upgrade_id":4281520048,"description":"Extends firing range and increases firing accuracy of the secondary battery"
+"name":"Secondary Battery Modification 1",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM005_SecondaryGun_Mod_I.png",
+"tag":"PCM005_SecondaryGun_Mod_I",
+"price_credit":125000,"type":"atba",
+"upgrade_id":4288860080,"description":"Increases survivability of secondary battery"
 },
 "4268937136":
 {
@@ -77,10 +47,40 @@
 }
 },
 "name":"Propulsion Modification 2",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM024_Engine_Mod_II.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM024_Engine_Mod_II.png",
 "tag":"PCM024_Engine_Mod_II",
 "price_credit":1000000,"type":"engine",
 "upgrade_id":4268937136,"description":"Reduces time to full speed"
+},
+"4258451376":
+{
+"profile":
+{
+"guidance":
+{
+"atba_shoot_accuracy":0.6,"artillery_rotation_speed":1.2,"atba_max_dist":1.2,"artillery_shoot_accuracy":0.6,"atba_rotation_speed":1.2
+}
+},
+"name":"Aiming Systems Modification 0",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM034_Guidance_Mod_0.png",
+"tag":"PCM034_Guidance_Mod_0",
+"price_credit":125000,"type":"guidance",
+"upgrade_id":4258451376,"description":"Increases firing accuracy of the secondary battery and main battery, accelerates traverse speed of torpedo tubes and extends firing range of the secondary battery"
+},
+"4281520048":
+{
+"profile":
+{
+"atba":
+{
+"distance_coef":1.2,"accuracy_coef":0.8
+}
+},
+"name":"Secondary Battery Modification 2",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM012_SecondaryGun_Mod_II.png",
+"tag":"PCM012_SecondaryGun_Mod_II",
+"price_credit":500000,"type":"atba",
+"upgrade_id":4281520048,"description":"Extends firing range and increases firing accuracy of the secondary battery"
 },
 "4286762928":
 {
@@ -92,10 +92,25 @@
 }
 },
 "name":"Torpedo Tubes Modification 2",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM007_Torpedo_Mod_II.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM007_Torpedo_Mod_II.png",
 "tag":"PCM007_Torpedo_Mod_II",
 "price_credit":500000,"type":"torpedoes",
 "upgrade_id":4286762928,"description":"Increases the traverse speed of the torpedo tubes"
+},
+"4277325744":
+{
+"profile":
+{
+"flight_control":
+{
+"speed_coef":1.05
+}
+},
+"name":"Flight Control Modification 2",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM016_FlightControl_Mod_II.png",
+"tag":"PCM016_FlightControl_Mod_II",
+"price_credit":3000000,"type":"flight_control",
+"upgrade_id":4277325744,"description":"Increases aircraft speed"
 },
 "4289908656":
 {
@@ -107,10 +122,25 @@
 }
 },
 "name":"AA Guns Modification 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM004_AirDefense_Mod_I.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM004_AirDefense_Mod_I.png",
 "tag":"PCM004_AirDefense_Mod_I",
 "price_credit":125000,"type":"anti_aircraft",
 "upgrade_id":4289908656,"description":"Increases survivability of AA mounts"
+},
+"4261597104":
+{
+"profile":
+{
+"secondweapon":
+{
+"atba_max_hp":2.0,"air_defense_max_hp":2.0
+}
+},
+"name":"Auxiliary Armaments Modification 1",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM031_SecondaryWeapon_Mod_I.png",
+"tag":"PCM031_SecondaryWeapon_Mod_I",
+"price_credit":125000,"type":"secondweapon",
+"upgrade_id":4261597104,"description":"Increases survivability of the secondary battery and AA mounts"
 },
 "4265791408":
 {
@@ -122,25 +152,25 @@
 }
 },
 "name":"Concealment System Modification 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM027_ConcealmentMeasures_Mod_I.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM027_ConcealmentMeasures_Mod_I.png",
 "tag":"PCM027_ConcealmentMeasures_Mod_I",
 "price_credit":2000000,"type":"concealment",
 "upgrade_id":4265791408,"description":"Reduces ship detectability range"
 },
-"4284665776":
+"4264742832":
 {
 "profile":
 {
-"flight_control":
+"fire_control":
 {
-"prepare_time_coef":0.9
+"distance_coef":1.16
 }
 },
-"name":"Flight Control Modification 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM009_FlightControl_Mod_I.png",
-"tag":"PCM009_FlightControl_Mod_I",
-"price_credit":500000,"type":"flight_control",
-"upgrade_id":4284665776,"description":"Accelerates aircraft servicing"
+"name":"Artillery Plotting Room Modification 1",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM028_FireControl_Mod_I_US.png",
+"tag":"PCM028_FireControl_Mod_I_US",
+"price_credit":500000,"type":"fire_control",
+"upgrade_id":4264742832,"description":"Extends firing range of the main battery"
 },
 "4269985712":
 {
@@ -152,7 +182,7 @@
 }
 },
 "name":"Damage Control System Modification 2",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM023_DamageControl_Mod_II.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM023_DamageControl_Mod_II.png",
 "tag":"PCM023_DamageControl_Mod_II",
 "price_credit":1000000,"type":"damage_control",
 "upgrade_id":4269985712,"description":"Accelerates fire extinguishing and recovery from flooding"
@@ -167,7 +197,7 @@
 }
 },
 "name":"Main Battery Modification 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM001_MainGun_Mod_I.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM001_MainGun_Mod_I.png",
 "tag":"PCM001_MainGun_Mod_I",
 "price_credit":125000,"type":"artillery",
 "upgrade_id":4293054384,"description":"Increases survivability and accelerates repairs of main battery"
@@ -182,7 +212,7 @@
 }
 },
 "name":"Secondary Battery Modification 3",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM019_SecondaryGun_Mod_III.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM019_SecondaryGun_Mod_III.png",
 "tag":"PCM019_SecondaryGun_Mod_III",
 "price_credit":3000000,"type":"atba",
 "upgrade_id":4274180016,"description":"Decreases secondary battery loading time"
@@ -197,7 +227,7 @@
 }
 },
 "name":"Gun Fire Control System Modification 2",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM015_FireControl_Mod_II.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM015_FireControl_Mod_II.png",
 "tag":"PCM015_FireControl_Mod_II",
 "price_credit":3000000,"type":"fire_control",
 "upgrade_id":4278374320,"description":"Extends firing range of the main battery"
@@ -212,10 +242,40 @@
 }
 },
 "name":"AA Guns Modification 2",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM011_AirDefense_Mod_II.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM011_AirDefense_Mod_II.png",
 "tag":"PCM011_AirDefense_Mod_II",
 "price_credit":500000,"type":"anti_aircraft",
 "upgrade_id":4282568624,"description":"Extends firing range of AA mounts"
+},
+"4290957232":
+{
+"profile":
+{
+"planes":
+{
+"efficiency_coef":1.1
+}
+},
+"name":"Air Groups Modification 1",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM003_Airplanes_Mod_I.png",
+"tag":"PCM003_Airplanes_Mod_I",
+"price_credit":125000,"type":"planes",
+"upgrade_id":4290957232,"description":"Increases effectiveness of aircraft guns"
+},
+"4262645680":
+{
+"profile":
+{
+"mainweapon":
+{
+"tpd_damage_prob":0.8,"tpd_max_hp":1.5,"tpd_repair_time":0.8,"artillery_damage_prob":0.8,"artillery_max_hp":1.5,"artillery_repair_time":0.8
+}
+},
+"name":"Main Armaments Modification 1",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM030_MainWeapon_Mod_I.png",
+"tag":"PCM030_MainWeapon_Mod_I",
+"price_credit":125000,"type":"mainweapon",
+"upgrade_id":4262645680,"description":"Increases survivability and accelerates repairs of main battery and torpedo tubes"
 },
 "4266839984":
 {
@@ -227,7 +287,7 @@
 }
 },
 "name":"Target Acquisition System Modification 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM026_LookoutStation_Mod_I.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM026_LookoutStation_Mod_I.png",
 "tag":"PCM026_LookoutStation_Mod_I",
 "price_credit":2000000,"type":"spotting",
 "upgrade_id":4266839984,"description":"Increases maximum acquisition range"
@@ -242,25 +302,25 @@
 }
 },
 "name":"Steering Gears Modification 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM022_SteeringGear_Mod_I.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM022_SteeringGear_Mod_I.png",
 "tag":"PCM022_SteeringGear_Mod_I",
 "price_credit":250000,"type":"steering",
 "upgrade_id":4271034288,"description":"Increases survivability and accelerates repairs of steering gears"
 },
-"4285714352":
+"4260548528":
 {
 "profile":
 {
-"fire_control":
+"powder":
 {
-"accuracy_coef":0.93
+"detonation_prob":0.3
 }
 },
-"name":"Gun Fire Control System Modification 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM008_FireControl_Mod_I.png",
-"tag":"PCM008_FireControl_Mod_I",
-"price_credit":500000,"type":"fire_control",
-"upgrade_id":4285714352,"description":"Increases firing accuracy of main battery"
+"name":"Magazine Modification 1",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM032_PowderMagazine_Mod_I.png",
+"tag":"PCM032_PowderMagazine_Mod_I",
+"price_credit":125000,"type":"powder",
+"upgrade_id":4260548528,"description":"Reduces the risk of magazine denotation"
 },
 "4275228592":
 {
@@ -272,7 +332,7 @@
 }
 },
 "name":"AA Guns Modification 3",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM018_AirDefense_Mod_III.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM018_AirDefense_Mod_III.png",
 "tag":"PCM018_AirDefense_Mod_III",
 "price_credit":3000000,"type":"anti_aircraft",
 "upgrade_id":4275228592,"description":"Increases AA effectiveness"
@@ -287,7 +347,7 @@
 }
 },
 "name":"Torpedo Tubes Modification 3",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM014_Torpedo_Mod_III.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM014_Torpedo_Mod_III.png",
 "tag":"PCM014_Torpedo_Mod_III",
 "price_credit":3000000,"type":"torpedoes",
 "upgrade_id":4279422896,"description":"Decreases reload time of torpedo tubes"
@@ -302,25 +362,25 @@
 }
 },
 "name":"Air Groups Modification 2",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM010_Airplanes_Mod_II.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM010_Airplanes_Mod_II.png",
 "tag":"PCM010_Airplanes_Mod_II",
 "price_credit":500000,"type":"planes",
 "upgrade_id":4283617200,"description":"Increases fighters HP"
 },
-"4288860080":
+"4285714352":
 {
 "profile":
 {
-"atba":
+"fire_control":
 {
-"health_coef":1.2
+"accuracy_coef":0.93
 }
 },
-"name":"Secondary Battery Modification 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM005_SecondaryGun_Mod_I.png",
-"tag":"PCM005_SecondaryGun_Mod_I",
-"price_credit":125000,"type":"atba",
-"upgrade_id":4288860080,"description":"Increases survivability of secondary battery"
+"name":"Gun Fire Control System Modification 1",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM008_FireControl_Mod_I.png",
+"tag":"PCM008_FireControl_Mod_I",
+"price_credit":500000,"type":"fire_control",
+"upgrade_id":4285714352,"description":"Increases firing accuracy of main battery"
 },
 "4292005808":
 {
@@ -332,10 +392,40 @@
 }
 },
 "name":"Torpedo Tubes Modification 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM002_Torpedo_Mod_I.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM002_Torpedo_Mod_I.png",
 "tag":"PCM002_Torpedo_Mod_I",
 "price_credit":125000,"type":"torpedoes",
 "upgrade_id":4292005808,"description":"Increases survivability and accelerates repairs of torpedo tubes"
+},
+"4259499952":
+{
+"profile":
+{
+"guidance":
+{
+"atba_shoot_accuracy":0.95,"atba_max_dist":1.05,"artillery_shoot_accuracy":0.93,"atba_rotation_speed":1.2
+}
+},
+"name":"Aiming Systems Modification 1",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM033_Guidance_Mod_I.png",
+"tag":"PCM033_Guidance_Mod_I",
+"price_credit":500000,"type":"guidance",
+"upgrade_id":4259499952,"description":"Increases firing accuracy of the secondary battery and main battery, accelerates traverse speed of torpedo tubes and extends firing range of the secondary battery"
+},
+"4273131440":
+{
+"profile":
+{
+"damage_control":
+{
+"flood_starting_chance_coef":0.97,"fire_starting_chance_coef":0.95
+}
+},
+"name":"Damage Control System Modification 1",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM020_DamageControl_Mod_I.png",
+"tag":"PCM020_DamageControl_Mod_I",
+"price_credit":250000,"type":"damage_control",
+"upgrade_id":4273131440,"description":"Reduces the risk of flooding or fire"
 },
 "4263694256":
 {
@@ -347,7 +437,7 @@
 }
 },
 "name":"Artillery Plotting Room Modification 2",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM029_FireControl_Mod_II_US.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM029_FireControl_Mod_II_US.png",
 "tag":"PCM029_FireControl_Mod_II_US",
 "price_credit":3000000,"type":"fire_control",
 "upgrade_id":4263694256,"description":"Increases firing accuracy of main battery"
@@ -362,7 +452,7 @@
 }
 },
 "name":"Main Battery Modification 2",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM006_MainGun_Mod_II.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM006_MainGun_Mod_II.png",
 "tag":"PCM006_MainGun_Mod_II",
 "price_credit":500000,"type":"artillery",
 "upgrade_id":4287811504,"description":"Increases the traverse speed of the main turrets"
@@ -377,7 +467,7 @@
 }
 },
 "name":"Steering Gears Modification 2",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM025_SteeringGear_Mod_II.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM025_SteeringGear_Mod_II.png",
 "tag":"PCM025_SteeringGear_Mod_II",
 "price_credit":1000000,"type":"steering",
 "upgrade_id":4267888560,"description":"Reduces rudder shift time"
@@ -392,25 +482,25 @@
 }
 },
 "name":"Propulsion Modification 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM021_Engine_Mod_I.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM021_Engine_Mod_I.png",
 "tag":"PCM021_Engine_Mod_I",
 "price_credit":250000,"type":"engine",
 "upgrade_id":4272082864,"description":"Increases survivability and accelerates repairs of engine"
 },
-"4290957232":
+"4257402800":
 {
 "profile":
 {
-"planes":
+"steering":
 {
-"efficiency_coef":1.1
+"repair_time_coef":0.2,"rudder_time_coef":0.6
 }
 },
-"name":"Air Groups Modification 1",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM003_Airplanes_Mod_I.png",
-"tag":"PCM003_Airplanes_Mod_I",
-"price_credit":125000,"type":"planes",
-"upgrade_id":4290957232,"description":"Increases effectiveness of aircraft guns"
+"name":"Steering Gears Modification 3",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM035_SteeringGear_Mod_III.png",
+"tag":"PCM035_SteeringGear_Mod_III",
+"price_credit":2000000,"type":"steering",
+"upgrade_id":4257402800,"description":"Reduces rudder shift time and accelerates the repair of steering gears"
 },
 "4276277168":
 {
@@ -422,7 +512,7 @@
 }
 },
 "name":"Air Groups Modification 3",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM017_Airplanes_Mod_III.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM017_Airplanes_Mod_III.png",
 "tag":"PCM017_Airplanes_Mod_III",
 "price_credit":3000000,"type":"planes",
 "upgrade_id":4276277168,"description":"Increases attack aircraft HP"
@@ -437,7 +527,7 @@
 }
 },
 "name":"Main Battery Modification 3",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/modernization\/icon_modernization_PCM013_MainGun_Mod_III.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/modernization\/icon_modernization_PCM013_MainGun_Mod_III.png",
 "tag":"PCM013_MainGun_Mod_III",
 "price_credit":3000000,"type":"artillery",
 "upgrade_id":4280471472,"description":"Decreases main battery loading time"

@@ -7,7 +7,7 @@
 },
 "data":
 {
-"ships_updated_at":1471338438,"ship_types":
+"ships_updated_at":1475059873,"ship_types":
 {
 "Destroyer":"Destroyer",
 "AirCarrier":"Aircraft Carrier",
@@ -42,9 +42,10 @@
 "PCM030_MainWeapon_Mod_I":"Main Armaments Modification 1",
 "PCM027_ConcealmentMeasures_Mod_I":"Concealment System Modification 1",
 "PCM010_Airplanes_Mod_II":"Air Groups Modification 2",
-"PCM025_SteeringGear_Mod_II":"Steering Gears Modification 2",
+"PCM001_MainGun_Mod_I":"Main Battery Modification 1",
 "PCM028_FireControl_Mod_I_US":"Artillery Plotting Room Modification 1",
 "PCM020_DamageControl_Mod_I":"Damage Control System Modification 1",
+"PCM035_SteeringGear_Mod_III":"Steering Gears Modification 3",
 "PCM017_Airplanes_Mod_III":"Air Groups Modification 3",
 "PCM034_Guidance_Mod_0":"Aiming Systems Modification 0",
 "PCM032_PowderMagazine_Mod_I":"Magazine Modification 1",
@@ -57,7 +58,7 @@
 "PCM011_AirDefense_Mod_II":"AA Guns Modification 2",
 "PCM016_FlightControl_Mod_II":"Flight Control Modification 2",
 "PCM008_FireControl_Mod_I":"Gun Fire Control System Modification 1",
-"PCM001_MainGun_Mod_I":"Main Battery Modification 1",
+"PCM025_SteeringGear_Mod_II":"Steering Gears Modification 2",
 "PCM009_FlightControl_Mod_I":"Flight Control Modification 1",
 "PCM024_Engine_Mod_II":"Propulsion Modification 2",
 "PCM012_SecondaryGun_Mod_II":"Secondary Battery Modification 2",
@@ -84,31 +85,32 @@
 {
 "Destroyer":
 {
-"image_premium":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Destroyer\/premium.png",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Destroyer\/normal.png",
-"image_elite":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Destroyer\/elite.png"
+"image_premium":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/vehicle\/types\/Destroyer\/premium.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/vehicle\/types\/Destroyer\/normal.png",
+"image_elite":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/vehicle\/types\/Destroyer\/elite.png"
 },
 "AirCarrier":
 {
-"image_premium":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/AirCarrier\/premium.png",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/AirCarrier\/normal.png",
-"image_elite":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/AirCarrier\/elite.png"
+"image_premium":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/vehicle\/types\/AirCarrier\/premium.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/vehicle\/types\/AirCarrier\/normal.png",
+"image_elite":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/vehicle\/types\/AirCarrier\/elite.png"
 },
 "Battleship":
 {
-"image_premium":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Battleship\/premium.png",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Battleship\/normal.png",
-"image_elite":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Battleship\/elite.png"
+"image_premium":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/vehicle\/types\/Battleship\/premium.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/vehicle\/types\/Battleship\/normal.png",
+"image_elite":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/vehicle\/types\/Battleship\/elite.png"
 },
 "Cruiser":
 {
-"image_premium":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Cruiser\/premium.png",
-"image":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Cruiser\/normal.png",
-"image_elite":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/vehicle\/types\/Cruiser\/elite.png"
+"image_premium":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/vehicle\/types\/Cruiser\/premium.png",
+"image":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/vehicle\/types\/Cruiser\/normal.png",
+"image_elite":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/vehicle\/types\/Cruiser\/elite.png"
 }
 },
 "ship_nations":
 {
+"commonwealth":"Commonwealth",
 "usa":"U.S.A.",
 "poland":"Poland",
 "france":"France",
@@ -118,6 +120,6 @@
 "japan":"Japan",
 "pan_asia":"Pan-Asia"
 },
-"game_version":"0.5.10.0"
+"game_version":"0.5.12.0"
 }
 }

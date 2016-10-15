@@ -3,10 +3,24 @@
 "status":"ok",
 "meta":
 {
-"count":13
+"count":16
 },
 "data":
 {
+"3978850224":
+{
+"description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
+"price_gold":1000,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PCEP301_Permo_NY.png"
+},
+"price_credit":0,"type":"permoflage",
+"exterior_id":3978850224,"name":"Type 12"
+},
 "4173885360":
 {
 "description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
@@ -16,24 +30,10 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/permoflage\/PCEP115_Permo_Upgr_5_lvl.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PCEP115_Permo_Upgr_5_lvl.png"
 },
 "price_credit":0,"type":"permoflage",
 "exterior_id":4173885360,"name":"Type 15"
-},
-"4169691056":
-{
-"description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
-"price_gold":4000,"ttc_coef":
-{
-"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
-},
-"image":
-{
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/permoflage\/PCEP119_Permo_Upgr_9_lvl.png"
-},
-"price_credit":0,"type":"permoflage",
-"exterior_id":4169691056,"name":"Type 19"
 },
 "3866652656":
 {
@@ -44,7 +44,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/permoflage\/PAEP408_Flint.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PAEP408_Flint.png"
 },
 "price_credit":0,"type":"permoflage",
 "exterior_id":3866652656,"name":"Type 10"
@@ -58,7 +58,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/permoflage\/PCEP103_Permo_Prem_Low_lvl.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PCEP103_Permo_Prem_Low_lvl.png"
 },
 "price_credit":0,"type":"permoflage",
 "exterior_id":4186468272,"name":"Type 9"
@@ -72,24 +72,24 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/permoflage\/PAEP509_Black.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PAEP509_Black.png"
 },
 "price_credit":0,"type":"permoflage",
 "exterior_id":3760746480,"name":"Type 10"
 },
-"3978850224":
+"4160253872":
 {
 "description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
-"price_gold":1000,"ttc_coef":
+"price_gold":3000,"ttc_coef":
 {
 "enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/permoflage\/PCEP301_Permo_NY.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PCEP128_Permo_Upgr_8_lvl.png"
 },
 "price_credit":0,"type":"permoflage",
-"exterior_id":3978850224,"name":"Type 12"
+"exterior_id":4160253872,"name":"Type 28"
 },
 "3763891408":
 {
@@ -100,10 +100,24 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/permoflage\/PZEP506_Anshan.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PZEP506_Anshan.png"
 },
 "price_credit":0,"type":"permoflage",
 "exterior_id":3763891408,"name":"Type 11"
+},
+"4169691056":
+{
+"description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
+"price_gold":4000,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PCEP119_Permo_Upgr_9_lvl.png"
+},
+"price_credit":0,"type":"permoflage",
+"exterior_id":4169691056,"name":"Type 19"
 },
 "4170739632":
 {
@@ -114,7 +128,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/permoflage\/PCEP118_Permo_Upgr_8_lvl.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PCEP118_Permo_Upgr_8_lvl.png"
 },
 "price_credit":0,"type":"permoflage",
 "exterior_id":4170739632,"name":"Type 18"
@@ -128,7 +142,7 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/permoflage\/PCEP117_Permo_Upgr_7_lvl.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PCEP117_Permo_Upgr_7_lvl.png"
 },
 "price_credit":0,"type":"permoflage",
 "exterior_id":4171788208,"name":"Type 17"
@@ -142,24 +156,10 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/permoflage\/PCEP116_Permo_Upgr_6_lvl.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PCEP116_Permo_Upgr_6_lvl.png"
 },
 "price_credit":0,"type":"permoflage",
 "exterior_id":4172836784,"name":"Type 16"
-},
-"3972558832":
-{
-"description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
-"price_gold":1000,"ttc_coef":
-{
-"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
-},
-"image":
-{
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/permoflage\/PAEP307_Texas.png"
-},
-"price_credit":0,"type":"permoflage",
-"exterior_id":3972558832,"name":"Stars and Stripes"
 },
 "3970461680":
 {
@@ -170,10 +170,38 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/permoflage\/PAEP309_New_York_Scull.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PAEP309_New_York_Scull.png"
 },
 "price_credit":0,"type":"permoflage",
 "exterior_id":3970461680,"name":"Skull"
+},
+"3856166704":
+{
+"description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP and credits earned by the ship and her Commander.",
+"price_gold":3000,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PGEP418_Prinz_Eugen.png"
+},
+"price_credit":0,"type":"permoflage",
+"exterior_id":3856166704,"name":"Adler"
+},
+"3972558832":
+{
+"description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
+"price_gold":1000,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PAEP307_Texas.png"
+},
+"price_credit":0,"type":"permoflage",
+"exterior_id":3972558832,"name":"Stars and Stripes"
 },
 "4182273968":
 {
@@ -184,10 +212,24 @@
 },
 "image":
 {
-"small":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/permoflage\/PCEP107_Permo_Prem_High_lvl.png"
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PCEP107_Permo_Prem_High_lvl.png"
 },
 "price_credit":0,"type":"permoflage",
 "exterior_id":4182273968,"name":"Type 10"
+},
+"3845680944":
+{
+"description":"Decreases the firing accuracy of the enemy, reduces ship detectability and increases the amount of XP earned by the ship and her Commander.",
+"price_gold":2000,"ttc_coef":
+{
+"enemy_accuracy_coef":1.04,"detect_distance_coef":0.97
+},
+"image":
+{
+"small":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/permoflage\/PGEP428_Prinz_Eugen.png"
+},
+"price_credit":0,"type":"permoflage",
+"exterior_id":3845680944,"name":"Type 30"
 }
 }
 }

@@ -17,7 +17,7 @@
 {
 "perk_id":1,"description":"+10% to average damage per second of AA defense"
 }],"name":"Basic Firing Training",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_AIGunsEfficiencyModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_AIGunsEfficiencyModifier.png"
 },
 "2":
 {
@@ -25,7 +25,7 @@
 {
 "perk_id":0,"description":"-15% to time of repair, fire extinguishing, and recovery from flooding"
 }],"name":"Basics of Survivability",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_AutoRepairModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_AutoRepairModifier.png"
 },
 "3":
 {
@@ -37,7 +37,7 @@
 {
 "perk_id":1,"description":"+0.7deg\/s to traverse speed of guns with a caliber above 139 mm"
 }],"name":"Expert Marksman",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_MainGunsRotationModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_MainGunsRotationModifier.png"
 },
 "4":
 {
@@ -49,7 +49,7 @@
 {
 "perk_id":1,"description":"-20% to servicing time of torpedo bombers"
 }],"name":"Torpedo Armament Expertise",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_TorpedoReloadModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_TorpedoReloadModifier.png"
 },
 "5":
 {
@@ -57,7 +57,7 @@
 {
 "perk_id":0,"description":"-10% to reload time of the Damage Control Party consumable"
 }],"name":"High Alert",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_EmergencyTeamCooldownModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_EmergencyTeamCooldownModifier.png"
 },
 "7":
 {
@@ -65,7 +65,7 @@
 {
 "perk_id":0,"description":"+25% to acquisition range of torpedoes"
 }],"name":"Vigilance",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_TorpedoAlertnessModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_TorpedoAlertnessModifier.png"
 },
 "8":
 {
@@ -73,7 +73,7 @@
 {
 "perk_id":0,"description":"+3% to chance of fire on target caused by a main caliber shell or a bomb"
 }],"name":"Demolition Expert",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_FireProbabilityModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_FireProbabilityModifier.png"
 },
 "9":
 {
@@ -85,7 +85,7 @@
 {
 "perk_id":1,"description":"+20% to AA defense firing range"
 }],"name":"Advanced Firing Training",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_AIGunsRangeModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_AIGunsRangeModifier.png"
 },
 "10":
 {
@@ -97,7 +97,7 @@
 {
 "perk_id":1,"description":"-10% to servicing time of carrier-based aircraft"
 }],"name":"Aircraft Servicing Expert",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_PlanePreparingModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_PlanePreparingModifier.png"
 },
 "11":
 {
@@ -105,7 +105,7 @@
 {
 "perk_id":0,"description":"+10% to average damage per second of fighters for each tier of difference between them"
 }],"name":"Dogfighting Expert",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_FighterEfficiencyModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_FighterEfficiencyModifier.png"
 },
 "12":
 {
@@ -125,7 +125,7 @@
 {
 "perk_id":3,"description":"-16% to detectability of aircraft carriers"
 }],"name":"Concealment Expert",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_VisibilityModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_VisibilityModifier.png"
 },
 "13":
 {
@@ -133,7 +133,7 @@
 {
 "perk_id":0,"description":"-15% to reload time of all mounted consumables"
 }],"name":"Jack of All Trades",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_AllSkillsCooldownModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_AllSkillsCooldownModifier.png"
 },
 "14":
 {
@@ -141,7 +141,7 @@
 {
 "perk_id":0,"description":"-7% to the risk of fire"
 }],"name":"Fire Prevention",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_FireResistanceModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_FireResistanceModifier.png"
 },
 "15":
 {
@@ -153,7 +153,7 @@
 {
 "perk_id":1,"description":"+1  bomber"
 }],"name":"Air Supremacy",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_AdditionalPlanesInSquadModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_AdditionalPlanesInSquadModifier.png"
 },
 "16":
 {
@@ -161,7 +161,7 @@
 {
 "perk_id":0,"description":"+10% to average damage per second of self-defense armament for aircraft with rear gunners"
 }],"name":"Expert Rear Gunner",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_PreparingOnboardShootersModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_PreparingOnboardShootersModifier.png"
 },
 "17":
 {
@@ -169,7 +169,7 @@
 {
 "perk_id":0,"description":"+1 to all consumables mounted on a ship"
 }],"name":"Superintendent",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_SuperintendentModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_SuperintendentModifier.png"
 },
 "18":
 {
@@ -177,7 +177,7 @@
 {
 "perk_id":0,"description":"-50% to the risk of incapacitation of modules"
 }],"name":"Preventive Maintenance",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_MeticulousPreventionModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_MeticulousPreventionModifier.png"
 },
 "19":
 {
@@ -185,7 +185,7 @@
 {
 "perk_id":0,"description":"Indicator of long-range enemy artillery fire."
 }],"name":"Incoming Fire Alert",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_ArtilleryAlertModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_ArtilleryAlertModifier.png"
 },
 "20":
 {
@@ -193,7 +193,7 @@
 {
 "perk_id":0,"description":"The ship remains able to move and maneuver while the engine or steering gears are incapacitated."
 }],"name":"Last Stand",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_LastEffortModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_LastEffortModifier.png"
 },
 "21":
 {
@@ -201,7 +201,7 @@
 {
 "perk_id":0,"description":"-50% to reload time when shell type is switched"
 }],"name":"Expert Loader",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_IntuitionModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_IntuitionModifier.png"
 },
 "23":
 {
@@ -209,7 +209,7 @@
 {
 "perk_id":0,"description":"-30% to reload time of all types of armament if the ship's HP is less than 10%"
 }],"name":"Last Chance",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_LastChanceModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_LastChanceModifier.png"
 },
 "24":
 {
@@ -221,7 +221,7 @@
 {
 "perk_id":1,"description":"-20% to torpedo range"
 }],"name":"Torpedo Acceleration",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_TorpedoAcceleratorModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_TorpedoAcceleratorModifier.png"
 },
 "25":
 {
@@ -229,7 +229,7 @@
 {
 "perk_id":0,"description":"+400 of HP for each ship tier"
 }],"name":"Survivability Expert",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_SurvivalModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_SurvivalModifier.png"
 },
 "26":
 {
@@ -241,15 +241,15 @@
 {
 "perk_id":1,"description":"-60% to the maximum dispersion of shells for the secondary armament of Tier VII–X ships"
 }],"name":"Manual Fire Control for Secondary Armament",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_CentralATBAModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_CentralATBAModifier.png"
 },
 "27":
 {
 "tier":4,"perks":[
 {
-"perk_id":0,"description":"+100% to average damage per second of AA guns with a caliber exceeding 85 mm against a designated target"
+"perk_id":0,"description":"+100% to average damage per second of AA guns with a caliber exceeding 85 mm against a priority target"
 }],"name":"Manual Fire Control for AA Armament",
-"icon":"http:\/\/api.worldofwarships.com\/static\/1.8.3\/wows\/encyclopedia\/crew_perks\/icon_perk_CentralAirDefenceModifier.png"
+"icon":"http:\/\/api.worldofwarships.com\/static\/1.9.0\/wows\/encyclopedia\/crew_perks\/icon_perk_CentralAirDefenceModifier.png"
 }
 }
 }
