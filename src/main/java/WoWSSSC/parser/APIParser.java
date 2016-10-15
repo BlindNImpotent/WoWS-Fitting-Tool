@@ -257,7 +257,7 @@ public class APIParser
         shipListJSON.put("France", France);
         shipListJSON.put("Germany", Germany);
         shipListJSON.put("Japan", Japan);
-        shipListJSON.put("PanAsia", PanAsia);
+        shipListJSON.put("Pan_Asia", PanAsia);
         shipListJSON.put("Poland", Poland);
         shipListJSON.put("UK", UK);
         shipListJSON.put("USA", USA);
@@ -479,7 +479,12 @@ public class APIParser
     private void setArtillery()
     {
         JSONObject artilleryJSON = new JSONObject();
-        artillery.forEach(a -> artilleryJSON.put(String.valueOf(a), API_Modules_ArtilleryJSON.get(String.valueOf(a))));
+        artillery.forEach(a ->
+        {
+            JSONObject jsonObject = (JSONObject) API_Modules_ArtilleryJSON.get(String.valueOf(a));
+            String name = (String) jsonObject.get("name");
+            artilleryJSON.put(name, API_Modules_ArtilleryJSON.get(String.valueOf(a)));
+        });
         modules.remove("artillery");
         modules.put("artillery", artilleryJSON);
     }
@@ -487,7 +492,12 @@ public class APIParser
     private void setDiveBomber()
     {
         JSONObject diveBomberJSON = new JSONObject();
-        dive_bomber.forEach(d -> diveBomberJSON.put(String.valueOf(d), API_Modules_DiveBomberJSON.get(String.valueOf(d))));
+        dive_bomber.forEach(d ->
+        {
+            JSONObject jsonObject = (JSONObject) API_Modules_DiveBomberJSON.get(String.valueOf(d));
+            String name = (String) jsonObject.get("name");
+            diveBomberJSON.put(name, API_Modules_DiveBomberJSON.get(String.valueOf(d)));
+        });
         modules.remove("dive_bomber");
         modules.put("dive_bomber", diveBomberJSON);
     }
@@ -495,7 +505,12 @@ public class APIParser
     private void setEngine()
     {
         JSONObject engineJSON = new JSONObject();
-        engine.forEach(e -> engineJSON.put(String.valueOf(e), API_Modules_EngineJSON.get(String.valueOf(e))));
+        engine.forEach(e ->
+        {
+            JSONObject jsonObject = (JSONObject) API_Modules_EngineJSON.get(String.valueOf(e));
+            String name = (String) jsonObject.get("name");
+            engineJSON.put(name, API_Modules_EngineJSON.get(String.valueOf(e)));
+        });
         modules.remove("engine");
         modules.put("engine", engineJSON);
     }
@@ -503,7 +518,12 @@ public class APIParser
     private void setFighter()
     {
         JSONObject fighterJSON = new JSONObject();
-        fighter.forEach(f -> fighterJSON.put(String.valueOf(f), API_Modules_FighterJSON.get(String.valueOf(f))));
+        fighter.forEach(f ->
+        {
+            JSONObject jsonObject = (JSONObject) API_Modules_FighterJSON.get(String.valueOf(f));
+            String name = (String) jsonObject.get("name");
+            fighterJSON.put(name, API_Modules_FighterJSON.get(String.valueOf(f)));
+        });
         modules.remove("fighter");
         modules.put("fighter", fighterJSON);
     }
@@ -511,7 +531,12 @@ public class APIParser
     private void setFireControl()
     {
         JSONObject fireControlJSON = new JSONObject();
-        fire_control.forEach(fc -> fireControlJSON.put(String.valueOf(fc), API_Modules_FireControlJSON.get(String.valueOf(fc))));
+        fire_control.forEach(fc ->
+        {
+            JSONObject jsonObject = (JSONObject) API_Modules_FireControlJSON.get(String.valueOf(fc));
+            String name = (String) jsonObject.get("name");
+            fireControlJSON.put(name, API_Modules_FireControlJSON.get(String.valueOf(fc)));
+        });
         modules.remove("fire_control");
         modules.put("fire_control", fireControlJSON);
     }
@@ -519,7 +544,12 @@ public class APIParser
     private void setFlightControl()
     {
         JSONObject flightControlJSON = new JSONObject();
-        flight_control.forEach(fc -> flightControlJSON.put(String.valueOf(fc), API_Modules_FlightControlJSON.get(String.valueOf(fc))));
+        flight_control.forEach(fc ->
+        {
+            JSONObject jsonObject = (JSONObject) API_Modules_FlightControlJSON.get(String.valueOf(fc));
+            String name = (String) jsonObject.get("name");
+            flightControlJSON.put(name, API_Modules_FlightControlJSON.get(String.valueOf(fc)));
+        });
         modules.remove("flight_control");
         modules.put("flight_control", flightControlJSON);
     }
@@ -527,7 +557,12 @@ public class APIParser
     private void setHull()
     {
         JSONObject hullJSON = new JSONObject();
-        hull.forEach(h -> hullJSON.put(String.valueOf(h), API_Modules_HullJSON.get(String.valueOf(h))));
+        hull.forEach(h ->
+        {
+            JSONObject jsonObject = (JSONObject) API_Modules_HullJSON.get(String.valueOf(h));
+            String name = (String) jsonObject.get("name");
+            hullJSON.put(name, API_Modules_HullJSON.get(String.valueOf(h)));
+        });
         modules.remove("hull");
         modules.put("hull", hullJSON);
     }
@@ -535,7 +570,12 @@ public class APIParser
     private void setTorpedoes()
     {
         JSONObject torpedoesJSON = new JSONObject();
-        torpedoes.forEach(t -> torpedoesJSON.put(String.valueOf(t), API_Modules_TorpedoesJSON.get(String.valueOf(t))));
+        torpedoes.forEach(t ->
+        {
+            JSONObject jsonObject = (JSONObject) API_Modules_TorpedoesJSON.get(String.valueOf(t));
+            String name = (String) jsonObject.get("name");
+            torpedoesJSON.put(name, API_Modules_TorpedoesJSON.get(String.valueOf(t)));
+        });
         modules.remove("torpedoes");
         modules.put("torpedoes", torpedoesJSON);
     }
@@ -543,7 +583,12 @@ public class APIParser
     private void setTorpedoBomber()
     {
         JSONObject torpedoBomberJSON = new JSONObject();
-        torpedo_bomber.forEach(tb -> torpedoBomberJSON.put(String.valueOf(tb), API_Modules_TorpedoBomberJSON.get(String.valueOf(tb))));
+        torpedo_bomber.forEach(tb ->
+        {
+            JSONObject jsonObject = (JSONObject) API_Modules_TorpedoBomberJSON.get(String.valueOf(tb));
+            String name = (String) jsonObject.get("name");
+            torpedoBomberJSON.put(name, API_Modules_TorpedoBomberJSON.get(String.valueOf(tb)));
+        });
         modules.remove("torpedo_bomber");
         modules.put("torpedo_bomber", torpedoBomberJSON);
     }

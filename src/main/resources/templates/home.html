@@ -9,11 +9,6 @@
     <script th:src="@{/js/jquery/jquery-ui.js}"></script>
     <script th:src="@{/js/accounting/accounting.js}"></script>
     <title>WoWS Fitting Tool by Aesis</title>
-    <script>
-        $( function() {
-            $( "#shipList" ).menu();
-        } );
-    </script>
 </head>
 <body>
 <header>
@@ -35,11 +30,51 @@
 
     $().ready(function () {
         makeMenu();
+
+        $( function() {
+            $( "#shipList" ).menu();
+        });
     });
 
     function makeMenu()
     {
         getLists();
+
+        var shipList = document.getElementById('shipList');
+
+        for (var i = 0; i < nationsList.length; i++)
+        {
+            var nation = document.createElement('li');
+            var ul1 = document.createElement('ul');
+            nation.innerHTML = '<span>' + nationsList[i] + '</span>';
+
+            for (var j = 0; j < typesList.length; j++)
+            {
+                var type = document.createElement('li');
+                var ul2 = document.createElement('ul');
+                type.innerHTML = '<span>' + typesList[j] + '</span>';
+
+                var ships = [];
+
+                for (var k in shipListJSON[nationsList[i]][typesList[j]])
+                {
+                    ships.push(k);
+                }
+                ships.sort();
+
+                for (var l = 0; l < ships.length; l++)
+                {
+                    var ship = document.createElement('li');
+                    ship.innerHTML = '<span onclick="getShipInfo(\'' + nationsList[i] + '\', \'' + typesList[j] + '\', \'' + ships[l] + '\')">' + ships[l] + '</span>';
+                    ul2.appendChild(ship);
+                }
+
+                type.appendChild(ul2);
+                ul1.appendChild(type);
+            }
+            nation.appendChild(ul1);
+            shipList.appendChild(nation);
+        }
     }
 
     function getLists()
@@ -60,6 +95,12 @@
             return index == self.indexOf(elem);
         });
         typesList.sort();
+    }
+
+    function getShipInfo(nation, type, name)
+    {
+        var ship = shipListJSON[nation][type][name];
+        console.log(ship);
     }
 
 
