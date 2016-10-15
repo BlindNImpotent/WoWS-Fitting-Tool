@@ -4,28 +4,62 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
     <script th:src="@{/js/jquery/jquery-1.12.4.js}"></script>
     <script th:src="@{/js/jquery/jquery-ui.js}"></script>
     <script th:src="@{/js/accounting/accounting.js}"></script>
     <title>WoWS Fitting Tool by Aesis</title>
+    <script>
+        $( function() {
+            $( "#shipList" ).menu();
+        } );
+    </script>
 </head>
 <body>
 <header>
+    <div id="dropDownList">
+        <ul id="shipList">
+        </ul>
+    </div>
 </header>
 <main>
 </main>
+<script th:inline="javascript" th:src="@{/js/WoWSSSC/HashMap.js}"></script>
 <script th:inline="javascript">
 //    <![CDATA[
 
+    var shipListJSON = [[${shipListJSON}]];
+    var nationsMap = new HashMap();
+    var nationsList = [];
+    var typesList = [];
+
     $().ready(function () {
-        console.log([[${shipList}]]);
-
-
+        makeMenu();
     });
 
-    function callShipList()
+    function makeMenu()
     {
+        getLists();
+    }
 
+    function getLists()
+    {
+        for (var i in shipListJSON)
+        {
+            nationsMap.put(i, shipListJSON[i]);
+            nationsList.push(i);
+
+            for (var j in shipListJSON[i])
+            {
+                typesList.push(j);
+            }
+        }
+        nationsList.sort();
+
+        typesList = typesList.filter(function (elem, index, self) {
+            return index == self.indexOf(elem);
+        });
+        typesList.sort();
     }
 
 

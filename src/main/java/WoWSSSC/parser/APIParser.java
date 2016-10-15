@@ -96,7 +96,7 @@ public class APIParser
     private JSONObject USSRCruiser = new JSONObject();
     private JSONObject USSRDestroyer = new JSONObject();
     private JSONObject USSRPremium = new JSONObject();
-    
+
     private JSONObject shipListJSON = new JSONObject();
 
     private JSONObject ship;
@@ -272,24 +272,24 @@ public class APIParser
             {
                 if (x.get("type").equals("AirCarrier"))
                 {
-                    FranceAirCarrier.put(x.get("tier"), x);
+                    FranceAirCarrier.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Battleship"))
                 {
-                    FranceBattleship.put(x.get("tier"), x);
+                    FranceBattleship.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Cruiser"))
                 {
-                    FranceCruiser.put(x.get("tier"), x);
+                    FranceCruiser.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Destroyer"))
                 {
-                    FranceDestroyer.put(x.get("tier"), x);
+                    FranceDestroyer.put(x.get("name"), x);
                 }
             }
             else if (x.get("is_premium").equals(true))
             {
-                FrancePremium.put(x.get("tier"), x);
+                FrancePremium.put(x.get("name"), x);
             }
         }
         else if (x.get("nation").equals("germany"))
@@ -298,24 +298,24 @@ public class APIParser
             {
                 if (x.get("type").equals("AirCarrier"))
                 {
-                    GermanyAirCarrier.put(x.get("tier"), x);
+                    GermanyAirCarrier.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Battleship"))
                 {
-                    GermanyBattleship.put(x.get("tier"), x);
+                    GermanyBattleship.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Cruiser"))
                 {
-                    GermanyCruiser.put(x.get("tier"), x);
+                    GermanyCruiser.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Destroyer"))
                 {
-                    GermanyDestroyer.put(x.get("tier"), x);
+                    GermanyDestroyer.put(x.get("name"), x);
                 }
             }
             else if (x.get("is_premium").equals(true))
             {
-                GermanyPremium.put(x.get("tier"), x);
+                GermanyPremium.put(x.get("name"), x);
             }
         }
         else if (x.get("nation").equals("japan"))
@@ -324,24 +324,24 @@ public class APIParser
             {
                 if (x.get("type").equals("AirCarrier"))
                 {
-                    JapanAirCarrier.put(x.get("tier"), x);
+                    JapanAirCarrier.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Battleship"))
                 {
-                    JapanBattleship.put(x.get("tier"), x);
+                    JapanBattleship.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Cruiser"))
                 {
-                    JapanCruiser.put(x.get("tier"), x);
+                    JapanCruiser.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Destroyer"))
                 {
-                    JapanDestroyer.put(x.get("tier"), x);
+                    JapanDestroyer.put(x.get("name"), x);
                 }
             }
             else if (x.get("is_premium").equals(true))
             {
-                JapanPremium.put(x.get("tier"), x);
+                JapanPremium.put(x.get("name"), x);
             }
         }
         else if (x.get("nation").equals("pan_asia"))
@@ -350,24 +350,24 @@ public class APIParser
             {
                 if (x.get("type").equals("AirCarrier"))
                 {
-                    PanAsiaAirCarrier.put(x.get("tier"), x);
+                    PanAsiaAirCarrier.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Battleship"))
                 {
-                    PanAsiaBattleship.put(x.get("tier"), x);
+                    PanAsiaBattleship.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Cruiser"))
                 {
-                    PanAsiaCruiser.put(x.get("tier"), x);
+                    PanAsiaCruiser.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Destroyer"))
                 {
-                    PanAsiaDestroyer.put(x.get("tier"), x);
+                    PanAsiaDestroyer.put(x.get("name"), x);
                 }
             }
             else if (x.get("is_premium").equals(true))
             {
-                PanAsiaPremium.put(x.get("tier"), x);
+                PanAsiaPremium.put(x.get("name"), x);
             }
         }
         else if (x.get("nation").equals("poland"))
@@ -376,24 +376,24 @@ public class APIParser
             {
                 if (x.get("type").equals("AirCarrier"))
                 {
-                    PolandAirCarrier.put(x.get("tier"), x);
+                    PolandAirCarrier.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Battleship"))
                 {
-                    PolandBattleship.put(x.get("tier"), x);
+                    PolandBattleship.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Cruiser"))
                 {
-                    PolandCruiser.put(x.get("tier"), x);
+                    PolandCruiser.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Destroyer"))
                 {
-                    PolandDestroyer.put(x.get("tier"), x);
+                    PolandDestroyer.put(x.get("name"), x);
                 }
             }
             else if (x.get("is_premium").equals(true))
             {
-                PolandPremium.put(x.get("tier"), x);
+                PolandPremium.put(x.get("name"), x);
             }
         }
         else if (x.get("nation").equals("uk"))
@@ -402,24 +402,24 @@ public class APIParser
             {
                 if (x.get("type").equals("AirCarrier"))
                 {
-                    UKAirCarrier.put(x.get("tier"), x);
+                    UKAirCarrier.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Battleship"))
                 {
-                    UKBattleship.put(x.get("tier"), x);
+                    UKBattleship.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Cruiser"))
                 {
-                    UKCruiser.put(x.get("tier"), x);
+                    UKCruiser.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Destroyer"))
                 {
-                    UKDestroyer.put(x.get("tier"), x);
+                    UKDestroyer.put(x.get("name"), x);
                 }
             }
             else if (x.get("is_premium").equals(true))
             {
-                UKPremium.put(x.get("tier"), x);
+                UKPremium.put(x.get("name"), x);
             }
         }
         else if (x.get("nation").equals("usa"))
@@ -428,24 +428,24 @@ public class APIParser
             {
                 if (x.get("type").equals("AirCarrier"))
                 {
-                    USAAirCarrier.put(x.get("tier"), x);
+                    USAAirCarrier.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Battleship"))
                 {
-                    USABattleship.put(x.get("tier"), x);
+                    USABattleship.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Cruiser"))
                 {
-                    USACruiser.put(x.get("tier"), x);
+                    USACruiser.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Destroyer"))
                 {
-                    USADestroyer.put(x.get("tier"), x);
+                    USADestroyer.put(x.get("name"), x);
                 }
             }
             else if (x.get("is_premium").equals(true))
             {
-                USAPremium.put(x.get("tier"), x);
+                USAPremium.put(x.get("name"), x);
             }
         }
         else if (x.get("nation").equals("ussr"))
@@ -454,24 +454,24 @@ public class APIParser
             {
                 if (x.get("type").equals("AirCarrier"))
                 {
-                    USSRAirCarrier.put(x.get("tier"), x);
+                    USSRAirCarrier.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Battleship"))
                 {
-                    USSRBattleship.put(x.get("tier"), x);
+                    USSRBattleship.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Cruiser"))
                 {
-                    USSRCruiser.put(x.get("tier"), x);
+                    USSRCruiser.put(x.get("name"), x);
                 }
                 else if (x.get("type").equals("Destroyer"))
                 {
-                    USSRDestroyer.put(x.get("tier"), x);
+                    USSRDestroyer.put(x.get("name"), x);
                 }
             }
             else if (x.get("is_premium").equals(true))
             {
-                USSRPremium.put(x.get("tier"), x);
+                USSRPremium.put(x.get("name"), x);
             }
         }
     }
@@ -551,7 +551,50 @@ public class APIParser
     private void setUpgrades(JSONObject x)
     {
         JSONObject upgradesJSON = new JSONObject();
-        upgrades.forEach(u -> upgradesJSON.put(String.valueOf(u), API_UpgradesJSON.get(String.valueOf(u))));
+        JSONObject Slot1 = new JSONObject();
+        JSONObject Slot2 = new JSONObject();
+        JSONObject Slot3 = new JSONObject();
+        JSONObject Slot4 = new JSONObject();
+        JSONObject Slot5 = new JSONObject();
+        JSONObject Slot6 = new JSONObject();
+
+        upgrades.forEach(u -> 
+        {
+            JSONObject y = (JSONObject) API_UpgradesJSON.get(String.valueOf(u));
+            
+            if ((long) y.get("price_credit") == 125000)
+            {
+                Slot1.put(y.get("name"), y);
+            }
+            else if ((long) y.get("price_credit") == 250000)
+            {
+                Slot2.put(y.get("name"), y);
+            }
+            else if ((long) y.get("price_credit") == 500000)
+            {
+                Slot3.put(y.get("name"), y);
+            }
+            else if ((long) y.get("price_credit") == 1000000)
+            {
+                Slot4.put(y.get("name"), y);
+            }
+            else if ((long) y.get("price_credit") == 2000000)
+            {
+                Slot5.put(y.get("name"), y);
+            }
+            else if ((long) y.get("price_credit") == 3000000)
+            {
+                Slot6.put(y.get("name"), y);
+            }
+        });        
+
+        upgradesJSON.put("Slot 1", Slot1);
+        upgradesJSON.put("Slot 2", Slot2);
+        upgradesJSON.put("Slot 3", Slot3);
+        upgradesJSON.put("Slot 4", Slot4);
+        upgradesJSON.put("Slot 5", Slot5);
+        upgradesJSON.put("Slot 6", Slot6);
+
         x.remove("upgrades");
         x.put("upgrades", upgradesJSON);
     }
