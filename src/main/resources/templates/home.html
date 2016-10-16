@@ -101,6 +101,25 @@
     {
         var ship = shipListJSON[nation][type][name];
         console.log(ship);
+
+        var modules_tree = ship['modules_tree'];
+
+        var artilleryHashMap = new HashMap();
+        var artilleryName = [];
+
+        for (var i in modules_tree)
+        {
+            var value = modules_tree[i];
+            var name = modules_tree[i]['name'];
+            if (value['type'] == 'Artillery')
+            {
+                artilleryName.push(name);
+                artilleryHashMap.put(name, value);
+            }
+        }
+
+        artilleryName.sort();
+
     }
 
 

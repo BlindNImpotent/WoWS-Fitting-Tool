@@ -561,6 +561,18 @@ public class APIParser
         });
         x.remove("modules_tree");
         x.put("modules_tree", jsonObject);
+
+        JSONObject nextShips = (JSONObject) x.get("next_ships");
+        Set<String> keySet = nextShips.keySet();
+        JSONObject nextShipsJSON = new JSONObject();
+        keySet.forEach(k ->
+        {
+            JSONObject obj = (JSONObject) API_WarshipsJSON.get(String.valueOf(k));
+            String name = (String) obj.get("name");
+            nextShipsJSON.put(name, nextShips.get(String.valueOf(k)));
+        });
+        x.remove("next_ships");
+        x.put("next_ships", nextShipsJSON);
     }
 
     private void setArtillery()
