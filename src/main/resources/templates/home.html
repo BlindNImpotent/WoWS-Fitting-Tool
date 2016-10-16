@@ -20,6 +20,7 @@
 <main>
 </main>
 <script th:inline="javascript" th:src="@{/js/WoWSSSC/HashMap.js}"></script>
+<script th:inline="javascript" th:src="@{/js/WoWSSSC/Variables.js}"></script>
 <script th:inline="javascript">
 //    <![CDATA[
 
@@ -104,9 +105,6 @@
 
         var modules_tree = ship['modules_tree'];
 
-        var artilleryHashMap = new HashMap();
-        var artilleryName = [];
-
         for (var i in modules_tree)
         {
             var value = modules_tree[i];
@@ -115,6 +113,38 @@
             {
                 artilleryName.push(name);
                 artilleryHashMap.put(name, value);
+            }
+            else if (value['type'] == 'DiveBomber')
+            {
+
+            }
+            else if (value['type'] == 'Engine')
+            {
+
+            }
+            else if (value['type'] == 'Fighter')
+            {
+
+            }
+            else if (value['type'] == 'Suo')
+            {
+
+            }
+            else if (value['type'] == 'FlightControl')
+            {
+
+            }
+            else if (value['type'] == 'Hull')
+            {
+
+            }
+            else if (value['type'] == 'Torpedoes')
+            {
+
+            }
+            else if (value['type'] == 'TorpedoBombers')
+            {
+
             }
         }
 
