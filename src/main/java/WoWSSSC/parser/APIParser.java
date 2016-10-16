@@ -101,6 +101,7 @@ public class APIParser
 
     private JSONObject ship;
     private JSONObject modules;
+    private JSONObject modules_tree;
     private JSONArray artillery;
     private JSONArray dive_bomber;
     private JSONArray engine;
@@ -183,18 +184,19 @@ public class APIParser
             torpedoes = (JSONArray) modules.get("torpedoes");
             torpedo_bomber = (JSONArray) modules.get("torpedo_bomber");
             upgrades = (JSONArray) x.get("upgrades");
+            modules_tree = (JSONObject) x.get("modules_tree");
 
-            setArtillery();
-            setDiveBomber();
-            setEngine();
-            setFighter();
-            setFireControl();
-            setFlightControl();
-            setHull();
-            setTorpedoBomber();
-            setTorpedoes();
+//            setArtillery();
+//            setDiveBomber();
+//            setEngine();
+//            setFighter();
+//            setFireControl();
+//            setFlightControl();
+//            setHull();
+//            setTorpedoBomber();
+//            setTorpedoes();
+            setModulesTree(x);
             setUpgrades(x);
-
             setShipList(x);
         });
 
@@ -476,14 +478,104 @@ public class APIParser
         }
     }
 
+    private void setModulesTree(JSONObject x)
+    {
+        Set<String> modules_tree_keySet = modules_tree.keySet();
+        JSONObject jsonObject = new JSONObject();
+
+        modules_tree_keySet.forEach(mtk ->
+        {
+            JSONObject jsonObject1 = (JSONObject) modules_tree.get(String.valueOf(mtk));
+            JSONObject jsonObject2 = new JSONObject();
+
+            JSONArray arrayNM = (JSONArray) jsonObject1.get("next_modules");
+            JSONArray array2 = new JSONArray();
+            if (arrayNM != null)
+            {
+                arrayNM.forEach(a ->
+                {
+                    JSONObject obj = (JSONObject) modules_tree.get(String.valueOf(a));
+
+                    String name = (String) obj.get("name");
+                    array2.add(name);
+                });
+                jsonObject1.remove("next_modules");
+                jsonObject1.put("next_modules", array2);
+            }
+
+            if (jsonObject1.get("type").equals("Artillery"))
+            {
+                jsonObject2 = (JSONObject) API_Modules_ArtilleryJSON.get(String.valueOf(mtk));
+            }
+            else if (jsonObject1.get("type").equals("DiveBomber"))
+            {
+                jsonObject2 = (JSONObject) API_Modules_DiveBomberJSON.get(String.valueOf(mtk));
+            }
+            else if (jsonObject1.get("type").equals("Engine"))
+            {
+                jsonObject2 = (JSONObject) API_Modules_EngineJSON.get(String.valueOf(mtk));
+            }
+            else if (jsonObject1.get("type").equals("Fighter"))
+            {
+                jsonObject2 = (JSONObject) API_Modules_FighterJSON.get(String.valueOf(mtk));
+            }
+            else if (jsonObject1.get("type").equals("Suo"))
+            {
+                jsonObject2 = (JSONObject) API_Modules_FireControlJSON.get(String.valueOf(mtk));
+            }
+            else if (jsonObject1.get("type").equals("FlightControl"))
+            {
+                jsonObject2 = (JSONObject) API_Modules_FlightControlJSON.get(String.valueOf(mtk));
+            }
+            else if (jsonObject1.get("type").equals("Hull"))
+            {
+                jsonObject2 = (JSONObject) API_Modules_HullJSON.get(String.valueOf(mtk));
+            }
+            else if (jsonObject1.get("type").equals("Torpedoes"))
+            {
+                jsonObject2 = (JSONObject) API_Modules_TorpedoesJSON.get(String.valueOf(mtk));
+            }
+            else if (jsonObject1.get("type").equals("TorpedoBomber"))
+            {
+                jsonObject2 = (JSONObject) API_Modules_TorpedoBomberJSON.get(String.valueOf(mtk));
+            }
+
+            Set<String> keySet = jsonObject2.keySet();
+            JSONObject finalJsonObject = jsonObject2;
+            keySet.forEach(k -> jsonObject1.putIfAbsent(k, finalJsonObject.get(k)));
+
+            JSONArray arrayNS = (JSONArray) jsonObject1.get("next_ships");
+            JSONArray array1 = new JSONArray();
+            if (arrayNS != null)
+            {
+                arrayNS.forEach(a ->
+                {
+                    JSONObject obj = (JSONObject) API_WarshipsJSON.get(String.valueOf(a));
+                    String name = (String) obj.get("name");
+                    array1.add(name);
+                });
+                jsonObject1.remove("next_ships");
+                jsonObject1.put("next_ships", array1);
+            }
+            jsonObject.put(jsonObject1.get("name"), jsonObject1);
+        });
+        x.remove("modules_tree");
+        x.put("modules_tree", jsonObject);
+    }
+
     private void setArtillery()
     {
         JSONObject artilleryJSON = new JSONObject();
         artillery.forEach(a ->
         {
-            JSONObject jsonObject = (JSONObject) API_Modules_ArtilleryJSON.get(String.valueOf(a));
-            String name = (String) jsonObject.get("name");
-            artilleryJSON.put(name, API_Modules_ArtilleryJSON.get(String.valueOf(a)));
+            JSONObject jsonObject1 = (JSONObject) API_Modules_ArtilleryJSON.get(String.valueOf(a));
+            JSONObject jsonObject2 = (JSONObject) modules_tree.get(String.valueOf(a));
+
+            Set<String> keySet = jsonObject2.keySet();
+            keySet.forEach(k -> jsonObject1.put(k, jsonObject2.get(k)));
+
+            String name1 = (String) jsonObject1.get("name");
+            artilleryJSON.put(name1, jsonObject1);
         });
         modules.remove("artillery");
         modules.put("artillery", artilleryJSON);
