@@ -10,6 +10,8 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.io.IOException;
 
@@ -19,8 +21,9 @@ import java.io.IOException;
 @Configuration
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 @ComponentScan
+@EnableAsync
 //@EnableCaching
-public class Application
+public class Application extends AsyncConfigurerSupport
 {
     public static void main(String[] args) throws IOException, ParseException
     {
