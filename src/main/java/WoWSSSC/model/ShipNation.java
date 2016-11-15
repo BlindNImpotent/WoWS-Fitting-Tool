@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by Qualson-Lee on 2016-11-15.
@@ -13,5 +14,5 @@ import java.util.HashMap;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ShipNation
 {
-    private HashMap<String, ShipType> shipTypes = new HashMap<>();
+    private HashMap<String, LinkedHashMap> shipNationsHashMap = new HashMap<>();
 }

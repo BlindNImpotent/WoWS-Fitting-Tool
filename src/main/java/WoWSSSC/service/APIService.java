@@ -1,6 +1,9 @@
 package WoWSSSC.service;
 
+import WoWSSSC.model.ShipNation;
+import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.parser.APIParser;
+import WoWSSSC.parser.AsyncHashMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -19,9 +22,17 @@ public class APIService
     @Autowired
     private APIParser apiParser;
 
+    @Autowired
+    private AsyncHashMap asyncHashMap;
+
     public JSONObject getWarships() throws IOException, ParseException
     {
         return apiParser.getShipListJSON();
+    }
+
+    public ShipNation getShipNation()
+    {
+        return asyncHashMap.getShipNation();
     }
 
     public List<String> getNationsList()

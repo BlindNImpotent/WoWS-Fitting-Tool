@@ -1,5 +1,6 @@
 package WoWSSSC.controller;
 
+import WoWSSSC.model.ShipNation;
 import WoWSSSC.service.APIService;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -19,12 +20,19 @@ public class APIController
     @Autowired
     private APIService apiService;
 
-
     @RequestMapping (value = "/", method = RequestMethod.GET)
     public String getShip(Model model) throws IOException, ParseException
     {
         model.addAttribute("shipListJSON", apiService.getWarships());
+        model.addAttribute("shipNation", apiService.getShipNation());
 
         return "home";
+    }
+
+    @ResponseBody
+    @RequestMapping (value = "/test", method = RequestMethod.GET)
+    public ShipNation shipNation()
+    {
+        return apiService.getShipNation();
     }
 }
