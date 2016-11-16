@@ -14,5 +14,5 @@ import java.util.LinkedHashMap;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ShipNation
 {
-    private HashMap<String, LinkedHashMap> shipNationsHashMap = new HashMap<>();
+    private LinkedHashMap<String, LinkedHashMap> shipNationsHashMap = new LinkedHashMap<>();
 }

@@ -30,9 +30,9 @@ public class APIService
         return apiParser.getShipListJSON();
     }
 
-    public ShipNation getShipNation()
+    public LinkedHashMap<String, LinkedHashMap> getShipNation()
     {
-        return asyncHashMap.getShipNation();
+        return asyncHashMap.getNations();
     }
 
     public List<String> getNationsList()

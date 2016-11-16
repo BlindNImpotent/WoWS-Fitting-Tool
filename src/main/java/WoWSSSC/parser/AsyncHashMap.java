@@ -1,5 +1,6 @@
 package WoWSSSC.parser;
 
+import WoWSSSC.model.Ship;
 import WoWSSSC.model.ShipData;
 import WoWSSSC.model.ShipNation;
 import lombok.Data;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -24,8 +26,6 @@ public class AsyncHashMap implements CommandLineRunner
 {
     @Autowired
     private final APIJsonParser apiJsonParser;
-
-    private static final Logger logger = LoggerFactory.getLogger(AsyncHashMap.class);
 
     private final static String france = "france";
     private final static String germany = "germany";
@@ -40,11 +40,19 @@ public class AsyncHashMap implements CommandLineRunner
     private final static String Battleship = "Battleship";
     private final static String Cruiser = "Cruiser";
     private final static String Destroyer = "Destroyer";
+    private final static String Premium = "Premium";
 
-    private final static String[] nations = {france, germany, japan, pan_asia, poland, uk, usa, ussr};
-    private final static String[] shipTypes = {AirCarrier, Battleship, Cruiser, Destroyer};
-
-    private ShipNation shipNation = new ShipNation();
+    private LinkedHashMap<String, LinkedHashMap> France = new LinkedHashMap<>();
+    private LinkedHashMap<String, HashMap> Germany = new LinkedHashMap<>();
+    private LinkedHashMap<String, HashMap> Japan = new LinkedHashMap<>();
+    private LinkedHashMap<String, HashMap> Pan_Asia = new LinkedHashMap<>();
+    private LinkedHashMap<String, HashMap> Poland = new LinkedHashMap<>();
+    private LinkedHashMap<String, HashMap> UK = new LinkedHashMap<>();
+    private LinkedHashMap<String, HashMap> USA = new LinkedHashMap<>();
+    private LinkedHashMap<String, HashMap> USSR = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
+    
+//    private ShipNation shipNation = new ShipNation();
 
     public AsyncHashMap(APIJsonParser apiJsonParser)
     {
@@ -54,17 +62,6 @@ public class AsyncHashMap implements CommandLineRunner
     @Override
     public void run(String... strings) throws Exception
     {
-        LinkedHashMap<String, HashMap> France = new LinkedHashMap<>();
-        LinkedHashMap<String, HashMap> Germany = new LinkedHashMap<>();
-        LinkedHashMap<String, HashMap> Japan = new LinkedHashMap<>();
-        LinkedHashMap<String, HashMap> Pan_Asia = new LinkedHashMap<>();
-        LinkedHashMap<String, HashMap> Poland = new LinkedHashMap<>();
-        LinkedHashMap<String, HashMap> UK = new LinkedHashMap<>();
-        LinkedHashMap<String, HashMap> USA = new LinkedHashMap<>();
-        LinkedHashMap<String, HashMap> USSR = new LinkedHashMap<>();
-
-        long start = System.currentTimeMillis();
-
         Future<ShipData> franceAirCarrier = apiJsonParser.getNationShip(france, AirCarrier);
         Future<ShipData> germanyAirCarrier = apiJsonParser.getNationShip(germany, AirCarrier);
         Future<ShipData> japanAirCarrier = apiJsonParser.getNationShip(japan, AirCarrier);
@@ -101,43 +98,6 @@ public class AsyncHashMap implements CommandLineRunner
         Future<ShipData> usaDestroyer = apiJsonParser.getNationShip(usa, Destroyer);
         Future<ShipData> ussrDestroyer = apiJsonParser.getNationShip(ussr, Destroyer);
 
-        logger.info("Elapsed time: " + (System.currentTimeMillis() - start));
-        logger.info("--> " + franceAirCarrier.get());
-        logger.info("--> " + germanyAirCarrier.get());
-        logger.info("--> " + japanAirCarrier.get());
-        logger.info("--> " + pan_asiaAirCarrier.get());
-        logger.info("--> " + polandAirCarrier.get());
-        logger.info("--> " + ukAirCarrier.get());
-        logger.info("--> " + usaAirCarrier.get());
-        logger.info("--> " + ussrAirCarrier.get());
-
-        logger.info("--> " + franceBattleship.get());
-        logger.info("--> " + germanyBattleship.get());
-        logger.info("--> " + japanBattleship.get());
-        logger.info("--> " + pan_asiaBattleship.get());
-        logger.info("--> " + polandBattleship.get());
-        logger.info("--> " + ukBattleship.get());
-        logger.info("--> " + usaBattleship.get());
-        logger.info("--> " + ussrBattleship.get());
-
-        logger.info("--> " + franceCruiser.get());
-        logger.info("--> " + germanyCruiser.get());
-        logger.info("--> " + japanCruiser.get());
-        logger.info("--> " + pan_asiaCruiser.get());
-        logger.info("--> " + polandCruiser.get());
-        logger.info("--> " + ukCruiser.get());
-        logger.info("--> " + usaCruiser.get());
-        logger.info("--> " + ussrCruiser.get());
-
-        logger.info("--> " + franceDestroyer.get());
-        logger.info("--> " + germanyDestroyer.get());
-        logger.info("--> " + japanDestroyer.get());
-        logger.info("--> " + pan_asiaDestroyer.get());
-        logger.info("--> " + polandDestroyer.get());
-        logger.info("--> " + ukDestroyer.get());
-        logger.info("--> " + usaDestroyer.get());
-        logger.info("--> " + ussrDestroyer.get());
-        
         France.put(AirCarrier, franceAirCarrier.get().getData());
         France.put(Battleship, franceBattleship.get().getData());
         France.put(Cruiser, franceCruiser.get().getData());
@@ -178,13 +138,31 @@ public class AsyncHashMap implements CommandLineRunner
         USSR.put(Cruiser, ussrCruiser.get().getData());
         USSR.put(Destroyer, ussrDestroyer.get().getData());
 
-        shipNation.getShipNationsHashMap().put(france, France);
-        shipNation.getShipNationsHashMap().put(germany, Germany);
-        shipNation.getShipNationsHashMap().put(japan, Japan);
-        shipNation.getShipNationsHashMap().put(pan_asia, Pan_Asia);
-        shipNation.getShipNationsHashMap().put(poland, Poland);
-        shipNation.getShipNationsHashMap().put(uk, UK);
-        shipNation.getShipNationsHashMap().put(usa, USA);
-        shipNation.getShipNationsHashMap().put(ussr, USSR);
+        setPremium(France);
+
+        nations.put(france, France);
+        nations.put(germany, Germany);
+        nations.put(japan, Japan);
+        nations.put(pan_asia, Pan_Asia);
+        nations.put(poland, Poland);
+        nations.put(uk, UK);
+        nations.put(usa, USA);
+        nations.put(ussr, USSR);
+    }
+
+    private void setPremium(LinkedHashMap<String, LinkedHashMap> nation)
+    {
+        nation.entrySet().forEach(shipTypes ->
+        {
+            shipTypes.getValue().entrySet().forEach(ship ->
+            {
+                Map.Entry<String, Ship> temp = (Map.Entry<String, Ship>) ship;
+                if (temp.getValue().is_premium())
+                {
+                    shipTypes.getValue().entrySet().remove(ship);
+                    shipTypes.getValue().put(Premium, temp);
+                }
+            });
+        });
     }
 }
