@@ -1,5 +1,7 @@
 package WoWSSSC.utils;
 
+import WoWSSSC.model.Ship;
+
 import java.util.*;
 
 /**
@@ -7,28 +9,26 @@ import java.util.*;
  */
 public class Sorter
 {
-    public static LinkedHashMap<String, HashMap> sortShips(LinkedHashMap<String, HashMap> unsorted)
+    public static LinkedHashMap<String, Ship> sortShips(LinkedHashMap<String, Ship> unsorted)
     {
-        List<Map.Entry<String, HashMap>> list = new LinkedList<>(unsorted.entrySet());
+        LinkedHashMap<String, Ship> sorted = new LinkedHashMap<>();
 
-        Collections.sort(list, new Comparator<Map.Entry<String, HashMap>>() {
+        List<Map.Entry<String, Ship>> list = new LinkedList<>(unsorted.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<String, Ship>>() {
             @Override
-            public int compare(Map.Entry<String, HashMap> o1, Map.Entry<String, HashMap> o2) {
-                int tierDiff = (int) o1.getValue().get("tier") - (int) o2.getValue().get("tier");
+            public int compare(Map.Entry<String, Ship> o1, Map.Entry<String, Ship> o2) {
+                int tierDiff = (int) (o1.getValue().getTier() - o2.getValue().getTier());
 
                 if (tierDiff == 0)
                 {
-                    return ((String) o1.getValue().get("name")).compareTo((String) o2.getValue().get("name"));
+                    return (o1.getValue().getName().compareTo(o2.getValue().getName()));
                 }
-                else
-                {
-                    return tierDiff;
-                }
+                return tierDiff;
             }
         });
 
-        LinkedHashMap<String, HashMap> sorted = new LinkedHashMap<>();
-        for (Map.Entry<String, HashMap> entry : list)
+        for (Map.Entry<String, Ship> entry : list)
         {
             sorted.put(entry.getKey(), entry.getValue());
         }

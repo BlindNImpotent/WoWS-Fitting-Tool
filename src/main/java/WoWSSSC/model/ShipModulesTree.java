@@ -22,4 +22,9 @@ public class ShipModulesTree
     private boolean is_default;
     private List next_modules;
     private List next_ships;
+
+    public boolean isIs_default()
+    {
+        return is_default;
+    }
 }

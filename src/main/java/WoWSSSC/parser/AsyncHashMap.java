@@ -1,5 +1,6 @@
 package WoWSSSC.parser;
 
+import WoWSSSC.model.Ship;
 import WoWSSSC.model.ShipData;
 import WoWSSSC.utils.Sorter;
 import lombok.Data;
@@ -43,7 +44,7 @@ public class AsyncHashMap implements CommandLineRunner
     private LinkedHashMap<String, LinkedHashMap> Pan_Asia = new LinkedHashMap<>();
     private LinkedHashMap<String, LinkedHashMap> Poland = new LinkedHashMap<>();
     private LinkedHashMap<String, LinkedHashMap> UK = new LinkedHashMap<>();
-    private LinkedHashMap<String, LinkedHashMap> USA = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap<String, Ship>> USA = new LinkedHashMap<>();
     private LinkedHashMap<String, LinkedHashMap> USSR = new LinkedHashMap<>();
     private LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
 
@@ -139,7 +140,7 @@ public class AsyncHashMap implements CommandLineRunner
 //        Pan_Asia = setPremium(Pan_Asia);
 //        Poland = setPremium(Poland);
 //        UK = setPremium(UK);
-        USA = setPremium(USA);
+//        USA = setPremium(USA);
 //        USSR = setPremium(USSR);
 
 //        nations.put(france, France);
@@ -152,31 +153,31 @@ public class AsyncHashMap implements CommandLineRunner
 //        nations.put(ussr, USSR);
     }
 
-    private LinkedHashMap<String, LinkedHashMap> setPremium(LinkedHashMap<String, LinkedHashMap> nation)
-    {
-        LinkedHashMap<String, LinkedHashMap> tempNation = new LinkedHashMap<>();
-        LinkedHashMap<String, HashMap> tempPremium = new LinkedHashMap<>();
-
-        nation.entrySet().forEach(shipType ->
-        {
-            LinkedHashMap<String, HashMap> tempShips = new LinkedHashMap<>();
-
-            shipType.getValue().entrySet().forEach(ship ->
-            {
-                Map.Entry<String, HashMap> temp = (Map.Entry<String, HashMap>) ship;
-                if (temp.getValue().get("is_premium").equals(true))
-                {
-                    tempPremium.put(temp.getKey(), temp.getValue());
-                }
-                else
-                {
-                    tempShips.put(temp.getKey(), temp.getValue());
-                }
-            });
-            tempNation.put(shipType.getKey(), tempShips);
-        });
-        LinkedHashMap<String, HashMap> tempSortedPremium = sorter.sortShips(tempPremium);
-        tempNation.put(Premium, tempSortedPremium);
-        return tempNation;
-    }
+//    private LinkedHashMap<String, LinkedHashMap> setPremium(LinkedHashMap<String, LinkedHashMap> nation)
+//    {
+//        LinkedHashMap<String, LinkedHashMap> tempNation = new LinkedHashMap<>();
+//        LinkedHashMap<String, HashMap> tempPremium = new LinkedHashMap<>();
+//
+//        nation.entrySet().forEach(shipType ->
+//        {
+//            LinkedHashMap<String, HashMap> tempShips = new LinkedHashMap<>();
+//
+//            shipType.getValue().entrySet().forEach(ship ->
+//            {
+//                Map.Entry<String, HashMap> temp = (Map.Entry<String, HashMap>) ship;
+//                if (temp.getValue().get("is_premium").equals(true))
+//                {
+//                    tempPremium.put(temp.getKey(), temp.getValue());
+//                }
+//                else
+//                {
+//                    tempShips.put(temp.getKey(), temp.getValue());
+//                }
+//            });
+//            tempNation.put(shipType.getKey(), tempShips);
+//        });
+//        LinkedHashMap<String, HashMap> tempSortedPremium = sorter.sortShips(tempPremium);
+//        tempNation.put(Premium, tempSortedPremium);
+//        return tempNation;
+//    }
 }
