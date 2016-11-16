@@ -20,15 +20,6 @@ public class APIController
     @Autowired
     private APIService apiService;
 
-    @RequestMapping (value = "/", method = RequestMethod.GET)
-    public String getShip(Model model) throws IOException, ParseException
-    {
-        model.addAttribute("shipListJSON", apiService.getWarships());
-        model.addAttribute("shipNation", apiService.getShipNation());
-
-        return "home";
-    }
-
     @ResponseBody
     @RequestMapping (value = "/test", method = RequestMethod.GET)
     public LinkedHashMap<String, LinkedHashMap> shipNation()

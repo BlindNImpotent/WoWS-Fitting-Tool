@@ -1,20 +1,15 @@
 package WoWSSSC.parser;
 
 import WoWSSSC.model.ShipData;
-import WoWSSSC.model.ShipNation;
 import WoWSSSC.utils.Sorter;
 import lombok.Data;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 /**
