@@ -1,8 +1,8 @@
 package WoWSSSC.parser;
 
-import WoWSSSC.model.Ship;
 import WoWSSSC.model.ShipData;
 import WoWSSSC.model.ShipNation;
+import WoWSSSC.utils.Sorter;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,16 +43,16 @@ public class AsyncHashMap implements CommandLineRunner
     private final static String Premium = "Premium";
 
     private LinkedHashMap<String, LinkedHashMap> France = new LinkedHashMap<>();
-    private LinkedHashMap<String, HashMap> Germany = new LinkedHashMap<>();
-    private LinkedHashMap<String, HashMap> Japan = new LinkedHashMap<>();
-    private LinkedHashMap<String, HashMap> Pan_Asia = new LinkedHashMap<>();
-    private LinkedHashMap<String, HashMap> Poland = new LinkedHashMap<>();
-    private LinkedHashMap<String, HashMap> UK = new LinkedHashMap<>();
-    private LinkedHashMap<String, HashMap> USA = new LinkedHashMap<>();
-    private LinkedHashMap<String, HashMap> USSR = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap> Germany = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap> Japan = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap> Pan_Asia = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap> Poland = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap> UK = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap> USA = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap> USSR = new LinkedHashMap<>();
     private LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
-    
-//    private ShipNation shipNation = new ShipNation();
+
+    private Sorter sorter = new Sorter();
 
     public AsyncHashMap(APIJsonParser apiJsonParser)
     {
@@ -138,7 +138,14 @@ public class AsyncHashMap implements CommandLineRunner
         USSR.put(Cruiser, ussrCruiser.get().getData());
         USSR.put(Destroyer, ussrDestroyer.get().getData());
 
-        setPremium(France);
+        France = setPremium(France);
+        Germany = setPremium(Germany);
+        Japan = setPremium(Japan);
+        Pan_Asia = setPremium(Pan_Asia);
+        Poland = setPremium(Poland);
+        UK = setPremium(UK);
+        USA = setPremium(USA);
+        USSR = setPremium(USSR);
 
         nations.put(france, France);
         nations.put(germany, Germany);
@@ -150,19 +157,31 @@ public class AsyncHashMap implements CommandLineRunner
         nations.put(ussr, USSR);
     }
 
-    private void setPremium(LinkedHashMap<String, LinkedHashMap> nation)
+    private LinkedHashMap<String, LinkedHashMap> setPremium(LinkedHashMap<String, LinkedHashMap> nation)
     {
-        nation.entrySet().forEach(shipTypes ->
+        LinkedHashMap<String, LinkedHashMap> tempNation = new LinkedHashMap<>();
+        LinkedHashMap<String, HashMap> tempPremium = new LinkedHashMap<>();
+
+        nation.entrySet().forEach(shipType ->
         {
-            shipTypes.getValue().entrySet().forEach(ship ->
+            LinkedHashMap<String, HashMap> tempShips = new LinkedHashMap<>();
+
+            shipType.getValue().entrySet().forEach(ship ->
             {
-                Map.Entry<String, Ship> temp = (Map.Entry<String, Ship>) ship;
-                if (temp.getValue().is_premium())
+                Map.Entry<String, HashMap> temp = (Map.Entry<String, HashMap>) ship;
+                if (temp.getValue().get("is_premium").equals(true))
                 {
-                    shipTypes.getValue().entrySet().remove(ship);
-                    shipTypes.getValue().put(Premium, temp);
+                    tempPremium.put(temp.getKey(), temp.getValue());
+                }
+                else
+                {
+                    tempShips.put(temp.getKey(), temp.getValue());
                 }
             });
+            tempNation.put(shipType.getKey(), tempShips);
         });
+        LinkedHashMap<String, HashMap> tempSortedPremium = sorter.sortShips(tempPremium);
+        tempNation.put(Premium, tempSortedPremium);
+        return tempNation;
     }
 }
