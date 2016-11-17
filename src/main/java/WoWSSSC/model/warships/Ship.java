@@ -1,11 +1,10 @@
-package WoWSSSC.model.ship;
+package WoWSSSC.model.warships;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 /**
  * Created by Qualson-Lee on 2016-11-15.

@@ -1,4 +1,4 @@
-package WoWSSSC.model.ship;
+package WoWSSSC.model.warships;
 
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.annotation.JsonIgnore;

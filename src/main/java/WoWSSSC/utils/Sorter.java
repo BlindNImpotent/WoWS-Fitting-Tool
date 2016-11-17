@@ -1,7 +1,7 @@
 package WoWSSSC.utils;
 
-import WoWSSSC.model.ship.Ship;
-import WoWSSSC.model.ship.ShipModulesTree;
+import WoWSSSC.model.warships.Ship;
+import WoWSSSC.model.warships.ShipModulesTree;
 import WoWSSSC.model.upgrade.Upgrade;
 
 import java.util.*;

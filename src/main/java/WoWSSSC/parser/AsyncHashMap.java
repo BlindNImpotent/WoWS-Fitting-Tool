@@ -1,7 +1,7 @@
 package WoWSSSC.parser;
 
-import WoWSSSC.model.ship.Ship;
-import WoWSSSC.model.ship.ShipData;
+import WoWSSSC.model.warships.Ship;
+import WoWSSSC.model.warships.ShipData;
 import WoWSSSC.model.upgrade.Upgrade;
 import WoWSSSC.model.upgrade.UpgradeData;
 import WoWSSSC.utils.Sorter;
@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.concurrent.Future;
 

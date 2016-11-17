@@ -1,6 +1,6 @@
 package WoWSSSC.parser;
 
-import WoWSSSC.model.ship.ShipData;
+import WoWSSSC.model.warships.ShipData;
 import WoWSSSC.model.upgrade.UpgradeData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
