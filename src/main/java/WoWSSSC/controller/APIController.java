@@ -22,4 +22,21 @@ public class APIController
     {
         return apiService.getData();
     }
+
+    @RequestMapping (value = "/", method = RequestMethod.GET)
+    public String test(
+            @RequestParam(required = false) String ship_id,
+            @RequestParam(required = false) String artillery_id,
+            @RequestParam(required = false) String dive_bomber_id,
+            @RequestParam(required = false) String engine_id,
+            @RequestParam(required = false) String fighter_id,
+            @RequestParam(required = false) String fire_control_id,
+            @RequestParam(required = false) String flight_control_id,
+            @RequestParam(required = false) String hull_id,
+            @RequestParam(required = false) String torpedo_bomber_id,
+            @RequestParam(required = false) String torpedoes_id
+            )
+    {
+        return "home";
+    }
 }
