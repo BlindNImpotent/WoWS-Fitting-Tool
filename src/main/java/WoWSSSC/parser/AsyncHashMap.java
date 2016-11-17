@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.concurrent.Future;
 
@@ -50,7 +51,7 @@ public class AsyncHashMap implements CommandLineRunner
     private LinkedHashMap<String, LinkedHashMap> USSR = new LinkedHashMap<>();
     private LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
 
-    private LinkedHashMap<String, Upgrade> upgrades = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap> upgrades = new LinkedHashMap<>();
 
     private LinkedHashMap<String, LinkedHashMap> data = new LinkedHashMap<>();
 
@@ -99,6 +100,8 @@ public class AsyncHashMap implements CommandLineRunner
         Future<ShipData> ukDestroyer = apiJsonParser.getNationShip(uk, Destroyer);
         Future<ShipData> usaDestroyer = apiJsonParser.getNationShip(usa, Destroyer);
         Future<ShipData> ussrDestroyer = apiJsonParser.getNationShip(ussr, Destroyer);
+
+        Future<UpgradeData> upgradeData = apiJsonParser.getUpgrades();
 
         France.put(AirCarrier, franceAirCarrier.get().getData());
         France.put(Battleship, franceBattleship.get().getData());
@@ -158,8 +161,7 @@ public class AsyncHashMap implements CommandLineRunner
         nations.put(usa, USA);
         nations.put(ussr, USSR);
 
-        Future<UpgradeData> upgradeData = apiJsonParser.getUpgrades();
-        upgrades = upgradeData.get().getData();
+        upgrades = setUpgrades(upgradeData.get().getData());
 
         data.put("nations", nations);
         data.put("upgrades", upgrades);
@@ -191,5 +193,67 @@ public class AsyncHashMap implements CommandLineRunner
         LinkedHashMap<String, Ship> tempSortedPremium = sorter.sortShips(tempPremium);
         tempNation.put(Premium, tempSortedPremium);
         return tempNation;
+    }
+
+    private LinkedHashMap<String, LinkedHashMap> setUpgrades(LinkedHashMap<String, Upgrade> upgrades)
+    {
+        LinkedHashMap<String, LinkedHashMap> tempUpgrades = new LinkedHashMap<>();
+
+        LinkedHashMap<String, Upgrade> temp125k = new LinkedHashMap<>();
+        LinkedHashMap<String, Upgrade> temp250k = new LinkedHashMap<>();
+        LinkedHashMap<String, Upgrade> temp500k = new LinkedHashMap<>();
+        LinkedHashMap<String, Upgrade> temp1000k = new LinkedHashMap<>();
+        LinkedHashMap<String, Upgrade> temp2000k = new LinkedHashMap<>();
+        LinkedHashMap<String, Upgrade> temp3000k = new LinkedHashMap<>();
+
+        upgrades.entrySet().forEach(tempUpgrade ->
+        {
+            if (tempUpgrade.getValue().getPrice_credit() == 125000)
+            {
+                temp125k.put(tempUpgrade.getKey(), tempUpgrade.getValue());
+            }
+            else if (tempUpgrade.getValue().getPrice_credit() == 250000)
+            {
+                temp250k.put(tempUpgrade.getKey(), tempUpgrade.getValue());
+            }
+            else if (tempUpgrade.getValue().getPrice_credit() == 500000)
+            {
+                temp500k.put(tempUpgrade.getKey(), tempUpgrade.getValue());
+            }
+            else if (tempUpgrade.getValue().getPrice_credit() == 1000000)
+            {
+                temp1000k.put(tempUpgrade.getKey(), tempUpgrade.getValue());
+            }
+            else if (tempUpgrade.getValue().getPrice_credit() == 2000000)
+            {
+                temp2000k.put(tempUpgrade.getKey(), tempUpgrade.getValue());
+            }
+            else if (tempUpgrade.getValue().getPrice_credit() == 3000000)
+            {
+                temp3000k.put(tempUpgrade.getKey(), tempUpgrade.getValue());
+            }
+            else
+            {
+                System.out.println(tempUpgrade.getValue().getPrice_credit());
+            }
+        });
+
+        LinkedHashMap<String, Upgrade> sortedTemp125k = sorter.sortUpgrades(temp125k);
+        LinkedHashMap<String, Upgrade> sortedTemp250k = sorter.sortUpgrades(temp250k);
+        LinkedHashMap<String, Upgrade> sortedTemp500k = sorter.sortUpgrades(temp500k);
+        LinkedHashMap<String, Upgrade> sortedTemp1000k = sorter.sortUpgrades(temp1000k);
+        LinkedHashMap<String, Upgrade> sortedTemp2000k = sorter.sortUpgrades(temp2000k);
+        LinkedHashMap<String, Upgrade> sortedTemp3000k = sorter.sortUpgrades(temp3000k);
+        LinkedHashMap<String, Upgrade> sortedUpgrades = sorter.sortUpgrades(upgrades);
+
+        tempUpgrades.put("125000", sortedTemp125k);
+        tempUpgrades.put("250000", sortedTemp250k);
+        tempUpgrades.put("500000", sortedTemp500k);
+        tempUpgrades.put("1000000", sortedTemp1000k);
+        tempUpgrades.put("2000000", sortedTemp2000k);
+        tempUpgrades.put("3000000", sortedTemp3000k);
+        tempUpgrades.put("all", sortedUpgrades);
+
+        return tempUpgrades;
     }
 }

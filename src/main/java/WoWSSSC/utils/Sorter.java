@@ -2,6 +2,7 @@ package WoWSSSC.utils;
 
 import WoWSSSC.model.ship.Ship;
 import WoWSSSC.model.ship.ShipModulesTree;
+import WoWSSSC.model.upgrade.Upgrade;
 
 import java.util.*;
 
@@ -62,6 +63,27 @@ public class Sorter
         });
 
         for (Map.Entry<String, ShipModulesTree> entry : list)
+        {
+            sorted.put(entry.getKey(), entry.getValue());
+        }
+
+        return sorted;
+    }
+
+    public LinkedHashMap<String, Upgrade> sortUpgrades(LinkedHashMap<String, Upgrade> unsorted)
+    {
+        LinkedHashMap<String, Upgrade> sorted = new LinkedHashMap<>();
+
+        List<Map.Entry<String, Upgrade>> list = new LinkedList<>(unsorted.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<String, Upgrade>>() {
+            @Override
+            public int compare(Map.Entry<String, Upgrade> o1, Map.Entry<String, Upgrade> o2) {
+                return o1.getValue().getTag().compareTo(o2.getValue().getTag());
+            }
+        });
+
+        for (Map.Entry<String, Upgrade> entry : list)
         {
             sorted.put(entry.getKey(), entry.getValue());
         }

@@ -19,5 +19,5 @@ public class Upgrade
     private String type;
     private long price_credit;
     private long upgrade_id;
-    private HashMap<String, HashMap> profile = new HashMap<>();
+    private UpgradeProfile profile;
 }

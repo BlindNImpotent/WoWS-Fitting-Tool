@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ShipModule
+public class ShipModulesTreeNew
 {
     private LinkedHashMap<String, ShipModulesTree> artillery = new LinkedHashMap<>();
     private LinkedHashMap<String, ShipModulesTree> dive_bomber = new LinkedHashMap<>();

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -24,13 +25,13 @@ public class Ship
     private long price_credit;
     private long mod_slots;
     private boolean is_premium;
-    private HashMap<String, String> images;
-    private HashMap<String, List<Long>> modules;
+    private ShipImages images;
+    private ShipModules modules;
     private HashMap<String, ShipModulesTree> modules_tree;
     private HashMap<String, Long> next_ships;
-    private List<Long> upgrades;
+    private HashSet<Long> upgrades;
 
-    private ShipModule shipModule = new ShipModule();
+    private ShipModulesTreeNew shipModulesTreeNew = new ShipModulesTreeNew();
     
     private static final String Artillery = "Artillery";
     private static final String DiveBomber = "DiveBomber";
@@ -60,39 +61,39 @@ public class Ship
 
             if (mt.getValue().getType().equals(Artillery))
             {
-                shipModule.getArtillery().put(mt.getValue().getName(), mt.getValue());
+                shipModulesTreeNew.getArtillery().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(DiveBomber))
             {
-                shipModule.getDive_bomber().put(mt.getValue().getName(), mt.getValue());
+                shipModulesTreeNew.getDive_bomber().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(Engine))
             {
-                shipModule.getEngine().put(mt.getValue().getName(), mt.getValue());
+                shipModulesTreeNew.getEngine().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(Fighter))
             {
-                shipModule.getFighter().put(mt.getValue().getName(), mt.getValue());
+                shipModulesTreeNew.getFighter().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(FlightControl))
             {
-                shipModule.getFlight_control().put(mt.getValue().getName(), mt.getValue());
+                shipModulesTreeNew.getFlight_control().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(Hull))
             {
-                shipModule.getHull().put(mt.getValue().getName(), mt.getValue());
+                shipModulesTreeNew.getHull().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(Suo))
             {
-                shipModule.getFire_control().put(mt.getValue().getName(), mt.getValue());
+                shipModulesTreeNew.getFire_control().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(Torpedoes))
             {
-                shipModule.getTorpedoes().put(mt.getValue().getName(), mt.getValue());
+                shipModulesTreeNew.getTorpedoes().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(TorpedoBomber))
             {
-                shipModule.getTorpedo_bomber().put(mt.getValue().getName(), mt.getValue());
+                shipModulesTreeNew.getTorpedo_bomber().put(mt.getValue().getName(), mt.getValue());
             }            
             else
             {
@@ -100,6 +101,6 @@ public class Ship
             }
         });
 
-        shipModule.sort();
+        shipModulesTreeNew.sort();
     }
 }
