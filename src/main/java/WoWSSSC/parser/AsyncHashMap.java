@@ -2,12 +2,15 @@ package WoWSSSC.parser;
 
 import WoWSSSC.model.ship.Ship;
 import WoWSSSC.model.ship.ShipData;
+import WoWSSSC.model.upgrade.Upgrade;
+import WoWSSSC.model.upgrade.UpgradeData;
 import WoWSSSC.utils.Sorter;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.Future;
@@ -46,6 +49,10 @@ public class AsyncHashMap implements CommandLineRunner
     private LinkedHashMap<String, LinkedHashMap> USA = new LinkedHashMap<>();
     private LinkedHashMap<String, LinkedHashMap> USSR = new LinkedHashMap<>();
     private LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
+
+    private LinkedHashMap<String, Upgrade> upgrades = new LinkedHashMap<>();
+
+    private LinkedHashMap<String, LinkedHashMap> data = new LinkedHashMap<>();
 
     private Sorter sorter = new Sorter();
 
@@ -150,6 +157,12 @@ public class AsyncHashMap implements CommandLineRunner
         nations.put(uk, UK);
         nations.put(usa, USA);
         nations.put(ussr, USSR);
+
+        Future<UpgradeData> upgradeData = apiJsonParser.getUpgrades();
+        upgrades = upgradeData.get().getData();
+
+        data.put("nations", nations);
+        data.put("upgrades", upgrades);
     }
 
     private LinkedHashMap<String, LinkedHashMap> setPremium(LinkedHashMap<String, LinkedHashMap> nation)

@@ -21,8 +21,8 @@ public class ShipModulesTree
     private long price_xp;
     private long price_credit;
     private boolean is_default;
-    private List<Long> next_modules;
-    private List<Long> next_ships;
+    private List<Long> next_modules = new ArrayList<>();
+    private List<Long> next_ships = new ArrayList<>();
     private List<Long> prev_modules = new ArrayList<>();
 
     public boolean isIs_default()

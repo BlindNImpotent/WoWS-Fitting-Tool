@@ -15,9 +15,9 @@ public class APIService
    @Autowired
     private AsyncHashMap asyncHashMap;
 
-    public LinkedHashMap<String, LinkedHashMap> getShipNation()
+    public LinkedHashMap<String, LinkedHashMap> getData()
     {
-        return asyncHashMap.getNations();
+        return asyncHashMap.getData();
     }
 
 }
