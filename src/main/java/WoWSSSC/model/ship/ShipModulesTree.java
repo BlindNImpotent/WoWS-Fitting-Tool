@@ -1,4 +1,4 @@
-package WoWSSSC.model;
+package WoWSSSC.model.ship;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

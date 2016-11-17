@@ -1,14 +1,9 @@
-package WoWSSSC.model;
+package WoWSSSC.model.ship;
 
-import com.fasterxml.jackson.annotation.JacksonInject;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -29,11 +24,11 @@ public class Ship
     private long price_credit;
     private long mod_slots;
     private boolean is_premium;
-    private HashMap<String, String> images = new HashMap<>();
-    private HashMap<String, List<Long>> modules = new HashMap<>();
-    private HashMap<String, ShipModulesTree> modules_tree = new HashMap<>();
-    private HashMap<String, Long> next_ships = new HashMap<>();
-    private List upgrades;
+    private HashMap<String, String> images;
+    private HashMap<String, List<Long>> modules;
+    private HashMap<String, ShipModulesTree> modules_tree;
+    private HashMap<String, Long> next_ships;
+    private List<Long> upgrades;
 
     private ShipModule shipModule = new ShipModule();
     

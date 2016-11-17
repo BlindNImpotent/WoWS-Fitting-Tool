@@ -1,13 +1,11 @@
-package WoWSSSC.model;
+package WoWSSSC.model.ship;
 
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 /**
  * Created by Aesis on 2016-11-15.

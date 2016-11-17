@@ -1,4 +1,4 @@
-package WoWSSSC.model;
+package WoWSSSC.model.ship;
 
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by Qualson-Lee on 2016-11-15.
