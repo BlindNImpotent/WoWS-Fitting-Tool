@@ -14,6 +14,13 @@
 <header>
     <div id="dropDownList">
         <ul id="shipList">
+            <li th:each="nation : ${data.nations}">
+                <span th:text="${nation.key}" />
+                <ul>
+                    <li th:each="shipType : ${nation.key}">
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
 </header>
@@ -31,7 +38,7 @@
     var typesList = [];
 
     $().ready(function () {
-        makeMenu();
+//        makeMenu();
 
         $( function() {
             $( "#shipList" ).menu();

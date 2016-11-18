@@ -3,6 +3,7 @@ package WoWSSSC.controller;
 import WoWSSSC.service.APIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
@@ -24,19 +25,20 @@ public class APIController
     }
 
     @RequestMapping (value = "/", method = RequestMethod.GET)
-    public String test(
-            @RequestParam(required = false) String ship_id,
-            @RequestParam(required = false) String artillery_id,
-            @RequestParam(required = false) String dive_bomber_id,
-            @RequestParam(required = false) String engine_id,
-            @RequestParam(required = false) String fighter_id,
-            @RequestParam(required = false) String fire_control_id,
-            @RequestParam(required = false) String flight_control_id,
-            @RequestParam(required = false) String hull_id,
-            @RequestParam(required = false) String torpedo_bomber_id,
-            @RequestParam(required = false) String torpedoes_id
+    public String test(Model model,
+            @RequestParam(required = false, defaultValue = "") String ship_id,
+            @RequestParam(required = false, defaultValue = "") String artillery_id,
+            @RequestParam(required = false, defaultValue = "") String dive_bomber_id,
+            @RequestParam(required = false, defaultValue = "") String engine_id,
+            @RequestParam(required = false, defaultValue = "") String fighter_id,
+            @RequestParam(required = false, defaultValue = "") String fire_control_id,
+            @RequestParam(required = false, defaultValue = "") String flight_control_id,
+            @RequestParam(required = false, defaultValue = "") String hull_id,
+            @RequestParam(required = false, defaultValue = "") String torpedo_bomber_id,
+            @RequestParam(required = false, defaultValue = "") String torpedoes_id
             )
     {
+        model.addAttribute("data", apiService.getData());
         return "home";
     }
 }
