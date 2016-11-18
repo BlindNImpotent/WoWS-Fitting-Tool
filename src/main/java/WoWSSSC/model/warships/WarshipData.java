@@ -12,20 +12,20 @@ import java.util.*;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ShipData
+public class WarshipData
 {
     private String status;
-    private LinkedHashMap<String, Ship> data = new LinkedHashMap<>();
+    private LinkedHashMap<String, Warship> data = new LinkedHashMap<>();
 
     @JsonIgnore
     private Sorter sorter = new Sorter();
 
-    public void setData(HashMap<String, Ship> data)
+    public void setData(HashMap<String, Warship> data)
     {
-        for (Map.Entry<String, Ship> d : data.entrySet())
+        for (Map.Entry<String, Warship> d : data.entrySet())
         {
             String key = d.getValue().getName();
-            Ship value = d.getValue();
+            Warship value = d.getValue();
             this.data.put(key, value);
         }
         this.data = sorter.sortShips(this.data);

@@ -1,7 +1,7 @@
 package WoWSSSC.utils;
 
-import WoWSSSC.model.warships.Ship;
-import WoWSSSC.model.warships.ShipModulesTree;
+import WoWSSSC.model.warships.Warship;
+import WoWSSSC.model.warships.WarshipModulesTree;
 import WoWSSSC.model.upgrade.Upgrade;
 
 import java.util.*;
@@ -11,15 +11,15 @@ import java.util.*;
  */
 public class Sorter
 {
-    public LinkedHashMap<String, Ship> sortShips(LinkedHashMap<String, Ship> unsorted)
+    public LinkedHashMap<String, Warship> sortShips(LinkedHashMap<String, Warship> unsorted)
     {
-        LinkedHashMap<String, Ship> sorted = new LinkedHashMap<>();
+        LinkedHashMap<String, Warship> sorted = new LinkedHashMap<>();
 
-        List<Map.Entry<String, Ship>> list = new LinkedList<>(unsorted.entrySet());
+        List<Map.Entry<String, Warship>> list = new LinkedList<>(unsorted.entrySet());
 
-        Collections.sort(list, new Comparator<Map.Entry<String, Ship>>() {
+        Collections.sort(list, new Comparator<Map.Entry<String, Warship>>() {
             @Override
-            public int compare(Map.Entry<String, Ship> o1, Map.Entry<String, Ship> o2) {
+            public int compare(Map.Entry<String, Warship> o1, Map.Entry<String, Warship> o2) {
                 int tierDiff = (int) (o1.getValue().getTier() - o2.getValue().getTier());
 
                 if (tierDiff == 0)
@@ -30,7 +30,7 @@ public class Sorter
             }
         });
 
-        for (Map.Entry<String, Ship> entry : list)
+        for (Map.Entry<String, Warship> entry : list)
         {
             sorted.put(entry.getKey(), entry.getValue());
         }
@@ -38,15 +38,15 @@ public class Sorter
         return sorted;
     }
 
-    public LinkedHashMap<String, ShipModulesTree> sortShipModules(LinkedHashMap<String, ShipModulesTree> unsorted)
+    public LinkedHashMap<String, WarshipModulesTree> sortShipModules(LinkedHashMap<String, WarshipModulesTree> unsorted)
     {
-        LinkedHashMap<String, ShipModulesTree> sorted = new LinkedHashMap<>();
+        LinkedHashMap<String, WarshipModulesTree> sorted = new LinkedHashMap<>();
 
-        List<Map.Entry<String, ShipModulesTree>> list = new LinkedList<>(unsorted.entrySet());
+        List<Map.Entry<String, WarshipModulesTree>> list = new LinkedList<>(unsorted.entrySet());
 
-        Collections.sort(list, new Comparator<Map.Entry<String, ShipModulesTree>>() {
+        Collections.sort(list, new Comparator<Map.Entry<String, WarshipModulesTree>>() {
             @Override
-            public int compare(Map.Entry<String, ShipModulesTree> o1, Map.Entry<String, ShipModulesTree> o2) {
+            public int compare(Map.Entry<String, WarshipModulesTree> o1, Map.Entry<String, WarshipModulesTree> o2) {
                 if (o1.getValue().isIs_default() && !o2.getValue().isIs_default())
                 {
                     return -1;
@@ -62,7 +62,7 @@ public class Sorter
             }
         });
 
-        for (Map.Entry<String, ShipModulesTree> entry : list)
+        for (Map.Entry<String, WarshipModulesTree> entry : list)
         {
             sorted.put(entry.getKey(), entry.getValue());
         }

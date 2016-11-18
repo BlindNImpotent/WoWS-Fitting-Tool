@@ -11,7 +11,7 @@ import java.util.HashSet;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Ship
+public class Warship
 {
     private String nation;
     private String type;
@@ -24,13 +24,13 @@ public class Ship
     private long price_credit;
     private long mod_slots;
     private boolean is_premium;
-    private ShipImages images;
-    private ShipModules modules;
-    private HashMap<String, ShipModulesTree> modules_tree;
+    private WarshipImages images;
+    private WarshipModules modules;
+    private HashMap<String, WarshipModulesTree> modules_tree;
     private HashMap<String, Long> next_ships;
     private HashSet<Long> upgrades;
 
-    private ShipModulesTreeNew shipModulesTreeNew = new ShipModulesTreeNew();
+    private WarshipModulesTreeNew warshipModulesTreeNew = new WarshipModulesTreeNew();
     
     private static final String Artillery = "Artillery";
     private static final String DiveBomber = "DiveBomber";
@@ -47,7 +47,7 @@ public class Ship
         return is_premium;
     }
 
-    public void setModules_tree(HashMap<String, ShipModulesTree> modules_tree)
+    public void setModules_tree(HashMap<String, WarshipModulesTree> modules_tree)
     {
         this.modules_tree = modules_tree;
 
@@ -60,39 +60,39 @@ public class Ship
 
             if (mt.getValue().getType().equals(Artillery))
             {
-                shipModulesTreeNew.getArtillery().put(mt.getValue().getName(), mt.getValue());
+                warshipModulesTreeNew.getArtillery().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(DiveBomber))
             {
-                shipModulesTreeNew.getDive_bomber().put(mt.getValue().getName(), mt.getValue());
+                warshipModulesTreeNew.getDive_bomber().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(Engine))
             {
-                shipModulesTreeNew.getEngine().put(mt.getValue().getName(), mt.getValue());
+                warshipModulesTreeNew.getEngine().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(Fighter))
             {
-                shipModulesTreeNew.getFighter().put(mt.getValue().getName(), mt.getValue());
+                warshipModulesTreeNew.getFighter().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(FlightControl))
             {
-                shipModulesTreeNew.getFlight_control().put(mt.getValue().getName(), mt.getValue());
+                warshipModulesTreeNew.getFlight_control().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(Hull))
             {
-                shipModulesTreeNew.getHull().put(mt.getValue().getName(), mt.getValue());
+                warshipModulesTreeNew.getHull().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(Suo))
             {
-                shipModulesTreeNew.getFire_control().put(mt.getValue().getName(), mt.getValue());
+                warshipModulesTreeNew.getFire_control().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(Torpedoes))
             {
-                shipModulesTreeNew.getTorpedoes().put(mt.getValue().getName(), mt.getValue());
+                warshipModulesTreeNew.getTorpedoes().put(mt.getValue().getName(), mt.getValue());
             }
             else if (mt.getValue().getType().equals(TorpedoBomber))
             {
-                shipModulesTreeNew.getTorpedo_bomber().put(mt.getValue().getName(), mt.getValue());
+                warshipModulesTreeNew.getTorpedo_bomber().put(mt.getValue().getName(), mt.getValue());
             }            
             else
             {
@@ -100,6 +100,6 @@ public class Ship
             }
         });
 
-        shipModulesTreeNew.sort();
+        warshipModulesTreeNew.sort();
     }
 }

@@ -23,8 +23,8 @@
                             <ul>
                                 <li th:each="ship : ${shipType.value}">
                                     <!--<span th:text="${ship.key}"/>-->
-                                    <!--<span th:text="${ship.key}" th:onclick="'getShipData(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'" />-->
-                                    <a th:text="${ship.key}" th:href="@{?nation={nation}&amp;shipType={shipType}&amp;ship={ship}(nation=${nation.key}, shipType=${shipType.key}, ship=${ship.key})}" />
+                                    <span th:text="${ship.key}" th:onclick="'getShipData(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'" />
+                                    <!--<a th:text="${ship.key}" th:href="@{/?nation={nation}&amp;shipType={shipType}&amp;ship={ship}(nation=${nation.key}, shipType=${shipType.key}, ship=${ship.key})}" />-->
                                 </li>
                             </ul>
                         </li>
@@ -44,32 +44,32 @@
             <br />
             <div id="modulesUpgradesConsumables">
                 <div id="modules">
-                    <div th:if="not ${warship.shipModulesTreeNew.artillery.isEmpty()}" id="turretList">
-                        <li th:each="artillery : ${warship.shipModulesTreeNew.artillery}" th:id="${artillery.key}">
+                    <div th:if="not ${warship.warshipModulesTreeNew.artillery.isEmpty()}" id="turretList">
+                        <li th:each="artillery : ${warship.warshipModulesTreeNew.artillery}" th:id="${artillery.key}">
                             <button class="button_module" th:id="${artillery.value.module_id}">
                                 <img th:src="@{/images/Upgrades/icon_module_maingun.png}" /><br />
                                 <span th:text="${artillery.key}"/>
                             </button>
                         </li>
                     </div>
-                    <div th:if="not ${warship.shipModulesTreeNew.hull.isEmpty()}" id="hullList">
-                        <li th:each="hull : ${warship.shipModulesTreeNew.hull}" th:id="${hull.key}">
+                    <div th:if="not ${warship.warshipModulesTreeNew.hull.isEmpty()}" id="hullList">
+                        <li th:each="hull : ${warship.warshipModulesTreeNew.hull}" th:id="${hull.key}">
                             <button class="button_module" th:id="${hull.value.module_id}">
                                 <img th:src="@{/images/Upgrades/icon_module_hull.png}" /><br />
                                 <span th:text="${hull.key}"/>
                             </button>
                         </li>
                     </div>
-                    <div th:if="not ${warship.shipModulesTreeNew.engine.isEmpty()}" id="engineList">
-                        <li th:each="engine : ${warship.shipModulesTreeNew.engine}" th:id="${engine.key}">
+                    <div th:if="not ${warship.warshipModulesTreeNew.engine.isEmpty()}" id="engineList">
+                        <li th:each="engine : ${warship.warshipModulesTreeNew.engine}" th:id="${engine.key}">
                             <button class="button_module" th:id="${engine.value.module_id}">
                                 <img th:src="@{/images/Upgrades/icon_module_engine.png}" /><br />
                                 <span th:text="${engine.key}"/>
                             </button>
                         </li>
                     </div>
-                    <div th:if="not ${warship.shipModulesTreeNew.fire_control.isEmpty()}" id="radarList">
-                        <li th:each="fire_control : ${warship.shipModulesTreeNew.fire_control}" th:id="${fire_control.key}">
+                    <div th:if="not ${warship.warshipModulesTreeNew.fire_control.isEmpty()}" id="radarList">
+                        <li th:each="fire_control : ${warship.warshipModulesTreeNew.fire_control}" th:id="${fire_control.key}">
                             <button class="button_module" th:id="${fire_control.value.module_id}">
                                 <img th:src="@{/images/Upgrades/icon_module_radar.png}" /><br />
                                 <span th:text="${fire_control.key}"/>
@@ -82,17 +82,10 @@
     </div>
 </main>
 <script th:inline="javascript" th:src="@{/js/WoWSSSC/HashMap.js}"></script>
-<script th:inline="javascript" th:src="@{/js/WoWSSSC/Variables.js}"></script>
 <script th:inline="javascript">
 //    <![CDATA[
 
-    console.log([[${warship}]]);
-
-//    var shipNation = [[${shipNation}]];
-//    var shipListJSON = [[${shipListJSON}]];
-//    var nationsMap = new HashMap();
-//    var nationsList = [];
-//    var typesList = [];
+//    console.log([[${warship}]]);
 
     $().ready(function () {
         $( function() {
@@ -100,6 +93,16 @@
         });
     });
 
+    function getShipData(nation, shipType, ship)
+    {
+        $.ajax({
+            url: '/?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship,
+            type: "post",
+            success: function (obj) {
+                $('#ship').load(document.URL + ' #ship');
+            }
+        });
+    }
 
 
 //    ]]>

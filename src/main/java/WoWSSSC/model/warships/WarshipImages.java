@@ -6,7 +6,7 @@ import lombok.Data;
  * Created by Qualson-Lee on 2016-11-17.
  */
 @Data
-public class ShipImages
+public class WarshipImages
 {
     private String small;
     private String medium;

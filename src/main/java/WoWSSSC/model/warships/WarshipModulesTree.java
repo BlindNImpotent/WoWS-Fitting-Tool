@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ShipModulesTree
+public class WarshipModulesTree
 {
     private String type;
     private String name;

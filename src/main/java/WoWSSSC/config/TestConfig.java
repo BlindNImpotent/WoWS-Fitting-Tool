@@ -3,10 +3,12 @@ package WoWSSSC.config;
 import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.parser.AsyncHashMap;
 import org.json.simple.parser.ParseException;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 
@@ -18,9 +20,13 @@ import java.io.IOException;
 @EnableAsync
 public class TestConfig
 {
+    private String APP_ID;
+
+    private RestTemplate restTemplate;
+
     private APIJsonParser apiJsonParser = new APIJsonParser();
 
-    private AsyncHashMap asyncHashMap = new AsyncHashMap(apiJsonParser);
+    private AsyncHashMap asyncHashMap = new AsyncHashMap();
 
     private final static String france = "france";
     private final static String germany = "germany";
@@ -38,6 +44,20 @@ public class TestConfig
 
     private final static String[] nations = {france, germany, japan, pan_asia, poland, uk, usa, ussr};
     private final static String[] shipTypes = {AirCarrier, Battleship, Cruiser, Destroyer};
+
+    @Bean
+    public String app_id()
+    {
+        APP_ID = "137f0721e1b1baf30d6dcd1968fc260c";
+        return APP_ID;
+    }
+
+    @Bean
+    public RestTemplate restTemplate()
+    {
+        restTemplate = new RestTemplateBuilder().build();
+        return restTemplate;
+    }
 
     @Bean
     public APIJsonParser apiJsonParser()

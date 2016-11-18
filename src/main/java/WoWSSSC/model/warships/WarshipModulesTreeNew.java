@@ -12,17 +12,17 @@ import java.util.LinkedHashMap;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ShipModulesTreeNew
+public class WarshipModulesTreeNew
 {
-    private LinkedHashMap<String, ShipModulesTree> artillery = new LinkedHashMap<>();
-    private LinkedHashMap<String, ShipModulesTree> dive_bomber = new LinkedHashMap<>();
-    private LinkedHashMap<String, ShipModulesTree> engine = new LinkedHashMap<>();
-    private LinkedHashMap<String, ShipModulesTree> fighter = new LinkedHashMap<>();
-    private LinkedHashMap<String, ShipModulesTree> fire_control = new LinkedHashMap<>();
-    private LinkedHashMap<String, ShipModulesTree> flight_control = new LinkedHashMap<>();
-    private LinkedHashMap<String, ShipModulesTree> hull = new LinkedHashMap<>();
-    private LinkedHashMap<String, ShipModulesTree> torpedoes = new LinkedHashMap<>();
-    private LinkedHashMap<String, ShipModulesTree> torpedo_bomber = new LinkedHashMap<>();
+    private LinkedHashMap<String, WarshipModulesTree> artillery = new LinkedHashMap<>();
+    private LinkedHashMap<String, WarshipModulesTree> dive_bomber = new LinkedHashMap<>();
+    private LinkedHashMap<String, WarshipModulesTree> engine = new LinkedHashMap<>();
+    private LinkedHashMap<String, WarshipModulesTree> fighter = new LinkedHashMap<>();
+    private LinkedHashMap<String, WarshipModulesTree> fire_control = new LinkedHashMap<>();
+    private LinkedHashMap<String, WarshipModulesTree> flight_control = new LinkedHashMap<>();
+    private LinkedHashMap<String, WarshipModulesTree> hull = new LinkedHashMap<>();
+    private LinkedHashMap<String, WarshipModulesTree> torpedoes = new LinkedHashMap<>();
+    private LinkedHashMap<String, WarshipModulesTree> torpedo_bomber = new LinkedHashMap<>();
 
     @JsonIgnore
     private Sorter sorter = new Sorter();

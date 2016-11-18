@@ -1,7 +1,7 @@
 package WoWSSSC.parser;
 
-import WoWSSSC.model.warships.Ship;
-import WoWSSSC.model.warships.ShipData;
+import WoWSSSC.model.warships.Warship;
+import WoWSSSC.model.warships.WarshipData;
 import WoWSSSC.model.upgrade.Upgrade;
 import WoWSSSC.model.upgrade.UpgradeData;
 import WoWSSSC.utils.Sorter;
@@ -22,7 +22,7 @@ import java.util.concurrent.Future;
 public class AsyncHashMap implements CommandLineRunner
 {
     @Autowired
-    private final APIJsonParser apiJsonParser;
+    private APIJsonParser apiJsonParser;
 
     private final static String france = "france";
     private final static String germany = "germany";
@@ -55,49 +55,49 @@ public class AsyncHashMap implements CommandLineRunner
 
     private Sorter sorter = new Sorter();
 
-    public AsyncHashMap(APIJsonParser apiJsonParser)
-    {
-        this.apiJsonParser = apiJsonParser;
-    }
+//    public AsyncHashMap(APIJsonParser apiJsonParser)
+//    {
+//        this.apiJsonParser = apiJsonParser;
+//    }
 
     @Override
     public void run(String... strings) throws Exception
     {
-        Future<ShipData> franceAirCarrier = apiJsonParser.getNationShip(france, AirCarrier);
-        Future<ShipData> germanyAirCarrier = apiJsonParser.getNationShip(germany, AirCarrier);
-        Future<ShipData> japanAirCarrier = apiJsonParser.getNationShip(japan, AirCarrier);
-        Future<ShipData> pan_asiaAirCarrier = apiJsonParser.getNationShip(pan_asia, AirCarrier);
-        Future<ShipData> polandAirCarrier = apiJsonParser.getNationShip(poland, AirCarrier);
-        Future<ShipData> ukAirCarrier = apiJsonParser.getNationShip(uk, AirCarrier);
-        Future<ShipData> usaAirCarrier = apiJsonParser.getNationShip(usa, AirCarrier);
-        Future<ShipData> ussrAirCarrier = apiJsonParser.getNationShip(ussr, AirCarrier);
+        Future<WarshipData> franceAirCarrier = apiJsonParser.getNationShip(france, AirCarrier);
+        Future<WarshipData> germanyAirCarrier = apiJsonParser.getNationShip(germany, AirCarrier);
+        Future<WarshipData> japanAirCarrier = apiJsonParser.getNationShip(japan, AirCarrier);
+        Future<WarshipData> pan_asiaAirCarrier = apiJsonParser.getNationShip(pan_asia, AirCarrier);
+        Future<WarshipData> polandAirCarrier = apiJsonParser.getNationShip(poland, AirCarrier);
+        Future<WarshipData> ukAirCarrier = apiJsonParser.getNationShip(uk, AirCarrier);
+        Future<WarshipData> usaAirCarrier = apiJsonParser.getNationShip(usa, AirCarrier);
+        Future<WarshipData> ussrAirCarrier = apiJsonParser.getNationShip(ussr, AirCarrier);
 
-        Future<ShipData> franceBattleship = apiJsonParser.getNationShip(france, Battleship);
-        Future<ShipData> germanyBattleship = apiJsonParser.getNationShip(germany, Battleship);
-        Future<ShipData> japanBattleship = apiJsonParser.getNationShip(japan, Battleship);
-        Future<ShipData> pan_asiaBattleship = apiJsonParser.getNationShip(pan_asia, Battleship);
-        Future<ShipData> polandBattleship = apiJsonParser.getNationShip(poland, Battleship);
-        Future<ShipData> ukBattleship = apiJsonParser.getNationShip(uk, Battleship);
-        Future<ShipData> usaBattleship = apiJsonParser.getNationShip(usa, Battleship);
-        Future<ShipData> ussrBattleship = apiJsonParser.getNationShip(ussr, Battleship);
+        Future<WarshipData> franceBattleship = apiJsonParser.getNationShip(france, Battleship);
+        Future<WarshipData> germanyBattleship = apiJsonParser.getNationShip(germany, Battleship);
+        Future<WarshipData> japanBattleship = apiJsonParser.getNationShip(japan, Battleship);
+        Future<WarshipData> pan_asiaBattleship = apiJsonParser.getNationShip(pan_asia, Battleship);
+        Future<WarshipData> polandBattleship = apiJsonParser.getNationShip(poland, Battleship);
+        Future<WarshipData> ukBattleship = apiJsonParser.getNationShip(uk, Battleship);
+        Future<WarshipData> usaBattleship = apiJsonParser.getNationShip(usa, Battleship);
+        Future<WarshipData> ussrBattleship = apiJsonParser.getNationShip(ussr, Battleship);
 
-        Future<ShipData> franceCruiser = apiJsonParser.getNationShip(france, Cruiser);
-        Future<ShipData> germanyCruiser = apiJsonParser.getNationShip(germany, Cruiser);
-        Future<ShipData> japanCruiser = apiJsonParser.getNationShip(japan, Cruiser);
-        Future<ShipData> pan_asiaCruiser = apiJsonParser.getNationShip(pan_asia, Cruiser);
-        Future<ShipData> polandCruiser = apiJsonParser.getNationShip(poland, Cruiser);
-        Future<ShipData> ukCruiser = apiJsonParser.getNationShip(uk, Cruiser);
-        Future<ShipData> usaCruiser = apiJsonParser.getNationShip(usa, Cruiser);
-        Future<ShipData> ussrCruiser = apiJsonParser.getNationShip(ussr, Cruiser);
+        Future<WarshipData> franceCruiser = apiJsonParser.getNationShip(france, Cruiser);
+        Future<WarshipData> germanyCruiser = apiJsonParser.getNationShip(germany, Cruiser);
+        Future<WarshipData> japanCruiser = apiJsonParser.getNationShip(japan, Cruiser);
+        Future<WarshipData> pan_asiaCruiser = apiJsonParser.getNationShip(pan_asia, Cruiser);
+        Future<WarshipData> polandCruiser = apiJsonParser.getNationShip(poland, Cruiser);
+        Future<WarshipData> ukCruiser = apiJsonParser.getNationShip(uk, Cruiser);
+        Future<WarshipData> usaCruiser = apiJsonParser.getNationShip(usa, Cruiser);
+        Future<WarshipData> ussrCruiser = apiJsonParser.getNationShip(ussr, Cruiser);
 
-        Future<ShipData> franceDestroyer = apiJsonParser.getNationShip(france, Destroyer);
-        Future<ShipData> germanyDestroyer = apiJsonParser.getNationShip(germany, Destroyer);
-        Future<ShipData> japanDestroyer = apiJsonParser.getNationShip(japan, Destroyer);
-        Future<ShipData> pan_asiaDestroyer = apiJsonParser.getNationShip(pan_asia, Destroyer);
-        Future<ShipData> polandDestroyer = apiJsonParser.getNationShip(poland, Destroyer);
-        Future<ShipData> ukDestroyer = apiJsonParser.getNationShip(uk, Destroyer);
-        Future<ShipData> usaDestroyer = apiJsonParser.getNationShip(usa, Destroyer);
-        Future<ShipData> ussrDestroyer = apiJsonParser.getNationShip(ussr, Destroyer);
+        Future<WarshipData> franceDestroyer = apiJsonParser.getNationShip(france, Destroyer);
+        Future<WarshipData> germanyDestroyer = apiJsonParser.getNationShip(germany, Destroyer);
+        Future<WarshipData> japanDestroyer = apiJsonParser.getNationShip(japan, Destroyer);
+        Future<WarshipData> pan_asiaDestroyer = apiJsonParser.getNationShip(pan_asia, Destroyer);
+        Future<WarshipData> polandDestroyer = apiJsonParser.getNationShip(poland, Destroyer);
+        Future<WarshipData> ukDestroyer = apiJsonParser.getNationShip(uk, Destroyer);
+        Future<WarshipData> usaDestroyer = apiJsonParser.getNationShip(usa, Destroyer);
+        Future<WarshipData> ussrDestroyer = apiJsonParser.getNationShip(ussr, Destroyer);
 
         Future<UpgradeData> upgradeData = apiJsonParser.getUpgrades();
 
@@ -168,15 +168,15 @@ public class AsyncHashMap implements CommandLineRunner
     private LinkedHashMap<String, LinkedHashMap> setPremium(LinkedHashMap<String, LinkedHashMap> nation)
     {
         LinkedHashMap<String, LinkedHashMap> tempNation = new LinkedHashMap<>();
-        LinkedHashMap<String, Ship> tempPremium = new LinkedHashMap<>();
+        LinkedHashMap<String, Warship> tempPremium = new LinkedHashMap<>();
 
         nation.entrySet().forEach(shipType ->
         {
-            LinkedHashMap<String, Ship> tempShips = new LinkedHashMap<>();
+            LinkedHashMap<String, Warship> tempShips = new LinkedHashMap<>();
 
             shipType.getValue().entrySet().forEach(ship ->
             {
-                Map.Entry<String, Ship> temp = (Map.Entry<String, Ship>) ship;
+                Map.Entry<String, Warship> temp = (Map.Entry<String, Warship>) ship;
                 if (temp.getValue().isIs_premium())
                 {
                     tempPremium.put(temp.getKey(), temp.getValue());
@@ -188,7 +188,7 @@ public class AsyncHashMap implements CommandLineRunner
             });
             tempNation.put(shipType.getKey(), tempShips);
         });
-        LinkedHashMap<String, Ship> tempSortedPremium = sorter.sortShips(tempPremium);
+        LinkedHashMap<String, Warship> tempSortedPremium = sorter.sortShips(tempPremium);
         tempNation.put(Premium, tempSortedPremium);
         return tempNation;
     }

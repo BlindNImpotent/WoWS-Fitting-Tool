@@ -8,7 +8,7 @@ import java.util.HashSet;
  * Created by Qualson-Lee on 2016-11-17.
  */
 @Data
-public class ShipModules
+public class WarshipModules
 {
     private HashSet<Long> artillery;
     private HashSet<Long> dive_bomber;
