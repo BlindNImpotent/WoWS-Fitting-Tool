@@ -3,10 +3,10 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
     <script th:src="@{/js/jquery/jquery-1.12.4.js}"></script>
-    <script th:src="@{/js/jquery/jquery-ui.js}"></script>
+    <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
     <script th:src="@{/js/accounting/accounting.js}"></script>
     <title>WoWS Fitting Tool by Aesis</title>
 </head>
@@ -22,8 +22,8 @@
                             <span th:text="${shipType.key}" />
                             <ul>
                                 <li th:each="ship : ${shipType.value}">
-                                    <a th:text="${ship.key}" th:href="@{?nation={nation}&amp;shipType={shipType}&amp;ship={ship}(nation=${nation.key}, shipType=${shipType.key}, ship=${ship.key})}"/>
-                                    <!--<span th:text="${ship.key}" th:onclick="'getWarshipData(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'" />-->
+                                    <span th:text="${ship.key}" th:onclick="'test(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'"/>
+                                    <!--<a th:text="${ship.key}" th:href="@{?nation={nation}&amp;shipType={shipType}&amp;ship={ship}(nation=${nation.key}, shipType=${shipType.key}, ship=${ship.key})}"/>-->
                                 </li>
                             </ul>
                         </li>
@@ -35,7 +35,7 @@
 </header>
 <main>
     <div class="container">
-        <div id="ship" th:unless="${warship == null}">
+        <div id="ship" th:unless="${warship == null}" th:name="${warship.ship_id}">
             <div id="name">
                 <h1 th:text="${warship.name}"/>
                 <img th:src="${warship.images.medium}"/>
@@ -44,34 +44,42 @@
             <div id="modulesUpgradesConsumables">
                 <div id="modules">
                     <div th:if="not ${warship.warshipModulesTreeNew.artillery.isEmpty()}" id="turretList">
-                        <li th:each="artillery : ${warship.warshipModulesTreeNew.artillery}" th:id="${artillery.key}">
-                            <button class="button_module" th:id="${artillery.value.module_id}">
+                        <li th:each="artillery : ${warship.warshipModulesTreeNew.artillery}" th:id="'li_' + ${artillery.value.module_id}">
+                            <button class="button_module" th:id="${artillery.value.module_id}" name="artillery_id">
                                 <img th:src="@{/images/Upgrades/icon_module_maingun.png}" /><br />
                                 <span th:text="${artillery.key}"/>
                             </button>
                         </li>
                     </div>
                     <div th:if="not ${warship.warshipModulesTreeNew.hull.isEmpty()}" id="hullList">
-                        <li th:each="hull : ${warship.warshipModulesTreeNew.hull}" th:id="${hull.key}">
-                            <button class="button_module" th:id="${hull.value.module_id}">
+                        <li th:each="hull : ${warship.warshipModulesTreeNew.hull}" th:id="'li_' + ${hull.value.module_id}">
+                            <button class="button_module" th:id="${hull.value.module_id}" name="hull_id">
                                 <img th:src="@{/images/Upgrades/icon_module_hull.png}" /><br />
                                 <span th:text="${hull.key}"/>
                             </button>
                         </li>
                     </div>
                     <div th:if="not ${warship.warshipModulesTreeNew.engine.isEmpty()}" id="engineList">
-                        <li th:each="engine : ${warship.warshipModulesTreeNew.engine}" th:id="${engine.key}">
-                            <button class="button_module" th:id="${engine.value.module_id}">
+                        <li th:each="engine : ${warship.warshipModulesTreeNew.engine}" th:id="'li_' + ${engine.value.module_id}">
+                            <button class="button_module" th:id="${engine.value.module_id}" name="engine_id">
                                 <img th:src="@{/images/Upgrades/icon_module_engine.png}" /><br />
                                 <span th:text="${engine.key}"/>
                             </button>
                         </li>
                     </div>
                     <div th:if="not ${warship.warshipModulesTreeNew.fire_control.isEmpty()}" id="radarList">
-                        <li th:each="fire_control : ${warship.warshipModulesTreeNew.fire_control}" th:id="${fire_control.key}">
-                            <button class="button_module" th:id="${fire_control.value.module_id}">
+                        <li th:each="fire_control : ${warship.warshipModulesTreeNew.fire_control}" th:id="'li_' + ${fire_control.value.module_id}">
+                            <button class="button_module" th:id="${fire_control.value.module_id}" name="fire_control_id">
                                 <img th:src="@{/images/Upgrades/icon_module_radar.png}" /><br />
                                 <span th:text="${fire_control.key}"/>
+                            </button>
+                        </li>
+                    </div>
+                    <div th:if="not ${warship.warshipModulesTreeNew.torpedoes.isEmpty()}" id="torpedoList">
+                        <li th:each="torpedoes : ${warship.warshipModulesTreeNew.torpedoes}" th:id="'li_' + ${torpedoes.value.module_id}">
+                            <button class="button_module" th:id="${torpedoes.value.module_id}" name="torpedoes_id">
+                                <img th:src="@{/images/Upgrades/icon_module_torpedoes.png}" /><br />
+                                <span th:text="${torpedoes.key}"/>
                             </button>
                         </li>
                     </div>
@@ -90,6 +98,7 @@
         });
 
         setDefaultModules();
+        callAPI();
     });
 
     function setDefaultModules()
@@ -99,15 +108,53 @@
         {
             var listId = modules[i].getAttribute('id');
             var type = $('#' + listId).children();
-            var moduleId = type[0].getAttribute('id');
-
-            document.getElementById(moduleId).className = 'button_module_selected'
-
+            var moduleId = type[0].getAttribute('id').replace('li_', '');
+            document.getElementById(moduleId).className = 'button_module_selected';
         }
+    }
 
+    $(document).on('click', '.button_module', function(){
+        var clickedId = $(this).attr('id');
+        var gParentElem = $(this).parent().parent();
+        var parents = gParentElem.children();
 
+        for (var i = 0; i < parents.length; i++)
+        {
+            var buttonId = parents[i].getAttribute('id').replace('li_', '');
+            document.getElementById(buttonId).className = 'button_module';
+        }
+        document.getElementById(clickedId).className = 'button_module_selected';
 
+        callAPI();
+    });
 
+    function callAPI()
+    {
+        if ($('#ship').attr('name') != null)
+        {
+            var url = '/shipAPI?ship_id=' + $('#ship').attr('name');
+            var selected = $('.button_module_selected');
+            for (var i = 0; i < selected.length; i++)
+            {
+                var type = selected[i].getAttribute('name');
+                var moduleId = selected[i].getAttribute('id');
+                var modifier = '&';
+                var equals = '=';
+                url = url + modifier + type + equals + moduleId;
+            }
+            console.log(url);
+
+            $.ajax({
+                url: url,
+                type: 'post'
+            });
+        }
+    }
+
+    function test(nation, shipType, ship)
+    {
+        var url = '/?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship
+        location.replace(url);
     }
 
 //    ]]>

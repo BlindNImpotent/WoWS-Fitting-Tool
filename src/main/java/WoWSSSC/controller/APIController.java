@@ -26,18 +26,28 @@ public class APIController
         return apiService.getData();
     }
 
+//    @RequestMapping (value = "/", method = RequestMethod.GET)
+//    public String home(
+//            Model model,
+//            @RequestParam(required = false, defaultValue = "") String nation,
+//            @RequestParam(required = false, defaultValue = "") String shipType,
+//            @RequestParam(required = false, defaultValue = "") String ship
+//    )
+//    {
+//        model.addAttribute("data", apiService.getData());
+//        model.addAttribute("warship", apiService.getWarship(nation, shipType, ship));
+//        return "home";
+//    }
+
     @RequestMapping (value = "/", method = RequestMethod.GET)
-    public String home(
-            Model model,
-            @RequestParam(required = false, defaultValue = "") String nation,
-            @RequestParam(required = false, defaultValue = "") String shipType,
-            @RequestParam(required = false, defaultValue = "") String ship
-    )
+    public String home(Model model)
     {
         model.addAttribute("data", apiService.getData());
-        model.addAttribute("warship", apiService.getWarship(nation, shipType, ship));
+
+
         return "home";
     }
+
 
     @ResponseBody
     @RequestMapping (value = "/shipAPI", method = RequestMethod.POST)
