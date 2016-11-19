@@ -22,9 +22,8 @@
                             <span th:text="${shipType.key}" />
                             <ul>
                                 <li th:each="ship : ${shipType.value}">
-                                    <!--<span th:text="${ship.key}"/>-->
-                                    <span th:text="${ship.key}" th:onclick="'getShipData(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'" />
-                                    <!--<a th:text="${ship.key}" th:href="@{/?nation={nation}&amp;shipType={shipType}&amp;ship={ship}(nation=${nation.key}, shipType=${shipType.key}, ship=${ship.key})}" />-->
+                                    <a th:text="${ship.key}" th:href="@{?nation={nation}&amp;shipType={shipType}&amp;ship={ship}(nation=${nation.key}, shipType=${shipType.key}, ship=${ship.key})}"/>
+                                    <!--<span th:text="${ship.key}" th:onclick="'getWarshipData(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'" />-->
                                 </li>
                             </ul>
                         </li>
@@ -36,7 +35,7 @@
 </header>
 <main>
     <div class="container">
-        <div th:if="${warship != null}" id="ship">
+        <div id="ship" th:unless="${warship == null}">
             <div id="name">
                 <h1 th:text="${warship.name}"/>
                 <img th:src="${warship.images.medium}"/>
@@ -85,25 +84,31 @@
 <script th:inline="javascript">
 //    <![CDATA[
 
-//    console.log([[${warship}]]);
-
     $().ready(function () {
         $( function() {
             $( "#shipList" ).menu();
         });
+
+        setDefaultModules();
     });
 
-    function getShipData(nation, shipType, ship)
+    function setDefaultModules()
     {
-        $.ajax({
-            url: '/?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship,
-            type: "post",
-            success: function (obj) {
-                $('#ship').load(document.URL + ' #ship');
-            }
-        });
-    }
+        var modules = $('#modules').children();
+        for (var i = 0; i < modules.length; i++)
+        {
+            var listId = modules[i].getAttribute('id');
+            var type = $('#' + listId).children();
+            var moduleId = type[0].getAttribute('id');
 
+            document.getElementById(moduleId).className = 'button_module_selected'
+
+        }
+
+
+
+
+    }
 
 //    ]]>
 </script>
