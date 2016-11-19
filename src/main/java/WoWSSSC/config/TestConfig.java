@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 
 /**
  * Created by Aesis on 2016-10-15.
@@ -69,6 +70,12 @@ public class TestConfig
     public AsyncHashMap asyncHashMap() throws Exception
     {
         return asyncHashMap;
+    }
+
+    @Bean
+    public LinkedHashMap<String, LinkedHashMap> data()
+    {
+        return asyncHashMap.getData();
     }
 
 }

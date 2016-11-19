@@ -19,31 +19,12 @@ import java.util.*;
 public class APIService
 {
     @Autowired
-    private AsyncHashMap asyncHashMap;
-
-    @Autowired
     private String APP_ID;
 
     @Autowired
     private RestTemplate restTemplate;
 
     private static final Logger logger = LoggerFactory.getLogger(APIService.class);
-
-    public LinkedHashMap<String, LinkedHashMap> getData()
-    {
-        return asyncHashMap.getData();
-    }
-
-    public Warship getWarship(String nation, String shipType, String ship)
-    {
-        if (!nation.equals("") && !shipType.equals("") && !ship.equals(""))
-        {
-            LinkedHashMap<String, LinkedHashMap> shipTypes = (LinkedHashMap<String, LinkedHashMap>) asyncHashMap.getData().get("nations").get(nation);
-            LinkedHashMap<String, Warship> warships = shipTypes.get(shipType);
-            return warships.get(ship);
-        }
-        return null;
-    }
 
     public Ship getShipAPI(
             String ship_id,
@@ -64,7 +45,11 @@ public class APIService
                     + "&fighter_id=" + fighter_id + "&fire_control_id=" + fire_control_id + "&flight_control_id=" + flight_control_id + "&hull_id=" + hull_id + "&torpedo_bomber_id=" + torpedo_bomber_id + "&torpedoes_id=" + torpedoes_id;
             logger.info(url);
             ShipData shipData = restTemplate.getForObject(url, ShipData.class);
-            return shipData.getData().get(ship_id);
+
+            if (shipData.getStatus().equals("ok"))
+            {
+                return shipData.getData().get(ship_id);
+            }
         }
         return null;
     }

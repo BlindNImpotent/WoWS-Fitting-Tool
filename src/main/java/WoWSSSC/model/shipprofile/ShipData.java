@@ -10,5 +10,6 @@ import java.util.HashMap;
 @Data
 public class ShipData
 {
+    private String status;
     private HashMap<String, Ship> data = new HashMap<>();
 }

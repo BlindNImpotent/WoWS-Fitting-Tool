@@ -22,7 +22,7 @@
                             <span th:text="${shipType.key}" />
                             <ul>
                                 <li th:each="ship : ${shipType.value}">
-                                    <span th:text="${ship.key}" th:onclick="'test(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'"/>
+                                    <span th:text="${ship.key}" th:onclick="'replace(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'"/>
                                     <!--<a th:text="${ship.key}" th:href="@{?nation={nation}&amp;shipType={shipType}&amp;ship={ship}(nation=${nation.key}, shipType=${shipType.key}, ship=${ship.key})}"/>-->
                                 </li>
                             </ul>
@@ -84,11 +84,26 @@
                         </li>
                     </div>
                 </div>
+                <div id="upgradesList">
+
+                </div>
+                <div id="skills">
+
+                </div>
+            </div>
+            <div id="skillsList">
+
+            </div>
+            <div id="CamouflagesFlags">
+
+            </div>
+            <br />
+            <div th:replace="shipAPI :: shipAPIStats" th:unless="${shipAPI == null}" id="stats">
+
             </div>
         </div>
     </div>
 </main>
-<script th:inline="javascript" th:src="@{/js/WoWSSSC/HashMap.js}"></script>
 <script th:inline="javascript">
 //    <![CDATA[
 
@@ -142,18 +157,17 @@
                 var equals = '=';
                 url = url + modifier + type + equals + moduleId;
             }
-            console.log(url);
 
             $.ajax({
                 url: url,
-                type: 'post'
+                type: 'get'
             });
         }
     }
 
-    function test(nation, shipType, ship)
+    function replace(nation, shipType, ship)
     {
-        var url = '/?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship
+        var url = '?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship;
         location.replace(url);
     }
 
