@@ -23,9 +23,31 @@ public class WarshipModulesTree
     private List<Long> next_modules = new ArrayList<>();
     private List<Long> next_ships = new ArrayList<>();
     private List<Long> prev_modules = new ArrayList<>();
+    private String next_module_class = "";
+    private String prev_module_class = "";
 
     public boolean isIs_default()
     {
         return is_default;
+    }
+
+    public void setNext_modules(List<Long> next_modules_list)
+    {
+        next_modules = next_modules_list;
+
+        if (next_modules != null)
+        {
+            for (long i : next_modules)
+            {
+                next_module_class = next_module_class + "next_module_" + String.valueOf(i) + " ";
+            }
+            next_module_class = next_module_class.trim();
+        }
+    }
+
+    public void setPrev_module_class(String prev_module)
+    {
+        prev_module_class = prev_module;
+        prev_module_class = prev_module_class.trim();
     }
 }

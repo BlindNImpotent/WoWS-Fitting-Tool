@@ -123,63 +123,63 @@ table
     vertical-align: text-top;
 }
 
-#flightControlList
+#FlightControl
 {
     display: inline-block;
     vertical-align: text-top;
     
     margin-bottom: 3px;
 }
-#turretList
+#Artillery
 {
     display: inline-block;
     vertical-align: text-top;
     
     margin-bottom: 3px;
 }
-#hullList
+#Hull
 {
     display: inline-block;
     vertical-align: text-top;
     
     margin-bottom: 3px;
 }
-#engineList
+#Engine
 {
     display: inline-block;
     vertical-align: text-top;
     
     margin-bottom: 3px;
 }
-#fighterList
+#Fighter
 {
     display: inline-block;
     vertical-align: text-top;
     
     margin-bottom: 3px;
 }
-#torpedoBomberList
+#TorpedoBomber
 {
     display: inline-block;
     vertical-align: text-top;
     
     margin-bottom: 3px;
 }
-#diveBomberList
+#DiveBomber
 {
     display: inline-block;
     vertical-align: text-top;
     
     margin-bottom: 3px;
 }
-#radarList
+#Suo
 {
     display: inline-block;
     vertical-align: text-top;
     
     margin-bottom: 3px;
 }
-#torpedoList
+#Torpedoes
 {
     display: inline-block;
     vertical-align: text-top;

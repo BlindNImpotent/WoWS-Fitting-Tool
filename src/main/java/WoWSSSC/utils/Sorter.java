@@ -90,4 +90,60 @@ public class Sorter
 
         return sorted;
     }
+
+    public LinkedHashMap<String, LinkedHashMap> sortWarshipModulesTreeNew(LinkedHashMap<String, LinkedHashMap> unsorted)
+    {
+        LinkedHashMap<String, LinkedHashMap> sorted = new LinkedHashMap<>();
+
+        List<Map.Entry<String, LinkedHashMap>> list = new LinkedList<>(unsorted.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<String, LinkedHashMap>>() {
+            @Override
+            public int compare(Map.Entry<String, LinkedHashMap> o1, Map.Entry<String, LinkedHashMap> o2) {
+                if (o1.getKey().equals("Hull"))
+                {
+                    if (o2.getKey().equals("Artillery") || o2.getKey().equals("FlightControl"))
+                    {
+                        return 1;
+                    }
+                    return -1;
+                }
+                else if (o2.getKey().equals("Hull"))
+                {
+                    if (o1.getKey().equals("Artillery") || o1.getKey().equals("FlightControl"))
+                    {
+                        return -1;
+                    }
+                    return 1;
+                }
+                else if (o1.getKey().equals("Engine"))
+                {
+                    if (o2.getKey().equals("Suo") || o2.getKey().equals("Torpedoes"))
+                    {
+                        return -1;
+                    }
+                    return 1;
+                }
+                else if (o2.getKey().equals("Engine"))
+                {
+                    if (o1.getKey().equals("Suo") || o1.getKey().equals("Torpedoes"))
+                    {
+                        return 1;
+                    }
+                    return -1;
+                }
+                else
+                {
+                    return o1.getKey().compareTo(o2.getKey());
+                }
+            }
+        });
+
+        for (Map.Entry<String, LinkedHashMap> entry:list)
+        {
+            sorted.put(entry.getKey(), entry.getValue());
+        }
+
+        return sorted;
+    }
 }

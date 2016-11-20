@@ -4,6 +4,7 @@ import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 

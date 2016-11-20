@@ -2,6 +2,7 @@ package WoWSSSC.config;
 
 import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.parser.AsyncHashMap;
+import WoWSSSC.utils.Sorter;
 import org.json.simple.parser.ParseException;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

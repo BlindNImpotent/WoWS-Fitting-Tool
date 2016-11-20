@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.Future;
@@ -23,6 +24,8 @@ public class AsyncHashMap implements CommandLineRunner
 {
     @Autowired
     private APIJsonParser apiJsonParser;
+
+    private Sorter sorter = new Sorter();
 
     private final static String france = "france";
     private final static String germany = "germany";
@@ -52,8 +55,6 @@ public class AsyncHashMap implements CommandLineRunner
     private LinkedHashMap<String, LinkedHashMap> upgrades = new LinkedHashMap<>();
 
     private LinkedHashMap<String, LinkedHashMap> data = new LinkedHashMap<>();
-
-    private Sorter sorter = new Sorter();
 
 //    public AsyncHashMap(APIJsonParser apiJsonParser)
 //    {
@@ -159,10 +160,11 @@ public class AsyncHashMap implements CommandLineRunner
         nations.put(usa, USA);
         nations.put(ussr, USSR);
 
-        upgrades = setUpgrades(upgradeData.get().getData());
+        setUpgradesPerShip(nations, upgradeData.get().getData());
+//        upgrades = setUpgrades(upgradeData.get().getData());
 
         data.put("nations", nations);
-        data.put("upgrades", upgrades);
+        data.put("upgrades", upgradeData.get().getData());
     }
 
     private LinkedHashMap<String, LinkedHashMap> setPremium(LinkedHashMap<String, LinkedHashMap> nation)
@@ -253,5 +255,19 @@ public class AsyncHashMap implements CommandLineRunner
         tempUpgrades.put("all", sortedUpgrades);
 
         return tempUpgrades;
+    }
+
+    private void setUpgradesPerShip(LinkedHashMap<String, LinkedHashMap> nations, LinkedHashMap<String, Upgrade> upgrades)
+    {
+        nations.entrySet().forEach(nation -> nation.getValue().entrySet().forEach(shipType -> ((Map.Entry<String, LinkedHashMap>) shipType).getValue().entrySet().forEach(ship ->
+        {
+            LinkedHashMap<String, Upgrade> tempUpgrades = new LinkedHashMap<>();
+            ((Map.Entry<String, Warship>) ship).getValue().getUpgrades().forEach(upgrade_id ->
+            {
+                Upgrade tempUpgrade = upgrades.get(String.valueOf(upgrade_id));
+                tempUpgrades.put(tempUpgrade.getName(), tempUpgrade);
+            });
+            ((Map.Entry<String, Warship>) ship).getValue().setUpgradesNew(tempUpgrades);
+        })));
     }
 }

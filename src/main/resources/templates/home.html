@@ -43,43 +43,11 @@
             <br />
             <div id="modulesUpgradesConsumables">
                 <div id="modules">
-                    <div th:if="not ${warship.warshipModulesTreeNew.artillery.isEmpty()}" id="turretList">
-                        <li th:each="artillery : ${warship.warshipModulesTreeNew.artillery}" th:id="'li_' + ${artillery.value.module_id}">
-                            <button class="button_module" th:id="${artillery.value.module_id}" name="artillery_id">
-                                <img th:src="@{/images/Upgrades/icon_module_maingun.png}" /><br />
-                                <span th:text="${artillery.key}"/>
-                            </button>
-                        </li>
-                    </div>
-                    <div th:if="not ${warship.warshipModulesTreeNew.hull.isEmpty()}" id="hullList">
-                        <li th:each="hull : ${warship.warshipModulesTreeNew.hull}" th:id="'li_' + ${hull.value.module_id}">
-                            <button class="button_module" th:id="${hull.value.module_id}" name="hull_id">
-                                <img th:src="@{/images/Upgrades/icon_module_hull.png}" /><br />
-                                <span th:text="${hull.key}"/>
-                            </button>
-                        </li>
-                    </div>
-                    <div th:if="not ${warship.warshipModulesTreeNew.engine.isEmpty()}" id="engineList">
-                        <li th:each="engine : ${warship.warshipModulesTreeNew.engine}" th:id="'li_' + ${engine.value.module_id}">
-                            <button class="button_module" th:id="${engine.value.module_id}" name="engine_id">
-                                <img th:src="@{/images/Upgrades/icon_module_engine.png}" /><br />
-                                <span th:text="${engine.key}"/>
-                            </button>
-                        </li>
-                    </div>
-                    <div th:if="not ${warship.warshipModulesTreeNew.fire_control.isEmpty()}" id="radarList">
-                        <li th:each="fire_control : ${warship.warshipModulesTreeNew.fire_control}" th:id="'li_' + ${fire_control.value.module_id}">
-                            <button class="button_module" th:id="${fire_control.value.module_id}" name="fire_control_id">
-                                <img th:src="@{/images/Upgrades/icon_module_radar.png}" /><br />
-                                <span th:text="${fire_control.key}"/>
-                            </button>
-                        </li>
-                    </div>
-                    <div th:if="not ${warship.warshipModulesTreeNew.torpedoes.isEmpty()}" id="torpedoList">
-                        <li th:each="torpedoes : ${warship.warshipModulesTreeNew.torpedoes}" th:id="'li_' + ${torpedoes.value.module_id}">
-                            <button class="button_module" th:id="${torpedoes.value.module_id}" name="torpedoes_id">
-                                <img th:src="@{/images/Upgrades/icon_module_torpedoes.png}" /><br />
-                                <span th:text="${torpedoes.key}"/>
+                    <div th:each="moduleType : ${warship.warshipModulesTreeNew}" th:id="${moduleType.key}">
+                        <li th:each="module : ${moduleType.value}" th:id="'li_' + ${module.value.module_id}">
+                            <button th:class="${module.value.is_default} ? button_module_selected : button_module" th:id="${module.value.module_id}">
+                                <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(moduleType.key)} + '.png'}"/><br />
+                                <span th:text="${module.value.name}"/>
                             </button>
                         </li>
                     </div>
@@ -112,20 +80,13 @@
             $( "#shipList" ).menu();
         });
 
-        setDefaultModules();
+        createLines();
         callAPI();
     });
 
-    function setDefaultModules()
+    function createLines()
     {
-        var modules = $('#modules').children();
-        for (var i = 0; i < modules.length; i++)
-        {
-            var listId = modules[i].getAttribute('id');
-            var type = $('#' + listId).children();
-            var moduleId = type[0].getAttribute('id').replace('li_', '');
-            document.getElementById(moduleId).className = 'button_module_selected';
-        }
+
     }
 
     $(document).on('click', '.button_module', function(){

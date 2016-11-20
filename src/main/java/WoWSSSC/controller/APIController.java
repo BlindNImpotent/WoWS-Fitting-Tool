@@ -24,6 +24,13 @@ public class APIController
 
     private HashMap<String, Ship> shipAPIs = new HashMap<>();
 
+    @ResponseBody
+    @RequestMapping (value = "/data", method = RequestMethod.GET)
+    public LinkedHashMap<String, LinkedHashMap> getData()
+    {
+        return data;
+    }
+
     @RequestMapping (value = "/", method = RequestMethod.GET)
     public String home
             (
@@ -63,7 +70,12 @@ public class APIController
 
         if (!shipAPIs.containsKey(key))
         {
-            shipAPIs.put(key, apiService.getShipAPI(ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id));
+            Ship ship = apiService.getShipAPI(ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id);
+
+            if (ship != null)
+            {
+                shipAPIs.put(key, ship);
+            }
         }
 
         model.addAttribute("shipAPI", shipAPIs.get(key));
