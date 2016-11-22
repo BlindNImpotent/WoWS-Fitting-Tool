@@ -22,9 +22,8 @@
                             <span th:text="${shipType.key}" />
                             <ul>
                                 <li th:each="ship : ${shipType.value}">
-                                    <!--<span th:text="${ship.key}"/>-->
                                     <span th:text="${ship.key}" th:onclick="'fragments(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'"/>
-                                    <!--<a th:text="${ship.key}" th:href="@{shipAPI?nation={nation}&amp;shipType={shipType}&amp;ship={ship}(nation=${nation.key}, shipType=${shipType.key}, ship=${ship.key})}"/>-->
+                                    <!--<a th:text="${ship.key}" th:href="@{warship?nation={nation}&amp;shipType={shipType}&amp;ship={ship}(nation=${nation.key}, shipType=${shipType.key}, ship=${ship.key})}"/>-->
                                 </li>
                             </ul>
                         </li>
@@ -44,13 +43,11 @@
 </main>
 <script th:inline="javascript">
 //    <![CDATA[
+
     $().ready(function () {
         $( function() {
             $('#shipList').menu();
         });
-
-//        createLines();
-//        callAPI();
     });
 
     $(document).on('click', '.button_module', function(){
@@ -83,7 +80,13 @@
                 url = url + modifier + type + equals + moduleId;
             }
 
-            $('.shipAPIData').load(url);
+            $.ajax({
+                url: url,
+                type: 'get',
+                success: function (data) {
+                    $('.shipAPIData').replaceWith(data);
+                }
+            });
         }
     }
 
@@ -95,21 +98,15 @@
 
         var url = '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship;
 
-
         $.ajax({
             url: url,
             type: 'get',
-            async: false,
+//            async: false,
             success: function (data) {
                 $('.warshipData').replaceWith(data);
                 callAPI();
             }
         });
-
-
-//        $('.warshipData').load(url);
-
-//        callAPI();
     }
 
 //    ]]>

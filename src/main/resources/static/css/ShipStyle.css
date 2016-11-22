@@ -692,3 +692,17 @@ table
 {
     text-align: center;
 }
+
+#anti_aircraft
+{
+    display: inline-block;
+    text-align: left;
+    vertical-align: text-top;
+}
+
+#mobility
+{
+    display: inline-block;
+    text-align: left;
+    vertical-align: text-top;
+}

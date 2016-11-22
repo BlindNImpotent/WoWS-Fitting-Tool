@@ -16,9 +16,17 @@
 <main>
     <div class="shipAPIData" id="shipAPIData" th:fragment="shipAPIData" th:unless="${shipAPI == null}">
         <div th:if="${shipAPI.anti_aircraft != null}" id="anti_aircraft">
+            <strong>Anti Aircraft</strong>
             <li th:each="slot : ${shipAPI.anti_aircraft.slots}">
-                <span th:text="${slot.value.name}"/>
+                <p th:id="${slot.value.caliber}">
+                    <span style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.name}"/><br />
+                    <span style="float: right;" th:text="${slot.value.avg_damage} + ' dps'"/><br />
+                    <span style="float: right;" th:text="${slot.value.distance} + ' km'"/>
+                </p>
             </li>
+        </div>
+        <div th:if="${shipAPI.mobility != null}" id="mobility">
+            <span>test</span>
         </div>
     </div>
 </main>
