@@ -693,16 +693,10 @@ table
     text-align: center;
 }
 
-#anti_aircraft
+.blank
 {
     display: inline-block;
-    text-align: left;
+    text-align: center;
     vertical-align: text-top;
-}
-
-#mobility
-{
-    display: inline-block;
-    text-align: left;
-    vertical-align: text-top;
+    padding-left: 4em;
 }
