@@ -22,8 +22,9 @@
                             <span th:text="${shipType.key}" />
                             <ul>
                                 <li th:each="ship : ${shipType.value}">
-                                    <span th:text="${ship.key}" th:onclick="'replace(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'"/>
-                                    <!--<a th:text="${ship.key}" th:href="@{?nation={nation}&amp;shipType={shipType}&amp;ship={ship}(nation=${nation.key}, shipType=${shipType.key}, ship=${ship.key})}"/>-->
+                                    <!--<span th:text="${ship.key}"/>-->
+                                    <span th:text="${ship.key}" th:onclick="'fragments(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'"/>
+                                    <!--<a th:text="${ship.key}" th:href="@{shipAPI?nation={nation}&amp;shipType={shipType}&amp;ship={ship}(nation=${nation.key}, shipType=${shipType.key}, ship=${ship.key})}"/>-->
                                 </li>
                             </ul>
                         </li>
@@ -35,46 +36,8 @@
 </header>
 <main>
     <div class="container">
-        <div id="ship" th:unless="${warship == null}" th:name="${warship.ship_id}">
-            <div id="name">
-                <h1 th:text="${warship.name}"/>
-                <img th:src="${warship.images.medium}"/>
-            </div>
-            <br />
-            <div id="modulesUpgradesConsumables">
-                <div id="modules">
-                    <div th:each="moduleType : ${warship.warshipModulesTreeNew}" th:id="${moduleType.key}">
-                        <li th:each="module : ${moduleType.value}" th:id="'li_' + ${module.value.module_id}">
-                            <button th:class="${module.value.is_default} ? button_module_selected : button_module" th:id="${module.value.module_id}">
-                                <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(moduleType.key)} + '.png'}"/><br />
-                                <span th:text="${module.value.name}"/>
-                            </button>
-                        </li>
-                    </div>
-                </div>
-                <div id="upgrades">
-                    <div th:each="upgradeType : ${warship.upgradesNew}" th:id="'id_' + ${upgradeType.key}">
-                        <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.upgrade_id}">
-                            <button th:class="button_upgrade" th:id="${upgrade.value.upgrade_id}">
-                                <img th:src="${upgrade.value.image}"/><br />
-                                <span th:text="${upgrade.key}"/>
-                            </button>
-                        </li>
-                    </div>
-                </div>
-                <div id="skills">
-
-                </div>
-            </div>
-            <div id="skillsList">
-
-            </div>
-            <div id="CamouflagesFlags">
-
-            </div>
-            <br />
-            <div th:replace="shipAPI :: shipAPIStats" th:unless="${shipAPI == null}" id="stats">
-
+        <div id="ship" th:replace="warshipPage :: warship">
+            <div id="stats" class="stats">
             </div>
         </div>
     </div>
@@ -87,14 +50,9 @@
             $( "#shipList" ).menu();
         });
 
-        createLines();
-        callAPI();
+//        createLines();
+//        callAPI();
     });
-
-    function createLines()
-    {
-
-    }
 
     $(document).on('click', '.button_module', function(){
         var clickedId = $(this).attr('id');
@@ -115,7 +73,7 @@
     {
         if ($('#ship').attr('name') != null)
         {
-            var url = '/shipAPI?ship_id=' + $('#ship').attr('name');
+            var url = '/warship?ship_id=' + $('#ship').attr('name');
             var selected = $('.button_module_selected');
             for (var i = 0; i < selected.length; i++)
             {
@@ -126,17 +84,20 @@
                 url = url + modifier + type + equals + moduleId;
             }
 
-            $.ajax({
-                url: url,
-                type: 'get'
-            });
+            $('.container').load(url);
         }
     }
 
-    function replace(nation, shipType, ship)
+    function fragments(nationOriginal, shipTypeOriginal, shipOriginal)
     {
-        var url = '?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship;
-        location.replace(url);
+        var nation = nationOriginal.replace(/ /g, '+');
+        var shipType = shipTypeOriginal.replace(/ /g, '+');
+        var ship = shipOriginal.replace(/ /g, '+');
+
+        var url = '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship;
+
+        $('.container').load(url);
+        callAPI();
     }
 
 //    ]]>

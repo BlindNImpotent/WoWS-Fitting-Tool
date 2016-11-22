@@ -106,6 +106,6 @@ public class Warship
             LinkedHashMap<String, Upgrade> sortedUpgrade = sorter.sortUpgrades(tempUpgrades);
             temp.put(String.valueOf(tempPrice), sortedUpgrade);
         });
-        upgradesNew = temp;
+        upgradesNew = sorter.sortUpgradeType(temp);
     }
 }

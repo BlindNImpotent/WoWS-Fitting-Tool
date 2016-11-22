@@ -132,9 +132,83 @@ public class Sorter
                     }
                     return -1;
                 }
+                else if (o1.getKey().equals("DiveBomber"))
+                {
+                    return 1;
+                }
+                else if (o2.getKey().equals("DiveBomber"))
+                {
+                    return -1;
+                }
                 else
                 {
                     return o1.getKey().compareTo(o2.getKey());
+                }
+            }
+        });
+
+        for (Map.Entry<String, LinkedHashMap> entry:list)
+        {
+            sorted.put(entry.getKey(), entry.getValue());
+        }
+
+        return sorted;
+    }
+
+    public LinkedHashMap<String, LinkedHashMap> sortUpgradeType(LinkedHashMap<String, LinkedHashMap> unsorted)
+    {
+        LinkedHashMap<String, LinkedHashMap> sorted = new LinkedHashMap<>();
+
+        List<Map.Entry<String, LinkedHashMap>> list = new LinkedList<>(unsorted.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<String, LinkedHashMap>>() {
+            @Override
+            public int compare(Map.Entry<String, LinkedHashMap> o1, Map.Entry<String, LinkedHashMap> o2)
+            {
+                //125, 500, 3000, 250, 1000, 2000
+                if (o1.getKey().equals("125000"))
+                {
+                    return -1;
+                }
+                else if (o2.getKey().equals("125000"))
+                {
+                    return 1;
+                }
+                else if (o1.getKey().equals("500000"))
+                {
+                    if (o2.getKey().equals("125000"))
+                    {
+                        return 1;
+                    }
+                    return -1;
+                }
+                else if (o2.getKey().equals("500000"))
+                {
+                    if (o1.getKey().equals("125000"))
+                    {
+                        return -1;
+                    }
+                    return 1;
+                }
+                else if (o1.getKey().equals("3000000"))
+                {
+                    if (o2.getKey().equals("125000") || o2.getKey().equals("500000"))
+                    {
+                        return 1;
+                    }
+                    return -1;
+                }
+                else if (o2.getKey().equals("3000000"))
+                {
+                    if (o1.getKey().equals("125000") || o1.getKey().equals("500000"))
+                    {
+                        return -1;
+                    }
+                    return 1;
+                }
+                else
+                {
+                    return Integer.parseInt(o1.getKey()) - Integer.parseInt(o2.getKey());
                 }
             }
         });

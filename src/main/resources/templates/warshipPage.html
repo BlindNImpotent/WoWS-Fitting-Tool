@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
+    <script th:src="@{/js/jquery/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
+    <script th:src="@{/js/accounting/accounting.js}"></script>
+    <title>WoWS Fitting Tool by Aesis</title>
+</head>
+<body>
+<header>
+</header>
+<main>
+    <div class="container">
+        <div th:fragment="warshipStats" th:unless="${warship == null}" id="ship" th:name="${warship.ship_id}">
+            <div id="name">
+                <h1 th:text="${warship.name}"/>
+                <img th:src="${warship.images.medium}"/>
+            </div>
+            <br />
+            <div id="modulesUpgradesConsumables">
+                <div id="modules">
+                    <div th:each="moduleType : ${warship.warshipModulesTreeNew}" th:id="${moduleType.key}">
+                        <li th:each="module : ${moduleType.value}" th:id="'li_' + ${module.value.module_id}">
+                            <button th:class="${module.value.is_default} ? button_module_selected : button_module" th:id="${module.value.module_id}" th:name="${module.value.type}">
+                                <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(moduleType.key)} + '.png'}"/><br />
+                                <span th:text="${module.value.name}"/>
+                            </button>
+                        </li>
+                    </div>
+                </div>
+                <div id="upgrades">
+                    <div th:each="upgradeType : ${warship.upgradesNew}" th:id="'id_' + ${upgradeType.key}">
+                        <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.upgrade_id}">
+                            <button th:class="button_upgrade" th:id="${upgrade.value.upgrade_id}">
+                                <img th:src="${upgrade.value.image}"/><br />
+                                <span th:text="${upgrade.key}"/>
+                            </button>
+                        </li>
+                    </div>
+                </div>
+                <div id="skills">
+
+                </div>
+            </div>
+            <div id="skillsList">
+
+            </div>
+            <div id="CamouflagesFlags">
+
+            </div>
+            <br />
+            <div id="stats">
+
+            </div>
+        </div>
+    </div>
+</main>
+<script th:inline="javascript">
+    //    <![CDATA[
+
+    //    ]]>
+</script>
+</body>
+</html>

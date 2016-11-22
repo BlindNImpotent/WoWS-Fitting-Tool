@@ -30,23 +30,6 @@ public class TestConfig
 
     private AsyncHashMap asyncHashMap = new AsyncHashMap();
 
-    private final static String france = "france";
-    private final static String germany = "germany";
-    private final static String japan = "japan";
-    private final static String pan_asia = "pan_asia";
-    private final static String poland = "poland";
-    private final static String uk = "uk";
-    private final static String usa = "usa";
-    private final static String ussr = "ussr";
-
-    private final static String AirCarrier = "AirCarrier";
-    private final static String Battleship = "Battleship";
-    private final static String Cruiser = "Cruiser";
-    private final static String Destroyer = "Destroyer";
-
-    private final static String[] nations = {france, germany, japan, pan_asia, poland, uk, usa, ussr};
-    private final static String[] shipTypes = {AirCarrier, Battleship, Cruiser, Destroyer};
-
     @Bean
     public String app_id()
     {

@@ -32,12 +32,30 @@ public class APIController
     }
 
     @RequestMapping (value = "/", method = RequestMethod.GET)
-    public String home
+    public String home(Model model)
+    {
+        model.addAttribute("data", data);
+
+        return "home";
+    }
+
+    @RequestMapping (value = "/warship", method = RequestMethod.GET)
+    public String getWarship
             (
-                Model model,
-                @RequestParam(required = false, defaultValue = "") String nation,
-                @RequestParam(required = false, defaultValue = "") String shipType,
-                @RequestParam(required = false, defaultValue = "") String ship
+                    Model model,
+                    @RequestParam(required = false, defaultValue = "") String nation,
+                    @RequestParam(required = false, defaultValue = "") String shipType,
+                    @RequestParam(required = false, defaultValue = "") String ship,
+                    @RequestParam(required = false, defaultValue = "") String ship_id,
+                    @RequestParam(required = false, defaultValue = "") String Artillery,
+                    @RequestParam(required = false, defaultValue = "") String DiveBomber,
+                    @RequestParam(required = false, defaultValue = "") String Engine,
+                    @RequestParam(required = false, defaultValue = "") String Fighter,
+                    @RequestParam(required = false, defaultValue = "") String Suo,
+                    @RequestParam(required = false, defaultValue = "") String FlightControl,
+                    @RequestParam(required = false, defaultValue = "") String Hull,
+                    @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
+                    @RequestParam(required = false, defaultValue = "") String Torpedoes
             )
     {
         model.addAttribute("data", data);
@@ -46,40 +64,21 @@ public class APIController
             model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
         }
 
-        return "home";
-    }
-
-    @RequestMapping (value = "/shipAPI", method = RequestMethod.GET)
-    public String getShipParameterAPI
-            (
-                    Model model,
-                    @RequestParam(required = false, defaultValue = "") String ship_id,
-                    @RequestParam(required = false, defaultValue = "") String artillery_id,
-                    @RequestParam(required = false, defaultValue = "") String dive_bomber_id,
-                    @RequestParam(required = false, defaultValue = "") String engine_id,
-                    @RequestParam(required = false, defaultValue = "") String fighter_id,
-                    @RequestParam(required = false, defaultValue = "") String fire_control_id,
-                    @RequestParam(required = false, defaultValue = "") String flight_control_id,
-                    @RequestParam(required = false, defaultValue = "") String hull_id,
-                    @RequestParam(required = false, defaultValue = "") String torpedo_bomber_id,
-                    @RequestParam(required = false, defaultValue = "") String torpedoes_id
-            )
-    {
-        String key = "&ship_id=" + ship_id + "&artillery_id=" + artillery_id + "&dive_bomber_id=" + dive_bomber_id + "&engine_id=" + engine_id
-                + "&fighter_id=" + fighter_id + "&fire_control_id=" + fire_control_id + "&flight_control_id=" + flight_control_id + "&hull_id=" + hull_id + "&torpedo_bomber_id=" + torpedo_bomber_id + "&torpedoes_id=" + torpedoes_id;
+        String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
+                + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
 
         if (!shipAPIs.containsKey(key))
         {
-            Ship ship = apiService.getShipAPI(ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id);
+            Ship shipAPI = apiService.getShipAPI(ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
 
-            if (ship != null)
+            if (shipAPI != null)
             {
-                shipAPIs.put(key, ship);
+                System.out.println("test");
+                shipAPIs.put(key, shipAPI);
             }
         }
-
         model.addAttribute("shipAPI", shipAPIs.get(key));
 
-        return "shipAPI :: shipAPIStats";
+        return "warshipPage :: warshipStats";
     }
 }
