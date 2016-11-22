@@ -36,18 +36,17 @@
 </header>
 <main>
     <div class="container">
-        <div id="ship" th:replace="warshipPage :: warship">
-            <div id="stats" class="stats">
-            </div>
+        <div class="warshipData">
+        </div>
+        <div class="shipAPIData">
         </div>
     </div>
 </main>
 <script th:inline="javascript">
 //    <![CDATA[
-
     $().ready(function () {
         $( function() {
-            $( "#shipList" ).menu();
+            $('#shipList').menu();
         });
 
 //        createLines();
@@ -73,7 +72,7 @@
     {
         if ($('#ship').attr('name') != null)
         {
-            var url = '/warship?ship_id=' + $('#ship').attr('name');
+            var url = '/shipAPI?ship_id=' + $('#ship').attr('name');
             var selected = $('.button_module_selected');
             for (var i = 0; i < selected.length; i++)
             {
@@ -84,7 +83,7 @@
                 url = url + modifier + type + equals + moduleId;
             }
 
-            $('.container').load(url);
+            $('.shipAPIData').load(url);
         }
     }
 
@@ -96,8 +95,21 @@
 
         var url = '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship;
 
-        $('.container').load(url);
-        callAPI();
+
+        $.ajax({
+            url: url,
+            type: 'get',
+            async: false,
+            success: function (data) {
+                $('.warshipData').replaceWith(data);
+                callAPI();
+            }
+        });
+
+
+//        $('.warshipData').load(url);
+
+//        callAPI();
     }
 
 //    ]]>

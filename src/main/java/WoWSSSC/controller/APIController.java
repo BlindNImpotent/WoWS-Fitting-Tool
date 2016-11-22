@@ -45,7 +45,22 @@ public class APIController
                     Model model,
                     @RequestParam(required = false, defaultValue = "") String nation,
                     @RequestParam(required = false, defaultValue = "") String shipType,
-                    @RequestParam(required = false, defaultValue = "") String ship,
+                    @RequestParam(required = false, defaultValue = "") String ship
+            )
+    {
+        model.addAttribute("data", data);
+        if (!nation.equals("") && !shipType.equals("") && !ship.equals(""))
+        {
+            model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
+        }
+
+        return "warshipPage :: warshipStats";
+    }
+
+    @RequestMapping (value = "/shipAPI", method = RequestMethod.GET)
+    public String getShipAPI
+            (
+                    Model model,
                     @RequestParam(required = false, defaultValue = "") String ship_id,
                     @RequestParam(required = false, defaultValue = "") String Artillery,
                     @RequestParam(required = false, defaultValue = "") String DiveBomber,
@@ -58,11 +73,6 @@ public class APIController
                     @RequestParam(required = false, defaultValue = "") String Torpedoes
             )
     {
-        model.addAttribute("data", data);
-        if (!nation.equals("") && !shipType.equals("") && !ship.equals(""))
-        {
-            model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
-        }
 
         String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
                 + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
@@ -73,12 +83,11 @@ public class APIController
 
             if (shipAPI != null)
             {
-                System.out.println("test");
                 shipAPIs.put(key, shipAPI);
             }
         }
         model.addAttribute("shipAPI", shipAPIs.get(key));
 
-        return "warshipPage :: warshipStats";
+        return "shipAPIPage :: shipAPIData";
     }
 }

@@ -687,3 +687,8 @@ table
 .Consumable4Count { float:right }
 .Consumable4Duration { float:right }
 .Consumable4Reload { float:right }
+
+.shipAPIData
+{
+    text-align: center;
+}

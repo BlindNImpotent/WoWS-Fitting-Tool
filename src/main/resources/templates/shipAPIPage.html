@@ -14,18 +14,11 @@
 <header>
 </header>
 <main>
-    <div class="container">
-        <div id="ship">
-            <div id="modulesUpgradesConsumables">
-            </div>
-            <div id="skillsList">
-            </div>
-            <div id="CamouflagesFlags">
-            </div>
-            <br />
-            <div th:fragment="shipAPIData" th:unless="${shipAPI == null}" id="stats" class="stats">
-                <span>test 123</span>
-            </div>
+    <div class="shipAPIData" id="shipAPIData" th:fragment="shipAPIData" th:unless="${shipAPI == null}">
+        <div th:if="${shipAPI.anti_aircraft != null}" id="anti_aircraft">
+            <li th:each="slot : ${shipAPI.anti_aircraft.slots}">
+                <span th:text="${slot.value.name}"/>
+            </li>
         </div>
     </div>
 </main>
