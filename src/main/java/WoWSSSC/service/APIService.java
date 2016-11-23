@@ -43,11 +43,11 @@ public class APIService
         {
             String url = "https://api.worldofwarships.com/wows/encyclopedia/shipprofile/?application_id=" + APP_ID + "&ship_id=" + ship_id + "&artillery_id=" + artillery_id + "&dive_bomber_id=" + dive_bomber_id + "&engine_id=" + engine_id
                     + "&fighter_id=" + fighter_id + "&fire_control_id=" + fire_control_id + "&flight_control_id=" + flight_control_id + "&hull_id=" + hull_id + "&torpedo_bomber_id=" + torpedo_bomber_id + "&torpedoes_id=" + torpedoes_id;
-            logger.info(url);
             ShipData shipData = restTemplate.getForObject(url, ShipData.class);
 
             if (shipData.getStatus().equals("ok"))
             {
+                logger.info(url);
                 return shipData.getData().get(ship_id);
             }
         }

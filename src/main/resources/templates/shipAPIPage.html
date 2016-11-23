@@ -66,12 +66,12 @@
             </div>
             <div th:if="${shipAPI.flight_control != null}" id="flight_control">
                 <strong>Flight Control</strong><br />
-                <u>Dive Bomber</u><span style="float: right;" th:text="${shipAPI.flight_control.bomber_squadrons} + ' X ' + ${shipAPI.dive_bomber.count_in_squadron.max}"/><br />
-                Preparation<span style="float: right;" th:text="${shipAPI.dive_bomber.prepare_time} + ' s'"/><br />
-                <u>Fighter</u><span style="float: right;" th:text="${shipAPI.flight_control.fighter_squadrons} + ' X ' + ${shipAPI.fighters.count_in_squadron.max}"/><br />
-                Preparation<span style="float: right;" th:text="${shipAPI.fighters.prepare_time} + ' s'"/><br />
-                <u>Torpedo Bomber</u><span style="float: right; padding-left: 4em;" th:text="${shipAPI.flight_control.torpedo_squadrons} + ' X ' + ${shipAPI.torpedo_bomber.count_in_squadron.max}"/><br />
-                Preparation<span style="float: right;" th:text="${shipAPI.torpedo_bomber.prepare_time} + ' s'"/><br />
+                <u>Dive Bomber</u><span style="float: right;" th:text="${shipAPI.flight_control.bomber_squadrons} + ' X ' + ${shipAPI.dive_bomber != null ? shipAPI.dive_bomber.count_in_squadron.max : 0}"/><br />
+                Preparation<span style="float: right;" th:text="${shipAPI.dive_bomber != null ? shipAPI.dive_bomber.prepare_time : 0} + ' s'"/><br />
+                <u>Fighter</u><span style="float: right;" th:text="${shipAPI.flight_control.fighter_squadrons} + ' X ' + ${shipAPI.fighters != null ? shipAPI.fighters.count_in_squadron.max : 0}"/><br />
+                Preparation<span style="float: right;" th:text="${shipAPI.fighters != null ? shipAPI.fighters.prepare_time : 0} + ' s'"/><br />
+                <u>Torpedo Bomber</u><span style="float: right; padding-left: 4em;" th:text="${shipAPI.flight_control.torpedo_squadrons} + ' X ' + ${shipAPI.torpedo_bomber != null ? shipAPI.torpedo_bomber.count_in_squadron.max : 0}"/><br />
+                Preparation<span style="float: right;" th:text="${shipAPI.torpedo_bomber != null ? shipAPI.torpedo_bomber.prepare_time : 0} + ' s'"/><br />
             </div>
         </div>
         <div class="blank">

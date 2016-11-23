@@ -65,18 +65,46 @@
         callAPI();
     });
 
+    $(document).on('click', '.button_upgrade, .button_upgrade_selected', function () {
+        var clickedId = $(this).attr('id');
+
+        if (document.getElementById(clickedId).className == 'button_upgrade')
+        {
+            var gParentElem = $(this).parent().parent();
+            var parents = gParentElem.children();
+
+            for (var i = 0; i < parents.length; i++)
+            {
+                var buttonId = parents[i].getAttribute('id').replace('li_', '');
+                document.getElementById(buttonId).className = 'button_upgrade';
+            }
+            document.getElementById(clickedId).className = 'button_upgrade_selected';
+        }
+        else
+        {
+            document.getElementById(clickedId).className = 'button_upgrade';
+        }
+
+        callAPI();
+    });
+
+
+
     function callAPI()
     {
         if ($('#ship').attr('name') != null)
         {
             var url = '/shipAPI?ship_id=' + $('#ship').attr('name');
-            var selected = $('.button_module_selected');
-            for (var i = 0; i < selected.length; i++)
+            var modifier = '&';
+            var equals = '=';
+
+            var selectedModules = $('.button_module_selected');
+
+            for (var i = 0; i < selectedModules.length; i++)
             {
-                var type = selected[i].getAttribute('name');
-                var moduleId = selected[i].getAttribute('id');
-                var modifier = '&';
-                var equals = '=';
+                var type = selectedModules[i].getAttribute('name');
+                var moduleId = selectedModules[i].getAttribute('id');
+
                 url = url + modifier + type + equals + moduleId;
             }
 
@@ -84,7 +112,14 @@
                 url: url,
                 type: 'get',
                 success: function (data) {
-                    $('.shipAPIData').replaceWith(data);
+                    if (data != '')
+                    {
+                        $('.shipAPIData').replaceWith(data);
+                    }
+                    else
+                    {
+                        alert('Wrong path of research!');
+                    }
                 }
             });
         }

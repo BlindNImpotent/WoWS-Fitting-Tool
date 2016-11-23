@@ -35,7 +35,7 @@
                 <div id="upgrades">
                     <div th:each="upgradeType : ${warship.upgradesNew}" th:id="'id_' + ${upgradeType.key}">
                         <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.upgrade_id}">
-                            <button th:class="button_upgrade" th:id="${upgrade.value.upgrade_id}">
+                            <button th:class="button_upgrade" th:id="${upgrade.value.upgrade_id}" th:name="${#numbers.formatInteger(upgrade.value.price_credit, 0)}">
                                 <img th:src="${upgrade.value.image}"/><br />
                                 <span th:text="${upgrade.key}"/>
                             </button>
