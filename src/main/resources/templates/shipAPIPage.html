@@ -47,7 +47,7 @@
                 RoF<span style="float: right;" th:text="${#numbers.formatDecimal(60 / shipAPI.artillery.shot_delay, 0 ,2)} + ' RPM'"/><br />
                 Rotation<span style="float: right;" th:text="${shipAPI.artillery.rotation_time} + ' s'"/><br />
                 Rotation / 180 deg<span style="float: right;padding-left: 4em;" th:text="${#numbers.formatDecimal(180 / shipAPI.artillery.rotation_time, 0, 2)} + ' deg / s'"/><br />
-                <li th:each="shell : ${shipAPI.artillery.shells}">
+                <li th:if="${shell.value != null}" th:each="shell : ${shipAPI.artillery.shells}">
                     <u style="float: left;" th:text="${shell.value.name} + ' (' + ${shell.value.type} + ')'"/><br/>
                     Damage<span style="float: right;" th:text="${#numbers.formatInteger(shell.value.damage, 2, 'COMMA')} + ' hp'"/><br />
                     Speed<span style="float: right;" th:text="${shell.value.bullet_speed} + ' m/s'"/><br />
