@@ -20,4 +20,5 @@ public class Upgrade
     private long price_credit;
     private long upgrade_id;
     private UpgradeProfile profile;
+//    private HashMap<String, HashMap> profile;
 }

@@ -8,8 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Created by Aesis on 2016-10-15.
@@ -71,22 +73,45 @@ public class APIController
                     @RequestParam(required = false, defaultValue = "") String FlightControl,
                     @RequestParam(required = false, defaultValue = "") String Hull,
                     @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
-                    @RequestParam(required = false, defaultValue = "") String Torpedoes
+                    @RequestParam(required = false, defaultValue = "") String Torpedoes,
+                    @RequestParam(required = false, defaultValue = "") String price_125000,
+                    @RequestParam(required = false, defaultValue = "") String price_250000,
+                    @RequestParam(required = false, defaultValue = "") String price_500000,
+                    @RequestParam(required = false, defaultValue = "") String price_1000000,
+                    @RequestParam(required = false, defaultValue = "") String price_2000000,
+                    @RequestParam(required = false, defaultValue = "") String price_3000000
             )
     {
         String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
                 + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
 
+        Ship shipAPI = null;
         if (!shipAPIs.containsKey(key))
         {
-            Ship shipAPI = apiService.getShipAPI(ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
+            shipAPI = apiService.getShipAPI(ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
 
             if (shipAPI != null)
             {
                 shipAPIs.put(key, shipAPI);
             }
         }
-        model.addAttribute("shipAPI", shipAPIs.get(key));
+        
+        if (shipAPI != null)
+        {
+            shipAPI = shipAPIs.get(key);
+        }
+
+        List<String> upgrades = new ArrayList<>();
+        upgrades.add(price_125000);
+        upgrades.add(price_250000);
+        upgrades.add(price_500000);
+        upgrades.add(price_1000000);
+        upgrades.add(price_2000000);
+        upgrades.add(price_3000000);
+
+        apiService.setUpgradeStats(shipAPI, upgrades);
+        
+        model.addAttribute("shipAPI", shipAPI);
 
         return "shipAPIPage :: shipAPIData";
     }

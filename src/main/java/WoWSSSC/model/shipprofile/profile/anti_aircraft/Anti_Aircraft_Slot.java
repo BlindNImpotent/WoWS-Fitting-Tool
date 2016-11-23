@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class Anti_Aircraft_Slot
 {
-    private long avg_damage;
+    private float avg_damage;
     private long caliber;
     private float distance;
     private long guns;

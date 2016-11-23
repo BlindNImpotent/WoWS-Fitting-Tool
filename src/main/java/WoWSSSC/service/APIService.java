@@ -2,6 +2,9 @@ package WoWSSSC.service;
 
 import WoWSSSC.model.shipprofile.Ship;
 import WoWSSSC.model.shipprofile.ShipData;
+import WoWSSSC.model.shipprofile.profile.anti_aircraft.Anti_Aircraft_Slot;
+import WoWSSSC.model.upgrade.Upgrade;
+import WoWSSSC.model.upgrade.UpgradeProfile;
 import WoWSSSC.model.warships.Warship;
 import WoWSSSC.parser.AsyncHashMap;
 import org.slf4j.Logger;
@@ -23,6 +26,9 @@ public class APIService
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private LinkedHashMap<String, LinkedHashMap> data;
 
     private static final Logger logger = LoggerFactory.getLogger(APIService.class);
 
@@ -54,4 +60,93 @@ public class APIService
         return null;
     }
 
+    public void setUpgradeStats(Ship ship, List<String> upgrades)
+    {
+        for (String x : upgrades)
+        {
+            if (!x.equals(""))
+            {
+                Upgrade temp = (Upgrade) data.get("upgrades").get(x);
+                UpgradeProfile tempProfile = temp.getProfile();
+
+                if (tempProfile.getAnti_aircraft() != null)
+                {
+                    for (Anti_Aircraft_Slot aas : ship.getAnti_aircraft().getSlots().values())
+                    {
+                        if (tempProfile.getAnti_aircraft().getDistance_coef() != 0)
+                        {
+                            aas.setDistance(aas.getDistance() * tempProfile.getAnti_aircraft().getDistance_coef());
+                        }
+                        if (tempProfile.getAnti_aircraft().getEfficiency_coef() != 0)
+                        {
+                            aas.setAvg_damage(aas.getAvg_damage() * tempProfile.getAnti_aircraft().getEfficiency_coef());
+                        }
+                    }
+                }
+                else if (tempProfile.getArtillery() != null)
+                {
+                    if (tempProfile.getArtillery() != null)
+                    {
+
+                    }
+                }
+                else if (tempProfile.getAtba() != null)
+                {
+
+                }
+                else if (tempProfile.getConcealment() != null)
+                {
+
+                }
+                else if (tempProfile.getDamage_control() != null)
+                {
+
+                }
+                else if (tempProfile.getEngine() != null)
+                {
+
+                }
+                else if (tempProfile.getFire_control() != null)
+                {
+
+                }
+                else if (tempProfile.getFlight_control() != null)
+                {
+
+                }
+                else if (tempProfile.getGuidance() != null)
+                {
+
+                }
+                else if (tempProfile.getMainweapon() != null)
+                {
+
+                }
+                else if (tempProfile.getPlanes() != null)
+                {
+
+                }
+                else if (tempProfile.getPowder() != null)
+                {
+
+                }
+                else if (tempProfile.getSecondweapon() != null)
+                {
+
+                }
+                else if (tempProfile.getSpotting() != null)
+                {
+
+                }
+                else if (tempProfile.getSteering() != null)
+                {
+
+                }
+                else if (tempProfile.getTorpedoes() != null)
+                {
+
+                }
+            }
+        }
+    }
 }
