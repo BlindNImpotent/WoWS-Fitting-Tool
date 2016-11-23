@@ -18,13 +18,17 @@ import java.util.concurrent.Executor;
  * Created by Qualson-Lee on 2016-08-04.
  */
 @EnableAutoConfiguration
-@EnableAsync
 @SpringBootApplication
 //@EnableCaching
-public class Application
+public class Application extends SpringBootServletInitializer
 {
     public static void main(String[] args)
     {
         SpringApplication.run(Application.class, args);
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(Application.class);
     }
 }
