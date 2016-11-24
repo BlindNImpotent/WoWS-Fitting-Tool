@@ -7,6 +7,7 @@ import WoWSSSC.model.upgrade.Upgrade;
 import WoWSSSC.model.upgrade.UpgradeProfile;
 import WoWSSSC.model.warships.Warship;
 import WoWSSSC.parser.AsyncHashMap;
+import com.rits.cloning.Cloner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,10 @@ public class APIService
         {
             return null;
         }
-        Ship ship = shipHashMap.get(key);
+
+        Cloner cloner = new Cloner();
+        Ship ship = cloner.deepClone(shipHashMap.get(key));
+
         upgrades.forEach(x -> {
             if (!x.equals(""))
             {
