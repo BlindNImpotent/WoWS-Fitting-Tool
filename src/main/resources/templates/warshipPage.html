@@ -8,6 +8,11 @@
     <script th:src="@{/js/jquery/jquery-1.12.4.js}"></script>
     <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
     <script th:src="@{/js/accounting/accounting.js}"></script>
+    <script>
+        $(function() {
+            $(document).tooltip();
+        });
+    </script>
     <title>WoWS Fitting Tool by Aesis</title>
 </head>
 <body>
@@ -35,9 +40,9 @@
                 <div id="upgrades">
                     <div th:each="upgradeType : ${warship.upgradesNew}" th:id="'id_' + ${upgradeType.key}">
                         <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.upgrade_id}">
-                            <button th:class="button_upgrade" th:id="${upgrade.value.upgrade_id}" th:name="'price_' + ${upgrade.value.price_credit}">
+                            <button th:title="${upgrade.value.description}" th:class="button_upgrade" th:id="${upgrade.value.upgrade_id}" th:name="'price_' + ${upgrade.value.price_credit}">
                                 <img th:src="${upgrade.value.image}"/><br />
-                                <span th:text="${upgrade.key}"/>
+                                <span th:text="${upgrade.value.name}"/>
                             </button>
                         </li>
                     </div>
