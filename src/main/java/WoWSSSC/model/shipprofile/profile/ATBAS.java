@@ -11,6 +11,6 @@ import java.util.HashMap;
 @Data
 public class ATBAS
 {
-    private long distance;
+    private float distance;
     private HashMap<String, ATBAS_Slots> slots = new HashMap<>();
 }

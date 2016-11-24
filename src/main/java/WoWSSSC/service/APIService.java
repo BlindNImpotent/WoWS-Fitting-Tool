@@ -141,7 +141,7 @@ public class APIService
                 }
                 else if (tempProfile.getAtba() != null)
                 {
-                    if (ship.getAtba() != null)
+                    if (ship.getAtbas() != null)
                     {
                         if (tempProfile.getAtba().getAccuracy_coef() != 0)
                         {
@@ -149,7 +149,7 @@ public class APIService
                         }
                         if (tempProfile.getAtba().getDistance_coef() != 0)
                         {
-                            ship.getAtba().setDistance(ship.getAtba().getDistance() * tempProfile.getAtba().getDistance_coef());
+                            ship.getAtbas().setDistance(ship.getAtbas().getDistance() * tempProfile.getAtba().getDistance_coef());
                         }
                         if (tempProfile.getAtba().getHealth_coef() != 0)
                         {
@@ -157,7 +157,7 @@ public class APIService
                         }
                         if (tempProfile.getAtba().getReload_time_coef() != 0)
                         {
-                            ship.getAtba().setGun_rate(ship.getAtba().getGun_rate() / tempProfile.getAtba().getReload_time_coef());
+
                         }
                     }
                 }
@@ -261,11 +261,11 @@ public class APIService
                             ship.getArtillery().setMax_dispersion(ship.getArtillery().getMax_dispersion() * tempProfile.getGuidance().getArtillery_shoot_accuracy());
                         }
                     }
-                    if (ship.getAtba() != null)
+                    if (ship.getAtbas() != null)
                     {
                         if (tempProfile.getGuidance().getAtba_max_dist() != 0)
                         {
-                            ship.getAtba().setDistance(ship.getAtba().getDistance() * tempProfile.getGuidance().getAtba_max_dist());
+                            ship.getAtbas().setDistance(ship.getAtbas().getDistance() * tempProfile.getGuidance().getAtba_max_dist());
                         }
                         if (tempProfile.getGuidance().getAtba_rotation_speed() != 0)
                         {

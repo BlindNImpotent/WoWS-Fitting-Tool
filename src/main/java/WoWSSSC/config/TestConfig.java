@@ -81,4 +81,10 @@ public class TestConfig
         return executor;
     }
 
+    @Bean
+    public Sorter sorter()
+    {
+        return new Sorter();
+    }
+
 }

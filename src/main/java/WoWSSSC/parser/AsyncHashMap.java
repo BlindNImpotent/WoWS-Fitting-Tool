@@ -30,17 +30,18 @@ public class AsyncHashMap implements CommandLineRunner
     @Autowired
     private ThreadPoolTaskExecutor executor;
 
-    private Sorter sorter = new Sorter();
-
-    private List<String> nationsString = new ArrayList<>();
-    private List<String> shipTypeString = new ArrayList<>();
-
-    private LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
+    @Autowired
+    private Sorter sorter;
 
     @Override
     public void run(String... strings) throws Exception
     {
         executor.initialize();
+
+        List<String> nationsString = new ArrayList<>();
+        List<String> shipTypeString = new ArrayList<>();
+
+        LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
 
         Encyclopedia encyclopedia = apiJsonParser.getEncyclopedia().getData();
 
@@ -90,6 +91,7 @@ public class AsyncHashMap implements CommandLineRunner
 
         setUpgradesPerShip(nations, upgradeData.get().getData());
 
+        data.clear();
         data.put("nations", nations);
         data.put("upgrades", upgradeData.get().getData());
 
