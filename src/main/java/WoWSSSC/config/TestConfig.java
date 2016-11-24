@@ -27,23 +27,18 @@ import java.util.concurrent.Executor;
 @EnableAsync
 public class TestConfig
 {
-    private String APP_ID;
-
-    private RestTemplate restTemplate;
-
     private APIJsonParser apiJsonParser = new APIJsonParser();
 
     private AsyncHashMap asyncHashMap = new AsyncHashMap();
 
     private HashMap<String, Ship> shipHashMap = new HashMap<>();
 
-    LinkedHashMap<String, LinkedHashMap> data = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap> data = new LinkedHashMap<>();
 
     @Bean
     public String app_id()
     {
-        APP_ID = "137f0721e1b1baf30d6dcd1968fc260c";
-        return APP_ID;
+        return "137f0721e1b1baf30d6dcd1968fc260c";
     }
 
     @Bean
@@ -55,8 +50,7 @@ public class TestConfig
     @Bean
     public RestTemplate restTemplate()
     {
-        restTemplate = new RestTemplateBuilder().build();
-        return restTemplate;
+        return new RestTemplateBuilder().build();
     }
 
     @Bean
@@ -78,12 +72,11 @@ public class TestConfig
     }
 
     @Bean
-    public Executor getAsyncExecutor()
+    public ThreadPoolTaskExecutor executor()
     {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(5);
         executor.setThreadNamePrefix("Thread-");
-        executor.initialize();
 
         return executor;
     }

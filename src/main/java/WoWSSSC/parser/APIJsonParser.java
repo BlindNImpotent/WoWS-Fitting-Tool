@@ -1,5 +1,6 @@
 package WoWSSSC.parser;
 
+import WoWSSSC.model.info.EncyclopediaData;
 import WoWSSSC.model.shipprofile.ShipData;
 import WoWSSSC.model.warships.WarshipData;
 import WoWSSSC.model.upgrade.UpgradeData;
@@ -45,5 +46,13 @@ public class APIJsonParser
         UpgradeData result = restTemplate.getForObject(url, UpgradeData.class);
 
         return new AsyncResult<>(result);
+    }
+
+    public EncyclopediaData getEncyclopedia() throws IOException
+    {
+        logger.info("Looking up encyclopedia");
+        String url = "https://api.worldofwarships.com/wows/encyclopedia/info/?application_id=" + APP_ID;
+
+        return restTemplate.getForObject(url, EncyclopediaData.class);
     }
 }

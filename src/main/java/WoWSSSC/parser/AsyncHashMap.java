@@ -1,5 +1,6 @@
 package WoWSSSC.parser;
 
+import WoWSSSC.model.info.Encyclopedia;
 import WoWSSSC.model.warships.Warship;
 import WoWSSSC.model.warships.WarshipData;
 import WoWSSSC.model.upgrade.Upgrade;
@@ -8,6 +9,7 @@ import WoWSSSC.utils.Sorter;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -27,25 +29,13 @@ public class AsyncHashMap implements CommandLineRunner
     @Autowired
     private LinkedHashMap<String, LinkedHashMap> data;
 
+    @Autowired
+    private ThreadPoolTaskExecutor executor;
+
     private Sorter sorter = new Sorter();
 
-    private final static String france = "france";
-    private final static String germany = "germany";
-    private final static String japan = "japan";
-    private final static String pan_asia = "pan_asia";
-    private final static String poland = "poland";
-    private final static String uk = "uk";
-    private final static String usa = "usa";
-    private final static String ussr = "ussr";
-
-    private final static String AirCarrier = "AirCarrier";
-    private final static String Battleship = "Battleship";
-    private final static String Cruiser = "Cruiser";
-    private final static String Destroyer = "Destroyer";
-    private final static String Premium = "Premium";
-
-    private final static String[] nationsString = { france, germany, japan, pan_asia, poland, uk, usa, ussr };
-    private final static String[] shipTypeString = { AirCarrier, Battleship, Cruiser, Destroyer };
+    private List<String> nationsString = new ArrayList<>();
+    private List<String> shipTypeString = new ArrayList<>();
 
     private LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
 
@@ -54,16 +44,25 @@ public class AsyncHashMap implements CommandLineRunner
     @Override
     public void run(String... strings) throws Exception
     {
+        executor.initialize();
+
+        Encyclopedia encyclopedia = apiJsonParser.getEncyclopedia().getData();
+
+        encyclopedia.getShip_nations().entrySet().forEach(entry -> nationsString.add(entry.getKey()));
+        encyclopedia.getShip_types().entrySet().forEach(entry -> shipTypeString.add(entry.getKey()));
+        Collections.sort(nationsString);
+        Collections.sort(shipTypeString);
+
         LinkedHashMap<String, LinkedHashMap<String, Future<WarshipData>>> futures = new LinkedHashMap<>();
 
-        for (int i = 0; i < nationsString.length; i++)
+        for (int i = 0; i < nationsString.size(); i++)
         {
             LinkedHashMap<String, Future<WarshipData>> temp = new LinkedHashMap<>();
-            for (int j = 0; j < shipTypeString.length; j++)
+            for (int j = 0; j < shipTypeString.size(); j++)
             {
-                temp.put(shipTypeString[j], apiJsonParser.getNationShip(nationsString[i], shipTypeString[j]));
+                temp.put(shipTypeString.get(j), apiJsonParser.getNationShip(nationsString.get(i), shipTypeString.get(j)));
             }
-            futures.put(nationsString[i], temp);
+            futures.put(nationsString.get(i), temp);
         }
 
         Future<UpgradeData> upgradeData = apiJsonParser.getUpgrades();
@@ -97,6 +96,8 @@ public class AsyncHashMap implements CommandLineRunner
 
         data.put("nations", nations);
         data.put("upgrades", upgradeData.get().getData());
+
+        executor.shutdown();
     }
 
     private LinkedHashMap<String, LinkedHashMap> setPremium(LinkedHashMap<String, LinkedHashMap> nation)
@@ -123,70 +124,8 @@ public class AsyncHashMap implements CommandLineRunner
             tempNation.put(shipType.getKey(), tempShips);
         });
         LinkedHashMap<String, Warship> tempSortedPremium = sorter.sortShips(tempPremium);
-        tempNation.put(Premium, tempSortedPremium);
+        tempNation.put("Premium", tempSortedPremium);
         return tempNation;
-    }
-
-    private LinkedHashMap<String, LinkedHashMap> setUpgrades(LinkedHashMap<String, Upgrade> upgrades)
-    {
-        LinkedHashMap<String, LinkedHashMap> tempUpgrades = new LinkedHashMap<>();
-
-        LinkedHashMap<String, Upgrade> temp125k = new LinkedHashMap<>();
-        LinkedHashMap<String, Upgrade> temp250k = new LinkedHashMap<>();
-        LinkedHashMap<String, Upgrade> temp500k = new LinkedHashMap<>();
-        LinkedHashMap<String, Upgrade> temp1000k = new LinkedHashMap<>();
-        LinkedHashMap<String, Upgrade> temp2000k = new LinkedHashMap<>();
-        LinkedHashMap<String, Upgrade> temp3000k = new LinkedHashMap<>();
-
-        upgrades.entrySet().forEach(tempUpgrade ->
-        {
-            if (tempUpgrade.getValue().getPrice_credit() == 125000)
-            {
-                temp125k.put(tempUpgrade.getKey(), tempUpgrade.getValue());
-            }
-            else if (tempUpgrade.getValue().getPrice_credit() == 250000)
-            {
-                temp250k.put(tempUpgrade.getKey(), tempUpgrade.getValue());
-            }
-            else if (tempUpgrade.getValue().getPrice_credit() == 500000)
-            {
-                temp500k.put(tempUpgrade.getKey(), tempUpgrade.getValue());
-            }
-            else if (tempUpgrade.getValue().getPrice_credit() == 1000000)
-            {
-                temp1000k.put(tempUpgrade.getKey(), tempUpgrade.getValue());
-            }
-            else if (tempUpgrade.getValue().getPrice_credit() == 2000000)
-            {
-                temp2000k.put(tempUpgrade.getKey(), tempUpgrade.getValue());
-            }
-            else if (tempUpgrade.getValue().getPrice_credit() == 3000000)
-            {
-                temp3000k.put(tempUpgrade.getKey(), tempUpgrade.getValue());
-            }
-            else
-            {
-                System.out.println(tempUpgrade.getValue().getPrice_credit());
-            }
-        });
-
-        LinkedHashMap<String, Upgrade> sortedTemp125k = sorter.sortUpgrades(temp125k);
-        LinkedHashMap<String, Upgrade> sortedTemp250k = sorter.sortUpgrades(temp250k);
-        LinkedHashMap<String, Upgrade> sortedTemp500k = sorter.sortUpgrades(temp500k);
-        LinkedHashMap<String, Upgrade> sortedTemp1000k = sorter.sortUpgrades(temp1000k);
-        LinkedHashMap<String, Upgrade> sortedTemp2000k = sorter.sortUpgrades(temp2000k);
-        LinkedHashMap<String, Upgrade> sortedTemp3000k = sorter.sortUpgrades(temp3000k);
-        LinkedHashMap<String, Upgrade> sortedUpgrades = sorter.sortUpgrades(upgrades);
-
-        tempUpgrades.put("125000", sortedTemp125k);
-        tempUpgrades.put("250000", sortedTemp250k);
-        tempUpgrades.put("500000", sortedTemp500k);
-        tempUpgrades.put("1000000", sortedTemp1000k);
-        tempUpgrades.put("2000000", sortedTemp2000k);
-        tempUpgrades.put("3000000", sortedTemp3000k);
-        tempUpgrades.put("all", sortedUpgrades);
-
-        return tempUpgrades;
     }
 
     private void setUpgradesPerShip(LinkedHashMap<String, LinkedHashMap> nations, LinkedHashMap<String, Upgrade> upgrades)
