@@ -10,9 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 /**
@@ -24,6 +23,9 @@ public class AsyncHashMap implements CommandLineRunner
 {
     @Autowired
     private APIJsonParser apiJsonParser;
+
+    @Autowired
+    private LinkedHashMap<String, LinkedHashMap> data;
 
     private Sorter sorter = new Sorter();
 
@@ -42,126 +44,56 @@ public class AsyncHashMap implements CommandLineRunner
     private final static String Destroyer = "Destroyer";
     private final static String Premium = "Premium";
 
-    private LinkedHashMap<String, LinkedHashMap> France = new LinkedHashMap<>();
-    private LinkedHashMap<String, LinkedHashMap> Germany = new LinkedHashMap<>();
-    private LinkedHashMap<String, LinkedHashMap> Japan = new LinkedHashMap<>();
-    private LinkedHashMap<String, LinkedHashMap> Pan_Asia = new LinkedHashMap<>();
-    private LinkedHashMap<String, LinkedHashMap> Poland = new LinkedHashMap<>();
-    private LinkedHashMap<String, LinkedHashMap> UK = new LinkedHashMap<>();
-    private LinkedHashMap<String, LinkedHashMap> USA = new LinkedHashMap<>();
-    private LinkedHashMap<String, LinkedHashMap> USSR = new LinkedHashMap<>();
+    private final static String[] nationsString = { france, germany, japan, pan_asia, poland, uk, usa, ussr };
+    private final static String[] shipTypeString = { AirCarrier, Battleship, Cruiser, Destroyer };
+
     private LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
 
     private LinkedHashMap<String, LinkedHashMap> upgrades = new LinkedHashMap<>();
 
-    private LinkedHashMap<String, LinkedHashMap> data = new LinkedHashMap<>();
-
-//    public AsyncHashMap(APIJsonParser apiJsonParser)
-//    {
-//        this.apiJsonParser = apiJsonParser;
-//    }
-
     @Override
     public void run(String... strings) throws Exception
     {
-        Future<WarshipData> franceAirCarrier = apiJsonParser.getNationShip(france, AirCarrier);
-        Future<WarshipData> germanyAirCarrier = apiJsonParser.getNationShip(germany, AirCarrier);
-        Future<WarshipData> japanAirCarrier = apiJsonParser.getNationShip(japan, AirCarrier);
-        Future<WarshipData> pan_asiaAirCarrier = apiJsonParser.getNationShip(pan_asia, AirCarrier);
-        Future<WarshipData> polandAirCarrier = apiJsonParser.getNationShip(poland, AirCarrier);
-        Future<WarshipData> ukAirCarrier = apiJsonParser.getNationShip(uk, AirCarrier);
-        Future<WarshipData> usaAirCarrier = apiJsonParser.getNationShip(usa, AirCarrier);
-        Future<WarshipData> ussrAirCarrier = apiJsonParser.getNationShip(ussr, AirCarrier);
+        LinkedHashMap<String, LinkedHashMap<String, Future<WarshipData>>> futures = new LinkedHashMap<>();
 
-        Future<WarshipData> franceBattleship = apiJsonParser.getNationShip(france, Battleship);
-        Future<WarshipData> germanyBattleship = apiJsonParser.getNationShip(germany, Battleship);
-        Future<WarshipData> japanBattleship = apiJsonParser.getNationShip(japan, Battleship);
-        Future<WarshipData> pan_asiaBattleship = apiJsonParser.getNationShip(pan_asia, Battleship);
-        Future<WarshipData> polandBattleship = apiJsonParser.getNationShip(poland, Battleship);
-        Future<WarshipData> ukBattleship = apiJsonParser.getNationShip(uk, Battleship);
-        Future<WarshipData> usaBattleship = apiJsonParser.getNationShip(usa, Battleship);
-        Future<WarshipData> ussrBattleship = apiJsonParser.getNationShip(ussr, Battleship);
-
-        Future<WarshipData> franceCruiser = apiJsonParser.getNationShip(france, Cruiser);
-        Future<WarshipData> germanyCruiser = apiJsonParser.getNationShip(germany, Cruiser);
-        Future<WarshipData> japanCruiser = apiJsonParser.getNationShip(japan, Cruiser);
-        Future<WarshipData> pan_asiaCruiser = apiJsonParser.getNationShip(pan_asia, Cruiser);
-        Future<WarshipData> polandCruiser = apiJsonParser.getNationShip(poland, Cruiser);
-        Future<WarshipData> ukCruiser = apiJsonParser.getNationShip(uk, Cruiser);
-        Future<WarshipData> usaCruiser = apiJsonParser.getNationShip(usa, Cruiser);
-        Future<WarshipData> ussrCruiser = apiJsonParser.getNationShip(ussr, Cruiser);
-
-        Future<WarshipData> franceDestroyer = apiJsonParser.getNationShip(france, Destroyer);
-        Future<WarshipData> germanyDestroyer = apiJsonParser.getNationShip(germany, Destroyer);
-        Future<WarshipData> japanDestroyer = apiJsonParser.getNationShip(japan, Destroyer);
-        Future<WarshipData> pan_asiaDestroyer = apiJsonParser.getNationShip(pan_asia, Destroyer);
-        Future<WarshipData> polandDestroyer = apiJsonParser.getNationShip(poland, Destroyer);
-        Future<WarshipData> ukDestroyer = apiJsonParser.getNationShip(uk, Destroyer);
-        Future<WarshipData> usaDestroyer = apiJsonParser.getNationShip(usa, Destroyer);
-        Future<WarshipData> ussrDestroyer = apiJsonParser.getNationShip(ussr, Destroyer);
+        for (int i = 0; i < nationsString.length; i++)
+        {
+            LinkedHashMap<String, Future<WarshipData>> temp = new LinkedHashMap<>();
+            for (int j = 0; j < shipTypeString.length; j++)
+            {
+                temp.put(shipTypeString[j], apiJsonParser.getNationShip(nationsString[i], shipTypeString[j]));
+            }
+            futures.put(nationsString[i], temp);
+        }
 
         Future<UpgradeData> upgradeData = apiJsonParser.getUpgrades();
 
-        France.put(AirCarrier, franceAirCarrier.get().getData());
-        France.put(Battleship, franceBattleship.get().getData());
-        France.put(Cruiser, franceCruiser.get().getData());
-        France.put(Destroyer, franceDestroyer.get().getData());
+        futures.entrySet().forEach(futureEntry ->
+        {
+            LinkedHashMap<String, LinkedHashMap> wsdlhm = new LinkedHashMap<>();
+            futureEntry.getValue().entrySet().forEach(shipType ->
+            {
+                WarshipData wsd = new WarshipData();
 
-        Germany.put(AirCarrier, germanyAirCarrier.get().getData());
-        Germany.put(Battleship, germanyBattleship.get().getData());
-        Germany.put(Cruiser, germanyCruiser.get().getData());
-        Germany.put(Destroyer, germanyDestroyer.get().getData());
-
-        Japan.put(AirCarrier, japanAirCarrier.get().getData());
-        Japan.put(Battleship, japanBattleship.get().getData());
-        Japan.put(Cruiser, japanCruiser.get().getData());
-        Japan.put(Destroyer, japanDestroyer.get().getData());
-
-        Pan_Asia.put(AirCarrier, pan_asiaAirCarrier.get().getData());
-        Pan_Asia.put(Battleship, pan_asiaBattleship.get().getData());
-        Pan_Asia.put(Cruiser, pan_asiaCruiser.get().getData());
-        Pan_Asia.put(Destroyer, pan_asiaDestroyer.get().getData());
-
-        Poland.put(AirCarrier, polandAirCarrier.get().getData());
-        Poland.put(Battleship, polandBattleship.get().getData());
-        Poland.put(Cruiser, polandCruiser.get().getData());
-        Poland.put(Destroyer, polandDestroyer.get().getData());
-
-        UK.put(AirCarrier, ukAirCarrier.get().getData());
-        UK.put(Battleship, ukBattleship.get().getData());
-        UK.put(Cruiser, ukCruiser.get().getData());
-        UK.put(Destroyer, ukDestroyer.get().getData());
-
-        USA.put(AirCarrier, usaAirCarrier.get().getData());
-        USA.put(Battleship, usaBattleship.get().getData());
-        USA.put(Cruiser, usaCruiser.get().getData());
-        USA.put(Destroyer, usaDestroyer.get().getData());
-
-        USSR.put(AirCarrier, ussrAirCarrier.get().getData());
-        USSR.put(Battleship, ussrBattleship.get().getData());
-        USSR.put(Cruiser, ussrCruiser.get().getData());
-        USSR.put(Destroyer, ussrDestroyer.get().getData());
-
-        France = setPremium(France);
-        Germany = setPremium(Germany);
-        Japan = setPremium(Japan);
-        Pan_Asia = setPremium(Pan_Asia);
-        Poland = setPremium(Poland);
-        UK = setPremium(UK);
-        USA = setPremium(USA);
-        USSR = setPremium(USSR);
-
-        nations.put(france, France);
-        nations.put(germany, Germany);
-        nations.put(japan, Japan);
-        nations.put(pan_asia, Pan_Asia);
-        nations.put(poland, Poland);
-        nations.put(uk, UK);
-        nations.put(usa, USA);
-        nations.put(ussr, USSR);
+                try {
+                    shipType.getValue().get().getData().entrySet().forEach(warship ->
+                    {
+                        String key = warship.getValue().getName();
+                        Warship value = warship.getValue();
+                        wsd.getData().put(key, value);
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                wsd.setData(sorter.sortShips(wsd.getData()));
+                wsdlhm.put(shipType.getKey(), wsd.getData());
+            });
+            nations.put(futureEntry.getKey(), setPremium(wsdlhm));
+        });
 
         setUpgradesPerShip(nations, upgradeData.get().getData());
-//        upgrades = setUpgrades(upgradeData.get().getData());
 
         data.put("nations", nations);
         data.put("upgrades", upgradeData.get().getData());

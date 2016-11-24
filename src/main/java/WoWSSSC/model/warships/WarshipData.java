@@ -18,17 +18,17 @@ public class WarshipData
     private String status;
     private LinkedHashMap<String, Warship> data = new LinkedHashMap<>();
 
-    @JsonIgnore
-    private Sorter sorter = new Sorter();
-
-    public void setData(HashMap<String, Warship> data)
-    {
-        for (Map.Entry<String, Warship> d : data.entrySet())
-        {
-            String key = d.getValue().getName();
-            Warship value = d.getValue();
-            this.data.put(key, value);
-        }
-        this.data = sorter.sortShips(this.data);
-    }
+//    @JsonIgnore
+//    private Sorter sorter = new Sorter();
+//
+//    public void setData(HashMap<String, Warship> data)
+//    {
+//        for (Map.Entry<String, Warship> d : data.entrySet())
+//        {
+//            String key = d.getValue().getName();
+//            Warship value = d.getValue();
+//            this.data.put(key, value);
+//        }
+//        this.data = sorter.sortShips(this.data);
+//    }
 }

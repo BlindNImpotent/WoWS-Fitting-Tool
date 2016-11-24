@@ -37,6 +37,8 @@ public class TestConfig
 
     private HashMap<String, Ship> shipHashMap = new HashMap<>();
 
+    LinkedHashMap<String, LinkedHashMap> data = new LinkedHashMap<>();
+
     @Bean
     public String app_id()
     {
@@ -72,7 +74,7 @@ public class TestConfig
     @Bean
     public LinkedHashMap<String, LinkedHashMap> data()
     {
-        return asyncHashMap.getData();
+        return data;
     }
 
     @Bean

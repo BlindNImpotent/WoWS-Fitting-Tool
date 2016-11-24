@@ -43,15 +43,15 @@ public class Warship
 
     private LinkedHashMap<String, LinkedHashMap> warshipModulesTreeNew = new LinkedHashMap<>();
 
-    private static final String Artillery = "Artillery";
-    private static final String DiveBomber = "DiveBomber";
-    private static final String Engine = "Engine";
-    private static final String Fighter = "Fighter";
-    private static final String FlightControl = "FlightControl";
-    private static final String Hull = "Hull";
-    private static final String Suo = "Suo";
-    private static final String Torpedoes = "Torpedoes";
-    private static final String TorpedoBomber = "TorpedoBomber";
+//    private static final String Artillery = "Artillery";
+//    private static final String DiveBomber = "DiveBomber";
+//    private static final String Engine = "Engine";
+//    private static final String Fighter = "Fighter";
+//    private static final String FlightControl = "FlightControl";
+//    private static final String Hull = "Hull";
+//    private static final String Suo = "Suo";
+//    private static final String Torpedoes = "Torpedoes";
+//    private static final String TorpedoBomber = "TorpedoBomber";
     
     public boolean isIs_premium()
     {

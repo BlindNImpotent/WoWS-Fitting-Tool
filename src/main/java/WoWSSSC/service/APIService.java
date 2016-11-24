@@ -170,6 +170,7 @@ public class APIService
                         if (tempProfile.getConcealment().getDetect_distance_coef() != 0)
                         {
                             ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * tempProfile.getConcealment().getDetect_distance_coef());
+                            ship.getConcealment().setDetect_distance_by_plane(ship.getConcealment().getDetect_distance_by_plane() * tempProfile.getConcealment().getDetect_distance_coef());
                         }
                     }
                 }
