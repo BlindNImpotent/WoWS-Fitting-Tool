@@ -1,6 +1,8 @@
 package WoWSSSC.parser;
 
 import WoWSSSC.model.info.Encyclopedia;
+import WoWSSSC.model.skills.CrewSkills;
+import WoWSSSC.model.skills.CrewSkillsData;
 import WoWSSSC.model.warships.Warship;
 import WoWSSSC.model.warships.WarshipData;
 import WoWSSSC.model.upgrade.Upgrade;
@@ -63,6 +65,7 @@ public class AsyncHashMap implements CommandLineRunner
         }
 
         Future<UpgradeData> upgradeData = apiJsonParser.getUpgrades();
+        Future<CrewSkillsData> crewsSkillsData = apiJsonParser.getCrewSkills();
 
         futures.entrySet().forEach(futureEntry ->
         {
@@ -90,6 +93,8 @@ public class AsyncHashMap implements CommandLineRunner
         });
 
         setUpgradesPerShip(nations, upgradeData.get().getData());
+
+        setCrewSkills(crewsSkillsData.get().getData());
 
         data.clear();
         data.put("nations", nations);
@@ -138,5 +143,16 @@ public class AsyncHashMap implements CommandLineRunner
             });
             ((Map.Entry<String, Warship>) ship).getValue().setUpgradesNew(tempUpgrades);
         })));
+    }
+
+    private void setCrewSkills(LinkedHashMap<String, CrewSkills> crewSkills)
+    {
+        LinkedHashMap<String, LinkedHashMap> temp = new LinkedHashMap<>();
+
+        crewSkills.entrySet().forEach(entry -> {
+            long tier = entry.getValue().getTier();
+
+
+        });
     }
 }

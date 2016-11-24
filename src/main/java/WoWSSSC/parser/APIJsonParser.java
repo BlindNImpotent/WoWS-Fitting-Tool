@@ -2,6 +2,7 @@ package WoWSSSC.parser;
 
 import WoWSSSC.model.info.EncyclopediaData;
 import WoWSSSC.model.shipprofile.ShipData;
+import WoWSSSC.model.skills.CrewSkillsData;
 import WoWSSSC.model.warships.WarshipData;
 import WoWSSSC.model.upgrade.UpgradeData;
 import org.slf4j.Logger;
@@ -54,5 +55,15 @@ public class APIJsonParser
         String url = "https://api.worldofwarships.com/wows/encyclopedia/info/?application_id=" + APP_ID;
 
         return restTemplate.getForObject(url, EncyclopediaData.class);
+    }
+
+    @Async
+    public Future<CrewSkillsData> getCrewSkills() throws IOException
+    {
+        logger.info("Looking up crew skills");
+        String url = "https://api.worldofwarships.com/wows/encyclopedia/crewskills/?application_id=" + APP_ID;
+        CrewSkillsData result = restTemplate.getForObject(url, CrewSkillsData.class);
+
+        return new AsyncResult<>(result);
     }
 }
