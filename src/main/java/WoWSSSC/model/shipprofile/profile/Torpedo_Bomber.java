@@ -9,13 +9,13 @@ import lombok.Data;
 @Data
 public class Torpedo_Bomber
 {
-    private long cruise_speed;
+    private float cruise_speed;
     private long gunner_damage;
     private long max_damage;
     private long max_health;
     private String name;
     private long plane_level;
-    private long prepare_time;
+    private float prepare_time;
     private long squadrons;
     private long torpedo_bomber_id;
     private String torpedo_bomber_id_str;

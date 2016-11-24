@@ -88,8 +88,6 @@
         callAPI();
     });
 
-
-
     function callAPI()
     {
         if ($('#ship').attr('name') != null)
@@ -99,6 +97,7 @@
             var equals = '=';
 
             var selectedModules = $('.button_module_selected');
+            var selectedUpgrades = $('.button_upgrade_selected');
 
             for (var i = 0; i < selectedModules.length; i++)
             {
@@ -106,6 +105,14 @@
                 var moduleId = selectedModules[i].getAttribute('id');
 
                 url = url + modifier + type + equals + moduleId;
+            }
+
+            for (var i = 0; i < selectedUpgrades.length; i++)
+            {
+                var type = selectedUpgrades[i].getAttribute('name');
+                var upgradeId = selectedUpgrades[i].getAttribute('id');
+
+                url = url + modifier + type + equals + upgradeId;
             }
 
             $.ajax({

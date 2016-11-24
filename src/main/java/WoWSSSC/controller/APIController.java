@@ -1,6 +1,7 @@
 package WoWSSSC.controller;
 
 import WoWSSSC.model.shipprofile.Ship;
+import WoWSSSC.model.shipprofile.profile.Mobility;
 import WoWSSSC.service.APIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,6 @@ public class APIController
 
     @Autowired
     private LinkedHashMap<String, LinkedHashMap> data;
-
-    private HashMap<String, Ship> shipAPIs = new HashMap<>();
 
     @ResponseBody
     @RequestMapping (value = "/data", method = RequestMethod.GET)
@@ -82,36 +81,23 @@ public class APIController
                     @RequestParam(required = false, defaultValue = "") String price_3000000
             )
     {
-        String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
-                + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
-
-        Ship shipAPI = null;
-        if (!shipAPIs.containsKey(key))
+        if (!ship_id.equals(""))
         {
-            shipAPI = apiService.getShipAPI(ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
+            String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
+                    + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
 
-            if (shipAPI != null)
-            {
-                shipAPIs.put(key, shipAPI);
-            }
+            apiService.setShipAPI(ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
+
+            List<String> upgrades = new ArrayList<>();
+            upgrades.add(price_125000);
+            upgrades.add(price_250000);
+            upgrades.add(price_500000);
+            upgrades.add(price_1000000);
+            upgrades.add(price_2000000);
+            upgrades.add(price_3000000);
+
+            model.addAttribute("shipAPI", apiService.getUpgradeStats(key, upgrades));
         }
-        
-        if (shipAPI != null)
-        {
-            shipAPI = shipAPIs.get(key);
-        }
-
-        List<String> upgrades = new ArrayList<>();
-        upgrades.add(price_125000);
-        upgrades.add(price_250000);
-        upgrades.add(price_500000);
-        upgrades.add(price_1000000);
-        upgrades.add(price_2000000);
-        upgrades.add(price_3000000);
-
-        apiService.setUpgradeStats(shipAPI, upgrades);
-        
-        model.addAttribute("shipAPI", shipAPI);
 
         return "shipAPIPage :: shipAPIData";
     }

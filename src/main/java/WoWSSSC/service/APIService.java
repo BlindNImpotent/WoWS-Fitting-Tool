@@ -30,9 +30,12 @@ public class APIService
     @Autowired
     private LinkedHashMap<String, LinkedHashMap> data;
 
+    @Autowired
+    private HashMap<String, Ship> shipHashMap;
+
     private static final Logger logger = LoggerFactory.getLogger(APIService.class);
 
-    public Ship getShipAPI(
+    public void setShipAPI(
             String ship_id,
             String artillery_id,
             String dive_bomber_id,
@@ -49,21 +52,31 @@ public class APIService
         {
             String url = "https://api.worldofwarships.com/wows/encyclopedia/shipprofile/?application_id=" + APP_ID + "&ship_id=" + ship_id + "&artillery_id=" + artillery_id + "&dive_bomber_id=" + dive_bomber_id + "&engine_id=" + engine_id
                     + "&fighter_id=" + fighter_id + "&fire_control_id=" + fire_control_id + "&flight_control_id=" + flight_control_id + "&hull_id=" + hull_id + "&torpedo_bomber_id=" + torpedo_bomber_id + "&torpedoes_id=" + torpedoes_id;
-            ShipData shipData = restTemplate.getForObject(url, ShipData.class);
 
-            if (shipData.getStatus().equals("ok"))
+            String key = "&ship_id=" + ship_id + "&artillery_id=" + artillery_id + "&dive_bomber_id=" + dive_bomber_id + "&engine_id=" + engine_id
+                    + "&fighter_id=" + fighter_id + "&fire_control_id=" + fire_control_id + "&flight_control_id=" + flight_control_id + "&hull_id=" + hull_id + "&torpedo_bomber_id=" + torpedo_bomber_id + "&torpedoes_id=" + torpedoes_id;
+
+            if (!shipHashMap.containsKey(key))
             {
-                logger.info(url);
-                return shipData.getData().get(ship_id);
+                ShipData shipData = restTemplate.getForObject(url, ShipData.class);
+
+                if (shipData.getStatus().equals("ok"))
+                {
+                    logger.info(url);
+                    shipHashMap.put(key, shipData.getData().get(ship_id));
+                }
             }
         }
-        return null;
     }
 
-    public void setUpgradeStats(Ship ship, List<String> upgrades)
+    public Ship getUpgradeStats(String key, List<String> upgrades)
     {
-        for (String x : upgrades)
+        if (shipHashMap.get(key) == null)
         {
+            return null;
+        }
+        Ship ship = shipHashMap.get(key);
+        upgrades.forEach(x -> {
             if (!x.equals(""))
             {
                 Upgrade temp = (Upgrade) data.get("upgrades").get(x);
@@ -71,32 +84,90 @@ public class APIService
 
                 if (tempProfile.getAnti_aircraft() != null)
                 {
-                    for (Anti_Aircraft_Slot aas : ship.getAnti_aircraft().getSlots().values())
+                    if (ship.getAnti_aircraft() != null && ship.getAnti_aircraft().getSlots() != null)
                     {
-                        if (tempProfile.getAnti_aircraft().getDistance_coef() != 0)
+                        for (Anti_Aircraft_Slot aas : ship.getAnti_aircraft().getSlots().values())
                         {
-                            aas.setDistance(aas.getDistance() * tempProfile.getAnti_aircraft().getDistance_coef());
-                        }
-                        if (tempProfile.getAnti_aircraft().getEfficiency_coef() != 0)
-                        {
-                            aas.setAvg_damage(aas.getAvg_damage() * tempProfile.getAnti_aircraft().getEfficiency_coef());
+                            if (tempProfile.getAnti_aircraft().getDistance_coef() != 0)
+                            {
+                                aas.setDistance(aas.getDistance() * tempProfile.getAnti_aircraft().getDistance_coef());
+                            }
+                            if (tempProfile.getAnti_aircraft().getEfficiency_coef() != 0)
+                            {
+                                aas.setAvg_damage(aas.getAvg_damage() * tempProfile.getAnti_aircraft().getEfficiency_coef());
+                            }
+                            if (tempProfile.getAnti_aircraft().getHealth_coef() != 0)
+                            {
+
+                            }
                         }
                     }
                 }
                 else if (tempProfile.getArtillery() != null)
                 {
-                    if (tempProfile.getArtillery() != null)
+                    if (ship.getArtillery() != null)
                     {
+                        if (tempProfile.getArtillery().getReload_time_coef() != 0)
+                        {
+                            ship.getArtillery().setShot_delay(ship.getArtillery().getShot_delay() * tempProfile.getArtillery().getReload_time_coef());
+                        }
+                        if (tempProfile.getArtillery().getRotation_time_coef() != 0)
+                        {
+                            ship.getArtillery().setRotation_time(ship.getArtillery().getRotation_time() * tempProfile.getArtillery().getRotation_time_coef());
+                        }
+                        if (tempProfile.getArtillery().getAmmo_critical_damage_chance_coef() != 0)
+                        {
 
+                        }
+                        if (tempProfile.getArtillery().getAmmo_detonation_chance_coef() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getArtillery().getAmmo_repair_time_coef() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getArtillery().getCritical_damage_chance_coef() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getArtillery().getRepair_time_coef() != 0)
+                        {
+
+                        }
                     }
                 }
                 else if (tempProfile.getAtba() != null)
                 {
+                    if (ship.getAtba() != null)
+                    {
+                        if (tempProfile.getAtba().getAccuracy_coef() != 0)
+                        {
 
+                        }
+                        if (tempProfile.getAtba().getDistance_coef() != 0)
+                        {
+                            ship.getAtba().setDistance(ship.getAtba().getDistance() * tempProfile.getAtba().getDistance_coef());
+                        }
+                        if (tempProfile.getAtba().getHealth_coef() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getAtba().getReload_time_coef() != 0)
+                        {
+                            ship.getAtba().setGun_rate(ship.getAtba().getGun_rate() / tempProfile.getAtba().getReload_time_coef());
+                        }
+                    }
                 }
                 else if (tempProfile.getConcealment() != null)
                 {
-
+                    if (ship.getConcealment() != null)
+                    {
+                        if (tempProfile.getConcealment().getDetect_distance_coef() != 0)
+                        {
+                            ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * tempProfile.getConcealment().getDetect_distance_coef());
+                        }
+                    }
                 }
                 else if (tempProfile.getDamage_control() != null)
                 {
@@ -104,35 +175,212 @@ public class APIService
                 }
                 else if (tempProfile.getEngine() != null)
                 {
+                    if (ship.getEngine() != null)
+                    {
+                        if (tempProfile.getEngine().getCritical_damage_chance_coef() != 0)
+                        {
 
+                        }
+                        if (tempProfile.getEngine().getMax_backward_power_coef() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getEngine().getMax_forward_power_coef() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getEngine().getRepair_time_coef() != 0)
+                        {
+
+                        }
+                    }
                 }
                 else if (tempProfile.getFire_control() != null)
                 {
-
+                    if (ship.getArtillery() != null)
+                    {
+                        if (tempProfile.getFire_control().getAccuracy_coef() != 0)
+                        {
+                            ship.getArtillery().setMax_dispersion(ship.getArtillery().getMax_dispersion() * tempProfile.getFire_control().getAccuracy_coef());
+                        }
+                        if (tempProfile.getFire_control().getDistance_coef() != 0)
+                        {
+                            ship.getArtillery().setDistance(ship.getArtillery().getDistance() * tempProfile.getFire_control().getDistance_coef());
+                        }
+                    }
                 }
                 else if (tempProfile.getFlight_control() != null)
                 {
-
+                    if (ship.getDive_bomber() != null)
+                    {
+                        if (tempProfile.getFlight_control().getPrepare_time_coef() != 0)
+                        {
+                            ship.getDive_bomber().setPrepare_time(ship.getDive_bomber().getPrepare_time() * tempProfile.getFlight_control().getPrepare_time_coef());
+                        }
+                        if (tempProfile.getFlight_control().getSpeed_coef() != 0)
+                        {
+                            ship.getDive_bomber().setCruise_speed(ship.getDive_bomber().getCruise_speed() * tempProfile.getFlight_control().getSpeed_coef());
+                        }
+                    }
+                    if (ship.getFighters() != null)
+                    {
+                        if (tempProfile.getFlight_control().getPrepare_time_coef() != 0)
+                        {
+                            ship.getFighters().setPrepare_time(ship.getFighters().getPrepare_time() * tempProfile.getFlight_control().getPrepare_time_coef());
+                        }
+                        if (tempProfile.getFlight_control().getSpeed_coef() != 0)
+                        {
+                            ship.getFighters().setCruise_speed(ship.getFighters().getCruise_speed() * tempProfile.getFlight_control().getSpeed_coef());
+                        }
+                    }
+                    if (ship.getTorpedo_bomber() != null)
+                    {
+                        if (tempProfile.getFlight_control().getPrepare_time_coef() != 0)
+                        {
+                            ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * tempProfile.getFlight_control().getPrepare_time_coef());
+                        }
+                        if (tempProfile.getFlight_control().getSpeed_coef() != 0)
+                        {
+                            ship.getTorpedo_bomber().setCruise_speed(ship.getTorpedo_bomber().getCruise_speed() * tempProfile.getFlight_control().getSpeed_coef());
+                        }
+                    }
                 }
                 else if (tempProfile.getGuidance() != null)
                 {
+                    if (ship.getArtillery() != null)
+                    {
+                        if (tempProfile.getGuidance().getArtillery_rotation_speed() != 0)
+                        {
+                            ship.getArtillery().setRotation_time(ship.getArtillery().getRotation_time() / tempProfile.getGuidance().getArtillery_rotation_speed());
+                        }
+                        if (tempProfile.getGuidance().getArtillery_shoot_accuracy() != 0)
+                        {
+                            ship.getArtillery().setMax_dispersion(ship.getArtillery().getMax_dispersion() * tempProfile.getGuidance().getArtillery_shoot_accuracy());
+                        }
+                    }
+                    if (ship.getAtba() != null)
+                    {
+                        if (tempProfile.getGuidance().getAtba_max_dist() != 0)
+                        {
+                            ship.getAtba().setDistance(ship.getAtba().getDistance() * tempProfile.getGuidance().getAtba_max_dist());
+                        }
+                        if (tempProfile.getGuidance().getAtba_rotation_speed() != 0)
+                        {
 
+                        }
+                        if (tempProfile.getGuidance().getAtba_shoot_accuracy() != 0)
+                        {
+
+                        }
+                    }
                 }
                 else if (tempProfile.getMainweapon() != null)
                 {
+                    if (ship.getArtillery() != null)
+                    {
+                        if (tempProfile.getMainweapon().getArtillery_damage_prob() != 0)
+                        {
 
+                        }
+                        if (tempProfile.getMainweapon().getArtillery_max_hp() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getMainweapon().getArtillery_repair_time() != 0)
+                        {
+
+                        }
+                    }
+                    if (ship.getTorpedoes() != null)
+                    {
+                        if (tempProfile.getMainweapon().getTpd_damage_prob() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getMainweapon().getTpd_max_hp() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getMainweapon().getTpd_repair_time() != 0)
+                        {
+
+                        }
+                    }
                 }
                 else if (tempProfile.getPlanes() != null)
                 {
+                    if (ship.getDive_bomber() != null)
+                    {
+                        if (tempProfile.getPlanes().getBomber_health_coef() != 0)
+                        {
+                            ship.getDive_bomber().setMax_health(ship.getDive_bomber().getMax_health() * tempProfile.getPlanes().getBomber_health_coef());
+                        }
+                        if (tempProfile.getPlanes().getEfficiency_coef() != 0)
+                        {
+                            ship.getDive_bomber().setGunner_damage(ship.getDive_bomber().getGunner_damage() * tempProfile.getPlanes().getEfficiency_coef());
+                        }
+                        if (tempProfile.getPlanes().getFighter_health_coef() != 0)
+                        {
 
+                        }
+                    }
+                    if (ship.getFighters() != null)
+                    {
+                        if (tempProfile.getPlanes().getBomber_health_coef() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getPlanes().getEfficiency_coef() != 0)
+                        {
+                            ship.getFighters().setGunner_damage(ship.getFighters().getGunner_damage() * tempProfile.getPlanes().getEfficiency_coef());
+                        }
+                        if (tempProfile.getPlanes().getFighter_health_coef() != 0)
+                        {
+                            ship.getFighters().setMax_health(ship.getFighters().getMax_health() * tempProfile.getPlanes().getFighter_health_coef());
+                        }
+                    }
+                    if (ship.getTorpedo_bomber() != null)
+                    {
+                        if (tempProfile.getPlanes().getBomber_health_coef() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getPlanes().getEfficiency_coef() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getPlanes().getFighter_health_coef() != 0)
+                        {
+
+                        }
+                    }
                 }
                 else if (tempProfile.getPowder() != null)
                 {
+                    if (ship.getArtillery() != null)
+                    {
+                        if (tempProfile.getPowder().getDetonation_prob() != 0)
+                        {
 
+                        }
+                    }
                 }
                 else if (tempProfile.getSecondweapon() != null)
                 {
+                    if (ship.getAnti_aircraft() != null)
+                    {
+                        if (tempProfile.getSecondweapon().getAir_defense_max_hp() != 0)
+                        {
 
+                        }
+                    }
+                    if (ship.getAtba() != null)
+                    {
+                        if (tempProfile.getSecondweapon().getAtba_max_hp() != 0)
+                        {
+
+                        }
+                    }
                 }
                 else if (tempProfile.getSpotting() != null)
                 {
@@ -140,13 +388,61 @@ public class APIService
                 }
                 else if (tempProfile.getSteering() != null)
                 {
+                    if (ship.getEngine() != null)
+                    {
+                        if (tempProfile.getSteering().getCritical_damage_chance_coef() != 0)
+                        {
 
+                        }
+                        if (tempProfile.getSteering().getRepair_time_coef() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getSteering().getRudder_time_coef() != 0)
+                        {
+
+                        }
+                    }
+                    if (ship.getMobility() != null)
+                    {
+                        if (tempProfile.getSteering().getCritical_damage_chance_coef() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getSteering().getRepair_time_coef() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getSteering().getRudder_time_coef() != 0)
+                        {
+                            ship.getMobility().setRudder_time(ship.getMobility().getRudder_time() * tempProfile.getSteering().getRudder_time_coef());
+                        }
+                    }
                 }
                 else if (tempProfile.getTorpedoes() != null)
                 {
+                    if (ship.getTorpedoes() != null)
+                    {
+                        if (tempProfile.getTorpedoes().getCritical_damage_chance_coef() != 0)
+                        {
 
+                        }
+                        if (tempProfile.getTorpedoes().getReload_time_coef() != 0)
+                        {
+                            ship.getTorpedoes().setReload_time(ship.getTorpedoes().getReload_time() * tempProfile.getTorpedoes().getReload_time_coef());
+                        }
+                        if (tempProfile.getTorpedoes().getRepair_time_coef() != 0)
+                        {
+
+                        }
+                        if (tempProfile.getTorpedoes().getRotation_time_coef() != 0)
+                        {
+                            ship.getTorpedoes().setRotation_time(ship.getTorpedoes().getRotation_time() / tempProfile.getTorpedoes().getRotation_time_coef());
+                        }
+                    }
                 }
             }
-        }
+        });
+        return ship;
     }
 }

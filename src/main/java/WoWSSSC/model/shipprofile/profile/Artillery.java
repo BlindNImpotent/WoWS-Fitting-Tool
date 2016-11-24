@@ -16,7 +16,7 @@ public class Artillery
     private String artillery_id_str;
     private float distance;
     private float gun_rate;
-    private long max_dispersion;
+    private float max_dispersion;
     private float rotation_time;
     private float shot_delay;
     private HashMap<String, Artillery_Shells> shells = new HashMap<>();

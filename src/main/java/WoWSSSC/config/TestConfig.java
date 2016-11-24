@@ -1,5 +1,6 @@
 package WoWSSSC.config;
 
+import WoWSSSC.model.shipprofile.Ship;
 import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.parser.AsyncHashMap;
 import WoWSSSC.utils.Sorter;
@@ -14,6 +15,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.concurrent.Executor;
 
@@ -33,11 +35,19 @@ public class TestConfig
 
     private AsyncHashMap asyncHashMap = new AsyncHashMap();
 
+    private HashMap<String, Ship> shipHashMap = new HashMap<>();
+
     @Bean
     public String app_id()
     {
         APP_ID = "137f0721e1b1baf30d6dcd1968fc260c";
         return APP_ID;
+    }
+
+    @Bean
+    public HashMap<String, Ship> shipHashMap()
+    {
+        return shipHashMap;
     }
 
     @Bean

@@ -13,7 +13,7 @@ public class Torpedoes
 {
     private float distance;
     private long max_damage;
-    private long reload_time;
+    private float reload_time;
     private float rotation_time;
     private String torpedo_name;
     private long torpedo_speed;
