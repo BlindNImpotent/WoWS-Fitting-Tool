@@ -5,8 +5,6 @@ import WoWSSSC.model.shipprofile.ShipData;
 import WoWSSSC.model.shipprofile.profile.anti_aircraft.Anti_Aircraft_Slot;
 import WoWSSSC.model.upgrade.Upgrade;
 import WoWSSSC.model.upgrade.UpgradeProfile;
-import WoWSSSC.model.warships.Warship;
-import WoWSSSC.parser.AsyncHashMap;
 import com.rits.cloning.Cloner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

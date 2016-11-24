@@ -6,7 +6,6 @@ import WoWSSSC.model.warships.WarshipData;
 import WoWSSSC.model.upgrade.Upgrade;
 import WoWSSSC.model.upgrade.UpgradeData;
 import WoWSSSC.utils.Sorter;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -19,7 +18,6 @@ import java.util.concurrent.Future;
 /**
  * Created by Aesis on 2016-11-15.
  */
-@Data
 @Component
 public class AsyncHashMap implements CommandLineRunner
 {
@@ -38,8 +36,6 @@ public class AsyncHashMap implements CommandLineRunner
     private List<String> shipTypeString = new ArrayList<>();
 
     private LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
-
-    private LinkedHashMap<String, LinkedHashMap> upgrades = new LinkedHashMap<>();
 
     @Override
     public void run(String... strings) throws Exception
