@@ -37,6 +37,7 @@
                 <img th:title="${warship.description}" th:src="${warship.images.medium}"/>
             </div>
             <br />
+            <button id="showCrewSkills" class="ui-button">Commander Skills</button><br />
             <div id="modulesUpgradesConsumables">
                 <div id="modules">
                     <div th:each="moduleType : ${warship.warshipModulesTreeNew}" th:id="${moduleType.key}">

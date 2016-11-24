@@ -11,9 +11,9 @@ import java.util.List;
 public class CrewSkills
 {
     private String name;
-    private long type_id;
+    private int type_id;
     private List<CrewPerks> perks;
-    private long tier;
+    private int tier;
     private String icon;
     private String description;
 }

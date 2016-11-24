@@ -1,5 +1,6 @@
 package WoWSSSC.utils;
 
+import WoWSSSC.model.skills.CrewSkills;
 import WoWSSSC.model.warships.Warship;
 import WoWSSSC.model.warships.WarshipModulesTree;
 import WoWSSSC.model.upgrade.Upgrade;
@@ -214,6 +215,28 @@ public class Sorter
         });
 
         for (Map.Entry<String, LinkedHashMap> entry:list)
+        {
+            sorted.put(entry.getKey(), entry.getValue());
+        }
+
+        return sorted;
+    }
+
+    public LinkedHashMap<String, CrewSkills> sortCrewSkills(LinkedHashMap<String, CrewSkills> unsorted)
+    {
+        LinkedHashMap<String, CrewSkills> sorted = new LinkedHashMap<>();
+
+        List<Map.Entry<String, CrewSkills>> list = new LinkedList<>(unsorted.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<String, CrewSkills>>() {
+            @Override
+            public int compare(Map.Entry<String, CrewSkills> o1, Map.Entry<String, CrewSkills> o2)
+            {
+                return o1.getValue().getType_id() - o2.getValue().getType_id();
+            }
+        });
+
+        for (Map.Entry<String, CrewSkills> entry : list)
         {
             sorted.put(entry.getKey(), entry.getValue());
         }

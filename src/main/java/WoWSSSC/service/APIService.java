@@ -68,7 +68,7 @@ public class APIService
         }
     }
 
-    public Ship getUpgradeStats(String key, List<String> upgrades)
+    public Ship getUpgradeSkillStats(String key, List<String> upgrades, List<HashMap> skills)
     {
         if (shipHashMap.get(key) == null)
         {
@@ -115,7 +115,7 @@ public class APIService
                         }
                         if (tempProfile.getArtillery().getRotation_time_coef() != 0)
                         {
-                            ship.getArtillery().setRotation_time(ship.getArtillery().getRotation_time() * tempProfile.getArtillery().getRotation_time_coef());
+                            ship.getArtillery().setRotation_time(ship.getArtillery().getRotation_time() / tempProfile.getArtillery().getRotation_time_coef());
                         }
                         if (tempProfile.getArtillery().getAmmo_critical_damage_chance_coef() != 0)
                         {
@@ -446,6 +446,17 @@ public class APIService
                 }
             }
         });
+
+        skills.forEach(skill ->
+        {
+            int tier = (int) skill.get("tier");
+            int type = (int) skill.get("type");
+
+
+        });
+
+
+
         return ship;
     }
 }

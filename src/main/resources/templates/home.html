@@ -11,7 +11,13 @@
     <script th:src="@{/js/accounting/accounting.js}"></script>
     <script>
         $(function() {
-            $(document).tooltip();
+//            $(document).tooltip();
+            $('#crewSkills').dialog({
+                autoOpen: false,
+                modal: true,
+                width: 650,
+                height: 500
+            }).css("font-size", "8px");
         });
     </script>
     <script>
@@ -48,6 +54,20 @@
         </div>
     </div>
 </header>
+<div id="crewSkills" class="ui-widget-content" title="0 / 18">
+    <table id="skillsTable" align="center">
+        <tbody>
+            <tr th:each="skillTier : ${data.skills}">
+                <td th:each="skill : ${skillTier.value}" th:id="${'td_' + skill.value.tier + '_' + skill.value.type_id}">
+                    <button th:if="${skill.value.tier != 0}" th:title="${skill.value.description}" th:class="button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, position=${skill.value.type_id}">
+                        <img th:src="${skill.value.icon}"/><br />
+                        <span th:text="${skill.value.name}"/>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <main>
     <div class="container">
         <div class="warshipData">
@@ -103,6 +123,56 @@
         callAPI();
     });
 
+    $(document).on('click', '.button_skill, .button_skill_selected', function () {
+        var maxSpts = 18;
+        var currentSpts = 0;
+        var clickedSpts = 0;
+        var totalSpts = 0;
+
+        var clickedId = $(this).attr('id');
+
+        if (document.getElementById(clickedId).className == 'button_skill')
+        {
+            clickedSpts = clickedSpts + parseInt($(this).attr('tier'));
+        }
+        else
+        {
+            clickedSpts = clickedSpts - parseInt($(this).attr('tier'));
+        }
+
+        var selected = document.getElementsByClassName('button_skill_selected');
+
+        for (var i = 0; i < selected.length; i++)
+        {
+            currentSpts = currentSpts + parseInt(selected[i].getAttribute('tier'));
+        }
+
+        totalSpts = totalSpts + currentSpts + clickedSpts;
+
+        if (totalSpts > 18)
+        {
+//            alert('Skill points exceed 18');
+            return false;
+        }
+
+        if (document.getElementById(clickedId).className == 'button_skill')
+        {
+            document.getElementById(clickedId).className = 'button_skill_selected';
+        }
+        else
+        {
+            document.getElementById(clickedId).className = 'button_skill';
+        }
+
+        document.getElementById('ui-id-1').innerText = totalSpts.toString() + ' / ' + maxSpts.toString();
+
+        callAPI();
+    });
+
+    $(document).on('click', '#showCrewSkills', function () {
+        $('#crewSkills').dialog('open');
+    });
+
     function callAPI()
     {
         if ($('#ship').attr('name') != null)
@@ -113,6 +183,9 @@
 
             var selectedModules = $('.button_module_selected');
             var selectedUpgrades = $('.button_upgrade_selected');
+            var selectedSkills = $('.button_skill_selected');
+
+            var skills = [];
 
             for (var i = 0; i < selectedModules.length; i++)
             {
@@ -130,9 +203,26 @@
                 url = url + modifier + type + equals + upgradeId;
             }
 
+            for (var i = 0; i < selectedSkills.length; i++)
+            {
+                var tier = selectedSkills[i].getAttribute('tier');
+                var type = selectedSkills[i].getAttribute('position');
+
+                var current = {
+                    tier: tier,
+                    type: type
+                };
+
+                skills.push(current);
+            }
+
+            console.log(JSON.stringify(skills));
+
             $.ajax({
                 url: url,
-                type: 'get',
+                type: 'post',
+                contentType: "application/json",
+                data: JSON.stringify(skills),
                 success: function (data) {
                     if (data != '')
                     {

@@ -50,7 +50,6 @@ public class APIController
                     @RequestParam(required = false, defaultValue = "") String ship
             )
     {
-        model.addAttribute("data", data);
         if (!nation.equals("") && !shipType.equals("") && !ship.equals(""))
         {
             model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
@@ -59,7 +58,7 @@ public class APIController
         return "warshipPage :: warshipStats";
     }
 
-    @RequestMapping (value = "/shipAPI", method = RequestMethod.GET)
+    @RequestMapping (value = "/shipAPI", method = RequestMethod.POST)
     public String getShipAPI
             (
                     Model model,
@@ -78,7 +77,8 @@ public class APIController
                     @RequestParam(required = false, defaultValue = "") String price_500000,
                     @RequestParam(required = false, defaultValue = "") String price_1000000,
                     @RequestParam(required = false, defaultValue = "") String price_2000000,
-                    @RequestParam(required = false, defaultValue = "") String price_3000000
+                    @RequestParam(required = false, defaultValue = "") String price_3000000,
+                    @RequestBody(required = false) List<HashMap> skills
             )
     {
         if (!ship_id.equals(""))
@@ -96,7 +96,7 @@ public class APIController
             upgrades.add(price_2000000);
             upgrades.add(price_3000000);
 
-            model.addAttribute("shipAPI", apiService.getUpgradeStats(key, upgrades));
+            model.addAttribute("shipAPI", apiService.getUpgradeSkillStats(key, upgrades, skills));
         }
 
         return "shipAPIPage :: shipAPIData";

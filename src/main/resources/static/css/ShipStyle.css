@@ -700,3 +700,8 @@ table
     vertical-align: text-top;
     padding-left: 4em;
 }
+
+#crewSkills
+{
+    position: relative;
+}

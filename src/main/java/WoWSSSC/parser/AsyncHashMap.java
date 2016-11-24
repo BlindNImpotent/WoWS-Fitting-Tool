@@ -94,11 +94,10 @@ public class AsyncHashMap implements CommandLineRunner
 
         setUpgradesPerShip(nations, upgradeData.get().getData());
 
-        setCrewSkills(crewsSkillsData.get().getData());
-
         data.clear();
         data.put("nations", nations);
         data.put("upgrades", upgradeData.get().getData());
+        data.put("skills", setCrewSkills(crewsSkillsData.get().getData()));
 
         executor.shutdown();
     }
@@ -145,14 +144,69 @@ public class AsyncHashMap implements CommandLineRunner
         })));
     }
 
-    private void setCrewSkills(LinkedHashMap<String, CrewSkills> crewSkills)
+    private LinkedHashMap<String, LinkedHashMap> setCrewSkills(LinkedHashMap<String, CrewSkills> crewSkills)
     {
         LinkedHashMap<String, LinkedHashMap> temp = new LinkedHashMap<>();
 
-        crewSkills.entrySet().forEach(entry -> {
-            long tier = entry.getValue().getTier();
+        crewSkills.entrySet().forEach(entry ->
+        {
+            int tier = entry.getValue().getTier();
 
+            List<Integer> noTypeId = new ArrayList<>();
+            noTypeId.add(0);
+            noTypeId.add(1);
+            noTypeId.add(2);
+            noTypeId.add(3);
+            noTypeId.add(4);
+            noTypeId.add(5);
 
+            LinkedHashMap<String, CrewSkills> tempTier = new LinkedHashMap<>();
+            crewSkills.values().forEach(value ->
+            {
+                if (value.getTier() == tier)
+                {
+                    List<String> tempPerkDescription = new ArrayList<>();
+                    String tempDescription = "";
+
+                    value.getPerks().forEach(perk -> tempPerkDescription.add(perk.getDescription()));
+
+                    for (int i = 0; i < tempPerkDescription.size(); i++)
+                    {
+                        tempDescription = tempDescription + tempPerkDescription.get(i);
+                        if (i < tempPerkDescription.size() - 1)
+                        {
+                            tempDescription = tempDescription + "\n";
+                        }
+                    }
+                    value.setDescription(tempDescription);
+
+                    Integer index = null;
+                    for (int i = 0; i < noTypeId.size(); i++)
+                    {
+                        if (noTypeId.get(i) == value.getType_id())
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
+                    if (index != null)
+                    {
+                        noTypeId.remove(index);
+                    }
+
+                    tempTier.put(value.getName(), value);
+                }
+            });
+            noTypeId.forEach(i ->
+            {
+                CrewSkills emptyCrewSkills = new CrewSkills();
+                emptyCrewSkills.setType_id(i);
+                tempTier.put(String.valueOf(i), emptyCrewSkills);
+            });
+
+            temp.put(String.valueOf(tier), sorter.sortCrewSkills(tempTier));
         });
+
+        return temp;
     }
 }
