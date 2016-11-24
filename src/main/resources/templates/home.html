@@ -29,7 +29,6 @@
                             <ul>
                                 <li th:each="ship : ${shipType.value}">
                                     <span th:text="${ship.key}" th:onclick="'fragments(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'"/>
-                                    <!--<a th:text="${ship.key}" th:href="@{'#warship'(nation=${nation.key}, shipType=${shipType.key}, ship=${ship.key})}"/>-->
                                 </li>
                             </ul>
                         </li>

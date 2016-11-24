@@ -24,7 +24,7 @@
         <div id="ship" th:unless="${warship == null}" th:name="${warship.ship_id}" class="ship">
             <div id="name">
                 <h1 th:text="${warship.name}"/>
-                <img th:src="${warship.images.medium}"/>
+                <img th:title="${warship.description}" th:src="${warship.images.medium}"/>
             </div>
             <br />
             <div id="modulesUpgradesConsumables">
