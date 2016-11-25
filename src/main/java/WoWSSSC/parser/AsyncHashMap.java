@@ -1,6 +1,7 @@
 package WoWSSSC.parser;
 
 import WoWSSSC.model.info.Encyclopedia;
+import WoWSSSC.model.shipprofile.Ship;
 import WoWSSSC.model.skills.CrewSkills;
 import WoWSSSC.model.skills.CrewSkillsData;
 import WoWSSSC.model.warships.Warship;
@@ -10,7 +11,6 @@ import WoWSSSC.model.upgrade.UpgradeData;
 import WoWSSSC.utils.Sorter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -30,7 +30,7 @@ public class AsyncHashMap implements CommandLineRunner
     private LinkedHashMap<String, LinkedHashMap> data;
 
     @Autowired
-    private ThreadPoolTaskExecutor executor;
+    private HashMap<String, Ship> shipHashMap;
 
     @Autowired
     private Sorter sorter;
@@ -38,8 +38,6 @@ public class AsyncHashMap implements CommandLineRunner
     @Override
     public void run(String... strings) throws Exception
     {
-        executor.initialize();
-
         List<String> nationsString = new ArrayList<>();
         List<String> shipTypeString = new ArrayList<>();
 
@@ -98,8 +96,7 @@ public class AsyncHashMap implements CommandLineRunner
         data.put("nations", nations);
         data.put("upgrades", upgradeData.get().getData());
         data.put("skills", setCrewSkills(crewsSkillsData.get().getData()));
-
-        executor.shutdown();
+        shipHashMap.clear();
     }
 
     private LinkedHashMap<String, LinkedHashMap> setPremium(LinkedHashMap<String, LinkedHashMap> nation)

@@ -9,6 +9,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.util.concurrent.Executor;
  * Created by Qualson-Lee on 2016-08-04.
  */
 @EnableAutoConfiguration
+@EnableScheduling
 @SpringBootApplication
 //@EnableCaching
 public class Application extends SpringBootServletInitializer

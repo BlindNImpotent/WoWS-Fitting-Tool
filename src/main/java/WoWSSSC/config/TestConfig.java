@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Created by Aesis on 2016-10-15.
@@ -29,11 +30,11 @@ public class TestConfig
 {
     private APIJsonParser apiJsonParser = new APIJsonParser();
 
-    private AsyncHashMap asyncHashMap = new AsyncHashMap();
-
     private HashMap<String, Ship> shipHashMap = new HashMap<>();
 
     private LinkedHashMap<String, LinkedHashMap> data = new LinkedHashMap<>();
+
+    private AsyncHashMap asyncHashMap = new AsyncHashMap();
 
     @Bean
     public String app_id()
@@ -60,12 +61,6 @@ public class TestConfig
     }
 
     @Bean
-    public AsyncHashMap asyncHashMap() throws Exception
-    {
-        return asyncHashMap;
-    }
-
-    @Bean
     public LinkedHashMap<String, LinkedHashMap> data()
     {
         return data;
@@ -77,8 +72,15 @@ public class TestConfig
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(5);
         executor.setThreadNamePrefix("Thread-");
+        executor.initialize();
 
         return executor;
+    }
+
+    @Bean
+    public AsyncHashMap asyncHashMap()
+    {
+        return asyncHashMap;
     }
 
     @Bean
