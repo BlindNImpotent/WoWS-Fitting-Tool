@@ -1,5 +1,7 @@
 package WoWSSSC.service;
 
+import WoWSSSC.model.exterior.Exterior;
+import WoWSSSC.model.exterior.TTC_Coef;
 import WoWSSSC.model.shipprofile.Ship;
 import WoWSSSC.model.shipprofile.ShipData;
 import WoWSSSC.model.shipprofile.profile.anti_aircraft.Anti_Aircraft_Slot;
@@ -80,6 +82,23 @@ public class APIService
         Ship ship = cloner.deepClone(shipHashMap.get(key));
         LinkedHashMap<String, LinkedHashMap> nationLHM = (LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation);
         Warship warship = (Warship) nationLHM.get(shipType).get(shipName);
+
+        boolean camouflage = (boolean) upgradesSkills.get("camouflage").get(0);
+        if (camouflage)
+        {
+            if (ship.getConcealment() != null)
+            {
+                ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * 0.97f);
+            }
+        }
+
+//        List<HashMap> flags = upgradesSkills.get("flags");
+//        flags.forEach(flag -> {
+//            Exterior exterior = (Exterior) data.get("exterior").get(flag.get("flag"));
+//            TTC_Coef coef = exterior.getTtc_coef();
+//
+//
+//        });
 
         List<HashMap> skills = upgradesSkills.get("skills");
         skills.forEach(skill ->
@@ -348,7 +367,6 @@ public class APIService
         });
 
         List<HashMap> upgrades = upgradesSkills.get("upgrades");
-
         upgrades.forEach(upgrade -> {
             if (!upgrade.get("upgrade").equals(""))
             {

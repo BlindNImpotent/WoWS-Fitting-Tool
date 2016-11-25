@@ -9,21 +9,6 @@
     <script th:src="@{/js/jquery/jquery-1.12.4.js}"></script>
     <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
     <script th:src="@{/js/accounting/accounting.js}"></script>
-    <script>
-        $(function() {
-            $(document).tooltip();
-        });
-    </script>
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-87975190-1', 'auto');
-        ga('send', 'pageview');
-
-    </script>
     <title>WoWS Fitting Tool by Aesis</title>
 </head>
 <body>
@@ -31,13 +16,24 @@
 </header>
 <main>
     <div th:fragment="warshipStats" class="warshipData">
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-87975190-1', 'auto');
+            ga('send', 'pageview');
+        </script>
         <div id="ship" th:unless="${warship == null}" th:name="${warship.ship_id}" class="ship">
             <div id="name">
                 <h1 th:text="${warship.name}"/>
                 <img th:title="${warship.description}" th:src="${warship.images.medium}"/>
             </div>
             <br />
-            <button id="showCrewSkills" class="ui-button">Commander Skills</button><button id="showFlags" class="ui-button">Flags</button><br />
+            <button id="showCrewSkills" class="ui-button">Commander Skills</button>
+            <!--<button id="showFlags" class="ui-button">Flags</button>-->
+            <input type="checkbox" id="camouflageCheckbox"/>Camouflage<br />
             <div id="modulesUpgradesConsumables">
                 <div id="modules">
                     <div th:each="moduleType : ${warship.warshipModulesTreeNew}" th:id="${moduleType.key}">
