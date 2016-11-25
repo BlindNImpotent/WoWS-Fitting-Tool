@@ -1,5 +1,6 @@
 package WoWSSSC.parser;
 
+import WoWSSSC.model.exterior.ExteriorData;
 import WoWSSSC.model.info.EncyclopediaData;
 import WoWSSSC.model.shipprofile.ShipData;
 import WoWSSSC.model.skills.CrewSkillsData;
@@ -63,6 +64,16 @@ public class APIJsonParser
         logger.info("Looking up crew skills");
         String url = "https://api.worldofwarships.com/wows/encyclopedia/crewskills/?application_id=" + APP_ID;
         CrewSkillsData result = restTemplate.getForObject(url, CrewSkillsData.class);
+
+        return new AsyncResult<>(result);
+    }
+
+    @Async
+    public Future<ExteriorData> getExteriorData() throws IOException
+    {
+        logger.info("Looking up exterior");
+        String url = "https://api.worldofwarships.com/wows/encyclopedia/exterior/?application_id=" + APP_ID;
+        ExteriorData result = restTemplate.getForObject(url, ExteriorData.class);
 
         return new AsyncResult<>(result);
     }

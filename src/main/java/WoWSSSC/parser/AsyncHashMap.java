@@ -1,5 +1,7 @@
 package WoWSSSC.parser;
 
+import WoWSSSC.model.exterior.Exterior;
+import WoWSSSC.model.exterior.ExteriorData;
 import WoWSSSC.model.info.Encyclopedia;
 import WoWSSSC.model.shipprofile.Ship;
 import WoWSSSC.model.skills.CrewSkills;
@@ -64,6 +66,7 @@ public class AsyncHashMap implements CommandLineRunner
 
         Future<UpgradeData> upgradeData = apiJsonParser.getUpgrades();
         Future<CrewSkillsData> crewsSkillsData = apiJsonParser.getCrewSkills();
+        Future<ExteriorData> exteriorData = apiJsonParser.getExteriorData();
 
         futures.entrySet().forEach(futureEntry ->
         {
@@ -96,6 +99,9 @@ public class AsyncHashMap implements CommandLineRunner
         data.put("nations", nations);
         data.put("upgrades", upgradeData.get().getData());
         data.put("skills", setCrewSkills(crewsSkillsData.get().getData()));
+        data.put("exterior", exteriorData.get().getData());
+        data.put("exteriors", setExteriors(exteriorData.get().getData()));
+
         shipHashMap.clear();
     }
 
@@ -184,5 +190,25 @@ public class AsyncHashMap implements CommandLineRunner
         });
 
         return temp;
+    }
+
+    private LinkedHashMap<String, LinkedHashMap> setExteriors(LinkedHashMap<String, Exterior> exteriorData)
+    {
+        LinkedHashMap<String, LinkedHashMap> tempExteriors = new LinkedHashMap<>();
+        exteriorData.values().forEach(value -> {
+            String type = value.getType();
+            LinkedHashMap<String, Exterior> temp = new LinkedHashMap<>();
+
+            exteriorData.values().forEach(newVal ->
+            {
+                if (newVal.getType().equals(type))
+                {
+                    temp.put(String.valueOf(newVal.getExterior_id()), newVal);
+                }
+            });
+            tempExteriors.put(type, temp);
+        });
+
+        return tempExteriors;
     }
 }
