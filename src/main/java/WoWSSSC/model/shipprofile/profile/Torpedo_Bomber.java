@@ -12,7 +12,7 @@ public class Torpedo_Bomber
     private float cruise_speed;
     private long gunner_damage;
     private long max_damage;
-    private long max_health;
+    private float max_health;
     private String name;
     private long plane_level;
     private float prepare_time;

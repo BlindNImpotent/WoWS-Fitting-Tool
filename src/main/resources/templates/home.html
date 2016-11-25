@@ -79,6 +79,10 @@
 <script th:inline="javascript">
 //    <![CDATA[
 
+    var nation = '';
+    var shipType = '';
+    var ship = '';
+
     $().ready(function () {
         $( function() {
             $('#shipList').menu();
@@ -177,7 +181,7 @@
     {
         if ($('#ship').attr('name') != null)
         {
-            var url = '/shipAPI?ship_id=' + $('#ship').attr('name');
+            var url = '/shipAPI?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&ship_id=' + $('#ship').attr('name');
             var modifier = '&';
             var equals = '=';
 
@@ -185,6 +189,7 @@
             var selectedUpgrades = $('.button_upgrade_selected');
             var selectedSkills = $('.button_skill_selected');
 
+            var upgrades = [];
             var skills = [];
 
             for (var i = 0; i < selectedModules.length; i++)
@@ -197,32 +202,38 @@
 
             for (var i = 0; i < selectedUpgrades.length; i++)
             {
-                var type = selectedUpgrades[i].getAttribute('name');
                 var upgradeId = selectedUpgrades[i].getAttribute('id');
 
-                url = url + modifier + type + equals + upgradeId;
+                var current = {
+                    upgrade: upgradeId
+                };
+
+                upgrades.push(current);
             }
 
             for (var i = 0; i < selectedSkills.length; i++)
             {
                 var tier = selectedSkills[i].getAttribute('tier');
-                var type = selectedSkills[i].getAttribute('position');
+                var position = selectedSkills[i].getAttribute('position');
 
                 var current = {
                     tier: tier,
-                    type: type
+                    position: position
                 };
 
                 skills.push(current);
             }
 
-            console.log(JSON.stringify(skills));
+            var upgradesSkills = {
+                upgrades: upgrades,
+                skills: skills
+            };
 
             $.ajax({
                 url: url,
                 type: 'post',
                 contentType: "application/json",
-                data: JSON.stringify(skills),
+                data: JSON.stringify(upgradesSkills),
                 success: function (data) {
                     if (data != '')
                     {
@@ -239,9 +250,9 @@
 
     function fragments(nationOriginal, shipTypeOriginal, shipOriginal)
     {
-        var nation = nationOriginal.replace(/ /g, '+');
-        var shipType = shipTypeOriginal.replace(/ /g, '+');
-        var ship = shipOriginal.replace(/ /g, '+');
+        nation = nationOriginal.replace(/ /g, '+');
+        shipType = shipTypeOriginal.replace(/ /g, '+');
+        ship = shipOriginal.replace(/ /g, '+');
 
         var url = '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship;
 

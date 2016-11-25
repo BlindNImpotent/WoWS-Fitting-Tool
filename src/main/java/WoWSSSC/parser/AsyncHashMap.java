@@ -151,16 +151,15 @@ public class AsyncHashMap implements CommandLineRunner
         crewSkills.entrySet().forEach(entry ->
         {
             int tier = entry.getValue().getTier();
-
-            List<Integer> noTypeId = new ArrayList<>();
-            noTypeId.add(0);
-            noTypeId.add(1);
-            noTypeId.add(2);
-            noTypeId.add(3);
-            noTypeId.add(4);
-            noTypeId.add(5);
-
             LinkedHashMap<String, CrewSkills> tempTier = new LinkedHashMap<>();
+
+            for (int i = 0; i < 7; i++)
+            {
+                CrewSkills tempCrewSkills = new CrewSkills();
+                tempCrewSkills.setType_id(i);
+                tempTier.put(String.valueOf(i), tempCrewSkills);
+            }
+
             crewSkills.values().forEach(value ->
             {
                 if (value.getTier() == tier)
@@ -180,28 +179,8 @@ public class AsyncHashMap implements CommandLineRunner
                     }
                     value.setDescription(tempDescription);
 
-                    Integer index = null;
-                    for (int i = 0; i < noTypeId.size(); i++)
-                    {
-                        if (noTypeId.get(i) == value.getType_id())
-                        {
-                            index = i;
-                            break;
-                        }
-                    }
-                    if (index != null)
-                    {
-                        noTypeId.remove(index);
-                    }
-
-                    tempTier.put(value.getName(), value);
+                    tempTier.put(String.valueOf(value.getType_id()), value);
                 }
-            });
-            noTypeId.forEach(i ->
-            {
-                CrewSkills emptyCrewSkills = new CrewSkills();
-                emptyCrewSkills.setType_id(i);
-                tempTier.put(String.valueOf(i), emptyCrewSkills);
             });
 
             temp.put(String.valueOf(tier), sorter.sortCrewSkills(tempTier));

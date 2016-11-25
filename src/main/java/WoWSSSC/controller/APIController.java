@@ -62,6 +62,9 @@ public class APIController
     public String getShipAPI
             (
                     Model model,
+                    @RequestParam(required = false, defaultValue = "") String nation,
+                    @RequestParam(required = false, defaultValue = "") String shipType,
+                    @RequestParam(required = false, defaultValue = "") String ship,
                     @RequestParam(required = false, defaultValue = "") String ship_id,
                     @RequestParam(required = false, defaultValue = "") String Artillery,
                     @RequestParam(required = false, defaultValue = "") String DiveBomber,
@@ -72,13 +75,7 @@ public class APIController
                     @RequestParam(required = false, defaultValue = "") String Hull,
                     @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
                     @RequestParam(required = false, defaultValue = "") String Torpedoes,
-                    @RequestParam(required = false, defaultValue = "") String price_125000,
-                    @RequestParam(required = false, defaultValue = "") String price_250000,
-                    @RequestParam(required = false, defaultValue = "") String price_500000,
-                    @RequestParam(required = false, defaultValue = "") String price_1000000,
-                    @RequestParam(required = false, defaultValue = "") String price_2000000,
-                    @RequestParam(required = false, defaultValue = "") String price_3000000,
-                    @RequestBody(required = false) List<HashMap> skills
+                    @RequestBody(required = false) HashMap<String, List> upgradesSkills
             )
     {
         if (!ship_id.equals(""))
@@ -88,15 +85,7 @@ public class APIController
 
             apiService.setShipAPI(ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
 
-            List<String> upgrades = new ArrayList<>();
-            upgrades.add(price_125000);
-            upgrades.add(price_250000);
-            upgrades.add(price_500000);
-            upgrades.add(price_1000000);
-            upgrades.add(price_2000000);
-            upgrades.add(price_3000000);
-
-            model.addAttribute("shipAPI", apiService.getUpgradeSkillStats(key, upgrades, skills));
+            model.addAttribute("shipAPI", apiService.getUpgradeSkillStats(key, nation, shipType, ship, upgradesSkills));
         }
 
         return "shipAPIPage :: shipAPIData";
