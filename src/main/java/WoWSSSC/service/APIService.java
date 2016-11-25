@@ -83,12 +83,15 @@ public class APIService
         LinkedHashMap<String, LinkedHashMap> nationLHM = (LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation);
         Warship warship = (Warship) nationLHM.get(shipType).get(shipName);
 
-        boolean camouflage = (boolean) upgradesSkills.get("camouflage").get(0);
-        if (camouflage)
+        if (upgradesSkills.get("camouflage") != null)
         {
-            if (ship.getConcealment() != null)
+            boolean camouflage = (boolean) upgradesSkills.get("camouflage").get(0);
+            if (camouflage)
             {
-                ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * 0.97f);
+                if (ship.getConcealment() != null)
+                {
+                    ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * 0.97f);
+                }
             }
         }
 

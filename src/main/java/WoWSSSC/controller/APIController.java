@@ -3,6 +3,8 @@ package WoWSSSC.controller;
 import WoWSSSC.model.shipprofile.Ship;
 import WoWSSSC.model.shipprofile.profile.Mobility;
 import WoWSSSC.service.APIService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,8 @@ public class APIController
 
     @Autowired
     private LinkedHashMap<String, LinkedHashMap> data;
+
+    private static final Logger logger = LoggerFactory.getLogger(APIController.class);
 
     @ResponseBody
     @RequestMapping (value = "/data", method = RequestMethod.GET)
@@ -52,6 +56,7 @@ public class APIController
     {
         if (!nation.equals("") && !shipType.equals("") && !ship.equals(""))
         {
+            logger.info("Loading " + nation + " " + shipType + " " + ship);
             model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
         }
 
