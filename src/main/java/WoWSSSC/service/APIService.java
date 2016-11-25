@@ -78,6 +78,54 @@ public class APIService
         Cloner cloner = new Cloner();
         Ship ship = cloner.deepClone(shipHashMap.get(key));
 
+        skills.forEach(skill ->
+        {
+            if (skill.get("tier").equals("1"))
+            {
+                if (skill.get("position").equals("0"))
+                {
+
+                }
+                else if (skill.get("position").equals("1"))
+                {
+                    if (ship.getArtillery() != null)
+                    {
+                        String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
+                        int caliber = Integer.parseInt(splitName[0].trim());
+
+                        if (caliber <= 139)
+                        {
+                            ship.getArtillery().setShot_delay(ship.getArtillery().getShot_delay() * 0.9f);
+                        }
+                    }
+                    if (ship.getAnti_aircraft() != null)
+                    {
+                        ship.getAnti_aircraft().getSlots().values().forEach(value -> value.setAvg_damage(value.getAvg_damage() * 1.1f));
+                    }
+                }
+                else if (skill.get("position").equals("2"))
+                {
+
+                }
+                else if (skill.get("position").equals("3"))
+                {
+
+                }
+                else if (skill.get("position").equals("4"))
+                {
+
+                }
+                else if (skill.get("position").equals("5"))
+                {
+
+                }
+            }
+        });
+
+
+
+
+
         upgrades.forEach(x -> {
             if (!x.equals(""))
             {
@@ -446,16 +494,6 @@ public class APIService
                 }
             }
         });
-
-        skills.forEach(skill ->
-        {
-            int tier = (int) skill.get("tier");
-            int type = (int) skill.get("type");
-
-
-        });
-
-
 
         return ship;
     }
