@@ -202,15 +202,15 @@ public class APIService
             {
                 if (skill.get("position").equals("0"))
                 {
+
+                }
+                else if (skill.get("position").equals("1"))
+                {
                     if (ship.getTorpedoes() != null)
                     {
                         ship.getTorpedoes().setTorpedo_speed(ship.getTorpedoes().getTorpedo_speed() + 5);
                         ship.getTorpedoes().setDistance(ship.getTorpedoes().getDistance() * 0.8f);
                     }
-                }
-                else if (skill.get("position").equals("1"))
-                {
-
                 }
                 else if (skill.get("position").equals("2"))
                 {

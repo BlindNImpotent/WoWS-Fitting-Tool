@@ -43,7 +43,7 @@
                     <u style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/><br />
                 </li>
                 Distance<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.distance, 0, 1)} + ' km'"/><br />
-                Dispersion<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.max_dispersion, 0, 0)} + ' m'"/><br />
+                Dispersion<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.max_dispersion, 0, 1)} + ' m'"/><br />
                 Reload<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.shot_delay, 0, 1)} + ' s'"/><br />
                 RoF<span style="float: right;" th:text="${#numbers.formatDecimal(60 / shipAPI.artillery.shot_delay, 0 ,2)} + ' RPM'"/><br />
                 Rotation<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.rotation_time, 0, 2)} + ' s'"/><br />
@@ -53,7 +53,7 @@
                     Damage<span style="float: right;" th:text="${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp'"/><br />
                     Speed<span style="float: right;" th:text="${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s'"/><br />
                     Mass<span style="float: right;" th:text="${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg'"/><br />
-                    Burn Probability<span style="float: right;" th:text="${#numbers.formatDecimal(shell.value.burn_probability, 0, 0)} + ' %'"/><br />
+                    Burn Probability<span style="float: right;" th:text="${#numbers.formatDecimal(shell.value.burn_probability, 0, 1)} + ' %'"/><br />
                 </li>
             </div>
             <div th:if="${shipAPI.torpedoes != null}" id="torpedoes">
@@ -63,8 +63,8 @@
                 </li>
                 Damage<span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.torpedoes.max_damage, 0, 'COMMA')} + ' hp'"/><br />
                 Reload<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.torpedoes.reload_time, 0, 1)} + ' s'"/><br />
-                Speed<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.torpedoes.torpedo_speed, 0, 0)} + ' kts'"/><br />
-                Distance<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.torpedoes.distance, 0, 0)} + ' km'"/><br />
+                Speed<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.torpedoes.torpedo_speed, 0, 1)} + ' kts'"/><br />
+                Distance<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.torpedoes.distance, 0, 1)} + ' km'"/><br />
             </div>
             <div th:if="${shipAPI.flight_control != null}" id="flight_control">
                 <strong>Flight Control</strong><br />
@@ -94,9 +94,9 @@
                     <u style="float: left;" th:text="${slot.value.name}"/><br />
                     Damage<span style="float: right;" th:text="${#numbers.formatInteger(slot.value.damage, 0, 'COMMA')} + ' hp'"/><br />
                     Reload<span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.shot_delay, 0, 1)} + ' s'"/><br />
-                    Speed<span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.bullet_speed, 0, 0)} + ' m / s'"/><br />
+                    Speed<span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.bullet_speed, 0, 1)} + ' m / s'"/><br />
                     Type<span style="float: right;" th:text="${slot.value.type}"/><br />
-                    Burn Probability<span style="float: right;padding-left: 4em;" th:text="${#numbers.formatDecimal(slot.value.burn_probability, 0, 0)} + ' %'"/><br />
+                    Burn Probability<span style="float: right;padding-left: 4em;" th:text="${#numbers.formatDecimal(slot.value.burn_probability, 0, 1)} + ' %'"/><br />
                 </li>
             </div>
         </div>
