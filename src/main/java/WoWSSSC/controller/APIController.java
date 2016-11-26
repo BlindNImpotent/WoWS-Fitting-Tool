@@ -1,20 +1,17 @@
 package WoWSSSC.controller;
 
-import WoWSSSC.model.shipprofile.Ship;
-import WoWSSSC.model.shipprofile.profile.Mobility;
 import WoWSSSC.service.APIService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Aesis on 2016-10-15.
@@ -28,6 +25,9 @@ public class APIController
     @Autowired
     private LinkedHashMap<String, LinkedHashMap> data;
 
+    @Autowired
+    private ConcurrentHashMap<String, HashMap> gameParamsCHM;
+
     private static final Logger logger = LoggerFactory.getLogger(APIController.class);
 
     @ResponseBody
@@ -35,6 +35,13 @@ public class APIController
     public LinkedHashMap<String, LinkedHashMap> getData()
     {
         return data;
+    }
+
+    @ResponseBody
+    @RequestMapping (value = "/gameParams", method = RequestMethod.GET)
+    public ConcurrentHashMap<String, HashMap> getGameParamsCHM()
+    {
+        return gameParamsCHM;
     }
 
     @RequestMapping (value = "/", method = RequestMethod.GET)

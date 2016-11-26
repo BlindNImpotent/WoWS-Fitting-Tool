@@ -11,11 +11,18 @@ import WoWSSSC.model.warships.WarshipData;
 import WoWSSSC.model.upgrade.Upgrade;
 import WoWSSSC.model.upgrade.UpgradeData;
 import WoWSSSC.utils.Sorter;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -44,6 +51,8 @@ public class AsyncHashMap implements CommandLineRunner
         List<String> shipTypeString = new ArrayList<>();
 
         LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
+
+        apiJsonParser.setGameParams();
 
         Encyclopedia encyclopedia = apiJsonParser.getEncyclopedia().getData();
 

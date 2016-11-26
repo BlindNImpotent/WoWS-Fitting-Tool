@@ -6,15 +6,22 @@ import WoWSSSC.model.shipprofile.ShipData;
 import WoWSSSC.model.skills.CrewSkillsData;
 import WoWSSSC.model.warships.WarshipData;
 import WoWSSSC.model.upgrade.UpgradeData;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Future;
 
 /**
@@ -27,6 +34,9 @@ public class APIJsonParser
 
     @Autowired
     private String APP_ID;
+
+    @Autowired
+    private ConcurrentHashMap<String, HashMap> gameParamsCHM;
 
     private static final Logger logger = LoggerFactory.getLogger(APIJsonParser.class);
 
@@ -76,5 +86,18 @@ public class APIJsonParser
         ExteriorData result = restTemplate.getForObject(url, ExteriorData.class);
 
         return new AsyncResult<>(result);
+    }
+
+    public void setGameParams() throws IOException
+    {
+        Resource GameParamsFile = new ClassPathResource("static/json/GameParams.json");
+        ObjectMapper mapper = new ObjectMapper();
+        gameParamsCHM = mapper.readValue(GameParamsFile.getFile(), new TypeReference<ConcurrentHashMap<String, HashMap>>(){});
+
+        gameParamsCHM.entrySet().forEach(entry ->
+        {
+            gameParamsCHM.put(String.valueOf(entry.getValue().get("id")), entry.getValue());
+            gameParamsCHM.remove(entry.getKey());
+        });
     }
 }
