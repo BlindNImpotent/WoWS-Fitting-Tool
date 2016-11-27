@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.web.client.RestTemplate;
@@ -90,9 +91,20 @@ public class APIJsonParser
 
     public void setGameParams() throws IOException
     {
-        Resource GameParamsFile = new ClassPathResource("static/json/GameParams.json");
+        HashMap<String, HashMap> temp = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
-        HashMap<String, HashMap> temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, HashMap>>(){});
+
+        Resource GameParamsFile = new UrlResource("https://s3.amazonaws.com/wowsft/GameParams.json");
+
+        if (!GameParamsFile.exists())
+        {
+            GameParamsFile = new ClassPathResource("static/json/GameParams.json");
+            temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, HashMap>>(){});
+        }
+        else
+        {
+            temp = mapper.readValue(GameParamsFile.getURL(), new TypeReference<HashMap<String, HashMap>>(){});
+        }
 
         gameParamsCHM.clear();
         temp.entrySet().forEach(entry -> gameParamsCHM.put(String.valueOf(entry.getValue().get("id")), entry.getValue()));
