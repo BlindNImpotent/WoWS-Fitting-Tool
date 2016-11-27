@@ -14,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Aesis on 2016-10-15.
@@ -30,7 +29,7 @@ public class TestConfig
 
     private LinkedHashMap<String, LinkedHashMap> data = new LinkedHashMap<>();
 
-    private ConcurrentHashMap<String, HashMap> gameParamsCHM = new ConcurrentHashMap<>();
+    private HashMap<String, HashMap> gameParamsCHM = new HashMap<>();
 
     private AsyncHashMap asyncHashMap = new AsyncHashMap();
 
@@ -65,7 +64,7 @@ public class TestConfig
     }
 
     @Bean
-    public ConcurrentHashMap<String, HashMap> gameParamsCHM()
+    public HashMap<String, HashMap> gameParamsCHM()
     {
         return gameParamsCHM;
     }

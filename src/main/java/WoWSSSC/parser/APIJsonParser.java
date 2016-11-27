@@ -36,7 +36,7 @@ public class APIJsonParser
     private String APP_ID;
 
     @Autowired
-    private ConcurrentHashMap<String, HashMap> gameParamsCHM;
+    private HashMap<String, HashMap> gameParamsCHM;
 
     private static final Logger logger = LoggerFactory.getLogger(APIJsonParser.class);
 
@@ -92,12 +92,10 @@ public class APIJsonParser
     {
         Resource GameParamsFile = new ClassPathResource("static/json/GameParams.json");
         ObjectMapper mapper = new ObjectMapper();
-        gameParamsCHM = mapper.readValue(GameParamsFile.getFile(), new TypeReference<ConcurrentHashMap<String, HashMap>>(){});
+        HashMap<String, HashMap> temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, HashMap>>(){});
 
-        gameParamsCHM.entrySet().forEach(entry ->
-        {
-            gameParamsCHM.put(String.valueOf(entry.getValue().get("id")), entry.getValue());
-            gameParamsCHM.remove(entry.getKey());
-        });
+        gameParamsCHM.clear();
+        temp.entrySet().forEach(entry -> gameParamsCHM.put(String.valueOf(entry.getValue().get("id")), entry.getValue()));
+        temp.clear();
     }
 }

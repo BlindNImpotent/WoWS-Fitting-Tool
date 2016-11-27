@@ -26,7 +26,7 @@ public class APIController
     private LinkedHashMap<String, LinkedHashMap> data;
 
     @Autowired
-    private ConcurrentHashMap<String, HashMap> gameParamsCHM;
+    private HashMap<String, HashMap> gameParamsCHM;
 
     private static final Logger logger = LoggerFactory.getLogger(APIController.class);
 
@@ -39,7 +39,7 @@ public class APIController
 
     @ResponseBody
     @RequestMapping (value = "/gameParams", method = RequestMethod.GET)
-    public ConcurrentHashMap<String, HashMap> getGameParamsCHM()
+    public HashMap<String, HashMap> getGameParamsCHM()
     {
         return gameParamsCHM;
     }

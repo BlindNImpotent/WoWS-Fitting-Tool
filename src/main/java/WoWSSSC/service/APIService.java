@@ -2,6 +2,7 @@ package WoWSSSC.service;
 
 import WoWSSSC.model.exterior.Exterior;
 import WoWSSSC.model.exterior.TTC_Coef;
+import WoWSSSC.model.gameparams.ShipHull;
 import WoWSSSC.model.shipprofile.Ship;
 import WoWSSSC.model.shipprofile.ShipData;
 import WoWSSSC.model.shipprofile.profile.anti_aircraft.Anti_Aircraft_Slot;
@@ -35,6 +36,9 @@ public class APIService
     @Autowired
     private HashMap<String, Ship> shipHashMap;
 
+    @Autowired
+    private HashMap<String, HashMap> gameParamsCHM;
+
     private static final Logger logger = LoggerFactory.getLogger(APIService.class);
 
     public void setShipAPI(
@@ -65,6 +69,19 @@ public class APIService
                 if (shipData.getStatus().equals("ok"))
                 {
                     logger.info(url);
+
+                    if (!hull_id.equals("") && gameParamsCHM.get(hull_id) != null)
+                    {
+                        String tGPHullName = (String) gameParamsCHM.get(hull_id).get("name");
+
+                        List<String> tGPShipHullNameList = (List<String>) ((HashMap<String, HashMap>) ((HashMap<String, HashMap>) gameParamsCHM.get(ship_id).get("ShipUpgradeInfo")).get(tGPHullName).get("components")).get("hull");
+                        if (tGPShipHullNameList.size() == 1)
+                        {
+                            String tGPShipHullName = tGPShipHullNameList.get(0);
+
+                            shipData.getData().get(ship_id).getConcealment().setVisibilityCoefGK((double) ((HashMap) gameParamsCHM.get(ship_id).get(tGPShipHullName)).get("visibilityCoefGK"));
+                        }
+                    }
                     shipHashMap.put(key, shipData.getData().get(ship_id));
                 }
             }
