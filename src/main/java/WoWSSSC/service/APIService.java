@@ -254,7 +254,7 @@ public class APIService
                     {
                         ship.getArtillery().getShells().values().forEach(value ->
                         {
-                            if (value.getBurn_probability() != 0)
+                            if (value != null && value.getBurn_probability() != 0)
                             {
                                 value.setBurn_probability(value.getBurn_probability() + 3);
                             }

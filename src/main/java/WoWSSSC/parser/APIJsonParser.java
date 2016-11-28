@@ -94,6 +94,9 @@ public class APIJsonParser
         HashMap<String, HashMap> temp = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
 
+//        Resource GameParamsFile = new ClassPathResource("static/json/GameParams.json");
+//        temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, HashMap>>(){});
+
         Resource GameParamsFile = new UrlResource("https://s3.amazonaws.com/wowsft/GameParams.json");
 
         if (!GameParamsFile.exists())
