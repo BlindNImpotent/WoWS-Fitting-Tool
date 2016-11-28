@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -79,7 +80,7 @@ public class APIService
                         {
                             String tGPShipHullName = tGPShipHullNameList.get(0);
 
-                            shipData.getData().get(ship_id).getConcealment().setVisibilityCoefGK((double) ((HashMap) gameParamsCHM.get(ship_id).get(tGPShipHullName)).get("visibilityCoefGK"));
+                            shipData.getData().get(ship_id).getConcealment().setVisibilityCoefGK(Float.parseFloat(new DecimalFormat("#").format((double) ((HashMap) gameParamsCHM.get(ship_id).get(tGPShipHullName)).get("visibilityCoefGK"))));
                         }
                     }
                     shipHashMap.put(key, shipData.getData().get(ship_id));

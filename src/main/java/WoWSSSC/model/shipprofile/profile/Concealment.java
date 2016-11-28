@@ -12,5 +12,5 @@ public class Concealment
     private float detect_distance_by_ship;
     private long total;
 
-    private double visibilityCoefGK;
+    private float visibilityCoefGK;
 }

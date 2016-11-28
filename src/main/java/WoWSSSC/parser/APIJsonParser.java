@@ -91,23 +91,25 @@ public class APIJsonParser
 
     public void setGameParams() throws IOException
     {
-        HashMap<String, HashMap> temp = new HashMap<>();
+        HashMap<String, HashMap> temp;
         ObjectMapper mapper = new ObjectMapper();
 
-//        Resource GameParamsFile = new ClassPathResource("static/json/GameParams.json");
-//        temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, HashMap>>(){});
+        // For local testing
+        Resource GameParamsFile = new ClassPathResource("static/json/GameParams.json");
+        temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, HashMap>>(){});
 
-        Resource GameParamsFile = new UrlResource("https://s3.amazonaws.com/wowsft/GameParams.json");
-
-        if (!GameParamsFile.exists())
-        {
-            GameParamsFile = new ClassPathResource("static/json/GameParams.json");
-            temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, HashMap>>(){});
-        }
-        else
-        {
-            temp = mapper.readValue(GameParamsFile.getURL(), new TypeReference<HashMap<String, HashMap>>(){});
-        }
+        // For AWS
+//        Resource GameParamsFile = new UrlResource("https://s3.amazonaws.com/wowsft/GameParams.json");
+//
+//        if (!GameParamsFile.exists())
+//        {
+//            GameParamsFile = new ClassPathResource("static/json/GameParams.json");
+//            temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, HashMap>>(){});
+//        }
+//        else
+//        {
+//            temp = mapper.readValue(GameParamsFile.getURL(), new TypeReference<HashMap<String, HashMap>>(){});
+//        }
 
         gameParamsCHM.clear();
         temp.entrySet().forEach(entry -> gameParamsCHM.put(String.valueOf(entry.getValue().get("id")), entry.getValue()));
