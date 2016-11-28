@@ -338,6 +338,30 @@ table
     cursor: default;
 }
 
+.button_ship
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_ship img
+{
+    width: 80px;
+    margin-bottom: 0px;
+}
+
 .button_module
 {
     background-color:#fff;

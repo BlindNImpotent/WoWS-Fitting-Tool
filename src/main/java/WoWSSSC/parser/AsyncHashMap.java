@@ -10,6 +10,7 @@ import WoWSSSC.model.warships.Warship;
 import WoWSSSC.model.warships.WarshipData;
 import WoWSSSC.model.upgrade.Upgrade;
 import WoWSSSC.model.upgrade.UpgradeData;
+import WoWSSSC.model.warships.WarshipModulesTree;
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -63,12 +64,17 @@ public class AsyncHashMap implements CommandLineRunner
 
         LinkedHashMap<String, LinkedHashMap<String, Future<WarshipData>>> futures = new LinkedHashMap<>();
 
+        HashMap<String, Warship> tempWarships = new HashMap<>();
+
         for (int i = 0; i < nationsString.size(); i++)
         {
             LinkedHashMap<String, Future<WarshipData>> temp = new LinkedHashMap<>();
             for (int j = 0; j < shipTypeString.size(); j++)
             {
-                temp.put(shipTypeString.get(j), apiJsonParser.getNationShip(nationsString.get(i), shipTypeString.get(j)));
+                Future<WarshipData> nationShip = apiJsonParser.getNationShip(nationsString.get(i), shipTypeString.get(j));
+                temp.put(shipTypeString.get(j), nationShip);
+
+                nationShip.get().getData().values().forEach(warship -> tempWarships.put(String.valueOf(warship.getShip_id()), new Warship(warship.getNation(), warship.getType(), warship.getName(), warship.getImages())));
             }
             futures.put(nationsString.get(i), temp);
         }
@@ -83,17 +89,83 @@ public class AsyncHashMap implements CommandLineRunner
             futureEntry.getValue().entrySet().forEach(shipType ->
             {
                 WarshipData wsd = new WarshipData();
-
-                try {
+                try
+                {
                     shipType.getValue().get().getData().entrySet().forEach(warship ->
                     {
                         String key = warship.getValue().getName();
                         Warship value = warship.getValue();
+
+                        if (value.getNext_ships() != null)
+                        {
+                            List<Warship> nextWarshipRow = new ArrayList<>();
+
+                            value.getWarshipModulesTreeTable().values().forEach(row ->
+                            {
+                                for (int i = 0; i < row.size(); i++)
+                                {
+                                    if (nextWarshipRow.size() < row.size())
+                                    {
+                                        nextWarshipRow.add(null);
+                                    }
+                                }
+                            });
+
+                            value.getWarshipModulesTreeTable().values().forEach(row ->
+                            {
+                                for (int i = 0; i < row.size(); i++)
+                                {
+                                    if (row.get(i) != null)
+                                    {
+                                        WarshipModulesTree tempWSMT = row.get(i);
+
+                                        if (tempWSMT.getNext_ships() != null)
+                                        {
+                                            for (int j = 0; j < tempWSMT.getNext_ships().size(); j++)
+                                            {
+                                                Warship nextWarshipTemp = tempWarships.get(String.valueOf(tempWSMT.getNext_ships().get(j)));
+
+                                                if (i < nextWarshipRow.size() && nextWarshipRow.get(i) == null)
+                                                {
+                                                    nextWarshipRow.set(i, nextWarshipTemp);
+                                                }
+                                                else if (i - j - 1 >= 0 && i + j + 1 < nextWarshipRow.size())
+                                                {
+                                                    if (nextWarshipRow.get(i - j - 1) == null)
+                                                    {
+                                                        nextWarshipRow.set(i - j - 1, nextWarshipTemp);
+                                                    }
+                                                    else if (nextWarshipRow.get(i + j + 1) == null)
+                                                    {
+                                                        nextWarshipRow.set(i + j + 1, nextWarshipTemp);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    nextWarshipRow.set(i, nextWarshipTemp);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                            long notNull = nextWarshipRow.stream().filter(module -> module != null).count();
+
+                            if (notNull == 0)
+                            {
+                                value.setNextWarship(null);
+                            }
+                            value.setNextWarship(nextWarshipRow);
+                        }
                         wsd.getData().put(key, value);
                     });
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e)
+                {
                     e.printStackTrace();
-                } catch (ExecutionException e) {
+                }
+                catch (ExecutionException e)
+                {
                     e.printStackTrace();
                 }
                 wsd.setData(sorter.sortShips(wsd.getData()));
@@ -110,7 +182,6 @@ public class AsyncHashMap implements CommandLineRunner
         data.put("skills", setCrewSkills(crewsSkillsData.get().getData()));
         data.put("exterior", exteriorData.get().getData());
         data.put("exteriors", setExteriors(exteriorData.get().getData()));
-
         shipHashMap.clear();
     }
 

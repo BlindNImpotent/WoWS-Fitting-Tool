@@ -5,6 +5,7 @@ import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -14,6 +15,7 @@ import java.util.*;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
+@NoArgsConstructor
 public class Warship
 {
     @JsonIgnore
@@ -35,13 +37,19 @@ public class Warship
     private HashMap<String, WarshipModulesTree> modules_tree;
     private HashMap<String, Long> next_ships;
     private List<Long> upgrades;
-
     private LinkedHashMap<String, LinkedHashMap> upgradesNew = new LinkedHashMap<>();
-
     private LinkedHashMap<String, LinkedHashMap> warshipModulesTreeNew = new LinkedHashMap<>();
+    private LinkedHashMap<String, List<WarshipModulesTree>> warshipModulesTreeTable = new LinkedHashMap<>();
+    private List<Warship> nextWarship = new ArrayList<>();
 
-    private LinkedHashMap<String, List> warshipModulesTreeTable = new LinkedHashMap<>();
-    
+    public Warship(String nation, String type, String name, WarshipImages images)
+    {
+        this.nation = nation;
+        this.type = type;
+        this.name = name;
+        this.images = images;
+    }
+
     public boolean isIs_premium()
     {
         return is_premium;

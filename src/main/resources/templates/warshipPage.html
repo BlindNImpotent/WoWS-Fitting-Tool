@@ -27,14 +27,26 @@
             <input type="checkbox" id="camouflageCheckbox"/>Camouflage<br />
             <div id="modulesUpgradesConsumables">
                 <div id="modules">
-                    <div th:each="moduleType : ${warship.warshipModulesTreeNew}" th:id="${moduleType.key}">
-                        <li th:each="module : ${moduleType.value}" th:id="'li_' + ${module.value.module_id}">
-                            <button th:class="${module.value.is_default and moduleStat.first} ? button_module_selected : button_module" th:id="${module.value.module_id}" th:name="${module.value.type}">
-                                <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(moduleType.key)} + '.png'}"/><br />
-                                <span th:text="${module.value.name}"/>
-                            </button>
-                        </li>
-                    </div>
+                    <table>
+                        <tbody>
+                            <tr th:each="row : ${warship.warshipModulesTreeTable}">
+                                <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
+                                    <button th:if="${module != null}" th:class="${module.is_default and rowStat.first} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}">
+                                        <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}"/><br />
+                                        <span th:text="${module.name}"/>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr th:if="${warship.nextWarship != null}">
+                                <td th:each="nextShip : ${warship.nextWarship}">
+                                    <button th:if="${nextShip != null}" th:class="button_ship" th:onclick="'fragments(\'' + ${nextShip.nation} + '\', \'' + ${nextShip.type} + '\', \'' + ${nextShip.name} + '\')'">
+                                        <img th:src="${nextShip.images.small}"/><br />
+                                        <span th:text="${nextShip.name}"/>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div id="upgrades">
                     <div th:each="upgradeType : ${warship.upgradesNew}" th:id="'id_' + ${upgradeType.key}">

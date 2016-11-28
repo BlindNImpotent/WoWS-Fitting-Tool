@@ -142,12 +142,11 @@
 
     $(document).on('click', '.button_module', function(){
         var clickedId = $(this).attr('id');
-        var gParentElem = $(this).parent().parent();
-        var parents = gParentElem.children();
+        var selectedModules = document.getElementsByName($(this).attr('name'));
 
-        for (var i = 0; i < parents.length; i++)
+        for (var i = 0; i < selectedModules.length; i++)
         {
-            var buttonId = parents[i].getAttribute('id').replace('li_', '');
+            var buttonId = selectedModules[i].getAttribute('id').replace('li_', '');
             document.getElementById(buttonId).className = 'button_module';
         }
         document.getElementById(clickedId).className = 'button_module_selected';
