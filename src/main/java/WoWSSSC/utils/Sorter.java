@@ -133,6 +133,22 @@ public class Sorter
                     }
                     return -1;
                 }
+                else if (o1.getKey().equals("Fighter"))
+                {
+                    if (o2.getKey().equals("DiveBomber") || o2.getKey().equals("TorpedoBomber"))
+                    {
+                        return -1;
+                    }
+                    return 1;
+                }
+                else if (o2.getKey().equals("Fighter"))
+                {
+                    if (o1.getKey().equals("DiveBomber") || o1.getKey().equals("TorpedoBomber"))
+                    {
+                        return 1;
+                    }
+                    return -1;
+                }
                 else if (o1.getKey().equals("DiveBomber"))
                 {
                     return 1;

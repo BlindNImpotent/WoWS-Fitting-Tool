@@ -7,10 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Qualson-Lee on 2016-11-15.
@@ -43,15 +40,7 @@ public class Warship
 
     private LinkedHashMap<String, LinkedHashMap> warshipModulesTreeNew = new LinkedHashMap<>();
 
-//    private static final String Artillery = "Artillery";
-//    private static final String DiveBomber = "DiveBomber";
-//    private static final String Engine = "Engine";
-//    private static final String Fighter = "Fighter";
-//    private static final String FlightControl = "FlightControl";
-//    private static final String Hull = "Hull";
-//    private static final String Suo = "Suo";
-//    private static final String Torpedoes = "Torpedoes";
-//    private static final String TorpedoBomber = "TorpedoBomber";
+    private LinkedHashMap<String, List> warshipModulesTreeTable = new LinkedHashMap<>();
     
     public boolean isIs_premium()
     {
@@ -87,6 +76,107 @@ public class Warship
         });
 
         warshipModulesTreeNew = sorter.sortWarshipModulesTreeNew(warshipModulesTreeNew);
+        setWarshipModulesTreeTable(warshipModulesTreeNew);
+    }
+
+    private void setWarshipModulesTreeTable(LinkedHashMap<String, LinkedHashMap> wsmtn)
+    {
+        int typeSizeColumn = wsmtn.size();
+        int[] shift = new int[wsmtn.size()];
+        int maxModuleSizeRow = 1;
+
+        for (LinkedHashMap<String, WarshipModulesTree> type : wsmtn.values())
+        {
+            int i = 0;
+
+            if (maxModuleSizeRow < type.values().size())
+            {
+                maxModuleSizeRow = type.values().size();
+            }
+
+            for (WarshipModulesTree module : type.values())
+            {
+                if (module.getNext_modules() != null)
+                {
+                    if (module.getNext_modules().size() > 1)
+                    {
+                        int yes = 0;
+
+                        for (long nm : module.getNext_modules())
+                        {
+                            if (modules_tree.get(String.valueOf(nm)).getType().equals(module.getType()))
+                            {
+                                yes = yes + 1;
+                            }
+                        }
+
+                        if (module.getNext_modules().size() == yes)
+                        {
+                            typeSizeColumn = typeSizeColumn + 1;
+
+                            maxModuleSizeRow = type.values().size() - module.getNext_modules().size() + 1;
+
+                            for (int j = i; j < shift.length; j++)
+                            {
+                                shift[j] = shift[j] + 1;
+                            }
+                        }
+                    }
+                }
+            }
+            i++;
+        }
+
+        List<LinkedHashMap> tempTypesList = new ArrayList<>(wsmtn.values());
+
+        for (int i = 0; i < maxModuleSizeRow; i++)
+        {
+            WarshipModulesTree[] tempRow = new WarshipModulesTree[typeSizeColumn];
+
+            for (int j = 0; j < typeSizeColumn; j++)
+            {
+                if (j < tempTypesList.size())
+                {
+                    List<WarshipModulesTree> tempWSMTList = new ArrayList<>(tempTypesList.get(j).values());
+
+                    if (i < tempWSMTList.size())
+                    {
+                        tempRow[j + shift[j]] = tempWSMTList.get(i);
+
+                        if (tempWSMTList.get(i).getPrev_modules() != null)
+                        {
+                            for (long pm : tempWSMTList.get(i).getPrev_modules())
+                            {
+                                if (modules_tree.get(String.valueOf(pm)).getNext_modules() != null)
+                                {
+                                    int yes = 0;
+
+                                    for (long nm : modules_tree.get(String.valueOf(pm)).getNext_modules())
+                                    {
+                                        if (modules_tree.get(String.valueOf(nm)).getType().equals(modules_tree.get(String.valueOf(pm)).getType()))
+                                        {
+                                            yes = yes + 1;
+                                        }
+                                    }
+
+                                    if (yes == modules_tree.get(String.valueOf(pm)).getNext_modules().size())
+                                    {
+                                        int index = modules_tree.get(String.valueOf(pm)).getNext_modules().size() - 1;
+
+                                        for (long nm : modules_tree.get(String.valueOf(pm)).getNext_modules())
+                                        {
+                                            tempRow[j + shift[j] - index] = modules_tree.get(String.valueOf(nm));
+                                            index = index - 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            warshipModulesTreeTable.put("Row" + String.valueOf(i + 1), Arrays.asList(tempRow));
+        }
     }
 
     public void setUpgradesNew(LinkedHashMap<String, Upgrade> unsorted)
