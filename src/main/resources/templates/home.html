@@ -358,6 +358,12 @@
             success: function (data) {
                 $('.warshipData').replaceWith(data);
                 callAPI();
+
+//                history.pushState({
+//                    nation: nation,
+//                    shipType: shipType,
+//                    ship: ship
+//                }, '', 'warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship);
             }
         });
     }

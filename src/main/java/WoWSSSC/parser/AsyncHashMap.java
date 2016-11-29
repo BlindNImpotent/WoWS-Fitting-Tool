@@ -6,6 +6,7 @@ import WoWSSSC.model.info.Encyclopedia;
 import WoWSSSC.model.shipprofile.Ship;
 import WoWSSSC.model.skills.CrewSkills;
 import WoWSSSC.model.skills.CrewSkillsData;
+import WoWSSSC.model.warships.TotalWarship;
 import WoWSSSC.model.warships.Warship;
 import WoWSSSC.model.warships.WarshipData;
 import WoWSSSC.model.upgrade.Upgrade;
@@ -56,6 +57,8 @@ public class AsyncHashMap implements CommandLineRunner
 
         apiJsonParser.setGameParams();
 
+        HashMap<String, TotalWarship> tempWarships = apiJsonParser.getTotalWarships();
+
         Encyclopedia encyclopedia = apiJsonParser.getEncyclopedia().getData();
 
         encyclopedia.getShip_nations().entrySet().forEach(entry -> nationsString.add(entry.getKey()));
@@ -65,17 +68,12 @@ public class AsyncHashMap implements CommandLineRunner
 
         LinkedHashMap<String, LinkedHashMap<String, Future<WarshipData>>> futures = new LinkedHashMap<>();
 
-        HashMap<String, Warship> tempWarships = new HashMap<>();
-
         for (int i = 0; i < nationsString.size(); i++)
         {
             LinkedHashMap<String, Future<WarshipData>> temp = new LinkedHashMap<>();
             for (int j = 0; j < shipTypeString.size(); j++)
             {
-                Future<WarshipData> nationShip = apiJsonParser.getNationShip(nationsString.get(i), shipTypeString.get(j));
-                temp.put(shipTypeString.get(j), nationShip);
-
-//                nationShip.get().getData().values().forEach(warship -> tempWarships.put(String.valueOf(warship.getShip_id()), new Warship(warship.getNation(), warship.getType(), warship.getName(), warship.getImages())));
+                temp.put(shipTypeString.get(j), apiJsonParser.getNationShip(nationsString.get(i), shipTypeString.get(j)));
             }
             futures.put(nationsString.get(i), temp);
         }
@@ -90,21 +88,13 @@ public class AsyncHashMap implements CommandLineRunner
 
             futureEntry.getValue().entrySet().forEach(shipType ->
             {
-                while (!shipType.getValue().isDone())
-                {
-
-                }
-
                 WarshipData wsd = new WarshipData();
                 try
                 {
-                    shipType.getValue().get().getData().get().entrySet().forEach(warship ->
+                    shipType.getValue().get().getData().entrySet().forEach(warship ->
                     {
-                        String key = null;
-                        Warship value = null;
-
-                        key = warship.getValue().getName();
-                        value = warship.getValue();
+                        String key = warship.getValue().getName();
+                        Warship value = warship.getValue();
 
                         if (value.getNext_ships() != null)
                         {
@@ -133,7 +123,8 @@ public class AsyncHashMap implements CommandLineRunner
                                         {
                                             for (int j = 0; j < tempWSMT.getNext_ships().size(); j++)
                                             {
-                                                Warship nextWarshipTemp = tempWarships.get(String.valueOf(tempWSMT.getNext_ships().get(j)));
+                                                TotalWarship tws = tempWarships.get(String.valueOf(tempWSMT.getNext_ships().get(j)));
+                                                Warship nextWarshipTemp = new Warship(tws.getNation(), tws.getType(), tws.getName(), tws.getImages());
 
                                                 if (i < nextWarshipRow.size() && nextWarshipRow.get(i) == null)
                                                 {
@@ -167,13 +158,7 @@ public class AsyncHashMap implements CommandLineRunner
                             }
                             value.setNextWarship(nextWarshipRow);
                         }
-                        try {
-                            wsd.getData().get().put(key, value);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
+                        wsd.getData().put(key, value);
                     });
                 }
                 catch (InterruptedException e)
@@ -185,19 +170,15 @@ public class AsyncHashMap implements CommandLineRunner
                     e.printStackTrace();
                 }
 
-                try {
-                    wsd.setData(sorter.sortShips(wsd.getData().get()));
-                    wsdlhm.put(shipType.getKey(), wsd.getData().get());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
+                wsd.setData(sorter.sortShips(wsd.getData()));
+                wsdlhm.put(shipType.getKey(), wsd.getData());
             });
             nations.put(futureEntry.getKey(), setPremium(wsdlhm));
         });
 
         setUpgradesPerShip(nations, upgradeData.get().getData());
+
+        tempWarships.clear();
 
         data.clear();
         data.put("nations", nations);

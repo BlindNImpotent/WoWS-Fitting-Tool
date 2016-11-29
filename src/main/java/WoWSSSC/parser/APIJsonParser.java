@@ -4,6 +4,9 @@ import WoWSSSC.model.exterior.ExteriorData;
 import WoWSSSC.model.info.EncyclopediaData;
 import WoWSSSC.model.shipprofile.ShipData;
 import WoWSSSC.model.skills.CrewSkillsData;
+import WoWSSSC.model.warships.TotalWarship;
+import WoWSSSC.model.warships.TotalWarshipData;
+import WoWSSSC.model.warships.Warship;
 import WoWSSSC.model.warships.WarshipData;
 import WoWSSSC.model.upgrade.UpgradeData;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -40,6 +43,15 @@ public class APIJsonParser
     private HashMap<String, HashMap> gameParamsCHM;
 
     private static final Logger logger = LoggerFactory.getLogger(APIJsonParser.class);
+
+    public HashMap<String, TotalWarship> getTotalWarships() throws IOException
+    {
+        logger.info("Looking up all ships");
+        String url = "https://api.worldofwarships.com/wows/encyclopedia/ships/?application_id=" + APP_ID;
+        TotalWarshipData result = restTemplate.getForObject(url, TotalWarshipData.class);
+
+        return result.getData();
+    }
 
     @Async
     public Future<WarshipData> getNationShip(String nation, String type) throws IOException
