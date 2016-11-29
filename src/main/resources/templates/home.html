@@ -121,7 +121,7 @@
 <!--</div>-->
 <main>
     <div class="container">
-        <div class="warshipData">
+        <div class="warshipData" th:include="warshipPage :: warshipStats">
         </div>
         <div class="shipAPIData">
         </div>
@@ -138,6 +138,10 @@
         $( function() {
             $('#shipList').menu();
         });
+
+        history.pushState('', '', '/');
+
+        callAPI();
     });
 
     $(document).on('click', '.button_module', function(){
@@ -261,6 +265,20 @@
     {
         if ($('#ship').attr('name') != null)
         {
+            if (nation == '' || shipType == '' || ship == '')
+            {
+                if ([[${warship}]] != null)
+                {
+                    nation = [[${warship}]]['nation'];
+                    shipType = [[${warship}]]['type'];
+                    ship = [[${warship}]]['name'];
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
             var url = '/shipAPI?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&ship_id=' + $('#ship').attr('name');
             var modifier = '&';
             var equals = '=';
@@ -354,19 +372,23 @@
 
         $.ajax({
             url: url,
-            type: 'get',
+            type: 'post',
             success: function (data) {
                 $('.warshipData').replaceWith(data);
                 callAPI();
 
-//                history.pushState({
-//                    nation: nation,
-//                    shipType: shipType,
-//                    ship: ship
-//                }, '', 'warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship);
+                history.pushState({
+                    nation: nation,
+                    shipType: shipType,
+                    ship: ship
+                }, '', 'warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship);
             }
         });
     }
+
+    $(window).on('popstate', function () {
+        history.go(document.location);
+    });
 
 //    ]]>
 </script>

@@ -16,7 +16,7 @@
 </header>
 <main>
     <div th:fragment="warshipStats" class="warshipData">
-        <div id="ship" th:unless="${warship == null}" th:name="${warship.ship_id}" class="ship">
+        <div id="ship" th:name="${warship.ship_id}" th:if="${warship != null}" class="ship">
             <div id="name">
                 <h1 th:text="${warship.name}"/>
                 <img th:title="${warship.description}" th:src="${warship.images.medium}"/>
