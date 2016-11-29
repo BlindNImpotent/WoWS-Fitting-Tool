@@ -14,43 +14,28 @@ import java.util.concurrent.Future;
  */
 public class Sorter
 {
-    public LinkedHashMap<String, Future<Warship>> sortShips(LinkedHashMap<String, Future<Warship>> unsorted)
+    public LinkedHashMap<String, Warship> sortShips(LinkedHashMap<String, Warship> unsorted)
     {
-        LinkedHashMap<String, Future<Warship>> sorted = new LinkedHashMap<>();
+        LinkedHashMap<String, Warship> sorted = new LinkedHashMap<>();
 
-        List<Map.Entry<String, Future<Warship>>> list = new LinkedList<>(unsorted.entrySet());
+        List<Map.Entry<String, Warship>> list = new LinkedList<>(unsorted.entrySet());
 
-        Collections.sort(list, new Comparator<Map.Entry<String, Future<Warship>>>() {
+        Collections.sort(list, new Comparator<Map.Entry<String, Warship>>() {
             @Override
-            public int compare(Map.Entry<String, Future<Warship>> o1, Map.Entry<String, Future<Warship>> o2) {
+            public int compare(Map.Entry<String, Warship> o1, Map.Entry<String, Warship> o2) {
                 int tierDiff = 0;
 
-                try
-                {
-                    tierDiff = (int) (o1.getValue().get().getTier() - o2.getValue().get().getTier());
+                tierDiff = (int) (o1.getValue().getTier() - o2.getValue().getTier());
 
-                    if (tierDiff == 0)
-                    {
-                        return (o1.getValue().get().getName().compareTo(o2.getValue().get().getName()));
-                    }
-                    return tierDiff;
-                }
-                catch (InterruptedException e)
+                if (tierDiff == 0)
                 {
-                    e.printStackTrace();
+                    return (o1.getValue().getName().compareTo(o2.getValue().getName()));
                 }
-                catch (ExecutionException e)
-                {
-                    e.printStackTrace();
-                }
-                finally
-                {
-                    return tierDiff;
-                }
+                return tierDiff;
             }
         });
 
-        for (Map.Entry<String, Future<Warship>> entry : list)
+        for (Map.Entry<String, Warship> entry : list)
         {
             sorted.put(entry.getKey(), entry.getValue());
         }

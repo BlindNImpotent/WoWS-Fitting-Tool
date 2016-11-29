@@ -98,25 +98,13 @@ public class AsyncHashMap implements CommandLineRunner
                 WarshipData wsd = new WarshipData();
                 try
                 {
-                    // To do
-                    shipType.getValue().get().getData().entrySet().forEach(warship ->
+                    shipType.getValue().get().getData().get().entrySet().forEach(warship ->
                     {
                         String key = null;
                         Warship value = null;
 
-                        try
-                        {
-                            key = warship.getValue().get().getName();
-                            value = warship.getValue().get();
-                        }
-                        catch (InterruptedException e)
-                        {
-                            e.printStackTrace();
-                        }
-                        catch (ExecutionException e)
-                        {
-                            e.printStackTrace();
-                        }
+                        key = warship.getValue().getName();
+                        value = warship.getValue();
 
                         if (value.getNext_ships() != null)
                         {
@@ -179,7 +167,13 @@ public class AsyncHashMap implements CommandLineRunner
                             }
                             value.setNextWarship(nextWarshipRow);
                         }
-                        wsd.getData().put(key, new AsyncResult<>(value));
+                        try {
+                            wsd.getData().get().put(key, value);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
                     });
                 }
                 catch (InterruptedException e)
@@ -191,13 +185,14 @@ public class AsyncHashMap implements CommandLineRunner
                     e.printStackTrace();
                 }
 
-                while (wsd.getData().values().stream().filter(futureWS -> futureWS.isDone()).count() < wsd.getData().values().size())
-                {
-
+                try {
+                    wsd.setData(sorter.sortShips(wsd.getData().get()));
+                    wsdlhm.put(shipType.getKey(), wsd.getData().get());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
                 }
-
-                wsd.setData(sorter.sortShips(wsd.getData()));
-                wsdlhm.put(shipType.getKey(), wsd.getData());
             });
             nations.put(futureEntry.getKey(), setPremium(wsdlhm));
         });
@@ -216,37 +211,28 @@ public class AsyncHashMap implements CommandLineRunner
     private LinkedHashMap<String, LinkedHashMap> setPremium(LinkedHashMap<String, LinkedHashMap> nation)
     {
         LinkedHashMap<String, LinkedHashMap> tempNation = new LinkedHashMap<>();
-        LinkedHashMap<String, Future<Warship>> tempPremium = new LinkedHashMap<>();
+        LinkedHashMap<String, Warship> tempPremium = new LinkedHashMap<>();
 
         nation.entrySet().forEach(shipType ->
         {
-            LinkedHashMap<String, Future<Warship>> tempShips = new LinkedHashMap<>();
+            LinkedHashMap<String, Warship> tempShips = new LinkedHashMap<>();
 
             shipType.getValue().entrySet().forEach(ship ->
             {
-                Map.Entry<String, Future<Warship>> temp = (Map.Entry<String, Future<Warship>>) ship;
-                try {
-                    if (temp.getValue().get().isIs_premium())
-                    {
-                        tempPremium.put(temp.getKey(), temp.getValue());
-                    }
-                    else
-                    {
-                        tempShips.put(temp.getKey(), temp.getValue());
-                    }
-                }
-                catch (InterruptedException e)
+                Map.Entry<String, Warship> temp = (Map.Entry<String, Warship>) ship;
+
+                if (temp.getValue().isIs_premium())
                 {
-                    e.printStackTrace();
+                    tempPremium.put(temp.getKey(), temp.getValue());
                 }
-                catch (ExecutionException e)
+                else
                 {
-                    e.printStackTrace();
+                    tempShips.put(temp.getKey(), temp.getValue());
                 }
             });
             tempNation.put(shipType.getKey(), tempShips);
         });
-        LinkedHashMap<String, Future<Warship>> tempSortedPremium = sorter.sortShips(tempPremium);
+        LinkedHashMap<String, Warship> tempSortedPremium = sorter.sortShips(tempPremium);
         tempNation.put("Premium", tempSortedPremium);
         return tempNation;
     }
@@ -256,6 +242,7 @@ public class AsyncHashMap implements CommandLineRunner
         nations.entrySet().forEach(nation -> nation.getValue().entrySet().forEach(shipType -> ((Map.Entry<String, LinkedHashMap>) shipType).getValue().entrySet().forEach(ship ->
         {
             LinkedHashMap<String, Upgrade> tempUpgrades = new LinkedHashMap<>();
+
             ((Map.Entry<String, Warship>) ship).getValue().getUpgrades().forEach(upgrade_id ->
             {
                 Upgrade tempUpgrade = upgrades.get(String.valueOf(upgrade_id));

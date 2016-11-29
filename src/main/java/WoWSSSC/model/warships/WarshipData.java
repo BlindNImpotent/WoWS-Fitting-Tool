@@ -2,6 +2,7 @@ package WoWSSSC.model.warships;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.springframework.scheduling.annotation.AsyncResult;
 
 import java.util.*;
 import java.util.concurrent.Future;
@@ -14,7 +15,22 @@ import java.util.concurrent.Future;
 public class WarshipData
 {
     private String status;
-    private LinkedHashMap<String, Future<Warship>> data = new LinkedHashMap<>();
+    private Future<LinkedHashMap<String, Warship>> data = new AsyncResult<>(new LinkedHashMap<>());
+
+    public void setData(LinkedHashMap<String, Warship> data)
+    {
+        this.data = new AsyncResult<>(data);
+    }
+
+//    public void setData(LinkedHashMap<String, Warship> data)
+//    {
+//        data.entrySet().forEach(entry -> this.data.put(entry.getKey(), new AsyncResult<Warship>(entry.getValue())));
+//    }
+//
+//    public void setNewData(LinkedHashMap<String, Future<Warship>> data)
+//    {
+//        this.data = data;
+//    }
 
 //    @JsonIgnore
 //    private Sorter sorter = new Sorter();
