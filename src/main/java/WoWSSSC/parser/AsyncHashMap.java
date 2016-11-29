@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -74,7 +75,7 @@ public class AsyncHashMap implements CommandLineRunner
                 Future<WarshipData> nationShip = apiJsonParser.getNationShip(nationsString.get(i), shipTypeString.get(j));
                 temp.put(shipTypeString.get(j), nationShip);
 
-                nationShip.get().getData().values().forEach(warship -> tempWarships.put(String.valueOf(warship.getShip_id()), new Warship(warship.getNation(), warship.getType(), warship.getName(), warship.getImages())));
+//                nationShip.get().getData().values().forEach(warship -> tempWarships.put(String.valueOf(warship.getShip_id()), new Warship(warship.getNation(), warship.getType(), warship.getName(), warship.getImages())));
             }
             futures.put(nationsString.get(i), temp);
         }
@@ -86,15 +87,36 @@ public class AsyncHashMap implements CommandLineRunner
         futures.entrySet().forEach(futureEntry ->
         {
             LinkedHashMap<String, LinkedHashMap> wsdlhm = new LinkedHashMap<>();
+
             futureEntry.getValue().entrySet().forEach(shipType ->
             {
+                while (!shipType.getValue().isDone())
+                {
+
+                }
+
                 WarshipData wsd = new WarshipData();
                 try
                 {
+                    // To do
                     shipType.getValue().get().getData().entrySet().forEach(warship ->
                     {
-                        String key = warship.getValue().getName();
-                        Warship value = warship.getValue();
+                        String key = null;
+                        Warship value = null;
+
+                        try
+                        {
+                            key = warship.getValue().get().getName();
+                            value = warship.getValue().get();
+                        }
+                        catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        catch (ExecutionException e)
+                        {
+                            e.printStackTrace();
+                        }
 
                         if (value.getNext_ships() != null)
                         {
@@ -157,7 +179,7 @@ public class AsyncHashMap implements CommandLineRunner
                             }
                             value.setNextWarship(nextWarshipRow);
                         }
-                        wsd.getData().put(key, value);
+                        wsd.getData().put(key, new AsyncResult<>(value));
                     });
                 }
                 catch (InterruptedException e)
@@ -168,6 +190,12 @@ public class AsyncHashMap implements CommandLineRunner
                 {
                     e.printStackTrace();
                 }
+
+                while (wsd.getData().values().stream().filter(futureWS -> futureWS.isDone()).count() < wsd.getData().values().size())
+                {
+
+                }
+
                 wsd.setData(sorter.sortShips(wsd.getData()));
                 wsdlhm.put(shipType.getKey(), wsd.getData());
             });
@@ -188,27 +216,37 @@ public class AsyncHashMap implements CommandLineRunner
     private LinkedHashMap<String, LinkedHashMap> setPremium(LinkedHashMap<String, LinkedHashMap> nation)
     {
         LinkedHashMap<String, LinkedHashMap> tempNation = new LinkedHashMap<>();
-        LinkedHashMap<String, Warship> tempPremium = new LinkedHashMap<>();
+        LinkedHashMap<String, Future<Warship>> tempPremium = new LinkedHashMap<>();
 
         nation.entrySet().forEach(shipType ->
         {
-            LinkedHashMap<String, Warship> tempShips = new LinkedHashMap<>();
+            LinkedHashMap<String, Future<Warship>> tempShips = new LinkedHashMap<>();
 
             shipType.getValue().entrySet().forEach(ship ->
             {
-                Map.Entry<String, Warship> temp = (Map.Entry<String, Warship>) ship;
-                if (temp.getValue().isIs_premium())
-                {
-                    tempPremium.put(temp.getKey(), temp.getValue());
+                Map.Entry<String, Future<Warship>> temp = (Map.Entry<String, Future<Warship>>) ship;
+                try {
+                    if (temp.getValue().get().isIs_premium())
+                    {
+                        tempPremium.put(temp.getKey(), temp.getValue());
+                    }
+                    else
+                    {
+                        tempShips.put(temp.getKey(), temp.getValue());
+                    }
                 }
-                else
+                catch (InterruptedException e)
                 {
-                    tempShips.put(temp.getKey(), temp.getValue());
+                    e.printStackTrace();
+                }
+                catch (ExecutionException e)
+                {
+                    e.printStackTrace();
                 }
             });
             tempNation.put(shipType.getKey(), tempShips);
         });
-        LinkedHashMap<String, Warship> tempSortedPremium = sorter.sortShips(tempPremium);
+        LinkedHashMap<String, Future<Warship>> tempSortedPremium = sorter.sortShips(tempPremium);
         tempNation.put("Premium", tempSortedPremium);
         return tempNation;
     }

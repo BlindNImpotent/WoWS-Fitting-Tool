@@ -84,16 +84,16 @@ public class Warship
         });
 
         warshipModulesTreeNew = sorter.sortWarshipModulesTreeNew(warshipModulesTreeNew);
-        setWarshipModulesTreeTable(warshipModulesTreeNew);
+        setWarshipModulesTreeTable();
     }
 
-    private void setWarshipModulesTreeTable(LinkedHashMap<String, LinkedHashMap> wsmtn)
+    private void setWarshipModulesTreeTable()
     {
-        int typeSizeColumn = wsmtn.size();
-        int[] shift = new int[wsmtn.size()];
+        int typeSizeColumn = warshipModulesTreeNew.size();
+        int[] shift = new int[warshipModulesTreeNew.size()];
         int maxModuleSizeRow = 1;
 
-        for (LinkedHashMap<String, WarshipModulesTree> type : wsmtn.values())
+        for (LinkedHashMap<String, WarshipModulesTree> type : warshipModulesTreeNew.values())
         {
             int i = 0;
 
@@ -135,7 +135,7 @@ public class Warship
             i++;
         }
 
-        List<LinkedHashMap> tempTypesList = new ArrayList<>(wsmtn.values());
+        List<LinkedHashMap> tempTypesList = new ArrayList<>(warshipModulesTreeNew.values());
 
         for (int i = 0; i < maxModuleSizeRow; i++)
         {

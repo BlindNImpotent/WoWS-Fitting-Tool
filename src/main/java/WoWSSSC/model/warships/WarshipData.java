@@ -1,12 +1,10 @@
 package WoWSSSC.model.warships;
 
-import WoWSSSC.utils.Sorter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
+import java.util.concurrent.Future;
 
 /**
  * Created by Qualson-Lee on 2016-11-15.
@@ -16,7 +14,7 @@ import java.util.*;
 public class WarshipData
 {
     private String status;
-    private LinkedHashMap<String, Warship> data = new LinkedHashMap<>();
+    private LinkedHashMap<String, Future<Warship>> data = new LinkedHashMap<>();
 
 //    @JsonIgnore
 //    private Sorter sorter = new Sorter();
