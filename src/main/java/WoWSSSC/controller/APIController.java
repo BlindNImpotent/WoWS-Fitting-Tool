@@ -85,11 +85,11 @@ public class APIController
             }
             else
             {
-                HashSet<CrewSkills> tempSkills = mapper.readValue(skills, HashSet.class);
+                HashSet<CrewSkills> crewSkills = mapper.readValue(skills, HashSet.class);
                 redirectAttributes.addFlashAttribute("url", request.getRequestURI() + "?" + request.getQueryString());
                 redirectAttributes.addFlashAttribute("modules", modules);
                 redirectAttributes.addFlashAttribute("upgrades", upgrades);
-                redirectAttributes.addFlashAttribute("skills", tempSkills);
+                redirectAttributes.addFlashAttribute("crewSkills", crewSkills);
                 redirectAttributes.addFlashAttribute("camo", camo);
                 redirectAttributes.addFlashAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
             }

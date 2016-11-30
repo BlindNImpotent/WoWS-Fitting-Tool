@@ -82,7 +82,7 @@
         <tbody>
             <tr th:each="skillTier : ${data.skills}">
                 <td th:each="skill : ${skillTier.value}" th:id="${'td_' + skill.value.tier + '_' + skill.value.type_id}">
-                    <button th:if="${skill.value.tier != 0}" th:title="${skill.value.description}" th:class="${#sets.contains(skills, skill.value.tier)} ? button_skill_selected : button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, type_id=${skill.value.type_id}">
+                    <button th:if="${skill.value.tier != 0}" th:object="${skill.value}" th:title="${skill.value.description}" th:class="${crewSkills != null and crewSkills.size() != 0 and (crewSkills.?[tier == #strings.toString(__${skill.value.tier}__) and type_id == #strings.toString(__${skill.value.type_id}__)]).size() != 0} ? button_skill_selected : button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, type_id=${skill.value.type_id}">
                         <img th:src="${skill.value.icon}"/><br />
                         <span th:text="${skill.value.name}"/>
                     </button>
