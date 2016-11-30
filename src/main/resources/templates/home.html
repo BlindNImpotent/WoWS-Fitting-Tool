@@ -134,10 +134,6 @@
     var shipType = '';
     var ship = '';
 
-    var prevNation = '';
-    var prevShipType = '';
-    var prevShip = '';
-
     $().ready(function () {
         $( function() {
             $('#shipList').menu();
@@ -357,22 +353,11 @@
                     {
                         $('.shipAPIData').replaceWith(data);
 
-                        if (prevNation == nation && prevShipType == shipType && prevShip == ship)
-                        {
-                            history.replaceState({
-                                nation: nation,
-                                shipType: shipType,
-                                ship: ship
-                            }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&skills=' + JSON.stringify(skills) + '&camo=' + camouflage);
-                        }
-                        else
-                        {
-                            history.pushState({
-                                nation: nation,
-                                shipType: shipType,
-                                ship: ship
-                            }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&skills=' + JSON.stringify(skills) + '&camo=' + camouflage);
-                        }
+                        history.replaceState({
+                            nation: nation,
+                            shipType: shipType,
+                            ship: ship
+                        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&skills=' + JSON.stringify(skills) + '&camo=' + camouflage);
                     }
                     else
                     {
@@ -398,10 +383,6 @@
                 $('.warshipData').replaceWith(data);
 
                 callAPI();
-
-                prevNation = nation;
-                prevShipType = shipType;
-                prevShip = ship;
             }
         });
     }
