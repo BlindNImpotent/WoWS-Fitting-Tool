@@ -204,7 +204,7 @@ public class AsyncHashMap implements CommandLineRunner
 
                 if (temp.getValue().isIs_premium())
                 {
-                    temp.getValue().setType("Premium");
+//                    temp.getValue().setType("Premium");
                     tempPremium.put(temp.getKey(), temp.getValue());
                 }
                 else
