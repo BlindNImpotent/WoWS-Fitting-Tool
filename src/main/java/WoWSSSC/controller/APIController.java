@@ -95,7 +95,7 @@ public class APIController
                 redirectAttributes.addFlashAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
             }
         }
-        return "redirect:";
+        return "redirect:/";
     }
 
     @RequestMapping (value = "/shipAPI", method = RequestMethod.POST)
