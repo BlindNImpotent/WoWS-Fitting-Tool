@@ -1,7 +1,8 @@
 package WoWSSSC.controller;
 
-import WoWSSSC.model.warships.Warship;
+import WoWSSSC.model.skills.CrewSkills;
 import WoWSSSC.service.APIService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,6 +35,8 @@ public class APIController
     private HashMap<String, HashMap> gameParamsCHM;
 
     private static final Logger logger = LoggerFactory.getLogger(APIController.class);
+
+    ObjectMapper mapper = new ObjectMapper();
 
     @ResponseBody
     @RequestMapping (value = "/data", method = RequestMethod.GET)
@@ -61,22 +66,31 @@ public class APIController
                     HttpServletRequest request,
                     Model model,
                     RedirectAttributes redirectAttributes,
-                    @RequestParam(required = false, defaultValue = "") String nation,
-                    @RequestParam(required = false, defaultValue = "") String shipType,
-                    @RequestParam(required = false, defaultValue = "") String ship
-            )
+                    @RequestParam(required = false) String nation,
+                    @RequestParam(required = false) String shipType,
+                    @RequestParam(required = false) String ship,
+                    @RequestParam(required = false) HashSet<String> modules,
+                    @RequestParam(required = false) HashSet<String> upgrades,
+                    @RequestParam(required = false) String skills,
+                    @RequestParam(required = false) boolean camo
+            ) throws IOException
     {
-        if (!nation.equals("") && !shipType.equals("") && !ship.equals(""))
+        if (nation != null && shipType != null && ship != null)
         {
             logger.info("Loading " + nation + " " + shipType + " " + ship);
-            model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
-
             if (request.getMethod().equalsIgnoreCase("POST"))
             {
+                model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
                 return "warshipPage :: warshipStats";
             }
             else
             {
+                HashSet<CrewSkills> tempSkills = mapper.readValue(skills, HashSet.class);
+                redirectAttributes.addFlashAttribute("url", request.getRequestURI() + "?" + request.getQueryString());
+                redirectAttributes.addFlashAttribute("modules", modules);
+                redirectAttributes.addFlashAttribute("upgrades", upgrades);
+                redirectAttributes.addFlashAttribute("skills", tempSkills);
+                redirectAttributes.addFlashAttribute("camo", camo);
                 redirectAttributes.addFlashAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
             }
         }

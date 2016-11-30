@@ -82,7 +82,7 @@
         <tbody>
             <tr th:each="skillTier : ${data.skills}">
                 <td th:each="skill : ${skillTier.value}" th:id="${'td_' + skill.value.tier + '_' + skill.value.type_id}">
-                    <button th:if="${skill.value.tier != 0}" th:title="${skill.value.description}" th:class="button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, position=${skill.value.type_id}">
+                    <button th:if="${skill.value.tier != 0}" th:title="${skill.value.description}" th:class="${#sets.contains(skills, skill.value.tier)} ? button_skill_selected : button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, type_id=${skill.value.type_id}">
                         <img th:src="${skill.value.icon}"/><br />
                         <span th:text="${skill.value.name}"/>
                     </button>
@@ -139,7 +139,14 @@
             $('#shipList').menu();
         });
 
-        history.pushState('', '', '/');
+        var url = '/';
+
+        if ([[${url}]] != null)
+        {
+            url = [[${url}]].toString();
+        }
+
+        history.replaceState('', '', url);
 
         callAPI();
     });
@@ -288,6 +295,7 @@
             var selectedSkills = $('.button_skill_selected');
 //            var selectedFlags = $('.button_flag_selected');
 
+            var modules = [];
             var upgrades = [];
             var skills = [];
 //            var flags = [];
@@ -298,6 +306,8 @@
                 var type = selectedModules[i].getAttribute('name');
                 var moduleId = selectedModules[i].getAttribute('id');
 
+                modules.push(moduleId);
+
                 url = url + modifier + type + equals + moduleId;
             }
 
@@ -305,21 +315,17 @@
             {
                 var upgradeId = selectedUpgrades[i].getAttribute('id');
 
-                var current = {
-                    upgrade: upgradeId
-                };
-
-                upgrades.push(current);
+                upgrades.push(upgradeId);
             }
 
             for (var i = 0; i < selectedSkills.length; i++)
             {
                 var tier = selectedSkills[i].getAttribute('tier');
-                var position = selectedSkills[i].getAttribute('position');
+                var type_id = selectedSkills[i].getAttribute('type_id');
 
                 var current = {
                     tier: tier,
-                    position: position
+                    type_id: type_id
                 };
 
                 skills.push(current);
@@ -352,6 +358,12 @@
                     if (data != '')
                     {
                         $('.shipAPIData').replaceWith(data);
+
+                        history.pushState({
+                            nation: nation,
+                            shipType: shipType,
+                            ship: ship
+                        }, '', '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&skills=' + JSON.stringify(skills) + '&camo=' + camouflage);
                     }
                     else
                     {
@@ -376,12 +388,6 @@
             success: function (data) {
                 $('.warshipData').replaceWith(data);
                 callAPI();
-
-                history.pushState({
-                    nation: nation,
-                    shipType: shipType,
-                    ship: ship
-                }, '', 'warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship);
             }
         });
     }

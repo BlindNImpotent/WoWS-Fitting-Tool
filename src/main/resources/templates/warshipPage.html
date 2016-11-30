@@ -24,14 +24,14 @@
             <br />
             <button id="showCrewSkills" class="ui-button">Commander Skills</button>
             <!--<button id="showFlags" class="ui-button">Flags</button>-->
-            <input type="checkbox" id="camouflageCheckbox"/>Camouflage<br />
+            <input type="checkbox" id="camouflageCheckbox" th:checked="${camo}"/>Camouflage<br />
             <div id="modulesUpgradesConsumables">
                 <div id="modules">
                     <table>
                         <tbody>
                             <tr th:each="row : ${warship.warshipModulesTreeTable}">
                                 <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
-                                    <button th:if="${module != null}" th:class="${module.is_default and rowStat.first} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}">
+                                    <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}">
                                         <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}"/><br />
                                         <span th:text="${module.name}"/>
                                     </button>
@@ -51,7 +51,7 @@
                 <div id="upgrades">
                     <div th:each="upgradeType : ${warship.upgradesNew}" th:id="'id_' + ${upgradeType.key}">
                         <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.upgrade_id}">
-                            <button th:title="${upgrade.value.description}" th:class="button_upgrade" th:id="${upgrade.value.upgrade_id}" th:name="'price_' + ${upgrade.value.price_credit}">
+                            <button th:title="${upgrade.value.description}" th:class="${upgrades != null and #sets.contains(upgrades, #strings.toString(upgrade.value.upgrade_id))} ? button_upgrade_selected : button_upgrade" th:id="${upgrade.value.upgrade_id}" th:name="'price_' + ${upgrade.value.price_credit}">
                                 <img th:src="${upgrade.value.image}"/><br />
                                 <span th:text="${upgrade.value.name}"/>
                             </button>
