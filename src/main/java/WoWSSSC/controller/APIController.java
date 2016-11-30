@@ -85,7 +85,7 @@ public class APIController
             }
             else
             {
-                HashSet<CrewSkills> crewSkills = mapper.readValue(skills, HashSet.class);
+                HashSet<CrewSkills> crewSkills = skills != null ? mapper.readValue(skills, HashSet.class) : new HashSet<>();
 
                 redirectAttributes.addFlashAttribute("url", "/warship?" + request.getQueryString());
                 redirectAttributes.addFlashAttribute("modules", modules);
