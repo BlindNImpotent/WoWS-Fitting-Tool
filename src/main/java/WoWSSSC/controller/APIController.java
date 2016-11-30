@@ -87,9 +87,6 @@ public class APIController
             {
                 HashSet<CrewSkills> crewSkills = mapper.readValue(skills, HashSet.class);
 
-                redirectAttributes.addAttribute("nation", nation);
-                redirectAttributes.addAttribute("shipType", shipType);
-                redirectAttributes.addAttribute("ship", ship);
                 redirectAttributes.addFlashAttribute("url", "/warship?" + request.getQueryString());
                 redirectAttributes.addFlashAttribute("modules", modules);
                 redirectAttributes.addFlashAttribute("upgrades", upgrades);
