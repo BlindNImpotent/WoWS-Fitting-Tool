@@ -141,12 +141,12 @@
 
         var url = '/';
 
-        if ([[${url}]] != null)
+        if ([[${url}]] != null && [[${url}]].toString() != '/')
         {
             url = [[${url}]].toString();
+            history.replaceState('', '', url);
         }
-
-        history.replaceState('', '', url);
+        history.pushState('','','/');
 
         callAPI();
     });
