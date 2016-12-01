@@ -55,6 +55,7 @@
                     Speed<span style="float: right;" th:text="${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s'"/><br />
                     Mass<span style="float: right;" th:text="${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg'"/><br />
                     Burn Probability<span style="float: right;" th:text="${#numbers.formatDecimal(shell.value.burn_probability, 0, 1)} + ' %'"/><br />
+                    - Per Salvo<span style="float: right;" th:text="${#numbers.formatDecimal((100 - (T(java.lang.Math).pow((100 - shell.value.burn_probability) / 100, shipAPI.artillery.totalGuns)) * 100), 0, 1)} + ' %'"/><br />
                 </li>
             </div>
             <div th:if="${shipAPI.torpedoes != null}" id="torpedoes">
@@ -66,6 +67,7 @@
                 Reload<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.torpedoes.reload_time, 0, 1)} + ' s'"/><br />
                 Speed<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.torpedoes.torpedo_speed, 0, 1)} + ' kts'"/><br />
                 Distance<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.torpedoes.distance, 0, 1)} + ' km'"/><br />
+                Visibility<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.torpedoes.visibility_dist, 0, 1)} + ' km'"/><br />
             </div>
             <div th:if="${shipAPI.flight_control != null}" id="flight_control">
                 <strong>Flight Control</strong><br />

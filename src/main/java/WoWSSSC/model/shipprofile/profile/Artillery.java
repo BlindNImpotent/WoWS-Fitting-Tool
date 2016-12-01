@@ -21,4 +21,6 @@ public class Artillery
     private float shot_delay;
     private HashMap<String, Artillery_Shells> shells = new HashMap<>();
     private HashMap<String, Artillery_Slots> slots = new HashMap<>();
+
+    private long totalGuns;
 }
