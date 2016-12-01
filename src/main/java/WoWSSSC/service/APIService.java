@@ -11,6 +11,7 @@ import WoWSSSC.model.shipprofile.profile.artillery.Artillery_Slots;
 import WoWSSSC.model.upgrade.Upgrade;
 import WoWSSSC.model.upgrade.UpgradeProfile;
 import WoWSSSC.model.warships.Warship;
+import WoWSSSC.parser.APIJsonParser;
 import com.rits.cloning.Cloner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Aesis on 2016-10-15.
@@ -32,6 +35,9 @@ public class APIService
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private APIJsonParser apiJsonParser;
 
     @Autowired
     private LinkedHashMap<String, LinkedHashMap> data;
@@ -58,7 +64,7 @@ public class APIService
             String hull_id,
             String torpedo_bomber_id,
             String torpedoes_id
-    )
+    ) throws IOException, ExecutionException, InterruptedException
     {
         if (!ship_id.equals(""))
         {
@@ -76,41 +82,47 @@ public class APIService
                 {
                     logger.info("Requested API for " + nation + " " + shipType + " " + ship + " - " + url);
 
-                    if (!artillery_id.equals(""))
-                    {
-                        long totalGuns = 0;
-
-                        for (Artillery_Slots slots : shipData.getData().get(ship_id).getArtillery().getSlots().values())
-                        {
-                            totalGuns = totalGuns + (slots.getBarrels() * slots.getGuns());
-                        }
-
-                        shipData.getData().get(ship_id).getArtillery().setTotalGuns(totalGuns);
-                    }
-
-                    if (!hull_id.equals("") && gameParamsCHM.get(hull_id) != null)
-                    {
-                        String tGPHullName = (String) gameParamsCHM.get(hull_id).get("name");
-
-                        List<String> tGPShipHullNameList = (List<String>) ((HashMap<String, HashMap>) ((HashMap<String, HashMap>) gameParamsCHM.get(ship_id).get("ShipUpgradeInfo")).get(tGPHullName).get("components")).get("hull");
-                        if (tGPShipHullNameList.size() == 1)
-                        {
-                            String tGPShipHullName = tGPShipHullNameList.get(0);
-
-                            shipData.getData().get(ship_id).getConcealment().setVisibilityCoefGK(Float.parseFloat(new DecimalFormat("#").format((double) ((HashMap) gameParamsCHM.get(ship_id).get(tGPShipHullName)).get("visibilityCoefGK"))));
-                        }
-                    }
                     shipHashMap.put(key, shipData.getData().get(ship_id));
                 }
             }
             else
             {
-                logger.info("Requested data for " + nation + " " + shipType + " " + ship + " - " + url);
+                logger.info("Requesting data for " + nation + " " + shipType + " " + ship + " - " + url);
+
+                apiJsonParser.checkShipData(url, key, ship_id, nation, shipType, ship);
             }
         }
     }
 
-    public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, HashMap<String, List> upgradesSkills)
+    private void setCustomValues(String ship_id, Ship ship)
+    {
+        if (ship.getArtillery() != null)
+        {
+            long totalGuns = 0;
+
+            for (Artillery_Slots slots : ship.getArtillery().getSlots().values())
+            {
+                totalGuns = totalGuns + (slots.getBarrels() * slots.getGuns());
+            }
+
+            ship.getArtillery().setTotalGuns(totalGuns);
+        }
+
+        if (ship.getHull() != null && gameParamsCHM.get(String.valueOf(ship.getHull().getHull_id())) != null)
+        {
+            String tGPHullName = (String) gameParamsCHM.get(String.valueOf(ship.getHull().getHull_id())).get("name");
+
+            List<String> tGPShipHullNameList = (List<String>) ((HashMap<String, HashMap>) ((HashMap<String, HashMap>) gameParamsCHM.get(ship_id).get("ShipUpgradeInfo")).get(tGPHullName).get("components")).get("hull");
+            if (tGPShipHullNameList.size() == 1)
+            {
+                String tGPShipHullName = tGPShipHullNameList.get(0);
+
+                ship.getConcealment().setVisibilityCoefGK(Float.parseFloat(new DecimalFormat("#").format((double) ((HashMap) gameParamsCHM.get(ship_id).get(tGPShipHullName)).get("visibilityCoefGK"))));
+            }
+        }
+    }
+
+    public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, String ship_id, HashMap<String, List> upgradesSkills)
     {
         if (shipHashMap.get(key) == null)
         {
@@ -119,6 +131,9 @@ public class APIService
 
         Cloner cloner = new Cloner();
         Ship ship = cloner.deepClone(shipHashMap.get(key));
+
+        setCustomValues(ship_id, ship);
+
         LinkedHashMap<String, LinkedHashMap> nationLHM = (LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation);
         Warship warship = (Warship) nationLHM.get(shipType).get(shipName);
 

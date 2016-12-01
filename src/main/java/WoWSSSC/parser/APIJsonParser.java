@@ -2,6 +2,7 @@ package WoWSSSC.parser;
 
 import WoWSSSC.model.exterior.ExteriorData;
 import WoWSSSC.model.info.EncyclopediaData;
+import WoWSSSC.model.shipprofile.Ship;
 import WoWSSSC.model.shipprofile.ShipData;
 import WoWSSSC.model.skills.CrewSkillsData;
 import WoWSSSC.model.warships.TotalWarship;
@@ -38,6 +39,9 @@ public class APIJsonParser
 
     @Autowired
     private String APP_ID;
+
+    @Autowired
+    private HashMap<String, Ship> shipHashMap;
 
     @Autowired
     private HashMap<String, HashMap> gameParamsCHM;
@@ -101,8 +105,26 @@ public class APIJsonParser
         return new AsyncResult<>(result);
     }
 
+    @Async
+    public void checkShipData(String url, String key, String ship_id, String nation, String shipType, String ship) throws IOException
+    {
+        ShipData futureShipData = restTemplate.getForObject(url, ShipData.class);
+
+        if (futureShipData.getStatus().equals("ok"))
+        {
+            if (!shipHashMap.get(key).equals(futureShipData.getData().get(ship_id)))
+            {
+                logger.info("Replacing data for " + nation + " " + shipType + " " + ship + " - " + url);
+                shipHashMap.replace(key, futureShipData.getData().get(ship_id));
+            }
+        }
+    }
+
+    @Async
     public void setGameParams() throws IOException
     {
+        logger.info("Setting up GameParams");
+
         HashMap<String, HashMap> temp;
         ObjectMapper mapper = new ObjectMapper();
 

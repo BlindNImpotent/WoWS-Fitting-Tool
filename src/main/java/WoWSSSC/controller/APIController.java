@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Aesis on 2016-10-15.
@@ -118,7 +119,7 @@ public class APIController
                     @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
                     @RequestParam(required = false, defaultValue = "") String Torpedoes,
                     @RequestBody(required = false) HashMap<String, List> upgradesSkills
-            )
+            ) throws ExecutionException, InterruptedException, IOException
     {
         if (!ship_id.equals(""))
         {
@@ -127,7 +128,7 @@ public class APIController
 
             apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
 
-            model.addAttribute("shipAPI", apiService.getUpgradeSkillStats(key, nation, shipType, ship, upgradesSkills));
+            model.addAttribute("shipAPI", apiService.getUpgradeSkillStats(key, nation, shipType, ship, ship_id, upgradesSkills));
         }
 
         return "shipAPIPage :: shipAPIData";
