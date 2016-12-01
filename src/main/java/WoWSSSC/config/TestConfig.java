@@ -33,10 +33,18 @@ public class TestConfig
 
     private AsyncHashMap asyncHashMap = new AsyncHashMap();
 
+    private LinkedHashMap<String, String> notification = new LinkedHashMap<>();
+
     @Bean
     public String app_id()
     {
         return "137f0721e1b1baf30d6dcd1968fc260c";
+    }
+
+    @Bean
+    public LinkedHashMap<String, String> notification()
+    {
+        return notification;
     }
 
     @Bean

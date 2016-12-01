@@ -16,6 +16,12 @@
 </header>
 <main>
     <div th:fragment="warshipStats" class="warshipData">
+        <div th:if="${warship == null}">
+            <li th:each="notice : ${notification}">
+                <strong th:text="${notice.key}"/><br />
+                <span th:text="${notice.value}"/><br />
+            </li>
+        </div>
         <div id="ship" th:name="${warship.ship_id}" th:if="${warship != null}" class="ship">
             <div id="name">
                 <h1 th:text="${warship.name}"/>

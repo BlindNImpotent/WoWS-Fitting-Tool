@@ -46,6 +46,9 @@ public class APIJsonParser
     @Autowired
     private HashMap<String, HashMap> gameParamsCHM;
 
+    @Autowired
+    private LinkedHashMap<String, String> notification;
+
     private static final Logger logger = LoggerFactory.getLogger(APIJsonParser.class);
 
     public HashMap<String, TotalWarship> getTotalWarships() throws IOException
@@ -148,5 +151,19 @@ public class APIJsonParser
         gameParamsCHM.clear();
         temp.entrySet().forEach(entry -> gameParamsCHM.put(String.valueOf(entry.getValue().get("id")), entry.getValue()));
         temp.clear();
+    }
+
+    @Async
+    public void setNotification() throws IOException
+    {
+        logger.info("Setting up notification");
+        ObjectMapper mapper = new ObjectMapper();
+
+
+        Resource notificationFile = new UrlResource("https://s3.amazonaws.com/wowsft/notification.json");
+        notification.clear();
+        LinkedHashMap<String, String> temp = mapper.readValue(notificationFile.getURL(), new TypeReference<LinkedHashMap<String, String>>(){});
+
+        temp.entrySet().forEach(entry -> notification.put(entry.getKey(), entry.getValue()));
     }
 }

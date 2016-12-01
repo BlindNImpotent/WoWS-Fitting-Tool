@@ -55,6 +55,8 @@ public class AsyncHashMap implements CommandLineRunner
 
         LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
 
+        apiJsonParser.setNotification();
+
         apiJsonParser.setGameParams();
 
         HashMap<String, TotalWarship> tempWarships = apiJsonParser.getTotalWarships();

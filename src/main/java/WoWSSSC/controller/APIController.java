@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -34,6 +33,9 @@ public class APIController
 
     @Autowired
     private HashMap<String, HashMap> gameParamsCHM;
+
+    @Autowired
+    private LinkedHashMap<String, String> notification;
 
     private static final Logger logger = LoggerFactory.getLogger(APIController.class);
 
@@ -57,6 +59,7 @@ public class APIController
     public String home(Model model)
     {
         model.addAttribute("data", data);
+        model.addAttribute("notification", notification);
 
         return "home";
     }
