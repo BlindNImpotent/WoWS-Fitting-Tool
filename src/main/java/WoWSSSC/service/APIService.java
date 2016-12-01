@@ -45,6 +45,9 @@ public class APIService
     private static final Logger logger = LoggerFactory.getLogger(APIService.class);
 
     public void setShipAPI(
+            String nation,
+            String shipType,
+            String ship,
             String ship_id,
             String artillery_id,
             String dive_bomber_id,
@@ -71,7 +74,7 @@ public class APIService
 
                 if (shipData.getStatus().equals("ok"))
                 {
-                    logger.info(url);
+                    logger.info("Requested API for " + nation + " " + shipType + " " + ship + " - " + url);
 
                     if (!artillery_id.equals(""))
                     {
@@ -99,6 +102,10 @@ public class APIService
                     }
                     shipHashMap.put(key, shipData.getData().get(ship_id));
                 }
+            }
+            else
+            {
+                logger.info("Requested data for " + nation + " " + shipType + " " + ship + " - " + url);
             }
         }
     }

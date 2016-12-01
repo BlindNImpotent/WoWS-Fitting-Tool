@@ -77,14 +77,16 @@ public class APIController
     {
         if (nation != null && shipType != null && ship != null)
         {
-            logger.info("Loading " + nation + " " + shipType + " " + ship);
             if (request.getMethod().equalsIgnoreCase("POST"))
             {
+                logger.info("Loading " + nation + " " + shipType + " " + ship);
                 model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
                 return "warshipPage :: warshipStats";
             }
             else
             {
+                logger.info("Loading " + nation + " " + shipType + " " + ship + " from /warship?" + request.getQueryString());
+
                 HashSet<CrewSkills> crewSkills = skills != null ? mapper.readValue(skills, HashSet.class) : new HashSet<>();
 
                 redirectAttributes.addFlashAttribute("url", "/warship?" + request.getQueryString());
@@ -123,7 +125,7 @@ public class APIController
             String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
                     + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
 
-            apiService.setShipAPI(ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
+            apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
 
             model.addAttribute("shipAPI", apiService.getUpgradeSkillStats(key, nation, shipType, ship, upgradesSkills));
         }
