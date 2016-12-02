@@ -79,6 +79,7 @@ public class APIController
                     @RequestParam(required = false) boolean camo
             ) throws IOException
     {
+        model.addAttribute("notification", notification);
         if (nation != null && shipType != null && ship != null)
         {
             if (request.getMethod().equalsIgnoreCase("POST"))
