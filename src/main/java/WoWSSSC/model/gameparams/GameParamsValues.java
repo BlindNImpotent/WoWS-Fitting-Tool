@@ -4,9 +4,11 @@ import WoWSSSC.model.gameparams.Ship.BattleLevel;
 import WoWSSSC.model.gameparams.Ship.GroupCustom;
 import WoWSSSC.model.gameparams.Ship.ShipAbilities.ShipAbilities;
 import WoWSSSC.model.gameparams.Ship.ShipModernization.ShipModernization;
+import WoWSSSC.model.gameparams.Ship.ShipModule.ShipModule;
 import WoWSSSC.model.gameparams.Ship.ShipUpgradeInfo.ShipUpgradeInfo;
 import WoWSSSC.model.gameparams.Ship.TypeInfo;
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -20,6 +22,9 @@ import java.util.List;
 @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
 public class GameParamsValues
 {
+    @JsonIgnore
+    ObjectMapper mapper = new ObjectMapper();
+
     @JsonProperty(value = "CautiousBehaviour")
     private HashMap CautiousBehaviour;
     private float aaAmmoAmount;
@@ -138,8 +143,6 @@ public class GameParamsValues
     private float rotateTime;
 
     private String gunNode;
-    private List miscFilter;
-    private boolean miscFilterMode;
     private String nation;
     private String otype;
     private String stype;
@@ -177,6 +180,140 @@ public class GameParamsValues
     private float speedCoef;
     private float visibilityFactor;
     private float visibilityFactorByPlane;
+
+    @JsonProperty(value = "HitLocationAirDefense")
+    private HitLocationAirDefense HitLocationAirDefense;
+    private float antiAirAuraDistance;
+    private float antiAirAuraStrength;
+    private float barrelDiameter;
+    private String deadMesh;
+    private float numBarrels;
+    private boolean smallGun;
+
+    @JsonProperty(value = "HitLocationArtillery")
+    private HitLocationArtillery HitLocationArtillery;
+    private float aiMGmaxEllipseRanging;
+    private float aiMGmedEllipseRanging;
+    private float aiMGminEllipseRanging;
+    private List<String> ammoList;
+    private HashMap<String, Float> armor;
+    private float coeffPerSecondMin;
+    private List deadZone;
+    private float delim;
+    private float ellipseRangeMax;
+    private float ellipseRangeMin;
+    private List<Float> horizSector;
+    private float idealDistance;
+    private float idealRadius;
+    private String lensEffect;
+    private float maxEllipseRanging;
+    private float medEllipseRanging;
+    private float minEllipseRanging;
+    private float minRadius;
+    private List miscFilter;
+    private boolean miscFilterMode;
+    private float onMoveTarPosCoeffDelim;
+    private float onMoveTarPosCoeffMaxDist;
+    private float onMoveTarPosCoeffZero;
+    private float onMoveTarPosDelim;
+    private List pitchDeadZones;
+    private List<Float> position;
+    private String purgingEffect;
+    private float radiusOnDelim;
+    private float radiusOnMax;
+    private float radiusOnZero;
+    private float reduceTime;
+    private List<Float> rotationSpeed;
+    private float shotDelay;
+    private String shotEffect;
+    private List<Float> vertSector;
+
+    @JsonProperty(value = "HitLocationATBA")
+    private HitLocationATBA HitLocationATBA;
+    private float aiATBAmultiplier;
+    private long clusterID;
+
+    @JsonProperty(value = "HitLocationTorpedo")
+    private HitLocationTorpedo HitLocationTorpedo;
+    private List<Float> mainSector;
+    private float numAmmos;
+    private float timeBetweenShots;
+    private float timeToChangeAngle;
+    private float timeToChangeSpeed;
+    private List<Float> torpedoAngles;
+
+    private float alphaDamage;
+    private float alphaPiercingHE;
+    private String ammoType;
+    private float bulletAirDrag;
+    private float bulletAlwaysRicochetAt;
+    private boolean bulletCap;
+    private float bulletCapNormalizeMaxAngle;
+    private float bulletDetonator;
+    private float bulletDetonatorSpread;
+    private float bulletDetonatorThreshold;
+    private float bulletDiametr;
+    private float bulletKrupp;
+    private float bulletMass;
+    private float bulletPenetrationSpread;
+    private float bulletRicochetAt;
+    private float bulletSpeed;
+    private float bulletUnderwaterDistFactor;
+    private float bulletUnderwaterPenetrationFactor;
+    private float bulletWaterDrag;
+    private float burnProb;
+    private float damage;
+    private float directDamage;
+    private String ground;
+    private String hatTracerTexture;
+    private float hitDecalSize;
+    private String ownHatTracerTexture;
+    private String ownTracerEffect;
+    private String ownTracerTexture;
+    private String projDestroyedEffect;
+    private float shellGlow;
+    private float shellLength;
+    private float shellModelScale;
+    private String shipDestroyEffect;
+    private String shotSound;
+    private float smokeAlphaFalloff;
+    private float smokeOpacity;
+    private String smokeTexture;
+    private float smokeThickness;
+    private float smokeTileLength;
+    private float splashArmorCoeff;
+    private float splashCubeSize;
+    private String tracerEffect;
+    private float tracerLength;
+    private float tracerOpacity;
+    private String tracerTexture;
+    private float tracerThickness;
+    private boolean useSpecialShellModel;
+    private boolean uwAbility;
+    private float uwCritical;
+    private float volume;
+    private String water;
+    private List<Float> waterRefractionReflectDeltaAngleInterval;
+
+    private float innerBombsPercentage;
+    private List<Float> innerSalvoSize;
+    private List<Float> outterSalvoSize;
+    private List<Float> salvoSize;
+
+    private float alertDist;
+    private float armingTime;
+    private float maxDist;
+    private float speed;
+
+    private List<Float> bulletSplashCubesDamage;
+    private float underwaterSplashBPDamageMultiplier;
+
+    private HashMap<String, ShipModule> shipModules = new HashMap<>();
+    @JsonAnySetter
+    public void setShipModules(String name, Object value)
+    {
+        shipModules.put(name, mapper.convertValue(value, ShipModule.class));
+    }
 
     @JsonProperty(value = "ShipAbilities")
     private ShipAbilities ShipAbilities;
