@@ -3,10 +3,8 @@ package WoWSSSC.model.warships;
 import WoWSSSC.model.upgrade.Upgrade;
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
@@ -14,7 +12,6 @@ import java.util.*;
  * Created by Qualson-Lee on 2016-11-15.
  */
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
 public class Warship
 {

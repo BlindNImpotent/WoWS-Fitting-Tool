@@ -1,17 +1,13 @@
 package WoWSSSC.model.warships;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import org.springframework.scheduling.annotation.AsyncResult;
 
 import java.util.*;
-import java.util.concurrent.Future;
 
 /**
  * Created by Qualson-Lee on 2016-11-15.
  */
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class WarshipData
 {
     private String status;

@@ -1,6 +1,5 @@
 package WoWSSSC.model.warships;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.List;
  * Created by Qualson-Lee on 2016-11-15.
  */
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class WarshipModulesTree
 {
     private String type;
