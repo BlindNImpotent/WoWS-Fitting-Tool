@@ -1,11 +1,7 @@
 package WoWSSSC.service;
 
-import WoWSSSC.model.exterior.Exterior;
-import WoWSSSC.model.exterior.TTC_Coef;
-import WoWSSSC.model.gameparams.ShipHull;
 import WoWSSSC.model.shipprofile.Ship;
 import WoWSSSC.model.shipprofile.ShipData;
-import WoWSSSC.model.shipprofile.profile.Artillery;
 import WoWSSSC.model.shipprofile.profile.anti_aircraft.Anti_Aircraft_Slot;
 import WoWSSSC.model.shipprofile.profile.artillery.Artillery_Slots;
 import WoWSSSC.model.upgrade.Upgrade;

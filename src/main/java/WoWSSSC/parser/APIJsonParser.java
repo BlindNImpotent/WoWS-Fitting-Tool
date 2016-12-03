@@ -1,13 +1,15 @@
 package WoWSSSC.parser;
 
 import WoWSSSC.model.exterior.ExteriorData;
+import WoWSSSC.model.gameparams.GameParams;
+import WoWSSSC.model.gameparams.GameParamsValues;
+import WoWSSSC.model.gameparams.Temporary;
 import WoWSSSC.model.info.EncyclopediaData;
 import WoWSSSC.model.shipprofile.Ship;
 import WoWSSSC.model.shipprofile.ShipData;
 import WoWSSSC.model.skills.CrewSkillsData;
 import WoWSSSC.model.warships.TotalWarship;
 import WoWSSSC.model.warships.TotalWarshipData;
-import WoWSSSC.model.warships.Warship;
 import WoWSSSC.model.warships.WarshipData;
 import WoWSSSC.model.upgrade.UpgradeData;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -22,6 +24,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.concurrent.CompletableFuture;
@@ -42,6 +45,9 @@ public class APIJsonParser
 
     @Autowired
     private HashMap<String, HashMap> gameParamsCHM;
+
+    @Autowired
+    private HashMap<String, HashMap<String, GameParamsValues>> gp;
 
     @Autowired
     private LinkedHashMap<String, String> notification;
@@ -121,8 +127,7 @@ public class APIJsonParser
     }
 
     @Async
-    public void setGameParams() throws IOException
-    {
+    public void setGameParams() throws IOException, IllegalAccessException {
         logger.info("Setting up GameParams");
 
         HashMap<String, HashMap> temp;
@@ -148,6 +153,24 @@ public class APIJsonParser
         gameParamsCHM.clear();
         temp.entrySet().forEach(entry -> gameParamsCHM.put(String.valueOf(entry.getValue().get("id")), entry.getValue()));
         temp.clear();
+
+//        HashMap<String, Temporary> temporaryHashMap;
+//        temporaryHashMap = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, Temporary>>(){});
+//        temporaryHashMap.values().forEach(value ->
+//        {
+//            HashMap<String, GameParamsValues> tempGPVHM = new HashMap<>();
+//            String type = value.getTypeinfo().getType();
+//
+//            temporaryHashMap.entrySet().forEach(entry2 ->
+//            {
+//                if (type.equals(entry2.getValue().getTypeinfo().getType()))
+//                {
+//                    GameParamsValues tempGPV = temp.get(entry2.getKey());
+//                    tempGPVHM.put(String.valueOf(tempGPV.getId()), tempGPV);
+//                }
+//            });
+//            gp.put(type, tempGPVHM);
+//        });
     }
 
     @Async
@@ -155,7 +178,6 @@ public class APIJsonParser
     {
         logger.info("Setting up notification");
         ObjectMapper mapper = new ObjectMapper();
-
 
         Resource notificationFile = new UrlResource("https://s3.amazonaws.com/wowsft/notification.json");
         notification.clear();

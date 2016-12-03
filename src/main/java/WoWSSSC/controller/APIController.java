@@ -1,5 +1,6 @@
 package WoWSSSC.controller;
 
+import WoWSSSC.model.gameparams.GameParamsValues;
 import WoWSSSC.model.skills.CrewSkills;
 import WoWSSSC.service.APIService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,6 +36,9 @@ public class APIController
     private HashMap<String, HashMap> gameParamsCHM;
 
     @Autowired
+    private HashMap<String, HashMap<String, GameParamsValues>> gp;
+
+    @Autowired
     private LinkedHashMap<String, String> notification;
 
     private static final Logger logger = LoggerFactory.getLogger(APIController.class);
@@ -53,6 +57,13 @@ public class APIController
     public HashMap<String, HashMap> getGameParamsCHM()
     {
         return gameParamsCHM;
+    }
+
+    @ResponseBody
+    @RequestMapping (value = "/gp", method = RequestMethod.GET)
+    public HashMap<String, HashMap<String, GameParamsValues>> getGp()
+    {
+        return gp;
     }
 
     @RequestMapping (value = "/", method = RequestMethod.GET)

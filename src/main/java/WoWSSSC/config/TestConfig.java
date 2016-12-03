@@ -1,5 +1,6 @@
 package WoWSSSC.config;
 
+import WoWSSSC.model.gameparams.GameParamsValues;
 import WoWSSSC.model.shipprofile.Ship;
 import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.parser.AsyncHashMap;
@@ -31,6 +32,8 @@ public class TestConfig
 
     private HashMap<String, HashMap> gameParamsCHM = new HashMap<>();
 
+    private HashMap<String, HashMap<String, GameParamsValues>> gp = new HashMap<>();
+
     private AsyncHashMap asyncHashMap = new AsyncHashMap();
 
     private LinkedHashMap<String, String> notification = new LinkedHashMap<>();
@@ -39,6 +42,12 @@ public class TestConfig
     public String app_id()
     {
         return "137f0721e1b1baf30d6dcd1968fc260c";
+    }
+
+    @Bean
+    public HashMap<String, HashMap<String, GameParamsValues>> getGp()
+    {
+        return gp;
     }
 
     @Bean
