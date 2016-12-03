@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Aesis on 2016-12-03.
  */
 @Data
-public class HitLocationTorpedo
+public class HitLocation
 {
     private float armorCoeff;
     private float autoRepairTime;
@@ -16,6 +16,7 @@ public class HitLocationTorpedo
     private float buoyancyShipPercent;
     private String burnNode;
     private boolean canBeDestroyed;
+    private float coeffLaunchTimeDamaged;
     private List<Float> critProb;
     private List<Float> critProbHP;
     private List damageEffects;

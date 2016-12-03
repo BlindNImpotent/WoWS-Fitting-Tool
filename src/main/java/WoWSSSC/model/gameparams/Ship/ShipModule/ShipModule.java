@@ -1,8 +1,11 @@
 package WoWSSSC.model.gameparams.Ship.ShipModule;
 
 import WoWSSSC.model.gameparams.GameParamsValues;
+import WoWSSSC.model.gameparams.HitLocation;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
@@ -45,11 +48,25 @@ public class ShipModule
     private HashMap<String, List<Float>> targetWeightTypeTable;
     private float targetWeightYaw;
 
+    private float auraCoeff;
+    private float deckPlaceCount;
+    private float launchPrepareTime;
+    private String launchpadType;
+    private float planesReserveCapacity;
+
     private HashMap<String, GameParamsValues> subModules = new HashMap<>();
+    private HashMap<String, HitLocation> test = new HashMap<>();
 
     @JsonAnySetter
-    public void setSubModules(String name, Object value)
+    public void setSubMobules(String name, Object value)
     {
-        subModules.put(name, mapper.convertValue(value, GameParamsValues.class));
+        try
+        {
+            subModules.put(name, mapper.convertValue(value, GameParamsValues.class));
+        }
+        catch (Exception e)
+        {
+            test.put(name, mapper.convertValue(value, HitLocation.class));
+        }
     }
 }

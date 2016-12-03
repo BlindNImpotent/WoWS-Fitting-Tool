@@ -182,7 +182,7 @@ public class GameParamsValues
     private float visibilityFactorByPlane;
 
     @JsonProperty(value = "HitLocationAirDefense")
-    private HitLocationAirDefense HitLocationAirDefense;
+    private HitLocation HitLocationAirDefense;
     private float antiAirAuraDistance;
     private float antiAirAuraStrength;
     private float barrelDiameter;
@@ -191,7 +191,7 @@ public class GameParamsValues
     private boolean smallGun;
 
     @JsonProperty(value = "HitLocationArtillery")
-    private HitLocationArtillery HitLocationArtillery;
+    private HitLocation HitLocationArtillery;
     private float aiMGmaxEllipseRanging;
     private float aiMGmedEllipseRanging;
     private float aiMGminEllipseRanging;
@@ -229,12 +229,12 @@ public class GameParamsValues
     private List<Float> vertSector;
 
     @JsonProperty(value = "HitLocationATBA")
-    private HitLocationATBA HitLocationATBA;
+    private HitLocation HitLocationATBA;
     private float aiATBAmultiplier;
     private long clusterID;
 
     @JsonProperty(value = "HitLocationTorpedo")
-    private HitLocationTorpedo HitLocationTorpedo;
+    private HitLocation HitLocationTorpedo;
     private List<Float> mainSector;
     private float numAmmos;
     private float timeBetweenShots;
