@@ -130,15 +130,15 @@ public class APIJsonParser
     public void setGameParams() throws IOException, IllegalAccessException {
         logger.info("Setting up GameParams");
 
-        HashMap<String, HashMap> temp;
         ObjectMapper mapper = new ObjectMapper();
 
         // For local testing
         Resource GameParamsFile = new ClassPathResource("static/json/GameParams.json");
-        temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, HashMap>>(){});
+        HashMap<String, HashMap> temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, HashMap>>(){});
 
         // For AWS
 //        Resource GameParamsFile = new UrlResource("https://s3.amazonaws.com/wowsft/GameParams.json");
+//        HashMap<String, HashMap> temp;
 //
 //        if (!GameParamsFile.exists())
 //        {
@@ -154,6 +154,11 @@ public class APIJsonParser
         temp.entrySet().forEach(entry -> gameParamsCHM.put(String.valueOf(entry.getValue().get("id")), entry.getValue()));
         temp.clear();
 
+
+        // For parsing GameParams
+//        Resource GameParamsFile = new ClassPathResource("static/json/GameParams.json");
+//        HashMap<String, GameParamsValues> temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, GameParamsValues>>(){});
+//
 //        HashMap<String, Temporary> temporaryHashMap;
 //        temporaryHashMap = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, Temporary>>(){});
 //        temporaryHashMap.values().forEach(value ->
