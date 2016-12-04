@@ -1,4 +1,4 @@
-package WoWSSSC.model.gameparams.Ship.ShipModernization;
+package WoWSSSC.model.gameparams.Values.ShipModernization;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

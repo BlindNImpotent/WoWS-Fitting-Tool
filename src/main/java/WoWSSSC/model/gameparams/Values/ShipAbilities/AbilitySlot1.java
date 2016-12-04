@@ -1,4 +1,4 @@
-package WoWSSSC.model.gameparams.Ship.ShipAbilities;
+package WoWSSSC.model.gameparams.Values.ShipAbilities;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Aesis on 2016-12-03.
  */
 @Data
-public class AbilitySlot3
+public class AbilitySlot1
 {
     private LinkedHashSet<List<String>> abils = new LinkedHashSet<>();
     private int slot;

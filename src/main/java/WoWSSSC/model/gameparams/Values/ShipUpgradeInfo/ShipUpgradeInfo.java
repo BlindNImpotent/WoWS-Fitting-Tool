@@ -1,6 +1,6 @@
-package WoWSSSC.model.gameparams.Ship.ShipUpgradeInfo;
+package WoWSSSC.model.gameparams.Values.ShipUpgradeInfo;
 
-import WoWSSSC.model.gameparams.Ship.ShipUpgradeInfo.Module.Module;
+import WoWSSSC.model.gameparams.Values.ShipUpgradeInfo.Module.Module;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;

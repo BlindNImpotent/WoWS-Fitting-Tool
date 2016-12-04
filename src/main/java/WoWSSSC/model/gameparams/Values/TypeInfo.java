@@ -1,4 +1,4 @@
-package WoWSSSC.model.gameparams.Ship;
+package WoWSSSC.model.gameparams.Values;
 
 import lombok.Data;
 

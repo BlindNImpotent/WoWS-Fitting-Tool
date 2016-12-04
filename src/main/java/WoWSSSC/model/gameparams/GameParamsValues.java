@@ -1,12 +1,9 @@
 package WoWSSSC.model.gameparams;
 
-import WoWSSSC.model.gameparams.Ship.BattleLevel;
-import WoWSSSC.model.gameparams.Ship.GroupCustom;
-import WoWSSSC.model.gameparams.Ship.ShipAbilities.ShipAbilities;
-import WoWSSSC.model.gameparams.Ship.ShipModernization.ShipModernization;
-import WoWSSSC.model.gameparams.Ship.ShipModule.ShipModule;
-import WoWSSSC.model.gameparams.Ship.ShipUpgradeInfo.ShipUpgradeInfo;
-import WoWSSSC.model.gameparams.Ship.TypeInfo;
+import WoWSSSC.model.gameparams.Values.*;
+import WoWSSSC.model.gameparams.Values.ShipAbilities.ShipAbilities;
+import WoWSSSC.model.gameparams.Values.ShipModernization.ShipModernization;
+import WoWSSSC.model.gameparams.Values.ShipUpgradeInfo.ShipUpgradeInfo;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
@@ -90,7 +87,6 @@ public class GameParamsValues
     private boolean isIsConsumablePlane;
     private float launchDelayTime;
     private float launchMeetingTime;
-    private float launchPrepareTime;
     private float maxVisibilityFactor;
     private float maxVisibilityFactorByPlane;
     private float minVisibilityFactor;
@@ -196,7 +192,6 @@ public class GameParamsValues
     private float aiMGmedEllipseRanging;
     private float aiMGminEllipseRanging;
     private List<String> ammoList;
-    private HashMap<String, Float> armor;
     private float coeffPerSecondMin;
     private List deadZone;
     private float delim;
@@ -291,7 +286,6 @@ public class GameParamsValues
     private boolean useSpecialShellModel;
     private boolean uwAbility;
     private float uwCritical;
-    private float volume;
     private String water;
     private List<Float> waterRefractionReflectDeltaAngleInterval;
 
@@ -302,17 +296,116 @@ public class GameParamsValues
 
     private float alertDist;
     private float armingTime;
-    private float maxDist;
     private float speed;
 
     private List<Float> bulletSplashCubesDamage;
     private float underwaterSplashBPDamageMultiplier;
 
-    private HashMap<String, ShipModule> shipModules = new HashMap<>();
+    private boolean isIsFake;
+    private PlanesReserveAssignment planesReserveAssignment;
+    private float prepareTimeFactor;
+    private HashSet<List> squadrons;
+    private float default_distance;
+    private float max_distance;
+    private float min_distance;
+    private float maxDist;
+    private float minDistH;
+    private float minDistV;
+    private float sigmaCount;
+    private float taperDist;
+    private float targetWeightAllyAttacker;
+    private float targetWeightDist;
+    private float targetWeightHealth;
+    private float targetWeightIncoming;
+    private float targetWeightMaxDist;
+    private float targetWeightMaxHealth;
+    private float targetWeightMinDist;
+    private float targetWeightMinHealth;
+    private float targetWeightMyAttacker;
+    private float targetWeightOutcoming;
+    private float targetWeightType;
+    private HashMap<String, List<Float>> targetWeightTypeTable;
+    private float targetWeightYaw;
+
+    private float auraCoeff;
+    private float deckPlaceCount;
+    private float launchPrepareTime;
+    private String launchpadType;
+    private float planesReserveCapacity;
+
+    private float armorCoeff;
+    private float autoRepairTime;
+    private float autoRepairTimeMin;
+    private float buoyancyShipPercent;
+    private String burnNode;
+    private boolean canBeDestroyed;
+    private float coeffLaunchTimeDamaged;
+    private List<Float> critProb;
+    private List<Float> critProbHP;
+    private List damageEffects;
+    private List<String> deathEffects;
+    private String detonateEffect;
+    private boolean detonateOnDead;
+    private List<Float> hitDetonationMaxProbAtDamage;
+    private List<Float> hitDetonationMinProbAtDamage;
+    private String hlType;
+    private float maxBuoyancy;
+    private float maxHP;
+    private float moduleCritCoeffCR;
+    private float moduleCritCoeffXP;
+    private String parentHL;
+    private float regeneratedHPPart;
+    private float rndPartHP;
+    private List<String> splashBoxes;
+    private float tbSkipProbMax;
+    private float tbSkipProbMin;
+    private float transmitBPDamageToParentFactor;
+    private float transmitHPDamageToParentFactor;
+    private float volume;
+    private float volumeCoeff;
+
+    private String detonationEffect;
+    private boolean enableCrewSelectedTargetCoeff;
+    private boolean enableDispersion;
+    private List<String> guns;
+    private boolean isIsJoint;
+    private float selectedTargetCoeff;
+    private float timeUniversalsOff;
+    private float timeUniversalsOn;
+    private float tracerVelocity;
+    private String type;
+
+    private HashMap<String, Float> armor;
+    private List<Float> armourCas;
+    private List<Float> armourCit;
+    private List<Float> armourDeck;
+    private List<Float> armourExtremities;
+    private Float backwardPowerCoef;
+    private String boilerExplosionPostDeath;
+    private String buoyancy;
+    private List<List> burnNodes;
+    private List<Float> floodParams;
+    private String deathBubblesEffect;
+    private String deathDetonateEffect;
+    private String deathFaultEffect;
+    private String deathFireEffect;
+    private String deathFoamEffect;
+    private String deathFountainsEffect;
+    private String deathFumingEffect;
+    private String deathPlaneEffect;
+    private String deathPostFireEffect;
+    private String deathShellEffect;
+    private String deathTorpedoEffect;
+    private float deckHeight;
+    private String defaultCamouflage;
+    private float draft;
+
+
+    private HashMap<String, GameParamsValues> shipModules = new HashMap<>();
     @JsonAnySetter
     public void setShipModules(String name, Object value)
     {
-        shipModules.put(name, mapper.convertValue(value, ShipModule.class));
+        shipModules.put(name, mapper.convertValue(value, GameParamsValues.class));
     }
 
     @JsonProperty(value = "ShipAbilities")
