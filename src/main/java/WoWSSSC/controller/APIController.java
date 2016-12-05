@@ -1,7 +1,7 @@
 package WoWSSSC.controller;
 
-import WoWSSSC.model.gameparams.GameParamsValues;
-import WoWSSSC.model.skills.CrewSkills;
+import WoWSSSC.model.gameparams.test.GameParamsValues;
+import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
 import WoWSSSC.service.APIService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;

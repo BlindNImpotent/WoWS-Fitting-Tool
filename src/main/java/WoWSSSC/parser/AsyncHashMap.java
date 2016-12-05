@@ -1,34 +1,25 @@
 package WoWSSSC.parser;
 
-import WoWSSSC.model.exterior.Exterior;
-import WoWSSSC.model.exterior.ExteriorData;
-import WoWSSSC.model.info.Encyclopedia;
-import WoWSSSC.model.shipprofile.Ship;
-import WoWSSSC.model.skills.CrewSkills;
-import WoWSSSC.model.skills.CrewSkillsData;
-import WoWSSSC.model.warships.TotalWarship;
-import WoWSSSC.model.warships.Warship;
-import WoWSSSC.model.warships.WarshipData;
-import WoWSSSC.model.upgrade.Upgrade;
-import WoWSSSC.model.upgrade.UpgradeData;
-import WoWSSSC.model.warships.WarshipModulesTree;
+import WoWSSSC.model.WoWSAPI.exterior.Exterior;
+import WoWSSSC.model.WoWSAPI.exterior.ExteriorData;
+import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
+import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
+import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
+import WoWSSSC.model.WoWSAPI.skills.CrewSkillsData;
+import WoWSSSC.model.WoWSAPI.warships.TotalWarship;
+import WoWSSSC.model.WoWSAPI.warships.Warship;
+import WoWSSSC.model.WoWSAPI.warships.WarshipData;
+import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
+import WoWSSSC.model.WoWSAPI.upgrade.UpgradeData;
+import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.utils.Sorter;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 /**
  * Created by Aesis on 2016-11-15.

@@ -1,13 +1,11 @@
 package WoWSSSC.utils;
 
-import WoWSSSC.model.skills.CrewSkills;
-import WoWSSSC.model.warships.Warship;
-import WoWSSSC.model.warships.WarshipModulesTree;
-import WoWSSSC.model.upgrade.Upgrade;
+import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
+import WoWSSSC.model.WoWSAPI.warships.Warship;
+import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
+import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
 
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 /**
  * Created by Qualson-Lee on 2016-11-16.

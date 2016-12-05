@@ -1,6 +1,5 @@
 package WoWSSSC.model.gameparams;
 
-import WoWSSSC.model.gameparams.Values.TypeInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
@@ -12,5 +11,6 @@ import lombok.Data;
 public class Temporary
 {
     private long id;
+    private String name;
     private TypeInfo typeinfo;
 }

@@ -1,12 +1,12 @@
 package WoWSSSC.service;
 
-import WoWSSSC.model.shipprofile.Ship;
-import WoWSSSC.model.shipprofile.ShipData;
-import WoWSSSC.model.shipprofile.profile.anti_aircraft.Anti_Aircraft_Slot;
-import WoWSSSC.model.shipprofile.profile.artillery.Artillery_Slots;
-import WoWSSSC.model.upgrade.Upgrade;
-import WoWSSSC.model.upgrade.UpgradeProfile;
-import WoWSSSC.model.warships.Warship;
+import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
+import WoWSSSC.model.WoWSAPI.shipprofile.ShipData;
+import WoWSSSC.model.WoWSAPI.shipprofile.profile.anti_aircraft.Anti_Aircraft_Slot;
+import WoWSSSC.model.WoWSAPI.shipprofile.profile.artillery.Artillery_Slots;
+import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
+import WoWSSSC.model.WoWSAPI.upgrade.UpgradeProfile;
+import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.parser.APIJsonParser;
 import com.rits.cloning.Cloner;
 import org.slf4j.Logger;

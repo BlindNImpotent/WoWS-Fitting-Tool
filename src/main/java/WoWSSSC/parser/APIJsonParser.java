@@ -1,17 +1,15 @@
 package WoWSSSC.parser;
 
-import WoWSSSC.model.exterior.ExteriorData;
-import WoWSSSC.model.gameparams.GameParams;
-import WoWSSSC.model.gameparams.GameParamsValues;
-import WoWSSSC.model.gameparams.Temporary;
-import WoWSSSC.model.info.EncyclopediaData;
-import WoWSSSC.model.shipprofile.Ship;
-import WoWSSSC.model.shipprofile.ShipData;
-import WoWSSSC.model.skills.CrewSkillsData;
-import WoWSSSC.model.warships.TotalWarship;
-import WoWSSSC.model.warships.TotalWarshipData;
-import WoWSSSC.model.warships.WarshipData;
-import WoWSSSC.model.upgrade.UpgradeData;
+import WoWSSSC.model.WoWSAPI.exterior.ExteriorData;
+import WoWSSSC.model.gameparams.test.GameParamsValues;
+import WoWSSSC.model.WoWSAPI.info.EncyclopediaData;
+import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
+import WoWSSSC.model.WoWSAPI.shipprofile.ShipData;
+import WoWSSSC.model.WoWSAPI.skills.CrewSkillsData;
+import WoWSSSC.model.WoWSAPI.warships.TotalWarship;
+import WoWSSSC.model.WoWSAPI.warships.TotalWarshipData;
+import WoWSSSC.model.WoWSAPI.warships.WarshipData;
+import WoWSSSC.model.WoWSAPI.upgrade.UpgradeData;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -24,7 +22,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.concurrent.CompletableFuture;

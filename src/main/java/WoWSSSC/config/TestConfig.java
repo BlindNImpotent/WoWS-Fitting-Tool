@@ -1,7 +1,7 @@
 package WoWSSSC.config;
 
-import WoWSSSC.model.gameparams.GameParamsValues;
-import WoWSSSC.model.shipprofile.Ship;
+import WoWSSSC.model.gameparams.test.GameParamsValues;
+import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.parser.AsyncHashMap;
 import WoWSSSC.utils.Sorter;
