@@ -30,9 +30,7 @@ public class TestConfig
 
     private LinkedHashMap<String, LinkedHashMap> data = new LinkedHashMap<>();
 
-    private HashMap<String, HashMap> gameParamsCHM = new HashMap<>();
-
-    private HashMap<String, HashMap<String, GameParamsValues>> gp = new HashMap<>();
+    private HashMap<String, LinkedHashMap> gameParamsCHM = new HashMap<>();
 
     private AsyncHashMap asyncHashMap = new AsyncHashMap();
 
@@ -42,12 +40,6 @@ public class TestConfig
     public String app_id()
     {
         return "137f0721e1b1baf30d6dcd1968fc260c";
-    }
-
-    @Bean
-    public HashMap<String, HashMap<String, GameParamsValues>> getGp()
-    {
-        return gp;
     }
 
     @Bean
@@ -81,7 +73,7 @@ public class TestConfig
     }
 
     @Bean
-    public HashMap<String, HashMap> gameParamsCHM()
+    public HashMap<String, LinkedHashMap> gameParamsCHM()
     {
         return gameParamsCHM;
     }

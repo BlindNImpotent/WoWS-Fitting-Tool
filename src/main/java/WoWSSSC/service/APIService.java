@@ -42,7 +42,7 @@ public class APIService
     private HashMap<String, Ship> shipHashMap;
 
     @Autowired
-    private HashMap<String, HashMap> gameParamsCHM;
+    private HashMap<String, LinkedHashMap> gameParamsCHM;
 
     private static final Logger logger = LoggerFactory.getLogger(APIService.class);
 

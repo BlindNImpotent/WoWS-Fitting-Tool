@@ -1,4 +1,4 @@
-package WoWSSSC.model.gameparams.test.Values.ShipUpgradeInfo.Module;
+package WoWSSSC.model.gameparams.ShipUpgradeInfo.Module;
 
 import lombok.Data;
 

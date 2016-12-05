@@ -1,8 +1,9 @@
-package WoWSSSC.model.gameparams.test.Values.ShipUpgradeInfo;
+package WoWSSSC.model.gameparams.ShipUpgradeInfo;
 
-import WoWSSSC.model.gameparams.test.Values.ShipUpgradeInfo.Module.Module;
+import WoWSSSC.model.gameparams.ShipUpgradeInfo.Module.Module;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * Created by Aesis on 2016-12-03.
  */
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ShipUpgradeInfo
 {
     private HashMap<String, Module> modules = new HashMap<>();

@@ -1,7 +1,6 @@
 package WoWSSSC.parser;
 
 import WoWSSSC.model.WoWSAPI.exterior.ExteriorData;
-import WoWSSSC.model.gameparams.test.GameParamsValues;
 import WoWSSSC.model.WoWSAPI.info.EncyclopediaData;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.shipprofile.ShipData;
@@ -10,6 +9,7 @@ import WoWSSSC.model.WoWSAPI.warships.TotalWarship;
 import WoWSSSC.model.WoWSAPI.warships.TotalWarshipData;
 import WoWSSSC.model.WoWSAPI.warships.WarshipData;
 import WoWSSSC.model.WoWSAPI.upgrade.UpgradeData;
+import WoWSSSC.model.gameparams.ShipUpgradeInfo.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.concurrent.CompletableFuture;
 
@@ -41,13 +42,12 @@ public class APIJsonParser
     private HashMap<String, Ship> shipHashMap;
 
     @Autowired
-    private HashMap<String, HashMap> gameParamsCHM;
-
-    @Autowired
-    private HashMap<String, HashMap<String, GameParamsValues>> gp;
+    private HashMap<String, LinkedHashMap> gameParamsCHM;
 
     @Autowired
     private LinkedHashMap<String, String> notification;
+
+    ObjectMapper mapper = new ObjectMapper();
 
     private static final Logger logger = LoggerFactory.getLogger(APIJsonParser.class);
 
@@ -131,29 +131,55 @@ public class APIJsonParser
 
         // For local testing
         Resource GameParamsFile = new ClassPathResource("static/json/GameParams.json");
-        HashMap<String, HashMap> temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, HashMap>>(){});
-
-        // For AWS
-//        Resource GameParamsFile = new UrlResource("https://s3.amazonaws.com/wowsft/GameParams.json");
-//        HashMap<String, HashMap> temp;
+        HashMap<String, LinkedHashMap> temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, LinkedHashMap>>(){});
 //
-//        if (!GameParamsFile.exists())
-//        {
-//            GameParamsFile = new ClassPathResource("static/json/GameParams.json");
-//            temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, HashMap>>(){});
-//        }
-//        else
-//        {
-//            temp = mapper.readValue(GameParamsFile.getURL(), new TypeReference<HashMap<String, HashMap>>(){});
-//        }
-
+//        // For AWS
+////        Resource GameParamsFile = new UrlResource("https://s3.amazonaws.com/wowsft/GameParams.json");
+////        HashMap<String, HashMap> temp;
+////
+////        if (!GameParamsFile.exists())
+////        {
+////            GameParamsFile = new ClassPathResource("static/json/GameParams.json");
+////            temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, HashMap>>(){});
+////        }
+////        else
+////        {
+////            temp = mapper.readValue(GameParamsFile.getURL(), new TypeReference<HashMap<String, HashMap>>(){});
+////        }
+//
         gameParamsCHM.clear();
-        temp.entrySet().forEach(entry -> gameParamsCHM.put(String.valueOf(entry.getValue().get("id")), entry.getValue()));
+        temp.values().forEach(value ->
+        {
+            if (value.get("ShipUpgradeInfo") != null)
+            {
+                ShipUpgradeInfo shipUpgradeInfo = mapper.convertValue(value.get("ShipUpgradeInfo"), ShipUpgradeInfo.class);
+
+                shipUpgradeInfo.getModules().entrySet().forEach(entry ->
+                {
+                    String key = entry.getKey();
+                    HashSet<String> next = new HashSet<>();
+
+                    shipUpgradeInfo.getModules().entrySet().forEach(mv ->
+                    {
+                        if (mv.getValue().getPrev().equals(key))
+                        {
+                            next.add(mv.getKey());
+                        }
+                    });
+
+                    ((LinkedHashMap<String, LinkedHashMap>) value.get("ShipUpgradeInfo")).get(key).put("next", next);
+                });
+            }
+            gameParamsCHM.put(String.valueOf(value.get("id")), value);
+        });
         temp.clear();
 
 
         // For parsing GameParams
 //        Resource GameParamsFile = new ClassPathResource("static/json/GameParams.json");
+
+
+
 //        HashMap<String, GameParamsValues> temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, GameParamsValues>>(){});
 //
 //        HashMap<String, Temporary> temporaryHashMap;

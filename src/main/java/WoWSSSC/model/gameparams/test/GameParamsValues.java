@@ -7,7 +7,7 @@ import WoWSSSC.model.gameparams.test.Values.HitLocation;
 import WoWSSSC.model.gameparams.test.Values.PlanesReserveAssignment;
 import WoWSSSC.model.gameparams.test.Values.ShipAbilities.ShipAbilities;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.ShipModernization;
-import WoWSSSC.model.gameparams.test.Values.ShipUpgradeInfo.ShipUpgradeInfo;
+import WoWSSSC.model.gameparams.ShipUpgradeInfo.ShipUpgradeInfo;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;

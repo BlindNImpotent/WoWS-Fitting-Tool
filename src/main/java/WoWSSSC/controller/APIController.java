@@ -33,10 +33,7 @@ public class APIController
     private LinkedHashMap<String, LinkedHashMap> data;
 
     @Autowired
-    private HashMap<String, HashMap> gameParamsCHM;
-
-    @Autowired
-    private HashMap<String, HashMap<String, GameParamsValues>> gp;
+    private HashMap<String, LinkedHashMap> gameParamsCHM;
 
     @Autowired
     private LinkedHashMap<String, String> notification;
@@ -53,17 +50,10 @@ public class APIController
     }
 
     @ResponseBody
-    @RequestMapping (value = "/gameParams", method = RequestMethod.GET)
-    public HashMap<String, HashMap> getGameParamsCHM()
+    @RequestMapping (value = "/gameParams/{id}", method = RequestMethod.GET)
+    public HashMap<String, LinkedHashMap> getGameParamsCHM(@PathVariable("id") String id)
     {
-        return gameParamsCHM;
-    }
-
-    @ResponseBody
-    @RequestMapping (value = "/gp", method = RequestMethod.GET)
-    public HashMap<String, HashMap<String, GameParamsValues>> getGp()
-    {
-        return gp;
+        return gameParamsCHM.get(id);
     }
 
     @RequestMapping (value = "/", method = RequestMethod.GET)
