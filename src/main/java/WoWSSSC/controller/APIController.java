@@ -3,6 +3,7 @@ package WoWSSSC.controller;
 import WoWSSSC.model.gameparams.test.GameParamsValues;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
 import WoWSSSC.service.APIService;
+import WoWSSSC.service.GPService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,9 @@ public class APIController
 {
     @Autowired
     private APIService apiService;
+
+    @Autowired
+    private GPService gpService;
 
     @Autowired
     private LinkedHashMap<String, LinkedHashMap> data;
@@ -137,5 +141,25 @@ public class APIController
         }
 
         return "shipAPIPage :: shipAPIData";
+    }
+
+    @ResponseBody
+    @RequestMapping (value = "/gpService", method = RequestMethod.GET)
+    public HashMap<String, LinkedHashMap> test(
+            @RequestParam(required = false, defaultValue = "") String nation,
+            @RequestParam(required = false, defaultValue = "") String shipType,
+            @RequestParam(required = false, defaultValue = "") String ship,
+            @RequestParam(required = false, defaultValue = "") String ship_id,
+            @RequestParam(required = false, defaultValue = "") String Artillery,
+            @RequestParam(required = false, defaultValue = "") String DiveBomber,
+            @RequestParam(required = false, defaultValue = "") String Engine,
+            @RequestParam(required = false, defaultValue = "") String Fighter,
+            @RequestParam(required = false, defaultValue = "") String Suo,
+            @RequestParam(required = false, defaultValue = "") String FlightControl,
+            @RequestParam(required = false, defaultValue = "") String Hull,
+            @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
+            @RequestParam(required = false, defaultValue = "") String Torpedoes)
+    {
+        return gpService.setShipGP(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
     }
 }

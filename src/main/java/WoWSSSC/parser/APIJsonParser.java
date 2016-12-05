@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -46,6 +47,14 @@ public class APIJsonParser
 
     @Autowired
     private LinkedHashMap<String, String> notification;
+
+    @Autowired
+    @Qualifier(value = "nameToId")
+    private HashMap<String, String> nameToId;
+
+    @Autowired
+    @Qualifier(value = "idToName")
+    private HashMap<String, String> idToName;
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -148,11 +157,11 @@ public class APIJsonParser
 ////        }
 //
         gameParamsCHM.clear();
-        temp.values().forEach(value ->
+        temp.entrySet().forEach(value ->
         {
-            if (value.get("ShipUpgradeInfo") != null)
+            if (value.getValue().get("ShipUpgradeInfo") != null)
             {
-                ShipUpgradeInfo shipUpgradeInfo = mapper.convertValue(value.get("ShipUpgradeInfo"), ShipUpgradeInfo.class);
+                ShipUpgradeInfo shipUpgradeInfo = mapper.convertValue(value.getValue().get("ShipUpgradeInfo"), ShipUpgradeInfo.class);
 
                 shipUpgradeInfo.getModules().entrySet().forEach(entry ->
                 {
@@ -167,10 +176,12 @@ public class APIJsonParser
                         }
                     });
 
-                    ((LinkedHashMap<String, LinkedHashMap>) value.get("ShipUpgradeInfo")).get(key).put("next", next);
+                    ((LinkedHashMap<String, LinkedHashMap>) value.getValue().get("ShipUpgradeInfo")).get(key).put("next", next);
                 });
             }
-            gameParamsCHM.put(String.valueOf(value.get("id")), value);
+            nameToId.put(value.getKey(), String.valueOf(value.getValue().get("id")));
+            idToName.put(String.valueOf(value.getValue().get("id")), value.getKey());
+            gameParamsCHM.put(String.valueOf(value.getValue().get("id")), value.getValue());
         });
         temp.clear();
 

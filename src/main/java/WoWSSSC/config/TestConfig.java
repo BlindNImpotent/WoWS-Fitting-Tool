@@ -5,6 +5,7 @@ import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.parser.AsyncHashMap;
 import WoWSSSC.utils.Sorter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -36,10 +37,26 @@ public class TestConfig
 
     private LinkedHashMap<String, String> notification = new LinkedHashMap<>();
 
+    private HashMap<String, String> nameToId = new HashMap<>();
+
+    private HashMap<String, String> idToName = new HashMap<>();
+
     @Bean
     public String app_id()
     {
         return "137f0721e1b1baf30d6dcd1968fc260c";
+    }
+
+    @Bean (value = "nameToId")
+    public HashMap<String, String> nameToId()
+    {
+        return nameToId;
+    }
+
+    @Bean (value = "idToName")
+    public HashMap<String, String> idToName()
+    {
+        return idToName;
     }
 
     @Bean
