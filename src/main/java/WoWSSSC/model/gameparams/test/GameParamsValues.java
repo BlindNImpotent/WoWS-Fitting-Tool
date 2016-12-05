@@ -1,5 +1,10 @@
 package WoWSSSC.model.gameparams.test;
 
+import WoWSSSC.model.gameparams.TypeInfo;
+import WoWSSSC.model.gameparams.test.Values.BattleLevel;
+import WoWSSSC.model.gameparams.test.Values.GroupCustom;
+import WoWSSSC.model.gameparams.test.Values.HitLocation;
+import WoWSSSC.model.gameparams.test.Values.PlanesReserveAssignment;
 import WoWSSSC.model.gameparams.test.Values.ShipAbilities.ShipAbilities;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.ShipModernization;
 import WoWSSSC.model.gameparams.test.Values.ShipUpgradeInfo.ShipUpgradeInfo;
@@ -177,7 +182,7 @@ public class GameParamsValues
     private float visibilityFactorByPlane;
 
     @JsonProperty(value = "HitLocationAirDefense")
-    private WoWSSSC.model.gameparams.Values.HitLocation HitLocationAirDefense;
+    private HitLocation HitLocationAirDefense;
     private float antiAirAuraDistance;
     private float antiAirAuraStrength;
     private float barrelDiameter;
@@ -186,7 +191,7 @@ public class GameParamsValues
     private boolean smallGun;
 
     @JsonProperty(value = "HitLocationArtillery")
-    private WoWSSSC.model.gameparams.Values.HitLocation HitLocationArtillery;
+    private HitLocation HitLocationArtillery;
     private float aiMGmaxEllipseRanging;
     private float aiMGmedEllipseRanging;
     private float aiMGminEllipseRanging;
@@ -223,12 +228,12 @@ public class GameParamsValues
     private List<Float> vertSector;
 
     @JsonProperty(value = "HitLocationATBA")
-    private WoWSSSC.model.gameparams.Values.HitLocation HitLocationATBA;
+    private HitLocation HitLocationATBA;
     private float aiATBAmultiplier;
     private long clusterID;
 
     @JsonProperty(value = "HitLocationTorpedo")
-    private WoWSSSC.model.gameparams.Values.HitLocation HitLocationTorpedo;
+    private HitLocation HitLocationTorpedo;
     private List<Float> mainSector;
     private float numAmmos;
     private float timeBetweenShots;
@@ -301,7 +306,7 @@ public class GameParamsValues
     private float underwaterSplashBPDamageMultiplier;
 
     private boolean isIsFake;
-    private WoWSSSC.model.gameparams.Values.PlanesReserveAssignment planesReserveAssignment;
+    private PlanesReserveAssignment planesReserveAssignment;
     private float prepareTimeFactor;
     private HashSet<List> squadrons;
     private float default_distance;
@@ -413,12 +418,12 @@ public class GameParamsValues
     private ShipModernization ShipModernization;
     @JsonProperty(value = "ShipUpgradeInfo")
     private ShipUpgradeInfo ShipUpgradeInfo;
-    private WoWSSSC.model.gameparams.Values.BattleLevel battleLevel;
+    private BattleLevel battleLevel;
     private boolean canEquipCamouflage;
     private String defaultCrew;
     private float flagsScale;
     private String group;
-    private WoWSSSC.model.gameparams.Values.GroupCustom groupCustom;
+    private GroupCustom groupCustom;
     private long id;
     private String index;
     private boolean isPaperShip;
@@ -432,7 +437,7 @@ public class GameParamsValues
     private String peculiarityFlag;
 //    private HashSet<String> peculiarityModels;
     private List<String> permoflages;
-    private WoWSSSC.model.gameparams.Values.TypeInfo typeinfo;
+    private TypeInfo typeinfo;
     private String unpeculiarShip;
     private int weight;
 }
