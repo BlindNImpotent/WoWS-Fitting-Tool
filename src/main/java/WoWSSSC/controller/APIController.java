@@ -1,5 +1,6 @@
 package WoWSSSC.controller;
 
+import WoWSSSC.model.ShipComponents;
 import WoWSSSC.model.gameparams.test.GameParamsValues;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
 import WoWSSSC.service.APIService;
@@ -145,7 +146,8 @@ public class APIController
 
     @ResponseBody
     @RequestMapping (value = "/gpService", method = RequestMethod.GET)
-    public HashMap<String, LinkedHashMap> test(
+    public ShipComponents test
+    (
             @RequestParam(required = false, defaultValue = "") String nation,
             @RequestParam(required = false, defaultValue = "") String shipType,
             @RequestParam(required = false, defaultValue = "") String ship,
@@ -158,8 +160,9 @@ public class APIController
             @RequestParam(required = false, defaultValue = "") String FlightControl,
             @RequestParam(required = false, defaultValue = "") String Hull,
             @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
-            @RequestParam(required = false, defaultValue = "") String Torpedoes)
-    {
-        return gpService.setShipGP(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
+            @RequestParam(required = false, defaultValue = "") String Torpedoes,
+            @RequestParam(required = false) List<String> modules
+    ) throws IllegalAccessException {
+        return gpService.setShipGP(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
     }
 }

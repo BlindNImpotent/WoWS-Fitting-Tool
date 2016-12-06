@@ -1,5 +1,7 @@
 package WoWSSSC.service;
 
+import WoWSSSC.model.ShipComponents;
+import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.ShipUpgradeInfo;
 import WoWSSSC.model.gameparams.Temporary;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
+import java.lang.reflect.Field;
+import java.util.*;
 
 /**
  * Created by Aesis on 2016-12-05.
@@ -17,6 +18,9 @@ import java.util.LinkedHashMap;
 @Service
 public class GPService
 {
+    @Autowired
+    private LinkedHashMap<String, LinkedHashMap> data;
+
     @Autowired
     private HashMap<String, LinkedHashMap> gameParamsCHM;
 
@@ -30,7 +34,7 @@ public class GPService
 
     ObjectMapper mapper = new ObjectMapper();
 
-    public HashMap<String, LinkedHashMap> setShipGP(
+    public ShipComponents setShipGP(
             String nation,
             String shipType,
             String ship,
@@ -43,12 +47,21 @@ public class GPService
             String flight_control_id,
             String hull_id,
             String torpedo_bomber_id,
-            String torpedoes_id
-    )
-    {
-        HashMap<String, LinkedHashMap> temp = new HashMap<>();
+            String torpedoes_id,
+            List<String> modules
+    ) throws IllegalAccessException {
+        if (ship_id.equals(""))
+        {
+            ship_id = String.valueOf(((((LinkedHashMap<String, LinkedHashMap<String, Warship>>) data.get("nations").get(nation)).get(shipType)).get(ship)).getShip_id());
+        }
+
         if (!ship_id.equals(""))
         {
+            HashMap<String, LinkedHashMap> temp = new HashMap<>();
+
+            ShipComponents shipComponents = new ShipComponents();
+            Field[] fields = shipComponents.getClass().getDeclaredFields();
+
             ShipUpgradeInfo shipUpgradeInfo = mapper.convertValue(gameParamsCHM.get(ship_id), Temporary.class).getShipUpgradeInfo();
 
             HashSet<String> moduleNames = new HashSet<>();
@@ -62,6 +75,7 @@ public class GPService
             moduleNames.add(idToName.get(hull_id));
             moduleNames.add(idToName.get(torpedo_bomber_id));
             moduleNames.add(idToName.get(torpedoes_id));
+            modules.forEach(module -> moduleNames.add(idToName.get(module)));
             moduleNames.remove(null);
 
             for (String name : moduleNames)
@@ -71,14 +85,29 @@ public class GPService
                 {
                     HashSet<String> prevNext = shipUpgradeInfo.getModules().get(prev).getNext();
 
-                    if (!moduleNames.contains(prev) && prevNext.stream().filter(nm -> moduleNames.contains(nm)).count() == 0)
+                    if (!moduleNames.contains(prev) && prevNext.stream().filter(nm -> moduleNames.contains(nm)).count() != prevNext.size())
                     {
                         return null;
                     }
                 }
-                shipUpgradeInfo.getModules().get(name).getComponents().getShipComponents().entrySet().forEach(sc -> sc.getValue().forEach(scv -> temp.put(sc.getKey(), ((HashMap<String, LinkedHashMap>) gameParamsCHM.get(ship_id)).get(scv))));
+                for (Map.Entry<String, List<String>> sc : shipUpgradeInfo.getModules().get(name).getComponents().getShipComponents().entrySet())
+                {
+                    for (String scv : sc.getValue())
+                    {
+                        for (Field field : fields)
+                        {
+                            if (field.getName().equals(sc.getKey()))
+                            {
+                                field.setAccessible(true);
+                                field.set(shipComponents, ((LinkedHashMap<String, LinkedHashMap>) gameParamsCHM.get(ship_id)).get(scv));
+                                field.setAccessible(false);
+                            }
+                        }
+//                        temp.put(sc.getKey(), ((HashMap<String, LinkedHashMap>) gameParamsCHM.get(ship_id)).get(scv));
+                    }
+                }
             }
-            return temp;
+            return shipComponents;
         }
         return null;
     }
