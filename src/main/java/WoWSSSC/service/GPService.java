@@ -57,8 +57,6 @@ public class GPService
 
         if (!ship_id.equals(""))
         {
-            HashMap<String, LinkedHashMap> temp = new HashMap<>();
-
             ShipComponents shipComponents = new ShipComponents();
             Field[] fields = shipComponents.getClass().getDeclaredFields();
 
