@@ -7,7 +7,9 @@ import WoWSSSC.model.WoWSAPI.shipprofile.profile.artillery.Artillery_Slots;
 import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
 import WoWSSSC.model.WoWSAPI.upgrade.UpgradeProfile;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
+import WoWSSSC.model.gameparams.Temporary;
 import WoWSSSC.parser.APIJsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rits.cloning.Cloner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +45,8 @@ public class APIService
 
     @Autowired
     private HashMap<String, LinkedHashMap> gameParamsCHM;
+
+    private ObjectMapper mapper = new ObjectMapper();
 
     private static final Logger logger = LoggerFactory.getLogger(APIService.class);
 
@@ -108,7 +112,8 @@ public class APIService
         {
             String tGPHullName = (String) gameParamsCHM.get(String.valueOf(ship.getHull().getHull_id())).get("name");
 
-            List<String> tGPShipHullNameList = (List<String>) ((HashMap<String, HashMap>) ((HashMap<String, HashMap>) gameParamsCHM.get(ship_id).get("ShipUpgradeInfo")).get(tGPHullName).get("components")).get("hull");
+            List<String> tGPShipHullNameList = mapper.convertValue(gameParamsCHM.get(ship_id), Temporary.class).getShipUpgradeInfo().getModules().get(tGPHullName).getComponents().getHull();
+//            List<String> tGPShipHullNameList = (List<String>) ((HashMap<String, HashMap>) ((HashMap<String, HashMap>) gameParamsCHM.get(ship_id).get("ShipUpgradeInfo")).get(tGPHullName).get("components")).get("hull");
             if (tGPShipHullNameList.size() == 1)
             {
                 String tGPShipHullName = tGPShipHullNameList.get(0);

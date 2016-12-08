@@ -90,20 +90,20 @@ public class GPService
                         return null;
                     }
                 }
-                for (Map.Entry<String, List<String>> sc : shipUpgradeInfo.getModules().get(name).getComponents().getShipComponents().entrySet())
+                for (Field cField : shipUpgradeInfo.getModules().get(name).getComponents().getClass().getDeclaredFields())
                 {
-                    for (String scv : sc.getValue())
+                    cField.setAccessible(true);
+                    List<String> tempList = (List<String>) cField.get(shipUpgradeInfo.getModules().get(name).getComponents());
+                    cField.setAccessible(false);
+
+                    for (Field field : fields)
                     {
-                        for (Field field : fields)
+                        if (tempList != null && tempList.size() == 1 && cField.getName().equals(field.getName()))
                         {
-                            if (field.getName().equals(sc.getKey()))
-                            {
-                                field.setAccessible(true);
-                                field.set(shipComponents, ((LinkedHashMap<String, LinkedHashMap>) gameParamsCHM.get(ship_id)).get(scv));
-                                field.setAccessible(false);
-                            }
+                            field.setAccessible(true);
+                            field.set(shipComponents, gameParamsCHM.get(ship_id).get(tempList.get(0)));
+                            field.setAccessible(false);
                         }
-//                        temp.put(sc.getKey(), ((HashMap<String, LinkedHashMap>) gameParamsCHM.get(ship_id)).get(scv));
                     }
                 }
             }
