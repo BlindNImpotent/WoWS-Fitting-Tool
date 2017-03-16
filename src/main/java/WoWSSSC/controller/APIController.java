@@ -162,7 +162,8 @@ public class APIController
             @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
             @RequestParam(required = false, defaultValue = "") String Torpedoes,
             @RequestParam(required = false) List<String> modules
-    ) throws IllegalAccessException {
+    ) throws IllegalAccessException
+    {
         return gpService.setShipGP(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
     }
 }
