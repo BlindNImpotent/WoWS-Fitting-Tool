@@ -288,7 +288,7 @@ public class APIService
                 {
                     if (ship.getHull() != null)
                     {
-                        ship.getHull().setHealth(ship.getHull().getHealth() + warship.getTier() * 400);
+                        ship.getHull().setHealth(ship.getHull().getHealth() + warship.getTier() * 350);
                     }
                 }
                 else if (skill.get("type_id").equals("2"))
@@ -357,7 +357,16 @@ public class APIService
                 }
                 else if (skill.get("type_id").equals("2"))
                 {
-
+                    if (ship.getArtillery() != null)
+                    {
+                        ship.getArtillery().getShells().values().forEach(value ->
+                        {
+                            if (value != null && value.getBurn_probability() != 0)
+                            {
+                                value.setBurn_probability(value.getBurn_probability() - 3 > 0 ? value.getBurn_probability() - 3 : 0);
+                            }
+                        });
+                    }
                 }
                 else if (skill.get("type_id").equals("3"))
                 {
