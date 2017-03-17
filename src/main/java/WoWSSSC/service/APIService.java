@@ -166,6 +166,7 @@ public class APIService
 //        });
 
         List<HashMap> skills = upgradesSkills.get("skills");
+
         skills.forEach(skill ->
         {
             if (skill.get("tier").equals("1"))
@@ -176,20 +177,7 @@ public class APIService
                 }
                 else if (skill.get("type_id").equals("1"))
                 {
-                    if (ship.getArtillery() != null)
-                    {
-                        String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
-                        int caliber = Integer.parseInt(splitName[0].trim());
 
-                        if (caliber <= 139)
-                        {
-                            ship.getArtillery().setShot_delay(ship.getArtillery().getShot_delay() * 0.9f);
-                        }
-                    }
-                    if (ship.getAnti_aircraft() != null)
-                    {
-                        ship.getAnti_aircraft().getSlots().values().forEach(value -> value.setAvg_damage(value.getAvg_damage() * 1.1f));
-                    }
                 }
                 else if (skill.get("type_id").equals("2"))
                 {
@@ -197,16 +185,38 @@ public class APIService
                 }
                 else if (skill.get("type_id").equals("3"))
                 {
+                    float hp_coef = 1.05f;
+                    float prep_coef = 0.9f;
 
+                    if (ship.getDive_bomber() != null)
+                    {
+                        ship.getDive_bomber().setMax_health(ship.getDive_bomber().getMax_health() * hp_coef);
+                        ship.getDive_bomber().setPrepare_time(ship.getDive_bomber().getPrepare_time() * prep_coef);
+                    }
+                    if (ship.getFighters() != null)
+                    {
+                        ship.getFighters().setMax_health(ship.getFighters().getMax_health() * hp_coef);
+                        ship.getFighters().setPrepare_time(ship.getFighters().getPrepare_time() * prep_coef);
+                    }
+                    if (ship.getTorpedo_bomber() != null)
+                    {
+                        ship.getTorpedo_bomber().setMax_health(ship.getTorpedo_bomber().getMax_health() * hp_coef);
+                        ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * prep_coef);
+                    }
                 }
                 else if (skill.get("type_id").equals("4"))
                 {
-                    if (ship.getDive_bomber() != null)
-                    {
-                        ship.getDive_bomber().setGunner_damage(ship.getDive_bomber().getGunner_damage() * 1.1f);
-                    }
+
                 }
                 else if (skill.get("type_id").equals("5"))
+                {
+
+                }
+                else if (skill.get("type_id").equals("6"))
+                {
+
+                }
+                else if (skill.get("type_id").equals("7"))
                 {
 
                 }
@@ -214,6 +224,14 @@ public class APIService
             else if (skill.get("tier").equals("2"))
             {
                 if (skill.get("type_id").equals("0"))
+                {
+
+                }
+                else if (skill.get("type_id").equals("1"))
+                {
+
+                }
+                else if (skill.get("type_id").equals("2"))
                 {
                     if (ship.getArtillery() != null)
                     {
@@ -232,30 +250,30 @@ public class APIService
                         ship.getArtillery().setRotation_time(180 / timeToDeg);
                     }
                 }
-                else if (skill.get("type_id").equals("1"))
+                else if (skill.get("type_id").equals("3"))
                 {
                     if (ship.getTorpedoes() != null)
                     {
-                        ship.getTorpedoes().setReload_time(ship.getTorpedoes().getReload_time() * 0.9f);
+                        ship.getTorpedoes().setTorpedo_speed(ship.getTorpedoes().getTorpedo_speed() + 5);
+                        ship.getTorpedoes().setDistance(ship.getTorpedoes().getDistance() * 0.8f);
                     }
-                    if (ship.getTorpedo_bomber() != null)
-                    {
-                        ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * 0.8f);
-                    }
-                }
-                else if (skill.get("type_id").equals("2"))
-                {
-
-                }
-                else if (skill.get("type_id").equals("3"))
-                {
-
                 }
                 else if (skill.get("type_id").equals("4"))
                 {
 
                 }
                 else if (skill.get("type_id").equals("5"))
+                {
+                    if (ship.getDive_bomber() != null)
+                    {
+                        ship.getDive_bomber().setGunner_damage(ship.getDive_bomber().getGunner_damage() * 1.1f);
+                    }
+                }
+                else if (skill.get("type_id").equals("6"))
+                {
+
+                }
+                else if (skill.get("type_id").equals("7"))
                 {
 
                 }
@@ -268,15 +286,21 @@ public class APIService
                 }
                 else if (skill.get("type_id").equals("1"))
                 {
-                    if (ship.getTorpedoes() != null)
+                    if (ship.getHull() != null)
                     {
-                        ship.getTorpedoes().setTorpedo_speed(ship.getTorpedoes().getTorpedo_speed() + 5);
-                        ship.getTorpedoes().setDistance(ship.getTorpedoes().getDistance() * 0.8f);
+                        ship.getHull().setHealth(ship.getHull().getHealth() + warship.getTier() * 400);
                     }
                 }
                 else if (skill.get("type_id").equals("2"))
                 {
-
+                    if (ship.getTorpedoes() != null)
+                    {
+                        ship.getTorpedoes().setReload_time(ship.getTorpedoes().getReload_time() * 0.9f);
+                    }
+                    if (ship.getTorpedo_bomber() != null)
+                    {
+                        ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * 0.8f);
+                    }
                 }
                 else if (skill.get("type_id").equals("3"))
                 {
@@ -284,9 +308,39 @@ public class APIService
                 }
                 else if (skill.get("type_id").equals("4"))
                 {
+                    if (ship.getArtillery() != null)
+                    {
+                        String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
+                        int caliber = Integer.parseInt(splitName[0].trim());
 
+                        if (caliber <= 139)
+                        {
+                            ship.getArtillery().setShot_delay(ship.getArtillery().getShot_delay() * 0.9f);
+                        }
+                    }
+                    if (ship.getAnti_aircraft() != null)
+                    {
+                        ship.getAnti_aircraft().getSlots().values().forEach(value -> value.setAvg_damage(value.getAvg_damage() * 1.1f));
+                    }
                 }
                 else if (skill.get("type_id").equals("5"))
+                {
+
+                }
+                else if (skill.get("type_id").equals("6"))
+                {
+                    if (ship.getArtillery() != null)
+                    {
+                        ship.getArtillery().getShells().values().forEach(value ->
+                        {
+                            if (value != null && value.getBurn_probability() != 0)
+                            {
+                                value.setBurn_probability(value.getBurn_probability() + 2);
+                            }
+                        });
+                    }
+                }
+                else if (skill.get("type_id").equals("7"))
                 {
 
                 }
@@ -295,18 +349,28 @@ public class APIService
             {
                 if (skill.get("type_id").equals("0"))
                 {
-                    if (ship.getArtillery() != null)
-                    {
-                        ship.getArtillery().getShells().values().forEach(value ->
-                        {
-                            if (value != null && value.getBurn_probability() != 0)
-                            {
-                                value.setBurn_probability(value.getBurn_probability() + 3);
-                            }
-                        });
-                    }
+
                 }
                 else if (skill.get("type_id").equals("1"))
+                {
+
+                }
+                else if (skill.get("type_id").equals("2"))
+                {
+
+                }
+                else if (skill.get("type_id").equals("3"))
+                {
+                    if (ship.getDive_bomber() != null)
+                    {
+                        ship.getDive_bomber().getCount_in_squadron().setMax(ship.getDive_bomber().getCount_in_squadron().getMax() + 1);
+                    }
+                    if (ship.getFighters() != null)
+                    {
+                        ship.getFighters().getCount_in_squadron().setMax(ship.getFighters().getCount_in_squadron().getMax() + 1);
+                    }
+                }
+                else if (skill.get("type_id").equals("4"))
                 {
                     if (ship.getArtillery() != null)
                     {
@@ -327,38 +391,6 @@ public class APIService
                         ship.getAnti_aircraft().getSlots().values().forEach(value -> value.setDistance(value.getDistance() * 1.2f));
                     }
                 }
-                else if (skill.get("type_id").equals("2"))
-                {
-                    if (ship.getHull() != null)
-                    {
-                        ship.getHull().setHealth(ship.getHull().getHealth() + warship.getTier() * 400);
-                    }
-                }
-                else if (skill.get("type_id").equals("3"))
-                {
-
-                }
-                else if (skill.get("type_id").equals("4"))
-                {
-                    float hp_coef = 1.05f;
-                    float prep_coef = 0.9f;
-                    
-                    if (ship.getDive_bomber() != null)
-                    {
-                        ship.getDive_bomber().setMax_health(ship.getDive_bomber().getMax_health() * hp_coef);
-                        ship.getDive_bomber().setPrepare_time(ship.getDive_bomber().getPrepare_time() * prep_coef);
-                    }
-                    if (ship.getFighters() != null)
-                    {
-                        ship.getFighters().setMax_health(ship.getFighters().getMax_health() * hp_coef);
-                        ship.getFighters().setPrepare_time(ship.getFighters().getPrepare_time() * prep_coef);
-                    }
-                    if (ship.getTorpedo_bomber() != null)
-                    {
-                        ship.getTorpedo_bomber().setMax_health(ship.getTorpedo_bomber().getMax_health() * hp_coef);
-                        ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * prep_coef);
-                    }
-                }
                 else if (skill.get("type_id").equals("5"))
                 {
                     if (ship.getAnti_aircraft() != null)
@@ -372,22 +404,11 @@ public class APIService
                         });
                     }
                 }
-            }
-            else if (skill.get("tier").equals("5"))
-            {
-                if (skill.get("type_id").equals("0"))
+                else if (skill.get("type_id").equals("6"))
                 {
 
                 }
-                else if (skill.get("type_id").equals("1"))
-                {
-
-                }
-                else if (skill.get("type_id").equals("2"))
-                {
-
-                }
-                else if (skill.get("type_id").equals("3"))
+                else if (skill.get("type_id").equals("7"))
                 {
                     if (ship.getConcealment() != null)
                     {
@@ -412,21 +433,6 @@ public class APIService
                         ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * detect_coef);
                         ship.getConcealment().setDetect_distance_by_plane(ship.getConcealment().getDetect_distance_by_plane() * detect_coef);
                     }
-                }
-                else if (skill.get("type_id").equals("4"))
-                {
-                    if (ship.getDive_bomber() != null)
-                    {
-                        ship.getDive_bomber().getCount_in_squadron().setMax(ship.getDive_bomber().getCount_in_squadron().getMax() + 1);
-                    }
-                    if (ship.getFighters() != null)
-                    {
-                        ship.getFighters().getCount_in_squadron().setMax(ship.getFighters().getCount_in_squadron().getMax() + 1);
-                    }
-                }
-                else if (skill.get("type_id").equals("5"))
-                {
-
                 }
             }
         });

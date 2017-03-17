@@ -31,7 +31,7 @@
             $('#crewSkills').dialog({
                 autoOpen: false,
 //                modal: true,
-                width: 520
+                width: 700
             }).css("font-size", "8px");
 
 //            $('#flags').dialog({
@@ -77,7 +77,7 @@
         </div>
     </div>
 </header>
-<div id="crewSkills" class="ui-widget-content" title="Skill Points 0 / 18">
+<div id="crewSkills" class="ui-widget-content" title="Skill Points 0 / 19">
     <table id="skillsTable" align="center">
         <tbody>
             <tr th:each="skillTier : ${data.skills}">
@@ -183,7 +183,7 @@
     });
 
     $(document).on('click', '.button_skill, .button_skill_selected', function () {
-        var maxSpts = 18;
+        var maxSpts = 19;
         var currentSpts = 0;
         var clickedSpts = 0;
         var totalSpts = 0;
@@ -210,7 +210,7 @@
 
         if (document.getElementById(clickedId).className == 'button_skill')
         {
-            if (totalSpts > 18)
+            if (totalSpts > maxSpts)
             {
                 return false;
             }

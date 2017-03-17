@@ -230,7 +230,10 @@ public class AsyncHashMap implements CommandLineRunner
         warship.getUpgrades().forEach(upgrade_id ->
         {
             Upgrade tempUpgrade = upgrades.get(String.valueOf(upgrade_id));
-            tempUpgrades.put(tempUpgrade.getName(), tempUpgrade);
+            if (tempUpgrade != null)
+            {
+                tempUpgrades.put(tempUpgrade.getName(), tempUpgrade);
+            }
         });
         warship.setUpgradesNew(tempUpgrades);
     }
@@ -244,7 +247,7 @@ public class AsyncHashMap implements CommandLineRunner
             int tier = entry.getValue().getTier();
             LinkedHashMap<String, CrewSkills> tempTier = new LinkedHashMap<>();
 
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 8; i++)
             {
                 CrewSkills tempCrewSkills = new CrewSkills();
                 tempCrewSkills.setType_id(i);
@@ -276,8 +279,10 @@ public class AsyncHashMap implements CommandLineRunner
 
             temp.put(String.valueOf(tier), sorter.sortCrewSkills(tempTier));
         });
+        LinkedHashMap<String, LinkedHashMap> sorted = new LinkedHashMap<>();
+        temp.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> sorted.put(entry.getKey(), entry.getValue()));
 
-        return temp;
+        return sorted;
     }
 
     private LinkedHashMap<String, LinkedHashMap> setExteriors(LinkedHashMap<String, Exterior> exteriorData)
