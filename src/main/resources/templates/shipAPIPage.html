@@ -32,7 +32,8 @@
                 <strong>Concealment</strong><br />
                 Surface<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.concealment.detect_distance_by_ship, 0, 1)} + ' km'"/><br />
                 Air<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.concealment.detect_distance_by_plane, 0, 1)} + ' km'"/><br />
-                Stealth Fire<span th:if="${shipAPI.concealment.visibilityCoefGK > 0}" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.concealment.detect_distance_by_ship + shipAPI.concealment.visibilityCoefGK, 0, 1)} + ' km'"/><br />
+                <!--Stealth Fire<span th:if="${shipAPI.concealment.visibilityCoefGK > 0}" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.concealment.detect_distance_by_ship + shipAPI.concealment.visibilityCoefGK, 0, 1)} + ' km'"/><br />-->
+                Stealth Fire<span th:if="${shipAPI.artillery.distance > 0}" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.distance, 0, 1)} + ' km'"/><br />
             </div>
         </div>
         <div class="blank">
