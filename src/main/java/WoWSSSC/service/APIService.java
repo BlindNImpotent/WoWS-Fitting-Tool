@@ -320,7 +320,7 @@ public class APIService
                     }
                     if (ship.getAnti_aircraft() != null)
                     {
-                        ship.getAnti_aircraft().getSlots().values().forEach(value -> value.setAvg_damage(value.getAvg_damage() * 1.1f));
+                        ship.getAnti_aircraft().getSlots().values().forEach(value -> value.setAvg_damage(value.getAvg_damage() * 1.2f));
                     }
                 }
                 else if (skill.get("type_id").equals("5"))
