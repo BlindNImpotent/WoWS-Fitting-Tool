@@ -88,6 +88,7 @@ public class AsyncHashMap implements CommandLineRunner
                     shipType.getValue().get().getData().entrySet().forEach(warship ->
                     {
                         String key = warship.getValue().getName();
+                        key = key.replace("'", "");
                         Warship value = warship.getValue();
 
                         if (value.getNext_ships() != null)
