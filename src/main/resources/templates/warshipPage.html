@@ -24,6 +24,7 @@
         </div>
         <div id="ship" th:name="${warship.ship_id}" th:if="${warship != null}" class="ship">
             <div id="name">
+                <input type="text" id="shortenUrlAddress"/><button id="shortenURL">Shorten URL</button>
                 <h1 th:text="${warship.name}"/>
                 <img th:title="${warship.description}" th:src="${warship.images.medium}"/>
             </div>

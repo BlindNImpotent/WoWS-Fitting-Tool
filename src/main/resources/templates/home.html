@@ -45,7 +45,6 @@
 //                modal: true,
 //                width: 520
 //            }).css("font-size", "8px");
-
         });
     </script>
     <title>WoWS Fitting Tool by Aesis</title>
@@ -399,6 +398,28 @@
     $(window).on('popstate', function () {
         history.go(document.location);
     });
+
+    $(document).on('click', '#shortenURL', function () {
+        var longUrl = window.location.href;
+
+        var json = {
+            longUrl: longUrl
+        };
+
+        $.ajax({
+            url: 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyCaUYoTN7aKfyckK9Wd0SyaaFEA7eYoBbg',
+            type: 'post',
+            contentType: "application/json",
+            data: JSON.stringify(json),
+            success: function (data) {
+                $('#shortenUrlAddress').val(data.id);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    });
+
 
 //    ]]>
 </script>
