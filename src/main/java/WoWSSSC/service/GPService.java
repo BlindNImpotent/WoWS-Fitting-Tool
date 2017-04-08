@@ -107,7 +107,7 @@ public class GPService
 
                     for (Field field : fields)
                     {
-                        if (tempList != null && cField.getName().equals(field.getName()))
+                        if (tempList != null && tempList.size() > 0 && cField.getName().equals(field.getName()))
                         {
                             field.setAccessible(true);
                             field.set(shipComponents, gameParamsCHM.get(ship_id).get(tempList.get(0)));
