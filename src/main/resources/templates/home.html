@@ -141,6 +141,7 @@
         if ([[${url}]] != null)
         {
             callAPI();
+            setCaptainSkillPoints();
         }
     });
 
@@ -180,6 +181,24 @@
 
         callAPI();
     });
+
+    function setCaptainSkillPoints()
+    {
+        var list = $('.button_skill_selected');
+
+        var maxSpts = 19;
+        var totalSpts = 0;
+
+        for (var i = 0; i < list.size(); i++)
+        {
+            var current = list.eq(i);
+
+            totalSpts = totalSpts + parseInt(current.attr('tier'));
+        }
+
+        document.getElementById('ui-id-1').innerText = 'Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString();
+    }
+
 
     $(document).on('click', '.button_skill, .button_skill_selected', function () {
         var maxSpts = 19;
