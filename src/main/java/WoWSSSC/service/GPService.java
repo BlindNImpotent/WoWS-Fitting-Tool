@@ -5,6 +5,7 @@ import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.ShipUpgradeInfo;
 import WoWSSSC.model.gameparams.Temporary;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -49,18 +50,27 @@ public class GPService
             String torpedo_bomber_id,
             String torpedoes_id,
             List<String> modules
-    ) throws IllegalAccessException {
-        if (ship_id.equals(""))
+    ) throws IllegalAccessException
+    {
+        if (StringUtils.isEmpty(ship_id))
         {
             ship_id = String.valueOf(((((LinkedHashMap<String, LinkedHashMap<String, Warship>>) data.get("nations").get(nation)).get(shipType)).get(ship)).getShip_id());
         }
 
-        if (!ship_id.equals(""))
+        if (StringUtils.isNotEmpty(ship_id))
         {
             ShipComponents shipComponents = new ShipComponents();
             Field[] fields = shipComponents.getClass().getDeclaredFields();
 
-            ShipUpgradeInfo shipUpgradeInfo = mapper.convertValue(gameParamsCHM.get(ship_id), Temporary.class).getShipUpgradeInfo();
+            ShipUpgradeInfo shipUpgradeInfo;
+            try
+            {
+                shipUpgradeInfo = mapper.convertValue(gameParamsCHM.get(ship_id), Temporary.class).getShipUpgradeInfo();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
 
             HashSet<String> moduleNames = new HashSet<>();
 
@@ -73,7 +83,7 @@ public class GPService
             moduleNames.add(idToName.get(hull_id));
             moduleNames.add(idToName.get(torpedo_bomber_id));
             moduleNames.add(idToName.get(torpedoes_id));
-            modules.forEach(module -> moduleNames.add(idToName.get(module)));
+//            modules.forEach(module -> moduleNames.add(idToName.get(module)));
             moduleNames.remove(null);
 
             for (String name : moduleNames)

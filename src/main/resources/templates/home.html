@@ -199,7 +199,6 @@
         document.getElementById('ui-id-1').innerText = 'Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString();
     }
 
-
     $(document).on('click', '.button_skill, .button_skill_selected', function () {
         var maxSpts = 19;
         var currentSpts = 0;
@@ -386,6 +385,33 @@
                             shipType: shipType,
                             ship: ship
                         }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage);
+
+                        $.ajax({
+                            url: url.replace('shipAPI', 'gpService'),
+                            type: 'get',
+                            contentType: "application/json",
+                            data: JSON.stringify(upgradesSkills),
+                            success: function (data) {
+                                if (data != '')
+                                {
+                                    if (data.artillery != null)
+                                    {
+                                        var sigma ='' +  data.artillery.sigmaCount;
+
+                                        if (!sigma.includes('.'))
+                                        {
+                                            sigma = sigma + '.0';
+                                        }
+
+                                        document.getElementById('sigmaCount').innerText = sigma;
+                                    }
+                                }
+                                else
+                                {
+                                    document.getElementById('sigmaCount').innerText = 'Unknown';
+                                }
+                            }
+                        });
                     }
                     else
                     {

@@ -44,6 +44,7 @@
                 <li th:each="slot : ${shipAPI.artillery.slots}">
                     <u style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/><br />
                 </li>
+                Sigma<span style="float: right;" id="sigmaCount"></span><br />
                 Distance<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.distance, 0, 1)} + ' km'"/><br />
                 Dispersion<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.max_dispersion, 0, 1)} + ' m'"/><br />
                 Reload<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.shot_delay, 0, 1)} + ' s'"/><br />
