@@ -93,11 +93,12 @@ public class GPService
                 {
                     HashSet<String> prevNext = shipUpgradeInfo.getModules().get(prev).getNext();
 
-                    if (!moduleNames.contains(prev) && prevNext.stream().filter(nm -> moduleNames.contains(nm)).count() != prevNext.size())
-                    {
-                        return null;
-                    }
+//                    if (!moduleNames.contains(prev) && prevNext.stream().filter(nm -> moduleNames.contains(nm)).count() != prevNext.size())
+//                    {
+//                        return null;
+//                    }
                 }
+
                 for (Field cField : shipUpgradeInfo.getModules().get(name).getComponents().getClass().getDeclaredFields())
                 {
                     cField.setAccessible(true);
@@ -106,7 +107,7 @@ public class GPService
 
                     for (Field field : fields)
                     {
-                        if (tempList != null && tempList.size() == 1 && cField.getName().equals(field.getName()))
+                        if (tempList != null && cField.getName().equals(field.getName()))
                         {
                             field.setAccessible(true);
                             field.set(shipComponents, gameParamsCHM.get(ship_id).get(tempList.get(0)));

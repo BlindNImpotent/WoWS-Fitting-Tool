@@ -73,7 +73,19 @@ public class Warship
             {
                 if (modTree.getValue().getType().equals(type))
                 {
-                    tempModulesTree.put(modTree.getValue().getName(), modTree.getValue());
+                    String tempName = "";
+
+                    if (modTree.getValue().isIs_default())
+                    {
+                        tempName = modTree.getValue().getName() + "_Stock";
+                    }
+                    else
+                    {
+                        tempName = modTree.getValue().getName();
+                    }
+
+                    tempModulesTree.put(tempName, modTree.getValue());
+//                    tempModulesTree.put(modTree.getValue().getName(), modTree.getValue());
                 }
             });
             LinkedHashMap<String, WarshipModulesTree> tmt = sorter.sortShipModules(tempModulesTree);

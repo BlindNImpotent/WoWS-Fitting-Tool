@@ -388,6 +388,8 @@
                             ship: ship
                         }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage);
 
+                        console.log(gpServiceUrl.replace('shipAPI', 'gpService'));
+
                         $.ajax({
                             url: gpServiceUrl.replace('shipAPI', 'gpService'),
                             type: 'get',
