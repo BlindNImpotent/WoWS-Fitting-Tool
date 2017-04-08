@@ -322,6 +322,10 @@ public class APIService
                     {
                         ship.getAnti_aircraft().getSlots().values().forEach(value -> value.setAvg_damage(value.getAvg_damage() * 1.2f));
                     }
+                    if (ship.getAtbas() != null)
+                    {
+                        ship.getAtbas().getSlots().entrySet().forEach(entry -> entry.getValue().setShot_delay(entry.getValue().getShot_delay() * 0.9f));
+                    }
                 }
                 else if (skill.get("type_id").equals("5"))
                 {
@@ -526,7 +530,7 @@ public class APIService
                         }
                         if (tempProfile.getAtba().getReload_time_coef() != 0)
                         {
-
+                            ship.getAtbas().getSlots().entrySet().forEach(entry -> entry.getValue().setShot_delay(entry.getValue().getShot_delay() * tempProfile.getAtba().getReload_time_coef()));
                         }
                     }
                 }
