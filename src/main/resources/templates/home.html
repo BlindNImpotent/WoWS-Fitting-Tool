@@ -332,6 +332,8 @@
                 url = url + modifier + type + equals + moduleId;
             }
 
+            var gpServiceUrl = url;
+
             for (var i = 0; i < selectedUpgrades.length; i++)
             {
                 var upgradeId = selectedUpgrades[i].getAttribute('id');
@@ -387,10 +389,9 @@
                         }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage);
 
                         $.ajax({
-                            url: url.replace('shipAPI', 'gpService'),
+                            url: gpServiceUrl.replace('shipAPI', 'gpService'),
                             type: 'get',
                             contentType: "application/json",
-                            data: JSON.stringify(upgradesSkills),
                             success: function (data) {
                                 if (data != '')
                                 {
