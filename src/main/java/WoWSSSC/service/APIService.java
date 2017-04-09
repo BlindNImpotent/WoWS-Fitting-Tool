@@ -491,11 +491,12 @@ public class APIService
                         {
                             if (tempProfile.getArtillery().getReload_time_coef() != 0)
                             {
-                                ship.getArtillery().setShot_delay(ship.getArtillery().getShot_delay() * tempProfile.getArtillery().getReload_time_coef());
+//                                ship.getArtillery().setShot_delay(ship.getArtillery().getShot_delay() * tempProfile.getArtillery().getReload_time_coef());
+                                ship.getArtillery().setGun_rate(ship.getArtillery().getGun_rate() / tempProfile.getArtillery().getReload_time_coef());
                             }
                             if (tempProfile.getArtillery().getRotation_time_coef() != 0)
                             {
-                                ship.getArtillery().setRotation_time(ship.getArtillery().getRotation_time() / tempProfile.getArtillery().getRotation_time_coef());
+                                ship.getArtillery().setRotation_time(ship.getArtillery().getRotation_time() * (1 + 1 - tempProfile.getArtillery().getRotation_time_coef()));
                             }
                             if (tempProfile.getArtillery().getAmmo_critical_damage_chance_coef() != 0)
                             {
