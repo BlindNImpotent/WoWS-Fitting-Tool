@@ -10,4 +10,14 @@ public class Fighters_Count_In_Squadron
 {
     private long max;
     private long min;
+
+    public int getMax()
+    {
+        return (int) max;
+    }
+
+    public int getMin()
+    {
+        return (int) min;
+    }
 }

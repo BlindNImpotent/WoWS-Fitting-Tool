@@ -372,6 +372,9 @@
 //                flags: flags
             };
 
+//            url = url + '&stockCompare=' + document.getElementById('stockCompareCheckBox').checked;
+            url = url + '&upgradeCompare=' + document.getElementById('upgradeCompareCheckBox').checked;
+
             $.ajax({
                 url: url,
                 type: 'post',
@@ -467,6 +470,10 @@
                 console.log(data);
             }
         });
+    });
+
+    $(document).on('click', '#stockCompareCheckBox, #upgradeCompareCheckBox', function () {
+        callAPI();
     });
 
 

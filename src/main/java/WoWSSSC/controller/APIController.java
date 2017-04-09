@@ -1,6 +1,7 @@
 package WoWSSSC.controller;
 
 import WoWSSSC.model.ShipComponents;
+import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.gameparams.test.GameParamsValues;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
 import WoWSSSC.service.APIService;
@@ -128,17 +129,28 @@ public class APIController
                     @RequestParam(required = false, defaultValue = "") String Hull,
                     @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
                     @RequestParam(required = false, defaultValue = "") String Torpedoes,
+                    @RequestParam(required = false, defaultValue = "false") boolean stockCompare,
+                    @RequestParam(required = false, defaultValue = "false") boolean upgradeCompare,
                     @RequestBody(required = false) HashMap<String, List> upgradesSkills
             ) throws ExecutionException, InterruptedException, IOException
     {
         if (!ship_id.equals(""))
         {
-            String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
-                    + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
+            String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
+            model.addAttribute("shipAPI", apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, upgradesSkills));
 
-            apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
+            model.addAttribute("upgradeCompare", upgradeCompare);
+            if (upgradeCompare)
+            {
+                model.addAttribute("configurationAPI", apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, new HashMap<>()));
+            }
 
-            model.addAttribute("shipAPI", apiService.getUpgradeSkillStats(key, nation, shipType, ship, ship_id, upgradesSkills));
+            model.addAttribute("stockCompare", stockCompare);
+            if (stockCompare)
+            {
+                String stockKey = apiService.setShipAPI(nation, shipType, ship, ship_id, "", "", "", "", "", "", "", "", "");
+                model.addAttribute("stockAPI", apiService.getUpgradeSkillStats(stockKey, nation, shipType, ship, ship_id, new HashMap<>()));
+            }
         }
 
         return "shipAPIPage :: shipAPIData";

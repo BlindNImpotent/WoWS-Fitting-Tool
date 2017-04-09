@@ -16,4 +16,16 @@ public class ATBAS_Slots
     private String name;
     private float shot_delay;
     private String type;
+    private float default_shot_delay;
+
+    public void setShot_delayWithoutDefault(float shot_delay)
+    {
+        this.shot_delay = shot_delay;
+    }
+
+    public void setShot_delay(float shot_delay)
+    {
+        this.shot_delay = shot_delay;
+        this.default_shot_delay = shot_delay;
+    }
 }
