@@ -21,6 +21,7 @@
                 <strong>Hull</strong><br />
                 Health
                 <!--<span style="float: right;" th:if="${stockAPI != null and shipAPI.hull.health - stockAPI.hull.health != 0}" th:text="${shipAPI.hull.health - stockAPI.hull.health > 0 ? ' (+' + #numbers.formatInteger(shipAPI.hull.health - stockAPI.hull.health, 0, 'COMMA') + ')' : ' (' + #numbers.formatInteger(shipAPI.hull.health - stockAPI.hull.health, 0, 'COMMA') + ')'}"/>-->
+                <span style="float: right;" th:if="${configurationAPI != null and shipAPI.hull.health - configurationAPI.hull.health != 0}" th:text="${shipAPI.hull.health - configurationAPI.hull.health > 0 ? ' (+' + #numbers.formatInteger(shipAPI.hull.health - configurationAPI.hull.health, 0, 'COMMA') + ')' : ' (' + #numbers.formatInteger(shipAPI.hull.health - configurationAPI.hull.health, 0, 'COMMA') + ')'}"/>
                 <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health, 0, 'COMMA')}"/><br />
                 Armour<span style="float: right;padding-left: 4em;" th:text="${shipAPI.hull.range.min} + ' ~ ' + ${shipAPI.hull.range.max} + ' mm'"/><br />
             </div>
