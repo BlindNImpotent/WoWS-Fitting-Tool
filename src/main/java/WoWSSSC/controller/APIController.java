@@ -63,11 +63,15 @@ public class APIController
     }
 
     @RequestMapping (value = "/", method = RequestMethod.GET)
-    public String home(Model model)
+    public String home(HttpServletRequest request, Model model)
     {
         model.addAttribute("data", data);
         model.addAttribute("notification", notification);
 
+        if (request.getHeader("User-Agent").contains("iPhone") || request.getHeader("User-Agent").contains("Android"))
+        {
+            return "mobile";
+        }
         return "home";
     }
 
@@ -115,6 +119,7 @@ public class APIController
     @RequestMapping (value = "/shipAPI", method = RequestMethod.POST)
     public String getShipAPI
             (
+                    HttpServletRequest request,
                     Model model,
                     @RequestParam(required = false, defaultValue = "") String nation,
                     @RequestParam(required = false, defaultValue = "") String shipType,
@@ -153,6 +158,10 @@ public class APIController
             }
         }
 
+        if (request.getHeader("User-Agent").contains("iPhone") || request.getHeader("User-Agent").contains("Android"))
+        {
+            return "shipAPIPageMobile :: shipAPIData";
+        }
         return "shipAPIPage :: shipAPIData";
     }
 

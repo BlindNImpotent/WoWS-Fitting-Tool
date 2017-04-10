@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script>
+        //    <![CDATA[
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event:'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5KDG7W6');
+        //    ]]>
+    </script>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyleMobile.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no" />
+    <script th:src="@{/js/jquery/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
+    <script th:src="@{/js/accounting/accounting.js}"></script>
+    <script>
+        $(function() {
+//            $(document).tooltip();
+
+            $('#crewSkills').dialog({
+                autoOpen: false,
+//                modal: true,
+                width: 700
+            }).css("font-size", "8px");
+
+//            $('#flags').dialog({
+//                autoOpen: false,
+//                modal: true,
+//                width: 520
+//            }).css("font-size", "8px");
+//
+//            $('#camouflage').dialog({
+////                autoOpen: false,
+//                modal: true,
+//                width: 520
+//            }).css("font-size", "8px");
+        });
+    </script>
+    <title>WoWS Fitting Tool by Aesis</title>
+</head>
+<body>
+<noscript>
+    //    <![CDATA[
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5KDG7W6" height="0" width="0" style="display:none; visibility:hidden;"></iframe>
+    //    ]]>
+</noscript>
+<header>
+    <div id="header">
+        <div id="dropDownList">
+            <ul id="shipList">
+                <li th:each="nation : ${data.nations}">
+                    <span th:text="${nation.key}" />
+                    <ul>
+                        <li th:each="shipType : ${nation.value}">
+                            <span th:text="${shipType.key}" />
+                            <ul>
+                                <li th:each="ship : ${shipType.value}">
+                                    <span th:text="${ship.key}" th:onclick="'fragments(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'"/>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+<div id="crewSkills" class="ui-widget-content" title="Skill Points 0 / 19">
+    <table id="skillsTable" align="center">
+        <tbody>
+        <tr th:each="skillTier : ${data.skills}">
+            <td th:each="skill : ${skillTier.value}" th:id="${'td_' + skill.value.tier + '_' + skill.value.type_id}">
+                <button th:if="${skill.value.tier != 0}" th:object="${skill.value}" th:title="${skill.value.description}" th:class="${crewSkills != null and crewSkills.size() != 0 and (crewSkills.?[tier == #strings.toString(__${skill.value.tier}__) and type_id == #strings.toString(__${skill.value.type_id}__)]).size() != 0} ? button_skill_selected : button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, type_id=${skill.value.type_id}">
+                    <img th:src="${skill.value.icon}"/><br />
+                    <span th:text="${skill.value.name}"/>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!--<div id="flags" class="ui-widget-content" title="Flags 0 / 8">-->
+<!--<table id="flagsTable" align="center">-->
+<!--<tbody>-->
+<!--<tr th:each="index : ${#numbers.sequence(0, data.exteriors.flags.size() - 1, 6)}" th:id="${index / 6}">-->
+<!--<td th:each="flag : ${data.exteriors.flags}" th:if="${flagStat.index % 3} == ${index / 6}">-->
+<!--<button th:title="${flag.value.description}" th:class="button_flag" th:id="${flag.value.exterior_id}">-->
+<!--<img th:src="${flag.value.image.small}"/><br />-->
+<!--<span th:text="${flag.value.name}"/>-->
+<!--</button>-->
+<!--</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
+<!--</div>-->
+<!--<div id="camouflage" class="ui-widget-content" title="Camouflage">-->
+<!--<table id="camouflageTable" align="center">-->
+<!--<tbody>-->
+<!--<tr th:each="index : ${#numbers.sequence(0, data.exteriors.camouflage.size() - 1, 6)}" th:id="${index / 6}">-->
+<!--<td th:each="camouflage : ${data.exteriors.camouflage}" th:if="${camouflageStat.index % 3} == ${index / 6}">-->
+<!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
+<!--<img th:src="${camouflage.value.image.small}"/><br />-->
+<!--<span th:text="${camouflage.value.name}"/>-->
+<!--</button>-->
+<!--</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
+<!--</div>-->
+<main>
+    <div class="container">
+        <div class="warshipData" th:include="warshipPage :: warshipStats">
+        </div>
+        <div class="shipAPIData">
+        </div>
+    </div>
+</main>
+<script th:inline="javascript">
+    //    <![CDATA[
+
+    var nation = '';
+    var shipType = '';
+    var ship = '';
+
+    $().ready(function () {
+        $( function() {
+            $('#shipList').menu();
+        });
+
+        if ([[${url}]] != null)
+        {
+            callAPI();
+            setCaptainSkillPoints();
+        }
+    });
+
+    $(document).on('click', '.button_module', function(){
+        var clickedId = $(this).attr('id');
+        var selectedModules = document.getElementsByName($(this).attr('name'));
+
+        for (var i = 0; i < selectedModules.length; i++)
+        {
+            var buttonId = selectedModules[i].getAttribute('id').replace('li_', '');
+            document.getElementById(buttonId).className = 'button_module';
+        }
+        document.getElementById(clickedId).className = 'button_module_selected';
+
+        callAPI();
+    });
+
+    $(document).on('click', '.button_upgrade, .button_upgrade_selected', function () {
+        var clickedId = $(this).attr('id');
+
+        if (document.getElementById(clickedId).className == 'button_upgrade')
+        {
+            var gParentElem = $(this).parent().parent();
+            var parents = gParentElem.children();
+
+            for (var i = 0; i < parents.length; i++)
+            {
+                var buttonId = parents[i].getAttribute('id').replace('li_', '');
+                document.getElementById(buttonId).className = 'button_upgrade';
+            }
+            document.getElementById(clickedId).className = 'button_upgrade_selected';
+        }
+        else
+        {
+            document.getElementById(clickedId).className = 'button_upgrade';
+        }
+
+        callAPI();
+    });
+
+    function setCaptainSkillPoints()
+    {
+        var list = $('.button_skill_selected');
+
+        var maxSpts = 19;
+        var totalSpts = 0;
+
+        for (var i = 0; i < list.size(); i++)
+        {
+            var current = list.eq(i);
+
+            totalSpts = totalSpts + parseInt(current.attr('tier'));
+        }
+
+        document.getElementById('ui-id-1').innerText = 'Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString();
+    }
+
+    $(document).on('click', '.button_skill, .button_skill_selected', function () {
+        var maxSpts = 19;
+        var currentSpts = 0;
+        var clickedSpts = 0;
+        var totalSpts = 0;
+
+        var clickedId = $(this).attr('id');
+
+        if (document.getElementById(clickedId).className == 'button_skill')
+        {
+            clickedSpts = clickedSpts + parseInt($(this).attr('tier'));
+        }
+        else
+        {
+            clickedSpts = clickedSpts - parseInt($(this).attr('tier'));
+        }
+
+        var selected = document.getElementsByClassName('button_skill_selected');
+
+        for (var i = 0; i < selected.length; i++)
+        {
+            currentSpts = currentSpts + parseInt(selected[i].getAttribute('tier'));
+        }
+
+        totalSpts = totalSpts + currentSpts + clickedSpts;
+
+        if (document.getElementById(clickedId).className == 'button_skill')
+        {
+            if (totalSpts > maxSpts)
+            {
+                return false;
+            }
+            document.getElementById(clickedId).className = 'button_skill_selected';
+        }
+        else
+        {
+            document.getElementById(clickedId).className = 'button_skill';
+        }
+
+        document.getElementById('ui-id-1').innerText = 'Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString();
+
+        callAPI();
+    });
+
+    //    $(document).on('click', '.button_flag, .button_flag_selected', function () {
+    //        var maxFlags = 8;
+    //
+    //        var clickedId = $(this).attr('id');
+    //        var selected = document.getElementsByClassName('button_flag_selected');
+    //
+    //        if (document.getElementById(clickedId).className == 'button_flag')
+    //        {
+    //            if (selected.length >= maxFlags)
+    //            {
+    //                return false;
+    //            }
+    //            document.getElementById(clickedId).className = 'button_flag_selected';
+    //        }
+    //        else
+    //        {
+    //            document.getElementById(clickedId).className = 'button_flag';
+    //        }
+    //
+    //        document.getElementById('ui-id-2').innerText = 'Flags ' + selected.length.toString() + ' / ' + maxFlags;
+    //
+    //        callAPI();
+    //    });
+
+    $(document).on('click', '#showCrewSkills', function () {
+        $('#crewSkills').dialog('open');
+    });
+
+    //    $(document).on('click', '#showFlags', function () {
+    //        $('#flags').dialog('open');
+    //    });
+
+    $(document).on('click', '#camouflageCheckbox', function () {
+        callAPI();
+    });
+
+    function callAPI()
+    {
+        if ($('#ship').attr('name') != null)
+        {
+            if (nation == '' || shipType == '' || ship == '')
+            {
+                if ([[${warship}]] != null)
+                {
+                    nation = [[${warship}]]['nation'];
+
+                    if ([[${warship}]]['is_premium'])
+                    {
+                        shipType = 'Premium';
+                    }
+                    else
+                    {
+                        shipType = [[${warship}]]['type'];
+                    }
+
+                    ship = [[${warship}]]['name'];
+                    ship = ship.replace("'", "");
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            var url = '/shipAPI?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&ship_id=' + $('#ship').attr('name');
+            var modifier = '&';
+            var equals = '=';
+
+            var selectedModules = $('.button_module_selected');
+            var selectedUpgrades = $('.button_upgrade_selected');
+            var selectedSkills = $('.button_skill_selected');
+//            var selectedFlags = $('.button_flag_selected');
+
+            var modules = [];
+            var upgrades = [];
+            var skills = [];
+//            var flags = [];
+            var camouflage = [$('#camouflageCheckbox').is(':checked')];
+
+            for (var i = 0; i < selectedModules.length; i++)
+            {
+                var type = selectedModules[i].getAttribute('name');
+                var moduleId = selectedModules[i].getAttribute('id');
+
+                modules.push(moduleId);
+
+                url = url + modifier + type + equals + moduleId;
+            }
+
+            var gpServiceUrl = url;
+
+            for (var i = 0; i < selectedUpgrades.length; i++)
+            {
+                var upgradeId = selectedUpgrades[i].getAttribute('id');
+
+                upgrades.push(upgradeId);
+            }
+
+            for (var i = 0; i < selectedSkills.length; i++)
+            {
+                var tier = selectedSkills[i].getAttribute('tier');
+                var type_id = selectedSkills[i].getAttribute('type_id');
+
+                var current = {
+                    tier: tier,
+                    type_id: type_id
+                };
+
+                skills.push(current);
+            }
+
+//            for (var i = 0; i < selectedFlags.length; i++)
+//            {
+//                var flagId = selectedFlags[i].getAttribute('id');
+//
+//                var current = {
+//                    flag: flagId
+//                };
+//
+//                flags.push(current);
+//            }
+
+            var upgradesSkills = {
+                upgrades: upgrades,
+                skills: skills,
+                camouflage: camouflage
+//                flags: flags
+            };
+
+//            url = url + '&stockCompare=' + document.getElementById('stockCompareCheckBox').checked;
+            url = url + '&upgradeCompare=' + document.getElementById('upgradeCompareCheckBox').checked;
+
+            $.ajax({
+                url: url,
+                type: 'post',
+                contentType: "application/json",
+                data: JSON.stringify(upgradesSkills),
+                success: function (data) {
+                    if (data != '')
+                    {
+                        $('.shipAPIData').replaceWith(data);
+
+                        history.replaceState({
+                            nation: nation,
+                            shipType: shipType,
+                            ship: ship
+                        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage);
+
+//                        console.log(gpServiceUrl.replace('shipAPI', 'gpService'));
+
+                        $.ajax({
+                            url: gpServiceUrl.replace('shipAPI', 'gpService'),
+                            type: 'get',
+                            contentType: "application/json",
+                            success: function (data) {
+                                if (data != '')
+                                {
+                                    if (data.artillery != null)
+                                    {
+                                        var sigma ='' +  data.artillery.sigmaCount;
+
+                                        if (!sigma.includes('.'))
+                                        {
+                                            sigma = sigma + '.0';
+                                        }
+
+                                        document.getElementById('sigmaCount').innerText = sigma;
+                                    }
+                                }
+                                else
+                                {
+                                    document.getElementById('sigmaCount').innerText = 'Unknown';
+                                }
+                            }
+                        });
+                    }
+                    else
+                    {
+                        alert('Wrong path of research!');
+                    }
+                }
+            });
+        }
+    }
+
+    function fragments(nationOriginal, shipTypeOriginal, shipOriginal)
+    {
+        nation = nationOriginal.replace(/ /g, '+');
+        shipType = shipTypeOriginal.replace(/ /g, '+');
+        ship = shipOriginal.replace(/ /g, '+');
+
+        var url = '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship;
+
+        $.ajax({
+            url: url,
+            type: 'post',
+            success: function (data) {
+                $('.warshipData').replaceWith(data);
+
+                callAPI();
+            }
+        });
+    }
+
+    $(window).on('popstate', function () {
+        history.go(document.location);
+    });
+
+    $(document).on('click', '#shortenURL', function () {
+//        var longUrl = window.location.href;
+        var longUrl = $(location).attr('href');
+
+        var json = {
+            longUrl: longUrl
+        };
+
+        $.ajax({
+            url: 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyCaUYoTN7aKfyckK9Wd0SyaaFEA7eYoBbg',
+            type: 'post',
+            contentType: "application/json",
+            data: JSON.stringify(json),
+            success: function (data) {
+                $('#shortenUrlAddress').val(data.id);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    });
+
+    $(document).on('click', '#stockCompareCheckBox, #upgradeCompareCheckBox', function () {
+        callAPI();
+    });
+
+
+    //    ]]>
+</script>
+</body>
+</html>
