@@ -73,6 +73,9 @@
                     </ul>
                 </li>
             </ul>
+            <div>
+                <a href="/?mobile=false">Go Desktop</a>
+            </div>
         </div>
     </div>
 </header>
@@ -374,6 +377,7 @@
 
 //            url = url + '&stockCompare=' + document.getElementById('stockCompareCheckBox').checked;
             url = url + '&upgradeCompare=' + document.getElementById('upgradeCompareCheckBox').checked;
+            url = url + '&mobile=true';
 
             $.ajax({
                 url: url,

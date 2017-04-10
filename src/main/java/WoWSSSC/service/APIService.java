@@ -319,7 +319,7 @@ public class APIService
 
                             if (caliber <= 139)
                             {
-                                ship.getArtillery().setShot_delay(ship.getArtillery().getShot_delay() * 0.9f);
+                                ship.getArtillery().setGun_rate(ship.getArtillery().getGun_rate() * 1.1f);
                             }
                         }
                         if (ship.getAnti_aircraft() != null)
@@ -393,6 +393,8 @@ public class APIService
                         {
                             String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
                             int caliber = Integer.parseInt(splitName[0].trim());
+
+                            System.out.println(caliber);
 
                             if (caliber <= 139)
                             {

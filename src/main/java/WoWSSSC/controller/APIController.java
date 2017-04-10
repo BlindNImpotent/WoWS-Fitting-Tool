@@ -63,12 +63,12 @@ public class APIController
     }
 
     @RequestMapping (value = "/", method = RequestMethod.GET)
-    public String home(HttpServletRequest request, Model model)
+    public String home(HttpServletRequest request, Model model, @RequestParam(required = false, defaultValue="false") boolean mobile)
     {
         model.addAttribute("data", data);
         model.addAttribute("notification", notification);
 
-        if (request.getHeader("User-Agent").contains("iPhone") || request.getHeader("User-Agent").contains("Android"))
+        if (mobile)
         {
             return "mobile";
         }
@@ -87,7 +87,8 @@ public class APIController
                     @RequestParam(required = false) HashSet<String> modules,
                     @RequestParam(required = false) HashSet<String> upgrades,
                     @RequestParam(required = false) String skills,
-                    @RequestParam(required = false) boolean camo
+                    @RequestParam(required = false) boolean camo,
+                    @RequestParam(required = false, defaultValue = "false") boolean mobile
             ) throws IOException
     {
         model.addAttribute("notification", notification);
@@ -113,7 +114,7 @@ public class APIController
                 redirectAttributes.addFlashAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
             }
         }
-        return "redirect:/";
+        return "redirect:/" + mobile;
     }
 
     @RequestMapping (value = "/shipAPI", method = RequestMethod.POST)
@@ -136,7 +137,8 @@ public class APIController
                     @RequestParam(required = false, defaultValue = "") String Torpedoes,
                     @RequestParam(required = false, defaultValue = "false") boolean stockCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean upgradeCompare,
-                    @RequestBody(required = false) HashMap<String, List> upgradesSkills
+                    @RequestBody(required = false) HashMap<String, List> upgradesSkills,
+                    @RequestParam(required = false, defaultValue = "false") boolean mobile
             ) throws ExecutionException, InterruptedException, IOException
     {
         if (!ship_id.equals(""))
@@ -158,7 +160,7 @@ public class APIController
             }
         }
 
-        if (request.getHeader("User-Agent").contains("iPhone") || request.getHeader("User-Agent").contains("Android"))
+        if (mobile)
         {
             return "shipAPIPageMobile :: shipAPIData";
         }
