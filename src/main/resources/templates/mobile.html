@@ -74,7 +74,7 @@
                 </li>
             </ul>
             <div>
-                <a href="/?mobile=false">Go Desktop</a>
+                <button id="changeDevice">Go PC</button>
             </div>
         </div>
     </div>
@@ -135,6 +135,7 @@
     var nation = '';
     var shipType = '';
     var ship = '';
+    var mobile = true;
 
     $().ready(function () {
         $( function() {
@@ -393,7 +394,7 @@
                             nation: nation,
                             shipType: shipType,
                             ship: ship
-                        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage);
+                        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage + '&mobile=' + mobile);
 
 //                        console.log(gpServiceUrl.replace('shipAPI', 'gpService'));
 
@@ -481,6 +482,29 @@
         callAPI();
     });
 
+    $(document).on('click', '#changeDevice', function () {
+        mobile = false;
+
+        var url = window.location.href;
+
+        if (url.includes('mobile'))
+        {
+            url = url.replace('mobile=true', 'mobile=' + mobile);
+        }
+        else
+        {
+            if (url.includes('warship'))
+            {
+                url = url + '&mobile=' + mobile;
+            }
+            else
+            {
+                url = url + '?mobile=' + mobile;
+            }
+        }
+
+        location.href = url;
+    });
 
     //    ]]>
 </script>
