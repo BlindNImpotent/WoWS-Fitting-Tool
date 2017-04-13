@@ -41,8 +41,8 @@
             }).css("font-size", "8px");
 //
 //            $('#camouflage').dialog({
-////                autoOpen: false,
-//                modal: true,
+//                autoOpen: false,
+////                modal: true,
 //                width: 520
 //            }).css("font-size", "8px");
         });
@@ -66,7 +66,7 @@
                             <span th:text="${shipType.key}" />
                             <ul>
                                 <li th:each="ship : ${shipType.value}">
-                                    <span th:text="${ship.key}" th:onclick="'fragments(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'"/>
+                                    <span th:text="${ship.value.tier + ' - ' + ship.key}" th:onclick="'fragments(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'"/>
                                 </li>
                             </ul>
                         </li>

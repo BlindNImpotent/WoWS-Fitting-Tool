@@ -19,8 +19,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="UTF-8" />
     <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyleMobile.css}" />
-    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=yes" />
     <script th:src="@{/js/jquery/jquery-1.12.4.js}"></script>
     <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
     <script th:src="@{/js/accounting/accounting.js}"></script>
@@ -41,8 +41,8 @@
             }).css("font-size", "8px");
 //
 //            $('#camouflage').dialog({
-////                autoOpen: false,
-//                modal: true,
+//                autoOpen: false,
+////                modal: true,
 //                width: 520
 //            }).css("font-size", "8px");
         });
@@ -66,7 +66,7 @@
                             <span th:text="${shipType.key}" />
                             <ul>
                                 <li th:each="ship : ${shipType.value}">
-                                    <span th:text="${ship.key}" th:onclick="'fragments(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'"/>
+                                    <span th:text="${ship.value.tier + ' - ' + ship.key}" th:onclick="'fragments(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'"/>
                                 </li>
                             </ul>
                         </li>
