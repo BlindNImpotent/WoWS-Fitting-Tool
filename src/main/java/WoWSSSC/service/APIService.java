@@ -173,22 +173,22 @@ public class APIService
                 {
 
                 }
-                else if (coef.getAircraft_passive_defence_coef() != 0)
+                if (coef.getAircraft_passive_defence_coef() != 0)
                 {
 
                 }
-                else if (coef.getAmmo_detonation_chance_coef() != 0)
+                if (coef.getAmmo_detonation_chance_coef() != 0)
                 {
 
                 }
-                else if (coef.getAnti_aircraft_defence_coef() != 0)
+                if (coef.getAnti_aircraft_defence_coef() != 0)
                 {
                     if (ship.getAnti_aircraft() != null)
                     {
                         ship.getAnti_aircraft().getSlots().values().forEach(value -> value.setAvg_damage(value.getAvg_damage() * coef.getAnti_aircraft_defence_coef()));
                     }
                 }
-                else if (coef.getBurn_chance_big_coef() != 0)
+                if (coef.getBurn_chance_big_coef() != 0)
                 {
                     String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
                     int caliber = Integer.parseInt(splitName[0].trim());
@@ -203,7 +203,7 @@ public class APIService
                         });
                     }
                 }
-                else if (coef.getBurn_chance_small_coef() != 0)
+                if (coef.getBurn_chance_small_coef() != 0)
                 {
                     String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
                     int caliber = Integer.parseInt(splitName[0].trim());
@@ -218,80 +218,80 @@ public class APIService
                         });
                     }
                 }
-                else if (coef.getBurning_time_coef() != 0)
+                if (coef.getBurning_time_coef() != 0)
                 {
                     ship.setBurn(ship.getBurn() * coef.getBurning_time_coef());
                 }
-                else if (coef.getConsumables_reload_time_coef() != 0)
+                if (coef.getConsumables_reload_time_coef() != 0)
                 {
 
                 }
-                else if (coef.getCredits_coef() != 0)
+                if (coef.getCredits_coef() != 0)
                 {
 
                 }
-                else if (coef.getDetect_distance_by_plane_coef() != 0)
+                if (coef.getDetect_distance_by_plane_coef() != 0)
                 {
 
                 }
-                else if (coef.getDetect_distance_coef() != 0)
+                if (coef.getDetect_distance_coef() != 0)
                 {
 
                 }
-                else if (coef.getDistance_coef() != 0)
+                if (coef.getDistance_coef() != 0)
                 {
                     if (ship.getAtbas() != null)
                     {
                         ship.getAtbas().getSlots().entrySet().forEach(entry -> entry.getValue().setShot_delayWithoutDefault(entry.getValue().getShot_delay() * coef.getDistance_coef()));
                     }
                 }
-                else if (coef.getEnemy_accuracy_coef() != 0)
+                if (coef.getEnemy_accuracy_coef() != 0)
                 {
 
                 }
-                else if (coef.getFlood_chance_coef() != 0)
+                if (coef.getFlood_chance_coef() != 0)
                 {
 
                 }
-                else if (coef.getFlooding_time_coef() != 0)
+                if (coef.getFlooding_time_coef() != 0)
                 {
                     ship.setFlood(ship.getFlood() * coef.getFlooding_time_coef());
                 }
-                else if (coef.getHealth_regeneration_speed() != 0)
+                if (coef.getHealth_regeneration_speed() != 0)
                 {
 
                 }
-                else if (coef.getMax_speed_coef() != 0)
+                if (coef.getMax_speed_coef() != 0)
                 {
 
                 }
-                else if (coef.getRam_damage_caused_coef() != 0)
+                if (coef.getRam_damage_caused_coef() != 0)
                 {
 
                 }
-                else if (coef.getRam_damage_received_coef() != 0)
+                if (coef.getRam_damage_received_coef() != 0)
                 {
 
                 }
-                else if (coef.getReload_time_coef() != 0)
+                if (coef.getReload_time_coef() != 0)
                 {
                     if (ship.getAtbas() != null)
                     {
                         ship.getAtbas().getSlots().entrySet().forEach(entry -> entry.getValue().setShot_delayWithoutDefault(entry.getValue().getShot_delay() * coef.getReload_time_coef()));
                     }
                 }
-                else if (coef.getRepair_cost_coef() != 0)
+                if (coef.getRepair_cost_coef() != 0)
                 {
 
                 }
-                else if (coef.getSpeed_coef() != 0)
+                if (coef.getSpeed_coef() != 0)
                 {
                     if (ship.getMobility() != null)
                     {
                         ship.getMobility().setMax_speed(ship.getMobility().getMax_speed() * coef.getSpeed_coef());
                     }
                 }
-                else if (coef.getXp_coef() != 0)
+                if (coef.getXp_coef() != 0)
                 {
 
                 }
