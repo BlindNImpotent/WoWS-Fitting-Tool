@@ -35,6 +35,7 @@
                 <strong>Mobility</strong><br />
                 Speed
                 <!--<span style="float: right;" th:if="${stockAPI != null and shipAPI.mobility.max_speed - stockAPI.mobility.max_speed != 0}" th:text="${shipAPI.mobility.max_speed - stockAPI.mobility.max_speed > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.mobility.max_speed - stockAPI.mobility.max_speed, 0, 1) + ')' : ' (-' + #numbers.formatDecimal(shipAPI.mobility.max_speed - stockAPI.mobility.max_speed, 0, 1) + ')'}"/>-->
+                <span style="float: right;" th:if="${configurationAPI != null and shipAPI.mobility.max_speed - configurationAPI.mobility.max_speed != 0}" th:text="${shipAPI.mobility.max_speed - configurationAPI.mobility.max_speed > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.mobility.max_speed - configurationAPI.mobility.max_speed, 0, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.mobility.max_speed - configurationAPI.mobility.max_speed, 0, 1) + ')'}"/>
                 <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed, 0, 1)} + ' kts'"/><br />
                 Rudder Shift
                 <!--<span style="float: right;" th:if="${stockAPI != null and shipAPI.mobility.rudder_time - stockAPI.mobility.rudder_time != 0}" th:text="${shipAPI.mobility.rudder_time - stockAPI.mobility.rudder_time > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.mobility.rudder_time - stockAPI.mobility.rudder_time, 0, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.mobility.rudder_time - stockAPI.mobility.rudder_time, 0, 1) + ')'}"/>-->

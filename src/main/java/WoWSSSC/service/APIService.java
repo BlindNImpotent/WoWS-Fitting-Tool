@@ -1,5 +1,7 @@
 package WoWSSSC.service;
 
+import WoWSSSC.model.WoWSAPI.exterior.Exterior;
+import WoWSSSC.model.WoWSAPI.exterior.TTC_Coef;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.shipprofile.ShipData;
 import WoWSSSC.model.WoWSAPI.shipprofile.profile.anti_aircraft.Anti_Aircraft_Slot;
@@ -160,13 +162,23 @@ public class APIService
             }
         }
 
-//        List<HashMap> flags = upgradesSkills.get("flags");
-//        flags.forEach(flag -> {
-//            Exterior exterior = (Exterior) data.get("exterior").get(flag.get("flag"));
-//            TTC_Coef coef = exterior.getTtc_coef();
-//
-//
-//        });
+        List<String> flags = upgradesSkills.get("flags");
+        if (flags != null)
+        {
+            flags.forEach(flag -> {
+                Exterior exterior = (Exterior) data.get("exterior").get(flag);
+                TTC_Coef coef = exterior.getTtc_coef();
+
+                if (coef.getSpeed_coef() > 0)
+                {
+                    if (ship.getMobility() != null)
+                    {
+                        ship.getMobility().setMax_speed(ship.getMobility().getMax_speed() * coef.getSpeed_coef());
+                    }
+                }
+
+            });
+        }
 
         List<HashMap> skills = upgradesSkills.get("skills");
         if (skills != null)

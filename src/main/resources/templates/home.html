@@ -34,11 +34,11 @@
                 width: 700
             }).css("font-size", "8px");
 
-//            $('#flags').dialog({
-//                autoOpen: false,
-//                modal: true,
-//                width: 520
-//            }).css("font-size", "8px");
+            $('#flags').dialog({
+                autoOpen: false,
+                modal: true,
+                width: 520
+            }).css("font-size", "8px");
 //
 //            $('#camouflage').dialog({
 ////                autoOpen: false,
@@ -93,20 +93,20 @@
         </tbody>
     </table>
 </div>
-<!--<div id="flags" class="ui-widget-content" title="Flags 0 / 8">-->
-    <!--<table id="flagsTable" align="center">-->
-        <!--<tbody>-->
-            <!--<tr th:each="index : ${#numbers.sequence(0, data.exteriors.flags.size() - 1, 6)}" th:id="${index / 6}">-->
-                <!--<td th:each="flag : ${data.exteriors.flags}" th:if="${flagStat.index % 3} == ${index / 6}">-->
-                    <!--<button th:title="${flag.value.description}" th:class="button_flag" th:id="${flag.value.exterior_id}">-->
-                        <!--<img th:src="${flag.value.image.small}"/><br />-->
-                        <!--<span th:text="${flag.value.name}"/>-->
-                    <!--</button>-->
-                <!--</td>-->
-            <!--</tr>-->
-        <!--</tbody>-->
-    <!--</table>-->
-<!--</div>-->
+<div id="flags" class="ui-widget-content" title="Flags 0 / 8">
+    <table id="flagsTable" align="center">
+        <tbody>
+            <tr th:each="index : ${#numbers.sequence(0, data.exteriors.Flags.size() - 1, 6)}" th:id="${index / 6}">
+                <td th:each="flag : ${data.exteriors.Flags}" th:if="${flagStat.index % 3} == ${index / 6}">
+                    <button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.exterior_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.exterior_id}">
+                        <img th:src="${flag.value.image.small}"/><br />
+                        <span th:text="${flag.value.name}"/>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <!--<div id="camouflage" class="ui-widget-content" title="Camouflage">-->
     <!--<table id="camouflageTable" align="center">-->
         <!--<tbody>-->
@@ -247,37 +247,37 @@
         callAPI();
     });
 
-//    $(document).on('click', '.button_flag, .button_flag_selected', function () {
-//        var maxFlags = 8;
-//
-//        var clickedId = $(this).attr('id');
-//        var selected = document.getElementsByClassName('button_flag_selected');
-//
-//        if (document.getElementById(clickedId).className == 'button_flag')
-//        {
-//            if (selected.length >= maxFlags)
-//            {
-//                return false;
-//            }
-//            document.getElementById(clickedId).className = 'button_flag_selected';
-//        }
-//        else
-//        {
-//            document.getElementById(clickedId).className = 'button_flag';
-//        }
-//
-//        document.getElementById('ui-id-2').innerText = 'Flags ' + selected.length.toString() + ' / ' + maxFlags;
-//
-//        callAPI();
-//    });
+    $(document).on('click', '.button_flag, .button_flag_selected', function () {
+        var maxFlags = 8;
+
+        var clickedId = $(this).attr('id');
+        var selected = document.getElementsByClassName('button_flag_selected');
+
+        if (document.getElementById(clickedId).className == 'button_flag')
+        {
+            if (selected.length >= maxFlags)
+            {
+                return false;
+            }
+            document.getElementById(clickedId).className = 'button_flag_selected';
+        }
+        else
+        {
+            document.getElementById(clickedId).className = 'button_flag';
+        }
+
+        document.getElementById('ui-id-2').innerText = 'Flags ' + selected.length.toString() + ' / ' + maxFlags;
+
+        callAPI();
+    });
 
     $(document).on('click', '#showCrewSkills', function () {
         $('#crewSkills').dialog('open');
     });
 
-//    $(document).on('click', '#showFlags', function () {
-//        $('#flags').dialog('open');
-//    });
+    $(document).on('click', '#showFlags', function () {
+        $('#flags').dialog('open');
+    });
 
     $(document).on('click', '#camouflageCheckbox', function () {
         callAPI();
@@ -318,12 +318,12 @@
             var selectedModules = $('.button_module_selected');
             var selectedUpgrades = $('.button_upgrade_selected');
             var selectedSkills = $('.button_skill_selected');
-//            var selectedFlags = $('.button_flag_selected');
+            var selectedFlags = $('.button_flag_selected');
 
             var modules = [];
             var upgrades = [];
             var skills = [];
-//            var flags = [];
+            var flags = [];
             var camouflage = [$('#camouflageCheckbox').is(':checked')];
 
             for (var i = 0; i < selectedModules.length; i++)
@@ -358,25 +358,20 @@
                 skills.push(current);
             }
 
-//            for (var i = 0; i < selectedFlags.length; i++)
-//            {
-//                var flagId = selectedFlags[i].getAttribute('id');
-//
-//                var current = {
-//                    flag: flagId
-//                };
-//
-//                flags.push(current);
-//            }
+            for (var i = 0; i < selectedFlags.length; i++)
+            {
+                var flagId = selectedFlags[i].getAttribute('id');
+
+                flags.push(flagId);
+            }
 
             var upgradesSkills = {
                 upgrades: upgrades,
                 skills: skills,
-                camouflage: camouflage
-//                flags: flags
+                camouflage: camouflage,
+                flags: flags
             };
 
-//            url = url + '&stockCompare=' + document.getElementById('stockCompareCheckBox').checked;
             url = url + '&upgradeCompare=' + document.getElementById('upgradeCompareCheckBox').checked;
 
             $.ajax({
@@ -393,7 +388,7 @@
                             nation: nation,
                             shipType: shipType,
                             ship: ship
-                        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage + '&mobile=' + mobile);
+                        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage + '&mobile=' + mobile);
 
 //                        console.log(gpServiceUrl.replace('shipAPI', 'gpService'));
 

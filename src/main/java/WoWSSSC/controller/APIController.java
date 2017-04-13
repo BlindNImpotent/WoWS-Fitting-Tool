@@ -86,6 +86,7 @@ public class APIController
                     @RequestParam(required = false) String ship,
                     @RequestParam(required = false) HashSet<String> modules,
                     @RequestParam(required = false) HashSet<String> upgrades,
+                    @RequestParam(required = false) HashSet<String> flags,
                     @RequestParam(required = false) String skills,
                     @RequestParam(required = false) boolean camo,
                     @RequestParam(required = false, defaultValue = "false") boolean mobile
@@ -109,6 +110,7 @@ public class APIController
                 redirectAttributes.addFlashAttribute("url", "/warship?" + request.getQueryString());
                 redirectAttributes.addFlashAttribute("modules", modules);
                 redirectAttributes.addFlashAttribute("upgrades", upgrades);
+                redirectAttributes.addFlashAttribute("flags", flags);
                 redirectAttributes.addFlashAttribute("crewSkills", crewSkills);
                 redirectAttributes.addFlashAttribute("camo", camo);
                 redirectAttributes.addFlashAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
@@ -135,9 +137,9 @@ public class APIController
                     @RequestParam(required = false, defaultValue = "") String Hull,
                     @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
                     @RequestParam(required = false, defaultValue = "") String Torpedoes,
+                    @RequestBody(required = false) HashMap<String, List> upgradesSkills,
                     @RequestParam(required = false, defaultValue = "false") boolean stockCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean upgradeCompare,
-                    @RequestBody(required = false) HashMap<String, List> upgradesSkills,
                     @RequestParam(required = false, defaultValue = "false") boolean mobile
             ) throws ExecutionException, InterruptedException, IOException
     {
