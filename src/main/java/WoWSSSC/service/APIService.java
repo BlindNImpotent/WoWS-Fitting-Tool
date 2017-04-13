@@ -694,11 +694,11 @@ public class APIService
                     }
                     else if (tempProfile.getDamage_control() != null)
                     {
-                        if (ship.getBurn() > 0)
+                        if (tempProfile.getDamage_control().getBurning_time_coef() != 0)
                         {
                             ship.setBurn(ship.getBurn() * tempProfile.getDamage_control().getBurning_time_coef());
                         }
-                        if (ship.getFlood() > 0)
+                        if (tempProfile.getDamage_control().getFlooding_time_coef() != 0)
                         {
                             ship.setFlood(ship.getFlood() * tempProfile.getDamage_control().getFlooding_time_coef());
                         }
