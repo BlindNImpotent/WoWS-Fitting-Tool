@@ -27,4 +27,7 @@ public class Ship
     private Torpedo_Bomber torpedo_bomber;
     private Torpedoes torpedoes;
     private Weaponry weaponry;
+
+    private float burn = 60f;
+    private float flood = 90f;
 }
