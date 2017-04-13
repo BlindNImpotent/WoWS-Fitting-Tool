@@ -36,7 +36,7 @@
 
             $('#flags').dialog({
                 autoOpen: false,
-                modal: true,
+//                modal: true,
                 width: 520
             }).css("font-size", "8px");
 //
@@ -146,6 +146,7 @@
         {
             callAPI();
             setCaptainSkillPoints();
+            setFlags();
         }
     });
 
@@ -201,6 +202,15 @@
         }
 
         document.getElementById('ui-id-1').innerText = 'Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString();
+    }
+
+    function setFlags()
+    {
+        var list = $('.button_flag_selected');
+        var maxPts = 8;
+        var totalPts = list.size();
+
+        document.getElementById('ui-id-2').innerText = 'Flags ' + totalPts.toString() + ' / ' + maxPts.toString();
     }
 
     $(document).on('click', '.button_skill, .button_skill_selected', function () {
