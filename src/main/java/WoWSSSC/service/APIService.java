@@ -242,7 +242,7 @@ public class APIService
                 {
                     if (ship.getAtbas() != null)
                     {
-                        ship.getAtbas().getSlots().entrySet().forEach(entry -> entry.getValue().setShot_delayWithoutDefault(entry.getValue().getShot_delay() * coef.getDistance_coef()));
+                        ship.getAtbas().setDistance(ship.getAtbas().getDistance() * coef.getDistance_coef());
                     }
                 }
                 if (coef.getEnemy_accuracy_coef() != 0)
