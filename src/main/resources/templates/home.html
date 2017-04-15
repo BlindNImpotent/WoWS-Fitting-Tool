@@ -384,6 +384,8 @@
 
             url = url + '&upgradeCompare=' + document.getElementById('upgradeCompareCheckBox').checked;
 
+            url = url + '&mobile=false';
+
             $.ajax({
                 url: url,
                 type: 'post',

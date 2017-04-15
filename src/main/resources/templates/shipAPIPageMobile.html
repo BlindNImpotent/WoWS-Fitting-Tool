@@ -56,6 +56,7 @@
                 <span th:if="${shipAPI.artillery != null}" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.distance, 0, 1)} + ' km'"/><br />
             </div>
         </div>
+        <br />
         <div id="mainWeaponStats" class="mainWeaponStats">
             <div th:if="${shipAPI.artillery != null}" id="artillery">
                 <strong>Main Battery</strong><br />
@@ -140,6 +141,7 @@
                 <span style="float: right;" th:text="${shipAPI.torpedo_bomber != null ? #numbers.formatDecimal(shipAPI.torpedo_bomber.prepare_time, 0, 1) : 0} + ' s'"/><br />
             </div>
         </div>
+        <br />
         <div id="AASecondaryStats" class="AASecondaryStats">
             <div th:if="${shipAPI.anti_aircraft != null}" id="anti_aircraft">
                 <strong>Anti Air</strong><br />

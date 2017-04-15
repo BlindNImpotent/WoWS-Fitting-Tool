@@ -113,6 +113,7 @@ public class APIController
                 redirectAttributes.addFlashAttribute("flags", flags);
                 redirectAttributes.addFlashAttribute("crewSkills", crewSkills);
                 redirectAttributes.addFlashAttribute("camo", camo);
+                redirectAttributes.addFlashAttribute("mobile", mobile);
                 redirectAttributes.addFlashAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
             }
         }
