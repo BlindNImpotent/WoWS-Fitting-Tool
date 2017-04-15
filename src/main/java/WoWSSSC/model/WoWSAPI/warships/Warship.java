@@ -192,6 +192,20 @@ public class Warship
                     }
                 }
             }
+
+            for (int j = 0; j < tempRow.length; j++)
+            {
+                for (List<WarshipModulesTree> warshipModulesTrees : warshipModulesTreeTable.values())
+                {
+                    for (WarshipModulesTree warshipModulesTree : warshipModulesTrees)
+                    {
+                        if (tempRow[j] != null && warshipModulesTree != null && tempRow[j].getModule_id() == warshipModulesTree.getModule_id())
+                        {
+                            tempRow[j] = null;
+                        }
+                    }
+                }
+            }
             warshipModulesTreeTable.put("Row" + String.valueOf(i + 1), Arrays.asList(tempRow));
         }
     }

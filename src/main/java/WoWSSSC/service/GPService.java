@@ -5,6 +5,7 @@ import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.ShipUpgradeInfo;
 import WoWSSSC.model.gameparams.Temporary;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -83,21 +84,27 @@ public class GPService
             moduleNames.add(idToName.get(hull_id));
             moduleNames.add(idToName.get(torpedo_bomber_id));
             moduleNames.add(idToName.get(torpedoes_id));
-//            modules.forEach(module -> moduleNames.add(idToName.get(module)));
+
+            if (CollectionUtils.isNotEmpty(modules))
+            {
+                modules.forEach(module -> moduleNames.add(idToName.get(module)));
+            }
+
             moduleNames.remove(null);
 
             for (String name : moduleNames)
             {
-                String prev = shipUpgradeInfo.getModules().get(name).getPrev();
-                if (!prev.equals(""))
-                {
-                    HashSet<String> prevNext = shipUpgradeInfo.getModules().get(prev).getNext();
-
+//                String prev = shipUpgradeInfo.getModules().get(name).getPrev();
+//
+//                if (!prev.equals(""))
+//                {
+//                    HashSet<String> prevNext = shipUpgradeInfo.getModules().get(prev).getNext();
+//
 //                    if (!moduleNames.contains(prev) && prevNext.stream().filter(nm -> moduleNames.contains(nm)).count() != prevNext.size())
 //                    {
 //                        return null;
 //                    }
-                }
+//                }
 
                 for (Field cField : shipUpgradeInfo.getModules().get(name).getComponents().getClass().getDeclaredFields())
                 {
