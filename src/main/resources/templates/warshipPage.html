@@ -39,6 +39,7 @@
                 <img th:title="${warship.description}" th:src="${warship.images.medium}"/>
             </div>
             <br />
+            <button th:if="${warship.prevWarship != null}" class="ui-button" th:onclick="'fragments(\'' + ${warship.prevWarship.nation} + '\', \'' + ${warship.prevWarship.type} + '\', \'' + ${warship.prevWarship.name} + '\')'" th:text="${'Prev (' + warship.prevWarship.name} + ')'"/>
             <button id="showCrewSkills" class="ui-button">Commander Skills</button>
             <button id="showFlags" class="ui-button">Flags</button>
             <input type="checkbox" id="camouflageCheckbox" th:checked="${camo}"/>Camouflage<br/>

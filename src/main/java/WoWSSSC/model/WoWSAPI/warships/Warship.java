@@ -42,12 +42,13 @@ public class Warship
     private List<Warship> nextWarship = new ArrayList<>();
     private Warship prevWarship;
 
-    public Warship(String nation, String type, String name, WarshipImages images)
+    public Warship(String nation, String type, String name, WarshipImages images, Warship prevWarship)
     {
         this.nation = nation;
         this.type = type;
         this.name = name;
         this.images = images;
+        this.prevWarship = prevWarship;
     }
 
     public boolean isIs_premium()

@@ -53,6 +53,24 @@ public class AsyncHashMap implements CommandLineRunner
 
         HashMap<String, TotalWarship> tempWarships = apiJsonParser.getTotalWarships();
 
+        tempWarships.values().forEach(warship ->
+        {
+            if (warship.getNext_ships().size() > 0)
+            {
+                warship.getNext_ships().keySet().forEach(shipKey ->
+                {
+                    tempWarships.values().forEach(tempWarship ->
+                    {
+                        if (String.valueOf(tempWarship.getShip_id()).equals(shipKey))
+                        {
+                            Warship tempWS = new Warship(warship.getNation(), warship.getType(), warship.getName(), warship.getImages(), null);
+                            tempWarship.setPrevWarship(tempWS);
+                        }
+                    });
+                });
+            }
+        });
+
         Encyclopedia encyclopedia = apiJsonParser.getEncyclopedia().getData();
 
         encyclopedia.getShip_nations().entrySet().forEach(entry -> nationsString.add(entry.getKey()));
@@ -87,6 +105,8 @@ public class AsyncHashMap implements CommandLineRunner
                 {
                     shipType.getValue().get().getData().entrySet().forEach(warship ->
                     {
+                        TotalWarship tws = tempWarships.get(String.valueOf(warship.getValue().getShip_id()));
+                        warship.getValue().setPrevWarship(tws.getPrevWarship());
                         String key = warship.getValue().getName();
                         key = key.replace("'", "");
                         Warship value = warship.getValue();
@@ -118,8 +138,8 @@ public class AsyncHashMap implements CommandLineRunner
                                         {
                                             for (int j = 0; j < tempWSMT.getNext_ships().size(); j++)
                                             {
-                                                TotalWarship tws = tempWarships.get(String.valueOf(tempWSMT.getNext_ships().get(j)));
-                                                Warship nextWarshipTemp = new Warship(tws.getNation(), tws.getType(), tws.getName(), tws.getImages());
+                                                TotalWarship totalWarship = tempWarships.get(String.valueOf(tempWSMT.getNext_ships().get(j)));
+                                                Warship nextWarshipTemp = new Warship(totalWarship.getNation(), totalWarship.getType(), totalWarship.getName(), totalWarship.getImages(), null);
 
                                                 if (i < nextWarshipRow.size() && nextWarshipRow.get(i) == null)
                                                 {
@@ -171,25 +191,10 @@ public class AsyncHashMap implements CommandLineRunner
                 }
                 wsd.setData(sorter.sortShips(wsd.getData()));
 
-                wsd.getData().values().forEach(warship -> {
-                    if (warship.getNext_ships().size() > 0)
-                    {
-                        warship.getNext_ships().keySet().forEach(shipKey ->
-                        {
-                            wsd.getData().values().forEach(tempWarship -> {
-                                if (String.valueOf(tempWarship.getShip_id()).equals(shipKey))
-                                {
-                                    Warship tempWS = new Warship(tempWarship.getNation(), tempWarship.getType(), tempWarship.getName(), tempWarship.getImages());
-                                    warship.setPrevWarship(tempWS);
-                                }
-                            });
-                        });
-                    }
-                });
-
                 wsdlhm.put(shipType.getKey(), wsd.getData());
             });
-            nations.put(futureEntry.getKey(), setPremium(wsdlhm));
+//            nations.put(futureEntry.getKey(), setPremium(wsdlhm));
+            nations.put(futureEntry.getKey(), wsdlhm);
         })).join();
 
         tempWarships.clear();

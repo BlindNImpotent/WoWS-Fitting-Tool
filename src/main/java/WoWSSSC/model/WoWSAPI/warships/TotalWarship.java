@@ -2,6 +2,8 @@ package WoWSSSC.model.WoWSAPI.warships;
 
 import lombok.Data;
 
+import java.util.HashMap;
+
 /**
  * Created by Qualson-Lee on 2016-11-29.
  */
@@ -18,4 +20,7 @@ public class TotalWarship
     private long price_credit;
     private boolean is_premium;
     private WarshipImages images;
+    private HashMap<String, Long> next_ships;
+
+    private Warship prevWarship;
 }
