@@ -170,6 +170,23 @@ public class AsyncHashMap implements CommandLineRunner
                     e.printStackTrace();
                 }
                 wsd.setData(sorter.sortShips(wsd.getData()));
+
+                wsd.getData().values().forEach(warship -> {
+                    if (warship.getNext_ships().size() > 0)
+                    {
+                        warship.getNext_ships().keySet().forEach(shipKey ->
+                        {
+                            wsd.getData().values().forEach(tempWarship -> {
+                                if (String.valueOf(tempWarship.getShip_id()).equals(shipKey))
+                                {
+                                    Warship tempWS = new Warship(tempWarship.getNation(), tempWarship.getType(), tempWarship.getName(), tempWarship.getImages());
+                                    warship.setPrevWarship(tempWS);
+                                }
+                            });
+                        });
+                    }
+                });
+
                 wsdlhm.put(shipType.getKey(), wsd.getData());
             });
             nations.put(futureEntry.getKey(), setPremium(wsdlhm));

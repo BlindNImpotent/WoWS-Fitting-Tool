@@ -5,6 +5,7 @@ import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.util.*;
 
@@ -12,6 +13,7 @@ import java.util.*;
  * Created by Qualson-Lee on 2016-11-15.
  */
 @Data
+@Accessors(chain = true)
 @NoArgsConstructor
 public class Warship
 {
@@ -38,6 +40,7 @@ public class Warship
     private LinkedHashMap<String, LinkedHashMap> warshipModulesTreeNew = new LinkedHashMap<>();
     private LinkedHashMap<String, List<WarshipModulesTree>> warshipModulesTreeTable = new LinkedHashMap<>();
     private List<Warship> nextWarship = new ArrayList<>();
+    private Warship prevWarship;
 
     public Warship(String nation, String type, String name, WarshipImages images)
     {
