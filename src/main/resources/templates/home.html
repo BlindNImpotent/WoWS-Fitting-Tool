@@ -110,8 +110,16 @@
 <!--<div id="camouflage" class="ui-widget-content" title="Camouflage">-->
     <!--<table id="camouflageTable" align="center">-->
         <!--<tbody>-->
-            <!--<tr th:each="index : ${#numbers.sequence(0, data.exteriors.camouflage.size() - 1, 6)}" th:id="${index / 6}">-->
-                <!--<td th:each="camouflage : ${data.exteriors.camouflage}" th:if="${camouflageStat.index % 3} == ${index / 6}">-->
+            <!--<tr>-->
+                <!--<td th:each="camoflage : ${data.exteriors.Camouflage}">-->
+                    <!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
+                    <!--<img th:src="${camouflage.value.image.small}"/><br />-->
+                    <!--<span th:text="${camouflage.value.name}"/>-->
+                    <!--</button>-->
+                <!--</td>-->
+            <!--</tr>-->
+            <!--<tr th:each="index : ${#numbers.sequence(0, data.exteriors.Camouflage.size() - 1, 6)}" th:id="${index / 6}">-->
+                <!--<td th:each="camouflage : ${data.exteriors.Camouflage}" th:if="${camouflageStat.index % 3} == ${index / 6}">-->
                     <!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
                         <!--<img th:src="${camouflage.value.image.small}"/><br />-->
                         <!--<span th:text="${camouflage.value.name}"/>-->
@@ -288,6 +296,10 @@
     $(document).on('click', '#showFlags', function () {
         $('#flags').dialog('open');
     });
+
+//    $(document).on('click', '#showCamouflage', function () {
+//        $('#camouflage').dialog('open');
+//    });
 
     $(document).on('click', '#camouflageCheckbox', function () {
         callAPI();

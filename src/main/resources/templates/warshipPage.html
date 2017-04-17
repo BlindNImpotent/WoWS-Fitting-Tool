@@ -39,12 +39,13 @@
                 <img th:title="${warship.description}" th:src="${warship.images.medium}"/>
             </div>
             <br />
-            <button th:if="${warship.prevWarship != null}" class="ui-button" th:onclick="'fragments(\'' + ${warship.prevWarship.nation} + '\', \'' + ${warship.prevWarship.type} + '\', \'' + ${warship.prevWarship.name} + '\')'" th:text="${'Prev (' + warship.prevWarship.name} + ')'"/>
+            <button th:if="${warship.prevWarship != null}" class="ui-button" th:onclick="'fragments(\'' + ${warship.prevWarship.nation} + '\', \'' + ${warship.prevWarship.type} + '\', \'' + ${warship.prevWarship.name} + '\')'" th:text="${'Prev Ship (' + warship.prevWarship.name} + ')'"/>
             <button id="showCrewSkills" class="ui-button">Commander Skills</button>
             <button id="showFlags" class="ui-button">Flags</button>
-            <input type="checkbox" id="camouflageCheckbox" th:checked="${camo}"/>Camouflage<br/>
+            <!--<button id="showCamouflage" class="ui-button">Camo</button>-->
+            <input type="checkbox" id="camouflageCheckbox" th:checked="${camo}" th:text="'Camouflage'" th:title="'Decreases the firing accuracy of the enemy and reduces ship detectability.'"/>
             <!--<input type="checkbox" id="stockCompareCheckBox"/>Stock Comparison-->
-            <input type="checkbox" id="upgradeCompareCheckBox"/>Upgrade Comparison<br />
+            <input type="checkbox" id="upgradeCompareCheckBox" th:text="'Upgrade Comparison'"/><br />
             <div id="modulesUpgradesConsumables">
                 <div id="modules">
                     <table>
