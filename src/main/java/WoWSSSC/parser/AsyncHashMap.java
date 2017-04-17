@@ -193,8 +193,8 @@ public class AsyncHashMap implements CommandLineRunner
 
                 wsdlhm.put(shipType.getKey(), wsd.getData());
             });
-//            nations.put(futureEntry.getKey(), setPremium(wsdlhm));
-            nations.put(futureEntry.getKey(), wsdlhm);
+            nations.put(futureEntry.getKey(), setPremium(wsdlhm));
+//            nations.put(futureEntry.getKey(), wsdlhm);
         })).join();
 
         tempWarships.clear();
@@ -221,7 +221,7 @@ public class AsyncHashMap implements CommandLineRunner
             {
                 Map.Entry<String, Warship> temp = (Map.Entry<String, Warship>) ship;
 
-                if (temp.getValue().isIs_premium())
+                if (temp.getValue().isIs_premium() || temp.getValue().getPrice_gold() > 0 || temp.getValue().getPrice_credit() == 1 || temp.getValue().getPrice_credit() == 0)
                 {
                     tempPremium.put(temp.getKey(), temp.getValue());
                 }
