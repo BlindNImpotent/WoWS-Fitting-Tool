@@ -221,7 +221,7 @@ public class AsyncHashMap implements CommandLineRunner
             {
                 Map.Entry<String, Warship> temp = (Map.Entry<String, Warship>) ship;
 
-                if (temp.getValue().isIs_premium() || temp.getValue().getPrice_gold() > 0 || temp.getValue().getPrice_credit() == 1 || temp.getValue().getPrice_credit() == 0)
+                if (temp.getValue().isIs_premium() || temp.getValue().getPrice_gold() > 0 || temp.getValue().getPrice_credit() == 1 || (temp.getValue().getPrice_credit() == 0 && temp.getValue().getTier() != 1))
                 {
                     tempPremium.put(temp.getKey(), temp.getValue());
                 }
