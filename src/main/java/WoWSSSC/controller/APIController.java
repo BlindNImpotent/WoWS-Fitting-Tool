@@ -48,6 +48,8 @@ public class APIController
 
     ObjectMapper mapper = new ObjectMapper();
 
+    private long shipGPStart = 0;
+
     @ResponseBody
     @RequestMapping (value = "/data", method = RequestMethod.GET)
     public LinkedHashMap<String, LinkedHashMap> getData()
@@ -172,7 +174,7 @@ public class APIController
 
     @ResponseBody
     @RequestMapping (value = "/gpService", method = RequestMethod.GET)
-    public ShipComponents test
+    public ShipComponents shipGP
     (
             @RequestParam(required = false, defaultValue = "") String nation,
             @RequestParam(required = false, defaultValue = "") String shipType,
@@ -190,6 +192,39 @@ public class APIController
             @RequestParam(required = false) List<String> modules
     ) throws IllegalAccessException
     {
+        return getShipComponents(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
+    }
+
+    @RequestMapping (value = "/shipComponents", method = RequestMethod.GET)
+    public String shipComponents(Model model,
+                                 @RequestParam(required = false, defaultValue = "") String nation,
+                                 @RequestParam(required = false, defaultValue = "") String shipType,
+                                 @RequestParam(required = false, defaultValue = "") String ship,
+                                 @RequestParam(required = false, defaultValue = "") String ship_id,
+                                 @RequestParam(required = false, defaultValue = "") String Artillery,
+                                 @RequestParam(required = false, defaultValue = "") String DiveBomber,
+                                 @RequestParam(required = false, defaultValue = "") String Engine,
+                                 @RequestParam(required = false, defaultValue = "") String Fighter,
+                                 @RequestParam(required = false, defaultValue = "") String Suo,
+                                 @RequestParam(required = false, defaultValue = "") String FlightControl,
+                                 @RequestParam(required = false, defaultValue = "") String Hull,
+                                 @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
+                                 @RequestParam(required = false, defaultValue = "") String Torpedoes,
+                                 @RequestParam(required = false) List<String> modules) throws IllegalAccessException
+    {
+        model.addAttribute("componentsData", getShipComponents(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules));
+
+        return "consumablesPage";
+    }
+
+    private ShipComponents getShipComponents(String nation, String shipType, String ship, String ship_id, String Artillery, String DiveBomber, String Engine, String Fighter, String Suo, String FlightControl, String Hull, String TorpedoBomber, String Torpedoes, List<String> modules) throws IllegalAccessException
+    {
+        if (System.currentTimeMillis() - shipGPStart >= 30 * 60 * 1000)
+        {
+            gpService.shipGPCacheEvict();
+            shipGPStart = System.currentTimeMillis();
+        }
+
         return gpService.setShipGP(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
     }
 }

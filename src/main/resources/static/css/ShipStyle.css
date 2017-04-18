@@ -85,13 +85,6 @@ table
     vertical-align: top;
 }
 
-#upgrades
-{
-    display: inline-block;
-    text-align: center;
-    vertical-align: top;
-}
-
 #ConsumablesList
 {
     display: inline-block;
@@ -728,4 +721,24 @@ table
 #flags
 {
     position: relative;
+}
+
+.consumablesData
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    font-size: 8px;
+}
+
+#consumablesData
+{
+    text-align: center;
+    vertical-align: top;
+}
+
+#consumablesData img
+{
+    width: 30px;
+    margin-bottom: 0px;
 }

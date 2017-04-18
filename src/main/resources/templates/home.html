@@ -39,11 +39,10 @@
 //                modal: true,
                 width: 520
             }).css("font-size", "8px");
-//
-//            $('#camouflage').dialog({
+
+//            $('#consumablesData').dialog({
 //                autoOpen: false,
-////                modal: true,
-//                width: 520
+//                width: 330,
 //            }).css("font-size", "8px");
         });
     </script>
@@ -137,6 +136,8 @@
         <div class="warshipData" th:include="warshipPage :: warshipStats">
         </div>
         <div class="shipAPIData">
+        </div>
+        <div id="consumablesData">
         </div>
     </div>
 </main>
@@ -300,6 +301,10 @@
         $('#flags').dialog('open');
     });
 
+    $(document).on('click', '#showConsumables', function () {
+        $('#consumablesData').dialog('open');
+    });
+
 //    $(document).on('click', '#showCamouflage', function () {
 //        $('#camouflage').dialog('open');
 //    });
@@ -417,9 +422,22 @@
                             success: function (data) {
                                 if (data != '')
                                 {
+                                    console.log(data);
+                                    $.ajax({
+                                        url: gpServiceUrl.replace('shipAPI', 'shipComponents'),
+                                        type: 'get',
+                                        contentType: 'application/json',
+                                        success: function (data) {
+                                            if (data != '')
+                                            {
+                                                $('#consumablesData').replaceWith(data);
+                                            }
+                                        }
+                                    });
+
                                     if (data.artillery != null)
                                     {
-                                        var sigma ='' +  data.artillery.sigmaCount;
+                                        var sigma = '' +  data.artillery.sigmaCount;
 
                                         if (!sigma.includes('.'))
                                         {

@@ -10,6 +10,7 @@ import WoWSSSC.model.WoWSAPI.warships.TotalWarshipData;
 import WoWSSSC.model.WoWSAPI.warships.WarshipData;
 import WoWSSSC.model.WoWSAPI.upgrade.UpgradeData;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.*;
+import WoWSSSC.model.gameparams.test.Values.ShipAbilities.ShipAbilities;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -178,6 +179,13 @@ public class APIJsonParser
 
                     ((LinkedHashMap<String, LinkedHashMap>) value.getValue().get("ShipUpgradeInfo")).get(key).put("next", next);
                 });
+
+                ShipAbilities shipAbilities = mapper.convertValue(value.getValue().get("ShipAbilities"), ShipAbilities.class);
+
+                shipAbilities.getAbilitySlot0().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), temp.get(list.get(0))));
+                shipAbilities.getAbilitySlot1().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), temp.get(list.get(0))));
+                shipAbilities.getAbilitySlot2().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), temp.get(list.get(0))));
+                shipAbilities.getAbilitySlot3().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), temp.get(list.get(0))));
             }
             nameToId.put(value.getKey(), String.valueOf(value.getValue().get("id")));
             idToName.put(String.valueOf(value.getValue().get("id")), value.getKey());

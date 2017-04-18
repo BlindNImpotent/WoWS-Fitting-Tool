@@ -1,7 +1,9 @@
 package WoWSSSC.model;
 
+import WoWSSSC.model.gameparams.test.Values.ShipAbilities.ShipAbilities;
 import lombok.Data;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
@@ -25,4 +27,7 @@ public class ShipComponents
     private LinkedHashMap<String, LinkedHashMap> radars;
     private LinkedHashMap<String, LinkedHashMap> torpedoes;
     private LinkedHashMap<String, LinkedHashMap> torpedoBomber;
+
+    private ShipAbilities shipAbilities;
+    private HashMap<String, HashMap> abilities = new HashMap<>();
 }

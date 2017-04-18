@@ -1,5 +1,6 @@
 package WoWSSSC.service;
 
+import WoWSSSC.model.ShipComponents;
 import WoWSSSC.model.WoWSAPI.exterior.Exterior;
 import WoWSSSC.model.WoWSAPI.exterior.TTC_Coef;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
@@ -16,6 +17,9 @@ import com.rits.cloning.Cloner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -47,6 +51,9 @@ public class APIService
 
     @Autowired
     private HashMap<String, LinkedHashMap> gameParamsCHM;
+
+    @Autowired
+    private GPService gpService;
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -365,7 +372,7 @@ public class APIService
                     }
                     else if (skill.get("type_id").equals("1"))
                     {
-
+                        System.out.println(Cache.ValueWrapper.class.getName());
                     }
                     else if (skill.get("type_id").equals("2"))
                     {

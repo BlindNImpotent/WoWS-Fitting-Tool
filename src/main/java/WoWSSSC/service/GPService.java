@@ -4,11 +4,15 @@ import WoWSSSC.model.ShipComponents;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.ShipUpgradeInfo;
 import WoWSSSC.model.gameparams.Temporary;
+import WoWSSSC.model.gameparams.test.Values.ShipAbilities.ShipAbilities;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -18,6 +22,7 @@ import java.util.*;
  * Created by Aesis on 2016-12-05.
  */
 @Service
+@Slf4j
 public class GPService
 {
     @Autowired
@@ -36,6 +41,7 @@ public class GPService
 
     ObjectMapper mapper = new ObjectMapper();
 
+    @Cacheable(value = "shipGP", key = "#nation.concat('_').#shipType.concat('_').#ship")
     public ShipComponents setShipGP(
             String nation,
             String shipType,
@@ -123,8 +129,43 @@ public class GPService
                     }
                 }
             }
+            setShipAbilities(shipComponents, ship_id);
+
             return shipComponents;
         }
         return null;
+    }
+
+    private void setShipAbilities(ShipComponents shipComponents, String ship_id)
+    {
+        ShipAbilities shipAbilities = mapper.convertValue(gameParamsCHM.get(ship_id), Temporary.class).getShipAbilities();
+
+        HashMap<String, HashMap> abilities = new HashMap<>();
+
+        shipAbilities.getAbilitySlot0().getAbils().forEach(list ->
+        {
+            abilities.put(list.get(0), gameParamsCHM.get(list.get(0)));
+        });
+        shipAbilities.getAbilitySlot1().getAbils().forEach(list ->
+        {
+            abilities.put(list.get(0), gameParamsCHM.get(list.get(0)));
+        });
+        shipAbilities.getAbilitySlot2().getAbils().forEach(list ->
+        {
+            abilities.put(list.get(0), gameParamsCHM.get(list.get(0)));
+        });
+        shipAbilities.getAbilitySlot3().getAbils().forEach(list ->
+        {
+            abilities.put(list.get(0), gameParamsCHM.get(list.get(0)));
+        });
+
+        shipComponents.setShipAbilities(shipAbilities);
+        shipComponents.setAbilities(abilities);
+    }
+
+    @CacheEvict(value = "shipGP", allEntries = true)
+    public void shipGPCacheEvict()
+    {
+        log.info("shipGP Cache Evicted");
     }
 }
