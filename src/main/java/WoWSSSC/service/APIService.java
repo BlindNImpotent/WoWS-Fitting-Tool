@@ -570,22 +570,23 @@ public class APIService
                         {
                             float detect_coef = 0;
 
-                            if (warship.getType().equals("AirCarrier"))
+                            if (warship.getDefaultType().equals("AirCarrier"))
                             {
                                 detect_coef = 0.84f;
                             }
-                            else if (warship.getType().equals("Battleship"))
+                            else if (warship.getDefaultType().equals("Battleship"))
                             {
                                 detect_coef = 0.86f;
                             }
-                            else if (warship.getType().equals("Cruiser"))
+                            else if (warship.getDefaultType().equals("Cruiser"))
                             {
                                 detect_coef = 0.88f;
                             }
-                            else if (warship.getType().equals("Destroyer"))
+                            else if (warship.getDefaultType().equals("Destroyer"))
                             {
                                 detect_coef = 0.90f;
                             }
+
                             ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * detect_coef);
                             ship.getConcealment().setDetect_distance_by_plane(ship.getConcealment().getDetect_distance_by_plane() * detect_coef);
                         }

@@ -22,6 +22,7 @@ public class Warship
 
     private String nation;
     private String type;
+    private String defaultType;
     private String name;
     private String ship_id_str;
     private String description;
@@ -49,6 +50,16 @@ public class Warship
         this.name = name;
         this.images = images;
         this.prevWarship = prevWarship;
+    }
+
+    public void setType(String type)
+    {
+        this.type = type;
+
+        if (!type.equalsIgnoreCase("Premium") && !type.equalsIgnoreCase("Arpeggio"))
+        {
+            this.defaultType = type;
+        }
     }
 
     public boolean isIs_premium()
