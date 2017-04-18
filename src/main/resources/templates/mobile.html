@@ -302,16 +302,7 @@
                 if ([[${warship}]] != null)
                 {
                     nation = [[${warship}]]['nation'];
-
-                    if ([[${warship}]]['is_premium'])
-                    {
-                        shipType = 'Premium';
-                    }
-                    else
-                    {
-                        shipType = [[${warship}]]['type'];
-                    }
-
+                    shipType = [[${warship}]]['type'];
                     ship = [[${warship}]]['name'];
                     ship = ship.replace("'", "");
                 }

@@ -140,8 +140,10 @@ public class APIService
 
         setCustomValues(ship_id, ship);
 
-        LinkedHashMap<String, LinkedHashMap> nationLHM = (LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation);
-        Warship warship = (Warship) nationLHM.get(shipType).get(shipName);
+//        LinkedHashMap<String, LinkedHashMap> nationLHM = (LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation);
+//        Warship warship = (Warship) nationLHM.get(shipType).get(shipName);
+
+        Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(shipName);
 
         if (upgradesSkills.get("camouflage") != null)
         {

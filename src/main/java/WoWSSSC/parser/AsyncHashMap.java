@@ -226,10 +226,12 @@ public class AsyncHashMap implements CommandLineRunner
                 {
                     if (temp.getValue().getName().contains("ARP "))
                     {
+                        temp.getValue().setType("Arpeggio");
                         tempARP.put(temp.getKey(), temp.getValue());
                     }
                     else
                     {
+                        temp.getValue().setType("Premium");
                         tempPremium.put(temp.getKey(), temp.getValue());
                     }
                 }
