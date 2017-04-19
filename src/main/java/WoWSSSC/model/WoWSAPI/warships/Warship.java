@@ -43,6 +43,8 @@ public class Warship
     private List<Warship> nextWarship = new ArrayList<>();
     private Warship prevWarship;
 
+    private boolean isFirst = true;
+
     public Warship(String nation, String type, String name, WarshipImages images, Warship prevWarship)
     {
         this.nation = nation;

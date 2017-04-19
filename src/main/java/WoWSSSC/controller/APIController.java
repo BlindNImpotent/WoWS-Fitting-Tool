@@ -224,4 +224,12 @@ public class APIController
 
         return "consumablesPage";
     }
+
+    @RequestMapping (value = "/shipTree", method = RequestMethod.GET)
+    public String shipTree(Model model)
+    {
+        model.addAttribute("nations", data.get("nations"));
+
+        return "shipTree";
+    }
 }

@@ -13,6 +13,7 @@ import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
 import WoWSSSC.model.WoWSAPI.upgrade.UpgradeData;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.utils.Sorter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 /**
  * Created by Aesis on 2016-11-15.
@@ -38,6 +40,8 @@ public class AsyncHashMap implements CommandLineRunner
 
     @Autowired
     private Sorter sorter;
+
+    private ObjectMapper mapper = new ObjectMapper();
 
     @Override
     public void run(String... strings) throws Exception
@@ -199,12 +203,19 @@ public class AsyncHashMap implements CommandLineRunner
 
         tempWarships.clear();
 
+        LinkedHashMap<String, LinkedHashMap> tempTree = new LinkedHashMap<>();
+        nations.entrySet().forEach(entry -> tempTree.put(entry.getKey(), setShipTree(entry.getValue())));
+
         data.clear();
-        data.put("nations", nations);
+        data.put("nations", tempTree);
+//        data.put("nations", nations);
         data.put("upgrades", upgradeData.get().getData());
         data.put("skills", setCrewSkills(crewsSkillsData.get().getData()));
         data.put("exterior", exteriorData.get().getData());
         data.put("exteriors", setExteriors(exteriorData.get().getData()));
+
+//        data.put("test", tempTree);
+
         shipHashMap.clear();
     }
 
@@ -342,5 +353,46 @@ public class AsyncHashMap implements CommandLineRunner
         });
 
         return tempExteriors;
+    }
+
+    private LinkedHashMap<String, LinkedHashMap<String, Warship>> setShipTree(LinkedHashMap<String, LinkedHashMap> nation)
+    {
+        LinkedHashMap<String, LinkedHashMap<String, Warship>> temp = new LinkedHashMap<>();
+
+        nation.entrySet().forEach(shipType ->
+        {
+            LinkedHashMap<String, Warship> test = new LinkedHashMap<>();
+
+            LinkedHashMap<String, LinkedHashMap<String, Warship>> wslhm = mapper.convertValue(shipType.getValue(), LinkedHashMap.class);
+            wslhm.entrySet().forEach(entry ->
+            {
+                Warship tempWarship = mapper.convertValue(entry.getValue(), Warship.class);
+
+                test.put(tempWarship.getName(), tempWarship);
+
+                List<Warship> tempNextWarships = tempWarship.getNextWarship().stream().filter(nextWarship -> nextWarship != null).collect(Collectors.toList());
+
+                for (int i = 0; i < tempNextWarships.size(); i++)
+                {
+                    if (tempNextWarships.get(i).getType().equals(tempWarship.getType()))
+                    {
+                        Warship nextWarship = mapper.convertValue(wslhm.get(tempNextWarships.get(i).getName()), Warship.class);
+
+                        boolean isFirst = true;
+                        if ((i > 0 && tempNextWarships.get(0).getType().equals(tempNextWarships.get(i).getType())) || !test.get(tempWarship.getName()).isFirst())
+                        {
+                            isFirst = false;
+                        }
+
+                        nextWarship.setFirst(isFirst);
+                        test.put(nextWarship.getName(), nextWarship);
+                    }
+                }
+
+            });
+            temp.put(shipType.getKey(), test);
+        });
+
+        return temp;
     }
 }
