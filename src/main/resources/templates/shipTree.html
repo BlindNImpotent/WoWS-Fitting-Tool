@@ -37,7 +37,7 @@
 <main>
     <div th:each="nation : ${nations}" th:if="${nation.key == 'japan'}">
         <div th:each="shipType : ${nation.value}" th:if="${shipType.key != 'Premium' and shipType.key != 'Arpeggio'}">
-            <button th:class="button_ship" th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; 10}">
+            <button th:class="button_ship_tree" th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; 10}">
             </button>
             <button th:class="button_ship" th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
                 <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />

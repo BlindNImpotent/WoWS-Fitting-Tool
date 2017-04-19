@@ -1,5 +1,6 @@
 package WoWSSSC.model.WoWSAPI.warships;
 
+import WoWSSSC.model.WoWSAPI.consumables.Consumables;
 import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -227,13 +228,13 @@ public class Warship
         }
     }
 
-    public void setUpgradesNew(LinkedHashMap<String, Upgrade> unsorted)
+    public void setUpgradesNew(LinkedHashMap<String, Consumables> unsorted)
     {
         LinkedHashMap<String, LinkedHashMap> temp = new LinkedHashMap<>();
         unsorted.entrySet().forEach(upgrade1 ->
         {
             long tempPrice = upgrade1.getValue().getPrice_credit();
-            LinkedHashMap<String, Upgrade> tempUpgrades = new LinkedHashMap<>();
+            LinkedHashMap<String, Consumables> tempUpgrades = new LinkedHashMap<>();
             unsorted.entrySet().forEach(upgrade2 ->
             {
                 if (upgrade2.getValue().getPrice_credit() == tempPrice)
@@ -241,7 +242,7 @@ public class Warship
                     tempUpgrades.put(upgrade2.getValue().getName(), upgrade2.getValue());
                 }
             });
-            LinkedHashMap<String, Upgrade> sortedUpgrade = sorter.sortUpgrades(tempUpgrades);
+            LinkedHashMap<String, Consumables> sortedUpgrade = sorter.sortUpgrades(tempUpgrades);
             temp.put(String.valueOf(tempPrice), sortedUpgrade);
         });
         upgradesNew = sorter.sortUpgradeType(temp);

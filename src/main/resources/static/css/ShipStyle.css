@@ -751,7 +751,7 @@ table
     vertical-align: top;
 }
 
-.button_ship
+.button_ship_tree
 {
     background-color:#fff;
     text-align: center;
@@ -770,7 +770,7 @@ table
     margin: 2px;
 }
 
-.button_ship img
+.button_ship_tree img
 {
     width: 120px;
     margin-bottom: 0px;

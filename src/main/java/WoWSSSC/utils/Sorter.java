@@ -1,9 +1,11 @@
 package WoWSSSC.utils;
 
+import WoWSSSC.model.WoWSAPI.consumables.Consumables;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
+import WoWSSSC.model.gameparams.Consumables.Consumable;
 
 import java.util.*;
 
@@ -73,20 +75,20 @@ public class Sorter
         return sorted;
     }
 
-    public LinkedHashMap<String, Upgrade> sortUpgrades(LinkedHashMap<String, Upgrade> unsorted)
+    public LinkedHashMap<String, Consumables> sortUpgrades(LinkedHashMap<String, Consumables> unsorted)
     {
-        LinkedHashMap<String, Upgrade> sorted = new LinkedHashMap<>();
+        LinkedHashMap<String, Consumables> sorted = new LinkedHashMap<>();
 
-        List<Map.Entry<String, Upgrade>> list = new LinkedList<>(unsorted.entrySet());
+        List<Map.Entry<String, Consumables>> list = new LinkedList<>(unsorted.entrySet());
 
-        Collections.sort(list, new Comparator<Map.Entry<String, Upgrade>>() {
+        Collections.sort(list, new Comparator<Map.Entry<String, Consumables>>() {
             @Override
-            public int compare(Map.Entry<String, Upgrade> o1, Map.Entry<String, Upgrade> o2) {
-                return o1.getValue().getTag().compareTo(o2.getValue().getTag());
+            public int compare(Map.Entry<String, Consumables> o1, Map.Entry<String, Consumables> o2) {
+                return o1.getValue().getImage().compareTo(o2.getValue().getImage());
             }
         });
 
-        for (Map.Entry<String, Upgrade> entry : list)
+        for (Map.Entry<String, Consumables> entry : list)
         {
             sorted.put(entry.getKey(), entry.getValue());
         }

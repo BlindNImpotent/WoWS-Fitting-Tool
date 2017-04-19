@@ -73,8 +73,8 @@
                 </div>
                 <div id="upgrades">
                     <div th:each="upgradeType : ${warship.upgradesNew}" th:id="'id_' + ${upgradeType.key}">
-                        <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.upgrade_id}">
-                            <button th:title="${upgrade.value.description}" th:class="${upgrades != null and #sets.contains(upgrades, #strings.toString(upgrade.value.upgrade_id))} ? button_upgrade_selected : button_upgrade" th:id="${upgrade.value.upgrade_id}" th:name="'price_' + ${upgrade.value.price_credit}">
+                        <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.consumable_id}">
+                            <button th:title="${upgrade.value.description}" th:class="${upgrades != null and #sets.contains(upgrades, #strings.toString(upgrade.value.consumable_id))} ? button_upgrade_selected : button_upgrade" th:id="${upgrade.value.consumable_id}" th:name="'price_' + ${upgrade.value.price_credit}">
                                 <img th:src="${upgrade.value.image}"/><br />
                                 <span th:text="${upgrade.value.name}"/>
                             </button>

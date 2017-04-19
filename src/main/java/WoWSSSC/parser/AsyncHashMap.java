@@ -1,5 +1,7 @@
 package WoWSSSC.parser;
 
+import WoWSSSC.model.WoWSAPI.consumables.Consumables;
+import WoWSSSC.model.WoWSAPI.consumables.ConsumablesData;
 import WoWSSSC.model.WoWSAPI.exterior.Exterior;
 import WoWSSSC.model.WoWSAPI.exterior.ExteriorData;
 import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
@@ -12,6 +14,7 @@ import WoWSSSC.model.WoWSAPI.warships.WarshipData;
 import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
 import WoWSSSC.model.WoWSAPI.upgrade.UpgradeData;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
+import WoWSSSC.model.gameparams.Consumables.Consumable;
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,9 +97,10 @@ public class AsyncHashMap implements CommandLineRunner
             futures.put(nationsString.get(i), temp);
         }
 
-        CompletableFuture<UpgradeData> upgradeData = apiJsonParser.getUpgrades();
+//        CompletableFuture<UpgradeData> upgradeData = apiJsonParser.getUpgrades();
         CompletableFuture<CrewSkillsData> crewsSkillsData = apiJsonParser.getCrewSkills();
-        CompletableFuture<ExteriorData> exteriorData = apiJsonParser.getExteriorData();
+//        CompletableFuture<ExteriorData> exteriorData = apiJsonParser.getExteriorData();
+        CompletableFuture<ConsumablesData> consumablesData = apiJsonParser.getConsumables();
 
         CompletableFuture.runAsync(() -> futures.entrySet().forEach(futureEntry ->
         {
@@ -179,7 +183,7 @@ public class AsyncHashMap implements CommandLineRunner
 
                             try
                             {
-                                setUpgradesPerShip(value, upgradeData.get().getData());
+                                setUpgradesPerShip(value, consumablesData.get().getData());
                             }
                             catch (InterruptedException | ExecutionException e)
                             {
@@ -206,13 +210,47 @@ public class AsyncHashMap implements CommandLineRunner
         LinkedHashMap<String, LinkedHashMap> tempTree = new LinkedHashMap<>();
         nations.entrySet().forEach(entry -> tempTree.put(entry.getKey(), setShipTree(entry.getValue())));
 
+        LinkedHashMap<String, Consumables> tempUpgrades = new LinkedHashMap<>();
+        consumablesData.get().getData().entrySet().forEach(entry ->
+        {
+            if (entry.getValue().getType().equals("Modernization"))
+            {
+                tempUpgrades.put(entry.getKey(), entry.getValue());
+            }
+        });
+
+        LinkedHashMap<String, LinkedHashMap> tempExterior = new LinkedHashMap<>();
+        LinkedHashMap<String, Consumables> tempFlags = new LinkedHashMap<>();
+        LinkedHashMap<String, Consumables> tempPermoflage = new LinkedHashMap<>();
+        LinkedHashMap<String, Consumables> tempCamouflage = new LinkedHashMap<>();
+
+        consumablesData.get().getData().entrySet().forEach(entry ->
+        {
+            if (entry.getValue().getType().equals("Flags"))
+            {
+                tempFlags.put(entry.getKey(), entry.getValue());
+            }
+            else if (entry.getValue().getType().equals("Camouflage"))
+            {
+                tempCamouflage.put(entry.getKey(), entry.getValue());
+            }
+            else if (entry.getValue().getType().equals("Permoflage"))
+            {
+                tempPermoflage.put(entry.getKey(), entry.getValue());
+            }
+        });
+
+        tempExterior.put("Flags", tempFlags);
+        tempExterior.put("Camouflage", tempCamouflage);
+        tempExterior.put("Permoflage", tempPermoflage);
+
         data.clear();
         data.put("nations", tempTree);
 //        data.put("nations", nations);
-        data.put("upgrades", upgradeData.get().getData());
+        data.put("upgrades", tempUpgrades);
         data.put("skills", setCrewSkills(crewsSkillsData.get().getData()));
-        data.put("exterior", exteriorData.get().getData());
-        data.put("exteriors", setExteriors(exteriorData.get().getData()));
+        data.put("exteriors", tempExterior);
+//        data.put("exteriors", setExteriors(exteriorData.get().getData()));
 
 //        data.put("test", tempTree);
 
@@ -273,19 +311,19 @@ public class AsyncHashMap implements CommandLineRunner
         return tempNation;
     }
 
-    private void setUpgradesPerShip(Warship warship, LinkedHashMap<String, Upgrade> upgrades)
+    private void setUpgradesPerShip(Warship warship, LinkedHashMap<String, Consumables> consumables)
     {
-        LinkedHashMap<String, Upgrade> tempUpgrades = new LinkedHashMap<>();
+        LinkedHashMap<String, Consumables> tempConsumablesHM = new LinkedHashMap<>();
 
         warship.getUpgrades().forEach(upgrade_id ->
         {
-            Upgrade tempUpgrade = upgrades.get(String.valueOf(upgrade_id));
-            if (tempUpgrade != null)
+            Consumables tempConsumables = consumables.get(String.valueOf(upgrade_id));
+            if (tempConsumables != null)
             {
-                tempUpgrades.put(tempUpgrade.getName(), tempUpgrade);
+                tempConsumablesHM.put(tempConsumables.getName(), tempConsumables);
             }
         });
-        warship.setUpgradesNew(tempUpgrades);
+        warship.setUpgradesNew(tempConsumablesHM);
     }
 
     private LinkedHashMap<String, LinkedHashMap> setCrewSkills(LinkedHashMap<String, CrewSkills> crewSkills)

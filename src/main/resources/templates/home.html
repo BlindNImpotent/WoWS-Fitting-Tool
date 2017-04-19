@@ -100,8 +100,8 @@
         <tbody>
             <tr th:each="index : ${#numbers.sequence(0, data.exteriors.Flags.size() - 1, 6)}" th:id="${index / 6}">
                 <td th:each="flag : ${data.exteriors.Flags}" th:if="${flagStat.index % 3} == ${index / 6}">
-                    <button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.exterior_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.exterior_id}">
-                        <img th:src="${flag.value.image.small}"/><br />
+                    <button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.consumable_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.consumable_id}">
+                        <img th:src="${flag.value.image}"/><br />
                         <span th:text="${flag.value.name}"/>
                     </button>
                 </td>

@@ -1,5 +1,7 @@
 package WoWSSSC.parser;
 
+import WoWSSSC.model.WoWSAPI.consumables.Consumables;
+import WoWSSSC.model.WoWSAPI.consumables.ConsumablesData;
 import WoWSSSC.model.WoWSAPI.exterior.ExteriorData;
 import WoWSSSC.model.WoWSAPI.info.EncyclopediaData;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
@@ -81,14 +83,24 @@ public class APIJsonParser
     }
 
     @Async
-    public CompletableFuture<UpgradeData> getUpgrades() throws IOException
+    public CompletableFuture<ConsumablesData> getConsumables() throws IOException
     {
-        logger.info("Looking up upgrades");
-        String url = "https://api.worldofwarships.com/wows/encyclopedia/upgrades/?application_id=" + APP_ID;
-        UpgradeData result = restTemplate.getForObject(url, UpgradeData.class);
+        logger.info("Looking up consumables");
+        String url = "https://api.worldofwarships.com/wows/encyclopedia/consumables/?application_id=" + APP_ID;
+        ConsumablesData result = restTemplate.getForObject(url, ConsumablesData.class);
 
         return CompletableFuture.completedFuture(result);
     }
+
+//    @Async
+//    public CompletableFuture<UpgradeData> getUpgrades() throws IOException
+//    {
+//        logger.info("Looking up upgrades");
+//        String url = "https://api.worldofwarships.com/wows/encyclopedia/upgrades/?application_id=" + APP_ID;
+//        UpgradeData result = restTemplate.getForObject(url, UpgradeData.class);
+//
+//        return CompletableFuture.completedFuture(result);
+//    }
 
     public EncyclopediaData getEncyclopedia() throws IOException
     {
@@ -108,15 +120,15 @@ public class APIJsonParser
         return CompletableFuture.completedFuture(result);
     }
 
-    @Async
-    public CompletableFuture<ExteriorData> getExteriorData() throws IOException
-    {
-        logger.info("Looking up exterior");
-        String url = "https://api.worldofwarships.com/wows/encyclopedia/exterior/?application_id=" + APP_ID;
-        ExteriorData result = restTemplate.getForObject(url, ExteriorData.class);
-
-        return CompletableFuture.completedFuture(result);
-    }
+//    @Async
+//    public CompletableFuture<ExteriorData> getExteriorData() throws IOException
+//    {
+//        logger.info("Looking up exterior");
+//        String url = "https://api.worldofwarships.com/wows/encyclopedia/exterior/?application_id=" + APP_ID;
+//        ExteriorData result = restTemplate.getForObject(url, ExteriorData.class);
+//
+//        return CompletableFuture.completedFuture(result);
+//    }
 
     @Async
     public void checkShipData(String url, String key, String ship_id, String nation, String shipType, String ship) throws IOException
