@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div id="consumablesData" title="Consumables" th:fragment="consumablesData" th:unless="${componentsData.shipAbilities == null}">
+<div id="consumablesData" th:fragment="consumablesData" th:unless="${componentsData.shipAbilities == null}">
     <div class="consumables" th:each="ability : ${componentsData.shipAbilities}">
         <th:block th:each="consumable : ${ability.AbilitySlot0.abils}">
             <th:block th:each="abil : ${componentsData.abilities}" th:if="${abil.key == consumable[0]}">
