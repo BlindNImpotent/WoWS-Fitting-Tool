@@ -1,12 +1,14 @@
 package WoWSSSC.model.WoWSAPI.consumables;
 
 import WoWSSSC.model.WoWSAPI.consumables.factors.*;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Data;
 
 /**
  * Created by Aesis on 2017. 4. 20..
  */
 @Data
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)
 public class ConsumablesProfile
 {
     private AAAura AAAura;

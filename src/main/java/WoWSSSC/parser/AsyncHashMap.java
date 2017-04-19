@@ -219,7 +219,7 @@ public class AsyncHashMap implements CommandLineRunner
             }
         });
 
-        LinkedHashMap<String, LinkedHashMap> tempExterior = new LinkedHashMap<>();
+        LinkedHashMap<String, LinkedHashMap> tempExteriors = new LinkedHashMap<>();
         LinkedHashMap<String, Consumables> tempFlags = new LinkedHashMap<>();
         LinkedHashMap<String, Consumables> tempPermoflage = new LinkedHashMap<>();
         LinkedHashMap<String, Consumables> tempCamouflage = new LinkedHashMap<>();
@@ -240,16 +240,16 @@ public class AsyncHashMap implements CommandLineRunner
             }
         });
 
-        tempExterior.put("Flags", tempFlags);
-        tempExterior.put("Camouflage", tempCamouflage);
-        tempExterior.put("Permoflage", tempPermoflage);
+        tempExteriors.put("Flags", tempFlags);
+        tempExteriors.put("Camouflage", tempCamouflage);
+        tempExteriors.put("Permoflage", tempPermoflage);
 
         data.clear();
         data.put("nations", tempTree);
 //        data.put("nations", nations);
         data.put("upgrades", tempUpgrades);
         data.put("skills", setCrewSkills(crewsSkillsData.get().getData()));
-        data.put("exteriors", tempExterior);
+        data.put("exteriors", tempExteriors);
 //        data.put("exteriors", setExteriors(exteriorData.get().getData()));
 
 //        data.put("test", tempTree);
