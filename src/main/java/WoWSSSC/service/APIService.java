@@ -237,7 +237,18 @@ public class APIService
                 }
                 if (coef.getConsumables_reload_time_coef() != 0)
                 {
+                    HashMap<String, Consumable> tempAbilities = new HashMap<>();
 
+                    ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                    {
+                        Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * 0.95f));
+
+                        tempAbilities.put(entry.getKey(), tempConsumable);
+                    });
+
+                    ship.getShipComponents().setAbilities(tempAbilities);
                 }
                 if (coef.getCredits_coef() != 0)
                 {
