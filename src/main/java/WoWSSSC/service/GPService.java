@@ -1,6 +1,7 @@
 package WoWSSSC.service;
 
 import WoWSSSC.model.ShipComponents;
+import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.ShipUpgradeInfo;
 import WoWSSSC.model.gameparams.Temporary;
@@ -39,9 +40,11 @@ public class GPService
     @Qualifier(value = "idToName")
     private HashMap<String, String> idToName;
 
+    @Autowired
+    private HashMap<String, Ship> shipHashMap;
+
     ObjectMapper mapper = new ObjectMapper();
 
-    @Cacheable(value = "shipGP", key = "#nation.concat('_').#shipType.concat('_').#ship")
     public ShipComponents setShipGP(
             String nation,
             String shipType,
@@ -161,11 +164,5 @@ public class GPService
 
         shipComponents.setShipAbilities(shipAbilities);
         shipComponents.setAbilities(abilities);
-    }
-
-    @CacheEvict(value = "shipGP", allEntries = true)
-    public void shipGPCacheEvict()
-    {
-        log.info("shipGP Cache Evicted");
     }
 }

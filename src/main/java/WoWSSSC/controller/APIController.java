@@ -2,6 +2,7 @@ package WoWSSSC.controller;
 
 import WoWSSSC.model.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
+import WoWSSSC.model.WoWSAPI.upgrade.profile.Fire_Control;
 import WoWSSSC.model.gameparams.test.GameParamsValues;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
 import WoWSSSC.service.APIService;
@@ -17,10 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -44,11 +42,12 @@ public class APIController
     @Autowired
     private LinkedHashMap<String, String> notification;
 
+    @Autowired
+    private HashMap<String, Ship> shipHashMap;
+
     private static final Logger logger = LoggerFactory.getLogger(APIController.class);
 
     ObjectMapper mapper = new ObjectMapper();
-
-    private long shipGPStart = 0;
 
     @ResponseBody
     @RequestMapping (value = "/data", method = RequestMethod.GET)
@@ -141,27 +140,28 @@ public class APIController
                     @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
                     @RequestParam(required = false, defaultValue = "") String Torpedoes,
                     @RequestBody(required = false) HashMap<String, List> upgradesSkills,
+                    @RequestParam(required = false) List<String> modules,
                     @RequestParam(required = false, defaultValue = "false") boolean stockCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean upgradeCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean mobile
-            ) throws ExecutionException, InterruptedException, IOException
+            ) throws ExecutionException, InterruptedException, IOException, IllegalAccessException
     {
         if (!ship_id.equals(""))
         {
-            String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
-            model.addAttribute("shipAPI", apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, upgradesSkills));
+            String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
+            model.addAttribute("shipAPI", apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills));
 
             model.addAttribute("upgradeCompare", upgradeCompare);
             if (upgradeCompare)
             {
-                model.addAttribute("configurationAPI", apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, new HashMap<>()));
+                model.addAttribute("configurationAPI", apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, new HashMap<>()));
             }
 
             model.addAttribute("stockCompare", stockCompare);
             if (stockCompare)
             {
-                String stockKey = apiService.setShipAPI(nation, shipType, ship, ship_id, "", "", "", "", "", "", "", "", "");
-                model.addAttribute("stockAPI", apiService.getUpgradeSkillStats(stockKey, nation, shipType, ship, ship_id, new HashMap<>()));
+                String stockKey = apiService.setShipAPI(nation, shipType, ship, ship_id, "", "", "", "", "", "", "", "", "", new ArrayList<>());
+                model.addAttribute("stockAPI", apiService.getUpgradeSkillStats(stockKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, new HashMap<>()));
             }
         }
 
@@ -173,7 +173,7 @@ public class APIController
     }
 
     @ResponseBody
-    @RequestMapping (value = "/gpService", method = RequestMethod.GET)
+    @RequestMapping (value = "/gpService", method = RequestMethod.POST)
     public ShipComponents shipGP
     (
             @RequestParam(required = false, defaultValue = "") String nation,
@@ -189,13 +189,17 @@ public class APIController
             @RequestParam(required = false, defaultValue = "") String Hull,
             @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
             @RequestParam(required = false, defaultValue = "") String Torpedoes,
+            @RequestBody(required = false) HashMap<String, List> upgradesSkills,
             @RequestParam(required = false) List<String> modules
     ) throws IllegalAccessException
     {
-        return getShipComponents(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
+        String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
+                + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
+
+        return apiService.getUpgradeSkillStats(key, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills).getShipComponents();
     }
 
-    @RequestMapping (value = "/shipComponents", method = RequestMethod.GET)
+    @RequestMapping (value = "/shipComponents", method = RequestMethod.POST)
     public String shipComponents(Model model,
                                  @RequestParam(required = false, defaultValue = "") String nation,
                                  @RequestParam(required = false, defaultValue = "") String shipType,
@@ -210,21 +214,14 @@ public class APIController
                                  @RequestParam(required = false, defaultValue = "") String Hull,
                                  @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
                                  @RequestParam(required = false, defaultValue = "") String Torpedoes,
+                                 @RequestBody(required = false) HashMap<String, List> upgradesSkills,
                                  @RequestParam(required = false) List<String> modules) throws IllegalAccessException
     {
-        model.addAttribute("componentsData", getShipComponents(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules));
+        String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
+                + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
+
+        model.addAttribute("componentsData", apiService.getUpgradeSkillStats(key, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills).getShipComponents());
 
         return "consumablesPage";
-    }
-
-    private ShipComponents getShipComponents(String nation, String shipType, String ship, String ship_id, String Artillery, String DiveBomber, String Engine, String Fighter, String Suo, String FlightControl, String Hull, String TorpedoBomber, String Torpedoes, List<String> modules) throws IllegalAccessException
-    {
-        if (System.currentTimeMillis() - shipGPStart >= 30 * 60 * 1000)
-        {
-            gpService.shipGPCacheEvict();
-            shipGPStart = System.currentTimeMillis();
-        }
-
-        return gpService.setShipGP(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
     }
 }

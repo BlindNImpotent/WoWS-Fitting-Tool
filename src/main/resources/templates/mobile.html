@@ -20,8 +20,8 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
-    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=yes" />
-    <script th:src="@{/js/jquery/jquery-1.12.4.js}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
+    <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
     <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
     <script th:src="@{/js/accounting/accounting.js}"></script>
     <script>
@@ -39,11 +39,10 @@
 //                modal: true,
                 width: 520
             }).css("font-size", "8px");
-//
-//            $('#camouflage').dialog({
+
+//            $('#consumablesData').dialog({
 //                autoOpen: false,
-////                modal: true,
-//                width: 520
+//                width: 320
 //            }).css("font-size", "8px");
         });
     </script>
@@ -77,7 +76,7 @@
                 </li>
             </ul>
             <div>
-                <button id="changeDevice">Go PC</button>
+                <button id="changeDevice">Go Mobile</button>
             </div>
         </div>
     </div>
@@ -111,18 +110,26 @@
     </table>
 </div>
 <!--<div id="camouflage" class="ui-widget-content" title="Camouflage">-->
-    <!--<table id="camouflageTable" align="center">-->
-    <!--<tbody>-->
-            <!--<tr th:each="index : ${#numbers.sequence(0, data.exteriors.camouflage.size() - 1, 6)}" th:id="${index / 6}">-->
-                <!--<td th:each="camouflage : ${data.exteriors.camouflage}" th:if="${camouflageStat.index % 3} == ${index / 6}">-->
-                    <!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
-                        <!--<img th:src="${camouflage.value.image.small}"/><br />-->
-                        <!--<span th:text="${camouflage.value.name}"/>-->
-                    <!--</button>-->
-                <!--</td>-->
-            <!--</tr>-->
-        <!--</tbody>-->
-    <!--</table>-->
+<!--<table id="camouflageTable" align="center">-->
+<!--<tbody>-->
+<!--<tr>-->
+<!--<td th:each="camoflage : ${data.exteriors.Camouflage}">-->
+<!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
+<!--<img th:src="${camouflage.value.image.small}"/><br />-->
+<!--<span th:text="${camouflage.value.name}"/>-->
+<!--</button>-->
+<!--</td>-->
+<!--</tr>-->
+<!--<tr th:each="index : ${#numbers.sequence(0, data.exteriors.Camouflage.size() - 1, 6)}" th:id="${index / 6}">-->
+<!--<td th:each="camouflage : ${data.exteriors.Camouflage}" th:if="${camouflageStat.index % 3} == ${index / 6}">-->
+<!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
+<!--<img th:src="${camouflage.value.image.small}"/><br />-->
+<!--<span th:text="${camouflage.value.name}"/>-->
+<!--</button>-->
+<!--</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
 <!--</div>-->
 <main>
     <div class="container">
@@ -197,7 +204,7 @@
         var maxSpts = 19;
         var totalSpts = 0;
 
-        for (var i = 0; i < list.size(); i++)
+        for (var i = 0; i < list.length; i++)
         {
             var current = list.eq(i);
 
@@ -211,7 +218,7 @@
     {
         var list = $('.button_flag_selected');
         var maxPts = 8;
-        var totalPts = list.size();
+        var totalPts = list.length;
 
         document.getElementById('ui-id-2').innerText = 'Flags ' + totalPts.toString() + ' / ' + maxPts.toString();
     }
@@ -291,6 +298,14 @@
     $(document).on('click', '#showFlags', function () {
         $('#flags').dialog('open');
     });
+
+    //    $(document).on('click', '#showConsumables', function () {
+    //        $('#consumablesData').dialog('open');
+    //    });
+
+    //    $(document).on('click', '#showCamouflage', function () {
+    //        $('#camouflage').dialog('open');
+    //    });
 
     $(document).on('click', '#camouflageCheckbox', function () {
         callAPI();
@@ -378,7 +393,7 @@
 
             url = url + '&upgradeCompare=' + document.getElementById('upgradeCompareCheckBox').checked;
 
-            url = url + '&mobile=true';
+            url = url + '&mobile=false';
 
             $.ajax({
                 url: url,
@@ -405,9 +420,21 @@
                             success: function (data) {
                                 if (data != '')
                                 {
+                                    $.ajax({
+                                        url: gpServiceUrl.replace('shipAPI', 'shipComponents'),
+                                        type: 'get',
+                                        contentType: 'application/json',
+                                        success: function (data) {
+                                            if (data != '')
+                                            {
+                                                $('#consumablesData').replaceWith(data);
+                                            }
+                                        }
+                                    });
+
                                     if (data.artillery != null)
                                     {
-                                        var sigma ='' +  data.artillery.sigmaCount;
+                                        var sigma = '' +  data.artillery.sigmaCount;
 
                                         if (!sigma.includes('.'))
                                         {
@@ -488,7 +515,7 @@
 
         if (url.includes('mobile'))
         {
-            url = url.replace('mobile=true', 'mobile=' + mobile);
+            url = url.replace('mobile=false', 'mobile=' + mobile);
         }
         else
         {

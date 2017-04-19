@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
-    <script th:src="@{/js/jquery/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
     <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
     <script th:src="@{/js/accounting/accounting.js}"></script>
     <title>WoWS Fitting Tool by Aesis</title>
@@ -43,7 +43,7 @@
             <span style="padding: 1em;"></span>
             <button id="showCrewSkills" class="ui-button">Commander Skills</button>
             <button id="showFlags" class="ui-button">Flags</button>
-            <button id="showConsumables" class="ui-button">Consumables</button>
+            <!--<button id="showConsumables" class="ui-button">Consumables</button>-->
             <!--<button id="showCamouflage" class="ui-button">Camo</button>-->
             <input type="checkbox" id="camouflageCheckbox" th:checked="${camo}" th:text="'Camouflage'" th:title="'Decreases the firing accuracy of the enemy and reduces ship detectability.'"/>
             <!--<input type="checkbox" id="stockCompareCheckBox"/>Stock Comparison-->
@@ -80,6 +80,8 @@
                             </button>
                         </li>
                     </div>
+                </div>
+                <div id="consumablesData">
                 </div>
             </div>
         </div>

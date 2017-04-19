@@ -10,6 +10,7 @@ import WoWSSSC.model.WoWSAPI.shipprofile.profile.artillery.Artillery_Slots;
 import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
 import WoWSSSC.model.WoWSAPI.upgrade.UpgradeProfile;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
+import WoWSSSC.model.gameparams.Consumables.Consumable;
 import WoWSSSC.model.gameparams.Temporary;
 import WoWSSSC.parser.APIJsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,9 +18,6 @@ import com.rits.cloning.Cloner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -72,8 +70,9 @@ public class APIService
             String flight_control_id,
             String hull_id,
             String torpedo_bomber_id,
-            String torpedoes_id
-    ) throws IOException, ExecutionException, InterruptedException
+            String torpedoes_id,
+            List<String> modules
+    ) throws IOException, ExecutionException, InterruptedException, IllegalAccessException
     {
         if (!ship_id.equals(""))
         {
@@ -135,7 +134,7 @@ public class APIService
         }
     }
 
-    public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, String ship_id, HashMap<String, List> upgradesSkills)
+    public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, String ship_id, String artillery_id, String dive_bomber_id, String engine_id, String fighter_id, String fire_control_id, String flight_control_id, String hull_id, String torpedo_bomber_id, String torpedoes_id, List<String> modules, HashMap<String, List> upgradesSkills) throws IllegalAccessException
     {
         if (shipHashMap.get(key) == null)
         {
@@ -144,6 +143,10 @@ public class APIService
 
         Cloner cloner = new Cloner();
         Ship ship = cloner.deepClone(shipHashMap.get(key));
+
+        ShipComponents shipComponents = gpService.setShipGP(nation, shipType, shipName, ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id, modules);
+
+        ship.setShipComponents(shipComponents);
 
         setCustomValues(ship_id, ship);
 
@@ -372,7 +375,7 @@ public class APIService
                     }
                     else if (skill.get("type_id").equals("1"))
                     {
-                        System.out.println(Cache.ValueWrapper.class.getName());
+
                     }
                     else if (skill.get("type_id").equals("2"))
                     {
@@ -479,7 +482,7 @@ public class APIService
                     }
                     else if (skill.get("type_id").equals("5"))
                     {
-
+                        ship.getShipComponents().getAbilities().values().forEach(value -> mapper.convertValue(value, Consumable.class).getTypes().values().forEach(cType -> cType.setNumConsumables(cType.getNumConsumables() + 1)));
                     }
                     else if (skill.get("type_id").equals("6"))
                     {

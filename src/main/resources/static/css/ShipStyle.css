@@ -723,7 +723,7 @@ table
     position: relative;
 }
 
-.consumablesData
+.consumables
 {
     display: inline-block;
     text-align: center;
@@ -733,12 +733,13 @@ table
 
 #consumablesData
 {
+    display: inline-block;
     text-align: center;
     vertical-align: top;
 }
 
 #consumablesData img
 {
-    width: 30px;
+    width: 40px;
     margin-bottom: 0px;
 }

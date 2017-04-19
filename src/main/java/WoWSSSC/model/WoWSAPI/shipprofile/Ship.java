@@ -1,5 +1,6 @@
 package WoWSSSC.model.WoWSAPI.shipprofile;
 
+import WoWSSSC.model.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.profile.*;
 import lombok.Data;
 
@@ -30,4 +31,6 @@ public class Ship
 
     private float burn = 60f;
     private float flood = 90f;
+
+    private ShipComponents shipComponents;
 }

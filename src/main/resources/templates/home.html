@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
-    <script th:src="@{/js/jquery/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
     <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
     <script th:src="@{/js/accounting/accounting.js}"></script>
     <script>
@@ -42,7 +42,7 @@
 
 //            $('#consumablesData').dialog({
 //                autoOpen: false,
-//                width: 330,
+//                width: 320
 //            }).css("font-size", "8px");
         });
     </script>
@@ -137,8 +137,6 @@
         </div>
         <div class="shipAPIData">
         </div>
-        <div id="consumablesData">
-        </div>
     </div>
 </main>
 <script th:inline="javascript">
@@ -206,7 +204,7 @@
         var maxSpts = 19;
         var totalSpts = 0;
 
-        for (var i = 0; i < list.size(); i++)
+        for (var i = 0; i < list.length; i++)
         {
             var current = list.eq(i);
 
@@ -220,7 +218,7 @@
     {
         var list = $('.button_flag_selected');
         var maxPts = 8;
-        var totalPts = list.size();
+        var totalPts = list.length;
 
         document.getElementById('ui-id-2').innerText = 'Flags ' + totalPts.toString() + ' / ' + maxPts.toString();
     }
@@ -301,9 +299,9 @@
         $('#flags').dialog('open');
     });
 
-    $(document).on('click', '#showConsumables', function () {
-        $('#consumablesData').dialog('open');
-    });
+//    $(document).on('click', '#showConsumables', function () {
+//        $('#consumablesData').dialog('open');
+//    });
 
 //    $(document).on('click', '#showCamouflage', function () {
 //        $('#camouflage').dialog('open');
@@ -356,8 +354,6 @@
 
                 url = url + modifier + type + equals + moduleId;
             }
-
-            var gpServiceUrl = url;
 
             for (var i = 0; i < selectedUpgrades.length; i++)
             {
@@ -416,17 +412,19 @@
 //                        console.log(gpServiceUrl.replace('shipAPI', 'gpService'));
 
                         $.ajax({
-                            url: gpServiceUrl.replace('shipAPI', 'gpService'),
-                            type: 'get',
+                            url: url.replace('shipAPI', 'gpService'),
+                            type: 'post',
                             contentType: "application/json",
+                            data: JSON.stringify(upgradesSkills),
                             success: function (data) {
                                 if (data != '')
                                 {
                                     console.log(data);
                                     $.ajax({
-                                        url: gpServiceUrl.replace('shipAPI', 'shipComponents'),
-                                        type: 'get',
+                                        url: url.replace('shipAPI', 'shipComponents'),
+                                        type: 'post',
                                         contentType: 'application/json',
+                                        data: JSON.stringify(upgradesSkills),
                                         success: function (data) {
                                             if (data != '')
                                             {

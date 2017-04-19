@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div id="consumablesData" th:fragment="consumablesData" th:unless="${componentsData == null}">
-    <div class="consumablesData" th:each="ability : ${componentsData.shipAbilities}">
+<div id="consumablesData" title="Consumables" th:fragment="consumablesData" th:unless="${componentsData.shipAbilities == null}">
+    <div class="consumables" th:each="ability : ${componentsData.shipAbilities}">
         <th:block th:each="consumable : ${ability.AbilitySlot0.abils}">
             <th:block th:each="abil : ${componentsData.abilities}" th:if="${abil.key == consumable[0]}">
                 <li th:each="value : ${abil.value}" th:if="${value.key == consumable[1]}">
@@ -13,7 +13,7 @@
             </th:block>
         </th:block>
     </div>
-    <div class="consumablesData" th:each="ability : ${componentsData.shipAbilities}">
+    <div class="consumables" th:each="ability : ${componentsData.shipAbilities}">
         <th:block th:each="consumable : ${ability.AbilitySlot1.abils}">
             <th:block th:each="abil : ${componentsData.abilities}" th:if="${abil.key == consumable[0]}">
                 <li th:each="value : ${abil.value}" th:if="${value.key == consumable[1]}">
@@ -25,7 +25,7 @@
             </th:block>
         </th:block>
     </div>
-    <div class="consumablesData" th:each="ability : ${componentsData.shipAbilities}">
+    <div class="consumables" th:each="ability : ${componentsData.shipAbilities}">
         <th:block th:each="consumable : ${ability.AbilitySlot2.abils}">
             <th:block th:each="abil : ${componentsData.abilities}" th:if="${abil.key == consumable[0]}">
                 <li th:each="value : ${abil.value}" th:if="${value.key == consumable[1]}">
@@ -37,7 +37,7 @@
             </th:block>
         </th:block>
     </div>
-    <div class="consumablesData" th:each="ability : ${componentsData.shipAbilities}">
+    <div class="consumables" th:each="ability : ${componentsData.shipAbilities}">
         <th:block th:each="consumable : ${ability.AbilitySlot3.abils}">
             <th:block th:each="abil : ${componentsData.abilities}" th:if="${abil.key == consumable[0]}">
                 <li th:each="value : ${abil.value}" th:if="${value.key == consumable[1]}">
