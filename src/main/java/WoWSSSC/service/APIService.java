@@ -376,7 +376,18 @@ public class APIService
                     }
                     else if (skill.get("type_id").equals("1"))
                     {
+                        HashMap<String, Consumable> tempAbilities = new HashMap<>();
 
+                        ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                        {
+                            Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+
+                            tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * 0.95f));
+
+                            tempAbilities.put(entry.getKey(), tempConsumable);
+                        });
+
+                        ship.getShipComponents().setAbilities(tempAbilities);
                     }
                     else if (skill.get("type_id").equals("2"))
                     {
@@ -437,6 +448,22 @@ public class APIService
                         {
                             ship.setFlood(ship.getFlood() * 0.85f);
                         }
+
+                        HashMap<String, Consumable> tempAbilities = new HashMap<>();
+
+                        ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                        {
+                            Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+
+                            if (tempConsumable.getName().contains("CrashCrew"))
+                            {
+                                tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * 0.85f));
+                            }
+
+                            tempAbilities.put(entry.getKey(), tempConsumable);
+                        });
+
+                        ship.getShipComponents().setAbilities(tempAbilities);
                     }
                     else if (skill.get("type_id").equals("1"))
                     {

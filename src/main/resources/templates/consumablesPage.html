@@ -7,8 +7,8 @@
                 <li th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}">
                     <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
                     <span th:text="'Count: ' + ${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
-                    <span th:text="'Duration: ' + ${type.value.workTime} + ' s'"/><br />
-                    <span th:text="'Reload: ' + ${type.value.reloadTime} + ' s'"/>
+                    <span th:text="'Duration: ' + ${#numbers.formatInteger(type.value.workTime, 1)} + ' s'"/><br />
+                    <span th:text="'Reload: ' + ${#numbers.formatInteger(type.value.reloadTime, 1)} + ' s'"/>
                 </li>
             </th:block>
         </th:block>
@@ -19,8 +19,8 @@
                 <li th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}">
                     <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
                     <span th:text="'Count: ' + ${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
-                    <span th:text="'Duration: ' + ${type.value.workTime} + ' s'"/><br />
-                    <span th:text="'Reload: ' + ${type.value.reloadTime} + ' s'"/>
+                    <span th:text="'Duration: ' + ${#numbers.formatInteger(type.value.workTime, 1)} + ' s'"/><br />
+                    <span th:text="'Reload: ' + ${#numbers.formatInteger(type.value.reloadTime, 1)} + ' s'"/>
                 </li>
             </th:block>
         </th:block>
@@ -31,8 +31,8 @@
                 <li th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}">
                     <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
                     <span th:text="'Count: ' + ${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
-                    <span th:text="'Duration: ' + ${type.value.workTime} + ' s'"/><br />
-                    <span th:text="'Reload: ' + ${type.value.reloadTime} + ' s'"/>
+                    <span th:text="'Duration: ' + ${#numbers.formatInteger(type.value.workTime, 1)} + ' s'"/><br />
+                    <span th:text="'Reload: ' + ${#numbers.formatInteger(type.value.reloadTime, 1)} + ' s'"/>
                 </li>
             </th:block>
         </th:block>
@@ -43,8 +43,8 @@
                 <li th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}">
                     <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
                     <span th:text="'Count: ' + ${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
-                    <span th:text="'Duration: ' + ${type.value.workTime} + ' s'"/><br />
-                    <span th:text="'Reload: ' + ${type.value.reloadTime} + ' s'"/>
+                    <span th:text="'Duration: ' + ${#numbers.formatInteger(type.value.workTime, 1)} + ' s'"/><br />
+                    <span th:text="'Reload: ' + ${#numbers.formatInteger(type.value.reloadTime, 1)} + ' s'"/>
                 </li>
             </th:block>
         </th:block>

@@ -355,8 +355,6 @@
                 url = url + modifier + type + equals + moduleId;
             }
 
-            var gpServiceUrl = url;
-
             for (var i = 0; i < selectedUpgrades.length; i++)
             {
                 var upgradeId = selectedUpgrades[i].getAttribute('id');
@@ -414,16 +412,19 @@
 //                        console.log(gpServiceUrl.replace('shipAPI', 'gpService'));
 
                         $.ajax({
-                            url: gpServiceUrl.replace('shipAPI', 'gpService'),
-                            type: 'get',
+                            url: url.replace('shipAPI', 'gpService'),
+                            type: 'post',
                             contentType: "application/json",
+                            data: JSON.stringify(upgradesSkills),
                             success: function (data) {
                                 if (data != '')
                                 {
+//                                    console.log(data);
                                     $.ajax({
-                                        url: gpServiceUrl.replace('shipAPI', 'shipComponents'),
-                                        type: 'get',
+                                        url: url.replace('shipAPI', 'shipComponents'),
+                                        type: 'post',
                                         contentType: 'application/json',
+                                        data: JSON.stringify(upgradesSkills),
                                         success: function (data) {
                                             if (data != '')
                                             {
