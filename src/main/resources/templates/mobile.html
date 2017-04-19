@@ -76,7 +76,7 @@
                 </li>
             </ul>
             <div>
-                <button id="changeDevice">Go Mobile</button>
+                <button id="changeDevice">Go PC</button>
             </div>
         </div>
     </div>
@@ -391,7 +391,7 @@
 
             url = url + '&upgradeCompare=' + document.getElementById('upgradeCompareCheckBox').checked;
 
-            url = url + '&mobile=false';
+            url = url + '&mobile=true';
 
             $.ajax({
                 url: url,
