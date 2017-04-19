@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -134,7 +135,7 @@ public class APIService
         }
     }
 
-    public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, String ship_id, String artillery_id, String dive_bomber_id, String engine_id, String fighter_id, String fire_control_id, String flight_control_id, String hull_id, String torpedo_bomber_id, String torpedoes_id, List<String> modules, HashMap<String, List> upgradesSkills) throws IllegalAccessException
+    public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, String ship_id, String artillery_id, String dive_bomber_id, String engine_id, String fighter_id, String fire_control_id, String flight_control_id, String hull_id, String torpedo_bomber_id, String torpedoes_id, List<String> modules, HashMap<String, List> upgradesSkills) throws Exception
     {
         if (shipHashMap.get(key) == null)
         {
@@ -482,7 +483,18 @@ public class APIService
                     }
                     else if (skill.get("type_id").equals("5"))
                     {
-                        ship.getShipComponents().getAbilities().values().forEach(value -> mapper.convertValue(value, Consumable.class).getTypes().values().forEach(cType -> cType.setNumConsumables(cType.getNumConsumables() + 1)));
+                        HashMap<String, Consumable> tempAbilities = new HashMap<>();
+
+                        ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                        {
+                            Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+
+                            tempConsumable.getTypes().values().forEach(cType -> cType.setNumConsumables(cType.getNumConsumables() + 1));
+
+                            tempAbilities.put(entry.getKey(), tempConsumable);
+                        });
+
+                        ship.getShipComponents().setAbilities(tempAbilities);
                     }
                     else if (skill.get("type_id").equals("6"))
                     {

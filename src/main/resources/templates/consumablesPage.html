@@ -4,11 +4,11 @@
     <div class="consumables" th:each="ability : ${componentsData.shipAbilities}">
         <th:block th:each="consumable : ${ability.AbilitySlot0.abils}">
             <th:block th:each="abil : ${componentsData.abilities}" th:if="${abil.key == consumable[0]}">
-                <li th:each="value : ${abil.value}" th:if="${value.key == consumable[1]}">
+                <li th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}">
                     <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
-                    <span th:text="'Count: ' + ${value.value.numConsumables == -1 or value.value.numConsumables == 0 ? 'Infinite' : value.value.numConsumables}"/><br />
-                    <span th:text="'Duration: ' + ${value.value.workTime} + ' s'"/><br />
-                    <span th:text="'Reload: ' + ${value.value.reloadTime} + ' s'"/>
+                    <span th:text="'Count: ' + ${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
+                    <span th:text="'Duration: ' + ${type.value.workTime} + ' s'"/><br />
+                    <span th:text="'Reload: ' + ${type.value.reloadTime} + ' s'"/>
                 </li>
             </th:block>
         </th:block>
@@ -16,11 +16,11 @@
     <div class="consumables" th:each="ability : ${componentsData.shipAbilities}">
         <th:block th:each="consumable : ${ability.AbilitySlot1.abils}">
             <th:block th:each="abil : ${componentsData.abilities}" th:if="${abil.key == consumable[0]}">
-                <li th:each="value : ${abil.value}" th:if="${value.key == consumable[1]}">
+                <li th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}">
                     <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
-                    <span th:text="'Count: ' + ${value.value.numConsumables == -1 or value.value.numConsumables == 0 ? 'Infinite' : value.value.numConsumables}"/><br />
-                    <span th:text="'Duration: ' + ${value.value.workTime} + ' s'"/><br />
-                    <span th:text="'Reload: ' + ${value.value.reloadTime} + ' s'"/>
+                    <span th:text="'Count: ' + ${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
+                    <span th:text="'Duration: ' + ${type.value.workTime} + ' s'"/><br />
+                    <span th:text="'Reload: ' + ${type.value.reloadTime} + ' s'"/>
                 </li>
             </th:block>
         </th:block>
@@ -28,11 +28,11 @@
     <div class="consumables" th:each="ability : ${componentsData.shipAbilities}">
         <th:block th:each="consumable : ${ability.AbilitySlot2.abils}">
             <th:block th:each="abil : ${componentsData.abilities}" th:if="${abil.key == consumable[0]}">
-                <li th:each="value : ${abil.value}" th:if="${value.key == consumable[1]}">
+                <li th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}">
                     <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
-                    <span th:text="'Count: ' + ${value.value.numConsumables == -1 or value.value.numConsumables == 0 ? 'Infinite' : value.value.numConsumables}"/><br />
-                    <span th:text="'Duration: ' + ${value.value.workTime} + ' s'"/><br />
-                    <span th:text="'Reload: ' + ${value.value.reloadTime} + ' s'"/>
+                    <span th:text="'Count: ' + ${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
+                    <span th:text="'Duration: ' + ${type.value.workTime} + ' s'"/><br />
+                    <span th:text="'Reload: ' + ${type.value.reloadTime} + ' s'"/>
                 </li>
             </th:block>
         </th:block>
@@ -40,11 +40,11 @@
     <div class="consumables" th:each="ability : ${componentsData.shipAbilities}">
         <th:block th:each="consumable : ${ability.AbilitySlot3.abils}">
             <th:block th:each="abil : ${componentsData.abilities}" th:if="${abil.key == consumable[0]}">
-                <li th:each="value : ${abil.value}" th:if="${value.key == consumable[1]}">
+                <li th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}">
                     <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
-                    <span th:text="'Count: ' + ${value.value.numConsumables == -1 or value.value.numConsumables == 0 ? 'Infinite' : value.value.numConsumables}"/><br />
-                    <span th:text="'Duration: ' + ${value.value.workTime} + ' s'"/><br />
-                    <span th:text="'Reload: ' + ${value.value.reloadTime} + ' s'"/>
+                    <span th:text="'Count: ' + ${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
+                    <span th:text="'Duration: ' + ${type.value.workTime} + ' s'"/><br />
+                    <span th:text="'Reload: ' + ${type.value.reloadTime} + ' s'"/>
                 </li>
             </th:block>
         </th:block>

@@ -1,5 +1,6 @@
 package WoWSSSC.model;
 
+import WoWSSSC.model.gameparams.Consumables.Consumable;
 import WoWSSSC.model.gameparams.test.Values.ShipAbilities.ShipAbilities;
 import lombok.Data;
 
@@ -29,5 +30,5 @@ public class ShipComponents
     private LinkedHashMap<String, LinkedHashMap> torpedoBomber;
 
     private ShipAbilities shipAbilities;
-    private HashMap<String, HashMap> abilities = new HashMap<>();
+    private HashMap<String, Consumable> abilities = new HashMap<>();
 }

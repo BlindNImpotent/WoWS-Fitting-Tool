@@ -3,6 +3,7 @@ package WoWSSSC.service;
 import WoWSSSC.model.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
+import WoWSSSC.model.gameparams.Consumables.Consumable;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.ShipUpgradeInfo;
 import WoWSSSC.model.gameparams.Temporary;
 import WoWSSSC.model.gameparams.test.Values.ShipAbilities.ShipAbilities;
@@ -143,23 +144,23 @@ public class GPService
     {
         ShipAbilities shipAbilities = mapper.convertValue(gameParamsCHM.get(ship_id), Temporary.class).getShipAbilities();
 
-        HashMap<String, HashMap> abilities = new HashMap<>();
+        HashMap<String, Consumable> abilities = new HashMap<>();
 
         shipAbilities.getAbilitySlot0().getAbils().forEach(list ->
         {
-            abilities.put(list.get(0), gameParamsCHM.get(list.get(0)));
+            abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
         });
         shipAbilities.getAbilitySlot1().getAbils().forEach(list ->
         {
-            abilities.put(list.get(0), gameParamsCHM.get(list.get(0)));
+            abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
         });
         shipAbilities.getAbilitySlot2().getAbils().forEach(list ->
         {
-            abilities.put(list.get(0), gameParamsCHM.get(list.get(0)));
+            abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
         });
         shipAbilities.getAbilitySlot3().getAbils().forEach(list ->
         {
-            abilities.put(list.get(0), gameParamsCHM.get(list.get(0)));
+            abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
         });
 
         shipComponents.setShipAbilities(shipAbilities);

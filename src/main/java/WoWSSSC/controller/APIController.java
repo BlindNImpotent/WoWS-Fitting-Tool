@@ -144,7 +144,7 @@ public class APIController
                     @RequestParam(required = false, defaultValue = "false") boolean stockCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean upgradeCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean mobile
-            ) throws ExecutionException, InterruptedException, IOException, IllegalAccessException
+            ) throws Exception
     {
         if (!ship_id.equals(""))
         {
@@ -191,7 +191,7 @@ public class APIController
             @RequestParam(required = false, defaultValue = "") String Torpedoes,
             @RequestBody(required = false) HashMap<String, List> upgradesSkills,
             @RequestParam(required = false) List<String> modules
-    ) throws IllegalAccessException
+    ) throws Exception
     {
         String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
                 + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
@@ -215,7 +215,7 @@ public class APIController
                                  @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
                                  @RequestParam(required = false, defaultValue = "") String Torpedoes,
                                  @RequestBody(required = false) HashMap<String, List> upgradesSkills,
-                                 @RequestParam(required = false) List<String> modules) throws IllegalAccessException
+                                 @RequestParam(required = false) List<String> modules) throws Exception
     {
         String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
                 + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
