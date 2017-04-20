@@ -213,10 +213,7 @@ public class AsyncHashMap implements CommandLineRunner
         LinkedHashMap<String, Consumables> tempUpgrades = new LinkedHashMap<>();
         consumablesData.get().getData().entrySet().forEach(entry ->
         {
-            if (entry.getValue().getType().equals("Modernization"))
-            {
-                tempUpgrades.put(entry.getKey(), entry.getValue());
-            }
+            tempUpgrades.put(entry.getKey(), entry.getValue());
         });
 
         LinkedHashMap<String, LinkedHashMap> tempExteriors = new LinkedHashMap<>();
@@ -237,6 +234,10 @@ public class AsyncHashMap implements CommandLineRunner
             else if (entry.getValue().getType().equals("Permoflage"))
             {
                 tempPermoflage.put(entry.getKey(), entry.getValue());
+            }
+            else if (entry.getValue().getType().equals("Modernization"))
+            {
+                tempUpgrades.put(entry.getKey(), entry.getValue());
             }
         });
 

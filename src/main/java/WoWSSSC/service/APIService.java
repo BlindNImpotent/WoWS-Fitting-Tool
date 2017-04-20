@@ -559,12 +559,71 @@ public class APIService
 
         if (ship.getArtillery() != null)
         {
+            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
+            int caliber = Integer.parseInt(splitName[0].trim());
 
+            if (consumables.getProfile().getBurnChanceFactorBig() != null)
+            {
+                if (caliber >= 160)
+                {
+                    ship.getArtillery().getShells().values().forEach(value ->
+                    {
+                        if (value != null && value.getBurn_probability() != 0)
+                        {
+                            value.setBurn_probability(value.getBurn_probability() + consumables.getProfile().getBurnChanceFactorBig().getValue());
+                        }
+                    });
+                }
+            }
+
+            if (consumables.getProfile().getBurnChanceFactorSmall() != null)
+            {
+                if (caliber < 160)
+                {
+                    ship.getArtillery().getShells().values().forEach(value ->
+                    {
+                        if (value != null && value.getBurn_probability() != 0)
+                        {
+                            value.setBurn_probability(value.getBurn_probability() + consumables.getProfile().getBurnChanceFactorBig().getValue());
+                        }
+                    });
+                }
+            }
+
+            if (consumables.getProfile().getGMIdealRadius() != null)
+            {
+                ship.getArtillery().setMax_dispersion(ship.getArtillery().getMax_dispersion() * consumables.getProfile().getGMIdealRadius().getValue());
+            }
+
+            if (consumables.getProfile().getGMMaxDist() != null)
+            {
+                float tempRatio = ship.getArtillery().getDistance() / ship.getArtillery().getMax_dispersion();
+                ship.getArtillery().setDistance(ship.getArtillery().getDistance() * consumables.getProfile().getGMMaxDist().getValue());
+                ship.getArtillery().setMax_dispersion(ship.getArtillery().getDistance() / tempRatio);
+            }
+
+            if (consumables.getProfile().getGMRotationSpeed() != null)
+            {
+                ship.getArtillery().setRotation_time(ship.getArtillery().getRotation_time() / consumables.getProfile().getGMRotationSpeed().getValue());
+            }
+
+            if (consumables.getProfile().getGMShotDelay() != null)
+            {
+                ship.getArtillery().setGun_rate(ship.getArtillery().getGun_rate() / consumables.getProfile().getGMShotDelay().getValue());
+            }
         }
 
         if (ship.getAtbas() != null)
         {
+            if (consumables.getProfile().getGSMaxDist() != null)
+            {
+                ship.getAtbas().setDistance(ship.getAtbas().getDistance() * consumables.getProfile().getGSMaxDist().getValue());
+            }
 
+            if (consumables.getProfile().getGSShotDelay() != null)
+            {
+                ship.getAtbas().getSlots().values().forEach(sg -> sg.setShot_delay(sg.getShot_delay() * consumables.getProfile().getGSShotDelay().getValue()));
+            }
         }
 
         if (ship.getConcealment() != null)
@@ -582,6 +641,16 @@ public class APIService
             {
                 ship.getDive_bomber().setGunner_damage(ship.getDive_bomber().getGunner_damage() * ship.getDive_bomber().getGunner_damage());
             }
+
+            if (consumables.getProfile().getAirplanesPrepareTime() != null)
+            {
+                ship.getDive_bomber().setPrepare_time(ship.getDive_bomber().getPrepare_time() * consumables.getProfile().getAirplanesPrepareTime().getValue());
+            }
+
+            if (consumables.getProfile().getAirplanesSpeed() != null)
+            {
+                ship.getDive_bomber().setCruise_speed(ship.getDive_bomber().getCruise_speed() * consumables.getProfile().getAirplanesSpeed().getValue());
+            }
         }
 
         if (ship.getEngine() != null)
@@ -591,7 +660,15 @@ public class APIService
 
         if (ship.getFighters() != null)
         {
+            if (consumables.getProfile().getAirplanesPrepareTime() != null)
+            {
+                ship.getFighters().setPrepare_time(ship.getDive_bomber().getPrepare_time() * consumables.getProfile().getAirplanesPrepareTime().getValue());
+            }
 
+            if (consumables.getProfile().getAirplanesSpeed() != null)
+            {
+                ship.getFighters().setCruise_speed(ship.getDive_bomber().getCruise_speed() * consumables.getProfile().getAirplanesSpeed().getValue());
+            }
         }
 
         if (ship.getFire_control() != null)
@@ -611,27 +688,52 @@ public class APIService
 
         if (ship.getMobility() != null)
         {
+            if (consumables.getProfile().getSpeedCoef() != null)
+            {
+                ship.getMobility().setMax_speed(ship.getMobility().getMax_speed() * consumables.getProfile().getSpeedCoef().getValue());
+            }
 
+            if (consumables.getProfile().getSGRudderTime() != null)
+            {
+                ship.getMobility().setRudder_time(ship.getMobility().getRudder_time() * consumables.getProfile().getSGRudderTime().getValue());
+            }
         }
 
         if (ship.getTorpedo_bomber() != null)
         {
+            if (consumables.getProfile().getAirplanesPrepareTime() != null)
+            {
+                ship.getTorpedo_bomber().setPrepare_time(ship.getDive_bomber().getPrepare_time() * consumables.getProfile().getAirplanesPrepareTime().getValue());
+            }
 
+            if (consumables.getProfile().getAirplanesSpeed() != null)
+            {
+                ship.getTorpedo_bomber().setCruise_speed(ship.getDive_bomber().getCruise_speed() * consumables.getProfile().getAirplanesSpeed().getValue());
+            }
         }
 
         if (ship.getTorpedoes() != null)
         {
-
+            if (consumables.getProfile().getGTShotDelay() != null)
+            {
+                ship.getTorpedoes().setReload_time(ship.getTorpedoes().getReload_time() * consumables.getProfile().getGTShotDelay().getValue());
+            }
         }
 
         if (ship.getBurn() > 0)
         {
-
+            if (consumables.getProfile().getBurnTime() != null)
+            {
+                ship.setBurn(ship.getBurn() * consumables.getProfile().getBurnTime().getValue());
+            }
         }
 
         if (ship.getFlood() > 0)
         {
-
+            if (consumables.getProfile().getFloodTime() != null)
+            {
+                ship.setFlood(ship.getFlood() * consumables.getProfile().getFloodTime().getValue());
+            }
         }
 
         if (ship.getShipComponents() != null)
@@ -650,6 +752,125 @@ public class APIService
                 });
 
                 ship.getShipComponents().setAbilities(tempAbilities);
+            }
+
+            if (consumables.getProfile().getAirDefenseDispWorkTime() != null)
+            {
+                HashMap<String, Consumable> tempAbilities = new HashMap<>();
+
+                ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                {
+                    Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+
+                    if (tempConsumable.getName().contains("AirDefenseDisp"))
+                    {
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
+                    }
+
+                    tempAbilities.put(entry.getKey(), tempConsumable);
+                });
+            }
+
+            if (consumables.getProfile().getCrashCrewWorkTime() != null)
+            {
+                HashMap<String, Consumable> tempAbilities = new HashMap<>();
+
+                ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                {
+                    Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+
+                    if (tempConsumable.getName().contains("CrashCrew"))
+                    {
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
+                    }
+
+                    tempAbilities.put(entry.getKey(), tempConsumable);
+                });
+            }
+
+            if (consumables.getProfile().getRlsSearchWorkTime() != null)
+            {
+                HashMap<String, Consumable> tempAbilities = new HashMap<>();
+
+                ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                {
+                    Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+
+                    if (tempConsumable.getName().contains("RLSSearch"))
+                    {
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
+                    }
+
+                    tempAbilities.put(entry.getKey(), tempConsumable);
+                });
+            }
+
+            if (consumables.getProfile().getSmokeGeneratorWorkTime() != null)
+            {
+                HashMap<String, Consumable> tempAbilities = new HashMap<>();
+
+                ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                {
+                    Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+
+                    if (tempConsumable.getName().contains("SmokeGenerator"))
+                    {
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
+                    }
+
+                    tempAbilities.put(entry.getKey(), tempConsumable);
+                });
+            }
+
+            if (consumables.getProfile().getScoutWorkTime() != null)
+            {
+                HashMap<String, Consumable> tempAbilities = new HashMap<>();
+
+                ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                {
+                    Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+
+                    if (tempConsumable.getName().contains("Spotter"))
+                    {
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
+                    }
+
+                    tempAbilities.put(entry.getKey(), tempConsumable);
+                });
+            }
+
+            if (consumables.getProfile().getSonarSearchWorkTime() != null)
+            {
+                HashMap<String, Consumable> tempAbilities = new HashMap<>();
+
+                ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                {
+                    Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+
+                    if (tempConsumable.getName().contains("SonarSearch"))
+                    {
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
+                    }
+
+                    tempAbilities.put(entry.getKey(), tempConsumable);
+                });
+            }
+
+            if (consumables.getProfile().getSpeedBoosterWorkTime() != null)
+            {
+                HashMap<String, Consumable> tempAbilities = new HashMap<>();
+
+                ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                {
+                    Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+
+                    if (tempConsumable.getName().contains("SpeedBooster"))
+                    {
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
+                    }
+
+                    tempAbilities.put(entry.getKey(), tempConsumable);
+                });
             }
         }
     }
