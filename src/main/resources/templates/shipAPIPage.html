@@ -24,8 +24,8 @@
                 <span style="float: right;" th:if="${configurationAPI != null and shipAPI.hull.health - configurationAPI.hull.health != 0}" th:text="${shipAPI.hull.health - configurationAPI.hull.health > 0 ? ' (+' + #numbers.formatInteger(shipAPI.hull.health - configurationAPI.hull.health, 0, 'COMMA') + ')' : ' (' + #numbers.formatInteger(shipAPI.hull.health - configurationAPI.hull.health, 0, 'COMMA') + ')'}"/>
                 <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health, 0, 'COMMA')}"/><br />
                 Armour<span style="float: right;padding-left: 4em;" th:text="${shipAPI.hull.range.min} + ' ~ ' + ${shipAPI.hull.range.max} + ' mm'"/><br />
-                - Bow<span style="float: right;padding-left: 4em;" th:if="${shipAPI.armour.extremities != null}" th:text="${shipAPI.armour.extremities.max} + ' mm'"/><br />
-                <span th:text="'- Citadel'" th:if="${shipAPI.armour.citadel.max > 0}"/><span style="float: right;padding-left: 4em;" th:if="${shipAPI.armour.citadel.max > 0}" th:text="${shipAPI.armour.citadel.max} + ' mm'"/><br th:if="${shipAPI.armour.citadel.max > 0}"/>
+                - Bow<span style="float: right;padding-left: 4em;" th:if="${shipAPI.armour.extremities != null}" th:text="${shipAPI.armour.extremities.min} + ' ~ ' + ${shipAPI.armour.extremities.max} + ' mm'"/><br />
+                <span th:text="'- Citadel'" th:if="${shipAPI.armour.citadel.max > 0}"/><span style="float: right;padding-left: 4em;" th:if="${shipAPI.armour.citadel.min} + ' ~ ' + ${shipAPI.armour.citadel.max > 0}" th:text="${shipAPI.armour.citadel.max} + ' mm'"/><br th:if="${shipAPI.armour.citadel.max > 0}"/>
                 Burn
                 <span style="float: right;" th:if="${configurationAPI != null and shipAPI.burn - configurationAPI.burn != 0}" th:text="${shipAPI.burn - configurationAPI.burn > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.burn - configurationAPI.burn, 0, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.burn - configurationAPI.burn, 0, 1) + ')'}"/>
                 <span style="float: right" th:text="${#numbers.formatDecimal(shipAPI.burn, 0, 1)} + ' s'"/><br />
