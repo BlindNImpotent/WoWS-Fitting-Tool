@@ -476,7 +476,9 @@ public class APIService
 
                             if (caliber <= 139)
                             {
+                                float tempRatio = ship.getArtillery().getDistance() / ship.getArtillery().getMax_dispersion();
                                 ship.getArtillery().setDistance(ship.getArtillery().getDistance() * 1.2f);
+                                ship.getArtillery().setMax_dispersion(ship.getArtillery().getDistance() / tempRatio);
                             }
                         }
                         if (ship.getAtbas() != null)
@@ -662,12 +664,12 @@ public class APIService
         {
             if (consumables.getProfile().getAirplanesPrepareTime() != null)
             {
-                ship.getFighters().setPrepare_time(ship.getDive_bomber().getPrepare_time() * consumables.getProfile().getAirplanesPrepareTime().getValue());
+                ship.getFighters().setPrepare_time(ship.getFighters().getPrepare_time() * consumables.getProfile().getAirplanesPrepareTime().getValue());
             }
 
             if (consumables.getProfile().getAirplanesSpeed() != null)
             {
-                ship.getFighters().setCruise_speed(ship.getDive_bomber().getCruise_speed() * consumables.getProfile().getAirplanesSpeed().getValue());
+                ship.getFighters().setCruise_speed(ship.getFighters().getCruise_speed() * consumables.getProfile().getAirplanesSpeed().getValue());
             }
         }
 
@@ -703,12 +705,12 @@ public class APIService
         {
             if (consumables.getProfile().getAirplanesPrepareTime() != null)
             {
-                ship.getTorpedo_bomber().setPrepare_time(ship.getDive_bomber().getPrepare_time() * consumables.getProfile().getAirplanesPrepareTime().getValue());
+                ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * consumables.getProfile().getAirplanesPrepareTime().getValue());
             }
 
             if (consumables.getProfile().getAirplanesSpeed() != null)
             {
-                ship.getTorpedo_bomber().setCruise_speed(ship.getDive_bomber().getCruise_speed() * consumables.getProfile().getAirplanesSpeed().getValue());
+                ship.getTorpedo_bomber().setCruise_speed(ship.getTorpedo_bomber().getCruise_speed() * consumables.getProfile().getAirplanesSpeed().getValue());
             }
         }
 
