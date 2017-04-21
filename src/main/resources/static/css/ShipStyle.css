@@ -762,8 +762,8 @@ table
     font-size: 8px;
     min-width: 140px;
     max-width: 140px;
-    min-height: 140px;
-    max-height: 140px;
+    min-height: 100px;
+    max-height: 100px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -774,4 +774,73 @@ table
 {
     width: 120px;
     margin-bottom: 0px;
+}
+
+.button_nation
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 8px;
+    /*min-width: 140px;*/
+    /*max-width: 140px;*/
+    /*min-height: 140px;*/
+    /*max-height: 140px;*/
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+    margin: 2px;
+}
+
+.button_nation img
+{
+    /*width: 120px;*/
+    margin-bottom: 0px;
+}
+
+.button_ship_tree_empty
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 8px;
+    min-width: 140px;
+    max-width: 140px;
+    min-height: 100px;
+    max-height: 100px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+    margin: 2px;
+}
+
+.button_ship_tree_selected img
+{
+    width: 120px;
+    margin-bottom: 0px;
+}
+
+.button_ship_tree_selected
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 8px;
+    min-width: 140px;
+    max-width: 140px;
+    min-height: 100px;
+    max-height: 100px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+    margin: 2px;
 }

@@ -46,6 +46,8 @@ public class AsyncHashMap implements CommandLineRunner
 
     private ObjectMapper mapper = new ObjectMapper();
 
+    private LinkedHashMap<String, Warship> rawShipData = new LinkedHashMap<>();
+
     @Override
     public void run(String... strings) throws Exception
     {
@@ -70,7 +72,7 @@ public class AsyncHashMap implements CommandLineRunner
                     {
                         if (String.valueOf(tempWarship.getShip_id()).equals(shipKey))
                         {
-                            Warship tempWS = new Warship(warship.getNation(), warship.getType(), warship.getName(), warship.getImages(), null);
+                            Warship tempWS = new Warship(warship.getNation(), warship.getType(), warship.getName(), warship.getImages(), null).setTier(warship.getTier()).setShip_id(warship.getShip_id());
                             tempWarship.setPrevWarship(tempWS);
                         }
                     });
@@ -114,6 +116,23 @@ public class AsyncHashMap implements CommandLineRunner
                     shipType.getValue().get().getData().entrySet().forEach(warship ->
                     {
                         TotalWarship tws = tempWarships.get(String.valueOf(warship.getValue().getShip_id()));
+
+                        TotalWarship prevShip;
+                        long nextShipXp = 0;
+                        if (tws.getPrevWarship() != null)
+                        {
+                            prevShip = tempWarships.get(String.valueOf(tws.getPrevWarship().getShip_id()));
+
+                            if (prevShip.getNext_ships() != null)
+                            {
+                                nextShipXp = prevShip.getNext_ships().get(String.valueOf(tws.getShip_id()));
+                            }
+                        }
+
+                        if (tws.getPrevWarship() != null)
+                        {
+                            tws.getPrevWarship().setNextShipXp(nextShipXp);
+                        }
                         warship.getValue().setPrevWarship(tws.getPrevWarship());
                         String key = warship.getValue().getName();
                         key = key.replace("'", "");
@@ -147,7 +166,7 @@ public class AsyncHashMap implements CommandLineRunner
                                             for (int j = 0; j < tempWSMT.getNext_ships().size(); j++)
                                             {
                                                 TotalWarship totalWarship = tempWarships.get(String.valueOf(tempWSMT.getNext_ships().get(j)));
-                                                Warship nextWarshipTemp = new Warship(totalWarship.getNation(), totalWarship.getType(), totalWarship.getName(), totalWarship.getImages(), null);
+                                                Warship nextWarshipTemp = new Warship(totalWarship.getNation(), totalWarship.getType(), totalWarship.getName(), totalWarship.getImages(), null).setTier(totalWarship.getTier());
 
                                                 if (i < nextWarshipRow.size() && nextWarshipRow.get(i) == null)
                                                 {
@@ -208,6 +227,7 @@ public class AsyncHashMap implements CommandLineRunner
         tempWarships.clear();
 
         LinkedHashMap<String, LinkedHashMap> tempTree = new LinkedHashMap<>();
+
         nations.entrySet().forEach(entry -> tempTree.put(entry.getKey(), setShipTree(entry.getValue())));
 
         LinkedHashMap<String, Consumables> tempUpgrades = new LinkedHashMap<>();
@@ -247,6 +267,7 @@ public class AsyncHashMap implements CommandLineRunner
 
         data.clear();
         data.put("nations", tempTree);
+        data.put("rawShipData", rawShipData);
 //        data.put("nations", nations);
         data.put("upgrades", tempUpgrades);
         data.put("skills", setCrewSkills(crewsSkillsData.get().getData()));
@@ -402,8 +423,12 @@ public class AsyncHashMap implements CommandLineRunner
         {
             LinkedHashMap<String, Warship> test = new LinkedHashMap<>();
 
+            int isTrueMaxTier = 0;
+            int isFalseMaxTier = 0;
+
             LinkedHashMap<String, LinkedHashMap<String, Warship>> wslhm = mapper.convertValue(shipType.getValue(), LinkedHashMap.class);
-            wslhm.entrySet().forEach(entry ->
+
+            for (Map.Entry<String, LinkedHashMap<String, Warship>> entry : wslhm.entrySet())
             {
                 Warship tempWarship = mapper.convertValue(entry.getValue(), Warship.class);
 
@@ -424,11 +449,37 @@ public class AsyncHashMap implements CommandLineRunner
                         }
 
                         nextWarship.setFirst(isFirst);
+
+                        if (nextWarship.getNextWarship().stream().filter(nw -> nw != null).count() == 0)
+                        {
+                            if (nextWarship.isFirst())
+                            {
+                                isTrueMaxTier = (int) nextWarship.getTier();
+                            }
+                            else
+                            {
+                                isFalseMaxTier = (int) nextWarship.getTier();
+                            }
+                        }
+
                         test.put(nextWarship.getName(), nextWarship);
                     }
                 }
+            }
 
-            });
+            for (Warship warship : test.values())
+            {
+                if (warship.isFirst())
+                {
+                    warship.setMaxTier(isTrueMaxTier);
+                }
+                else
+                {
+                    warship.setMaxTier(isFalseMaxTier);
+                }
+                test.put(warship.getName(), warship);
+                rawShipData.put(warship.getName(), warship);
+            }
             temp.put(shipType.getKey(), test);
         });
 

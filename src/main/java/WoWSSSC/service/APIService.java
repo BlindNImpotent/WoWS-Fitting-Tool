@@ -11,6 +11,7 @@ import WoWSSSC.model.WoWSAPI.shipprofile.profile.artillery.Artillery_Slots;
 import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
 import WoWSSSC.model.WoWSAPI.upgrade.UpgradeProfile;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
+import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.model.gameparams.Consumables.Consumable;
 import WoWSSSC.model.gameparams.Temporary;
 import WoWSSSC.parser.APIJsonParser;
@@ -875,5 +876,81 @@ public class APIService
                 });
             }
         }
+    }
+
+    public long getXp(String nation, List<String> shipList)
+    {
+        Warship top = (Warship) data.get("rawShipData").get(shipList.get(1));
+        Warship bottom = (Warship) data.get("rawShipData").get(shipList.get(0));
+
+        if (top.getTier() == bottom.getTier())
+        {
+            return -1;
+        }
+
+        long requiredShipXp = top.getPrevWarship().getNextShipXp();
+
+        long requiredModuleXp = 0;
+
+        Warship temp = (Warship) data.get("rawShipData").get(top.getPrevWarship().getName());
+        if (temp.getPrevWarship() != null)
+        {
+            requiredShipXp = requiredShipXp + temp.getPrevWarship().getNextShipXp();
+        }
+
+        for (Map.Entry<String, WarshipModulesTree> entry : temp.getModules_tree().entrySet())
+        {
+            if (entry.getValue().getNext_ships() != null && entry.getValue().getNext_ships().contains(top.getShip_id()))
+            {
+                requiredModuleXp = requiredModuleXp + entry.getValue().getPrice_xp();
+
+                if (!entry.getValue().isIs_default())
+                {
+                    WarshipModulesTree prevModule = temp.getModules_tree().get(entry.getValue().getPrev_modules().get(0));
+
+                    while (prevModule != null && !prevModule.isIs_default())
+                    {
+                        requiredModuleXp = requiredModuleXp + prevModule.getPrice_xp();
+                        prevModule = temp.getModules_tree().get(prevModule.getPrev_modules().get(0));
+                    }
+                }
+            }
+        }
+
+        while (temp.getTier() > bottom.getTier())
+        {
+            Warship nextTemp = temp;
+            temp = (Warship) data.get("rawShipData").get(temp.getPrevWarship().getName());
+            if (temp.getPrevWarship() != null)
+            {
+                requiredShipXp = requiredShipXp + temp.getPrevWarship().getNextShipXp();
+            }
+
+            for (Map.Entry<String, WarshipModulesTree> entry : temp.getModules_tree().entrySet())
+            {
+                if (entry.getValue().getNext_ships() != null && temp.getPrevWarship() != null && entry.getValue().getNext_ships().contains(nextTemp.getShip_id()))
+                {
+                    requiredModuleXp = requiredModuleXp + entry.getValue().getPrice_xp();
+
+                    if (!entry.getValue().isIs_default())
+                    {
+                        WarshipModulesTree prevModule = temp.getModules_tree().get(entry.getValue().getPrev_modules().get(0));
+
+                        while (prevModule != null && !prevModule.isIs_default())
+                        {
+                            requiredModuleXp = requiredModuleXp + prevModule.getPrice_xp();
+                            prevModule = temp.getModules_tree().get(prevModule.getPrev_modules().get(0));
+                        }
+                    }
+                }
+            }
+        }
+
+        if (temp.getTier() == bottom.getTier() && !temp.getName().equals(bottom.getName()))
+        {
+            return -1;
+        }
+
+        return requiredShipXp + requiredModuleXp;
     }
 }

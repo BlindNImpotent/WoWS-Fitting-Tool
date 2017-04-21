@@ -232,4 +232,11 @@ public class APIController
 
         return "shipTree";
     }
+
+    @ResponseBody
+    @RequestMapping (value = "/shipTree", method = RequestMethod.POST)
+    public long getXp(@RequestParam String nation, @RequestBody List<String> shipList)
+    {
+        return apiService.getXp(nation, shipList);
+    }
 }

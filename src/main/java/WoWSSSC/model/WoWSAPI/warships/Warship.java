@@ -45,6 +45,8 @@ public class Warship
     private Warship prevWarship;
 
     private boolean isFirst = true;
+    private int maxTier;
+    private long nextShipXp;
 
     public Warship(String nation, String type, String name, WarshipImages images, Warship prevWarship)
     {

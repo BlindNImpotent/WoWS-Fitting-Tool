@@ -35,67 +35,155 @@
 <header>
 </header>
 <main>
-    <div th:each="nation : ${nations}" th:if="${nation.key == 'japan'}">
-        <div th:each="shipType : ${nation.value}" th:if="${shipType.key != 'Premium' and shipType.key != 'Arpeggio'}">
-            <button th:class="button_ship_tree" th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; 10}">
-            </button>
-            <button th:class="button_ship" th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
-                <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
-            </button>
+    <div style="text-align: center;">
+        <button th:each="nation : ${nations}" th:name="${nation.key}" th:class="button_nation">
+            <img th:src="${'/images/Nations/' + nation.key + '.png'}"/><br />
+            <span th:text="${nation.key}"/>
+        </button>
+    </div>
+    <div style="text-align: center;">
+        <div th:each="nation : ${nations}" th:id="${nation.key}" th:name="nations" hidden="hidden">
+            <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'AirCarrier'}">
+                <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                    <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                </li>
+                <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                    <button th:class="button_ship_tree" th:id="${ship.value.name}">
+                        <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                        <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                    </button>
+                </li>
+            </div>
+            <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Battleship'}">
+                <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                    <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                </li>
+                <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                    <button th:class="button_ship_tree" th:id="${ship.value.name}">
+                        <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                        <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                    </button>
+                </li>
+            </div>
+            <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Cruiser'}">
+                <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                    <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                </li>
+                <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                    <button th:class="button_ship_tree" th:id="${ship.value.name}">
+                        <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                        <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                    </button>
+                </li>
+            </div>
+            <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Destroyer'}">
+                <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                    <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                </li>
+                <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                    <button th:class="button_ship_tree" th:id="${ship.value.name}">
+                        <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                        <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                    </button>
+                </li>
+            </div>
+            <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Destroyer' and shipType.value.?[value.first == false].size() > 0}">
+                <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == false].size() &lt; ship.value.maxTier}">
+                    <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                </li>
+                <li th:each="ship : ${shipType.value}" th:if="${!ship.value.first}">
+                    <button th:class="button_ship_tree" th:id="${ship.value.name}">
+                        <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                        <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                    </button>
+                </li>
+            </div>
+            <!--<div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Premium'}">-->
+                <!--<li th:each="ship : ${shipType.value}">-->
+                    <!--<button th:class="button_ship_tree" th:id="${ship.value.name}">-->
+                        <!--<img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />-->
+                        <!--<span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />-->
+                    <!--</button>-->
+                <!--</li>-->
+            <!--</div>-->
+            <!--<div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Arpeggio'}">-->
+                <!--<li th:each="ship : ${shipType.value}">-->
+                    <!--<button th:class="button_ship_tree" th:id="${ship.value.name}">-->
+                        <!--<img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />-->
+                        <!--<span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />-->
+                    <!--</button>-->
+                <!--</li>-->
+            <!--</div>-->
         </div>
-        <!--<div th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Cruiser'}">-->
-            <!--<button th:class="button_ship" th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; 10}">-->
-            <!--</button>-->
-            <!--<button th:class="button_ship" th:each="ship : ${shipType.value}" th:if="${ship.value.first}">-->
-                <!--<img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />-->
-                <!--<span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />-->
-            <!--</button>-->
-        <!--</div>-->
-        <!--<div th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Destroyer'}">-->
-            <!--<button th:class="button_ship" th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; 10}">-->
-            <!--</button>-->
-            <!--<button th:class="button_ship" th:each="ship : ${shipType.value}" th:if="${ship.value.first}">-->
-                <!--<img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />-->
-                <!--<span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />-->
-            <!--</button>-->
-        <!--</div>-->
-
-
-
-
-
-
-        <!--<div class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'AirCarrier'}">-->
-            <!--<li th:each="ship : ${shipType.value}">-->
-                <!--<img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/>-->
-                <!--<br />-->
-            <!--</li>-->
-        <!--</div>-->
-        <!--<div class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Cruiser'}">-->
-            <!--<li th:each="ship : ${shipType.value}">-->
-                <!--<img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/>-->
-                <!--<br />-->
-            <!--</li>-->
-        <!--</div>-->
-        <!--<div class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Destroyer'}">-->
-            <!--<li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">-->
-                <!--<img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/>-->
-                <!--<br />-->
-            <!--</li>-->
-        <!--</div>-->
-        <!--<div class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Destroyer'}">-->
-            <!--<li th:each="ship : ${shipType.value}" th:if="${!ship.value.first}">-->
-                <!--<img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/>-->
-                <!--<br />-->
-            <!--</li>-->
-        <!--</div>-->
     </div>
 </main>
 <script th:inline="javascript">
     //    <![CDATA[
 
-    console.log([[${nations}]]['japan']);
+    console.log([[${nations}]]);
+
+    var nation = '';
+
+    $(document).on('click', '.button_nation', function () {
+        var name = $(this).attr('name');
+
+        $('[name=nations]').attr('hidden', 'hidden');
+        $('#' + name).removeAttr('hidden');
+
+        nation = name;
+
+        var clickedList = $('.button_ship_tree_selected');
+        for (var i = 0; i < clickedList.length; i++)
+        {
+            var clickedId = clickedList.eq(i).attr('id');
+            document.getElementById(clickedId).className = 'button_ship_tree';
+        }
+    });
+
+    $(document).on('click', '.button_ship_tree', function () {
+        var clickedId = $(this).attr('id');
+
+        if ($('.button_ship_tree_selected').length < 2)
+        {
+            document.getElementById(clickedId).className = 'button_ship_tree_selected';
+        }
+
+        if ($('.button_ship_tree_selected').length == 2)
+        {
+            var selected = $('.button_ship_tree_selected');
+
+            var list = [];
+
+            for (var i = 0; i < selected.length; i++)
+            {
+                var current = selected.eq(i);
+                list.push(current.attr('id'));
+            }
+
+            console.log(list);
+
+            $.ajax({
+                url: '/shipTree?nation=' + nation,
+                type: 'post',
+                contentType: "application/json",
+                data: JSON.stringify(list),
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (data) {
+                    alert('Error')
+                }
+            });
+        }
+    });
+
+    $(document).on('click', '.button_ship_tree_selected', function () {
+        var clickedId = $(this).attr('id');
+
+        document.getElementById(clickedId).className = 'button_ship_tree';
+    });
+
+
 
     //    ]]>
 </script>
