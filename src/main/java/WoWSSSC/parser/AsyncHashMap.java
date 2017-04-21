@@ -135,7 +135,6 @@ public class AsyncHashMap implements CommandLineRunner
                         }
                         warship.getValue().setPrevWarship(tws.getPrevWarship());
                         String key = warship.getValue().getName();
-                        key = key.replace("'", "");
                         Warship value = warship.getValue();
 
                         if (value.getNext_ships() != null)
@@ -443,7 +442,7 @@ public class AsyncHashMap implements CommandLineRunner
             {
                 Warship tempWarship = mapper.convertValue(entry.getValue(), Warship.class);
 
-                test.put(tempWarship.getName(), tempWarship);
+                test.put(tempWarship.getName().replace("'", ""), tempWarship);
 
                 List<Warship> tempNextWarships = tempWarship.getNextWarship().stream().filter(nextWarship -> nextWarship != null).collect(Collectors.toList());
 
@@ -488,8 +487,8 @@ public class AsyncHashMap implements CommandLineRunner
                 {
                     warship.setMaxTier(isFalseMaxTier);
                 }
-                test.put(warship.getName(), warship);
-                rawShipData.put(warship.getName(), warship);
+                test.put(warship.getName().replace("'", ""), warship);
+                rawShipData.put(warship.getName().replace("'", ""), warship);
             }
             temp.put(shipType.getKey(), test);
         });
