@@ -33,6 +33,9 @@
     //    ]]>
 </noscript>
 <header>
+    <div th:include="top :: top"></div>
+    <br />
+    <br />
 </header>
 <main>
     <div style="text-align: center;">
@@ -40,6 +43,9 @@
             <img th:src="${'/images/Nations/' + nation.key + '.png'}"/><br />
             <span th:text="${nation.key}"/>
         </button>
+    </div>
+    <div style="text-align: center;">
+        <strong><span>Fastest Research xp required: </span><span id="xpRequired">None</span></strong>
     </div>
     <div style="text-align: center;">
         <div th:each="nation : ${nations}" th:id="${nation.key}" th:name="nations" hidden="hidden">
@@ -120,8 +126,6 @@
 <script th:inline="javascript">
     //    <![CDATA[
 
-    console.log([[${nations}]]);
-
     var nation = '';
 
     $(document).on('click', '.button_nation', function () {
@@ -161,18 +165,16 @@
                 list.push(id);
             }
 
-            console.log(list);
-
             $.ajax({
                 url: '/shipTree?nation=' + nation,
                 type: 'post',
                 contentType: "application/json",
                 data: JSON.stringify(list),
                 success: function (data) {
-                    console.log(data);
+                    data != -1 ? $('#xpRequired').text(data) : $('#xpRequired').text('Error - Research properly or contact EdibleBug on Reddit');
                 },
                 error: function (data) {
-                    alert('Error')
+                    alert('Error - Research properly or contact EdibleBug on Reddit')
                 }
             });
         }

@@ -12,7 +12,14 @@
 </head>
 <body>
 <div th:fragment="top">
-    <strong>Friends - </strong><a href="https://thearmoredpatrol.com">The Armored Patrol</a>
+    <div>
+        <strong>Friends - </strong><a href="https://thearmoredpatrol.com">The Armored Patrol</a>
+    </div>
+    <br />
+    <br />
+    <div>
+        <strong><a th:href="@{/}">Ship Fitting Tool</a> - <a th:href="@{/shipTree}">Ship Research Tree (Testing)</a></strong>
+    </div>
 </div>
 <script th:inline="javascript">
     //    <![CDATA[

@@ -905,11 +905,15 @@ public class APIService
 
         if (top.getTier() == bottom.getTier())
         {
-            if (!top.getPrevWarship().getName().equalsIgnoreCase(bottom.getName()))
+            if (!top.getPrevWarship().getName().equalsIgnoreCase(bottom.getName()) && bottom.getPrevWarship().getName().equalsIgnoreCase(top.getName()))
             {
                 Warship tempSave = top;
                 top = bottom;
                 bottom = tempSave;
+            }
+            else if (!top.getPrevWarship().getName().equalsIgnoreCase(bottom.getName()) && !bottom.getPrevWarship().getName().equalsIgnoreCase(top.getName()))
+            {
+                return -1;
             }
 
             long tempModuleXp = 0;
@@ -980,7 +984,7 @@ public class APIService
 
         Warship tempWarship = temp;
         int index = 0;
-        while (tempWarship.getTier() > bottom.getTier() || !tempWarship.getName().equalsIgnoreCase(bottom.getName()))
+        while (tempWarship.getTier() > bottom.getTier() && (tempWarship.getPrevWarship() != null && !tempWarship.getPrevWarship().getName().equalsIgnoreCase(bottom.getName())))
         {
             if (tempWarship.getPrevWarship() != null && !tempWarship.getPrevWarship().getName().equalsIgnoreCase(bottom.getName()))
             {
@@ -1000,7 +1004,7 @@ public class APIService
             }
         }
 
-        if (tempWarship.getPrevWarship() != null && tempWarship.getPrevWarship().getName().equalsIgnoreCase(bottom.getPrevWarship().getName()) && tierDiff > 1)
+        if (tempWarship.getPrevWarship() != null && tempWarship.getPrevWarship().getName().equalsIgnoreCase(bottom.getName()) && tierDiff > 1)
         {
             requiredShipXp = requiredShipXp + tempWarship.getPrevWarship().getNextShipXp();
         }
