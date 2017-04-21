@@ -166,7 +166,18 @@ public class AsyncHashMap implements CommandLineRunner
                                             for (int j = 0; j < tempWSMT.getNext_ships().size(); j++)
                                             {
                                                 TotalWarship totalWarship = tempWarships.get(String.valueOf(tempWSMT.getNext_ships().get(j)));
-                                                Warship nextWarshipTemp = new Warship(totalWarship.getNation(), totalWarship.getType(), totalWarship.getName(), totalWarship.getImages(), null).setTier(totalWarship.getTier());
+                                                Warship nextWarshipTemp = new Warship(totalWarship.getNation(), totalWarship.getType(), totalWarship.getName(), totalWarship.getImages(), null).setTier(totalWarship.getTier()).setShip_id(totalWarship.getShip_id());
+
+                                                if (value.getNext_ships() != null)
+                                                {
+                                                    for (Map.Entry<String, Long> entry : value.getNext_ships().entrySet())
+                                                    {
+                                                        if (Long.parseLong(entry.getKey()) == nextWarshipTemp.getShip_id())
+                                                        {
+                                                            nextWarshipTemp.setFromPreviousShipXp(entry.getValue());
+                                                        }
+                                                    }
+                                                }
 
                                                 if (i < nextWarshipRow.size() && nextWarshipRow.get(i) == null)
                                                 {

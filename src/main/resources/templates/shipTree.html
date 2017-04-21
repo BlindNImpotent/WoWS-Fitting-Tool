@@ -48,7 +48,7 @@
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                 </li>
                 <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${ship.value.name}">
+                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
@@ -59,7 +59,7 @@
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                 </li>
                 <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${ship.value.name}">
+                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
@@ -70,7 +70,7 @@
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                 </li>
                 <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${ship.value.name}">
+                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
@@ -81,7 +81,7 @@
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                 </li>
                 <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${ship.value.name}">
+                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
@@ -92,7 +92,7 @@
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                 </li>
                 <li th:each="ship : ${shipType.value}" th:if="${!ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${ship.value.name}">
+                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
@@ -157,7 +157,8 @@
             for (var i = 0; i < selected.length; i++)
             {
                 var current = selected.eq(i);
-                list.push(current.attr('id'));
+                var id = current.attr('id')
+                list.push(id);
             }
 
             console.log(list);

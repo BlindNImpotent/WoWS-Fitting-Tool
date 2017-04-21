@@ -55,7 +55,7 @@
                             <tr th:each="row : ${warship.warshipModulesTreeTable}">
                                 <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
                                     <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}">
-                                        <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}"/><br />
+                                        <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${module.price_xp + ' xp'}"/><br />
                                         <span th:text="${module.name}"/>
                                     </button>
                                 </td>
@@ -63,7 +63,7 @@
                             <tr th:if="${warship.nextWarship != null}">
                                 <td th:each="nextShip : ${warship.nextWarship}">
                                     <button th:if="${nextShip != null}" th:class="button_ship" th:onclick="'fragments(\'' + ${nextShip.nation} + '\', \'' + ${nextShip.type} + '\', \'' + ${nextShip.name} + '\')'">
-                                        <img th:src="${nextShip.images.small}"/><br />
+                                        <img th:src="${nextShip.images.small}" th:title="${nextShip.fromPreviousShipXp + ' xp'}"/><br />
                                         <span th:text="${nextShip.name}"/>
                                     </button>
                                 </td>

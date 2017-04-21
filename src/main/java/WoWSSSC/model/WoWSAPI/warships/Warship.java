@@ -48,6 +48,8 @@ public class Warship
     private int maxTier;
     private long nextShipXp;
 
+    private long fromPreviousShipXp;
+
     public Warship(String nation, String type, String name, WarshipImages images, Warship prevWarship)
     {
         this.nation = nation;
