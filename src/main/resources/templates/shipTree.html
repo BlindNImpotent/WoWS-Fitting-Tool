@@ -45,7 +45,7 @@
         </button>
     </div>
     <div style="text-align: center;">
-        <strong><span>Fastest Research xp required: </span><span id="xpRequired">None</span></strong>
+        <strong id="xpRequired" th:text="'Click on two ships for lowest research xp'"/>
     </div>
     <div style="text-align: center;">
         <div th:each="nation : ${nations}" th:id="${nation.key}" th:name="nations" hidden="hidden">
@@ -142,6 +142,8 @@
             var clickedId = clickedList.eq(i).attr('id');
             document.getElementById(clickedId).className = 'button_ship_tree';
         }
+
+        $('#xpRequired').text('Click on two ships for lowest research xp');
     });
 
     $(document).on('click', '.button_ship_tree', function () {
@@ -171,7 +173,7 @@
                 contentType: "application/json",
                 data: JSON.stringify(list),
                 success: function (data) {
-                    data != -1 ? $('#xpRequired').text(data) : $('#xpRequired').text('Error - Research properly or contact EdibleBug on Reddit');
+                    data != -1 ? $('#xpRequired').text(data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' xp required') : $('#xpRequired').text('Error - Research properly or contact EdibleBug on Reddit');
                 },
                 error: function (data) {
                     alert('Error - Research properly or contact EdibleBug on Reddit')
