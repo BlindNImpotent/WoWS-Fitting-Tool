@@ -34,8 +34,13 @@
             </form>
             <br />
             <div id="name">
-                <input type="text" id="shortenUrlAddress"/><button id="shortenURL">Shorten URL</button>
-                <h1 th:text="${warship.name}"/>
+                <input type="text" id="shortenUrlAddress"/><button id="shortenURL">Shorten URL</button><br />
+                <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship.defaultType}">
+                    <h1>
+                        <img th:src="${warship.type != 'Premium' and warship.type != 'Arpeggio' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
+                        <span th:text="${warship.name}"/>
+                    </h1>
+                </th:block>
                 <img th:title="${warship.description}" th:src="${warship.images.medium}"/>
             </div>
             <br />
@@ -55,7 +60,7 @@
                             <tr th:each="row : ${warship.warshipModulesTreeTable}">
                                 <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
                                     <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}">
-                                        <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${module.price_xp + ' xp'}"/><br />
+                                        <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
                                         <span th:text="${module.name}"/>
                                     </button>
                                 </td>

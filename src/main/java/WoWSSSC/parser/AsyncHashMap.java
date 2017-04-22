@@ -276,6 +276,7 @@ public class AsyncHashMap implements CommandLineRunner
         tempExteriors.put("Permoflage", tempPermoflage);
 
         data.clear();
+        data.put("encyclopedia", mapper.convertValue(encyclopedia, LinkedHashMap.class));
         data.put("nations", tempTree);
         data.put("rawShipData", rawShipData);
 //        data.put("nations", nations);

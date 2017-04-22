@@ -62,7 +62,9 @@
         <div id="dropDownList">
             <ul id="shipList">
                 <li th:each="nation : ${data.nations}">
-                    <span th:text="${nation.key}" />
+                    <th:block th:each="eNation : ${data.encyclopedia.ship_nations}" th:if="${nation.key == eNation.key}">
+                        <span th:text="${eNation.value}" />
+                    </th:block>
                     <ul>
                         <li th:each="shipType : ${nation.value}">
                             <span th:text="${shipType.key}" />

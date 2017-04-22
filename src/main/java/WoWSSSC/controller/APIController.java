@@ -68,6 +68,7 @@ public class APIController
     {
         model.addAttribute("data", data);
         model.addAttribute("notification", notification);
+        model.addAttribute("encyclopedia", data.get("encyclopedia"));
 
         if (mobile)
         {
@@ -94,6 +95,7 @@ public class APIController
             ) throws IOException
     {
         model.addAttribute("notification", notification);
+        model.addAttribute("encyclopedia", data.get("encyclopedia"));
         if (nation != null && shipType != null && ship != null)
         {
             if (request.getMethod().equalsIgnoreCase("POST"))
