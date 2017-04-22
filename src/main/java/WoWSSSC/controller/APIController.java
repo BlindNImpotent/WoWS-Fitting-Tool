@@ -228,10 +228,14 @@ public class APIController
     }
 
     @RequestMapping (value = "/shipTree", method = RequestMethod.GET)
-    public String shipTree(Model model)
+    public String shipTree(Model model, @RequestParam(required = false, defaultValue = "false") boolean mobile)
     {
         model.addAttribute("nations", data.get("nations"));
 
+        if (mobile)
+        {
+            return "shipTreeMobile";
+        }
         return "shipTree";
     }
 
