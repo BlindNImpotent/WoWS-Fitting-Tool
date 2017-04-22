@@ -879,7 +879,7 @@ public class APIService
         }
     }
 
-    public long getXp(String nation, List<String> shipList)
+    public long getXp(List<String> shipList)
     {
         String tempString1 = shipList.get(0);
         String tempString2 = shipList.get(1);
@@ -898,11 +898,6 @@ public class APIService
             bottom = (Warship) data.get("rawShipData").get(tempString1.split("_")[1]);
         }
 
-//        if (top.getTier() == bottom.getTier())
-//        {
-//            return -1;
-//        }
-
         if (top.getTier() == bottom.getTier())
         {
             if (!top.getPrevWarship().getName().equalsIgnoreCase(bottom.getName()) && bottom.getPrevWarship().getName().equalsIgnoreCase(top.getName()))
@@ -915,125 +910,61 @@ public class APIService
             {
                 return -1;
             }
-
-            long tempModuleXp = 0;
-
-            Warship temp = (Warship) data.get("rawShipData").get(top.getPrevWarship().getName());
-
-            for (Map.Entry<String, WarshipModulesTree> entry : temp.getModules_tree().entrySet())
-            {
-                if (entry.getValue().getNext_ships() != null && entry.getValue().getNext_ships().contains(top.getShip_id()))
-                {
-                    if (!entry.getValue().isIs_default())
-                    {
-                        tempModuleXp = tempModuleXp + entry.getValue().getPrice_xp();
-                        WarshipModulesTree prevModule = temp.getModules_tree().get(String.valueOf(entry.getValue().getPrev_modules().get(0)));
-
-                        int index = 0;
-                        while (prevModule != null && !prevModule.isIs_default())
-                        {
-                            tempModuleXp = tempModuleXp + prevModule.getPrice_xp();
-                            prevModule = temp.getModules_tree().get(prevModule.getPrev_modules().get(0));
-
-                            index++;
-
-                            if (index > 50)
-                            {
-                                return -1;
-                            }
-                        }
-                    }
-                }
-            }
-            return top.getPrevWarship().getNextShipXp() + tempModuleXp;
         }
 
-        long tierDiff = top.getTier() - bottom.getTier();
-
-        long requiredShipXp = top.getPrevWarship().getNextShipXp();
-
-        long requiredModuleXp = 0;
-
-        Warship temp = (Warship) data.get("rawShipData").get(top.getPrevWarship().getName());
-
-        for (Map.Entry<String, WarshipModulesTree> entry : temp.getModules_tree().entrySet())
+        boolean isMatch = false;
+        Warship tempTop = top;
+        int index1 = 0;
+        while (tempTop.getTier() >= bottom.getTier())
         {
-            if (entry.getValue().getNext_ships() != null && entry.getValue().getNext_ships().contains(top.getShip_id()))
+            if (tempTop.getName().equalsIgnoreCase(bottom.getName()))
             {
-                if (!entry.getValue().isIs_default())
-                {
-                    requiredModuleXp = requiredModuleXp + entry.getValue().getPrice_xp();
-                    WarshipModulesTree prevModule = temp.getModules_tree().get(String.valueOf(entry.getValue().getPrev_modules().get(0)));
-
-                    int index = 0;
-                    while (prevModule != null && !prevModule.isIs_default())
-                    {
-                        requiredModuleXp = requiredModuleXp + prevModule.getPrice_xp();
-                        prevModule = temp.getModules_tree().get(prevModule.getPrev_modules().get(0));
-
-                        index++;
-
-                        if (index > 50)
-                        {
-                            return -1;
-                        }
-                    }
-                }
+                isMatch = true;
+                break;
             }
-        }
+            tempTop = (Warship) data.get("rawShipData").get(tempTop.getPrevWarship().getName());
 
-        Warship tempWarship = temp;
-        int index = 0;
-        while (tempWarship.getTier() > bottom.getTier() && (tempWarship.getPrevWarship() != null && !tempWarship.getPrevWarship().getName().equalsIgnoreCase(bottom.getName())))
-        {
-            if (tempWarship.getPrevWarship() != null && !tempWarship.getPrevWarship().getName().equalsIgnoreCase(bottom.getName()))
-            {
-                requiredShipXp = requiredShipXp + tempWarship.getPrevWarship().getNextShipXp();
-            }
-
-            if (tempWarship.getPrevWarship() != null)
-            {
-                tempWarship = (Warship) data.get("rawShipData").get(tempWarship.getPrevWarship().getName());
-            }
-
-            index++;
-
-            if (index > 50)
+            index1++;
+            if (index1 > 50)
             {
                 return -1;
             }
         }
 
-        if (tempWarship.getPrevWarship() != null && tempWarship.getPrevWarship().getName().equalsIgnoreCase(bottom.getName()) && tierDiff > 1)
+        if (!isMatch)
         {
-            requiredShipXp = requiredShipXp + tempWarship.getPrevWarship().getNextShipXp();
+            return -1;
         }
 
-        index = 0;
-        while (temp.getTier() > bottom.getTier())
+        long requiredShipXp = 0;
+        long requiredModuleXp = 0;
+
+        Warship temp = top;
+        Warship tempNext = top;
+        int index2 = 0;
+        while (!temp.getName().equalsIgnoreCase(bottom.getName()))
         {
-            Warship nextTemp = temp;
+            requiredShipXp = requiredShipXp + temp.getPrevWarship().getNextShipXp();
+
             temp = (Warship) data.get("rawShipData").get(temp.getPrevWarship().getName());
 
             for (Map.Entry<String, WarshipModulesTree> entry : temp.getModules_tree().entrySet())
             {
-                if (entry.getValue().getNext_ships() != null && temp.getPrevWarship() != null && entry.getValue().getNext_ships().contains(nextTemp.getShip_id()))
+                if (entry.getValue().getNext_ships() != null && entry.getValue().getNext_ships().contains(tempNext.getShip_id()))
                 {
-                    requiredModuleXp = requiredModuleXp + entry.getValue().getPrice_xp();
-
                     if (!entry.getValue().isIs_default())
                     {
-                        WarshipModulesTree prevModule = temp.getModules_tree().get(entry.getValue().getPrev_modules().get(0));
+                        requiredModuleXp = requiredModuleXp + entry.getValue().getPrice_xp();
+                        WarshipModulesTree prevModule = temp.getModules_tree().get(String.valueOf(entry.getValue().getPrev_modules().get(0)));
 
-                        int index2 = 0;
+                        int index3 = 0;
                         while (prevModule != null && !prevModule.isIs_default())
                         {
                             requiredModuleXp = requiredModuleXp + prevModule.getPrice_xp();
                             prevModule = temp.getModules_tree().get(prevModule.getPrev_modules().get(0));
 
-                            index2++;
-
-                            if (index2 > 50)
+                            index3++;
+                            if (index3 > 50)
                             {
                                 return -1;
                             }
@@ -1041,10 +972,10 @@ public class APIService
                     }
                 }
             }
+            tempNext = temp;
 
-            index++;
-
-            if (index > 50)
+            index2++;
+            if (index2 > 50)
             {
                 return -1;
             }

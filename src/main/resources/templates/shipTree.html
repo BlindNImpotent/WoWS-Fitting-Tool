@@ -45,7 +45,8 @@
         </button>
     </div>
     <div style="text-align: center;">
-        <strong id="xpRequired" th:text="'Click on two ships for lowest research xp'"/>
+        <strong id="xpRequired" th:text="'Click on two ships for lowest research xp'"/><br />
+        <button id="resetSelect">Reset</button>
     </div>
     <div style="text-align: center;">
         <div th:each="nation : ${nations}" th:id="${nation.key}" th:name="nations" hidden="hidden">
@@ -168,7 +169,7 @@
             }
 
             $.ajax({
-                url: '/shipTree?nation=' + nation,
+                url: '/shipTree',
                 type: 'post',
                 contentType: "application/json",
                 data: JSON.stringify(list),
@@ -188,7 +189,16 @@
         document.getElementById(clickedId).className = 'button_ship_tree';
     });
 
+    $(document).on('click', '#resetSelect', function () {
+        var clickedList = $('.button_ship_tree_selected');
+        for (var i = 0; i < clickedList.length; i++)
+        {
+            var clickedId = clickedList.eq(i).attr('id');
+            document.getElementById(clickedId).className = 'button_ship_tree';
+        }
 
+        $('#xpRequired').text('Click on two ships for lowest research xp');
+    });
 
     //    ]]>
 </script>
