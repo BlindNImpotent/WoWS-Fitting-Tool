@@ -65,7 +65,9 @@
                 <li th:each="slot : ${shipAPI.artillery.slots}">
                     <u style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/><br />
                 </li>
-                Sigma<span style="float: right;" id="sigmaCount"></span><br />
+                <th:block th:if="${shipComponents.artillery != null}">
+                    Sigma<span style="float: right" th:text="${#numbers.formatDecimal(shipComponents.artillery.sigmaCount, 0, 2)}"/><br />
+                </th:block>
                 Distance
                 <span style="float: right;" th:if="${configurationAPI != null and shipAPI.artillery.distance - configurationAPI.artillery.distance != 0}" th:text="${shipAPI.artillery.distance - configurationAPI.artillery.distance > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.artillery.distance - configurationAPI.artillery.distance, 0, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.artillery.distance - configurationAPI.artillery.distance, 0, 1) + ')'}"/>
                 <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.distance, 0, 1)} + ' km'"/><br />

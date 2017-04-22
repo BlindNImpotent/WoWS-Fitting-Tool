@@ -792,6 +792,23 @@ public class APIService
                 });
             }
 
+            if (consumables.getProfile().getRegenerationHPSpeed() != null)
+            {
+                HashMap<String, Consumable> tempAbilities = new HashMap<>();
+
+                ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                {
+                    Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+
+                    if (tempConsumable.getName().contains("RegenCrew"))
+                    {
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setRegenerationHPSpeed(cType.getRegenerationHPSpeed() * consumables.getProfile().getRegenerationHPSpeed().getValue()));
+                    }
+
+                    tempAbilities.put(entry.getKey(), tempConsumable);
+                });
+            }
+
             if (consumables.getProfile().getRlsSearchWorkTime() != null)
             {
                 HashMap<String, Consumable> tempAbilities = new HashMap<>();

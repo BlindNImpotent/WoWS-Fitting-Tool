@@ -69,7 +69,7 @@
                         <li th:each="shipType : ${nation.value}">
                             <span th:text="${shipType.key}" />
                             <ul>
-                                <li th:each="ship : ${shipType.value}">
+                                <li th:each="ship : ${shipType.value}" th:if="${ship.key != 'Test Ship'}">
                                     <span th:text="${ship.value.tier + ' - ' + ship.key}" th:onclick="'fragments(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'"/>
                                 </li>
                             </ul>
@@ -149,6 +149,14 @@
     var ship = '';
     var mobile = true;
 
+    var modules = [];
+    var upgrades = [];
+    var skills = [];
+    var flags = [];
+    var consumables = [[${consumables}]];
+
+    var camouflage = false;
+
     $().ready(function () {
         $( function() {
             $('#shipList').menu();
@@ -223,6 +231,74 @@
         var totalPts = list.length;
 
         document.getElementById('ui-id-2').innerText = 'Flags ' + totalPts.toString() + ' / ' + maxPts.toString();
+    }
+
+    function setConsumables()
+    {
+        var list = [[${consumables}]];
+
+        var notSelected = $('.button_consumable');
+        var selected = $('.button_consumable_selected');
+
+        var allConsumables = [];
+
+        for (var i = 0; i < notSelected.length; i++)
+        {
+            allConsumables.push(notSelected.eq(i).attr('name'))
+        }
+        for (var i = 0; i < selected.length; i++)
+        {
+            allConsumables.push(selected.eq(i).attr('name'));
+        }
+
+        if (list != null && [[${warship}]].name == ship)
+        {
+            var index = 0;
+            for (var i = 0; i < list.length; i++)
+            {
+                var currentI = list[i];
+                for (var j = 0; j < allConsumables.length; j++)
+                {
+                    var currentJ = allConsumables[j];
+
+                    if (currentI == currentJ)
+                    {
+                        index++;
+                        break;
+                    }
+                }
+            }
+
+            if (index != list.length)
+            {
+                list = [];
+            }
+        }
+        else
+        {
+            list = [];
+            for (var i = 0; i < selected.length; i++)
+            {
+                list.push(selected.eq(i).attr('name'));
+            }
+        }
+
+        consumables = [];
+        for (var i = 0; i < list.length; i++)
+        {
+            var current = list[i];
+            var abil = $('[name=' + current + ']').attr('class').split(' ')[1];
+
+            $('[name=' + current + ']').attr('class', 'button_consumable_selected ' + abil);
+            consumables.push(current);
+            $('#' + current).removeAttr('style');
+        }
+
+        history.replaceState({
+            nation: nation,
+            shipType: shipType,
+            ship: ship
+        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables);
     }
 
     $(document).on('click', '.button_skill, .button_skill_selected', function () {
@@ -301,9 +377,9 @@
         $('#flags').dialog('open');
     });
 
-    //    $(document).on('click', '#showConsumables', function () {
-    //        $('#consumablesData').dialog('open');
-    //    });
+    $(document).on('click', '#showConsumables', function () {
+        $('#consumablesData').dialog('open');
+    });
 
     //    $(document).on('click', '#showCamouflage', function () {
     //        $('#camouflage').dialog('open');
@@ -340,12 +416,15 @@
             var selectedUpgrades = $('.button_upgrade_selected');
             var selectedSkills = $('.button_skill_selected');
             var selectedFlags = $('.button_flag_selected');
+            var selectedConsumables = $('.button_consumable_selected');
 
-            var modules = [];
-            var upgrades = [];
-            var skills = [];
-            var flags = [];
-            var camouflage = [$('#camouflageCheckbox').is(':checked')];
+            modules = [];
+            upgrades = [];
+            skills = [];
+            flags = [];
+            consumables = [];
+
+            camouflage = [$('#camouflageCheckbox').is(':checked')];
 
             for (var i = 0; i < selectedModules.length; i++)
             {
@@ -384,11 +463,18 @@
                 flags.push(flagId);
             }
 
+            for (var i = 0; i < selectedConsumables.length; i++)
+            {
+                var consumableId = selectedConsumables.eq(i).attr('name');
+                consumables.push(consumableId);
+            }
+
             var upgradesSkills = {
                 upgrades: upgrades,
                 skills: skills,
                 camouflage: camouflage,
-                flags: flags
+                flags: flags,
+                consumables: consumables
             };
 
             url = url + '&upgradeCompare=' + document.getElementById('upgradeCompareCheckBox').checked;
@@ -409,54 +495,30 @@
                             nation: nation,
                             shipType: shipType,
                             ship: ship
-                        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage + '&mobile=' + mobile);
-
-//                        console.log(gpServiceUrl.replace('shipAPI', 'gpService'));
-
-                        $.ajax({
-                            url: url.replace('shipAPI', 'gpService'),
-                            type: 'post',
-                            contentType: "application/json",
-                            data: JSON.stringify(upgradesSkills),
-                            success: function (data) {
-                                if (data != '')
-                                {
-//                                    console.log(data);
-                                    $.ajax({
-                                        url: url.replace('shipAPI', 'shipComponents'),
-                                        type: 'post',
-                                        contentType: 'application/json',
-                                        data: JSON.stringify(upgradesSkills),
-                                        success: function (data) {
-                                            if (data != '')
-                                            {
-                                                $('#consumablesData').replaceWith(data);
-                                            }
-                                        }
-                                    });
-
-                                    if (data.artillery != null)
-                                    {
-                                        var sigma = '' +  data.artillery.sigmaCount;
-
-                                        if (!sigma.includes('.'))
-                                        {
-                                            sigma = sigma + '.0';
-                                        }
-
-                                        document.getElementById('sigmaCount').innerText = sigma;
-                                    }
-                                }
-                                else
-                                {
-                                    document.getElementById('sigmaCount').innerText = 'Unknown';
-                                }
-                            }
-                        });
+                        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables);
                     }
                     else
                     {
                         alert('Wrong path of research!');
+                    }
+                }
+            });
+
+            $.ajax({
+                url: url.replace('shipAPI', 'shipComponents'),
+                type: 'post',
+                contentType: "application/json",
+                data: JSON.stringify(upgradesSkills),
+                success: function (data) {
+                    if (data != '')
+                    {
+                        $('#consumablesData').replaceWith(data);
+
+                        setConsumables();
+                    }
+                    else
+                    {
+                        alert('Consumable Error');
                     }
                 }
             });
@@ -475,6 +537,10 @@
             url: url,
             type: 'post',
             success: function (data) {
+                $('.button_skill_selected').attr('class', 'button_skill');
+                $('.button_flag_selected').attr('class', 'button_flag');
+                $('.button_consumable_selected').attr('class', 'button_consumable');
+
                 $('.warshipData').replaceWith(data);
 
                 callAPI();
@@ -534,6 +600,33 @@
 
         location.href = url;
     });
+
+    $(document).on('click', '.button_consumable', function () {
+        var id = $(this).attr('name');
+        var abil = $(this).attr('class').split(' ')[1];
+        var abilDot = '.' + abil;
+
+        $('.consumablesStats' + abilDot).attr('style', 'display: none;');
+        $('.button_consumable_selected' + abilDot).attr('class', 'button_consumable ' + abil);
+
+        $('#' + id).removeAttr('style');
+        $('[name=' + id + ']').attr('class', 'button_consumable_selected ' + abil);
+
+        var selectedConsumables = $('.button_consumable_selected');
+        consumables = [];
+        for (var i = 0; i < selectedConsumables.length; i++)
+        {
+            var consumableId = selectedConsumables[i].getAttribute('name');
+
+            consumables.push(consumableId);
+        }
+
+        history.replaceState({
+            nation: nation,
+            shipType: shipType,
+            ship: ship
+        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables);
+    })
 
     //    ]]>
 </script>

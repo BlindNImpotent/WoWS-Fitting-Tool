@@ -89,6 +89,7 @@ public class APIController
                     @RequestParam(required = false) HashSet<String> modules,
                     @RequestParam(required = false) HashSet<String> upgrades,
                     @RequestParam(required = false) HashSet<String> flags,
+                    @RequestParam(required = false) HashSet<String> consumables,
                     @RequestParam(required = false) String skills,
                     @RequestParam(required = false) boolean camo,
                     @RequestParam(required = false, defaultValue = "false") boolean mobile
@@ -98,10 +99,11 @@ public class APIController
         model.addAttribute("encyclopedia", data.get("encyclopedia"));
         if (nation != null && shipType != null && ship != null)
         {
-            if (request.getMethod().equalsIgnoreCase("POST"))
+            if (request.getMethod().equalsIgnoreCase("post"))
             {
                 logger.info("Loading " + nation + " " + shipType + " " + ship);
                 model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
+
                 return "warshipPage :: warshipStats";
             }
             else
@@ -114,6 +116,7 @@ public class APIController
                 redirectAttributes.addFlashAttribute("modules", modules);
                 redirectAttributes.addFlashAttribute("upgrades", upgrades);
                 redirectAttributes.addFlashAttribute("flags", flags);
+                redirectAttributes.addFlashAttribute("consumables", consumables);
                 redirectAttributes.addFlashAttribute("crewSkills", crewSkills);
                 redirectAttributes.addFlashAttribute("camo", camo);
                 redirectAttributes.addFlashAttribute("mobile", mobile);
@@ -151,8 +154,9 @@ public class APIController
         if (!ship_id.equals(""))
         {
             String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
-            model.addAttribute("shipAPI", apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills));
-            model.addAttribute("shipComponents", apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills).getShipComponents());
+            Ship shipAPI = apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills);
+            model.addAttribute("shipAPI", shipAPI);
+            model.addAttribute("shipComponents", shipAPI.getShipComponents());
 
             model.addAttribute("upgradeCompare", upgradeCompare);
             if (upgradeCompare)
@@ -218,12 +222,14 @@ public class APIController
                                  @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
                                  @RequestParam(required = false, defaultValue = "") String Torpedoes,
                                  @RequestBody(required = false) HashMap<String, List> upgradesSkills,
-                                 @RequestParam(required = false) List<String> modules) throws Exception
+                                 @RequestParam(required = false) List<String> modules
+    ) throws Exception
     {
-        String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
-                + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
-
-        model.addAttribute("componentsData", apiService.getUpgradeSkillStats(key, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills).getShipComponents());
+        String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
+        Ship shipAPI = apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills);
+        model.addAttribute("shipAPI", shipAPI);
+        model.addAttribute("shipComponents", shipAPI.getShipComponents());
+        model.addAttribute("consumables", upgradesSkills.get("consumables"));
 
         return "consumablesPage";
     }
