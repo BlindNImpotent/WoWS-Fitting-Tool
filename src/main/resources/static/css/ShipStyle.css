@@ -502,11 +502,11 @@ table
     border-width: 0px;
     border-style: solid;
     border-radius: 5px;
-    font-size: 10px;
-    min-width: 50px;
-    max-width: 50px;
-    min-height: 50px;
-    max-height: 50px;
+    /*font-size: 10px;*/
+    min-width: 60px;
+    max-width: 60px;
+    min-height: 60px;
+    max-height: 60px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -514,7 +514,7 @@ table
 
 .button_consumable img
 {
-    width: 25px;
+    /*width: 25px;*/
     margin-bottom: 0px;
 }
 
@@ -526,11 +526,11 @@ table
     border-width: 1px;
     border-style: solid;
     border-radius: 5px;
-    font-size: 10px;
-    min-width: 50px;
-    max-width: 50px;
-    min-height: 50px;
-    max-height: 50px;
+    /*font-size: 10px;*/
+    min-width: 60px;
+    max-width: 60px;
+    min-height: 60px;
+    max-height: 60px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -538,7 +538,7 @@ table
 
 .button_consumable_selected img
 {
-    width: 35px;
+    /*width: 35px;*/
     margin-bottom: 0px;
 }
 
@@ -723,19 +723,19 @@ table
     position: relative;
 }
 
-.consumables
-{
-    display: inline-block;
-    text-align: center;
-    vertical-align: top;
-    font-size: 8px;
-}
-
 #consumablesData
 {
     display: inline-block;
     text-align: center;
     vertical-align: top;
+}
+
+.consumables
+{
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+    font-size: 12px;
 }
 
 #consumablesData img

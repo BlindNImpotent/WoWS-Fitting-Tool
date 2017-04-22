@@ -301,9 +301,9 @@
         $('#flags').dialog('open');
     });
 
-//    $(document).on('click', '#showConsumables', function () {
-//        $('#consumablesData').dialog('open');
-//    });
+    $(document).on('click', '#showConsumables', function () {
+        $('#consumablesData').dialog('open');
+    });
 
 //    $(document).on('click', '#showCamouflage', function () {
 //        $('#camouflage').dialog('open');
@@ -403,7 +403,15 @@
                 success: function (data) {
                     if (data != '')
                     {
+//                        console.log(document.getAttribute('aria-describedby'));
+                        $('div[aria-describedby="consumablesData"]').remove();
+
                         $('.shipAPIData').replaceWith(data);
+
+                        $('#consumablesData').dialog({
+                            autoOpen: false,
+                            width: 400
+                        }).css("font-size", "8px");
 
                         history.replaceState({
                             nation: nation,
@@ -413,46 +421,46 @@
 
 //                        console.log(gpServiceUrl.replace('shipAPI', 'gpService'));
 
-                        $.ajax({
-                            url: url.replace('shipAPI', 'gpService'),
-                            type: 'post',
-                            contentType: "application/json",
-                            data: JSON.stringify(upgradesSkills),
-                            success: function (data) {
-                                if (data != '')
-                                {
-//                                    console.log(data);
-                                    $.ajax({
-                                        url: url.replace('shipAPI', 'shipComponents'),
-                                        type: 'post',
-                                        contentType: 'application/json',
-                                        data: JSON.stringify(upgradesSkills),
-                                        success: function (data) {
-                                            if (data != '')
-                                            {
-                                                $('#consumablesData').replaceWith(data);
-                                            }
-                                        }
-                                    });
-
-                                    if (data.artillery != null)
-                                    {
-                                        var sigma = '' +  data.artillery.sigmaCount;
-
-                                        if (!sigma.includes('.'))
-                                        {
-                                            sigma = sigma + '.0';
-                                        }
-
-                                        document.getElementById('sigmaCount').innerText = sigma;
-                                    }
-                                }
-                                else
-                                {
-                                    document.getElementById('sigmaCount').innerText = 'Unknown';
-                                }
-                            }
-                        });
+//                        $.ajax({
+//                            url: url.replace('shipAPI', 'gpService'),
+//                            type: 'post',
+//                            contentType: "application/json",
+//                            data: JSON.stringify(upgradesSkills),
+//                            success: function (data) {
+//                                if (data != '')
+//                                {
+////                                    console.log(data);
+//                                    $.ajax({
+//                                        url: url.replace('shipAPI', 'shipComponents'),
+//                                        type: 'post',
+//                                        contentType: 'application/json',
+//                                        data: JSON.stringify(upgradesSkills),
+//                                        success: function (data) {
+//                                            if (data != '')
+//                                            {
+//                                                $('#consumablesData').replaceWith(data);
+//                                            }
+//                                        }
+//                                    });
+//
+//                                    if (data.artillery != null)
+//                                    {
+//                                        var sigma = '' +  data.artillery.sigmaCount;
+//
+//                                        if (!sigma.includes('.'))
+//                                        {
+//                                            sigma = sigma + '.0';
+//                                        }
+//
+//                                        document.getElementById('sigmaCount').innerText = sigma;
+//                                    }
+//                                }
+//                                else
+//                                {
+//                                    document.getElementById('sigmaCount').innerText = 'Unknown';
+//                                }
+//                            }
+//                        });
                     }
                     else
                     {
@@ -534,6 +542,19 @@
 
         location.href = url;
     });
+    
+    $(document).on('click', '.button_consumable', function () {
+        var id = $(this).attr('name');
+        var abil = $(this).attr('class').split(' ')[1];
+        var abilDot = '.' + abil;
+//        console.log(abilDot);
+
+        $('.consumablesStats' + abilDot).attr('style', 'display: none;');
+        $('.button_consumable_selected' + abilDot).attr('class', 'button_consumable ' + abil);
+//
+        $('#' + id).removeAttr('style');
+        $('[name=' + id + ']').attr('class', 'button_consumable_selected ' + abil);
+    })
 
 //    ]]>
 </script>

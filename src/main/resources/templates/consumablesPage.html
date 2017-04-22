@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div id="consumablesData" th:fragment="consumablesData" th:unless="${componentsData.shipAbilities == null}">
-    <div class="consumables" th:each="ability : ${componentsData.shipAbilities}">
+<div id="consumablesData" th:fragment="consumablesData" th:unless="${shipComponents.shipAbilities == null}">
+    <div class="consumables" th:each="ability : ${shipComponents.shipAbilities}">
         <th:block th:each="consumable : ${ability.AbilitySlot0.abils}">
-            <th:block th:each="abil : ${componentsData.abilities}" th:if="${abil.key == consumable[0]}">
+            <th:block th:each="abil : ${shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
                 <li th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}">
                     <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
                     <span th:text="'Count: ' + ${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
@@ -13,9 +13,9 @@
             </th:block>
         </th:block>
     </div>
-    <div class="consumables" th:each="ability : ${componentsData.shipAbilities}">
+    <div class="consumables" th:each="ability : ${shipComponents.shipAbilities}">
         <th:block th:each="consumable : ${ability.AbilitySlot1.abils}">
-            <th:block th:each="abil : ${componentsData.abilities}" th:if="${abil.key == consumable[0]}">
+            <th:block th:each="abil : ${shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
                 <li th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}">
                     <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
                     <span th:text="'Count: ' + ${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
@@ -25,9 +25,9 @@
             </th:block>
         </th:block>
     </div>
-    <div class="consumables" th:each="ability : ${componentsData.shipAbilities}">
+    <div class="consumables" th:each="ability : ${shipComponents.shipAbilities}">
         <th:block th:each="consumable : ${ability.AbilitySlot2.abils}">
-            <th:block th:each="abil : ${componentsData.abilities}" th:if="${abil.key == consumable[0]}">
+            <th:block th:each="abil : ${shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
                 <li th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}">
                     <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
                     <span th:text="'Count: ' + ${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
@@ -37,9 +37,9 @@
             </th:block>
         </th:block>
     </div>
-    <div class="consumables" th:each="ability : ${componentsData.shipAbilities}">
+    <div class="consumables" th:each="ability : ${shipComponents.shipAbilities}">
         <th:block th:each="consumable : ${ability.AbilitySlot3.abils}">
-            <th:block th:each="abil : ${componentsData.abilities}" th:if="${abil.key == consumable[0]}">
+            <th:block th:each="abil : ${shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
                 <li th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}">
                     <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
                     <span th:text="'Count: ' + ${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
