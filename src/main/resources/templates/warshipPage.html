@@ -32,16 +32,17 @@
                 </th:block>
                 <img th:title="${warship.description}" th:src="${warship.images.medium}"/>
             </div>
-            <br />
-            <button th:if="${warship.prevWarship != null}" th:onclick="'fragments(\'' + ${warship.prevWarship.nation} + '\', \'' + ${warship.prevWarship.type} + '\', \'' + ${warship.prevWarship.name} + '\')'" th:text="${'Prev Ship (' + warship.prevWarship.name} + ')'"/>
-            <span style="padding: 1em;"></span>
-            <button id="showCrewSkills">Commander Skills</button>
-            <button id="showFlags">Flags</button>
-            <!--<button id="showConsumables" class="ui-button">Consumables</button>-->
-            <!--<button id="showCamouflage" class="ui-button">Camo</button>-->
-            <input type="checkbox" id="camouflageCheckbox" th:checked="${camo}" th:text="'Camouflage'" th:title="'Decreases the firing accuracy of the enemy and reduces ship detectability.'"/>
-            <!--<input type="checkbox" id="stockCompareCheckBox"/>Stock Comparison-->
-            <input type="checkbox" id="upgradeCompareCheckBox" th:text="'Upgrade Comparison'"/><br />
+            <div>
+                <button th:if="${warship.prevWarship != null}" th:onclick="'fragments(\'' + ${warship.prevWarship.nation} + '\', \'' + ${warship.prevWarship.type} + '\', \'' + ${warship.prevWarship.name} + '\')'" th:text="${'Prev Ship (' + warship.prevWarship.name} + ')'"/>
+                <span style="padding: 1em;"></span>
+                <button id="showCrewSkills">Commander Skills</button>
+                <button id="showFlags">Flags</button>
+                <!--<button id="showConsumables" class="ui-button">Consumables</button>-->
+                <!--<button id="showCamouflage" class="ui-button">Camo</button>-->
+                <input type="checkbox" id="camouflageCheckbox" th:checked="${camo}" th:text="'Camouflage'" th:title="'Decreases the firing accuracy of the enemy and reduces ship detectability.'"/>
+                <!--<input type="checkbox" id="stockCompareCheckBox"/>Stock Comparison-->
+                <input type="checkbox" id="upgradeCompareCheckBox" th:text="'Upgrade Comparison'"/>
+            </div>
             <div id="modulesUpgradesConsumables">
                 <div id="modules">
                     <table>
