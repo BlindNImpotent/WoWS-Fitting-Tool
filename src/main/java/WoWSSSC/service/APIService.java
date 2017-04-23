@@ -103,7 +103,6 @@ public class APIService
 
                 apiJsonParser.checkShipData(url, key, ship_id, nation, shipType, ship);
             }
-
             return key;
         }
         return null;

@@ -55,9 +55,8 @@
     //    ]]>
 </noscript>
 <header>
-    <div th:include="top :: top"></div>
-    <br />
-    <br />
+    <div th:include="top :: top" id="top">
+    </div>
     <div id="header">
         <div id="dropDownList">
             <ul id="shipList">
@@ -237,49 +236,51 @@
     {
         var list = [[${consumables}]];
 
+        if (list == null || ([[${warship}]] != null && [[${warship}]].name != ship))
+        {
+            list = [];
+        }
+
         var notSelected = $('.button_consumable');
         var selected = $('.button_consumable_selected');
 
-        var allConsumables = [];
+        if (selected.length > 0)
+        {
+            list = [];
 
+            for (var i = 0; i < selected.length; i++)
+            {
+                list.push(selected.eq(i).attr('name'));
+            }
+        }
+
+        var allConsumables = [];
         for (var i = 0; i < notSelected.length; i++)
         {
-            allConsumables.push(notSelected.eq(i).attr('name'))
+            allConsumables.push(notSelected.eq(i).attr('name'));
         }
         for (var i = 0; i < selected.length; i++)
         {
             allConsumables.push(selected.eq(i).attr('name'));
         }
 
-        if (list != null && [[${warship}]].name == ship)
+        for (var i = 0; i < list.length; i++)
         {
-            var index = 0;
-            for (var i = 0; i < list.length; i++)
-            {
-                var currentI = list[i];
-                for (var j = 0; j < allConsumables.length; j++)
-                {
-                    var currentJ = allConsumables[j];
+            var mismatch = true;
 
-                    if (currentI == currentJ)
-                    {
-                        index++;
-                        break;
-                    }
+            for (var j = 0; j < allConsumables.length; j++)
+            {
+                if (list[i] == allConsumables[j])
+                {
+                    mismatch = false;
+                    break;
                 }
             }
 
-            if (index != list.length)
+            if (mismatch)
             {
                 list = [];
-            }
-        }
-        else
-        {
-            list = [];
-            for (var i = 0; i < selected.length; i++)
-            {
-                list.push(selected.eq(i).attr('name'));
+                break;
             }
         }
 
@@ -491,6 +492,25 @@
                     {
                         $('.shipAPIData').replaceWith(data);
 
+                        $.ajax({
+                            url: url.replace('shipAPI', 'shipComponents'),
+                            type: 'post',
+                            contentType: "application/json",
+                            data: JSON.stringify(upgradesSkills),
+                            success: function (data) {
+                                if (data != '')
+                                {
+                                    $('#consumablesData').replaceWith(data);
+
+                                    setConsumables();
+                                }
+                                else
+                                {
+//                                    alert('Consumable Error');
+                                }
+                            }
+                        });
+
                         history.replaceState({
                             nation: nation,
                             shipType: shipType,
@@ -499,26 +519,7 @@
                     }
                     else
                     {
-                        alert('Wrong path of research!');
-                    }
-                }
-            });
-
-            $.ajax({
-                url: url.replace('shipAPI', 'shipComponents'),
-                type: 'post',
-                contentType: "application/json",
-                data: JSON.stringify(upgradesSkills),
-                success: function (data) {
-                    if (data != '')
-                    {
-                        $('#consumablesData').replaceWith(data);
-
-                        setConsumables();
-                    }
-                    else
-                    {
-                        alert('Consumable Error');
+//                        alert('Wrong path of research!');
                     }
                 }
             });

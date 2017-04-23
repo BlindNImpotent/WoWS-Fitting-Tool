@@ -55,9 +55,8 @@
     //    ]]>
 </noscript>
 <header>
-    <div th:include="top :: top"></div>
-    <br />
-    <br />
+    <div th:include="top :: top" id="top">
+    </div>
     <div id="header">
         <div id="dropDownList">
             <ul id="shipList">
@@ -86,52 +85,52 @@
 <div id="crewSkills" class="ui-widget-content" title="Skill Points 0 / 19">
     <table id="skillsTable" align="center">
         <tbody>
-            <tr th:each="skillTier : ${data.skills}">
-                <td th:each="skill : ${skillTier.value}" th:id="${'td_' + skill.value.tier + '_' + skill.value.type_id}">
-                    <button th:if="${skill.value.tier != 0}" th:object="${skill.value}" th:title="${skill.value.description}" th:class="${crewSkills != null and crewSkills.size() != 0 and (crewSkills.?[tier == #strings.toString(__${skill.value.tier}__) and type_id == #strings.toString(__${skill.value.type_id}__)]).size() != 0} ? button_skill_selected : button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, type_id=${skill.value.type_id}">
-                        <img th:src="${skill.value.icon}"/><br />
-                        <span th:text="${skill.value.name}"/>
-                    </button>
-                </td>
-            </tr>
+        <tr th:each="skillTier : ${data.skills}">
+            <td th:each="skill : ${skillTier.value}" th:id="${'td_' + skill.value.tier + '_' + skill.value.type_id}">
+                <button th:if="${skill.value.tier != 0}" th:object="${skill.value}" th:title="${skill.value.description}" th:class="${crewSkills != null and crewSkills.size() != 0 and (crewSkills.?[tier == #strings.toString(__${skill.value.tier}__) and type_id == #strings.toString(__${skill.value.type_id}__)]).size() != 0} ? button_skill_selected : button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, type_id=${skill.value.type_id}">
+                    <img th:src="${skill.value.icon}"/><br />
+                    <span th:text="${skill.value.name}"/>
+                </button>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>
 <div id="flags" class="ui-widget-content" title="Flags 0 / 8">
     <table id="flagsTable" align="center">
         <tbody>
-            <tr th:each="index : ${#numbers.sequence(0, data.exteriors.Flags.size() - 1, 6)}" th:id="${index / 6}">
-                <td th:each="flag : ${data.exteriors.Flags}" th:if="${flagStat.index % 3} == ${index / 6}">
-                    <button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.consumable_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.consumable_id}">
-                        <img th:src="${flag.value.image}"/><br />
-                        <span th:text="${flag.value.name}"/>
-                    </button>
-                </td>
-            </tr>
+        <tr th:each="index : ${#numbers.sequence(0, data.exteriors.Flags.size() - 1, 6)}" th:id="${index / 6}">
+            <td th:each="flag : ${data.exteriors.Flags}" th:if="${flagStat.index % 3} == ${index / 6}">
+                <button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.consumable_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.consumable_id}">
+                    <img th:src="${flag.value.image}"/><br />
+                    <span th:text="${flag.value.name}"/>
+                </button>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>
 <!--<div id="camouflage" class="ui-widget-content" title="Camouflage">-->
-    <!--<table id="camouflageTable" align="center">-->
-        <!--<tbody>-->
-            <!--<tr>-->
-                <!--<td th:each="camoflage : ${data.exteriors.Camouflage}">-->
-                    <!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
-                    <!--<img th:src="${camouflage.value.image.small}"/><br />-->
-                    <!--<span th:text="${camouflage.value.name}"/>-->
-                    <!--</button>-->
-                <!--</td>-->
-            <!--</tr>-->
-            <!--<tr th:each="index : ${#numbers.sequence(0, data.exteriors.Camouflage.size() - 1, 6)}" th:id="${index / 6}">-->
-                <!--<td th:each="camouflage : ${data.exteriors.Camouflage}" th:if="${camouflageStat.index % 3} == ${index / 6}">-->
-                    <!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
-                        <!--<img th:src="${camouflage.value.image.small}"/><br />-->
-                        <!--<span th:text="${camouflage.value.name}"/>-->
-                    <!--</button>-->
-                <!--</td>-->
-            <!--</tr>-->
-        <!--</tbody>-->
-    <!--</table>-->
+<!--<table id="camouflageTable" align="center">-->
+<!--<tbody>-->
+<!--<tr>-->
+<!--<td th:each="camoflage : ${data.exteriors.Camouflage}">-->
+<!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
+<!--<img th:src="${camouflage.value.image.small}"/><br />-->
+<!--<span th:text="${camouflage.value.name}"/>-->
+<!--</button>-->
+<!--</td>-->
+<!--</tr>-->
+<!--<tr th:each="index : ${#numbers.sequence(0, data.exteriors.Camouflage.size() - 1, 6)}" th:id="${index / 6}">-->
+<!--<td th:each="camouflage : ${data.exteriors.Camouflage}" th:if="${camouflageStat.index % 3} == ${index / 6}">-->
+<!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
+<!--<img th:src="${camouflage.value.image.small}"/><br />-->
+<!--<span th:text="${camouflage.value.name}"/>-->
+<!--</button>-->
+<!--</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
 <!--</div>-->
 <main>
     <div class="container">
@@ -142,7 +141,7 @@
     </div>
 </main>
 <script th:inline="javascript">
-//    <![CDATA[
+    //    <![CDATA[
 
     var nation = '';
     var shipType = '';
@@ -237,49 +236,51 @@
     {
         var list = [[${consumables}]];
 
+        if (list == null || ([[${warship}]] != null && [[${warship}]].name != ship))
+        {
+            list = [];
+        }
+
         var notSelected = $('.button_consumable');
         var selected = $('.button_consumable_selected');
 
-        var allConsumables = [];
+        if (selected.length > 0)
+        {
+            list = [];
 
+            for (var i = 0; i < selected.length; i++)
+            {
+                list.push(selected.eq(i).attr('name'));
+            }
+        }
+
+        var allConsumables = [];
         for (var i = 0; i < notSelected.length; i++)
         {
-            allConsumables.push(notSelected.eq(i).attr('name'))
+            allConsumables.push(notSelected.eq(i).attr('name'));
         }
         for (var i = 0; i < selected.length; i++)
         {
             allConsumables.push(selected.eq(i).attr('name'));
         }
 
-        if (list != null && [[${warship}]].name == ship)
+        for (var i = 0; i < list.length; i++)
         {
-            var index = 0;
-            for (var i = 0; i < list.length; i++)
-            {
-                var currentI = list[i];
-                for (var j = 0; j < allConsumables.length; j++)
-                {
-                    var currentJ = allConsumables[j];
+            var mismatch = true;
 
-                    if (currentI == currentJ)
-                    {
-                        index++;
-                        break;
-                    }
+            for (var j = 0; j < allConsumables.length; j++)
+            {
+                if (list[i] == allConsumables[j])
+                {
+                    mismatch = false;
+                    break;
                 }
             }
 
-            if (index != list.length)
+            if (mismatch)
             {
                 list = [];
-            }
-        }
-        else
-        {
-            list = [];
-            for (var i = 0; i < selected.length; i++)
-            {
-                list.push(selected.eq(i).attr('name'));
+                break;
             }
         }
 
@@ -381,9 +382,9 @@
         $('#consumablesData').dialog('open');
     });
 
-//    $(document).on('click', '#showCamouflage', function () {
-//        $('#camouflage').dialog('open');
-//    });
+    //    $(document).on('click', '#showCamouflage', function () {
+    //        $('#camouflage').dialog('open');
+    //    });
 
     $(document).on('click', '#camouflageCheckbox', function () {
         callAPI();
@@ -491,6 +492,25 @@
                     {
                         $('.shipAPIData').replaceWith(data);
 
+                        $.ajax({
+                            url: url.replace('shipAPI', 'shipComponents'),
+                            type: 'post',
+                            contentType: "application/json",
+                            data: JSON.stringify(upgradesSkills),
+                            success: function (data) {
+                                if (data != '')
+                                {
+                                    $('#consumablesData').replaceWith(data);
+
+                                    setConsumables();
+                                }
+                                else
+                                {
+//                                    alert('Consumable Error');
+                                }
+                            }
+                        });
+
                         history.replaceState({
                             nation: nation,
                             shipType: shipType,
@@ -499,26 +519,7 @@
                     }
                     else
                     {
-                        alert('Wrong path of research!');
-                    }
-                }
-            });
-
-            $.ajax({
-                url: url.replace('shipAPI', 'shipComponents'),
-                type: 'post',
-                contentType: "application/json",
-                data: JSON.stringify(upgradesSkills),
-                success: function (data) {
-                    if (data != '')
-                    {
-                        $('#consumablesData').replaceWith(data);
-
-                        setConsumables();
-                    }
-                    else
-                    {
-                        alert('Consumable Error');
+//                        alert('Wrong path of research!');
                     }
                 }
             });
@@ -628,7 +629,7 @@
         }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables);
     })
 
-//    ]]>
+    //    ]]>
 </script>
 </body>
 </html>

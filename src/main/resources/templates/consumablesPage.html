@@ -14,7 +14,7 @@
         <div class="consumables" th:each="ability : ${shipComponents.shipAbilities}">
             <th:block th:each="consumable : ${ability.AbilitySlot1.abils}">
                 <li th:each="abil : ${shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
-                    <button th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1]}" th:class="${consumables != null and #sets.contains(consumables, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected abil11' : 'button_consumable abil1'}">
+                    <button th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1]}" th:class="${consumables != null and #sets.contains(consumables, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected abil1' : 'button_consumable abil1'}">
                         <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
                     </button>
                 </li>

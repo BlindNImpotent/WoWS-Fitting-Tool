@@ -21,9 +21,29 @@ table
     width: 200px;
 }
 
+#top
+{
+    /*text-align:center;*/
+    overflow: hidden;
+    position: fixed;
+    background: white;
+    top: 0;
+    height: 100px;
+    width: 100%;
+    z-index: 1;
+}
+
 #header
 {
     text-align:center;
+    position: fixed;
+    top: 100px;
+    /*width: 100%;*/
+}
+
+main
+{
+    padding-top : 100px;
 }
 
 #dropDownList

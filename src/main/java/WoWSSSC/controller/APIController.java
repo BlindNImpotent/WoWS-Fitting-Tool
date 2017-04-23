@@ -156,7 +156,11 @@ public class APIController
             String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
             Ship shipAPI = apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills);
             model.addAttribute("shipAPI", shipAPI);
-            model.addAttribute("shipComponents", shipAPI.getShipComponents());
+
+            if (shipAPI != null)
+            {
+                model.addAttribute("shipComponents", shipAPI.getShipComponents());
+            }
 
             model.addAttribute("upgradeCompare", upgradeCompare);
             if (upgradeCompare)
@@ -225,10 +229,18 @@ public class APIController
                                  @RequestParam(required = false) List<String> modules
     ) throws Exception
     {
-        String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
-        Ship shipAPI = apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills);
+        String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
+            + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
+
+        Ship shipAPI = apiService.getUpgradeSkillStats(key, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills);
+
         model.addAttribute("shipAPI", shipAPI);
-        model.addAttribute("shipComponents", shipAPI.getShipComponents());
+
+        if (shipAPI != null)
+        {
+            model.addAttribute("shipComponents", shipAPI.getShipComponents());
+        }
+
         model.addAttribute("consumables", upgradesSkills.get("consumables"));
 
         return "consumablesPage";
