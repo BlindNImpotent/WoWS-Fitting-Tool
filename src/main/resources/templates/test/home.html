@@ -71,7 +71,7 @@
                             <span th:text="${shipType.key}" />
                             <ul>
                                 <li th:each="ship : ${shipType.value}" th:if="${ship.key != 'Test Ship'}">
-                                    <a th:text="${ship.value.tier + ' - ' + ship.key}" th:href="${'/ship?nation=' + nation.key + '&amp;shipType=' + shipType.key + '&amp;ship=' + ship.key}"/>
+                                    <a th:text="${ship.value.tier + ' - ' + ship.key}" th:href="${'/ship?nation=' + nation.key + '&amp;shipType=' + shipType.key + '&amp;shipName=' + ship.key + '&amp;ship_id=' + ship.value.ship_id}"/>
                                 </li>
                             </ul>
                         </li>
@@ -114,17 +114,14 @@
 </div>
 <main>
     <div class="container">
-        <div class="warshipData" th:include="v2/warshipPage :: warshipStats">
+        <div class="warshipData" th:include="test/warshipPage :: warshipStats">
         </div>
-        <div class="shipAPIData">
+        <div class="shipAPIData" th:include="test/shipAPIPage :: shipAPIData">
         </div>
     </div>
 </main>
 <script th:inline="javascript">
     //    <![CDATA[
-
-    console.log([[${warship}]]);
-    console.log([[${modules}]]);
 
     //    ]]>
 </script>

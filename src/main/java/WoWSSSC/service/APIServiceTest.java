@@ -1,10 +1,16 @@
 package WoWSSSC.service;
 
+import WoWSSSC.model.ShipComponents;
+import WoWSSSC.model.WoWSAPI.consumables.Consumables;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
+import WoWSSSC.model.WoWSAPI.shipprofile.profile.artillery.Artillery_Slots;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
+import WoWSSSC.model.gameparams.Consumables.Consumable;
+import WoWSSSC.model.gameparams.Temporary;
 import WoWSSSC.parser.APIJsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rits.cloning.Cloner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +18,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.util.*;
 
 /**
  * Created by Aesis on 2017-04-24.
  */
 @Service
-public class APIServiceV2
+public class APIServiceTest
 {
     @Autowired
     private String APP_ID;

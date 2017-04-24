@@ -19,4 +19,6 @@ public class Consumables
     private long price_credit;
     private String type;
     private String description;
+
+    private String upgradeSlot;
 }

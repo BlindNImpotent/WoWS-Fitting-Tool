@@ -33,15 +33,18 @@
                 <img th:title="${warship.description}" th:src="${warship.images.medium}"/>
             </div>
             <div>
-                <button th:if="${warship.prevWarship != null}" th:onclick="'fragments(\'' + ${warship.prevWarship.nation} + '\', \'' + ${warship.prevWarship.type} + '\', \'' + ${warship.prevWarship.name} + '\')'" th:text="${'Prev Ship (' + warship.prevWarship.name} + ')'"/>
-                <span style="padding: 1em;"></span>
-                <button id="showCrewSkills">Commander Skills</button>
-                <button id="showFlags">Flags</button>
+                <!--<button th:if="${warship.prevWarship != null}" th:onclick="'fragments(\'' + ${warship.prevWarship.nation} + '\', \'' + ${warship.prevWarship.type} + '\', \'' + ${warship.prevWarship.name} + '\')'" th:text="${'Prev Ship (' + warship.prevWarship.name} + ')'"/>-->
+                <a th:href="${'/ship?nation=' + warship.prevWarship.nation + '&amp;shipType=' + warship.prevWarship.type + '&amp;shipName=' + warship.prevWarship.name + '&amp;ship_id=' + warship.prevWarship.ship_id}">
+                    <button th:if="${warship.prevWarship != null}" th:text="${'Prev Ship (' + warship.prevWarship.name} + ')'"/>
+                </a>
+                <!--<span style="padding: 1em;"></span>-->
+                <!--<button id="showCrewSkills">Commander Skills</button>-->
+                <!--<button id="showFlags">Flags</button>-->
                 <!--<button id="showConsumables" class="ui-button">Consumables</button>-->
                 <!--<button id="showCamouflage" class="ui-button">Camo</button>-->
-                <input type="checkbox" id="camouflageCheckbox" th:checked="${camo}" th:text="'Camouflage'" th:title="'Decreases the firing accuracy of the enemy and reduces ship detectability.'"/>
+                <!--<input type="checkbox" id="camouflageCheckbox" th:checked="${camo}" th:text="'Camouflage'" th:title="'Decreases the firing accuracy of the enemy and reduces ship detectability.'"/>-->
                 <!--<input type="checkbox" id="stockCompareCheckBox"/>Stock Comparison-->
-                <input type="checkbox" id="upgradeCompareCheckBox" th:text="'Upgrade Comparison'"/>
+                <!--<input type="checkbox" id="upgradeCompareCheckBox" th:text="'Upgrade Comparison'"/>-->
             </div>
             <div id="modulesUpgradesConsumables">
                 <div id="modules">
@@ -52,7 +55,7 @@
                                     <a th:if="${module != null}" th:id="${module.module_id}" th:name="${module.type}" role="button"
                                            th:href=
                                        "${
-                                            '/ship?nation=' + nation + '&amp;shipType=' + shipType + '&amp;ship=' + ship
+                                            '/ship?nation=' + nation + '&amp;shipType=' + shipType + '&amp;shipName=' + shipName + '&amp;ship_id=' + warship.ship_id
                                             + (module.type == 'Artillery' and Artillery == '' ? '&amp;' + module.type + '=' + module.module_id : '&amp;Artillery=' + (Artillery != '' and module.type == 'Artillery' ? module.module_id : Artillery))
                                             + (module.type == 'DiveBomber' and DiveBomber == '' ? '&amp;' + module.type + '=' + module.module_id : '&amp;DiveBomber=' + (DiveBomber != '' and module.type == 'DiveBomber' ? module.module_id : DiveBomber))
                                             + (module.type == 'Engine' and Engine == '' ? '&amp;' + module.type + '=' + module.module_id : '&amp;Engine=' + (Engine != '' and module.type == 'Engine' ? module.module_id : Engine))
@@ -84,10 +87,21 @@
                 <div id="upgrades">
                     <div th:each="upgradeType : ${warship.upgradesNew}" th:id="'id_' + ${upgradeType.key}">
                         <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.consumable_id}">
-                            <button th:title="${upgrade.value.description}" th:class="${upgrades != null and #sets.contains(upgrades, #strings.toString(upgrade.value.consumable_id))} ? button_upgrade_selected : button_upgrade" th:id="${upgrade.value.consumable_id}" th:name="'price_' + ${upgrade.value.price_credit}">
-                                <img th:src="${upgrade.value.image}"/><br />
-                                <span th:text="${upgrade.value.name}"/>
-                            </button>
+                            <a th:href="
+                            ${
+                                '/ship?nation=' + nation + '&amp;shipType=' + shipType + '&amp;shipName=' + shipName + '&amp;ship_id=' + warship.ship_id + '&amp;Artillery=' + Artillery + '&amp;DiveBomber=' + DiveBomber + '&amp;Engine=' + Engine + '&amp;Fighter=' + Fighter + '&amp;Suo=' + Suo + '&amp;FlightControl=' + FlightControl + '&amp;Hull=' + Hull + '&amp;TorpedoBomber=' + TorpedoBomber + '&amp;Torpedoes=' + Torpedoes
+                                + (upgrade.value.upgradeSlot == 'slot1' and slot1 == '' ? '&amp;' + upgrade.value.upgradeSlot + '=' + upgrade.value.consumable_id : '&amp;slot1=' + (slot1 != '' and upgrade.value.upgradeSlot == 'slot1' ? upgrade.value.consumable_id : slot1))
+                                + (upgrade.value.upgradeSlot == 'slot2' and slot2 == '' ? '&amp;' + upgrade.value.upgradeSlot + '=' + upgrade.value.consumable_id : '&amp;slot2=' + (slot2 != '' and upgrade.value.upgradeSlot == 'slot2' ? upgrade.value.consumable_id : slot2))
+                                + (upgrade.value.upgradeSlot == 'slot3' and slot3 == '' ? '&amp;' + upgrade.value.upgradeSlot + '=' + upgrade.value.consumable_id : '&amp;slot3=' + (slot3 != '' and upgrade.value.upgradeSlot == 'slot3' ? upgrade.value.consumable_id : slot3))
+                                + (upgrade.value.upgradeSlot == 'slot4' and slot4 == '' ? '&amp;' + upgrade.value.upgradeSlot + '=' + upgrade.value.consumable_id : '&amp;slot4=' + (slot4 != '' and upgrade.value.upgradeSlot == 'slot4' ? upgrade.value.consumable_id : slot4))
+                                + (upgrade.value.upgradeSlot == 'slot5' and slot5 == '' ? '&amp;' + upgrade.value.upgradeSlot + '=' + upgrade.value.consumable_id : '&amp;slot5=' + (slot5 != '' and upgrade.value.upgradeSlot == 'slot5' ? upgrade.value.consumable_id : slot5))
+                                + (upgrade.value.upgradeSlot == 'slot6' and slot6 == '' ? '&amp;' + upgrade.value.upgradeSlot + '=' + upgrade.value.consumable_id : '&amp;slot6=' + (slot6 != '' and upgrade.value.upgradeSlot == 'slot6' ? upgrade.value.consumable_id : slot6))
+                            }">
+                                <button th:title="${upgrade.value.description}" th:class="${upgrades != null and #lists.contains(upgrades, #strings.toString(upgrade.value.consumable_id))} ? button_upgrade_selected : button_upgrade" th:id="${upgrade.value.consumable_id}" th:name="'price_' + ${upgrade.value.price_credit}">
+                                    <img th:src="${upgrade.value.image}"/><br />
+                                    <span th:text="${upgrade.value.name}"/>
+                                </button>
+                            </a>
                         </li>
                     </div>
                 </div>

@@ -1,12 +1,9 @@
 package WoWSSSC.controller;
 
-import WoWSSSC.model.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
-import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
-import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.service.APIService;
-import WoWSSSC.service.APIServiceV2;
+import WoWSSSC.service.APIServiceTest;
 import WoWSSSC.service.GPService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -16,10 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,10 +23,13 @@ import java.util.stream.Stream;
  * Created by Aesis on 2016-10-15.
  */
 @Controller
-public class APIControllerV2
+public class APIControllerTest
 {
     @Autowired
-    private APIServiceV2 apiServiceV2;
+    private APIService apiService;
+
+    @Autowired
+    private APIServiceTest apiServiceTest;
 
     @Autowired
     private GPService gpService;
@@ -48,7 +46,7 @@ public class APIControllerV2
     @Autowired
     private HashMap<String, Ship> shipHashMap;
 
-    private static final Logger logger = LoggerFactory.getLogger(APIControllerV2.class);
+    private static final Logger logger = LoggerFactory.getLogger(APIControllerTest.class);
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -59,7 +57,7 @@ public class APIControllerV2
                     Model model,
                     @RequestParam(required = false, defaultValue = "") String nation,
                     @RequestParam(required = false, defaultValue = "") String shipType,
-                    @RequestParam(required = false, defaultValue = "") String ship,
+                    @RequestParam(required = false, defaultValue = "") String shipName,
                     @RequestParam(required = false, defaultValue = "") String ship_id,
                     @RequestParam(required = false, defaultValue = "") String Artillery,
                     @RequestParam(required = false, defaultValue = "") String DiveBomber,
@@ -71,7 +69,14 @@ public class APIControllerV2
                     @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
                     @RequestParam(required = false, defaultValue = "") String Torpedoes,
 //                    @RequestParam(required = false) List<String> modules,
-                    @RequestBody(required = false) HashMap<String, List> upgradesSkills,
+//                    @RequestBody(required = false) HashMap<String, List> upgradesSkills,
+                    @RequestParam(required = false, defaultValue = "") String slot1,
+                    @RequestParam(required = false, defaultValue = "") String slot2,
+                    @RequestParam(required = false, defaultValue = "") String slot3,
+                    @RequestParam(required = false, defaultValue = "") String slot4,
+                    @RequestParam(required = false, defaultValue = "") String slot5,
+                    @RequestParam(required = false, defaultValue = "") String slot6,
+                    @RequestParam(required = false, defaultValue = "false") boolean camo,
                     @RequestParam(required = false, defaultValue = "false") boolean stockCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean upgradeCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean mobile
@@ -81,27 +86,43 @@ public class APIControllerV2
         model.addAttribute("encyclopedia", data.get("encyclopedia"));
         model.addAttribute("data", data);
 
-        if (StringUtils.isNotEmpty(nation) && StringUtils.isNotEmpty(shipType) && StringUtils.isNotEmpty(ship))
+        if (StringUtils.isNotEmpty(nation) && StringUtils.isNotEmpty(shipType) && StringUtils.isNotEmpty(shipName))
         {
-            logger.info("Loading " + nation + " " + shipType + " " + ship);
+            logger.info("Loading " + nation + " " + shipType + " " + shipName);
 
-            Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship);
+            Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(shipName);
             model.addAttribute("warship", warship);
 
-            List<String> modules = apiServiceV2.setModules(warship, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
+            List<String> modules = apiServiceTest.setModules(warship, nation, shipType, shipName, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes);
             model.addAttribute("modules", modules);
 
 //            List<String> modules = Stream.of(Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes).collect(Collectors.toList());
 
-            model.addAttribute("nation", nation).addAttribute("shipType", shipType).addAttribute("ship", ship)
+            model.addAttribute("nation", nation).addAttribute("shipType", shipType).addAttribute("shipName", shipName)
                     .addAttribute("ship_id", ship_id).addAttribute("Artillery", Artillery).addAttribute("DiveBomber", DiveBomber).addAttribute("Engine", Engine)
                     .addAttribute("Fighter", Fighter).addAttribute("Suo", Suo).addAttribute("FlightControl", FlightControl).addAttribute("Hull", Hull)
                     .addAttribute("TorpedoBomber", TorpedoBomber).addAttribute("Torpedoes", Torpedoes);
 
+            model.addAttribute("slot1", slot1).addAttribute("slot2", slot2).addAttribute("slot3", slot3).addAttribute("slot4", slot4).addAttribute("slot5", slot5).addAttribute("slot6", slot6);
+
+            List<String> upgrades = Stream.of(slot1, slot2, slot3, slot4, slot5, slot6).collect(Collectors.toList());
+            model.addAttribute("upgrades", upgrades);
+
+            HashMap<String, List> upgradesSkills = new HashMap<>();
+            upgradesSkills.put("upgrades", upgrades);
+
+            String returnedKey = apiService.setShipAPI(nation, shipType, shipName, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
+            Ship shipAPI = apiService.getUpgradeSkillStats(returnedKey, nation, shipType, shipName, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills);
+            model.addAttribute("shipAPI", shipAPI);
+
+            if (shipAPI != null)
+            {
+                model.addAttribute("shipComponents", shipAPI.getShipComponents());
+            }
+
             model.addAttribute("mobile", mobile);
 
-
         }
-        return "v2/home";
+        return "test/home";
     }
 }
