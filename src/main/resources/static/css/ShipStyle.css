@@ -1,3 +1,8 @@
+body
+{
+    margin: 0px;
+}
+
 li
 {
     list-style-type: none;
@@ -9,18 +14,33 @@ a
     text-decoration: none;
 }
 
-header
+#top
 {
-    background-color: lightblue;
+    /*text-align:center;*/
+    overflow: hidden;
+    position: fixed;
+    background: lightblue;
+    top: 0;
+    height: 34px;
+    width: 100%;
+    z-index: 1;
+    padding: 8px;
 }
 
-#header {
-    margin: 0 auto;
-    padding: 0 auto;
+#header
+{
+    position: fixed;
+    top: 50px;
+    width: 100%;
+}
+
+main
+{
+    padding-top : 60px;
 }
 
 nav {
-    margin: 10px 0px 10px;
+    margin: 0px 0px 0px;
     background-color: lightblue;
 }
 
