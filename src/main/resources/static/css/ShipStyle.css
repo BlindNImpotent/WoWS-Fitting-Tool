@@ -753,20 +753,15 @@ main
 .consumables
 {
     display: inline-block;
-    text-align: center;
+    text-align: left;
     vertical-align: top;
     font-size: 12px;
 }
 
-.consumables li
-{
-    height: 120px;
-}
-
-.consumables img
+#consumablesData img
 {
     text-align: center;
-    width: 30px;
+    width: 40px;
     margin-bottom: 0px;
 }
 
