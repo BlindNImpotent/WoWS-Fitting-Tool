@@ -18,7 +18,7 @@ a
 {
     /*text-align:center;*/
     overflow: hidden;
-    position: fixed;
+    position: relative;
     background: lightblue;
     top: 0;
     height: 34px;
@@ -29,14 +29,8 @@ a
 
 #header
 {
-    position: fixed;
-    top: 50px;
+    position: relative;
     width: 100%;
-}
-
-main
-{
-    padding-top : 60px;
 }
 
 nav {
