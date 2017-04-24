@@ -1,169 +1,127 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div id="consumablesData" th:fragment="consumablesData" th:unless="${shipComponents.shipAbilities == null}">
-    <div class="consumables">
+    <div>
         <div class="consumables" th:each="ability : ${shipComponents.shipAbilities}">
             <th:block th:each="consumable : ${ability.AbilitySlot0.abils}">
                 <li th:each="abil : ${shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
-                    <button th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1]}" th:class="${consumables != null and #sets.contains(consumables, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected abil0' : 'button_consumable abil0'}">
+                    <th:block th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1]}" th:class="${consumables != null and #sets.contains(consumables, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected abil0' : 'button_consumable abil0'}">
                         <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
-                    </button>
+                        <span style="float:left;">Count: </span><span style="float: right;" th:text="${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
+                        <span style="float:left;">Duration: </span><span style="float: right; padding-left: 2em;" th:text="${#numbers.formatInteger(type.value.workTime, 1)} + ' s'"/><br />
+                        <span style="float:left;">Reload: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.reloadTime, 1)} + ' s'"/><br />
+                        <th:block th:if="${type.value.distShip != 0}">
+                            <span style="float: left;">Ship: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distShip, 0, 2) + ' km'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.distTorpedo != 0}">
+                            <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distTorpedo, 0, 2) + ' km'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.regenerationHPSpeed != 0}">
+                            <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' / s'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.lifeTime != 0}">
+                            <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.boostCoeff != 0}">
+                            <span style="float: left;">Speed: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed * type.value.boostCoeff, 0, 1) + ' kts'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.auraCoeff != 0}">
+                            <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
+                        </th:block>
+                    </th:block>
                 </li>
             </th:block>
         </div>
         <div class="consumables" th:each="ability : ${shipComponents.shipAbilities}">
             <th:block th:each="consumable : ${ability.AbilitySlot1.abils}">
                 <li th:each="abil : ${shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
-                    <button th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1]}" th:class="${consumables != null and #sets.contains(consumables, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected abil1' : 'button_consumable abil1'}">
+                    <th:block th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1]}" th:class="${consumables != null and #sets.contains(consumables, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected abil1' : 'button_consumable abil1'}">
                         <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
-                    </button>
+                        <span style="float:left;">Count: </span><span style="float: right;" th:text="${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
+                        <span style="float:left;">Duration: </span><span style="float: right; padding-left: 2em;" th:text="${#numbers.formatInteger(type.value.workTime, 1)} + ' s'"/><br />
+                        <span style="float:left;">Reload: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.reloadTime, 1)} + ' s'"/><br />
+                        <th:block th:if="${type.value.distShip != 0}">
+                            <span style="float: left;">Ship: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distShip, 0, 2) + ' km'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.distTorpedo != 0}">
+                            <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distTorpedo, 0, 2) + ' km'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.regenerationHPSpeed != 0}">
+                            <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' / s'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.lifeTime != 0}">
+                            <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.boostCoeff != 0}">
+                            <span style="float: left;">Speed: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed * type.value.boostCoeff, 0, 1) + ' kts'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.auraCoeff != 0}">
+                            <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
+                        </th:block>
+                    </th:block>
                 </li>
             </th:block>
         </div>
         <div class="consumables" th:each="ability : ${shipComponents.shipAbilities}">
             <th:block th:each="consumable : ${ability.AbilitySlot2.abils}">
                 <li th:each="abil : ${shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
-                    <button th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1]}" th:class="${consumables != null and #sets.contains(consumables, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected abil2' : 'button_consumable abil2'}">
+                    <th:block th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1]}" th:class="${consumables != null and #sets.contains(consumables, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected abil2' : 'button_consumable abil2'}">
                         <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
-                    </button>
+                        <span style="float:left;">Count: </span><span style="float: right;" th:text="${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
+                        <span style="float:left;">Duration: </span><span style="float: right; padding-left: 2em;" th:text="${#numbers.formatInteger(type.value.workTime, 1)} + ' s'"/><br />
+                        <span style="float:left;">Reload: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.reloadTime, 1)} + ' s'"/><br />
+                        <th:block th:if="${type.value.distShip != 0}">
+                            <span style="float: left;">Ship: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distShip, 0, 2) + ' km'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.distTorpedo != 0}">
+                            <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distTorpedo, 0, 2) + ' km'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.regenerationHPSpeed != 0}">
+                            <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' / s'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.lifeTime != 0}">
+                            <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.boostCoeff != 0}">
+                            <span style="float: left;">Speed: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed * type.value.boostCoeff, 0, 1) + ' kts'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.auraCoeff != 0}">
+                            <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
+                        </th:block>
+                    </th:block>
                 </li>
             </th:block>
         </div>
         <div class="consumables" th:each="ability : ${shipComponents.shipAbilities}">
             <th:block th:each="consumable : ${ability.AbilitySlot3.abils}">
                 <li th:each="abil : ${shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
-                    <button th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1]}" th:class="${consumables != null and #sets.contains(consumables, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected abil3' : 'button_consumable abil3'}">
+                    <th:block th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1]}" th:class="${consumables != null and #sets.contains(consumables, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected abil3' : 'button_consumable abil3'}">
                         <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
-                    </button>
+                        <span style="float:left;">Count: </span><span style="float: right;" th:text="${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
+                        <span style="float:left;">Duration: </span><span style="float: right; padding-left: 2em;" th:text="${#numbers.formatInteger(type.value.workTime, 1)} + ' s'"/><br />
+                        <span style="float:left;">Reload: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.reloadTime, 1)} + ' s'"/><br />
+                        <th:block th:if="${type.value.distShip != 0}">
+                            <span style="float: left;">Ship: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distShip, 0, 2) + ' km'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.distTorpedo != 0}">
+                            <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distTorpedo, 0, 2) + ' km'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.regenerationHPSpeed != 0}">
+                            <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' / s'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.lifeTime != 0}">
+                            <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.boostCoeff != 0}">
+                            <span style="float: left;">Speed: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed * type.value.boostCoeff, 0, 1) + ' kts'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.auraCoeff != 0}">
+                            <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
+                        </th:block>
+                    </th:block>
                 </li>
             </th:block>
         </div>
-    </div>
-    <div class="consumables">
-        <th:block th:each="ability : ${shipComponents.shipAbilities}">
-            <th:block th:each="consumable : ${ability.AbilitySlot0.abils}">
-                <th:block th:each="abil : ${shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
-                    <div class="consumablesStats abil0" style="display: none;" th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:id="${consumable[0] + '_' + consumable[1]}">
-                        <strong>Slot 1</strong><br />
-                        <span style="float:left;">Count: </span><span style="float: right;" th:text="${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
-                        <span style="float:left;">Duration: </span><span style="float: right; padding-left: 2em;" th:text="${#numbers.formatInteger(type.value.workTime, 1)} + ' s'"/><br />
-                        <span style="float:left;">Reload: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.reloadTime, 1)} + ' s'"/><br />
-                        <th:block th:if="${type.value.distShip != 0}">
-                            <span style="float: left;">Ship: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distShip, 0, 2) + ' km'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.distTorpedo != 0}">
-                            <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distTorpedo, 0, 2) + ' km'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.regenerationHPSpeed != 0}">
-                            <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' / s'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.lifeTime != 0}">
-                            <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.boostCoeff != 0}">
-                            <span style="float: left;">Speed: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed * type.value.boostCoeff, 0, 1) + ' kts'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.auraCoeff != 0}">
-                            <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
-                        </th:block>
-                        <br />
-                    </div>
-                </th:block>
-            </th:block>
-        </th:block>
-        <th:block th:each="ability : ${shipComponents.shipAbilities}">
-            <th:block th:each="consumable : ${ability.AbilitySlot1.abils}">
-                <th:block th:each="abil : ${shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
-                    <div class="consumablesStats abil1" style="display: none;" th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:id="${consumable[0] + '_' + consumable[1]}">
-                        <strong>Slot 2</strong><br />
-                        <span style="float:left;">Count: </span><span style="float: right;" th:text="${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
-                        <span style="float:left;">Duration: </span><span style="float: right; padding-left: 2em;" th:text="${#numbers.formatInteger(type.value.workTime, 1)} + ' s'"/><br />
-                        <span style="float:left;">Reload: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.reloadTime, 1)} + ' s'"/><br />
-                        <th:block th:if="${type.value.distShip != 0}">
-                            <span style="float: left;">Ship: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distShip, 0, 2) + ' km'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.distTorpedo != 0}">
-                            <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distTorpedo, 0, 2) + ' km'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.regenerationHPSpeed != 0}">
-                            <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' / s'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.lifeTime != 0}">
-                            <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.boostCoeff != 0}">
-                            <span style="float: left;">Speed: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed * type.value.boostCoeff, 0, 1) + ' kts'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.auraCoeff != 0}">
-                            <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
-                        </th:block>
-                        <br />
-                    </div>
-                </th:block>
-            </th:block>
-        </th:block>
-        <th:block th:each="ability : ${shipComponents.shipAbilities}">
-            <th:block th:each="consumable : ${ability.AbilitySlot2.abils}">
-                <th:block th:each="abil : ${shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
-                    <div class="consumablesStats abil2" style="display: none;" th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:id="${consumable[0] + '_' + consumable[1]}">
-                        <strong>Slot 3</strong><br />
-                        <span style="float:left;">Count: </span><span style="float: right;" th:text="${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
-                        <span style="float:left;">Duration: </span><span style="float: right; padding-left: 2em;" th:text="${#numbers.formatInteger(type.value.workTime, 1)} + ' s'"/><br />
-                        <span style="float:left;">Reload: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.reloadTime, 1)} + ' s'"/><br />
-                        <th:block th:if="${type.value.distShip != 0}">
-                            <span style="float: left;">Ship: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distShip, 0, 2) + ' km'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.distTorpedo != 0}">
-                            <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distTorpedo, 0, 2) + ' km'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.regenerationHPSpeed != 0}">
-                            <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' / s'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.lifeTime != 0}">
-                            <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.boostCoeff != 0}">
-                            <span style="float: left;">Speed: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed * type.value.boostCoeff, 0, 1) + ' kts'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.auraCoeff != 0}">
-                            <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
-                        </th:block>
-                        <br />
-                    </div>
-                </th:block>
-            </th:block>
-        </th:block>
-        <th:block th:each="ability : ${shipComponents.shipAbilities}">
-            <th:block th:each="consumable : ${ability.AbilitySlot3.abils}">
-                <th:block th:each="abil : ${shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
-                    <div class="consumablesStats abil3" style="display: none;" th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:id="${consumable[0] + '_' + consumable[1]}">
-                        <strong>Slot 4</strong><br />
-                        <span style="float:left;">Count: </span><span style="float: right;" th:text="${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
-                        <span style="float:left;">Duration: </span><span style="float: right; padding-left: 2em;" th:text="${#numbers.formatInteger(type.value.workTime, 1)} + ' s'"/><br />
-                        <span style="float:left;">Reload: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.reloadTime, 1)} + ' s'"/><br />
-                        <th:block th:if="${type.value.distShip != 0}">
-                            <span style="float: left;">Ship: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distShip, 0, 2) + ' km'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.distTorpedo != 0}">
-                            <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distTorpedo, 0, 2) + ' km'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.regenerationHPSpeed != 0}">
-                            <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' / s'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.lifeTime != 0}">
-                            <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.boostCoeff != 0}">
-                            <span style="float: left;">Speed: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed * type.value.boostCoeff, 0, 1) + ' kts'}"/><br />
-                        </th:block>
-                        <th:block th:if="${type.value.auraCoeff != 0}">
-                            <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
-                        </th:block>
-                        <br />
-                    </div>
-                </th:block>
-            </th:block>
-        </th:block>
     </div>
 </div>
 </html>

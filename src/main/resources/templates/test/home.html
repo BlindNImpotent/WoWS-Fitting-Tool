@@ -28,7 +28,7 @@
         $(function() {
 //            $(document).tooltip();
 
-            $('#shipList').menu();
+//            $('#shipList').menu();
 
             $('#crewSkills').dialog({
                 autoOpen: false,
@@ -63,9 +63,10 @@
         <div id="dropDownList">
             <ul id="shipList">
                 <li th:each="nation : ${data.nations}">
-                    <th:block th:each="eNation : ${data.encyclopedia.ship_nations}" th:if="${nation.key == eNation.key}">
-                        <span th:text="${eNation.value}" />
-                    </th:block>
+                    <!--<th:block th:each="eNation : ${data.encyclopedia.ship_nations}" th:if="${nation.key == eNation.key}">-->
+                        <!--<span th:text="${eNation.value}" />-->
+                    <!--</th:block>-->
+                    <span th:text="${nation.key}"/>
                     <ul>
                         <li th:each="shipType : ${nation.value}">
                             <span th:text="${shipType.key}" />
@@ -78,10 +79,10 @@
                     </ul>
                 </li>
             </ul>
-            <div>
-                <button id="changeDevice">Go Mobile</button>
-            </div>
         </div>
+    </div>
+    <div>
+        <button id="changeDevice">Go Mobile</button>
     </div>
 </header>
 <div id="crewSkills" class="ui-widget-content" title="Skill Points 0 / 19">
