@@ -34,7 +34,7 @@
             </div>
             <div>
                 <!--<button th:if="${warship.prevWarship != null}" th:onclick="'fragments(\'' + ${warship.prevWarship.nation} + '\', \'' + ${warship.prevWarship.type} + '\', \'' + ${warship.prevWarship.name} + '\')'" th:text="${'Prev Ship (' + warship.prevWarship.name} + ')'"/>-->
-                <a th:href="${'/ship?nation=' + warship.prevWarship.nation + '&amp;shipType=' + warship.prevWarship.type + '&amp;shipName=' + warship.prevWarship.name + '&amp;ship_id=' + warship.prevWarship.ship_id}">
+                <a th:if="${warship.prevWarship != null}" th:href="${'/ship?nation=' + warship.prevWarship.nation + '&amp;shipType=' + warship.prevWarship.type + '&amp;shipName=' + warship.prevWarship.name + '&amp;ship_id=' + warship.prevWarship.ship_id}">
                     <button th:if="${warship.prevWarship != null}" th:text="${'Prev Ship (' + warship.prevWarship.name} + ')'"/>
                 </a>
                 <!--<span style="padding: 1em;"></span>-->
