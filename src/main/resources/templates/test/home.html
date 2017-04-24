@@ -19,7 +19,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="UTF-8" />
     <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyleTest.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
     <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
     <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
@@ -60,8 +60,8 @@
     <div th:include="top :: top" id="top">
     </div>
     <div id="header">
-        <div id="dropDownList">
-            <ul id="shipList">
+        <nav>
+            <ul>
                 <li th:each="nation : ${data.nations}">
                     <!--<th:block th:each="eNation : ${data.encyclopedia.ship_nations}" th:if="${nation.key == eNation.key}">-->
                         <!--<span th:text="${eNation.value}" />-->
@@ -79,7 +79,7 @@
                     </ul>
                 </li>
             </ul>
-        </div>
+        </nav>
     </div>
     <div>
         <button id="changeDevice">Go Mobile</button>
