@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script>
+        //    <![CDATA[
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event:'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5KDG7W6');
+        //    ]]>
+    </script>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
+    <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
+    <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
+    <script th:src="@{/js/accounting/accounting.js}"></script>
+    <title>WoWS Fitting Tool by Aesis</title>
+</head>
+<body>
+<noscript>
+    //    <![CDATA[
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5KDG7W6" height="0" width="0" style="display:none; visibility:hidden;"></iframe>
+    //    ]]>
+</noscript>
+<header>
+    <div th:include="top :: top"></div>
+    <br />
+    <br />
+</header>
+<main>
+    <div style="text-align: center;">
+        <button id="changeView">Go Mobile</button><br /><br />
+        <button th:each="nation : ${nations}" th:name="${nation.key}" th:class="button_nation">
+            <img th:src="${'/images/Nations/' + nation.key + '.png'}"/><br />
+            <span th:text="${nation.key}"/>
+        </button>
+    </div>
+    <div style="text-align: center;">
+        <strong id="xpRequired" th:text="'Click on two ships for lowest research xp'"/><br />
+        <button id="resetSelect">Reset</button><br />
+    </div>
+    <div style="text-align: center;">
+        <div th:each="nation : ${nations}" th:id="${nation.key}" th:name="nations" hidden="hidden">
+            <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'AirCarrier'}">
+                <th:block th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                    <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                </th:block>
+                <th:block th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                        <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                        <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                    </button>
+                </th:block>
+            </div>
+            <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Battleship'}">
+                <th:block th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                    <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                </th:block>
+                <th:block th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                        <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                        <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                    </button>
+                </th:block>
+            </div>
+            <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Cruiser'}">
+                <th:block th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                    <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                </th:block>
+                <th:block th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                        <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                        <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                    </button>
+                </th:block>
+            </div>
+            <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Destroyer'}">
+                <th:block th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                    <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                </th:block>
+                <th:block th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                        <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                        <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                    </button>
+                </th:block>
+            </div>
+            <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Destroyer' and shipType.value.?[value.first == false].size() > 0}">
+                <th:block th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == false].size() &lt; ship.value.maxTier}">
+                    <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                </th:block>
+                <th:block th:each="ship : ${shipType.value}" th:if="${!ship.value.first}">
+                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                        <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                        <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                    </button>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</main>
+<script th:inline="javascript">
+    //    <![CDATA[
+
+    var nation = '';
+
+    $(document).on('click', '.button_nation', function () {
+        var name = $(this).attr('name');
+
+        $('[name=nations]').attr('hidden', 'hidden');
+        $('#' + name).removeAttr('hidden');
+
+        nation = name;
+
+        var clickedList = $('.button_ship_tree_selected');
+        for (var i = 0; i < clickedList.length; i++)
+        {
+            var clickedId = clickedList.eq(i).attr('id');
+            document.getElementById(clickedId).className = 'button_ship_tree';
+        }
+
+        $('#xpRequired').text('Click on two ships for lowest research xp');
+    });
+
+    $(document).on('click', '.button_ship_tree', function () {
+        var clickedId = $(this).attr('id');
+
+        if ($('.button_ship_tree_selected').length < 2)
+        {
+            document.getElementById(clickedId).className = 'button_ship_tree_selected';
+        }
+
+        if ($('.button_ship_tree_selected').length == 2)
+        {
+            var selected = $('.button_ship_tree_selected');
+
+            var list = [];
+
+            for (var i = 0; i < selected.length; i++)
+            {
+                var current = selected.eq(i);
+                var id = current.attr('id')
+                list.push(id);
+            }
+
+            $.ajax({
+                url: '/shipTree',
+                type: 'post',
+                contentType: "application/json",
+                data: JSON.stringify(list),
+                success: function (data) {
+                    data != -1 ? $('#xpRequired').text(data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' xp required') : $('#xpRequired').text('Error - Research properly or contact EdibleBug on Reddit');
+                },
+                error: function (data) {
+                    alert('Error - Research properly or contact EdibleBug on Reddit')
+                }
+            });
+        }
+    });
+
+    $(document).on('click', '.button_ship_tree_selected', function () {
+        var clickedId = $(this).attr('id');
+
+        document.getElementById(clickedId).className = 'button_ship_tree';
+    });
+
+    $(document).on('click', '#resetSelect', function () {
+        var clickedList = $('.button_ship_tree_selected');
+        for (var i = 0; i < clickedList.length; i++)
+        {
+            var clickedId = clickedList.eq(i).attr('id');
+            document.getElementById(clickedId).className = 'button_ship_tree';
+        }
+
+        $('#xpRequired').text('Click on two ships for lowest research xp');
+    });
+
+    $(document).on('click', '#changeView', function () {
+        location.href = '/shipTree?mobile=true'
+    });
+
+    //    ]]>
+</script>
+</body>
+</html>

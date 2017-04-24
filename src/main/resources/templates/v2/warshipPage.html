@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
+    <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
+    <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
+    <script th:src="@{/js/accounting/accounting.js}"></script>
+    <title>WoWS Fitting Tool by Aesis</title>
+</head>
+<body>
+<header>
+</header>
+<main>
+    <div th:fragment="warshipStats" class="warshipData">
+        <div id="notification" th:style="${warship != null} ? 'display: none' : ''">
+            <li style="text-align: center;" th:if="${noticeStat.index &lt; 3}" th:each="notice : ${notification}">
+                <strong th:text="${notice.key}"/><br />
+                <span th:utext="${notice.value}"/><br />
+            </li>
+        </div>
+        <div id="ship" th:name="${warship.ship_id}" th:if="${warship != null}" class="ship">
+            <div id="name">
+                <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship.defaultType}">
+                    <h1>
+                        <img th:src="${warship.type != 'Premium' and warship.type != 'Arpeggio' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
+                        <span th:text="${warship.name}"/>
+                    </h1>
+                </th:block>
+                <img th:title="${warship.description}" th:src="${warship.images.medium}"/>
+            </div>
+            <div>
+                <button th:if="${warship.prevWarship != null}" th:onclick="'fragments(\'' + ${warship.prevWarship.nation} + '\', \'' + ${warship.prevWarship.type} + '\', \'' + ${warship.prevWarship.name} + '\')'" th:text="${'Prev Ship (' + warship.prevWarship.name} + ')'"/>
+                <span style="padding: 1em;"></span>
+                <button id="showCrewSkills">Commander Skills</button>
+                <button id="showFlags">Flags</button>
+                <!--<button id="showConsumables" class="ui-button">Consumables</button>-->
+                <!--<button id="showCamouflage" class="ui-button">Camo</button>-->
+                <input type="checkbox" id="camouflageCheckbox" th:checked="${camo}" th:text="'Camouflage'" th:title="'Decreases the firing accuracy of the enemy and reduces ship detectability.'"/>
+                <!--<input type="checkbox" id="stockCompareCheckBox"/>Stock Comparison-->
+                <input type="checkbox" id="upgradeCompareCheckBox" th:text="'Upgrade Comparison'"/>
+            </div>
+            <div id="modulesUpgradesConsumables">
+                <div id="modules">
+                    <table>
+                        <tbody>
+                            <tr th:each="row : ${warship.warshipModulesTreeTable}">
+                                <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
+                                    <a th:if="${module != null}" th:id="${module.module_id}" th:name="${module.type}" role="button"
+                                           th:href=
+                                       "${
+                                            '/ship?nation=' + nation + '&amp;shipType=' + shipType + '&amp;ship=' + ship
+                                            + (module.type == 'Artillery' and Artillery == '' ? '&amp;' + module.type + '=' + module.module_id : '&amp;Artillery=' + (Artillery != '' and module.type == 'Artillery' ? module.module_id : Artillery))
+                                            + (module.type == 'DiveBomber' and DiveBomber == '' ? '&amp;' + module.type + '=' + module.module_id : '&amp;DiveBomber=' + (DiveBomber != '' and module.type == 'DiveBomber' ? module.module_id : DiveBomber))
+                                            + (module.type == 'Engine' and Engine == '' ? '&amp;' + module.type + '=' + module.module_id : '&amp;Engine=' + (Engine != '' and module.type == 'Engine' ? module.module_id : Engine))
+                                            + (module.type == 'Fighter' and Fighter == '' ? '&amp;' + module.type + '=' + module.module_id : '&amp;Fighter=' + (Fighter != '' and module.type == 'Fighter' ? module.module_id : Fighter))
+                                            + (module.type == 'Suo' and Suo == '' ? '&amp;' + module.type + '=' + module.module_id : '&amp;Suo=' + (Suo != '' and module.type == 'Suo' ? module.module_id : Suo))
+                                            + (module.type == 'FlightControl' and FlightControl == '' ? '&amp;' + module.type + '=' + module.module_id : '&amp;FlightControl=' + (FlightControl != '' and module.type == 'FlightControl' ? module.module_id : FlightControl))
+                                            + (module.type == 'Hull' and Hull == '' ? '&amp;' + module.type + '=' + module.module_id : '&amp;Hull=' + (Hull != '' and module.type == 'Hull' ? module.module_id : Hull))
+                                            + (module.type == 'TorpedoBomber' and TorpedoBomber == '' ? '&amp;' + module.type + '=' + module.module_id : '&amp;TorpedoBomber=' + (TorpedoBomber != '' and module.type == 'TorpedoBomber' ? module.module_id : TorpedoBomber))
+                                            + (module.type == 'Torpedoes' and Torpedoes == '' ? '&amp;' + module.type + '=' + module.module_id : '&amp;Torpedoes=' + (Torpedoes != '' and module.type == 'Torpedoes' ? module.module_id : Torpedoes))
+                                         }">
+                                        <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #lists.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}">
+                                            <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
+                                            <span th:text="${module.name}"/>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr th:if="${warship.nextWarship != null}">
+                                <td th:each="nextShip : ${warship.nextWarship}">
+                                    <button th:if="${nextShip != null}" th:class="button_ship" th:onclick="'fragments(\'' + ${nextShip.nation} + '\', \'' + ${nextShip.type} + '\', \'' + ${nextShip.name} + '\')'">
+                                        <img th:src="${nextShip.images.small}" th:title="${nextShip.fromPreviousShipXp + ' xp'}"/><br />
+                                        <span th:text="${nextShip.name}"/>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="upgrades">
+                    <div th:each="upgradeType : ${warship.upgradesNew}" th:id="'id_' + ${upgradeType.key}">
+                        <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.consumable_id}">
+                            <button th:title="${upgrade.value.description}" th:class="${upgrades != null and #sets.contains(upgrades, #strings.toString(upgrade.value.consumable_id))} ? button_upgrade_selected : button_upgrade" th:id="${upgrade.value.consumable_id}" th:name="'price_' + ${upgrade.value.price_credit}">
+                                <img th:src="${upgrade.value.image}"/><br />
+                                <span th:text="${upgrade.value.name}"/>
+                            </button>
+                        </li>
+                    </div>
+                </div>
+            </div>
+            <div id="consumablesData">
+            </div>
+        </div>
+    </div>
+</main>
+<script th:inline="javascript">
+    //    <![CDATA[
+
+    //    ]]>
+</script>
+</body>
+</html>

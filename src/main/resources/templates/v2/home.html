@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script>
+        //    <![CDATA[
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event:'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5KDG7W6');
+        //    ]]>
+    </script>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
+    <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
+    <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
+    <script th:src="@{/js/accounting/accounting.js}"></script>
+    <script>
+        $(function() {
+//            $(document).tooltip();
+
+            $('#shipList').menu();
+
+            $('#crewSkills').dialog({
+                autoOpen: false,
+//                modal: true,
+                width: 700
+            }).css("font-size", "8px");
+
+            $('#flags').dialog({
+                autoOpen: false,
+//                modal: true,
+                width: 520
+            }).css("font-size", "8px");
+
+//            $('#consumablesData').dialog({
+//                autoOpen: false,
+//                width: 320
+//            }).css("font-size", "8px");
+        });
+    </script>
+    <title>WoWS Fitting Tool by Aesis</title>
+</head>
+<body>
+<noscript>
+    //    <![CDATA[
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5KDG7W6" height="0" width="0" style="display:none; visibility:hidden;"></iframe>
+    //    ]]>
+</noscript>
+<header>
+    <div th:include="top :: top" id="top">
+    </div>
+    <div id="header">
+        <div id="dropDownList">
+            <ul id="shipList">
+                <li th:each="nation : ${data.nations}">
+                    <th:block th:each="eNation : ${data.encyclopedia.ship_nations}" th:if="${nation.key == eNation.key}">
+                        <span th:text="${eNation.value}" />
+                    </th:block>
+                    <ul>
+                        <li th:each="shipType : ${nation.value}">
+                            <span th:text="${shipType.key}" />
+                            <ul>
+                                <li th:each="ship : ${shipType.value}" th:if="${ship.key != 'Test Ship'}">
+                                    <a th:text="${ship.value.tier + ' - ' + ship.key}" th:href="${'/ship?nation=' + nation.key + '&amp;shipType=' + shipType.key + '&amp;ship=' + ship.key}"/>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div>
+                <button id="changeDevice">Go Mobile</button>
+            </div>
+        </div>
+    </div>
+</header>
+<div id="crewSkills" class="ui-widget-content" title="Skill Points 0 / 19">
+    <table id="skillsTable" align="center">
+        <tbody>
+        <tr th:each="skillTier : ${data.skills}">
+            <td th:each="skill : ${skillTier.value}" th:id="${'td_' + skill.value.tier + '_' + skill.value.type_id}">
+                <button th:if="${skill.value.tier != 0}" th:object="${skill.value}" th:title="${skill.value.description}" th:class="${crewSkills != null and crewSkills.size() != 0 and (crewSkills.?[tier == #strings.toString(__${skill.value.tier}__) and type_id == #strings.toString(__${skill.value.type_id}__)]).size() != 0} ? button_skill_selected : button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, type_id=${skill.value.type_id}">
+                    <img th:src="${skill.value.icon}"/><br />
+                    <span th:text="${skill.value.name}"/>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div id="flags" class="ui-widget-content" title="Flags 0 / 8">
+    <table id="flagsTable" align="center">
+        <tbody>
+        <tr th:each="index : ${#numbers.sequence(0, data.exteriors.Flags.size() - 1, 6)}" th:id="${index / 6}">
+            <td th:each="flag : ${data.exteriors.Flags}" th:if="${flagStat.index % 3} == ${index / 6}">
+                <button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.consumable_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.consumable_id}">
+                    <img th:src="${flag.value.image}"/><br />
+                    <span th:text="${flag.value.name}"/>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<main>
+    <div class="container">
+        <div class="warshipData" th:include="v2/warshipPage :: warshipStats">
+        </div>
+        <div class="shipAPIData">
+        </div>
+    </div>
+</main>
+<script th:inline="javascript">
+    //    <![CDATA[
+
+    console.log([[${warship}]]);
+    console.log([[${modules}]]);
+
+    //    ]]>
+</script>
+</body>
+</html>
