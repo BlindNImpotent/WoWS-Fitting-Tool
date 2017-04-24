@@ -31,13 +31,13 @@
             $('#crewSkills').dialog({
                 autoOpen: false,
 //                modal: true,
-                width: 700
+                width: 860
             }).css("font-size", "8px");
 
             $('#flags').dialog({
                 autoOpen: false,
 //                modal: true,
-                width: 520
+                width: 650
             }).css("font-size", "8px");
 
 //            $('#consumablesData').dialog({
@@ -58,8 +58,8 @@
     <div th:include="top :: top" id="top">
     </div>
     <div id="header">
-        <div id="dropDownList">
-            <ul id="shipList">
+        <nav>
+            <ul>
                 <li th:each="nation : ${data.nations}">
                     <th:block th:each="eNation : ${data.encyclopedia.ship_nations}" th:if="${nation.key == eNation.key}">
                         <span th:text="${eNation.value}" />
@@ -75,11 +75,12 @@
                         </li>
                     </ul>
                 </li>
+                <li>
+                    <input type="text" id="shortenUrlAddress"/><button id="shortenURL">Shorten URL</button>
+                </li>
+                <button id="changeDevice" style="float:right; margin: 8px;">Go Mobile</button>
             </ul>
-            <div>
-                <button id="changeDevice">Go Mobile</button>
-            </div>
-        </div>
+        </nav>
     </div>
 </header>
 <div id="crewSkills" class="ui-widget-content" title="Skill Points 0 / 19">

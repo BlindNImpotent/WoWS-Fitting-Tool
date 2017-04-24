@@ -34,9 +34,9 @@
             </div>
             <div>
                 <!--<button th:if="${warship.prevWarship != null}" th:onclick="'fragments(\'' + ${warship.prevWarship.nation} + '\', \'' + ${warship.prevWarship.type} + '\', \'' + ${warship.prevWarship.name} + '\')'" th:text="${'Prev Ship (' + warship.prevWarship.name} + ')'"/>-->
-                <a th:if="${warship.prevWarship != null}" th:href="${'/ship?nation=' + warship.prevWarship.nation + '&amp;shipType=' + warship.prevWarship.type + '&amp;shipName=' + warship.prevWarship.name + '&amp;ship_id=' + warship.prevWarship.ship_id}">
-                    <button th:if="${warship.prevWarship != null}" th:text="${'Prev Ship (' + warship.prevWarship.name} + ')'"/>
-                </a>
+                <!--<a th:if="${warship.prevWarship != null}" th:href="${'/ship?nation=' + warship.prevWarship.nation + '&amp;shipType=' + warship.prevWarship.type + '&amp;shipName=' + warship.prevWarship.name + '&amp;ship_id=' + warship.prevWarship.ship_id}">-->
+                    <!--<button th:if="${warship.prevWarship != null}" th:text="${'Prev Ship (' + warship.prevWarship.name} + ')'"/>-->
+                <!--</a>-->
                 <!--<span style="padding: 1em;"></span>-->
                 <!--<button id="showCrewSkills">Commander Skills</button>-->
                 <!--<button id="showFlags">Flags</button>-->
@@ -45,6 +45,36 @@
                 <!--<input type="checkbox" id="camouflageCheckbox" th:checked="${camo}" th:text="'Camouflage'" th:title="'Decreases the firing accuracy of the enemy and reduces ship detectability.'"/>-->
                 <!--<input type="checkbox" id="stockCompareCheckBox"/>Stock Comparison-->
                 <!--<input type="checkbox" id="upgradeCompareCheckBox" th:text="'Upgrade Comparison'"/>-->
+            </div>
+            <div id="skillsFlags">
+                <div id="crewSkills">
+                    <table id="skillsTable" align="center">
+                        <tbody>
+                        <tr th:each="skillTier : ${data.skills}">
+                            <td th:each="skill : ${skillTier.value}" th:id="${'td_' + skill.value.tier + '_' + skill.value.type_id}">
+                                <button th:if="${skill.value.tier != 0}" th:object="${skill.value}" th:title="${skill.value.description}" th:class="${crewSkills != null and crewSkills.size() != 0 and (crewSkills.?[tier == #strings.toString(__${skill.value.tier}__) and type_id == #strings.toString(__${skill.value.type_id}__)]).size() != 0} ? button_skill_selected : button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, type_id=${skill.value.type_id}">
+                                    <img th:src="${skill.value.icon}"/><br />
+                                    <span th:text="${skill.value.name}"/>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="flags">
+                    <table id="flagsTable" align="center">
+                        <tbody>
+                        <tr th:each="index : ${#numbers.sequence(0, data.exteriors.Flags.size() - 1, 5)}" th:id="${index / 5}">
+                            <td th:each="flag : ${data.exteriors.Flags}" th:if="${flagStat.index % 4} == ${index / 5}">
+                                <button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.consumable_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.consumable_id}">
+                                    <img th:src="${flag.value.image}"/><br />
+                                    <span th:text="${flag.value.name}"/>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div id="modulesUpgradesConsumables">
                 <div id="modules">
@@ -65,6 +95,7 @@
                                             + (module.type == 'Hull' and Hull == '' ? '&amp;' + module.type + '=' + module.module_id : '&amp;Hull=' + (Hull != '' and module.type == 'Hull' ? module.module_id : Hull))
                                             + (module.type == 'TorpedoBomber' and TorpedoBomber == '' ? '&amp;' + module.type + '=' + module.module_id : '&amp;TorpedoBomber=' + (TorpedoBomber != '' and module.type == 'TorpedoBomber' ? module.module_id : TorpedoBomber))
                                             + (module.type == 'Torpedoes' and Torpedoes == '' ? '&amp;' + module.type + '=' + module.module_id : '&amp;Torpedoes=' + (Torpedoes != '' and module.type == 'Torpedoes' ? module.module_id : Torpedoes))
+                                            + '&amp;slot1=' + slot1 + '&amp;slot2=' + slot2 + '&amp;slot3=' + slot3 + '&amp;slot4=' + slot4 + '&amp;slot5=' + slot5 + '&amp;slot6=' + slot6
                                          }">
                                         <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #lists.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}">
                                             <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
@@ -75,10 +106,12 @@
                             </tr>
                             <tr th:if="${warship.nextWarship != null}">
                                 <td th:each="nextShip : ${warship.nextWarship}">
-                                    <button th:if="${nextShip != null}" th:class="button_ship" th:onclick="'fragments(\'' + ${nextShip.nation} + '\', \'' + ${nextShip.type} + '\', \'' + ${nextShip.name} + '\')'">
-                                        <img th:src="${nextShip.images.small}" th:title="${nextShip.fromPreviousShipXp + ' xp'}"/><br />
-                                        <span th:text="${nextShip.name}"/>
-                                    </button>
+                                    <a th:if="${nextShip != null}" th:class="button_ship" th:href="${'/ship?nation=' + nextShip.nation + '&amp;shipType=' + nextShip.type + '&amp;shipName=' + nextShip.name + '&amp;ship_id=' + nextShip.ship_id}">
+                                        <button th:class="button_ship">
+                                            <img th:src="${nextShip.images.small}" th:title="${nextShip.fromPreviousShipXp + ' xp'}"/><br />
+                                            <span th:text="${nextShip.name}"/>
+                                        </button>
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>

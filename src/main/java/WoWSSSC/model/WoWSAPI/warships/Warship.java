@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.*;
 
@@ -80,6 +81,11 @@ public class Warship
 
         this.modules_tree.entrySet().forEach(mt ->
         {
+            if (CollectionUtils.isNotEmpty(mt.getValue().getPrev_modules()) && mt.getValue().isIs_default())
+            {
+                mt.getValue().set_default(false);
+            }
+
             if (mt.getValue().getNext_modules() != null)
             {
                 mt.getValue().getNext_modules().forEach(nm ->

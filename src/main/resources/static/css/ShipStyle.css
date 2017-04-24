@@ -1,68 +1,128 @@
-html
-{
-    height: 100%;
-    width: auto;
-    height: auto;
-}
-
 li
 {
     list-style-type: none;
     margin: 4px 0;
-
-}
-table
-{
-    padding-top: 1px;
 }
 
-.ui-menu
+a
 {
-    width: 200px;
+    text-decoration: none;
 }
 
-#top
+header
 {
-    /*text-align:center;*/
-    overflow: hidden;
-    position: fixed;
-    background: white;
-    top: 0;
-    height: 100px;
-    width: 100%;
-    z-index: 1;
+    background-color: lightblue;
 }
 
-#header
-{
-    text-align:center;
-    position: fixed;
-    top: 100px;
-    /*width: 100%;*/
+#header {
+    margin: 0 auto;
+    padding: 0 auto;
 }
 
-main
-{
-    padding-top : 100px;
+nav {
+    margin: 10px 0px 10px;
+    background-color: lightblue;
 }
 
-#dropDownList
-{
-    text-align:left;
-    display: inline-block;
-    vertical-align: top;
-    float: left;
+nav ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    position: relative;
 }
 
-#name
-{
-    /*margin-left: -175px;*/
-    display: inline-block;
+nav ul li {
+    display:inline-block;
+    background-color: lightblue;
+    margin: 0px;
 }
+
+nav a {
+    display:block;
+    padding:0 10px;
+    color:black;
+    font-size:16px;
+    line-height: 32px;
+    text-decoration:none;
+}
+
+nav a:hover {
+    background-color: deepskyblue;
+    cursor: pointer;
+}
+
+nav span {
+    display:block;
+    padding:0 10px;
+    color:black;
+    font-size:16px;
+    line-height: 32px;
+    text-decoration:none;
+}
+
+nav span:hover {
+    background-color: deepskyblue;
+    cursor: pointer;
+}
+
+/* Hide Dropdowns by Default */
+nav ul ul {
+    display: none;
+    position: absolute;
+    top: 32px; /* the height of the main nav */
+}
+
+/* Display Dropdowns on Hover */
+nav ul li:hover > ul {
+    display:inherit;
+}
+
+/* Fisrt Tier Dropdown */
+nav ul ul li {
+    width:100px;
+    float:none;
+    display:list-item;
+    position: relative;
+}
+
+/* Second, Third and more Tiers	*/
+nav ul ul ul li {
+    width:200px;
+    position: relative;
+    top:-32px;
+    left:100px;
+    margin: 0px;
+}
+
+
+/* Change this in order to change the Dropdown symbol */
+/*li > a:after { content:  ' +'; }*/
+/*li > a:only-child:after { content: ''; }*/
 
 #ship
 {
     text-align: center;
+}
+
+#modulesUpgradesConsumables
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+}
+
+#modulesUpgradesConsumables div
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+}
+
+#skillsFlags div
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
 }
 
 #modules
@@ -78,298 +138,6 @@ main
     vertical-align: top;
 }
 
-#modulesUpgradesConsumables
-{
-    display: inline-block;
-    text-align: center;
-    vertical-align: top;
-}
-
-#skillsList
-{
-    text-align: center;
-    vertical-align: top;
-}
-
-#skills
-{
-    display: inline-block;
-    text-align: center;
-    vertical-align: top;
-}
-
-#upgradesList
-{
-    display: inline-block;
-    text-align: center;
-    vertical-align: top;
-}
-
-#ConsumablesList
-{
-    display: inline-block;
-    text-align: center;
-    vertical-align: top;
-}
-
-#consume1List
-{
-    display: inline-block;
-    vertical-align: text-top;
-}
-
-#consume2List
-{
-    display: inline-block;
-    vertical-align: text-top;
-}
-
-#consume3List
-{
-    display: inline-block;
-    vertical-align: text-top;
-}
-
-#consume4List
-{
-    display: inline-block;
-    vertical-align: text-top;
-}
-
-#FlightControl
-{
-    display: inline-block;
-    vertical-align: text-top;
-    
-    margin-bottom: 3px;
-}
-#Artillery
-{
-    display: inline-block;
-    vertical-align: text-top;
-    
-    margin-bottom: 3px;
-}
-#Hull
-{
-    display: inline-block;
-    vertical-align: text-top;
-    
-    margin-bottom: 3px;
-}
-#Engine
-{
-    display: inline-block;
-    vertical-align: text-top;
-    
-    margin-bottom: 3px;
-}
-#Fighter
-{
-    display: inline-block;
-    vertical-align: text-top;
-    
-    margin-bottom: 3px;
-}
-#TorpedoBomber
-{
-    display: inline-block;
-    vertical-align: text-top;
-    
-    margin-bottom: 3px;
-}
-#DiveBomber
-{
-    display: inline-block;
-    vertical-align: text-top;
-    
-    margin-bottom: 3px;
-}
-#Suo
-{
-    display: inline-block;
-    vertical-align: text-top;
-    
-    margin-bottom: 3px;
-}
-#Torpedoes
-{
-    display: inline-block;
-    vertical-align: text-top;
-    
-    margin-bottom: 3px;
-}
-
-#id_125000
-{
-    display: inline-block;
-    vertical-align: text-top;
-
-    margin-bottom: 3px;
-}
-
-#id_250000
-{
-    display: inline-block;
-    vertical-align: text-top;
-
-    margin-bottom: 3px;
-}
-
-#id_500000
-{
-    display: inline-block;
-    vertical-align: text-top;
-
-    margin-bottom: 3px;
-}
-
-#id_1000000
-{
-    display: inline-block;
-    vertical-align: text-top;
-
-    margin-bottom: 3px;
-}
-
-#id_2000000
-{
-    display: inline-block;
-    vertical-align: text-top;
-
-    margin-bottom: 3px;
-}
-
-#id_3000000
-{
-    display: inline-block;
-    vertical-align: text-top;
-
-    margin-bottom: 3px;
-}
-/*#modSlot1*/
-/*{*/
-    /*display: inline-block;*/
-    /*vertical-align: text-top;*/
-/*}*/
-
-/*#modSlot2*/
-/*{*/
-    /*display: inline-block;*/
-    /*vertical-align: text-top;*/
-/*}*/
-
-/*#modSlot3*/
-/*{*/
-    /*display: inline-block;*/
-    /*vertical-align: text-top;*/
-/*}*/
-
-/*#modSlot4*/
-/*{*/
-    /*display: inline-block;*/
-    /*vertical-align: text-top;*/
-/*}*/
-
-/*#modSlot5*/
-/*{*/
-    /*display: inline-block;*/
-    /*vertical-align: text-top;*/
-/*}*/
-
-/*#modSlot6*/
-/*{*/
-    /*display: inline-block;*/
-    /*vertical-align: text-top;*/
-/*}*/
-
-#hullStats
-{
-    display: inline-block;
-    text-align: left;
-    vertical-align: text-top;
-}
-#blank1
-{
-    display: inline-block;
-    text-align: center;
-    vertical-align: text-top;
-}
-#mainWeaponStats
-{
-    display: inline-block;
-    text-align: left;
-    vertical-align: text-top;
-}
-#blank2
-{
-    display: inline-block;
-    text-align: center;
-    vertical-align: text-top;
-}
-#AASecondaryStats
-{
-    display: inline-block;
-    text-align: left;
-    vertical-align: text-top;
-}
-#blank3
-{
-    display: inline-block;
-    text-align: center;
-    vertical-align: text-top;
-}
-#ConsumablesStats
-{
-    display: inline-block;
-    text-align: left;
-    vertical-align: text-top;
-}
-
-#Camouflages
-{
-    display: inline-block;
-    text-align: center;
-    vertical-align: top;
-}
-
-
-
-.button
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(0,0,0);
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;
-    cursor: default;
-}
-
-.button_ship
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(0,0,0);
-    border-width: 0px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 9px;
-    min-width: 80px;
-    max-width: 80px;
-    min-height: 80px;
-    max-height: 80px;
-    word-wrap: normal;
-    cursor: pointer;
-    vertical-align: top;
-}
-
-.button_ship img
-{
-    width: 70px;
-    margin-bottom: 0px;
-}
-
 .button_module
 {
     background-color:#fff;
@@ -379,10 +147,10 @@ main
     border-style: solid;
     border-radius: 5px;
     font-size: 9px;
-    min-width: 80px;
-    max-width: 80px;
-    min-height: 80px;
-    max-height: 80px;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -403,10 +171,10 @@ main
     border-style: solid;
     border-radius: 5px;
     font-size: 9px;
-    min-width: 80px;
-    max-width: 80px;
-    min-height: 80px;
-    max-height: 80px;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -426,11 +194,11 @@ main
     border-width: 0px;
     border-style: solid;
     border-radius: 5px;
-    font-size: 8px;
-    min-width: 80px;
-    max-width: 80px;
-    min-height: 80px;
-    max-height: 80px;
+    font-size: 9px;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -450,11 +218,11 @@ main
     border-width: 1px;
     border-style: solid;
     border-radius: 5px;
-    font-size: 8px;
-    min-width: 80px;
-    max-width: 80px;
-    min-height: 80px;
-    max-height: 80px;
+    font-size: 9px;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -466,6 +234,61 @@ main
     margin-bottom: 0px;
 }
 
+.shipAPIData
+{
+    text-align: center;
+}
+
+#hullStats
+{
+    display: inline-block;
+    text-align: left;
+    vertical-align: text-top;
+}
+#mainWeaponStats
+{
+    display: inline-block;
+    text-align: left;
+    vertical-align: text-top;
+}
+#AASecondaryStats
+{
+    display: inline-block;
+    text-align: left;
+    vertical-align: text-top;
+}
+.blank
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: text-top;
+    padding-left: 4em;
+}
+
+.button_ship
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_ship img
+{
+    width: 70px;
+    margin-bottom: 0px;
+}
+
 .button_skill
 {
     background-color:#fff;
@@ -474,11 +297,11 @@ main
     border-width: 0px;
     border-style: solid;
     border-radius: 5px;
-    font-size: 8px;
-    min-width: 80px;
-    max-width: 80px;
-    min-height: 80px;
-    max-height: 80px;
+    font-size: 9px;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -498,17 +321,65 @@ main
     border-width: 1px;
     border-style: solid;
     border-radius: 5px;
-    font-size: 8px;
-    min-width: 80px;
-    max-width: 80px;
-    min-height: 80px;
-    max-height: 80px;
+    font-size: 9px;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
 }
 
 .button_skill_selected img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_flag
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_flag img
+{
+    width: 25px;
+    margin-bottom: 0px;
+}
+
+.button_flag_selected
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_flag_selected img
 {
     width: 30px;
     margin-bottom: 0px;
@@ -562,176 +433,6 @@ main
     margin-bottom: 0px;
 }
 
-.button_camouflage
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(0,0,0);
-    border-width: 0px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 8px;
-    min-width: 80px;
-    max-width: 80px;
-    min-height: 80px;
-    max-height: 80px;
-    word-wrap: normal;
-    cursor: pointer;
-    vertical-align: top;
-}
-
-.button_camouflage img
-{
-    width: 30px;
-    margin-bottom: 0px;
-}
-
-.button_camouflage_selected
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(256,0,0);
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 8px;
-    min-width: 80px;
-    max-width: 80px;
-    min-height: 80px;
-    max-height: 80px;
-    word-wrap: normal;
-    cursor: pointer;
-}
-
-.button_camouflage_selected img
-{
-    width: 40px;
-    margin-bottom: 0px;
-}
-
-.button_flag
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(0,0,0);
-    border-width: 0px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 8px;
-    min-width: 80px;
-    max-width: 80px;
-    min-height: 80px;
-    max-height: 80px;
-    word-wrap: normal;
-    cursor: pointer;
-    vertical-align: top;
-}
-
-.button_flag img
-{
-    width: 30px;
-    margin-bottom: 0px;
-}
-
-.button_flag_selected
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(256,0,0);
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 8px;
-    min-width: 80px;
-    max-width: 80px;
-    min-height: 80px;
-    max-height: 80px;
-    word-wrap: normal;
-    cursor: pointer;
-}
-
-.button_flag_selected img
-{
-    width: 40px;
-    margin-bottom: 0px;
-}
-
-.tier { float:right }
-.maxHP { float:right }
-.speed { float:right }
-.rudderShift { float:right }
-.turningRadius { float:right }
-.sConceal { float:right }
-.aConceal { float:right }
-.burnTime { float:right }
-.floodTime { float:right }
-
-.barrels { float:right }
-.maxMainGunRange { float:right }
-.mainGunReload { float:right }
-.mainGunRotation { float:right }
-.mainGunRotationTime { float:right }
-.APShellSpeed { float:right }
-.APShellDMG { float:right }
-.HEShellSpeed { float:right }
-.HEShellDMG { float:right }
-.HEShellBurnProb { float:right }
-.mainGunDispersionRange { float:right }
-.sigmaCount { float:right }
-.stealthFireSurfaceDetection { float:right }
-
-.antiAirAuraDistanceFar { float:right }
-.AAFarDPS { float:right }
-.antiAirAuraDistanceMedium { float:right }
-.AAMediumDPS { float:right }
-.antiAirAuraDistanceNear { float:right }
-.AANearDPS { float:right }
-.secondaryMaxDist { float:right }
-
-.tubes { float:right }
-.maxTorpedoRange { float:right }
-.torpedoReload { float:right }
-.torpedoSpeed { float:right }
-.torpedoVisibilityFactor { float:right }
-
-.fighterSquadrons { float:right }
-.fighterSquadronSize { float:right }
-.fighterReserves { float:right }
-.torpedoBomberSquadrons { float:right }
-.torpedoBomberSquadronSize { float:right }
-.torpedoBomberReserves { float:right }
-.diveBomberSquadrons { float:right }
-.diveBomberSquadronSize { float:right }
-.diveBomberReserves { float:right }
-
-.Consumable1Count { float:right }
-.Consumable1Duration { float:right }
-.Consumable1Reload { float:right }
-
-.Consumable2Count { float:right }
-.Consumable2Duration { float:right }
-.Consumable2Reload { float:right }
-
-.Consumable3Count { float:right }
-.Consumable3Duration { float:right }
-.Consumable3Reload { float:right }
-
-.Consumable4Count { float:right }
-.Consumable4Duration { float:right }
-.Consumable4Reload { float:right }
-
-.shipAPIData
-{
-    text-align: center;
-}
-
-.blank
-{
-    display: inline-block;
-    text-align: center;
-    vertical-align: text-top;
-    padding-left: 4em;
-}
 
 #crewSkills
 {
@@ -741,28 +442,6 @@ main
 #flags
 {
     position: relative;
-}
-
-#consumablesData
-{
-    display: inline-block;
-    text-align: center;
-    vertical-align: top;
-}
-
-.consumables
-{
-    display: inline-block;
-    text-align: left;
-    vertical-align: top;
-    font-size: 12px;
-}
-
-#consumablesData img
-{
-    text-align: center;
-    width: 40px;
-    margin-bottom: 0px;
 }
 
 .shipTree
@@ -863,5 +542,27 @@ main
 .button_ship_tree_selected img
 {
     width: 100px;
+    margin-bottom: 0px;
+}
+
+#consumablesData
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+}
+
+.consumables
+{
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+    font-size: 12px;
+}
+
+#consumablesData img
+{
+    text-align: center;
+    width: 40px;
     margin-bottom: 0px;
 }
