@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="UTF-8" />
+    <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
@@ -17,7 +18,8 @@
 <main>
     <div th:fragment="warshipStats" class="warshipData">
         <div id="notification" th:style="${warship != null} ? 'display: none' : ''">
-            <li style="text-align: center;" th:if="${noticeStat.index &lt; 3}" th:each="notice : ${notification}">
+            <img th:src="@{/images/Icon/WoWSFT_Icon.png}" style="height: 300px" th:title="'Image courtesy of ReptorPi from DCInside'"/>
+            <li th:if="${noticeStat.index &lt; 3}" th:each="notice : ${notification}">
                 <strong th:text="${notice.key}"/><br />
                 <span th:utext="${notice.value}"/><br />
             </li>

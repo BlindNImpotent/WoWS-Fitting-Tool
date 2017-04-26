@@ -580,3 +580,8 @@ nav ul ul ul li {
     width: 40px;
     margin-bottom: 0px;
 }
+
+#notification
+{
+    text-align: center;
+}

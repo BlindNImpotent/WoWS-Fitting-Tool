@@ -18,6 +18,7 @@
     </script>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="UTF-8" />
+    <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
@@ -33,9 +34,17 @@
     //    ]]>
 </noscript>
 <header>
-    <div th:include="top :: top"></div>
-    <br />
-    <br />
+    <div id="top" th:include="top :: top">
+    </div>
+    <div id="header">
+        <nav>
+            <ul>
+                <li>
+                    <a href="/"><span>Home</span></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </header>
 <main>
     <div style="text-align: center;">

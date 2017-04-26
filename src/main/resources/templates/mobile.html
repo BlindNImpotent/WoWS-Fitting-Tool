@@ -18,6 +18,7 @@
     </script>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="UTF-8" />
+    <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
@@ -60,6 +61,9 @@
     <div id="header">
         <nav>
             <ul>
+                <li>
+                    <a href="/"><span>Home</span></a>
+                </li>
                 <li th:each="nation : ${data.nations}">
                     <th:block th:each="eNation : ${data.encyclopedia.ship_nations}" th:if="${nation.key == eNation.key}">
                         <span th:text="${eNation.value}" />
@@ -635,5 +639,18 @@
 
     //    ]]>
 </script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/5900f83364f23d19a89af69f/default';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+<!--End of Tawk.to Script-->
 </body>
 </html>
