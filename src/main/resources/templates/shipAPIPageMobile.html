@@ -62,7 +62,7 @@
         <div id="mainWeaponStats" class="mainWeaponStats">
             <div th:if="${shipAPI.artillery != null}" id="artillery">
                 <strong>Main Battery</strong><br />
-                <li th:each="slot : ${shipAPI.artillery.slots}">
+                <li th:each="slot : ${shipAPI.artillery.slots}" name="guns">
                     <u style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/><br />
                 </li>
                 <th:block th:if="${shipComponents.artillery != null}">
@@ -75,11 +75,90 @@
                 <span style="float: right;" th:if="${configurationAPI != null and shipAPI.artillery.max_dispersion - configurationAPI.artillery.max_dispersion != 0}" th:text="${shipAPI.artillery.max_dispersion - configurationAPI.artillery.max_dispersion > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.artillery.max_dispersion - configurationAPI.artillery.max_dispersion, 0, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.artillery.max_dispersion - configurationAPI.artillery.max_dispersion, 0, 1) + ')'}"/>
                 <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.max_dispersion, 0, 1)} + ' m'"/><br />
                 Reload
-                <span style="float: right;" th:if="${configurationAPI != null and 60 / shipAPI.artillery.gun_rate - 60 / configurationAPI.artillery.gun_rate != 0}" th:text="${60 / shipAPI.artillery.gun_rate - 60 / configurationAPI.artillery.gun_rate > 0 ? ' (+' + #numbers.formatDecimal(60 / shipAPI.artillery.gun_rate - 60 / configurationAPI.artillery.gun_rate, 0, 1) + ')' : ' (' + #numbers.formatDecimal(60 / shipAPI.artillery.gun_rate - 60 / configurationAPI.artillery.gun_rate, 0, 1) + ')'}"/>
-                <span style="float: right;" th:text="${#numbers.formatDecimal(60 / shipAPI.artillery.gun_rate, 0, 1)} + ' s'"/><br />
+                <span id="reloadDiff" style="float: right;" th:if="${configurationAPI != null and 60 / shipAPI.artillery.gun_rate - 60 / configurationAPI.artillery.gun_rate != 0}" th:text="${60 / shipAPI.artillery.gun_rate - 60 / configurationAPI.artillery.gun_rate > 0 ? ' (+' + #numbers.formatDecimal(60 / shipAPI.artillery.gun_rate - 60 / configurationAPI.artillery.gun_rate, 0, 1) + ')' : ' (' + #numbers.formatDecimal(60 / shipAPI.artillery.gun_rate - 60 / configurationAPI.artillery.gun_rate, 0, 1) + ')'}"/>
+                <span id="reload" style="float: right;" th:text="${#numbers.formatDecimal(60 / shipAPI.artillery.gun_rate, 0, 1)} + ' s'"/><br />
                 RoF
-                <span style="float: right;" th:if="${configurationAPI != null and shipAPI.artillery.gun_rate - configurationAPI.artillery.gun_rate != 0}" th:text="${shipAPI.artillery.gun_rate - configurationAPI.artillery.gun_rate > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.artillery.gun_rate - configurationAPI.artillery.gun_rate, 0, 2) + ')' : ' (' + #numbers.formatDecimal(shipAPI.artillery.gun_rate - configurationAPI.artillery.gun_rate, 0, 2) + ')'}"/>
-                <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.gun_rate, 0 ,2)} + ' RPM'"/><br />
+                <span id="rofDiff" style="float: right;" th:if="${configurationAPI != null and shipAPI.artillery.gun_rate - configurationAPI.artillery.gun_rate != 0}" th:text="${shipAPI.artillery.gun_rate - configurationAPI.artillery.gun_rate > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.artillery.gun_rate - configurationAPI.artillery.gun_rate, 0, 2) + ')' : ' (' + #numbers.formatDecimal(shipAPI.artillery.gun_rate - configurationAPI.artillery.gun_rate, 0, 2) + ')'}"/>
+                <span id="rof" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.gun_rate, 0 ,2)} + ' RPM'"/><br />
+                <th:block th:if="${adrenaline == true}">
+                    <script th:inline="javascript">
+                        //    <![CDATA[
+
+                        $(function () {
+                            var handle = $('#custom-handle').css('width', '2em').css('text-align', 'center');
+                            var originalGunRate = parseFloat($('#rof').text().replace(' RPM', ''));
+                            var gunSlots = $('#artillery').children().length;
+
+                            var rofDiffModified = 0;
+                            if (document.getElementById('rofDiff') != null)
+                            {
+                                rofDiffModified = parseFloat(document.getElementById('rofDiff').textContent.replace('(', '').replace(')', ''));
+                            }
+
+                            $('#slider').slider({
+                                orientation: "horizontal",
+                                range: "min",
+                                min: 0,
+                                max: 100,
+                                value: 100,
+                                create: function() {
+                                    handle.text($( this ).slider('value'));
+                                },
+                                slide: function(event, ui) {
+                                    handle.text(ui.value);
+                                },
+                                change: function (event, ui) {
+                                    shipHP = test(parseInt(ui.value));
+
+                                    function test(shipHP)
+                                    {
+                                        var coef = 1 - ((100 - shipHP) * 0.2 / 100);
+                                        var newGunRate = (originalGunRate / coef).toFixed(2);
+
+                                        $('#rof').text(newGunRate + ' RPM');
+                                        $('#reload').text((60 / newGunRate).toFixed(1) + ' s');
+                                        if (upgradeCompareCheckBox == true)
+                                        {
+                                            if (document.getElementById('rofDiff') == null && document.getElementById('reloadDiff') == null)
+                                            {
+                                                var reloadDiff = document.createElement('span');
+                                                reloadDiff.id = 'reloadDiff';
+                                                reloadDiff.style = 'float: right;';
+
+                                                var reloadDiffText = document.createTextNode(((60 / newGunRate) - (60 / originalGunRate)) != 0 ? '(' + ((60 / newGunRate) - (60 / originalGunRate)).toFixed(1) + ')' : '');
+                                                reloadDiff.appendChild(reloadDiffText);
+
+                                                var rofDiff = document.createElement('span');
+                                                rofDiff.id = 'rofDiff';
+                                                rofDiff.style = 'float: right;';
+
+                                                var rofDiffText = document.createTextNode((newGunRate - originalGunRate) != 0 ? '(' + (newGunRate - originalGunRate).toFixed(2) + ')' : '');
+                                                rofDiff.appendChild(rofDiffText);
+
+                                                var rof = document.getElementById('rof');
+                                                rof.parentNode.insertBefore(rofDiff, rof);
+
+                                                var reload = document.getElementById('reload');
+                                                reload.parentNode.insertBefore(reloadDiff, reload);
+                                            }
+                                            else
+                                            {
+                                                var rofDiff = (newGunRate - originalGunRate + rofDiffModified).toFixed(2);
+                                                $('#rofDiff').text(rofDiff != 0 ? '(' + rofDiff + ')' : '');
+                                                $('#reloadDiff').text(((60 / newGunRate) - (60 / (originalGunRate - rofDiffModified))) != 0 ? '(' + ((60 / newGunRate) - (60 / (originalGunRate - rofDiffModified))).toFixed(1) + ')' : '');
+                                            }
+                                        }
+                                    }
+                                }
+                            })
+                        })
+
+                        //    ]]>
+                    </script>
+                    <div id="slider">
+                        <div id="custom-handle" class="ui-slider-handle"></div>
+                    </div>
+                </th:block>
                 Rotation
                 <span style="float: right;" th:if="${configurationAPI != null and shipAPI.artillery.rotation_time - configurationAPI.artillery.rotation_time != 0}" th:text="${shipAPI.artillery.rotation_time - configurationAPI.artillery.rotation_time > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.artillery.rotation_time - configurationAPI.artillery.rotation_time, 0, 2) + ')' : ' (' + #numbers.formatDecimal(shipAPI.artillery.rotation_time - configurationAPI.artillery.rotation_time, 0, 2) + ')'}"/>
                 <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.rotation_time, 0, 2)} + ' s'"/><br />

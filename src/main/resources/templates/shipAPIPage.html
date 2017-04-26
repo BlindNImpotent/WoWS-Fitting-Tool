@@ -118,7 +118,7 @@
 
                                         $('#rof').text(newGunRate + ' RPM');
                                         $('#reload').text((60 / newGunRate).toFixed(1) + ' s');
-                                        if (upgradeCompareCheckBox)
+                                        if (upgradeCompareCheckBox == true)
                                         {
                                             if (document.getElementById('rofDiff') == null && document.getElementById('reloadDiff') == null)
                                             {

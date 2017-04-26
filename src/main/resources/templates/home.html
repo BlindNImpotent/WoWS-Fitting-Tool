@@ -484,6 +484,7 @@
             };
 
             url = url + '&upgradeCompare=' + document.getElementById('upgradeCompareCheckBox').checked;
+            upgradeCompareCheckBox = document.getElementById('upgradeCompareCheckBox').checked;
 
             url = url + '&mobile=false';
 
@@ -580,7 +581,6 @@
     });
 
     $(document).on('click', '#stockCompareCheckBox, #upgradeCompareCheckBox', function () {
-        upgradeCompareCheckBox = document.getElementById('upgradeCompareCheckBox').checked;
         callAPI();
     });
 
