@@ -157,6 +157,8 @@
 
     var camouflage = false;
 
+    var shipHP = 0;
+
     $().ready(function () {
         $( function() {
             $('#shipList').menu();
@@ -479,7 +481,7 @@
                 consumables: consumables
             };
 
-            url = url + '&upgradeCompare=' + document.getElementById('upgradeCompareCheckBox').checked;
+            url = url + '&upgradeCompare=' + $('#upgradeCompareCheckBox').is(':checked');
 
             url = url + '&mobile=true';
 
@@ -575,7 +577,8 @@
         });
     });
 
-    $(document).on('click', '#stockCompareCheckBox, #upgradeCompareCheckBox', function () {
+    $(document).on('click', '#stockCompareCheckBox, #upgradeCompareCheckBox', function ()
+    {
         callAPI();
     });
 
@@ -628,7 +631,7 @@
             shipType: shipType,
             ship: ship
         }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables);
-    })
+    });
 
     //    ]]>
 </script>
