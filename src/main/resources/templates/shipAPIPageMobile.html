@@ -87,7 +87,6 @@
                         $(function () {
                             var handle = $('#custom-handle').css('width', '2em').css('text-align', 'center');
                             var originalGunRate = parseFloat($('#rof').text().replace(' RPM', ''));
-                            var gunSlots = $('#artillery').children().length;
 
                             var rofDiffModified = 0;
                             if (document.getElementById('rofDiff') != null)
@@ -117,7 +116,7 @@
 
                                         $('#rof').text(newGunRate + ' RPM');
                                         $('#reload').text((60 / newGunRate).toFixed(1) + ' s');
-                                        if (upgradeCompareCheckBox == true)
+                                        if ($('#upgradeCompareCheckBox').is(':checked'))
                                         {
                                             if (document.getElementById('rofDiff') == null && document.getElementById('reloadDiff') == null)
                                             {

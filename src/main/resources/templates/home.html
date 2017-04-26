@@ -159,8 +159,6 @@
 
     var shipHP = 0;
 
-    var upgradeCompareCheckBox = false;
-
     $().ready(function () {
         $( function() {
             $('#shipList').menu();
@@ -483,8 +481,7 @@
                 consumables: consumables
             };
 
-            url = url + '&upgradeCompare=' + document.getElementById('upgradeCompareCheckBox').checked;
-            upgradeCompareCheckBox = document.getElementById('upgradeCompareCheckBox').checked;
+            url = url + '&upgradeCompare=' + $('#upgradeCompareCheckBox').is(':checked');
 
             url = url + '&mobile=false';
 
@@ -580,7 +577,8 @@
         });
     });
 
-    $(document).on('click', '#stockCompareCheckBox, #upgradeCompareCheckBox', function () {
+    $(document).on('click', '#stockCompareCheckBox, #upgradeCompareCheckBox', function ()
+    {
         callAPI();
     });
 
