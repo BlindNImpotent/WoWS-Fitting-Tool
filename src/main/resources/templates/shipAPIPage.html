@@ -63,7 +63,7 @@
         <div id="mainWeaponStats" class="mainWeaponStats">
             <div th:if="${shipAPI.artillery != null}" id="artillery">
                 <strong>Main Battery</strong><br />
-                <li th:each="slot : ${shipAPI.artillery.slots}">
+                <li th:each="slot : ${shipAPI.artillery.slots}" name="guns">
                     <u style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/><br />
                 </li>
                 <th:block th:if="${shipComponents.artillery != null}">
@@ -83,9 +83,18 @@
                 <span id="rof" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.gun_rate, 0 ,2)} + ' RPM'"/><br />
                 <th:block th:if="${adrenaline == true}">
                     <script th:inline="javascript">
+                        //    <![CDATA[
+
                         $(function () {
                             var handle = $('#custom-handle').css('width', '2em').css('text-align', 'center');
                             var originalGunRate = parseFloat($('#rof').text().replace(' RPM', ''));
+                            var gunSlots = $('#artillery').children().length;
+
+                            var rofDiffModified = 0;
+                            if (document.getElementById('rofDiff') != null)
+                            {
+                                rofDiffModified = parseFloat(document.getElementById('rofDiff').textContent.replace('(', '').replace(')', ''));
+                            }
 
                             $('#slider').slider({
                                 orientation: "horizontal",
@@ -111,42 +120,41 @@
                                         $('#reload').text((60 / newGunRate).toFixed(1) + ' s');
                                         if (upgradeCompareCheckBox)
                                         {
-                                            if (document.getElementById('rofDiff') == null)
-                                            {
-                                                var rofDiff = document.createElement('span');
-                                                rofDiff.id = 'rofDiff';
-                                                rofDiff.style = 'float: right;';
-
-                                                var rofDiffText = document.createTextNode('(+' + (newGunRate - originalGunRate).toFixed(2) + ')');
-                                                rofDiff.appendChild(rofDiffText);
-
-                                                var artillery = document.getElementById('artillery');
-                                                artillery.insertBefore(rofDiff, artillery.childNodes[17]);
-                                            }
-                                            else
-                                            {
-                                                var rofModified = document.getElementById('rof');
-                                                var rofDiff = document.getElementById('rofDiff');
-                                                console.log(rofDiff.textContent);
-                                            }
-
-                                            if (document.getElementById('reloadDiff') == null)
+                                            if (document.getElementById('rofDiff') == null && document.getElementById('reloadDiff') == null)
                                             {
                                                 var reloadDiff = document.createElement('span');
                                                 reloadDiff.id = 'reloadDiff';
                                                 reloadDiff.style = 'float: right;';
 
-                                                var reloadDiffText = document.createTextNode('(' + ((60 / newGunRate) - (60 / originalGunRate)).toFixed(1) + ')');
+                                                var reloadDiffText = document.createTextNode(((60 / newGunRate) - (60 / originalGunRate)) != 0 ? '(' + ((60 / newGunRate) - (60 / originalGunRate)).toFixed(1) + ')' : '');
                                                 reloadDiff.appendChild(reloadDiffText);
 
-                                                var artillery = document.getElementById('artillery');
-                                                artillery.insertBefore(reloadDiff, artillery.childNodes[15]);
+                                                var rofDiff = document.createElement('span');
+                                                rofDiff.id = 'rofDiff';
+                                                rofDiff.style = 'float: right;';
+
+                                                var rofDiffText = document.createTextNode((newGunRate - originalGunRate) != 0 ? '(' + (newGunRate - originalGunRate).toFixed(2) + ')' : '');
+                                                rofDiff.appendChild(rofDiffText);
+
+                                                var rof = document.getElementById('rof');
+                                                rof.parentNode.insertBefore(rofDiff, rof);
+
+                                                var reload = document.getElementById('reload');
+                                                reload.parentNode.insertBefore(reloadDiff, reload);
+                                            }
+                                            else
+                                            {
+                                                var rofDiff = (newGunRate - originalGunRate + rofDiffModified).toFixed(2);
+                                                $('#rofDiff').text(rofDiff != 0 ? '(' + rofDiff + ')' : '');
+                                                $('#reloadDiff').text(((60 / newGunRate) - (60 / (originalGunRate - rofDiffModified))) != 0 ? '(' + ((60 / newGunRate) - (60 / (originalGunRate - rofDiffModified))).toFixed(1) + ')' : '');
                                             }
                                         }
                                     }
                                 }
                             })
                         })
+
+                        //    ]]>
                     </script>
                     <div id="slider">
                         <div id="custom-handle" class="ui-slider-handle"></div>

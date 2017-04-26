@@ -157,6 +157,20 @@ public class APIController
             Ship shipAPI = apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills);
             model.addAttribute("shipAPI", shipAPI);
 
+            if (upgradesSkills != null)
+            {
+                if (upgradesSkills.get("skills") != null)
+                {
+                    ((List<HashMap>) upgradesSkills.get("skills")).forEach(skill ->
+                    {
+                        if (skill.get("tier").equals("2") && skill.get("type_id").equals("6"))
+                        {
+                            model.addAttribute("adrenaline", true);
+                        }
+                    });
+                }
+            }
+
             if (shipAPI != null)
             {
                 model.addAttribute("shipComponents", shipAPI.getShipComponents());
