@@ -21,7 +21,7 @@ a
     position: relative;
     background: lightblue;
     top: 0;
-    height: 34px;
+    /*height: 34px;*/
     width: 100%;
     z-index: 1;
     padding: 8px;
