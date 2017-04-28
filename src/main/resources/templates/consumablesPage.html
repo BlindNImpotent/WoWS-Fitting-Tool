@@ -66,6 +66,9 @@
                         <th:block th:if="${type.value.auraCoeff != 0}">
                             <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
                         </th:block>
+                        <th:block th:if="${type.value.torpedoReloadTime != 0}">
+                            <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.torpedoReloadTime, 0, 'COMMA') + ' s'}"/><br />
+                        </th:block>
                         <br />
                     </div>
                 </th:block>
@@ -96,6 +99,9 @@
                         </th:block>
                         <th:block th:if="${type.value.auraCoeff != 0}">
                             <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.torpedoReloadTime != 0}">
+                            <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.torpedoReloadTime, 0, 'COMMA') + ' s'}"/><br />
                         </th:block>
                         <br />
                     </div>
@@ -128,6 +134,9 @@
                         <th:block th:if="${type.value.auraCoeff != 0}">
                             <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
                         </th:block>
+                        <th:block th:if="${type.value.torpedoReloadTime != 0}">
+                            <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.torpedoReloadTime, 0, 'COMMA') + ' s'}"/><br />
+                        </th:block>
                         <br />
                     </div>
                 </th:block>
@@ -158,6 +167,9 @@
                         </th:block>
                         <th:block th:if="${type.value.auraCoeff != 0}">
                             <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.torpedoReloadTime != 0}">
+                            <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.torpedoReloadTime, 0, 'COMMA') + ' s'}"/><br />
                         </th:block>
                         <br />
                     </div>
