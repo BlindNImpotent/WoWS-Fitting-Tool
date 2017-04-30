@@ -283,6 +283,7 @@ public class APIController
     @RequestMapping (value = "/shipStatComparison", method = RequestMethod.GET)
     public String shipStatComparisonTree(Model model)
     {
+        model.addAttribute("data", data);
         model.addAttribute("nations", data.get("nations"));
         model.addAttribute("premiumTable", data.get("premiumTable"));
         model.addAttribute("rawShipData", data.get("rawShipData"));

@@ -585,3 +585,195 @@ nav ul ul ul li {
 {
     text-align: center;
 }
+
+.button_module_1
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_module_1 img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_module_selected_1
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_module_selected_1 img
+{
+    width: 40px;
+    margin-bottom: 0px;
+}
+
+.button_upgrade_1
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_upgrade_1 img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_upgrade_selected_1
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_upgrade_selected_1 img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_module_2
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_module_2 img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_module_selected_2
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_module_selected_2 img
+{
+    width: 40px;
+    margin-bottom: 0px;
+}
+
+.button_upgrade_2
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_upgrade_2 img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_upgrade_selected_2
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_upgrade_selected_2 img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}

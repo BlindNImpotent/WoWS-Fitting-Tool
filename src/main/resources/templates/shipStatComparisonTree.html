@@ -25,6 +25,28 @@
     <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
     <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
     <script th:src="@{/js/accounting/accounting.js}"></script>
+    <script>
+        $(function() {
+//            $(document).tooltip();
+
+            $('#crewSkills').dialog({
+                autoOpen: false,
+//                modal: true,
+                width: 860
+            }).css("font-size", "8px");
+
+            $('#flags').dialog({
+                autoOpen: false,
+//                modal: true,
+                width: 650
+            }).css("font-size", "8px");
+
+//            $('#consumablesData').dialog({
+//                autoOpen: false,
+//                width: 320
+//            }).css("font-size", "8px");
+        });
+    </script>
     <title>WoWS Fitting Tool by Aesis</title>
 </head>
 <body>
@@ -54,6 +76,8 @@
         </button>
     </div>
     <div style="text-align: center;">
+        <button id="showCrewSkills">Commander Skills</button>
+        <button id="showFlags">Flags</button><br />
         <button id="resetSelect">Reset</button><br />
     </div>
     <div style="text-align: center;">
@@ -131,6 +155,34 @@
     <div id="modulesUpgradesConsumables">
     </div>
 </main>
+<div id="crewSkills" class="ui-widget-content" title="Skill Points 0 / 19">
+    <table id="skillsTable" align="center">
+        <tbody>
+        <tr th:each="skillTier : ${data.skills}">
+            <td th:each="skill : ${skillTier.value}" th:id="${'td_' + skill.value.tier + '_' + skill.value.type_id}">
+                <button th:if="${skill.value.tier != 0}" th:object="${skill.value}" th:title="${skill.value.description}" th:class="${crewSkills != null and crewSkills.size() != 0 and (crewSkills.?[tier == #strings.toString(__${skill.value.tier}__) and type_id == #strings.toString(__${skill.value.type_id}__)]).size() != 0} ? button_skill_selected : button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, type_id=${skill.value.type_id}">
+                    <img th:src="${skill.value.icon}"/><br />
+                    <span th:text="${skill.value.name}"/>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div id="flags" class="ui-widget-content" title="Flags 0 / 8">
+    <table id="flagsTable" align="center">
+        <tbody>
+        <tr th:each="index : ${#numbers.sequence(0, data.exteriors.Flags.size() - 1, 6)}" th:id="${index / 6}">
+            <td th:each="flag : ${data.exteriors.Flags}" th:if="${flagStat.index % 3} == ${index / 6}">
+                <button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.consumable_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.consumable_id}">
+                    <img th:src="${flag.value.image}"/><br />
+                    <span th:text="${flag.value.name}"/>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 <script th:inline="javascript">
     //    <![CDATA[
 
@@ -206,6 +258,162 @@
             var clickedId = clickedList.eq(i).attr('id');
             document.getElementById(clickedId).className = 'button_ship_tree';
         }
+
+        var clickedSkillsList = $('.button_skill_selected');
+        for (var i = 0; i < clickedSkillsList.length; i++)
+        {
+            var clickedId = clickedSkillsList.eq(i).attr('id');
+            $('#' + clickedId).click();
+        }
+
+        var clickedFlagsList = $('.button_flag_selected');
+        for (var i = 0; i < clickedFlagsList.length; i++)
+        {
+            var clickedId = clickedFlagsList.eq(i).attr('id');
+            $('#' + clickedId).click();
+        }
+
+        $('[aria-describedby=warship1]').remove();
+        $('[aria-describedby=warship2]').remove();
+        $('#modulesUpgradesConsumables').html('');
+    });
+
+    $(document).on('click', '.button_module_1', function(){
+        var clickedId = $(this).attr('id');
+        var selectedModules = document.getElementsByName($(this).attr('name'));
+
+        for (var i = 0; i < selectedModules.length; i++)
+        {
+            var buttonId = selectedModules[i].getAttribute('id').replace('li_', '');
+            document.getElementById(buttonId).className = 'button_module_1';
+        }
+        document.getElementById(clickedId).className = 'button_module_selected_1';
+    });
+
+    $(document).on('click', '.button_upgrade_1, .button_upgrade_selected_1', function () {
+        var clickedId = $(this).attr('id');
+
+        if (document.getElementById(clickedId).className == 'button_upgrade_1')
+        {
+            var gParentElem = $(this).parent().parent();
+            var parents = gParentElem.children();
+
+            for (var i = 0; i < parents.length; i++)
+            {
+                var buttonId = parents[i].getAttribute('id').replace('li_', '');
+                document.getElementById(buttonId).className = 'button_upgrade_1';
+            }
+            document.getElementById(clickedId).className = 'button_upgrade_selected_1';
+        }
+        else
+        {
+            document.getElementById(clickedId).className = 'button_upgrade_1';
+        }
+    });
+
+    $(document).on('click', '.button_module_2', function(){
+        var clickedId = $(this).attr('id');
+        var selectedModules = document.getElementsByName($(this).attr('name'));
+
+        for (var i = 0; i < selectedModules.length; i++)
+        {
+            var buttonId = selectedModules[i].getAttribute('id').replace('li_', '');
+            document.getElementById(buttonId).className = 'button_module_2';
+        }
+        document.getElementById(clickedId).className = 'button_module_selected_2';
+    });
+
+    $(document).on('click', '.button_upgrade_2, .button_upgrade_selected_2', function () {
+        var clickedId = $(this).attr('id');
+
+        if (document.getElementById(clickedId).className == 'button_upgrade_2')
+        {
+            var gParentElem = $(this).parent().parent();
+            var parents = gParentElem.children();
+
+            for (var i = 0; i < parents.length; i++)
+            {
+                var buttonId = parents[i].getAttribute('id').replace('li_', '');
+                document.getElementById(buttonId).className = 'button_upgrade_2';
+            }
+            document.getElementById(clickedId).className = 'button_upgrade_selected_2';
+        }
+        else
+        {
+            document.getElementById(clickedId).className = 'button_upgrade_2';
+        }
+    });
+
+    $(document).on('click', '.button_skill, .button_skill_selected', function () {
+        var maxSpts = 19;
+        var currentSpts = 0;
+        var clickedSpts = 0;
+        var totalSpts = 0;
+
+        var clickedId = $(this).attr('id');
+
+        if (document.getElementById(clickedId).className == 'button_skill')
+        {
+            clickedSpts = clickedSpts + parseInt($(this).attr('tier'));
+        }
+        else
+        {
+            clickedSpts = clickedSpts - parseInt($(this).attr('tier'));
+        }
+
+        var selected = document.getElementsByClassName('button_skill_selected');
+
+        for (var i = 0; i < selected.length; i++)
+        {
+            currentSpts = currentSpts + parseInt(selected[i].getAttribute('tier'));
+        }
+
+        totalSpts = totalSpts + currentSpts + clickedSpts;
+
+        if (document.getElementById(clickedId).className == 'button_skill')
+        {
+            if (totalSpts > maxSpts)
+            {
+                return false;
+            }
+            document.getElementById(clickedId).className = 'button_skill_selected';
+        }
+        else
+        {
+            document.getElementById(clickedId).className = 'button_skill';
+        }
+
+        document.getElementById('ui-id-1').innerText = 'Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString();
+    });
+
+    $(document).on('click', '.button_flag, .button_flag_selected', function () {
+        var maxFlags = 8;
+
+        var clickedId = $(this).attr('id');
+        var selected = document.getElementsByClassName('button_flag_selected');
+
+        if (document.getElementById(clickedId).className == 'button_flag')
+        {
+            if (selected.length >= maxFlags)
+            {
+                return false;
+            }
+            document.getElementById(clickedId).className = 'button_flag_selected';
+        }
+        else
+        {
+            document.getElementById(clickedId).className = 'button_flag';
+        }
+
+        document.getElementById('ui-id-2').innerText = 'Flags ' + selected.length.toString() + ' / ' + maxFlags;
+    });
+
+    $(document).on('click', '#showCrewSkills', function () {
+        $('#crewSkills').dialog('open');
+    });
+
+    $(document).on('click', '#showFlags', function () {
+        $('#flags').dialog('open');
     });
 
     //    ]]>
