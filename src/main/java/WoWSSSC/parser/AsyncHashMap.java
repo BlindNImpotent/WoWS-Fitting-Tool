@@ -275,9 +275,39 @@ public class AsyncHashMap implements CommandLineRunner
         tempExteriors.put("Camouflage", tempCamouflage);
         tempExteriors.put("Permoflage", tempPermoflage);
 
+        LinkedHashMap<String, LinkedHashMap> tempPremiumTable = new LinkedHashMap<>();
+        for (Map.Entry<String, LinkedHashMap> nation : tempTree.entrySet())
+        {
+            LinkedHashMap<String, LinkedHashMap<String, Warship>> temp = new LinkedHashMap<>();
+
+            for (int i = 1; i <= 10; i++)
+            {
+                temp.put(String.valueOf(i), null);
+
+                for (Warship premium1 : ((LinkedHashMap<String, Warship>) nation.getValue().get("Premium")).values())
+                {
+                    if (i == premium1.getTier())
+                    {
+                        LinkedHashMap<String, Warship> tempTier = new LinkedHashMap<>();
+
+                        for (Warship premium2 : ((LinkedHashMap<String, Warship>) nation.getValue().get("Premium")).values())
+                        {
+                            if (premium2.getTier() == i)
+                            {
+                                tempTier.put(premium2.getName().replace("'", ""), premium2);
+                            }
+                        }
+                        temp.put(String.valueOf(i), tempTier);
+                    }
+                }
+            }
+            tempPremiumTable.put(nation.getKey(), temp);
+        }
+
         data.clear();
         data.put("encyclopedia", mapper.convertValue(encyclopedia, LinkedHashMap.class));
         data.put("nations", tempTree);
+        data.put("premiumTable", tempPremiumTable);
         data.put("rawShipData", rawShipData);
 //        data.put("nations", nations);
         data.put("upgrades", tempUpgrades);

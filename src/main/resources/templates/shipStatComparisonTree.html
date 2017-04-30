@@ -48,14 +48,12 @@
 </header>
 <main>
     <div style="text-align: center;">
-        <button id="changeView">Go PC</button><br /><br />
         <button th:each="nation : ${nations}" th:name="${nation.key}" th:class="button_nation">
             <img th:src="${'/images/Nations/' + nation.key + '.png'}"/><br />
             <span th:text="${nation.key}"/>
         </button>
     </div>
     <div style="text-align: center;">
-        <strong id="xpRequired" th:text="'Click on two ships for lowest research xp'"/><br />
         <button id="resetSelect">Reset</button><br />
     </div>
     <div style="text-align: center;">
@@ -65,7 +63,7 @@
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                 </li>
                 <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                    <button th:class="button_ship_tree" th:id="${ship.key}">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
@@ -76,7 +74,7 @@
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                 </li>
                 <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                    <button th:class="button_ship_tree" th:id="${ship.key}">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
@@ -87,7 +85,7 @@
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                 </li>
                 <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                    <button th:class="button_ship_tree" th:id="${ship.key}">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
@@ -98,7 +96,7 @@
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                 </li>
                 <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                    <button th:class="button_ship_tree" th:id="${ship.key}">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
@@ -109,25 +107,28 @@
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                 </li>
                 <li th:each="ship : ${shipType.value}" th:if="${!ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                    <button th:class="button_ship_tree" th:id="${ship.key}">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
                 </li>
             </div>
-            <!--<table th:each="pNation : ${premiumTable}" th:if="${pNation.key == nation.key}">-->
-                <!--<tr th:each="tier : ${pNation.value}">-->
-                    <!--<td th:if="${tier.value == null}">-->
-                        <!--<button th:class="button_ship_tree_empty" disabled="disabled"></button>-->
-                    <!--</td>-->
-                    <!--<td th:each="ship : ${tier.value}" th:if="${tier.value != null}">-->
-                        <!--<button th:class="button_ship_tree">-->
-                            <!--<img th:src="${ship.value.images.small}"/>-->
-                        <!--</button>-->
-                    <!--</td>-->
-                <!--</tr>-->
-            <!--</table>-->
+            <table th:class="shipTree" th:each="pNation : ${premiumTable}" th:if="${pNation.key == nation.key}">
+                <tr th:each="tier : ${pNation.value}">
+                    <td th:if="${tier.value == null}">
+                        <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                    </td>
+                    <td th:each="ship : ${tier.value}" th:if="${tier.value != null}">
+                        <button th:class="button_ship_tree" th:id="${ship.key}" th:if="${ship.value.name != 'Test Ship'}">
+                            <img th:src="${ship.value.images.small}"/><br />
+                            <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                        </button>
+                    </td>
+                </tr>
+            </table>
         </div>
+    </div>
+    <div id="modulesUpgradesConsumables">
     </div>
 </main>
 <script th:inline="javascript">
@@ -143,14 +144,12 @@
 
         nation = name;
 
-        var clickedList = $('.button_ship_tree_selected');
-        for (var i = 0; i < clickedList.length; i++)
-        {
-            var clickedId = clickedList.eq(i).attr('id');
-            document.getElementById(clickedId).className = 'button_ship_tree';
-        }
-
-        $('#xpRequired').text('Click on two ships for lowest research xp');
+//        var clickedList = $('.button_ship_tree_selected');
+//        for (var i = 0; i < clickedList.length; i++)
+//        {
+//            var clickedId = clickedList.eq(i).attr('id');
+//            document.getElementById(clickedId).className = 'button_ship_tree';
+//        }
     });
 
     $(document).on('click', '.button_ship_tree', function () {
@@ -175,15 +174,16 @@
             }
 
             $.ajax({
-                url: '/shipTree',
+                url: '/shipStatSelection',
                 type: 'post',
                 contentType: "application/json",
                 data: JSON.stringify(list),
                 success: function (data) {
-                    data != -1 ? $('#xpRequired').text(data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' xp required') : $('#xpRequired').text('Error - Research properly or contact EdibleBug on Reddit');
+                    $('#modulesUpgradesConsumables').replaceWith(data);
                 },
                 error: function (data) {
-                    alert('Error - Research properly or contact EdibleBug on Reddit')
+                    console.log(data);
+                    alert('Error - contact EdibleBug on Reddit')
                 }
             });
         }
@@ -193,6 +193,9 @@
         var clickedId = $(this).attr('id');
 
         document.getElementById(clickedId).className = 'button_ship_tree';
+
+        $('[aria-describedby=module1]').remove();
+        $('[aria-describedby=module2]').remove();
     });
 
     $(document).on('click', '#resetSelect', function () {
@@ -202,12 +205,6 @@
             var clickedId = clickedList.eq(i).attr('id');
             document.getElementById(clickedId).className = 'button_ship_tree';
         }
-
-        $('#xpRequired').text('Click on two ships for lowest research xp');
-    });
-
-    $(document).on('click', '#changeView', function () {
-        location.href = '/shipTree?mobile=false'
     });
 
     //    ]]>

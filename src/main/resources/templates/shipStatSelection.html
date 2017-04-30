@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="UTF-8" />
+    <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
+    <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
+    <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
+    <script th:src="@{/js/accounting/accounting.js}"></script>
+    <title>WoWS Fitting Tool by Aesis</title>
+</head>
+<body>
+<header>
+</header>
+<main>
+    <div th:fragment="warshipSelection" id="modulesUpgradesConsumables">
+        <div id="modules1" th:title="${warship1.name}">
+            <table>
+                <tbody>
+                <tr th:each="row : ${warship1.warshipModulesTreeTable}">
+                    <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
+                        <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}">
+                            <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
+                            <span th:text="${module.name}"/>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="modules2" th:title="${warship2.name}">
+            <table>
+                <tbody>
+                <tr th:each="row : ${warship2.warshipModulesTreeTable}">
+                    <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
+                        <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}">
+                            <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
+                            <span th:text="${module.name}"/>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <script>
+            $(function() {
+
+                $('#modules1').dialog({
+                    autoOpen: true,
+                    width: 550,
+                    position: {
+                        my: "left center"
+                    }
+                }).css("font-size", "8px");
+
+                $('#modules2').dialog({
+                    autoOpen: true,
+                    width: 550,
+                    position: {
+                        my: "right center"
+                    }
+                }).css("font-size", "8px");
+            });
+        </script>
+    </div>
+</main>
+<script th:inline="javascript">
+    //    <![CDATA[
+
+    //    ]]>
+</script>
+</body>
+</html>

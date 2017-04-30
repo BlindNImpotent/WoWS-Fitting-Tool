@@ -264,6 +264,7 @@ public class APIController
     public String shipTree(Model model, @RequestParam(required = false, defaultValue = "false") boolean mobile)
     {
         model.addAttribute("nations", data.get("nations"));
+        model.addAttribute("premiumTable", data.get("premiumTable"));
 
         if (mobile)
         {
@@ -277,5 +278,24 @@ public class APIController
     public long getXp(@RequestBody List<String> shipList)
     {
         return apiService.getXp(shipList);
+    }
+
+    @RequestMapping (value = "/shipStatComparison", method = RequestMethod.GET)
+    public String shipStatComparisonTree(Model model)
+    {
+        model.addAttribute("nations", data.get("nations"));
+        model.addAttribute("premiumTable", data.get("premiumTable"));
+        model.addAttribute("rawShipData", data.get("rawShipData"));
+
+        return "shipStatComparisonTree";
+    }
+
+    @RequestMapping (value = "/shipStatSelection", method = RequestMethod.POST)
+    public String shipStatSelection(Model model, @RequestBody List<String> shipList)
+    {
+        model.addAttribute("warship1", data.get("rawShipData").get(shipList.get(0)));
+        model.addAttribute("warship2", data.get("rawShipData").get(shipList.get(1)));
+
+        return "shipStatSelection";
     }
 }

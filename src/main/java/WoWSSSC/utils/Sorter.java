@@ -29,6 +29,10 @@ public class Sorter
 
                 if (tierDiff == 0)
                 {
+                    if (o1.getValue().getDefaultType().compareTo(o2.getValue().getDefaultType()) != 0)
+                    {
+                        return o1.getValue().getDefaultType().compareTo(o2.getValue().getDefaultType());
+                    }
                     return (o1.getValue().getName().compareTo(o2.getValue().getName()));
                 }
                 return tierDiff;
