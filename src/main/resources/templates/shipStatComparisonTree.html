@@ -77,7 +77,8 @@
     </div>
     <div style="text-align: center;">
         <button id="showCrewSkills">Commander Skills</button>
-        <button id="showFlags">Flags</button><br />
+        <button id="showFlags">Flags</button>
+        <input type="checkbox" id="camouflageCheckbox" th:checked="${camo}" th:text="'Camouflage'" th:title="'Decreases the firing accuracy of the enemy and reduces ship detectability.'"/><br />
         <button id="resetSelect">Reset</button><br />
     </div>
     <div style="text-align: center;">
@@ -154,6 +155,8 @@
     </div>
     <div id="modulesUpgradesConsumables">
     </div>
+    <div class="shipAPIData">
+    </div>
 </main>
 <div id="crewSkills" class="ui-widget-content" title="Skill Points 0 / 19">
     <table id="skillsTable" align="center">
@@ -195,13 +198,6 @@
         $('#' + name).removeAttr('hidden');
 
         nation = name;
-
-//        var clickedList = $('.button_ship_tree_selected');
-//        for (var i = 0; i < clickedList.length; i++)
-//        {
-//            var clickedId = clickedList.eq(i).attr('id');
-//            document.getElementById(clickedId).className = 'button_ship_tree';
-//        }
     });
 
     $(document).on('click', '.button_ship_tree', function () {
@@ -232,6 +228,7 @@
                 data: JSON.stringify(list),
                 success: function (data) {
                     $('#modulesUpgradesConsumables').replaceWith(data);
+                    callAPI();
                 },
                 error: function (data) {
                     console.log(data);
@@ -288,6 +285,8 @@
             document.getElementById(buttonId).className = 'button_module_1';
         }
         document.getElementById(clickedId).className = 'button_module_selected_1';
+
+        callAPI();
     });
 
     $(document).on('click', '.button_upgrade_1, .button_upgrade_selected_1', function () {
@@ -309,6 +308,8 @@
         {
             document.getElementById(clickedId).className = 'button_upgrade_1';
         }
+
+        callAPI();
     });
 
     $(document).on('click', '.button_module_2', function(){
@@ -384,6 +385,8 @@
         }
 
         document.getElementById('ui-id-1').innerText = 'Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString();
+
+        callAPI();
     });
 
     $(document).on('click', '.button_flag, .button_flag_selected', function () {
@@ -406,6 +409,8 @@
         }
 
         document.getElementById('ui-id-2').innerText = 'Flags ' + selected.length.toString() + ' / ' + maxFlags;
+
+        callAPI();
     });
 
     $(document).on('click', '#showCrewSkills', function () {
@@ -415,6 +420,130 @@
     $(document).on('click', '#showFlags', function () {
         $('#flags').dialog('open');
     });
+
+    $(document).on('click', '#camouflageCheckbox', function () {
+        callAPI();
+    });
+
+    function callAPI()
+    {
+        var modifier = '&';
+        var equals = '=';
+
+        var selectedSkills = $('.button_skill_selected');
+        var selectedFlags = $('.button_flag_selected');
+        var skills = [];
+        var flags = [];
+        var upgradesSkills = [];
+
+        for (var i = 0; i < selectedSkills.length; i++)
+        {
+            var tier = selectedSkills[i].getAttribute('tier');
+            var type_id = selectedSkills[i].getAttribute('type_id');
+
+            var current = {
+                tier: tier,
+                type_id: type_id
+            };
+
+            skills.push(current);
+        }
+
+        for (var i = 0; i < selectedFlags.length; i++)
+        {
+            var flagId = selectedFlags[i].getAttribute('id');
+
+            flags.push(flagId);
+        }
+
+        var camouflage = [$('#camouflageCheckbox').is(':checked')];
+
+
+        var warship1Name = $('[aria-describedby=warship1]').find('#ui-id-3').text();
+        var warship1 = $('#warship1').attr('name');
+        var selectedModules1 = $('.button_module_selected_1');
+        var selectedUpgrades1 = $('.button_upgrade_selected_1');
+
+        var modules1 = [];
+        var upgrades1 = [];
+
+        for (var i = 0; i < selectedModules1.length; i++)
+        {
+            var type = selectedModules1[i].getAttribute('name');
+            var moduleId = selectedModules1[i].getAttribute('id');
+
+            modules1.push(moduleId);
+
+            warship1 = warship1 + modifier + type + equals + moduleId;
+        }
+
+        for (var i = 0; i < selectedUpgrades1.length; i++)
+        {
+            var upgradeId = selectedUpgrades1[i].getAttribute('id').replace('_1', '');
+
+            upgrades1.push(upgradeId);
+        }
+
+        var upgradesSkills1 = {
+            shipName: warship1Name,
+            upgrades: upgrades1,
+            skills: skills,
+            camouflage: camouflage,
+            flags: flags
+        };
+        upgradesSkills.push(upgradesSkills1);
+
+        var warship2Name = $('[aria-describedby=warship2]').find('#ui-id-4').text();
+        var warship2 = $('#warship2').attr('name');
+        var selectedModules2 = $('.button_module_selected_2');
+        var selectedUpgrades2 = $('.button_upgrade_selected_2');
+
+        var modules2 = [];
+        var upgrades2 = [];
+
+        for (var i = 0; i < selectedModules2.length; i++)
+        {
+            var type = selectedModules2[i].getAttribute('name');
+            var moduleId = selectedModules2[i].getAttribute('id');
+
+            modules2.push(moduleId);
+
+            warship2 = warship2 + modifier + type + equals + moduleId;
+        }
+
+        for (var i = 0; i < selectedUpgrades2.length; i++)
+        {
+            var upgradeId = selectedUpgrades2[i].getAttribute('id').replace('_2', '');
+
+            upgrades2.push(upgradeId);
+        }
+
+        var upgradesSkills2 = {
+            shipName: warship2Name,
+            upgrades: upgrades2,
+            skills: skills,
+            camouflage: camouflage,
+            flags: flags
+        };
+        upgradesSkills.push(upgradesSkills2);
+
+        $.ajax({
+            url: '/shipStatComparison?' + warship1 + '&' + warship2,
+            type: 'post',
+            contentType: "application/json",
+            data: JSON.stringify(upgradesSkills),
+            success: function (data) {
+                if (data != '')
+                {
+                    $('.shipAPIData').replaceWith(data);
+                }
+                else
+                {
+//                        alert('Wrong path of research!');
+                }
+            }
+        });
+    }
 
     //    ]]>
 </script>

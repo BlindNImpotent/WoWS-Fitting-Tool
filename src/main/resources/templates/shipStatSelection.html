@@ -23,7 +23,7 @@
                     <tbody>
                     <tr th:each="row : ${warship1.warshipModulesTreeTable}">
                         <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
-                            <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected_1 : button_module_1" th:id="${module.module_id}" th:name="${module.type + '_1'}">
+                            <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected_1 : button_module_1" th:id="${module.module_id}" th:name="${module.type + '1'}">
                                 <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
                                 <span th:text="${module.name}"/>
                             </button>
@@ -49,7 +49,7 @@
                     <tbody>
                     <tr th:each="row : ${warship2.warshipModulesTreeTable}">
                         <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
-                            <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected_2 : button_module_2" th:id="${module.module_id}" th:name="${module.type + '_2'}">
+                            <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected_2 : button_module_2" th:id="${module.module_id}" th:name="${module.type + '2'}">
                                 <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
                                 <span th:text="${module.name}"/>
                             </button>

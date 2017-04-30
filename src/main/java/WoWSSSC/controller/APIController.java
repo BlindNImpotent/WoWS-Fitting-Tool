@@ -291,6 +291,85 @@ public class APIController
         return "shipStatComparisonTree";
     }
 
+    @RequestMapping (value = "/shipStatComparison", method = RequestMethod.POST)
+    public String shipStatComparisonTable(Model model,
+                                          @RequestParam(required = false, defaultValue = "") String nation1,
+                                          @RequestParam(required = false, defaultValue = "") String shipType1,
+                                          @RequestParam(required = false, defaultValue = "") String ship1,
+                                          @RequestParam(required = false, defaultValue = "") String ship_id1,
+                                          @RequestParam(required = false, defaultValue = "") String Artillery1,
+                                          @RequestParam(required = false, defaultValue = "") String DiveBomber1,
+                                          @RequestParam(required = false, defaultValue = "") String Engine1,
+                                          @RequestParam(required = false, defaultValue = "") String Fighter1,
+                                          @RequestParam(required = false, defaultValue = "") String Suo1,
+                                          @RequestParam(required = false, defaultValue = "") String FlightControl1,
+                                          @RequestParam(required = false, defaultValue = "") String Hull1,
+                                          @RequestParam(required = false, defaultValue = "") String TorpedoBomber1,
+                                          @RequestParam(required = false, defaultValue = "") String Torpedoes1,
+                                          @RequestParam(required = false, defaultValue = "") String nation2,
+                                          @RequestParam(required = false, defaultValue = "") String shipType2,
+                                          @RequestParam(required = false, defaultValue = "") String ship2,
+                                          @RequestParam(required = false, defaultValue = "") String ship_id2,
+                                          @RequestParam(required = false, defaultValue = "") String Artillery2,
+                                          @RequestParam(required = false, defaultValue = "") String DiveBomber2,
+                                          @RequestParam(required = false, defaultValue = "") String Engine2,
+                                          @RequestParam(required = false, defaultValue = "") String Fighter2,
+                                          @RequestParam(required = false, defaultValue = "") String Suo2,
+                                          @RequestParam(required = false, defaultValue = "") String FlightControl2,
+                                          @RequestParam(required = false, defaultValue = "") String Hull2,
+                                          @RequestParam(required = false, defaultValue = "") String TorpedoBomber2,
+                                          @RequestParam(required = false, defaultValue = "") String Torpedoes2,
+                                          @RequestBody(required = false) List<HashMap> upgradesSkills) throws Exception
+    {
+        String returnedKey1 = apiService.setShipAPI(nation1, shipType1, ship1, ship_id1, Artillery1, DiveBomber1, Engine1, Fighter1, Suo1, FlightControl1, Hull1, TorpedoBomber1, Torpedoes1, new ArrayList<>());
+        
+        HashMap<String, List> upgradesSkills1 = new HashMap<>();
+        HashMap<String, List> upgradesSkills2 = new HashMap<>();
+        for (HashMap upgradesSkill : upgradesSkills)
+        {
+            if (upgradesSkill.get("shipName").equals(ship1))
+            {
+                upgradesSkills1 = upgradesSkill;
+            }
+            else
+            {
+                upgradesSkills2 = upgradesSkill;
+            }
+
+            if (upgradesSkill.get("skills") != null)
+            {
+                ((List<HashMap>) upgradesSkill.get("skills")).forEach(skill ->
+                {
+                    if (skill.get("tier").equals("2") && skill.get("type_id").equals("6"))
+                    {
+                        model.addAttribute("adrenaline", true);
+                    }
+                });
+            }
+        }
+        
+        Ship shipAPI1 = apiService.getUpgradeSkillStats(returnedKey1, nation1, shipType1, ship1, ship_id1, Artillery1, DiveBomber1, Engine1, Fighter1, Suo1, FlightControl1, Hull1, TorpedoBomber1, Torpedoes1, new ArrayList<>(), upgradesSkills1);
+
+        String returnedKey2 = apiService.setShipAPI(nation2, shipType2, ship2, ship_id2, Artillery2, DiveBomber2, Engine2, Fighter2, Suo2, FlightControl2, Hull2, TorpedoBomber2, Torpedoes2, new ArrayList<>());
+        Ship shipAPI2 = apiService.getUpgradeSkillStats(returnedKey2, nation2, shipType2, ship2, ship_id2, Artillery2, DiveBomber2, Engine2, Fighter2, Suo2, FlightControl2, Hull2, TorpedoBomber2, Torpedoes2, new ArrayList<>(), upgradesSkills2);
+
+        model.addAttribute("shipAPI1", shipAPI1);
+        model.addAttribute("shipAPI1Name", ship1);
+        if (shipAPI1 != null)
+        {
+            model.addAttribute("shipComponents1", shipAPI1.getShipComponents());
+        }
+
+        model.addAttribute("shipAPI2", shipAPI2);
+        model.addAttribute("shipAPI2Name", ship2);
+        if (shipAPI2 != null)
+        {
+            model.addAttribute("shipComponents2", shipAPI2.getShipComponents());
+        }
+        
+        return "shipStatComparisonStat :: shipAPIData";
+    }
+
     @RequestMapping (value = "/shipStatSelection", method = RequestMethod.POST)
     public String shipStatSelection(Model model, @RequestBody List<String> shipList)
     {
