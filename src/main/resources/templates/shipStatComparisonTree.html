@@ -194,8 +194,9 @@
 
         document.getElementById(clickedId).className = 'button_ship_tree';
 
-        $('[aria-describedby=module1]').remove();
-        $('[aria-describedby=module2]').remove();
+        $('[aria-describedby=warship1]').remove();
+        $('[aria-describedby=warship2]').remove();
+        $('#modulesUpgradesConsumables').html('');
     });
 
     $(document).on('click', '#resetSelect', function () {

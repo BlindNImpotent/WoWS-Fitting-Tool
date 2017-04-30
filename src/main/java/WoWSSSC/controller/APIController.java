@@ -296,6 +296,6 @@ public class APIController
         model.addAttribute("warship1", data.get("rawShipData").get(shipList.get(0)));
         model.addAttribute("warship2", data.get("rawShipData").get(shipList.get(1)));
 
-        return "shipStatSelection";
+        return "shipStatSelection :: warshipSelection";
     }
 }

@@ -17,48 +17,74 @@
 </header>
 <main>
     <div th:fragment="warshipSelection" id="modulesUpgradesConsumables">
-        <div id="modules1" th:title="${warship1.name}">
-            <table>
-                <tbody>
-                <tr th:each="row : ${warship1.warshipModulesTreeTable}">
-                    <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
-                        <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}">
-                            <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
-                            <span th:text="${module.name}"/>
+        <div id="warship1" th:title="${warship1.name}" th:name="${'nation1=' + warship1.nation + '&amp;shipType1=' + warship1.type + '&amp;ship1=' + warship1.name + '&amp;ship_id1=' + warship1.ship_id}">
+            <div id="modules1" style="display: inline-block; vertical-align: top;">
+                <table>
+                    <tbody>
+                    <tr th:each="row : ${warship1.warshipModulesTreeTable}">
+                        <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
+                            <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}">
+                                <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
+                                <span th:text="${module.name}"/>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="upgrades1" style="display: inline-block; vertical-align: top;">
+                <div th:each="upgradeType : ${warship1.upgradesNew}" th:id="'id_' + ${upgradeType.key}" style="display: inline-block; vertical-align: top;">
+                    <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.consumable_id}">
+                        <button th:title="${upgrade.value.description}" th:class="${upgrades != null and #sets.contains(upgrades, #strings.toString(upgrade.value.consumable_id))} ? button_upgrade_selected : button_upgrade" th:id="${upgrade.value.consumable_id}" th:name="'price_' + ${upgrade.value.price_credit}">
+                            <img th:src="${upgrade.value.image}"/><br />
+                            <span th:text="${upgrade.value.name}"/>
                         </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                    </li>
+                </div>
+            </div>
         </div>
-        <div id="modules2" th:title="${warship2.name}">
-            <table>
-                <tbody>
-                <tr th:each="row : ${warship2.warshipModulesTreeTable}">
-                    <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
-                        <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}">
-                            <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
-                            <span th:text="${module.name}"/>
+        <div id="warship2" th:title="${warship2.name}" th:name="${'nation2=' + warship2.nation + '&amp;shipType2=' + warship2.type + '&amp;ship2=' + warship2.name + '&amp;ship_id2=' + warship2.ship_id}">
+            <div id="modules2" style="display: inline-block; vertical-align: top;">
+                <table>
+                    <tbody>
+                    <tr th:each="row : ${warship2.warshipModulesTreeTable}">
+                        <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
+                            <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}">
+                                <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
+                                <span th:text="${module.name}"/>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="upgrades2" style="display: inline-block; vertical-align: top;">
+                <div th:each="upgradeType : ${warship2.upgradesNew}" th:id="'id_' + ${upgradeType.key}" style="display: inline-block; vertical-align: top;">
+                    <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.consumable_id}">
+                        <button th:title="${upgrade.value.description}" th:class="${upgrades != null and #sets.contains(upgrades, #strings.toString(upgrade.value.consumable_id))} ? button_upgrade_selected : button_upgrade" th:id="${upgrade.value.consumable_id}" th:name="'price_' + ${upgrade.value.price_credit}">
+                            <img th:src="${upgrade.value.image}"/><br />
+                            <span th:text="${upgrade.value.name}"/>
                         </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                    </li>
+                </div>
+            </div>
         </div>
         <script>
             $(function() {
 
-                $('#modules1').dialog({
+                $('#warship1').dialog({
                     autoOpen: true,
-                    width: 550,
+                    width: 640,
+                    resizable: false,
                     position: {
                         my: "left center"
                     }
                 }).css("font-size", "8px");
 
-                $('#modules2').dialog({
+                $('#warship2').dialog({
                     autoOpen: true,
-                    width: 550,
+                    width: 640,
+                    resizable: false,
                     position: {
                         my: "right center"
                     }
