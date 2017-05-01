@@ -36,19 +36,10 @@
 <header>
     <div id="top" th:include="top :: top">
     </div>
-    <div id="header">
-        <nav>
-            <ul>
-                <li>
-                    <a href="/"><span>Home</span></a>
-                </li>
-            </ul>
-        </nav>
-    </div>
 </header>
 <main>
     <div style="text-align: center;">
-        <button id="changeView">Go Mobile</button><br /><br />
+        <button id="changeView">Go PC</button><br /><br />
         <button th:each="nation : ${nations}" th:name="${nation.key}" th:class="button_nation">
             <img th:src="${'/images/Nations/' + nation.key + '.png'}"/><br />
             <span th:text="${nation.key}"/>
@@ -61,60 +52,72 @@
     <div style="text-align: center;">
         <div th:each="nation : ${nations}" th:id="${nation.key}" th:name="nations" hidden="hidden">
             <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'AirCarrier'}">
-                <th:block th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
-                </th:block>
-                <th:block th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                </li>
+                <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
                     <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
-                </th:block>
+                </li>
             </div>
             <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Battleship'}">
-                <th:block th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
-                </th:block>
-                <th:block th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                </li>
+                <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
                     <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
-                </th:block>
+                </li>
             </div>
             <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Cruiser'}">
-                <th:block th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
-                </th:block>
-                <th:block th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                </li>
+                <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
                     <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
-                </th:block>
+                </li>
             </div>
             <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Destroyer'}">
-                <th:block th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
-                </th:block>
-                <th:block th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                </li>
+                <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
                     <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
-                </th:block>
+                </li>
             </div>
             <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Destroyer' and shipType.value.?[value.first == false].size() > 0}">
-                <th:block th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == false].size() &lt; ship.value.maxTier}">
+                <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == false].size() &lt; ship.value.maxTier}">
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
-                </th:block>
-                <th:block th:each="ship : ${shipType.value}" th:if="${!ship.value.first}">
+                </li>
+                <li th:each="ship : ${shipType.value}" th:if="${!ship.value.first}">
                     <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
-                </th:block>
+                </li>
             </div>
+            <!--<table th:each="pNation : ${premiumTable}" th:if="${pNation.key == nation.key}">-->
+                <!--<tr th:each="tier : ${pNation.value}">-->
+                    <!--<td th:if="${tier.value == null}">-->
+                        <!--<button th:class="button_ship_tree_empty" disabled="disabled"></button>-->
+                    <!--</td>-->
+                    <!--<td th:each="ship : ${tier.value}" th:if="${tier.value != null}">-->
+                        <!--<button th:class="button_ship_tree">-->
+                            <!--<img th:src="${ship.value.images.small}"/>-->
+                        <!--</button>-->
+                    <!--</td>-->
+                <!--</tr>-->
+            <!--</table>-->
         </div>
     </div>
 </main>
@@ -158,7 +161,7 @@
             for (var i = 0; i < selected.length; i++)
             {
                 var current = selected.eq(i);
-                var id = current.attr('id')
+                var id = current.attr('id');
                 list.push(id);
             }
 
@@ -195,10 +198,23 @@
     });
 
     $(document).on('click', '#changeView', function () {
-        location.href = '/shipTree?mobile=true'
+        location.href = '/shipTree?mobile=false'
     });
 
     //    ]]>
 </script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/5900f83364f23d19a89af69f/default';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+<!--End of Tawk.to Script-->
 </body>
 </html>

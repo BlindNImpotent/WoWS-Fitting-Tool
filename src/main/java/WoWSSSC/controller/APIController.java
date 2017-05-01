@@ -67,7 +67,15 @@ public class APIController
     }
 
     @RequestMapping (value = "/", method = RequestMethod.GET)
-    public String home(HttpServletRequest request, Model model, @RequestParam(required = false, defaultValue="false") boolean mobile)
+    public String home(Model model)
+    {
+        model.addAttribute("notification", notification);
+
+        return "home";
+    }
+
+    @RequestMapping (value = "/WarshipStats", method = RequestMethod.GET)
+    public String WarshipStats(HttpServletRequest request, Model model, @RequestParam(required = false, defaultValue="false") boolean mobile)
     {
         model.addAttribute("data", data);
         model.addAttribute("notification", notification);
@@ -75,9 +83,9 @@ public class APIController
 
         if (mobile)
         {
-            return "mobile";
+            return "WarshipStats/warshipHomeMobile";
         }
-        return "home";
+        return "WarshipStats/warshipHome";
     }
 
     @RequestMapping (value = "/warship", method = { RequestMethod.GET, RequestMethod.POST })
@@ -107,7 +115,7 @@ public class APIController
                 logger.info("Loading " + nation + " " + shipType + " " + ship);
                 model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
 
-                return "warshipPage :: warshipStats";
+                return "WarshipStats/warshipPage :: warshipStats";
             }
             else
             {
@@ -126,7 +134,7 @@ public class APIController
                 redirectAttributes.addFlashAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
             }
         }
-        return "redirect:/?mobile=" + mobile;
+        return "redirect:/WarshipStats?mobile=" + mobile;
     }
 
     @RequestMapping (value = "/shipAPI", method = RequestMethod.POST)
@@ -203,9 +211,9 @@ public class APIController
 
         if (mobile)
         {
-            return "shipAPIPageMobile :: shipAPIData";
+            return "WarshipStats/shipAPIPageMobile :: shipAPIData";
         }
-        return "shipAPIPage :: shipAPIData";
+        return "WarshipStats/shipAPIPage :: shipAPIData";
     }
 
     @ResponseBody
@@ -268,7 +276,7 @@ public class APIController
 
         model.addAttribute("consumables", upgradesSkills.get("consumables"));
 
-        return "consumablesPage";
+        return "WarshipStats/consumablesPage";
     }
 
     @RequestMapping (value = "/shipTree", method = RequestMethod.GET)
@@ -279,9 +287,9 @@ public class APIController
 
         if (mobile)
         {
-            return "shipTreeMobile";
+            return "WarshipResearch/shipTreeMobile";
         }
-        return "shipTree";
+        return "WarshipResearch/shipTree";
     }
 
     @ResponseBody
@@ -299,7 +307,7 @@ public class APIController
         model.addAttribute("premiumTable", data.get("premiumTable"));
         model.addAttribute("rawShipData", data.get("rawShipData"));
 
-        return "shipStatComparisonTree";
+        return "WarshipComparison/shipStatComparisonTree";
     }
 
     @RequestMapping (value = "/shipStatSelection", method = RequestMethod.POST)
@@ -308,7 +316,7 @@ public class APIController
         model.addAttribute("warship1", data.get("rawShipData").get(shipList.get(0)));
         model.addAttribute("warship2", data.get("rawShipData").get(shipList.get(1)));
 
-        return "shipStatSelection :: warshipSelection";
+        return "WarshipComparison/shipStatSelection :: warshipSelection";
     }
 
     @RequestMapping (value = "/shipStatComparison", method = RequestMethod.POST)
@@ -397,6 +405,6 @@ public class APIController
             model.addAttribute("shipComponents2", shipAPI2.getShipComponents());
         }
         
-        return "shipStatComparisonStat :: shipAPIData";
+        return "WarshipComparison/shipStatComparisonStat :: shipAPIData";
     }
 }

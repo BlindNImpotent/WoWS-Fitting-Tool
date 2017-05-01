@@ -61,9 +61,6 @@
     <div id="header">
         <nav>
             <ul>
-                <li>
-                    <a href="/"><span>Home</span></a>
-                </li>
                 <li th:each="nation : ${data.nations}">
                     <th:block th:each="eNation : ${data.encyclopedia.ship_nations}" th:if="${nation.key == eNation.key}">
                         <span th:text="${eNation.value}" />
@@ -81,7 +78,7 @@
                 </li>
                 <li>
                     <input type="text" id="shortenUrlAddress"/><button id="shortenURL">Shorten URL</button>
-                    <button id="changeDevice">Go PC</button>
+                    <button id="changeDevice">Go Mobile</button>
                 </li>
             </ul>
         </nav>
@@ -139,7 +136,7 @@
 <!--</div>-->
 <main>
     <div class="container">
-        <div class="warshipData" th:include="warshipPage :: warshipStats">
+        <div class="warshipData" th:include="WarshipStats/warshipPage :: warshipStats">
         </div>
         <div class="shipAPIData">
         </div>
@@ -151,7 +148,7 @@
     var nation = '';
     var shipType = '';
     var ship = '';
-    var mobile = true;
+    var mobile = false;
 
     var modules = [];
     var upgrades = [];
@@ -487,7 +484,7 @@
 
             url = url + '&upgradeCompare=' + $('#upgradeCompareCheckBox').is(':checked');
 
-            url = url + '&mobile=true';
+            url = url + '&mobile=false';
 
             $.ajax({
                 url: url,
@@ -587,13 +584,13 @@
     });
 
     $(document).on('click', '#changeDevice', function () {
-        mobile = false;
+        mobile = true;
 
         var url = window.location.href;
 
         if (url.includes('mobile'))
         {
-            url = url.replace('mobile=true', 'mobile=' + mobile);
+            url = url.replace('mobile=false', 'mobile=' + mobile);
         }
         else
         {
