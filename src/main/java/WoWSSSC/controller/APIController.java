@@ -3,6 +3,7 @@ package WoWSSSC.controller;
 import WoWSSSC.model.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.upgrade.profile.Fire_Control;
+import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.gameparams.test.GameParamsValues;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
 import WoWSSSC.service.APIService;
@@ -48,6 +49,8 @@ public class APIController
     private static final Logger logger = LoggerFactory.getLogger(APIController.class);
 
     ObjectMapper mapper = new ObjectMapper();
+
+    private long cacheStart = 0;
 
     @ResponseBody
     @RequestMapping (value = "/data", method = RequestMethod.GET)
@@ -154,6 +157,12 @@ public class APIController
         if (!ship_id.equals(""))
         {
             logger.info("Ship API");
+
+            if (System.currentTimeMillis() - cacheStart >= 60 * 60 * 1000)
+            {
+                apiService.cacheEvictShipHashMap();
+                cacheStart = System.currentTimeMillis();
+            }
 
             String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
             Ship shipAPI = apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills);
@@ -360,6 +369,12 @@ public class APIController
 
         logger.info("Ship Comparison");
 
+        if (System.currentTimeMillis() - cacheStart >= 60 * 60 * 1000)
+        {
+            apiService.cacheEvictShipHashMap();
+            cacheStart = System.currentTimeMillis();
+        }
+
         String returnedKey1 = apiService.setShipAPI(nation1, shipType1, ship1, ship_id1, Artillery1, DiveBomber1, Engine1, Fighter1, Suo1, FlightControl1, Hull1, TorpedoBomber1, Torpedoes1, new ArrayList<>());
         Ship shipAPI1 = apiService.getUpgradeSkillStats(returnedKey1, nation1, shipType1, ship1, ship_id1, Artillery1, DiveBomber1, Engine1, Fighter1, Suo1, FlightControl1, Hull1, TorpedoBomber1, Torpedoes1, new ArrayList<>(), upgradesSkills1);
 
@@ -368,6 +383,7 @@ public class APIController
 
         model.addAttribute("shipAPI1", shipAPI1);
         model.addAttribute("shipAPI1Name", ship1);
+        model.addAttribute("warship1", data.get("rawShipData").get(ship1));
         if (shipAPI1 != null)
         {
             model.addAttribute("shipComponents1", shipAPI1.getShipComponents());
@@ -375,6 +391,7 @@ public class APIController
 
         model.addAttribute("shipAPI2", shipAPI2);
         model.addAttribute("shipAPI2Name", ship2);
+        model.addAttribute("warship2", data.get("rawShipData").get(ship2));
         if (shipAPI2 != null)
         {
             model.addAttribute("shipComponents2", shipAPI2.getShipComponents());

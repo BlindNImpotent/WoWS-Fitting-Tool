@@ -20,6 +20,8 @@ import com.rits.cloning.Cloner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -61,6 +63,7 @@ public class APIService
 
     private static final Logger logger = LoggerFactory.getLogger(APIService.class);
 
+    @Cacheable(value = "shipAPI", key = "#nation#shipType#ship#ship_id#artillery_id#dive_bomber_id#engine_id#fighter_id#fire_control_id#flight_control_id#hull_id#torpedo_bomber_id#torpedoes_id")
     public String setShipAPI(
             String nation,
             String shipType,
@@ -101,11 +104,21 @@ public class APIService
             {
                 logger.info("Requesting data for " + nation + " " + shipType + " " + ship + " - " + url);
 
-                apiJsonParser.checkShipData(url, key, ship_id, nation, shipType, ship);
+                if (shipHashMap.get(key) == null)
+                {
+                    apiJsonParser.checkShipData(url, key, ship_id, nation, shipType, ship);
+                }
             }
             return key;
         }
         return null;
+    }
+
+    @CacheEvict(value = "shipAPI", allEntries = true)
+    public void cacheEvictShipHashMap()
+    {
+        logger.info("Evicting Ship API");
+        shipHashMap.clear();
     }
 
     private void setCustomValues(String ship_id, Ship ship)

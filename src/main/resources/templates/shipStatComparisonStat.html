@@ -16,10 +16,19 @@
 <header>
 </header>
 <main>
-    <div class="shipAPIData" id="shipAPIData" th:fragment="shipAPIData" th:unless="${shipAPI1 == null}" style="margin: 0 auto; width: 500px">
-        <button id="shipAPI1Button" style="float: left;"><strong th:text="${shipAPI1Name}"/></button>
-        <button id="shipAPI2Button" style="float: right;"><strong th:text="${shipAPI2Name}"/></button><br />
-        <div id="hullStats" class="hullStats">
+    <div class="shipAPIData" id="shipAPIData" th:fragment="shipAPIData" th:unless="${shipAPI1 == null}" style="margin: 0 auto;">
+        <div style="margin: 0 auto;">
+            <button id="shipAPI1Button" style="margin: 0 15px;">
+                <img th:src="${warship1.images.small}" th:title="${warship1.description}"/><br />
+                <strong th:text="${shipAPI1Name}"/>
+            </button>
+            <button id="shipAPI2Button" style="margin: 0 15px;">
+                <img th:src="${warship2.images.small}" th:title="${warship2.description}"/><br />
+                <strong th:text="${shipAPI2Name}"/>
+            </button>
+        </div>
+        <br />
+        <div id="hullStats" class="hullStats" style="display: inline-block; margin: 0 15px;">
             <div th:if="${shipAPI1.hull != null and shipAPI2.hull != null}" style="width: 500px; margin: 0 auto; text-align: center">
                 <strong style="text-align: center;">Hull</strong><br />
                 <li id="hull1" style="display: inline-block; float:left; width: 160px;">
@@ -47,6 +56,7 @@
                     <span style="float: right" th:text="${#numbers.formatDecimal(shipAPI2.flood, 0, 1)} + ' s'"/><br />
                 </li>
             </div>
+            <br />
             <div th:if="${shipAPI1.mobility != null and shipAPI2.mobility != null}" style="width: 500px; margin: 0 auto; text-align: center">
                 <strong>Mobility</strong><br />
                 <li id="mobility1" style="display: inline-block; float:left; width: 160px;">
@@ -65,6 +75,7 @@
                     <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.mobility.turning_radius, 0, 'COMMA')} + ' m'"/><br />
                 </li>
             </div>
+            <br />
             <div id="concealment" th:if="${shipAPI1.concealment != null and shipAPI2.concealment != null}" style="width: 500px; margin: 0 auto; text-align: center">
                 <strong>Concealment</strong><br />
                 <li style="display: inline-block; float: left; width: 160px;">
@@ -84,18 +95,22 @@
                 </li>
             </div>
         </div>
-        <br />
-        <div id="mainWeaponStats" class="mainWeaponStats">
+        <div id="mainWeaponStats" class="mainWeaponStats" style="display: inline-block; margin: 0 15px;">
             <div th:if="${shipAPI1.artillery != null and shipAPI2.artillery != null}" id="artillery" style="width: 500px; margin: 0 auto; text-align: center">
                 <strong>Main Battery</strong><br />
-                <li th:each="slot : ${shipAPI1.artillery.slots}" name="guns">
-                    <u style="float: left; width: 240px;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
-                </li>
-                <li th:each="slot : ${shipAPI2.artillery.slots}" name="guns">
-                    <u style="float: right; width: 240px;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
-                </li>
+                <div style="display: inline-block; width: 500px;">
+                    <div style="width: 240px; text-align: left; float: left; display: inline-block;">
+                        <li th:each="slot : ${shipAPI1.artillery.slots}" name="guns">
+                            <u th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
+                        </li>
+                    </div>
+                    <div style="width: 240px; text-align: right; float: right; display: inline-block;">
+                        <li th:each="slot : ${shipAPI2.artillery.slots}" name="guns">
+                            <u th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
+                        </li>
+                    </div>
+                </div>
                 <br />
-                <br th:if="${shipAPI1.artillery.slots.size() &gt; 1 or shipAPI2.artillery.slots.size() &gt; 1}"/>
                 <div>
                     <li style="display: inline-block; float: left; width: 160px;">
                         <span style="float: left" th:if="${shipComponents1.artillery != null}" th:text="${#numbers.formatDecimal(shipComponents1.artillery.sigmaCount, 0, 2)}"/><br />
@@ -339,6 +354,7 @@
                     </li>
                 </div>
             </div>
+            <br />
             <div th:if="${shipAPI1.torpedoes != null or shipAPI2.torpedoes != null}" id="torpedoes" style="width: 500px; margin: 0 auto; text-align: center">
                 <strong>Torpedoes</strong><br />
                 <th:block th:if="${shipAPI1.torpedoes != null}" >
@@ -383,6 +399,7 @@
                     </li>
                 </div>
             </div>
+            <br />
             <div th:if="${shipAPI1.flight_control != null and shipAPI2.flight_control != null}" id="flight_control" style="width: 500px; margin: 0 auto">
                 <strong>Flight Control</strong><br />
                 <div>
@@ -413,9 +430,8 @@
                 </div>
             </div>
         </div>
-        <br />
-        <div id="AASecondaryStats" class="AASecondaryStats">
-            <div th:if="${shipAPI1.anti_aircraft != null or shipAPI2.anti_aircraft != null}" id="anti_aircraft" style="display: inline-block; width: 500px; text-align: left;">
+        <div id="AASecondaryStats" class="AASecondaryStats" style="display: inline-block; margin: 0 15px;">
+            <div th:if="${shipAPI1.anti_aircraft != null or shipAPI2.anti_aircraft != null}" id="anti_aircraft" style="width: 500px; text-align: left; display: inline-block;">
                 <div style="text-align: center">
                     <strong>Anti Air</strong>
                 </div>
@@ -438,7 +454,8 @@
                     </li>
                 </div>
             </div>
-            <div th:if="${shipAPI1.atbas != null or shipAPI2.atbas != null}" id="atbas" style="display: inline-block; width: 500px; margin: 0 auto; text-align: left;">
+            <br />
+            <div th:if="${shipAPI1.atbas != null or shipAPI2.atbas != null}" id="atbas" style="width: 500px; margin: 0 auto; text-align: left; display: inline-block;">
                 <div style="text-align: center;">
                     <strong>Secondary</strong>
                 </div>
