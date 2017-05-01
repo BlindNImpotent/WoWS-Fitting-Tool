@@ -291,6 +291,15 @@ public class APIController
         return "shipStatComparisonTree";
     }
 
+    @RequestMapping (value = "/shipStatSelection", method = RequestMethod.POST)
+    public String shipStatSelection(Model model, @RequestBody List<String> shipList)
+    {
+        model.addAttribute("warship1", data.get("rawShipData").get(shipList.get(0)));
+        model.addAttribute("warship2", data.get("rawShipData").get(shipList.get(1)));
+
+        return "shipStatSelection :: warshipSelection";
+    }
+
     @RequestMapping (value = "/shipStatComparison", method = RequestMethod.POST)
     public String shipStatComparisonTable(Model model,
                                           @RequestParam(required = false, defaultValue = "") String nation1,
@@ -321,8 +330,6 @@ public class APIController
                                           @RequestParam(required = false, defaultValue = "") String Torpedoes2,
                                           @RequestBody(required = false) List<HashMap> upgradesSkills) throws Exception
     {
-        String returnedKey1 = apiService.setShipAPI(nation1, shipType1, ship1, ship_id1, Artillery1, DiveBomber1, Engine1, Fighter1, Suo1, FlightControl1, Hull1, TorpedoBomber1, Torpedoes1, new ArrayList<>());
-        
         HashMap<String, List> upgradesSkills1 = new HashMap<>();
         HashMap<String, List> upgradesSkills2 = new HashMap<>();
         for (HashMap upgradesSkill : upgradesSkills)
@@ -331,7 +338,8 @@ public class APIController
             {
                 upgradesSkills1 = upgradesSkill;
             }
-            else
+
+            if (upgradesSkill.get("shipName").equals(ship2))
             {
                 upgradesSkills2 = upgradesSkill;
             }
@@ -347,7 +355,8 @@ public class APIController
                 });
             }
         }
-        
+
+        String returnedKey1 = apiService.setShipAPI(nation1, shipType1, ship1, ship_id1, Artillery1, DiveBomber1, Engine1, Fighter1, Suo1, FlightControl1, Hull1, TorpedoBomber1, Torpedoes1, new ArrayList<>());
         Ship shipAPI1 = apiService.getUpgradeSkillStats(returnedKey1, nation1, shipType1, ship1, ship_id1, Artillery1, DiveBomber1, Engine1, Fighter1, Suo1, FlightControl1, Hull1, TorpedoBomber1, Torpedoes1, new ArrayList<>(), upgradesSkills1);
 
         String returnedKey2 = apiService.setShipAPI(nation2, shipType2, ship2, ship_id2, Artillery2, DiveBomber2, Engine2, Fighter2, Suo2, FlightControl2, Hull2, TorpedoBomber2, Torpedoes2, new ArrayList<>());
@@ -368,14 +377,5 @@ public class APIController
         }
         
         return "shipStatComparisonStat :: shipAPIData";
-    }
-
-    @RequestMapping (value = "/shipStatSelection", method = RequestMethod.POST)
-    public String shipStatSelection(Model model, @RequestBody List<String> shipList)
-    {
-        model.addAttribute("warship1", data.get("rawShipData").get(shipList.get(0)));
-        model.addAttribute("warship2", data.get("rawShipData").get(shipList.get(1)));
-
-        return "shipStatSelection :: warshipSelection";
     }
 }

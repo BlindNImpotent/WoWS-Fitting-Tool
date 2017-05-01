@@ -79,7 +79,8 @@
         <button id="showCrewSkills">Commander Skills</button>
         <button id="showFlags">Flags</button>
         <input type="checkbox" id="camouflageCheckbox" th:checked="${camo}" th:text="'Camouflage'" th:title="'Decreases the firing accuracy of the enemy and reduces ship detectability.'"/>
-        <input type="checkbox" id="upgradeCompareCheckBox" th:text="'Upgrade Comparison'"/><br />
+        <!--<input type="checkbox" id="upgradeCompareCheckBox" th:text="'Upgrade Comparison'"/>-->
+        <br />
         <button id="resetSelect">Reset</button><br />
     </div>
     <div style="text-align: center;">
@@ -323,6 +324,8 @@
             document.getElementById(buttonId).className = 'button_module_2';
         }
         document.getElementById(clickedId).className = 'button_module_selected_2';
+
+        callAPI();
     });
 
     $(document).on('click', '.button_upgrade_2, .button_upgrade_selected_2', function () {
@@ -344,6 +347,8 @@
         {
             document.getElementById(clickedId).className = 'button_upgrade_2';
         }
+
+        callAPI();
     });
 
     $(document).on('click', '.button_skill, .button_skill_selected', function () {
@@ -459,8 +464,11 @@
 
         var camouflage = [$('#camouflageCheckbox').is(':checked')];
 
-
-        var warship1Name = $('[aria-describedby=warship1]').find('#ui-id-3').text();
+        var warship1Name = $('#warship1').attr('title');
+        if (warship1Name == null || warship1Name == '')
+        {
+            warship1Name = $('[aria-describedby=warship1]').find('.ui-dialog-title').text();
+        }
         var warship1 = $('#warship1').attr('name');
         var selectedModules1 = $('.button_module_selected_1');
         var selectedUpgrades1 = $('.button_upgrade_selected_1');
@@ -494,7 +502,11 @@
         };
         upgradesSkills.push(upgradesSkills1);
 
-        var warship2Name = $('[aria-describedby=warship2]').find('#ui-id-4').text();
+        var warship2Name = $('#warship2').attr('title');
+        if (warship2Name == null || warship2Name == '')
+        {
+            warship2Name = $('[aria-describedby=warship2]').find('.ui-dialog-title').text();
+        }
         var warship2 = $('#warship2').attr('name');
         var selectedModules2 = $('.button_module_selected_2');
         var selectedUpgrades2 = $('.button_upgrade_selected_2');
@@ -537,6 +549,7 @@
                 if (data != '')
                 {
                     $('.shipAPIData').replaceWith(data);
+                    $('[name=nations]').attr('hidden', 'hidden');
                 }
                 else
                 {
@@ -545,6 +558,14 @@
             }
         });
     }
+
+    $(document).on('click', '#shipAPI1Button', function () {
+        $('#warship1').dialog('open');
+    });
+
+    $(document).on('click', '#shipAPI2Button', function () {
+        $('#warship2').dialog('open');
+    });
 
     //    ]]>
 </script>
