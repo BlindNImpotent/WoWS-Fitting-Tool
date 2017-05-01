@@ -165,7 +165,6 @@
                                     min: 0,
                                     max: 100,
                                     value: 100,
-                                    width: 30,
                                     create: function() {
                                         handle1.text($( this ).slider('value'));
                                     },
@@ -175,42 +174,53 @@
                                     change: function (event, ui) {
                                         test(parseInt(ui.value));
 
-                                        function test(shipHP1)
+                                        function test(shipHP)
                                         {
-                                            var coef1 = 1 - ((100 - shipHP1) * 0.2 / 100);
-                                            var newGunRate1 = (originalGunRate1 / coef1).toFixed(2);
+                                            var coef = 1 - ((100 - shipHP) * 0.2 / 100);
+                                            var newGunRate = (originalGunRate1 / coef).toFixed(2);
 
-                                            $('#rof1').text(newGunRate1 + ' RPM');
-                                            $('#reload1').text((60 / newGunRate1).toFixed(1) + ' s');
+                                            $('#rof1').text(newGunRate + ' RPM');
+                                            $('#reload1').text((60 / newGunRate).toFixed(1) + ' s');
                                             if ($('#upgradeCompareCheckBox').is(':checked'))
                                             {
                                                 if (document.getElementById('rofDiff1') == null && document.getElementById('reloadDiff1') == null)
                                                 {
-                                                    var reloadDiff1 = document.createElement('span');
-                                                    reloadDiff1.id = 'reloadDiff1';
-                                                    reloadDiff1.style = 'float: left;';
+                                                    if (newGunRate - originalGunRate1 != 0)
+                                                    {
+                                                        var reloadDiff = document.createElement('span');
+                                                        reloadDiff.id = 'reloadDiff1';
+                                                        reloadDiff.style = 'float: right;';
 
-                                                    var reloadDiffText1 = document.createTextNode(((60 / newGunRate1) - (60 / originalGunRate1)) != 0 ? '(' + ((60 / newGunRate1) - (60 / originalGunRate1)).toFixed(1) + ')' : '');
-                                                    reloadDiff1.appendChild(reloadDiffText1);
+                                                        var reloadDiffText = document.createTextNode(((60 / newGunRate) - (60 / originalGunRate1)) > 0 ? '(+' + ((60 / newGunRate) - (60 / originalGunRate1)).toFixed(1) + ')' : '(' + ((60 / newGunRate) - (60 / originalGunRate1)).toFixed(1) + ')');
+                                                        reloadDiff.appendChild(reloadDiffText);
 
-                                                    var rofDiff1 = document.createElement('span');
-                                                    rofDiff1.id = 'rofDiff1';
-                                                    rofDiff1.style = 'float: left;';
+                                                        var rofDiff = document.createElement('span');
+                                                        rofDiff.id = 'rofDiff1';
+                                                        rofDiff.style = 'float: right;';
 
-                                                    var rofDiffText1 = document.createTextNode((newGunRate1 - originalGunRate1) != 0 ? '(' + (newGunRate1 - originalGunRate1).toFixed(2) + ')' : '');
-                                                    rofDiff1.appendChild(rofDiffText1);
+                                                        var rofDiffText = document.createTextNode((newGunRate - originalGunRate1) > 0 ? '(+' + (newGunRate - originalGunRate1).toFixed(2) + ')' : '(' + (newGunRate - originalGunRate1).toFixed(2) + ')');
+                                                        rofDiff.appendChild(rofDiffText);
 
-                                                    var rof1 = document.getElementById('rof1');
-                                                    rof1.parentNode.insertBefore(rofDiff1, rof1);
+                                                        var rof = document.getElementById('rof1');
+                                                        rof.parentNode.insertBefore(rofDiff, rof);
 
-                                                    var reload1 = document.getElementById('reload1');
-                                                    reload1.parentNode.insertBefore(reloadDiff1, reload1);
+                                                        var reload = document.getElementById('reload1');
+                                                        reload.parentNode.insertBefore(reloadDiff, reload);
+                                                    }
                                                 }
                                                 else
                                                 {
-                                                    var rofDiff1 = (newGunRate1 - originalGunRate1 + rofDiffModified1).toFixed(2);
-                                                    $('#rofDiff1').text(rofDiff1 != 0 ? '(' + rofDiff1 + ')' : '');
-                                                    $('#reloadDiff1').text(((60 / newGunRate1) - (60 / (originalGunRate1 - rofDiffModified1))) != 0 ? '(' + ((60 / newGunRate1) - (60 / (originalGunRate1 - rofDiffModified1))).toFixed(1) + ')' : '');
+                                                    var rofDiff = (newGunRate - originalGunRate1 + rofDiffModified1).toFixed(2);
+                                                    if (rofDiff != 0)
+                                                    {
+                                                        $('#rofDiff1').text(rofDiff > 0 ? '(+' + rofDiff + ')' : '(' + rofDiff + ')');
+                                                        $('#reloadDiff1').text(((60 / newGunRate) - (60 / (originalGunRate1 - rofDiffModified1))) > 0 ? '(+' + ((60 / newGunRate) - (60 / (originalGunRate1 - rofDiffModified1))).toFixed(1) + ')' : '(' + ((60 / newGunRate) - (60 / (originalGunRate1 - rofDiffModified1))).toFixed(1) + ')');
+                                                    }
+                                                    else
+                                                    {
+                                                        $('#rofDiff1').remove();
+                                                        $('#reloadDiff1').remove();
+                                                    }
                                                 }
                                             }
                                         }
@@ -234,7 +244,6 @@
                                     min: 0,
                                     max: 100,
                                     value: 100,
-                                    width: 30,
                                     create: function() {
                                         handle2.text($( this ).slider('value'));
                                     },
@@ -244,48 +253,59 @@
                                     change: function (event, ui) {
                                         test(parseInt(ui.value));
 
-                                        function test(shipHP2)
+                                        function test(shipHP)
                                         {
-                                            var coef2 = 1 - ((100 - shipHP2) * 0.2 / 100);
-                                            var newGunRate2 = (originalGunRate2 / coef2).toFixed(2);
+                                            var coef = 1 - ((100 - shipHP) * 0.2 / 100);
+                                            var newGunRate = (originalGunRate2 / coef).toFixed(2);
 
-                                            $('#rof2').text(newGunRate2 + ' RPM');
-                                            $('#reload2').text((60 / newGunRate2).toFixed(1) + ' s');
+                                            $('#rof2').text(newGunRate + ' RPM');
+                                            $('#reload2').text((60 / newGunRate).toFixed(1) + ' s');
                                             if ($('#upgradeCompareCheckBox').is(':checked'))
                                             {
                                                 if (document.getElementById('rofDiff2') == null && document.getElementById('reloadDiff2') == null)
                                                 {
-                                                    var reloadDiff2 = document.createElement('span');
-                                                    reloadDiff2.id = 'reloadDiff2';
-                                                    reloadDiff2.style = 'float: right;';
+                                                    if (newGunRate - originalGunRate2 != 0)
+                                                    {
+                                                        var reloadDiff = document.createElement('span');
+                                                        reloadDiff.id = 'reloadDiff2';
+                                                        reloadDiff.style = 'float: right;';
 
-                                                    var reloadDiffText2 = document.createTextNode(((60 / newGunRate2) - (60 / originalGunRate2)) != 0 ? '(' + ((60 / newGunRate2) - (60 / originalGunRate2)).toFixed(1) + ')' : '');
-                                                    reloadDiff2.appendChild(reloadDiffText2);
+                                                        var reloadDiffText = document.createTextNode(((60 / newGunRate) - (60 / originalGunRate2)) > 0 ? '(+' + ((60 / newGunRate) - (60 / originalGunRate2)).toFixed(1) + ')' : '(' + ((60 / newGunRate) - (60 / originalGunRate2)).toFixed(1) + ')');
+                                                        reloadDiff.appendChild(reloadDiffText);
 
-                                                    var rofDiff2 = document.createElement('span');
-                                                    rofDiff2.id = 'rofDiff2';
-                                                    rofDiff2.style = 'float: right;';
+                                                        var rofDiff = document.createElement('span');
+                                                        rofDiff.id = 'rofDiff2';
+                                                        rofDiff.style = 'float: right;';
 
-                                                    var rofDiffText2 = document.createTextNode((newGunRate2 - originalGunRate2) != 0 ? '(' + (newGunRate2 - originalGunRate2).toFixed(2) + ')' : '');
-                                                    rofDiff2.appendChild(rofDiffText2);
+                                                        var rofDiffText = document.createTextNode((newGunRate - originalGunRate2) > 0 ? '(+' + (newGunRate - originalGunRate2).toFixed(2) + ')' : '(' + (newGunRate - originalGunRate2).toFixed(2) + ')');
+                                                        rofDiff.appendChild(rofDiffText);
 
-                                                    var rof2 = document.getElementById('rof2');
-                                                    rof2.parentNode.insertBefore(rofDiff2, rof2);
+                                                        var rof = document.getElementById('rof2');
+                                                        rof.parentNode.insertBefore(rofDiff, rof);
 
-                                                    var reload2 = document.getElementById('reload2');
-                                                    reload2.parentNode.insertBefore(reloadDiff2, reload2);
+                                                        var reload = document.getElementById('reload2');
+                                                        reload.parentNode.insertBefore(reloadDiff, reload);
+                                                    }
                                                 }
                                                 else
                                                 {
-                                                    var rofDiff2 = (newGunRate2 - originalGunRate2 + rofDiffModified2).toFixed(2);
-                                                    $('#rofDiff2').text(rofDiff2 != 0 ? '(' + rofDiff2 + ')' : '');
-                                                    $('#reloadDiff2').text(((60 / newGunRate2) - (60 / (originalGunRate2 - rofDiffModified2))) != 0 ? '(' + ((60 / newGunRate2) - (60 / (originalGunRate2 - rofDiffModified2))).toFixed(1) + ')' : '');
+                                                    var rofDiff = (newGunRate - originalGunRate2 + rofDiffModified2).toFixed(2);
+                                                    if (rofDiff != 0)
+                                                    {
+                                                        $('#rofDiff2').text(rofDiff > 0 ? '(+' + rofDiff + ')' : '(' + rofDiff + ')');
+                                                        $('#reloadDiff2').text(((60 / newGunRate) - (60 / (originalGunRate2 - rofDiffModified2))) > 0 ? '(+' + ((60 / newGunRate) - (60 / (originalGunRate2 - rofDiffModified2))).toFixed(1) + ')' : '(' + ((60 / newGunRate) - (60 / (originalGunRate2 - rofDiffModified2))).toFixed(1) + ')');
+                                                    }
+                                                    else
+                                                    {
+                                                        $('#rofDiff2').remove();
+                                                        $('#reloadDiff2').remove();
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 })
-                            })
+                            });
 
                             //    ]]>
                         </script>
