@@ -89,10 +89,10 @@
             <div th:if="${shipAPI1.artillery != null and shipAPI2.artillery != null}" id="artillery" style="width: 500px; margin: 0 auto; text-align: center">
                 <strong>Main Battery</strong><br />
                 <li th:each="slot : ${shipAPI1.artillery.slots}" name="guns">
-                    <u style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
+                    <u style="float: left; width: 240px;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
                 </li>
                 <li th:each="slot : ${shipAPI2.artillery.slots}" name="guns">
-                    <u style="float: right;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
+                    <u style="float: right; width: 240px;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
                 </li>
                 <br />
                 <br th:if="${shipAPI1.artillery.slots.size() &gt; 1 or shipAPI2.artillery.slots.size() &gt; 1}"/>
