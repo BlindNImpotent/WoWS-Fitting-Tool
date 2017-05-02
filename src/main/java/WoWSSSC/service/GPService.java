@@ -1,6 +1,7 @@
 package WoWSSSC.service;
 
-import WoWSSSC.model.ShipComponents;
+import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
+import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.gameparams.Consumables.Consumable;
@@ -13,8 +14,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -127,7 +126,14 @@ public class GPService
                         if (tempList != null && tempList.size() > 0 && cField.getName().equals(field.getName()))
                         {
                             field.setAccessible(true);
-                            field.set(shipComponents, gameParamsCHM.get(ship_id).get(tempList.get(0)));
+                            if (field.getName().equalsIgnoreCase("Artillery"))
+                            {
+                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Artillery.class));
+                            }
+                            else
+                            {
+                                field.set(shipComponents, gameParamsCHM.get(ship_id).get(tempList.get(0)));
+                            }
                             field.setAccessible(false);
                         }
                     }

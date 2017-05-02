@@ -1,10 +1,7 @@
 package WoWSSSC.controller;
 
-import WoWSSSC.model.ShipComponents;
+import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
-import WoWSSSC.model.WoWSAPI.upgrade.profile.Fire_Control;
-import WoWSSSC.model.WoWSAPI.warships.Warship;
-import WoWSSSC.model.gameparams.test.GameParamsValues;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
 import WoWSSSC.service.APIService;
 import WoWSSSC.service.GPService;
@@ -20,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Aesis on 2016-10-15.
@@ -188,11 +184,6 @@ public class APIController
                         }
                     });
                 }
-            }
-
-            if (shipAPI != null)
-            {
-                model.addAttribute("shipComponents", shipAPI.getShipComponents());
             }
 
             model.addAttribute("upgradeCompare", upgradeCompare);
@@ -396,18 +387,10 @@ public class APIController
         model.addAttribute("shipAPI1", shipAPI1);
         model.addAttribute("shipAPI1Name", ship1);
         model.addAttribute("warship1", data.get("rawShipData").get(ship1));
-        if (shipAPI1 != null)
-        {
-            model.addAttribute("shipComponents1", shipAPI1.getShipComponents());
-        }
 
         model.addAttribute("shipAPI2", shipAPI2);
         model.addAttribute("shipAPI2Name", ship2);
         model.addAttribute("warship2", data.get("rawShipData").get(ship2));
-        if (shipAPI2 != null)
-        {
-            model.addAttribute("shipComponents2", shipAPI2.getShipComponents());
-        }
         
         return "WarshipComparison/shipStatComparisonStat :: shipAPIData";
     }

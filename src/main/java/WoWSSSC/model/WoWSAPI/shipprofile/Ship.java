@@ -1,6 +1,6 @@
 package WoWSSSC.model.WoWSAPI.shipprofile;
 
-import WoWSSSC.model.ShipComponents;
+import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.profile.*;
 import lombok.Data;
 

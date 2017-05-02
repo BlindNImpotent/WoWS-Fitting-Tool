@@ -1,6 +1,7 @@
-package WoWSSSC.model;
+package WoWSSSC.model.gameparams.ShipComponents;
 
 import WoWSSSC.model.gameparams.Consumables.Consumable;
+import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
 import WoWSSSC.model.gameparams.test.Values.ShipAbilities.ShipAbilities;
 import lombok.Data;
 
@@ -15,7 +16,7 @@ public class ShipComponents
 {
     private LinkedHashMap<String, LinkedHashMap> airArmament;
     private LinkedHashMap<String, LinkedHashMap> airDefense;
-    private LinkedHashMap<String, LinkedHashMap> artillery;
+    private Artillery artillery;
     private LinkedHashMap<String, LinkedHashMap> atba;
     private LinkedHashMap<String, LinkedHashMap> directors;
     private LinkedHashMap<String, LinkedHashMap> diveBomber;

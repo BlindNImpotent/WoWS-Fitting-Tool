@@ -1,15 +1,10 @@
 package WoWSSSC.service;
 
-import WoWSSSC.model.ShipComponents;
+import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
 import WoWSSSC.model.WoWSAPI.consumables.Consumables;
-import WoWSSSC.model.WoWSAPI.exterior.Exterior;
-import WoWSSSC.model.WoWSAPI.exterior.TTC_Coef;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.shipprofile.ShipData;
-import WoWSSSC.model.WoWSAPI.shipprofile.profile.anti_aircraft.Anti_Aircraft_Slot;
 import WoWSSSC.model.WoWSAPI.shipprofile.profile.artillery.Artillery_Slots;
-import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
-import WoWSSSC.model.WoWSAPI.upgrade.UpgradeProfile;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.model.gameparams.Consumables.Consumable;
@@ -23,14 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 /**
  * Created by Aesis on 2016-10-15.
@@ -161,7 +155,10 @@ public class APIService
         Ship ship = cloner.deepClone(shipHashMap.get(key));
 
         ShipComponents shipComponents = gpService.setShipGP(nation, shipType, shipName, ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id, modules);
-
+        if (shipComponents.getArtillery() != null)
+        {
+            shipComponents.getArtillery().setPenetrationHEWithNation(nation);
+        }
         ship.setShipComponents(shipComponents);
 
         setCustomValues(ship_id, ship);
@@ -170,6 +167,11 @@ public class APIService
 //        Warship warship = (Warship) nationLHM.get(shipType).get(shipName);
 
         Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(shipName);
+
+        if (CollectionUtils.isEmpty(upgradesSkills))
+        {
+            return ship;
+        }
 
         if (upgradesSkills.get("camouflage") != null)
         {
@@ -468,6 +470,11 @@ public class APIService
                                     value.setBurn_probability(value.getBurn_probability() - 3 > 0 ? value.getBurn_probability() - 3 : 0);
                                 }
                             });
+                        }
+
+                        if (ship.getShipComponents().getArtillery() != null)
+                        {
+                            ship.getShipComponents().getArtillery().setPenetrationHE(Math.round(ship.getShipComponents().getArtillery().getPenetrationHEFloat() * 1.3));
                         }
                     }
                     else if (skill.get("type_id").equals("3"))

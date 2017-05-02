@@ -113,7 +113,7 @@
                 <br />
                 <div>
                     <li style="display: inline-block; float: left; width: 160px;">
-                        <span style="float: left" th:if="${shipComponents1.artillery != null}" th:text="${#numbers.formatDecimal(shipComponents1.artillery.sigmaCount, 0, 2)}"/><br />
+                        <span style="float: left" th:if="${shipAPI1.shipComponents.artillery != null}" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.artillery.sigmaCount, 0, 2)}"/><br />
                         <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.distance, 0, 1)} + ' km'"/><br />
                         <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.max_dispersion, 0, 1)} + ' m'"/><br />
                         <span id="reload1" style="float: left;" th:text="${#numbers.formatDecimal(60 / shipAPI1.artillery.gun_rate, 0, 1)} + ' s'"/><br />
@@ -134,7 +134,7 @@
                         <span>Rotation / 180 deg</span><br />
                     </li>
                     <li style="display: inline-block; float: right; width: 160px;">
-                        <span style="float: right" th:if="${shipComponents2.artillery != null}" th:text="${#numbers.formatDecimal(shipComponents2.artillery.sigmaCount, 0, 2)}"/><br />
+                        <span style="float: right" th:if="${shipAPI2.shipComponents.artillery != null}" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.artillery.sigmaCount, 0, 2)}"/><br />
                         <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.distance, 0, 1)} + ' km'"/><br />
                         <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.max_dispersion, 0, 1)} + ' m'"/><br />
                         <span id="reload2" style="float: right;" th:text="${#numbers.formatDecimal(60 / shipAPI2.artillery.gun_rate, 0, 1)} + ' s'"/><br />
@@ -325,6 +325,7 @@
                         <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
                         <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                         <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
+                        <span style="float: left;" th:text="${shipAPI1.shipComponents.artillery.penetrationHE + ' mm'}"/><br />
                         <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal(shell.value.burn_probability, 0, 1)} + ' %' : ''"/><br />
                         <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal((100 - (T(java.lang.Math).pow((100 - shell.value.burn_probability) / 100, shipAPI1.artillery.totalGuns)) * 100), 0, 1)} + ' %' : ''"/><br />
                     </li>
@@ -332,6 +333,7 @@
                         <span>Damage</span><br />
                         <span>Speed</span><br />
                         <span>Mass</span><br />
+                        <span>Penetration</span><br />
                         <span>Burn Probability</span><br />
                         <span>- Per Salvo -</span><br />
                     </li>
@@ -341,6 +343,7 @@
                         <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
                         <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                         <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
+                        <span style="float: right;" th:text="${shipAPI2.shipComponents.artillery.penetrationHE + ' mm'}"/><br />
                         <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal(shell.value.burn_probability, 0, 1)} + ' %' : ''"/><br />
                         <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal((100 - (T(java.lang.Math).pow((100 - shell.value.burn_probability) / 100, shipAPI2.artillery.totalGuns)) * 100), 0, 1)} + ' %' : ''"/><br />
                     </li>
@@ -420,7 +423,7 @@
                 </div>
             </div>
             <br />
-            <div th:if="${shipAPI1.flight_control != null and shipAPI2.flight_control != null}" id="flight_control" style="width: 500px; margin: 0 auto">
+            <div th:if="${shipAPI1.flight_control != null and shipAPI2.flight_control != null}" id="flight_control" style="width: 500px; margin: 0 auto; text-align: center;">
                 <strong>Flight Control</strong><br />
                 <div>
                     <li style="display: inline-block; width: 160px;">

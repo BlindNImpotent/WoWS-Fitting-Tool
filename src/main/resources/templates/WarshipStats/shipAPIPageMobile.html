@@ -66,8 +66,8 @@
                 <li th:each="slot : ${shipAPI.artillery.slots}" name="guns">
                     <u style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/><br />
                 </li>
-                <th:block th:if="${shipComponents.artillery != null}">
-                    Sigma<span style="float: right" th:text="${#numbers.formatDecimal(shipComponents.artillery.sigmaCount, 1, 2)}"/><br />
+                <th:block th:if="${shipAPI.shipComponents.artillery != null}">
+                    Sigma<span style="float: right" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.sigmaCount, 1, 2)}"/><br />
                 </th:block>
                 Distance
                 <span style="float: right;" th:if="${configurationAPI != null and shipAPI.artillery.distance - configurationAPI.artillery.distance != 0}" th:text="${shipAPI.artillery.distance - configurationAPI.artillery.distance > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.artillery.distance - configurationAPI.artillery.distance, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.artillery.distance - configurationAPI.artillery.distance, 1, 1) + ')'}"/>
@@ -181,6 +181,9 @@
                     Damage<span style="float: right;" th:text="${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp'"/><br />
                     Speed<span style="float: right;" th:text="${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s'"/><br />
                     Mass<span style="float: right;" th:text="${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg'"/><br />
+                    <th:block th:if="${shell.value.type == 'HE'}">
+                        <span th:text="'Penetration'"/><span style="float: right;" th:text="${shipAPi.shipComponents.artillery.penetrationHE + ' mm'}"/><br />
+                    </th:block>
                     <span th:text="'Burn Probability'" th:if="${shell.value.burn_probability > 0}"/>
                     <th:block th:if="${configurationAPI != null}">
                         <th:block th:if="${defaultShell.value != null and defaultShell.value.burn_probability > 0 and defaultShell.value.type == shell.value.type}" th:each="defaultShell : ${configurationAPI.artillery.shells}">
