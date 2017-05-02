@@ -182,7 +182,11 @@
                     Speed<span style="float: right;" th:text="${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s'"/><br />
                     Mass<span style="float: right;" th:text="${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg'"/><br />
                     <th:block th:if="${shell.value.type == 'HE'}">
-                        <span th:text="'Penetration'"/><span style="float: right;" th:text="${shipAPi.shipComponents.artillery.penetrationHE + ' mm'}"/><br />
+                        <span th:text="'Penetration'"/>
+                        <th:block th:if="${configurationAPI != null}">
+                            <span style="float: right;" th:if="${(shipAPI.shipComponents.artillery.penetrationHE - configurationAPI.shipComponents.artillery.penetrationHE) != 0}" th:text="${'(+' + (shipAPI.shipComponents.artillery.penetrationHE - configurationAPI.shipComponents.artillery.penetrationHE) + ')'}"/>
+                        </th:block>
+                        <span style="float: right;" th:text="${shipAPI.shipComponents.artillery.penetrationHE + ' mm'}"/><br />
                     </th:block>
                     <span th:text="'Burn Probability'" th:if="${shell.value.burn_probability > 0}"/>
                     <th:block th:if="${configurationAPI != null}">
