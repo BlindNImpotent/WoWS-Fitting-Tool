@@ -351,6 +351,10 @@ public class APIController
     {
         HashMap<String, List> upgradesSkills1 = new HashMap<>();
         HashMap<String, List> upgradesSkills2 = new HashMap<>();
+
+        ship1 = ship1.replace("'", "");
+        ship2 = ship2.replace("'", "");
+
         for (HashMap upgradesSkill : upgradesSkills)
         {
             if (upgradesSkill.get("shipName").equals(ship1))
