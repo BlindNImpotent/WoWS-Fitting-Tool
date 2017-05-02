@@ -70,7 +70,7 @@
                             <span th:text="${shipType.key}" />
                             <ul>
                                 <li th:each="ship : ${shipType.value}" th:if="${ship.key != 'Test Ship'}">
-                                    <span th:text="${ship.value.tier + ' - ' + ship.key}" th:onclick="'fragments(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'"/>
+                                    <span th:with='cleaned=${#strings.replace(ship.key, "&apos;", "&#92;&apos;")}' th:text="${ship.value.tier + ' - ' + ship.key}" th:onclick="'fragments(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${cleaned} + '\')'"/>
                                 </li>
                             </ul>
                         </li>
@@ -160,6 +160,8 @@
 
     var shipHP = 0;
 
+    var maxFlagPts = 8;
+
     $().ready(function () {
         $( function() {
             $('#shipList').menu();
@@ -224,16 +226,21 @@
             totalSpts = totalSpts + parseInt(current.attr('tier'));
         }
 
-        document.getElementById('ui-id-1').innerText = 'Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString();
+        $('[aria-describedby=crewSkills]').find('.ui-dialog-title').text('Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString());
     }
 
     function setFlags()
     {
         var list = $('.button_flag_selected');
-        var maxPts = 8;
+
+        if ([[${shipType}]] != null && [[${shipType}]] == 'AirCarrier')
+        {
+            maxFlagPts = 4;
+        }
+
         var totalPts = list.length;
 
-        document.getElementById('ui-id-2').innerText = 'Flags ' + totalPts.toString() + ' / ' + maxPts.toString();
+        $('[aria-describedby=flags]').find('.ui-dialog-title').text('Flags ' + totalPts.toString() + ' / ' + maxFlagPts.toString());
     }
 
     function setConsumables()
@@ -345,13 +352,13 @@
             document.getElementById(clickedId).className = 'button_skill';
         }
 
-        document.getElementById('ui-id-1').innerText = 'Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString();
+        $('[aria-describedby=crewSkills]').find('.ui-dialog-title').text('Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString());
 
         callAPI();
     });
 
     $(document).on('click', '.button_flag, .button_flag_selected', function () {
-        var maxFlags = 8;
+        var maxFlags = maxFlagPts;
 
         var clickedId = $(this).attr('id');
         var selected = document.getElementsByClassName('button_flag_selected');
@@ -369,7 +376,7 @@
             document.getElementById(clickedId).className = 'button_flag';
         }
 
-        document.getElementById('ui-id-2').innerText = 'Flags ' + selected.length.toString() + ' / ' + maxFlags;
+        $('[aria-describedby=flags]').find('.ui-dialog-title').text(selected.length.toString() + ' / ' + maxFlags);
 
         callAPI();
     });
@@ -405,7 +412,7 @@
                     nation = [[${warship}]]['nation'];
                     shipType = [[${warship}]]['type'];
                     ship = [[${warship}]]['name'];
-                    ship = ship.replace("'", "");
+//                    ship = ship.replace("'", "");
                 }
                 else
                 {
@@ -535,6 +542,17 @@
         nation = nationOriginal.replace(/ /g, '+');
         shipType = shipTypeOriginal.replace(/ /g, '+');
         ship = shipOriginal.replace(/ /g, '+');
+
+        if (shipType == 'AirCarrier')
+        {
+            maxFlagPts = 4;
+            $('[aria-describedby=flags]').find('.ui-dialog-title').text('Flags 0 / ' + maxFlagPts);
+        }
+        else
+        {
+            maxFlagPts = 8;
+            $('[aria-describedby=flags]').find('.ui-dialog-title').text('Flags 0 / ' + maxFlagPts);
+        }
 
         var url = '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship;
 

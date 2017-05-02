@@ -294,7 +294,8 @@ public class AsyncHashMap implements CommandLineRunner
                         {
                             if (premium2.getTier() == i)
                             {
-                                tempTier.put(premium2.getName().replace("'", ""), premium2);
+                                tempTier.put(premium2.getName(), premium2);
+//                                tempTier.put(premium2.getName().replace("'", ""), premium2);
                             }
                         }
                         temp.put(String.valueOf(i), tempTier);
@@ -498,7 +499,8 @@ public class AsyncHashMap implements CommandLineRunner
             {
                 Warship tempWarship = mapper.convertValue(entry.getValue(), Warship.class);
 
-                test.put(tempWarship.getName().replace("'", ""), tempWarship);
+                test.put(tempWarship.getName(), tempWarship);
+//                test.put(tempWarship.getName().replace("'", ""), tempWarship);
 
                 List<Warship> tempNextWarships = tempWarship.getNextWarship().stream().filter(nextWarship -> nextWarship != null).collect(Collectors.toList());
 
@@ -543,8 +545,10 @@ public class AsyncHashMap implements CommandLineRunner
                 {
                     warship.setMaxTier(isFalseMaxTier);
                 }
-                test.put(warship.getName().replace("'", ""), warship);
-                rawShipData.put(warship.getName().replace("'", ""), warship);
+                test.put(warship.getName(), warship);
+//                test.put(warship.getName().replace("'", ""), warship);
+                rawShipData.put(warship.getName(), warship);
+//                rawShipData.put(warship.getName().replace("'", ""), warship);
             }
             temp.put(shipType.getKey(), test);
         });

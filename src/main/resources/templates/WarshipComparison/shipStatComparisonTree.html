@@ -187,6 +187,12 @@
     $(document).on('click', '.button_nation', function () {
         var name = $(this).attr('name');
 
+        if ($('.shipAPIData').children().length != 0 && $('#' + name).attr('hidden') == undefined)
+        {
+            $('#' + name).attr('hidden', 'hidden');
+            return;
+        }
+
         $('[name=nations]').attr('hidden', 'hidden');
         $('#' + name).removeAttr('hidden');
 

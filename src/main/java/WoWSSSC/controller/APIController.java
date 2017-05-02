@@ -128,6 +128,7 @@ public class APIController
                 redirectAttributes.addFlashAttribute("camo", camo);
                 redirectAttributes.addFlashAttribute("mobile", mobile);
                 redirectAttributes.addFlashAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
+                redirectAttributes.addFlashAttribute("nation", nation).addFlashAttribute("shipType", shipType).addFlashAttribute("ship", ship);
             }
         }
         return "redirect:/WarshipStats?mobile=" + mobile;
@@ -342,9 +343,6 @@ public class APIController
     {
         HashMap<String, List> upgradesSkills1 = new HashMap<>();
         HashMap<String, List> upgradesSkills2 = new HashMap<>();
-
-        ship1 = ship1.replace("'", "");
-        ship2 = ship2.replace("'", "");
 
         for (HashMap upgradesSkill : upgradesSkills)
         {

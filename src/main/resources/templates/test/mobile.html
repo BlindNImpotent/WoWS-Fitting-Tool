@@ -25,26 +25,28 @@
     <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
     <script th:src="@{/js/accounting/accounting.js}"></script>
     <script>
-        $(function() {
-//            $(document).tooltip();
+        //        $(function() {
+        //            $(document).tooltip();
 
-            $('#crewSkills').dialog({
-                autoOpen: false,
-//                modal: true,
-                width: 700
-            }).css("font-size", "8px");
+        //            $('#shipList').menu();
 
-            $('#flags').dialog({
-                autoOpen: false,
-//                modal: true,
-                width: 520
-            }).css("font-size", "8px");
+        //            $('#crewSkills').dialog({
+        //                autoOpen: false,
+        ////                modal: true,
+        //                width: 700
+        //            }).css("font-size", "8px");
+        //
+        //            $('#flags').dialog({
+        //                autoOpen: false,
+        ////                modal: true,
+        //                width: 520
+        //            }).css("font-size", "8px");
 
-//            $('#consumablesData').dialog({
-//                autoOpen: false,
-//                width: 320
-//            }).css("font-size", "8px");
-        });
+        //            $('#consumablesData').dialog({
+        //                autoOpen: false,
+        //                width: 320
+        //            }).css("font-size", "8px");
+        //        });
     </script>
     <title>WoWS Fitting Tool by Aesis</title>
 </head>
@@ -55,579 +57,44 @@
     //    ]]>
 </noscript>
 <header>
-    <div th:include="top :: top" id="top">
+    <div th:include="test/top :: top" id="top">
     </div>
     <div id="header">
-        <div id="dropDownList">
-            <ul id="shipList">
+        <nav>
+            <ul>
                 <li th:each="nation : ${data.nations}">
                     <th:block th:each="eNation : ${data.encyclopedia.ship_nations}" th:if="${nation.key == eNation.key}">
                         <span th:text="${eNation.value}" />
                     </th:block>
+                    <!--<span th:text="${nation.key}"/>-->
                     <ul>
                         <li th:each="shipType : ${nation.value}">
                             <span th:text="${shipType.key}" />
                             <ul>
                                 <li th:each="ship : ${shipType.value}" th:if="${ship.key != 'Test Ship'}">
-                                    <span th:text="${ship.value.tier + ' - ' + ship.key}" th:onclick="'fragments(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${ship.key} + '\')'"/>
+                                    <a th:text="${ship.value.tier + ' - ' + ship.key}" th:href="${'/ship?nation=' + nation.key + '&amp;shipType=' + shipType.key + '&amp;shipName=' + ship.key + '&amp;ship_id=' + ship.value.ship_id}"/>
                                 </li>
                             </ul>
                         </li>
                     </ul>
                 </li>
             </ul>
-            <div>
-                <button id="changeDevice">Go PC</button>
-            </div>
-        </div>
+        </nav>
     </div>
+    <!--<div>-->
+    <!--<button id="changeDevice">Go PC</button>-->
+    <!--</div>-->
 </header>
-<div id="crewSkills" class="ui-widget-content" title="Skill Points 0 / 19">
-    <table id="skillsTable" align="center">
-        <tbody>
-        <tr th:each="skillTier : ${data.skills}">
-            <td th:each="skill : ${skillTier.value}" th:id="${'td_' + skill.value.tier + '_' + skill.value.type_id}">
-                <button th:if="${skill.value.tier != 0}" th:object="${skill.value}" th:title="${skill.value.description}" th:class="${crewSkills != null and crewSkills.size() != 0 and (crewSkills.?[tier == #strings.toString(__${skill.value.tier}__) and type_id == #strings.toString(__${skill.value.type_id}__)]).size() != 0} ? button_skill_selected : button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, type_id=${skill.value.type_id}">
-                    <img th:src="${skill.value.icon}"/><br />
-                    <span th:text="${skill.value.name}"/>
-                </button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div id="flags" class="ui-widget-content" title="Flags 0 / 8">
-    <table id="flagsTable" align="center">
-        <tbody>
-        <tr th:each="index : ${#numbers.sequence(0, data.exteriors.Flags.size() - 1, 6)}" th:id="${index / 6}">
-            <td th:each="flag : ${data.exteriors.Flags}" th:if="${flagStat.index % 3} == ${index / 6}">
-                <button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.consumable_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.consumable_id}">
-                    <img th:src="${flag.value.image}"/><br />
-                    <span th:text="${flag.value.name}"/>
-                </button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<!--<div id="camouflage" class="ui-widget-content" title="Camouflage">-->
-<!--<table id="camouflageTable" align="center">-->
-<!--<tbody>-->
-<!--<tr>-->
-<!--<td th:each="camoflage : ${data.exteriors.Camouflage}">-->
-<!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
-<!--<img th:src="${camouflage.value.image.small}"/><br />-->
-<!--<span th:text="${camouflage.value.name}"/>-->
-<!--</button>-->
-<!--</td>-->
-<!--</tr>-->
-<!--<tr th:each="index : ${#numbers.sequence(0, data.exteriors.Camouflage.size() - 1, 6)}" th:id="${index / 6}">-->
-<!--<td th:each="camouflage : ${data.exteriors.Camouflage}" th:if="${camouflageStat.index % 3} == ${index / 6}">-->
-<!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
-<!--<img th:src="${camouflage.value.image.small}"/><br />-->
-<!--<span th:text="${camouflage.value.name}"/>-->
-<!--</button>-->
-<!--</td>-->
-<!--</tr>-->
-<!--</tbody>-->
-<!--</table>-->
-<!--</div>-->
 <main>
     <div class="container">
-        <div class="warshipData" th:include="warshipPage :: warshipStats">
+        <div class="warshipData" th:include="test/warshipPage :: warshipStats">
         </div>
-        <div class="shipAPIData">
+        <div class="shipAPIData" th:include="test/shipAPIPage :: shipAPIData">
         </div>
     </div>
 </main>
 <script th:inline="javascript">
     //    <![CDATA[
-
-    var nation = '';
-    var shipType = '';
-    var ship = '';
-    var mobile = true;
-
-    var modules = [];
-    var upgrades = [];
-    var skills = [];
-    var flags = [];
-    var consumables = [[${consumables}]];
-
-    var camouflage = false;
-
-    $().ready(function () {
-        $( function() {
-            $('#shipList').menu();
-        });
-
-        if ([[${url}]] != null)
-        {
-            callAPI();
-            setCaptainSkillPoints();
-            setFlags();
-        }
-    });
-
-    $(document).on('click', '.button_module', function(){
-        var clickedId = $(this).attr('id');
-        var selectedModules = document.getElementsByName($(this).attr('name'));
-
-        for (var i = 0; i < selectedModules.length; i++)
-        {
-            var buttonId = selectedModules[i].getAttribute('id').replace('li_', '');
-            document.getElementById(buttonId).className = 'button_module';
-        }
-        document.getElementById(clickedId).className = 'button_module_selected';
-
-        callAPI();
-    });
-
-    $(document).on('click', '.button_upgrade, .button_upgrade_selected', function () {
-        var clickedId = $(this).attr('id');
-
-        if (document.getElementById(clickedId).className == 'button_upgrade')
-        {
-            var gParentElem = $(this).parent().parent();
-            var parents = gParentElem.children();
-
-            for (var i = 0; i < parents.length; i++)
-            {
-                var buttonId = parents[i].getAttribute('id').replace('li_', '');
-                document.getElementById(buttonId).className = 'button_upgrade';
-            }
-            document.getElementById(clickedId).className = 'button_upgrade_selected';
-        }
-        else
-        {
-            document.getElementById(clickedId).className = 'button_upgrade';
-        }
-
-        callAPI();
-    });
-
-    function setCaptainSkillPoints()
-    {
-        var list = $('.button_skill_selected');
-
-        var maxSpts = 19;
-        var totalSpts = 0;
-
-        for (var i = 0; i < list.length; i++)
-        {
-            var current = list.eq(i);
-
-            totalSpts = totalSpts + parseInt(current.attr('tier'));
-        }
-
-        document.getElementById('ui-id-1').innerText = 'Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString();
-    }
-
-    function setFlags()
-    {
-        var list = $('.button_flag_selected');
-        var maxPts = 8;
-        var totalPts = list.length;
-
-        document.getElementById('ui-id-2').innerText = 'Flags ' + totalPts.toString() + ' / ' + maxPts.toString();
-    }
-
-    function setConsumables()
-    {
-        var list = [[${consumables}]];
-
-        if (list == null || ([[${warship}]] != null && [[${warship}]].name != ship))
-        {
-            list = [];
-        }
-
-        var notSelected = $('.button_consumable');
-        var selected = $('.button_consumable_selected');
-
-        if (selected.length > 0)
-        {
-            list = [];
-
-            for (var i = 0; i < selected.length; i++)
-            {
-                list.push(selected.eq(i).attr('name'));
-            }
-        }
-
-        var allConsumables = [];
-        for (var i = 0; i < notSelected.length; i++)
-        {
-            allConsumables.push(notSelected.eq(i).attr('name'));
-        }
-        for (var i = 0; i < selected.length; i++)
-        {
-            allConsumables.push(selected.eq(i).attr('name'));
-        }
-
-        for (var i = 0; i < list.length; i++)
-        {
-            var mismatch = true;
-
-            for (var j = 0; j < allConsumables.length; j++)
-            {
-                if (list[i] == allConsumables[j])
-                {
-                    mismatch = false;
-                    break;
-                }
-            }
-
-            if (mismatch)
-            {
-                list = [];
-                break;
-            }
-        }
-
-        consumables = [];
-        for (var i = 0; i < list.length; i++)
-        {
-            var current = list[i];
-            var abil = $('[name=' + current + ']').attr('class').split(' ')[1];
-
-            $('[name=' + current + ']').attr('class', 'button_consumable_selected ' + abil);
-            consumables.push(current);
-            $('#' + current).removeAttr('style');
-        }
-
-        history.replaceState({
-            nation: nation,
-            shipType: shipType,
-            ship: ship
-        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables);
-    }
-
-    $(document).on('click', '.button_skill, .button_skill_selected', function () {
-        var maxSpts = 19;
-        var currentSpts = 0;
-        var clickedSpts = 0;
-        var totalSpts = 0;
-
-        var clickedId = $(this).attr('id');
-
-        if (document.getElementById(clickedId).className == 'button_skill')
-        {
-            clickedSpts = clickedSpts + parseInt($(this).attr('tier'));
-        }
-        else
-        {
-            clickedSpts = clickedSpts - parseInt($(this).attr('tier'));
-        }
-
-        var selected = document.getElementsByClassName('button_skill_selected');
-
-        for (var i = 0; i < selected.length; i++)
-        {
-            currentSpts = currentSpts + parseInt(selected[i].getAttribute('tier'));
-        }
-
-        totalSpts = totalSpts + currentSpts + clickedSpts;
-
-        if (document.getElementById(clickedId).className == 'button_skill')
-        {
-            if (totalSpts > maxSpts)
-            {
-                return false;
-            }
-            document.getElementById(clickedId).className = 'button_skill_selected';
-        }
-        else
-        {
-            document.getElementById(clickedId).className = 'button_skill';
-        }
-
-        document.getElementById('ui-id-1').innerText = 'Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString();
-
-        callAPI();
-    });
-
-    $(document).on('click', '.button_flag, .button_flag_selected', function () {
-        var maxFlags = 8;
-
-        var clickedId = $(this).attr('id');
-        var selected = document.getElementsByClassName('button_flag_selected');
-
-        if (document.getElementById(clickedId).className == 'button_flag')
-        {
-            if (selected.length >= maxFlags)
-            {
-                return false;
-            }
-            document.getElementById(clickedId).className = 'button_flag_selected';
-        }
-        else
-        {
-            document.getElementById(clickedId).className = 'button_flag';
-        }
-
-        document.getElementById('ui-id-2').innerText = 'Flags ' + selected.length.toString() + ' / ' + maxFlags;
-
-        callAPI();
-    });
-
-    $(document).on('click', '#showCrewSkills', function () {
-        $('#crewSkills').dialog('open');
-    });
-
-    $(document).on('click', '#showFlags', function () {
-        $('#flags').dialog('open');
-    });
-
-    $(document).on('click', '#showConsumables', function () {
-        $('#consumablesData').dialog('open');
-    });
-
-    //    $(document).on('click', '#showCamouflage', function () {
-    //        $('#camouflage').dialog('open');
-    //    });
-
-    $(document).on('click', '#camouflageCheckbox', function () {
-        callAPI();
-    });
-
-    function callAPI()
-    {
-        if ($('#ship').attr('name') != null)
-        {
-            if (nation == '' || shipType == '' || ship == '')
-            {
-                if ([[${warship}]] != null)
-                {
-                    nation = [[${warship}]]['nation'];
-                    shipType = [[${warship}]]['type'];
-                    ship = [[${warship}]]['name'];
-                    ship = ship.replace("'", "");
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            var url = '/shipAPI?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&ship_id=' + $('#ship').attr('name');
-            var modifier = '&';
-            var equals = '=';
-
-            var selectedModules = $('.button_module_selected');
-            var selectedUpgrades = $('.button_upgrade_selected');
-            var selectedSkills = $('.button_skill_selected');
-            var selectedFlags = $('.button_flag_selected');
-            var selectedConsumables = $('.button_consumable_selected');
-
-            modules = [];
-            upgrades = [];
-            skills = [];
-            flags = [];
-            consumables = [];
-
-            camouflage = [$('#camouflageCheckbox').is(':checked')];
-
-            for (var i = 0; i < selectedModules.length; i++)
-            {
-                var type = selectedModules[i].getAttribute('name');
-                var moduleId = selectedModules[i].getAttribute('id');
-
-                modules.push(moduleId);
-
-                url = url + modifier + type + equals + moduleId;
-            }
-
-            for (var i = 0; i < selectedUpgrades.length; i++)
-            {
-                var upgradeId = selectedUpgrades[i].getAttribute('id');
-
-                upgrades.push(upgradeId);
-            }
-
-            for (var i = 0; i < selectedSkills.length; i++)
-            {
-                var tier = selectedSkills[i].getAttribute('tier');
-                var type_id = selectedSkills[i].getAttribute('type_id');
-
-                var current = {
-                    tier: tier,
-                    type_id: type_id
-                };
-
-                skills.push(current);
-            }
-
-            for (var i = 0; i < selectedFlags.length; i++)
-            {
-                var flagId = selectedFlags[i].getAttribute('id');
-
-                flags.push(flagId);
-            }
-
-            for (var i = 0; i < selectedConsumables.length; i++)
-            {
-                var consumableId = selectedConsumables.eq(i).attr('name');
-                consumables.push(consumableId);
-            }
-
-            var upgradesSkills = {
-                upgrades: upgrades,
-                skills: skills,
-                camouflage: camouflage,
-                flags: flags,
-                consumables: consumables
-            };
-
-            url = url + '&upgradeCompare=' + document.getElementById('upgradeCompareCheckBox').checked;
-
-            url = url + '&mobile=true';
-
-            $.ajax({
-                url: url,
-                type: 'post',
-                contentType: "application/json",
-                data: JSON.stringify(upgradesSkills),
-                success: function (data) {
-                    if (data != '')
-                    {
-                        $('.shipAPIData').replaceWith(data);
-
-                        $.ajax({
-                            url: url.replace('shipAPI', 'shipComponents'),
-                            type: 'post',
-                            contentType: "application/json",
-                            data: JSON.stringify(upgradesSkills),
-                            success: function (data) {
-                                if (data != '')
-                                {
-                                    $('#consumablesData').replaceWith(data);
-
-                                    setConsumables();
-                                }
-                                else
-                                {
-//                                    alert('Consumable Error');
-                                }
-                            }
-                        });
-
-                        history.replaceState({
-                            nation: nation,
-                            shipType: shipType,
-                            ship: ship
-                        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables);
-                    }
-                    else
-                    {
-//                        alert('Wrong path of research!');
-                    }
-                }
-            });
-        }
-    }
-
-    function fragments(nationOriginal, shipTypeOriginal, shipOriginal)
-    {
-        nation = nationOriginal.replace(/ /g, '+');
-        shipType = shipTypeOriginal.replace(/ /g, '+');
-        ship = shipOriginal.replace(/ /g, '+');
-
-        var url = '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship;
-
-        $.ajax({
-            url: url,
-            type: 'post',
-            success: function (data) {
-                $('.button_skill_selected').attr('class', 'button_skill');
-                $('.button_flag_selected').attr('class', 'button_flag');
-                $('.button_consumable_selected').attr('class', 'button_consumable');
-
-                $('.warshipData').replaceWith(data);
-
-                callAPI();
-            }
-        });
-    }
-
-    $(window).on('popstate', function () {
-        history.go(document.location);
-    });
-
-    $(document).on('click', '#shortenURL', function () {
-        var longUrl = window.location.href;
-
-        var json = {
-            longUrl: longUrl
-        };
-
-        $.ajax({
-            url: 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyCaUYoTN7aKfyckK9Wd0SyaaFEA7eYoBbg',
-            type: 'post',
-            contentType: "application/json",
-            data: JSON.stringify(json),
-            success: function (data) {
-                $('#shortenUrlAddress').val(data.id);
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-    });
-
-    $(document).on('click', '#stockCompareCheckBox, #upgradeCompareCheckBox', function () {
-        callAPI();
-    });
-
-    $(document).on('click', '#changeDevice', function () {
-        mobile = false;
-
-        var url = window.location.href;
-
-        if (url.includes('mobile'))
-        {
-            url = url.replace('mobile=true', 'mobile=' + mobile);
-        }
-        else
-        {
-            if (url.includes('warship'))
-            {
-                url = url + '&mobile=' + mobile;
-            }
-            else
-            {
-                url = url + '?mobile=' + mobile;
-            }
-        }
-
-        location.href = url;
-    });
-
-    $(document).on('click', '.button_consumable', function () {
-        var id = $(this).attr('name');
-        var abil = $(this).attr('class').split(' ')[1];
-        var abilDot = '.' + abil;
-
-        $('.consumablesStats' + abilDot).attr('style', 'display: none;');
-        $('.button_consumable_selected' + abilDot).attr('class', 'button_consumable ' + abil);
-
-        $('#' + id).removeAttr('style');
-        $('[name=' + id + ']').attr('class', 'button_consumable_selected ' + abil);
-
-        var selectedConsumables = $('.button_consumable_selected');
-        consumables = [];
-        for (var i = 0; i < selectedConsumables.length; i++)
-        {
-            var consumableId = selectedConsumables[i].getAttribute('name');
-
-            consumables.push(consumableId);
-        }
-
-        history.replaceState({
-            nation: nation,
-            shipType: shipType,
-            ship: ship
-        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + ship + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + encodeURIComponent(JSON.stringify(skills)) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables);
-    })
 
     //    ]]>
 </script>
