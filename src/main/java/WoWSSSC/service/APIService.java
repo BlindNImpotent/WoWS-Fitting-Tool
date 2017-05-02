@@ -176,18 +176,18 @@ public class APIService
             boolean camouflage = (boolean) upgradesSkills.get("camouflage").get(0);
             if (camouflage)
             {
-                if (ship.getConcealment() != null && !warship.isIs_premium())
-                {
+//                if (ship.getConcealment() != null && !warship.isIs_premium())
+//                {
                     ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * 0.97f);
-                }
+//                }
             }
-            else
-            {
-                if (ship.getConcealment() != null && warship.isIs_premium())
-                {
-                    ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() / 0.97f);
-                }
-            }
+//            else
+//            {
+//                if (ship.getConcealment() != null && warship.isIs_premium())
+//                {
+//                    ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() / 0.97f);
+//                }
+//            }
         }
 
         List<String> flags = upgradesSkills.get("flags");
