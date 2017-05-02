@@ -382,14 +382,16 @@ public class APIController
         String returnedKey2 = apiService.setShipAPI(nation2, shipType2, ship2, ship_id2, Artillery2, DiveBomber2, Engine2, Fighter2, Suo2, FlightControl2, Hull2, TorpedoBomber2, Torpedoes2, new ArrayList<>());
         Ship shipAPI2 = apiService.getUpgradeSkillStats(returnedKey2, nation2, shipType2, ship2, ship_id2, Artillery2, DiveBomber2, Engine2, Fighter2, Suo2, FlightControl2, Hull2, TorpedoBomber2, Torpedoes2, new ArrayList<>(), upgradesSkills2);
 
-        model.addAttribute("shipAPI1", shipAPI1);
-        model.addAttribute("shipAPI1Name", ship1);
-        model.addAttribute("warship1", data.get("rawShipData").get(ship1));
+        if (shipAPI1 != null && shipAPI2 != null)
+        {
+            model.addAttribute("shipAPI1", shipAPI1);
+            model.addAttribute("shipAPI1Name", ship1);
+            model.addAttribute("warship1", data.get("rawShipData").get(ship1));
 
-        model.addAttribute("shipAPI2", shipAPI2);
-        model.addAttribute("shipAPI2Name", ship2);
-        model.addAttribute("warship2", data.get("rawShipData").get(ship2));
-        
+            model.addAttribute("shipAPI2", shipAPI2);
+            model.addAttribute("shipAPI2Name", ship2);
+            model.addAttribute("warship2", data.get("rawShipData").get(ship2));
+        }
         return "WarshipComparison/shipStatComparisonStat :: shipAPIData";
     }
 }
