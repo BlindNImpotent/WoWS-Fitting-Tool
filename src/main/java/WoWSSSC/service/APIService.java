@@ -323,6 +323,12 @@ public class APIService
                             ship.getTorpedoes().setTorpedo_speed(ship.getTorpedoes().getTorpedo_speed() + 5);
                             ship.getTorpedoes().setDistance(ship.getTorpedoes().getDistance() * 0.8f);
                         }
+
+                        if (ship.getTorpedo_bomber() != null)
+                        {
+                            ship.getTorpedo_bomber().setTorpedo_max_speed(ship.getTorpedo_bomber().getTorpedo_max_speed() + 5);
+                            ship.getTorpedo_bomber().setTorpedo_distance(ship.getTorpedo_bomber().getTorpedo_distance() * 0.8f);
+                        }
                     }
                     else if (skill.get("type_id").equals("4"))
                     {
@@ -442,6 +448,11 @@ public class APIService
                                     value.setBurn_probability(value.getBurn_probability() + 2);
                                 }
                             });
+                        }
+
+                        if (ship.getDive_bomber() != null)
+                        {
+                            ship.getDive_bomber().setBomb_burn_probability(ship.getDive_bomber().getBomb_burn_probability() + 2);
                         }
                     }
                     else if (skill.get("type_id").equals("7"))

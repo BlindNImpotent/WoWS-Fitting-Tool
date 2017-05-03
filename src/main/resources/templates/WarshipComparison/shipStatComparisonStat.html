@@ -18,13 +18,23 @@
 <main>
     <div class="shipAPIData" id="shipAPIData" th:fragment="shipAPIData" th:unless="${shipAPI1 == null}" style="margin: 0 auto;">
         <div style="margin: 0 auto;">
-            <button id="shipAPI1Button" style="margin: 0 15px;">
+            <button id="shipAPI1Button" class="button_ship_comparison" style="margin: 0 15px;">
+                <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship1.defaultType}">
+                    <h3>
+                        <img th:src="${warship1.type != 'Premium' and warship1.type != 'Arpeggio' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
+                        <span th:text="${warship1.name}"/>
+                    </h3>
+                </th:block>
                 <img th:src="${warship1.images.small}" th:title="${warship1.description}"/><br />
-                <strong th:text="${shipAPI1Name}"/>
             </button>
-            <button id="shipAPI2Button" style="margin: 0 15px;">
+            <button id="shipAPI2Button" class="button_ship_comparison" style="margin: 0 15px;">
+                <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship2.defaultType}">
+                    <h3>
+                        <img th:src="${warship2.type != 'Premium' and warship2.type != 'Arpeggio' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
+                        <span th:text="${warship2.name}"/>
+                    </h3>
+                </th:block>
                 <img th:src="${warship2.images.small}" th:title="${warship2.description}"/><br />
-                <strong th:text="${shipAPI2Name}"/>
             </button>
         </div>
         <br />

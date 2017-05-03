@@ -386,12 +386,12 @@ public class APIController
         if (shipAPI1 != null && shipAPI2 != null)
         {
             model.addAttribute("shipAPI1", shipAPI1);
-            model.addAttribute("shipAPI1Name", ship1);
             model.addAttribute("warship1", data.get("rawShipData").get(ship1));
 
             model.addAttribute("shipAPI2", shipAPI2);
-            model.addAttribute("shipAPI2Name", ship2);
             model.addAttribute("warship2", data.get("rawShipData").get(ship2));
+
+            model.addAttribute("encyclopedia", data.get("encyclopedia"));
         }
         return "WarshipComparison/shipStatComparisonStat :: shipAPIData";
     }

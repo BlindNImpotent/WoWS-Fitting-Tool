@@ -10,18 +10,18 @@ import lombok.Data;
 public class Torpedo_Bomber
 {
     private float cruise_speed;
-    private long gunner_damage;
-    private long max_damage;
+    private int gunner_damage;
+    private int max_damage;
     private float max_health;
     private String name;
-    private long plane_level;
+    private int plane_level;
     private float prepare_time;
-    private long squadrons;
+    private int squadrons;
     private long torpedo_bomber_id;
     private String torpedo_bomber_id_str;
-    private long torpedo_damage;
+    private int torpedo_damage;
     private float torpedo_distance;
-    private long torpedo_max_speed;
+    private int torpedo_max_speed;
     private String torpedo_name;
     private Torpedo_Bomber_Count_In_Squadron count_in_squadron;
 }
