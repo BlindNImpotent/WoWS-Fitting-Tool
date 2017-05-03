@@ -256,20 +256,23 @@ nav ul ul ul li {
 #hullStats
 {
     display: inline-block;
-    text-align: left;
+    text-align: center;
     vertical-align: text-top;
+    padding: 0 15px;
 }
 #mainWeaponStats
 {
     display: inline-block;
-    text-align: left;
+    text-align: center;
     vertical-align: text-top;
+    padding: 0 15px;
 }
 #AASecondaryStats
 {
     display: inline-block;
-    text-align: left;
+    text-align: center;
     vertical-align: text-top;
+    padding: 0 15px;
 }
 .blank
 {

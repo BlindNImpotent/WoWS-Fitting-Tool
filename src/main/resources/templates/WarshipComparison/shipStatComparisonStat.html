@@ -323,6 +323,8 @@
                     </li>
                     <li style="display: inline-block; vertical-align: top; float: left; width: 160px;" th:if="${shell.value != null and shell.value.type == 'HE'}" th:each="shell : ${shipAPI1.artillery.shells}">
                         <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
+                        <span style="float: left;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
+                        <span style="float: left;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI1.artillery.gun_rate, 1, 2)) + 1), 1, 'COMMA') + ' hp'}"/><br />
                         <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                         <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
                         <span style="float: left;" th:text="${shipAPI1.shipComponents.artillery.penetrationHE + ' mm'}"/><br />
@@ -331,6 +333,8 @@
                     </li>
                     <li style="display: inline-block; text-align: center; vertical-align: top; width: 160px;" th:if="${shipAPI1.artillery.shells.?[value.type == 'HE'].size() > 0 or shipAPI2.artillery.shells.?[value.type == 'HE'].size() > 0}">
                         <span>Damage</span><br />
+                        <span>- Per Salvo -</span><br />
+                        <span>- DPM -</span><br />
                         <span>Speed</span><br />
                         <span>Mass</span><br />
                         <span>Penetration</span><br />
@@ -341,6 +345,8 @@
                     </li>
                     <li style="display: inline-block; vertical-align: top; float:right; width: 160px;" th:if="${shell.value != null and shell.value.type =='HE'}" th:each="shell : ${shipAPI2.artillery.shells}">
                         <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
+                        <span style="float: right;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
+                        <span style="float: right;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI2.artillery.gun_rate, 1, 2)) + 1), 1, 'COMMA') + ' hp'}"/><br />
                         <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                         <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
                         <span style="float: right;" th:text="${shipAPI2.shipComponents.artillery.penetrationHE + ' mm'}"/><br />
@@ -360,11 +366,15 @@
                     </li>
                     <li style="display: inline-block; vertical-align: top; float: left; width: 160px;" th:if="${shell.value != null and shell.value.type == 'AP'}" th:each="shell : ${shipAPI1.artillery.shells}">
                         <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
+                        <span style="float: left;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
+                        <span style="float: left;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI1.artillery.gun_rate, 1, 2)) + 1), 1, 'COMMA') + ' hp'}"/><br />
                         <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                         <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
                     </li>
                     <li style="display: inline-block; text-align: center; vertical-align: top; width: 160px;" th:if="${shipAPI1.artillery.shells.?[value.type == 'AP'].size() > 0 or shipAPI2.artillery.shells.?[value.type == 'AP'].size() > 0}">
                         <span>Damage</span><br />
+                        <span>- Per Salvo -</span><br />
+                        <span>- DPM -</span><br />
                         <span>Speed</span><br />
                         <span>Mass</span><br />
                     </li>
@@ -372,6 +382,8 @@
                     </li>
                     <li style="display: inline-block; vertical-align: top; float:right; width: 160px;" th:if="${shell.value != null and shell.value.type =='AP'}" th:each="shell : ${shipAPI2.artillery.shells}">
                         <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
+                        <span style="float: right;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
+                        <span style="float: right;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI2.artillery.gun_rate, 1, 2)) + 1), 1, 'COMMA') + ' hp'}"/><br />
                         <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                         <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
                     </li>
