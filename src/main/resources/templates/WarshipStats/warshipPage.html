@@ -18,11 +18,12 @@
 <main>
     <div th:fragment="warshipStats" class="warshipData">
         <div id="notification" th:style="${warship != null} ? 'display: none' : ''">
-            <img th:src="@{/images/Icon/WoWSFT_Icon.png}" style="height: 300px" th:title="'Image courtesy of ReptorPi from DCInside'"/>
-            <li th:if="${noticeStat.index &lt; 3}" th:each="notice : ${notification}">
-                <strong th:text="${notice.key}"/><br />
-                <span th:utext="${notice.value}"/><br />
-            </li>
+            <!--<img th:src="@{/images/Icon/WoWSFT_Icon.png}" style="height: 300px" th:title="'Image courtesy of ReptorPi from DCInside'"/>-->
+            <h2>Click on a ship for fitting.</h2>
+            <!--<li th:if="${noticeStat.index &lt; 3}" th:each="notice : ${notification}">-->
+                <!--<strong th:text="${notice.key}"/><br />-->
+                <!--<span th:utext="${notice.value}"/><br />-->
+            <!--</li>-->
         </div>
         <div id="ship" th:name="${warship.ship_id}" th:if="${warship != null}" class="ship">
             <div id="name">

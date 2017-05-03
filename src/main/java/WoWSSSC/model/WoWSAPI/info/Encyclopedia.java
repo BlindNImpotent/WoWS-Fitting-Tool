@@ -3,6 +3,7 @@ package WoWSSSC.model.WoWSAPI.info;
 import WoWSSSC.model.WoWSAPI.info.ShipTypeImages.ShipTypeImages;
 import lombok.Data;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -26,5 +27,10 @@ public class Encyclopedia
         shipKey.sort(Comparator.naturalOrder());
 
         shipKey.forEach(nation -> this.ship_nations.put(nation, ship_nations.get(nation)));
+    }
+
+    public String getShipUpdatedDate()
+    {
+        return new SimpleDateFormat("yyyy-MM-dd").format(new Date(ships_updated_at * 1000));
     }
 }

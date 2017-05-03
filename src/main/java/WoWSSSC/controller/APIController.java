@@ -66,6 +66,7 @@ public class APIController
     public String home(Model model)
     {
         model.addAttribute("notification", notification);
+        model.addAttribute("encyclopedia", data.get("encyclopedia"));
 
         return "home";
     }
