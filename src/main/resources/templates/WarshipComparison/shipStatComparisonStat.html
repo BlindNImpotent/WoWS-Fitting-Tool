@@ -155,171 +155,6 @@
                         <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.rotation_time, 0, 2)} + ' s'"/><br />
                         <span style="float: right;" th:text="${#numbers.formatDecimal(180 / shipAPI2.artillery.rotation_time, 0, 1)} + ' deg / s'"/><br />
                     </li>
-                    <th:block th:if="${adrenaline == true}">
-                        <script th:inline="javascript">
-                            //    <![CDATA[
-
-                            $(function () {
-                                var handle1 = $('#custom-handle1').css('width', '2em').css('text-align', 'center');
-                                var originalGunRate1 = parseFloat($('#rof1').text().replace(' RPM', ''));
-
-                                var rofDiffModified1 = 0;
-                                if (document.getElementById('rofDiff1') != null)
-                                {
-                                    rofDiffModified1 = parseFloat(document.getElementById('rofDiff1').textContent.replace('(', '').replace(')', ''));
-                                }
-
-                                $('#slider1').slider({
-                                    orientation: "horizontal",
-                                    range: "min",
-                                    min: 0,
-                                    max: 100,
-                                    value: 100,
-                                    create: function() {
-                                        handle1.text($( this ).slider('value'));
-                                    },
-                                    slide: function(event, ui) {
-                                        handle1.text(ui.value);
-                                    },
-                                    change: function (event, ui) {
-                                        test(parseInt(ui.value));
-
-                                        function test(shipHP)
-                                        {
-                                            var coef = 1 - ((100 - shipHP) * 0.2 / 100);
-                                            var newGunRate = (originalGunRate1 / coef).toFixed(2);
-
-                                            $('#rof1').text(newGunRate + ' RPM');
-                                            $('#reload1').text((60 / newGunRate).toFixed(1) + ' s');
-                                            if ($('#upgradeCompareCheckBox').is(':checked'))
-                                            {
-                                                if (document.getElementById('rofDiff1') == null && document.getElementById('reloadDiff1') == null)
-                                                {
-                                                    if (newGunRate - originalGunRate1 != 0)
-                                                    {
-                                                        var reloadDiff = document.createElement('span');
-                                                        reloadDiff.id = 'reloadDiff1';
-                                                        reloadDiff.style = 'float: right;';
-
-                                                        var reloadDiffText = document.createTextNode(((60 / newGunRate) - (60 / originalGunRate1)) > 0 ? '(+' + ((60 / newGunRate) - (60 / originalGunRate1)).toFixed(1) + ')' : '(' + ((60 / newGunRate) - (60 / originalGunRate1)).toFixed(1) + ')');
-                                                        reloadDiff.appendChild(reloadDiffText);
-
-                                                        var rofDiff = document.createElement('span');
-                                                        rofDiff.id = 'rofDiff1';
-                                                        rofDiff.style = 'float: right;';
-
-                                                        var rofDiffText = document.createTextNode((newGunRate - originalGunRate1) > 0 ? '(+' + (newGunRate - originalGunRate1).toFixed(2) + ')' : '(' + (newGunRate - originalGunRate1).toFixed(2) + ')');
-                                                        rofDiff.appendChild(rofDiffText);
-
-                                                        var rof = document.getElementById('rof1');
-                                                        rof.parentNode.insertBefore(rofDiff, rof);
-
-                                                        var reload = document.getElementById('reload1');
-                                                        reload.parentNode.insertBefore(reloadDiff, reload);
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    var rofDiff = (newGunRate - originalGunRate1 + rofDiffModified1).toFixed(2);
-                                                    if (rofDiff != 0)
-                                                    {
-                                                        $('#rofDiff1').text(rofDiff > 0 ? '(+' + rofDiff + ')' : '(' + rofDiff + ')');
-                                                        $('#reloadDiff1').text(((60 / newGunRate) - (60 / (originalGunRate1 - rofDiffModified1))) > 0 ? '(+' + ((60 / newGunRate) - (60 / (originalGunRate1 - rofDiffModified1))).toFixed(1) + ')' : '(' + ((60 / newGunRate) - (60 / (originalGunRate1 - rofDiffModified1))).toFixed(1) + ')');
-                                                    }
-                                                    else
-                                                    {
-                                                        $('#rofDiff1').remove();
-                                                        $('#reloadDiff1').remove();
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                })
-                            });
-
-                            $(function () {
-                                var handle2 = $('#custom-handle2').css('width', '2em').css('text-align', 'center');
-                                var originalGunRate2 = parseFloat($('#rof2').text().replace(' RPM', ''));
-
-                                var rofDiffModified2 = 0;
-                                if (document.getElementById('rofDiff2') != null)
-                                {
-                                    rofDiffModified2 = parseFloat(document.getElementById('rofDiff2').textContent.replace('(', '').replace(')', ''));
-                                }
-
-                                $('#slider2').slider({
-                                    orientation: "horizontal",
-                                    range: "min",
-                                    min: 0,
-                                    max: 100,
-                                    value: 100,
-                                    create: function() {
-                                        handle2.text($( this ).slider('value'));
-                                    },
-                                    slide: function(event, ui) {
-                                        handle2.text(ui.value);
-                                    },
-                                    change: function (event, ui) {
-                                        test(parseInt(ui.value));
-
-                                        function test(shipHP)
-                                        {
-                                            var coef = 1 - ((100 - shipHP) * 0.2 / 100);
-                                            var newGunRate = (originalGunRate2 / coef).toFixed(2);
-
-                                            $('#rof2').text(newGunRate + ' RPM');
-                                            $('#reload2').text((60 / newGunRate).toFixed(1) + ' s');
-                                            if ($('#upgradeCompareCheckBox').is(':checked'))
-                                            {
-                                                if (document.getElementById('rofDiff2') == null && document.getElementById('reloadDiff2') == null)
-                                                {
-                                                    if (newGunRate - originalGunRate2 != 0)
-                                                    {
-                                                        var reloadDiff = document.createElement('span');
-                                                        reloadDiff.id = 'reloadDiff2';
-                                                        reloadDiff.style = 'float: right;';
-
-                                                        var reloadDiffText = document.createTextNode(((60 / newGunRate) - (60 / originalGunRate2)) > 0 ? '(+' + ((60 / newGunRate) - (60 / originalGunRate2)).toFixed(1) + ')' : '(' + ((60 / newGunRate) - (60 / originalGunRate2)).toFixed(1) + ')');
-                                                        reloadDiff.appendChild(reloadDiffText);
-
-                                                        var rofDiff = document.createElement('span');
-                                                        rofDiff.id = 'rofDiff2';
-                                                        rofDiff.style = 'float: right;';
-
-                                                        var rofDiffText = document.createTextNode((newGunRate - originalGunRate2) > 0 ? '(+' + (newGunRate - originalGunRate2).toFixed(2) + ')' : '(' + (newGunRate - originalGunRate2).toFixed(2) + ')');
-                                                        rofDiff.appendChild(rofDiffText);
-
-                                                        var rof = document.getElementById('rof2');
-                                                        rof.parentNode.insertBefore(rofDiff, rof);
-
-                                                        var reload = document.getElementById('reload2');
-                                                        reload.parentNode.insertBefore(reloadDiff, reload);
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    var rofDiff = (newGunRate - originalGunRate2 + rofDiffModified2).toFixed(2);
-                                                    if (rofDiff != 0)
-                                                    {
-                                                        $('#rofDiff2').text(rofDiff > 0 ? '(+' + rofDiff + ')' : '(' + rofDiff + ')');
-                                                        $('#reloadDiff2').text(((60 / newGunRate) - (60 / (originalGunRate2 - rofDiffModified2))) > 0 ? '(+' + ((60 / newGunRate) - (60 / (originalGunRate2 - rofDiffModified2))).toFixed(1) + ')' : '(' + ((60 / newGunRate) - (60 / (originalGunRate2 - rofDiffModified2))).toFixed(1) + ')');
-                                                    }
-                                                    else
-                                                    {
-                                                        $('#rofDiff2').remove();
-                                                        $('#reloadDiff2').remove();
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                })
-                            });
-
-                            //    ]]>
-                        </script>
-                    </th:block>
                 </div>
                 <div style="width: 500px; margin: 0 auto; text-align: center" th:if="${shipAPI1.artillery.shells.?[value.type == 'HE'].size() > 0 or shipAPI2.artillery.shells.?[value.type == 'HE'].size() > 0}">
                     <th:block th:if="${shell.value != null and shell.value.type == 'HE'}" th:each="shell : ${shipAPI1.artillery.shells}">
@@ -333,8 +168,8 @@
                     </li>
                     <li style="display: inline-block; vertical-align: top; float: left; width: 160px;" th:if="${shell.value != null and shell.value.type == 'HE'}" th:each="shell : ${shipAPI1.artillery.shells}">
                         <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
-                        <span style="float: left;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
-                        <span style="float: left;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI1.artillery.gun_rate, 1, 2)) + 1), 1, 'COMMA') + ' hp'}"/><br />
+                        <span style="float: left;" th:id="'DamageHE1'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
+                        <span style="float: left;" th:id="'DPMHE1'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI1.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
                         <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                         <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
                         <span style="float: left;" th:text="${shipAPI1.shipComponents.artillery.penetrationHE + ' mm'}"/><br />
@@ -355,8 +190,8 @@
                     </li>
                     <li style="display: inline-block; vertical-align: top; float:right; width: 160px;" th:if="${shell.value != null and shell.value.type =='HE'}" th:each="shell : ${shipAPI2.artillery.shells}">
                         <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
-                        <span style="float: right;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
-                        <span style="float: right;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI2.artillery.gun_rate, 1, 2)) + 1), 1, 'COMMA') + ' hp'}"/><br />
+                        <span style="float: right;" th:id="'DamageHE2'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
+                        <span style="float: right;" th:id="'DPMHE2'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI2.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
                         <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                         <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
                         <span style="float: right;" th:text="${shipAPI2.shipComponents.artillery.penetrationHE + ' mm'}"/><br />
@@ -376,8 +211,8 @@
                     </li>
                     <li style="display: inline-block; vertical-align: top; float: left; width: 160px;" th:if="${shell.value != null and shell.value.type == 'AP'}" th:each="shell : ${shipAPI1.artillery.shells}">
                         <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
-                        <span style="float: left;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
-                        <span style="float: left;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI1.artillery.gun_rate, 1, 2)) + 1), 1, 'COMMA') + ' hp'}"/><br />
+                        <span style="float: left;" th:id="'DamageAP1'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
+                        <span style="float: left;" th:id="'DPMAP1'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI1.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
                         <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                         <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
                     </li>
@@ -392,12 +227,101 @@
                     </li>
                     <li style="display: inline-block; vertical-align: top; float:right; width: 160px;" th:if="${shell.value != null and shell.value.type =='AP'}" th:each="shell : ${shipAPI2.artillery.shells}">
                         <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
-                        <span style="float: right;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
-                        <span style="float: right;" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI2.artillery.gun_rate, 1, 2)) + 1), 1, 'COMMA') + ' hp'}"/><br />
+                        <span style="float: right;" th:id="'DamageHE2'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
+                        <span style="float: right;" th:id="'DPMAP2'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI2.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
                         <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                         <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
                     </li>
                 </div>
+                <th:block th:if="${adrenaline == true}">
+                    <script th:inline="javascript">
+                        //    <![CDATA[
+
+                        $(function () {
+                            var handle1 = $('#custom-handle1').css('width', '2em').css('text-align', 'center');
+                            var originalGunRate1 = parseFloat($('#rof1').text().replace(' RPM', ''));
+                            var DamageHE = parseInt($('#DamageHE1').text().replace(',', '').replace(' hp', ''));
+                            var DamageAP = parseInt($('#DamageAP1').text().replace(',', '').replace(' hp', ''));
+
+                            var rofDiffModified1 = 0;
+                            if (document.getElementById('rofDiff1') != null)
+                            {
+                                rofDiffModified1 = parseFloat(document.getElementById('rofDiff1').textContent.replace('(', '').replace(')', ''));
+                            }
+
+                            $('#slider1').slider({
+                                orientation: "horizontal",
+                                range: "min",
+                                min: 0,
+                                max: 100,
+                                value: 100,
+                                create: function() {
+                                    handle1.text($( this ).slider('value'));
+                                },
+                                slide: function(event, ui) {
+                                    handle1.text(ui.value);
+                                },
+                                change: function (event, ui) {
+                                    test(parseInt(ui.value));
+
+                                    function test(shipHP)
+                                    {
+                                        var coef = 1 - ((100 - shipHP) * 0.2 / 100);
+                                        var newGunRate = (originalGunRate1 / coef);
+
+                                        $('#rof1').text(newGunRate.toFixed(2) + ' RPM');
+                                        $('#reload1').text((60 / newGunRate).toFixed(1) + ' s');
+                                        $('#DPMHE1').text(((newGunRate + 1) * DamageHE).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' hp');
+                                        $('#DPMAP1').text(((newGunRate + 1) * DamageAP).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' hp');
+                                    }
+                                }
+                            })
+                        });
+
+                        $(function () {
+                            var handle2 = $('#custom-handle2').css('width', '2em').css('text-align', 'center');
+                            var originalGunRate2 = parseFloat($('#rof2').text().replace(' RPM', ''));
+                            var DamageHE = parseInt($('#DamageHE2').text().replace(',', '').replace(' hp', ''));
+                            var DamageAP = parseInt($('#DamageAP2').text().replace(',', '').replace(' hp', ''));
+
+                            var rofDiffModified2 = 0;
+                            if (document.getElementById('rofDiff2') != null)
+                            {
+                                rofDiffModified2 = parseFloat(document.getElementById('rofDiff2').textContent.replace('(', '').replace(')', ''));
+                            }
+
+                            $('#slider2').slider({
+                                orientation: "horizontal",
+                                range: "min",
+                                min: 0,
+                                max: 100,
+                                value: 100,
+                                create: function() {
+                                    handle2.text($( this ).slider('value'));
+                                },
+                                slide: function(event, ui) {
+                                    handle2.text(ui.value);
+                                },
+                                change: function (event, ui) {
+                                    test(parseInt(ui.value));
+
+                                    function test(shipHP)
+                                    {
+                                        var coef = 1 - ((100 - shipHP) * 0.2 / 100);
+                                        var newGunRate = (originalGunRate2 / coef);
+
+                                        $('#rof2').text(newGunRate.toFixed(2) + ' RPM');
+                                        $('#reload2').text((60 / newGunRate).toFixed(1) + ' s');
+                                        $('#DPMHE2').text(((newGunRate + 1) * DamageHE).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' hp');
+                                        $('#DPMAP2').text(((newGunRate + 1) * DamageAP).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' hp');
+                                    }
+                                }
+                            })
+                        });
+
+                        //    ]]>
+                    </script>
+                </th:block>
             </div>
             <br th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) and (shipAPI1.torpedoes != null or shipAPI2.torpedoes != null)}"/>
             <div th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) and (shipAPI1.torpedoes != null or shipAPI2.torpedoes != null)}" id="torpedoes" style="width: 500px; margin: 0 auto; text-align: center">

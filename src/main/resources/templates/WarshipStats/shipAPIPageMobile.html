@@ -98,7 +98,7 @@
                     <span style="float:left;">-Per Salvo</span>
                     <span style="float: right;" th:id="${shell.value.type == 'HE' ? 'DamageHE' : 'DamageAP'}" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
                     <span style="float:left;">-DPM</span>
-                    <span style="float: right;" th:id="${shell.value.type == 'HE' ? 'DPMDiffHE' : 'DPMDiffAP'}" th:if="${configurationAPI != null and shipAPI.artillery.gun_rate - configurationAPI.artillery.gun_rate != 0}" th:text="${(shell.value.damage * shipAPI.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI.artillery.gun_rate, 1, 2)) + 1)) - (shell.value.damage * configurationAPI.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(configurationAPI.artillery.gun_rate, 1, 2)) + 1)) > 0 ? '(+' + #numbers.formatInteger((shell.value.damage * shipAPI.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI.artillery.gun_rate, 1, 2)) + 1)) - (shell.value.damage * configurationAPI.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(configurationAPI.artillery.gun_rate, 1, 2)) + 1)), 1, 'COMMA') + ')' : '(' + #numbers.formatInteger((shell.value.damage * shipAPI.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI.artillery.gun_rate, 1, 2)) + 1)) - (shell.value.damage * configurationAPI.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(configurationAPI.artillery.gun_rate, 1, 2)) + 1)), 1, 'COMMA') + ')'}"/>
+                    <span style="float: right;" th:id="${shell.value.type == 'HE' ? 'DPMDiffHE' : 'DPMDiffAP'}" th:if="${configurationAPI != null and shipAPI.artillery.gun_rate - configurationAPI.artillery.gun_rate != 0}" th:text="${(shell.value.damage * shipAPI.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI.artillery.gun_rate, 1, 2, 'POINT')) + 1)) - (shell.value.damage * configurationAPI.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(configurationAPI.artillery.gun_rate, 1, 2, 'POINT')) + 1)) > 0 ? '(+' + #numbers.formatInteger((shell.value.damage * shipAPI.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI.artillery.gun_rate, 1, 2, 'POINT')) + 1)) - (shell.value.damage * configurationAPI.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(configurationAPI.artillery.gun_rate, 1, 2, 'POINT')) + 1)), 1, 'COMMA') + ')' : '(' + #numbers.formatInteger((shell.value.damage * shipAPI.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI.artillery.gun_rate, 1, 2, 'POINT')) + 1)) - (shell.value.damage * configurationAPI.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(configurationAPI.artillery.gun_rate, 1, 2, 'POINT')) + 1)), 1, 'COMMA') + ')'}"/>
                     <span style="float: right;" th:id="${shell.value.type == 'HE' ? 'DPMHE' : 'DPMAP'}" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI.artillery.gun_rate, 1, 2)) + 1), 1, 'COMMA') + ' hp'}"/><br />
                     <span style="float:left;">Speed</span>
                     <span style="float: right;" th:text="${#numbers.formatInteger(shell.value.bullet_speed, 1, 'COMMA')} + ' m / s'"/><br />
@@ -160,7 +160,7 @@
                                     function test(shipHP)
                                     {
                                         var coef = 1 - ((100 - shipHP) * 0.2 / 100);
-                                        var newGunRate = (originalGunRate / coef)
+                                        var newGunRate = (originalGunRate / coef);
 
                                         $('#rof').text(newGunRate.toFixed(2) + ' RPM');
                                         $('#reload').text((60 / newGunRate).toFixed(1) + ' s');
@@ -188,14 +188,14 @@
                                                     DPMDiffHE.id = 'DPMDiffHE';
                                                     DPMDiffHE.style = 'float: right;';
 
-                                                    var DPMDiffHEText = document.createTextNode((newGunRate - originalGunRate) > 0 ? '(+' + ((newGunRate - originalGunRate) * DamageHE).toFixed(0) + ')' : '(' + ((newGunRate - originalGunRate) * DamageHE).toFixed(0) + ')');
+                                                    var DPMDiffHEText = document.createTextNode((newGunRate - originalGunRate) > 0 ? '(+' + ((newGunRate - originalGunRate) * DamageHE).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ')' : '(' + ((newGunRate - originalGunRate) * DamageHE).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ')');
                                                     DPMDiffHE.appendChild(DPMDiffHEText);
 
                                                     var DPMDiffAP = document.createElement('span');
                                                     DPMDiffAP.id = 'DPMDiffAP';
                                                     DPMDiffAP.style = 'float: right;';
 
-                                                    var DPMDiffAPText = document.createTextNode((newGunRate - originalGunRate) > 0 ? '(+' + ((newGunRate - originalGunRate) * DamageAP).toFixed(0) + ')' : '(' + ((newGunRate - originalGunRate) * DamageAP).toFixed(0) + ')');
+                                                    var DPMDiffAPText = document.createTextNode((newGunRate - originalGunRate) > 0 ? '(+' + ((newGunRate - originalGunRate) * DamageAP).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ')' : '(' + ((newGunRate - originalGunRate) * DamageAP).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ')');
                                                     DPMDiffAP.appendChild(DPMDiffAPText);
 
                                                     var rof = document.getElementById('rof');
@@ -230,6 +230,8 @@
                                                 }
                                             }
                                         }
+                                        $('#DPMHE').text(((newGunRate + 1) * DamageHE).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' hp');
+                                        $('#DPMAP').text(((newGunRate + 1) * DamageAP).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' hp');
                                     }
                                 }
                             })
