@@ -105,7 +105,7 @@
                 </li>
             </div>
         </div>
-        <div id="mainWeaponStats" class="mainWeaponStats" style="display: inline-block; margin: 0 15px;">
+        <div id="mainWeaponStats" class="mainWeaponStats" style="display: inline-block; margin: 0 15px;" th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) or (shipAPI1.flight_control != null and shipAPI2.flight_control != null)}">
             <div th:if="${shipAPI1.artillery != null and shipAPI2.artillery != null}" id="artillery" style="width: 500px; margin: 0 auto; text-align: center">
                 <strong>Main Battery</strong><br />
                 <div style="display: inline-block; width: 500px;">
@@ -399,8 +399,8 @@
                     </li>
                 </div>
             </div>
-            <br />
-            <div th:if="${shipAPI1.torpedoes != null or shipAPI2.torpedoes != null}" id="torpedoes" style="width: 500px; margin: 0 auto; text-align: center">
+            <br th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) and (shipAPI1.torpedoes != null or shipAPI2.torpedoes != null)}"/>
+            <div th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) and (shipAPI1.torpedoes != null or shipAPI2.torpedoes != null)}" id="torpedoes" style="width: 500px; margin: 0 auto; text-align: center">
                 <strong>Torpedoes</strong><br />
                 <th:block th:if="${shipAPI1.torpedoes != null}" >
                     <th:block th:each="slot : ${shipAPI1.torpedoes.slots}">
@@ -444,33 +444,83 @@
                     </li>
                 </div>
             </div>
-            <br />
             <div th:if="${shipAPI1.flight_control != null and shipAPI2.flight_control != null}" id="flight_control" style="width: 500px; margin: 0 auto; text-align: center;">
-                <strong>Flight Control</strong><br />
+                <strong>Flight Control</strong>
                 <div>
                     <li style="display: inline-block; width: 160px;">
-                        <span style="float: left;" th:text="${shipAPI1.flight_control.bomber_squadrons} + ' X ' + ${shipAPI1.dive_bomber != null ? shipAPI1.dive_bomber.count_in_squadron.max : 0}"/><br />
-                        <span style="float: left;" th:text="${shipAPI1.dive_bomber != null ? #numbers.formatDecimal(shipAPI1.dive_bomber.prepare_time, 0, 1) : 0} + ' s'"/><br />
                         <span style="float: left;" th:text="${shipAPI1.flight_control.fighter_squadrons} + ' X ' + ${shipAPI1.fighters != null ? shipAPI1.fighters.count_in_squadron.max : 0}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.fighters != null}" th:text="${shipAPI1.fighters.plane_level}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.fighters != null}" th:text="${#numbers.formatDecimal(shipAPI1.fighters.cruise_speed, 1, 1) + ' kts'}"/><br />
                         <span style="float: left;" th:text="${shipAPI1.fighters != null ? #numbers.formatDecimal(shipAPI1.fighters.prepare_time, 0, 1) : 0} + ' s'"/><br />
+                        <br />
+                        <span style="float: left;" th:text="${shipAPI1.flight_control.bomber_squadrons} + ' X ' + ${shipAPI1.dive_bomber != null ? shipAPI1.dive_bomber.count_in_squadron.max : 0}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${shipAPI1.dive_bomber.plane_level}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI1.dive_bomber.cruise_speed, 1, 1) + ' kts'}"/><br />
+                        <span style="float: left;" th:text="${shipAPI1.dive_bomber != null ? #numbers.formatDecimal(shipAPI1.dive_bomber.prepare_time, 0, 1) : 0} + ' s'"/><br />
+                        <u style="float: left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${shipAPI1.dive_bomber.bomb_name}"/><br />
+                        <span style="float:left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.dive_bomber.bomb_bullet_mass, 1, 'COMMA') + ' kg'}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.dive_bomber.bomb_damage, 1, 'COMMA') + ' hp'}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.dive_bomber.count_in_squadron.max * shipAPI1.dive_bomber.bomb_damage, 1, 'COMMA') + ' hp'}"/><br />
+                        <br />
                         <span style="float: left;" th:text="${shipAPI1.flight_control.torpedo_squadrons} + ' X ' + ${shipAPI1.torpedo_bomber != null ? shipAPI1.torpedo_bomber.count_in_squadron.max : 0}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${shipAPI1.torpedo_bomber.plane_level}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI1.torpedo_bomber.cruise_speed, 1, 1) + ' kts'}"/><br />
                         <span style="float: left;" th:text="${shipAPI1.torpedo_bomber != null ? #numbers.formatDecimal(shipAPI1.torpedo_bomber.prepare_time, 0, 1) : 0} + ' s'"/><br />
+                        <u style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${shipAPI1.torpedo_bomber.torpedo_name}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.torpedo_bomber.torpedo_max_speed, 1, 'COMMA') + ' kts'}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI1.torpedo_bomber.torpedo_distance, 1, 1) + ' km'}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.torpedo_bomber.torpedo_damage, 1, 'COMMA') + ' hp'}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.torpedo_bomber.count_in_squadron.max * shipAPI1.torpedo_bomber.torpedo_damage, 1, 'COMMA') + ' hp'}"/><br />
                     </li>
                     <li style="display: inline-block; width: 160px; text-align: center;">
-                        <u>Dive Bomber</u><br />
-                        <span>Preparation</span><br />
                         <u>Fighter</u><br />
+                        <span>Tier</span><br />
+                        <span>Speed</span><br />
                         <span>Preparation</span><br />
+                        <br />
+                        <u>Dive Bomber</u><br />
+                        <span>Tier</span><br />
+                        <span>Speed</span><br />
+                        <span>Preparation</span><br />
+                        <span>Bomb</span><br />
+                        <span>Weight</span><br />
+                        <span>Damage</span><br />
+                        <span>- Per Squadron -</span><br />
+                        <br />
                         <u>Torpedo Bomber</u><br />
+                        <span>Tier</span><br />
+                        <span>Speed</span><br />
                         <span>Preparation</span><br />
+                        <span>Torpedo</span><br />
+                        <span>Speed</span><br />
+                        <span>Distance</span><br />
+                        <span>Damage</span><br />
+                        <span>- Per Squadron -</span><br />
                     </li>
                     <li style="display: inline-block; width: 160px;">
-                        <span style="float: right;" th:text="${shipAPI2.flight_control.bomber_squadrons} + ' X ' + ${shipAPI2.dive_bomber != null ? shipAPI2.dive_bomber.count_in_squadron.max : 0}"/><br />
-                        <span style="float: right;" th:text="${shipAPI2.dive_bomber != null ? #numbers.formatDecimal(shipAPI2.dive_bomber.prepare_time, 0, 1) : 0} + ' s'"/><br />
                         <span style="float: right;" th:text="${shipAPI2.flight_control.fighter_squadrons} + ' X ' + ${shipAPI2.fighters != null ? shipAPI2.fighters.count_in_squadron.max : 0}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.fighters != null}" th:text="${shipAPI2.fighters.plane_level}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.fighters != null}" th:text="${#numbers.formatDecimal(shipAPI2.fighters.cruise_speed, 1, 1) + ' kts'}"/><br />
                         <span style="float: right;" th:text="${shipAPI2.fighters != null ? #numbers.formatDecimal(shipAPI2.fighters.prepare_time, 0, 1) : 0} + ' s'"/><br />
+                        <br />
+                        <span style="float: right;" th:text="${shipAPI2.flight_control.bomber_squadrons} + ' X ' + ${shipAPI2.dive_bomber != null ? shipAPI2.dive_bomber.count_in_squadron.max : 0}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${shipAPI2.dive_bomber.plane_level}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI2.dive_bomber.cruise_speed, 1, 1) + ' kts'}"/><br />
+                        <span style="float: right;" th:text="${shipAPI2.dive_bomber != null ? #numbers.formatDecimal(shipAPI2.dive_bomber.prepare_time, 0, 1) : 0} + ' s'"/><br />
+                        <u style="float: right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${shipAPI2.dive_bomber.bomb_name}"/><br />
+                        <span style="float:right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.dive_bomber.bomb_bullet_mass, 1, 'COMMA') + ' kg'}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.dive_bomber.bomb_damage, 1, 'COMMA') + ' hp'}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.dive_bomber.count_in_squadron.max * shipAPI2.dive_bomber.bomb_damage, 1, 'COMMA') + ' hp'}"/><br />
+                        <br />
                         <span style="float: right;" th:text="${shipAPI2.flight_control.torpedo_squadrons} + ' X ' + ${shipAPI2.torpedo_bomber != null ? shipAPI2.torpedo_bomber.count_in_squadron.max : 0}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${shipAPI2.torpedo_bomber.plane_level}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI2.torpedo_bomber.cruise_speed, 1, 1) + ' kts'}"/><br />
                         <span style="float: right;" th:text="${shipAPI2.torpedo_bomber != null ? #numbers.formatDecimal(shipAPI2.torpedo_bomber.prepare_time, 0, 1) : 0} + ' s'"/><br />
+                        <u style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${shipAPI2.torpedo_bomber.torpedo_name}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.torpedo_bomber.torpedo_max_speed, 1, 'COMMA') + ' kts'}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI2.torpedo_bomber.torpedo_distance, 1, 1) + ' km'}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.torpedo_bomber.torpedo_damage, 1, 'COMMA') + ' hp'}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.torpedo_bomber.count_in_squadron.max * shipAPI2.torpedo_bomber.torpedo_damage, 1, 'COMMA') + ' hp'}"/><br />
                     </li>
                 </div>
             </div>
