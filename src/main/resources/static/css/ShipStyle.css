@@ -36,6 +36,7 @@ a
 nav {
     margin: 0px 0px 0px;
     background-color: lightblue;
+    cursor: pointer;
 }
 
 nav ul {
@@ -89,6 +90,7 @@ nav ul ul {
 /* Display Dropdowns on Hover */
 nav ul li:hover > ul {
     display:inherit;
+    cursor: pointer;
 }
 
 /* Fisrt Tier Dropdown */
