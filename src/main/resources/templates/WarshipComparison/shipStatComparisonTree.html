@@ -61,6 +61,7 @@
 </header>
 <main>
     <div style="text-align: center;">
+        <input type="text" id="shortenUrlAddress"/><button id="shortenURL">Shorten URL</button><br />
         <button th:each="nation : ${nations}" th:name="${nation.key}" th:class="button_nation">
             <img th:src="${'/images/Nations/' + nation.key + '.png'}"/><br />
             <span th:text="${nation.key}"/>
@@ -81,7 +82,7 @@
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                 </li>
                 <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${ship.key}">
+                    <button th:class="${(ship1 != null and ship2 != null) and (ship1 == ship.value.name or ship2 == ship.value.name)} ? button_ship_tree_selected : button_ship_tree" th:id="${ship.key}" name="ship">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
@@ -92,7 +93,7 @@
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                 </li>
                 <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${ship.key}">
+                    <button th:class="${(ship1 != null and ship2 != null) and (ship1 == ship.value.name or ship2 == ship.value.name)} ? button_ship_tree_selected : button_ship_tree" th:id="${ship.key}" name="ship">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
@@ -103,7 +104,7 @@
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                 </li>
                 <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${ship.key}">
+                    <button th:class="${(ship1 != null and ship2 != null) and (ship1 == ship.value.name or ship2 == ship.value.name)} ? button_ship_tree_selected : button_ship_tree" th:id="${ship.key}" name="ship">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
@@ -114,7 +115,7 @@
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                 </li>
                 <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${ship.key}">
+                    <button th:class="${(ship1 != null and ship2 != null) and (ship1 == ship.value.name or ship2 == ship.value.name)} ? button_ship_tree_selected : button_ship_tree" th:id="${ship.key}" name="ship">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
@@ -125,7 +126,7 @@
                     <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                 </li>
                 <li th:each="ship : ${shipType.value}" th:if="${!ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${ship.key}">
+                    <button th:class="${(ship1 != null and ship2 != null) and (ship1 == ship.value.name or ship2 == ship.value.name)} ? button_ship_tree_selected : button_ship_tree" th:id="${ship.key}" name="ship">
                         <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
                         <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                     </button>
@@ -137,7 +138,7 @@
                         <button th:class="button_ship_tree_empty" disabled="disabled"></button>
                     </td>
                     <td th:each="ship : ${tier.value}" th:if="${tier.value != null}">
-                        <button th:class="button_ship_tree" th:id="${ship.key}" th:if="${ship.value.name != 'Test Ship'}">
+                        <button th:class="${(ship1 != null and ship2 != null) and (ship1 == ship.value.name or ship2 == ship.value.name)} ? button_ship_tree_selected : button_ship_tree" th:id="${ship.key}" th:if="${ship.value.name != 'Test Ship'}" name="ship">
                             <img th:src="${ship.value.images.small}"/><br />
                             <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
                         </button>
@@ -146,7 +147,7 @@
             </table>
         </div>
     </div>
-    <div id="modulesUpgradesConsumables">
+    <div id="modulesUpgradesConsumables" th:include="WarshipComparison/shipStatSelection :: warshipSelection">
     </div>
     <div class="shipAPIData">
     </div>
@@ -183,6 +184,18 @@
     //    <![CDATA[
 
     var nation = '';
+
+    var warship1Name = '';
+    var warship1 = '';
+    var warship2Name = '';
+    var warship2 = '';
+
+    $().ready(function () {
+        if ([[${url}]] != null)
+        {
+            callAPI();
+        }
+    });
 
     $(document).on('click', '.button_nation', function () {
         var name = $(this).attr('name');
@@ -224,10 +237,22 @@
 
         if ($('.button_ship_tree_selected').length == 2)
         {
-            var selected = $('.button_ship_tree_selected');
+            var selectedSkills = $('.button_skill_selected');
+            for (var i = 0; i < selectedSkills.length; i++)
+            {
+                selectedSkills.eq(i).attr('class', 'button_skill');
+            }
 
+            var selectedFlags = $('.button_flag_selected');
+            for (var i = 0; i < selectedFlags.length; i++)
+            {
+                selectedFlags.eq(i).attr('class', 'button_flag');
+            }
+
+            $('#camouflageCheckbox').attr('checked', false);
+            
             var list = [];
-
+            var selected = $('.button_ship_tree_selected');
             for (var i = 0; i < selected.length; i++)
             {
                 var current = selected.eq(i);
@@ -563,6 +588,11 @@
                 {
                     $('.shipAPIData').replaceWith(data);
                     $('[name=nations]').attr('hidden', 'hidden');
+
+                    history.replaceState({
+                        warship1: warship1Name,
+                        warship2: warship2Name
+                    }, warship1Name + warship2Name, '/shipStatSelection?' + '&ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + encodeURIComponent(JSON.stringify(upgradesSkills)));
                 }
                 else
                 {
@@ -578,6 +608,27 @@
 
     $(document).on('click', '#shipAPI2Button', function () {
         $('#warship2').dialog('open');
+    });
+
+    $(document).on('click', '#shortenURL', function () {
+        var longUrl = window.location.href;
+
+        var json = {
+            longUrl: longUrl
+        };
+
+        $.ajax({
+            url: 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyCaUYoTN7aKfyckK9Wd0SyaaFEA7eYoBbg',
+            type: 'post',
+            contentType: "application/json",
+            data: JSON.stringify(json),
+            success: function (data) {
+                $('#shortenUrlAddress').val(data.id);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
     });
 
     //    ]]>

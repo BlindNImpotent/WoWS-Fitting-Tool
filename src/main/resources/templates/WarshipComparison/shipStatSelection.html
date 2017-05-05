@@ -17,13 +17,13 @@
 </header>
 <main>
     <div th:fragment="warshipSelection" id="modulesUpgradesConsumables">
-        <div id="warship1" th:title="${warship1.name}" th:name="${'nation1=' + warship1.nation + '&amp;shipType1=' + warship1.type + '&amp;ship1=' + warship1.name + '&amp;ship_id1=' + warship1.ship_id}">
+        <div id="warship1" th:if="${warship1 != null}" th:title="${warship1.name}" th:name="${'nation1=' + warship1.nation + '&amp;shipType1=' + warship1.type + '&amp;ship1=' + warship1.name + '&amp;ship_id1=' + warship1.ship_id}">
             <div id="modules1" style="display: inline-block; vertical-align: top;">
                 <table>
                     <tbody>
                     <tr th:each="row : ${warship1.warshipModulesTreeTable}">
                         <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
-                            <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected_1 : button_module_1" th:id="${module.module_id}" th:name="${module.type + '1'}">
+                            <button th:if="${module != null}" th:class="${(modules1 == null and module.is_default and rowStat.first) or (modules1 != null and (#sets.contains(modules1, #strings.toString(module.module_id))))} ? button_module_selected_1 : button_module_1" th:id="${module.module_id}" th:name="${module.type + '1'}">
                                 <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
                                 <span th:text="${module.name}"/>
                             </button>
@@ -35,7 +35,7 @@
             <div id="upgrades1" style="display: inline-block; vertical-align: top;">
                 <div th:each="upgradeType : ${warship1.upgradesNew}" th:id="'id_' + ${upgradeType.key}" style="display: inline-block; vertical-align: top;">
                     <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.consumable_id + '_1'}">
-                        <button th:title="${upgrade.value.description}" th:class="${upgrades != null and #sets.contains(upgrades, #strings.toString(upgrade.value.consumable_id))} ? button_upgrade_selected_1 : button_upgrade_1" th:id="${upgrade.value.consumable_id + '_1'}" th:name="'price_' + ${upgrade.value.price_credit + '_1'}">
+                        <button th:title="${upgrade.value.description}" th:class="${upgrades1 != null and #sets.contains(upgrades1, #strings.toString(upgrade.value.consumable_id))} ? button_upgrade_selected_1 : button_upgrade_1" th:id="${upgrade.value.consumable_id + '_1'}" th:name="'price_' + ${upgrade.value.price_credit + '_1'}">
                             <img th:src="${upgrade.value.image}"/><br />
                             <span th:text="${upgrade.value.name}"/>
                         </button>
@@ -43,13 +43,13 @@
                 </div>
             </div>
         </div>
-        <div id="warship2" th:title="${warship2.name}" th:name="${'nation2=' + warship2.nation + '&amp;shipType2=' + warship2.type + '&amp;ship2=' + warship2.name + '&amp;ship_id2=' + warship2.ship_id}">
+        <div id="warship2" th:if="${warship2 != null}" th:title="${warship2.name}" th:name="${'nation2=' + warship2.nation + '&amp;shipType2=' + warship2.type + '&amp;ship2=' + warship2.name + '&amp;ship_id2=' + warship2.ship_id}">
             <div id="modules2" style="display: inline-block; vertical-align: top;">
                 <table>
                     <tbody>
                     <tr th:each="row : ${warship2.warshipModulesTreeTable}">
                         <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
-                            <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected_2 : button_module_2" th:id="${module.module_id}" th:name="${module.type + '2'}">
+                            <button th:if="${module != null}" th:class="${(modules2 == null and module.is_default and rowStat.first) or (modules2 != null and (#sets.contains(modules2, #strings.toString(module.module_id))))} ? button_module_selected_2 : button_module_2" th:id="${module.module_id}" th:name="${module.type + '2'}">
                                 <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
                                 <span th:text="${module.name}"/>
                             </button>
@@ -61,7 +61,7 @@
             <div id="upgrades2" style="display: inline-block; vertical-align: top;">
                 <div th:each="upgradeType : ${warship2.upgradesNew}" th:id="'id_' + ${upgradeType.key}" style="display: inline-block; vertical-align: top;">
                     <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.consumable_id + '_2'}">
-                        <button th:title="${upgrade.value.description}" th:class="${upgrades != null and #sets.contains(upgrades, #strings.toString(upgrade.value.consumable_id))} ? button_upgrade_selected_2 : button_upgrade_2" th:id="${upgrade.value.consumable_id + '_2'}" th:name="'price_' + ${upgrade.value.price_credit + '_2'}">
+                        <button th:title="${upgrade.value.description}" th:class="${upgrades2 != null and #sets.contains(upgrades2, #strings.toString(upgrade.value.consumable_id))} ? button_upgrade_selected_2 : button_upgrade_2" th:id="${upgrade.value.consumable_id + '_2'}" th:name="'price_' + ${upgrade.value.price_credit + '_2'}">
                             <img th:src="${upgrade.value.image}"/><br />
                             <span th:text="${upgrade.value.name}"/>
                         </button>

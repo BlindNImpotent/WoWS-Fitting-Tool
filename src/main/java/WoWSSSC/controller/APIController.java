@@ -1,10 +1,12 @@
 package WoWSSSC.controller;
 
+import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
 import WoWSSSC.service.APIService;
 import WoWSSSC.service.GPService;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -303,13 +305,59 @@ public class APIController
         return "WarshipComparison/shipStatComparisonTree";
     }
 
-    @RequestMapping (value = "/shipStatSelection", method = RequestMethod.POST)
-    public String shipStatSelection(Model model, @RequestBody List<String> shipList)
-    {
-        model.addAttribute("warship1", data.get("rawShipData").get(shipList.get(0)));
-        model.addAttribute("warship2", data.get("rawShipData").get(shipList.get(1)));
+    @RequestMapping (value = "/shipStatSelection", method = { RequestMethod.GET, RequestMethod.POST })
+    public String shipStatSelection(Model model, RedirectAttributes redirectAttributes,
+                                    HttpServletRequest request,
+                                    @RequestBody(required = false) List<String> shipList,
+                                    @RequestParam(required = false) String ship1,
+                                    @RequestParam(required = false) String ship2,
+                                    @RequestParam(required = false) HashSet<String> modules1,
+                                    @RequestParam(required = false) HashSet<String> modules2,
+                                    @RequestParam(required = false) String upgradesSkills) throws IOException {
+        if (request.getMethod().equalsIgnoreCase("post"))
+        {
+            model.addAttribute("warship1", data.get("rawShipData").get(shipList.get(0)));
+            model.addAttribute("warship2", data.get("rawShipData").get(shipList.get(1)));
 
-        return "WarshipComparison/shipStatSelection :: warshipSelection";
+            return "WarshipComparison/shipStatSelection :: warshipSelection";
+        }
+        else
+        {
+            TypeReference<List<HashMap>> typeRef = new TypeReference<List<HashMap>>() {};
+            List<HashMap> USs = (upgradesSkills != null) ? mapper.readValue(upgradesSkills, typeRef) : new ArrayList<>();
+
+            Warship warship1 = (Warship) data.get("rawShipData").get(ship1);
+            Warship warship2 = (Warship) data.get("rawShipData").get(ship2);
+
+            HashMap<String, List> upgradesSkills1 = new HashMap<>();
+            HashMap<String, List> upgradesSkills2 = new HashMap<>();
+            for (HashMap US : USs) {
+                if (US.get("shipName").equals(ship1))
+                {
+                    upgradesSkills1 = US;
+                }
+
+                if (US.get("shipName").equals(ship2))
+                {
+                    upgradesSkills2 = US;
+                }
+            }
+            
+            redirectAttributes.addFlashAttribute("url", "/shipStatComparison?" + request.getQueryString());
+            redirectAttributes.addFlashAttribute("warship1", warship1);
+            redirectAttributes.addFlashAttribute("ship1", ship1);
+            redirectAttributes.addFlashAttribute("warship2", warship2);
+            redirectAttributes.addFlashAttribute("ship2", ship2);
+            redirectAttributes.addFlashAttribute("modules1", modules1);
+            redirectAttributes.addFlashAttribute("modules2", modules2);
+            redirectAttributes.addFlashAttribute("upgrades1", upgradesSkills1.get("upgrades"));
+            redirectAttributes.addFlashAttribute("upgrades2", upgradesSkills2.get("upgrades"));
+            redirectAttributes.addFlashAttribute("camo", upgradesSkills1.get("camouflage").get(0));
+            redirectAttributes.addFlashAttribute("crewSkills", upgradesSkills1.get("skills"));
+            redirectAttributes.addFlashAttribute("flags", upgradesSkills1.get("flags"));
+
+            return "redirect:/shipStatComparison";
+        }
     }
 
     @RequestMapping (value = "/shipStatComparison", method = RequestMethod.POST)
