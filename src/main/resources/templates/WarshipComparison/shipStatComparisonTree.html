@@ -190,6 +190,12 @@
     var warship2Name = '';
     var warship2 = '';
 
+    var modules1 = [];
+    var modules2 = [];
+    var upgradesSkills = [];
+    var consumables1 = [[${consumables1}]];
+    var consumables2 = [[${consumables2}]];
+
     $().ready(function () {
         if ([[${url}]] != null)
         {
@@ -478,7 +484,7 @@
         var selectedFlags = $('.button_flag_selected');
         var skills = [];
         var flags = [];
-        var upgradesSkills = [];
+        upgradesSkills = [];
 
         for (var i = 0; i < selectedSkills.length; i++)
         {
@@ -502,7 +508,7 @@
 
         var camouflage = [$('#camouflageCheckbox').is(':checked')];
 
-        var warship1Name = $('#warship1').attr('title');
+        warship1Name = $('#warship1').attr('title');
         if (warship1Name == null || warship1Name == '')
         {
             warship1Name = $('[aria-describedby=warship1]').find('.ui-dialog-title').text();
@@ -511,7 +517,7 @@
         var selectedModules1 = $('.button_module_selected_1');
         var selectedUpgrades1 = $('.button_upgrade_selected_1');
 
-        var modules1 = [];
+        modules1 = [];
         var upgrades1 = [];
 
         for (var i = 0; i < selectedModules1.length; i++)
@@ -540,7 +546,7 @@
         };
         upgradesSkills.push(upgradesSkills1);
 
-        var warship2Name = $('#warship2').attr('title');
+        warship2Name = $('#warship2').attr('title');
         if (warship2Name == null || warship2Name == '')
         {
             warship2Name = $('[aria-describedby=warship2]').find('.ui-dialog-title').text();
@@ -549,7 +555,7 @@
         var selectedModules2 = $('.button_module_selected_2');
         var selectedUpgrades2 = $('.button_upgrade_selected_2');
 
-        var modules2 = [];
+        modules2 = [];
         var upgrades2 = [];
 
         for (var i = 0; i < selectedModules2.length; i++)
@@ -578,6 +584,23 @@
         };
         upgradesSkills.push(upgradesSkills2);
 
+        consumables1 = [];
+        consumables2 = [];
+
+        var selectedConsumables1 = $('.button_consumable_selected_1');
+        for (var i = 0; i < selectedConsumables1.length; i++)
+        {
+            var consumableId = selectedConsumables1.eq(i).attr('name');
+            consumables1.push(consumableId);
+        }
+
+        var selectedConsumables2 = $('.button_consumable_selected_2');
+        for (var i = 0; i < selectedConsumables2.length; i++)
+        {
+            var consumableId = selectedConsumables2.eq(i).attr('name');
+            consumables2.push(consumableId);
+        }
+
         $.ajax({
             url: '/shipStatComparison?' + warship1 + '&' + warship2,
             type: 'post',
@@ -588,6 +611,9 @@
                 {
                     $('.shipAPIData').replaceWith(data);
                     $('[name=nations]').attr('hidden', 'hidden');
+
+                    setConsumables1();
+                    setConsumables2();
 
                     history.replaceState({
                         warship1: warship1Name,
@@ -630,6 +656,198 @@
             }
         });
     });
+
+    $(document).on('click', '.button_consumable_1', function () {
+        var id = $(this).attr('name');
+        var abil = $(this).attr('class').split(' ')[1];
+        var abilDot = '.' + abil;
+
+        $('.consumablesStats1' + abilDot).attr('style', 'display: none;');
+        $('.button_consumable_selected_1' + abilDot).attr('class', 'button_consumable_1 ' + abil);
+
+        $('#' + id).removeAttr('style');
+        $('[name=' + id + ']').attr('class', 'button_consumable_selected_1 ' + abil);
+
+        var selectedConsumables = $('.button_consumable_selected_1');
+        consumables1 = [];
+        for (var i = 0; i < selectedConsumables.length; i++)
+        {
+            var consumableId = selectedConsumables[i].getAttribute('name');
+
+            consumables1.push(consumableId);
+        }
+
+        history.replaceState({
+            warship1: warship1Name,
+            warship2: warship2Name
+        }, warship1Name + warship2Name, '/shipStatSelection?' + '&ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + encodeURIComponent(JSON.stringify(upgradesSkills)) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
+    });
+
+    $(document).on('click', '.button_consumable_2', function () {
+        var id = $(this).attr('name');
+        var abil = $(this).attr('class').split(' ')[1];
+        var abilDot = '.' + abil;
+
+        $('.consumablesStats2' + abilDot).attr('style', 'display: none;');
+        $('.button_consumable_selected_2' + abilDot).attr('class', 'button_consumable_2 ' + abil);
+
+        $('#' + id).removeAttr('style');
+        $('[name=' + id + ']').attr('class', 'button_consumable_selected_2 ' + abil);
+
+        var selectedConsumables = $('.button_consumable_selected_2');
+        consumables2 = [];
+        for (var i = 0; i < selectedConsumables.length; i++)
+        {
+            var consumableId = selectedConsumables[i].getAttribute('name');
+
+            consumables2.push(consumableId);
+        }
+
+        history.replaceState({
+            warship1: warship1Name,
+            warship2: warship2Name
+        }, warship1Name + warship2Name, '/shipStatSelection?' + '&ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + encodeURIComponent(JSON.stringify(upgradesSkills)) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
+    });
+
+    function setConsumables1()
+    {
+        var list = [[${consumables1}]];
+
+        if (list == null || ([[${warship1}]] != null && [[${warship2}]] != null && ([[${ship1}]] != warship1Name || [[${ship2}]] != warship2Name)))
+        {
+            list = [];
+        }
+
+        var notSelected = $('.button_consumable_1');
+        var selected = $('.button_consumable_selected_1');
+
+        if (selected.length > 0)
+        {
+            list = [];
+
+            for (var i = 0; i < selected.length; i++)
+            {
+                list.push(selected.eq(i).attr('name'));
+            }
+        }
+
+        var allConsumables = [];
+        for (var i = 0; i < notSelected.length; i++)
+        {
+            allConsumables.push(notSelected.eq(i).attr('name'));
+        }
+        for (var i = 0; i < selected.length; i++)
+        {
+            allConsumables.push(selected.eq(i).attr('name'));
+        }
+
+        for (var i = 0; i < list.length; i++)
+        {
+            var mismatch = true;
+
+            for (var j = 0; j < allConsumables.length; j++)
+            {
+                if (list[i] == allConsumables[j])
+                {
+                    mismatch = false;
+                    break;
+                }
+            }
+
+            if (mismatch)
+            {
+                list = [];
+                break;
+            }
+        }
+
+        consumables1 = [];
+        for (var i = 0; i < list.length; i++)
+        {
+            var current = list[i];
+            var abil = $('[name=' + current + ']').attr('class').split(' ')[1];
+
+            $('[name=' + current + ']').attr('class', 'button_consumable_selected_1 ' + abil);
+            consumables1.push(current);
+            $('#' + current).removeAttr('style');
+        }
+
+        history.replaceState({
+            warship1: warship1Name,
+            warship2: warship2Name
+        }, warship1Name + warship2Name, '/shipStatSelection?' + '&ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + encodeURIComponent(JSON.stringify(upgradesSkills)) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
+    }
+
+    function setConsumables2()
+    {
+        var list = [[${consumables2}]];
+
+        if (list == null || ([[${warship1}]] != null && [[${warship2}]] != null && ([[${ship1}]] != warship1Name || [[${ship2}]] != warship2Name)))
+        {
+            list = [];
+        }
+
+        var notSelected = $('.button_consumable_2');
+        var selected = $('.button_consumable_selected_2');
+
+        if (selected.length > 0)
+        {
+            list = [];
+
+            for (var i = 0; i < selected.length; i++)
+            {
+                list.push(selected.eq(i).attr('name'));
+            }
+        }
+
+        var allConsumables = [];
+        for (var i = 0; i < notSelected.length; i++)
+        {
+            allConsumables.push(notSelected.eq(i).attr('name'));
+        }
+        for (var i = 0; i < selected.length; i++)
+        {
+            allConsumables.push(selected.eq(i).attr('name'));
+        }
+
+        for (var i = 0; i < list.length; i++)
+        {
+            var mismatch = true;
+
+            for (var j = 0; j < allConsumables.length; j++)
+            {
+                if (list[i] == allConsumables[j])
+                {
+                    mismatch = false;
+                    break;
+                }
+            }
+
+            if (mismatch)
+            {
+                list = [];
+                break;
+            }
+        }
+
+        consumables2 = [];
+        for (var i = 0; i < list.length; i++)
+        {
+            var current = list[i];
+            var abil = $('[name=' + current + ']').attr('class').split(' ')[1];
+
+            $('[name=' + current + ']').attr('class', 'button_consumable_selected_2 ' + abil);
+            consumables2.push(current);
+            $('#' + current).removeAttr('style');
+        }
+
+        history.replaceState({
+            warship1: warship1Name,
+            warship2: warship2Name
+        }, warship1Name + warship2Name, '/shipStatSelection?' + '&ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + encodeURIComponent(JSON.stringify(upgradesSkills)) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
+    }
+
+
 
     //    ]]>
 </script>

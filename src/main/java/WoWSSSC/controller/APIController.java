@@ -313,6 +313,8 @@ public class APIController
                                     @RequestParam(required = false) String ship2,
                                     @RequestParam(required = false) HashSet<String> modules1,
                                     @RequestParam(required = false) HashSet<String> modules2,
+                                    @RequestParam(required = false) HashSet<String> consumables1,
+                                    @RequestParam(required = false) HashSet<String> consumables2,
                                     @RequestParam(required = false) String upgradesSkills) throws IOException {
         if (request.getMethod().equalsIgnoreCase("post"))
         {
@@ -352,6 +354,8 @@ public class APIController
             redirectAttributes.addFlashAttribute("modules2", modules2);
             redirectAttributes.addFlashAttribute("upgrades1", upgradesSkills1.get("upgrades"));
             redirectAttributes.addFlashAttribute("upgrades2", upgradesSkills2.get("upgrades"));
+            redirectAttributes.addFlashAttribute("consumables1", consumables1);
+            redirectAttributes.addFlashAttribute("consumables2", consumables2);
             redirectAttributes.addFlashAttribute("camo", upgradesSkills1.get("camouflage").get(0));
             redirectAttributes.addFlashAttribute("crewSkills", upgradesSkills1.get("skills"));
             redirectAttributes.addFlashAttribute("flags", upgradesSkills1.get("flags"));
