@@ -195,6 +195,10 @@
     var upgradesSkills = [];
     var consumables1 = [[${consumables1}]];
     var consumables2 = [[${consumables2}]];
+    var selectedConsumables1 = [];
+    var selectedConsumables2 = [];
+    var notSelectedConsumables1 = [];
+    var notSelectedConsumables2 = [];
 
     $().ready(function () {
         if ([[${url}]] != null)
@@ -587,19 +591,23 @@
         consumables1 = [];
         consumables2 = [];
 
-        var selectedConsumables1 = $('.button_consumable_selected_1');
+        selectedConsumables1 = $('.button_consumable_selected_1');
         for (var i = 0; i < selectedConsumables1.length; i++)
         {
             var consumableId = selectedConsumables1.eq(i).attr('name');
             consumables1.push(consumableId);
         }
 
-        var selectedConsumables2 = $('.button_consumable_selected_2');
+        notSelectedConsumables1 = $('.button_consumable_1');
+
+        selectedConsumables2 = $('.button_consumable_selected_2');
         for (var i = 0; i < selectedConsumables2.length; i++)
         {
             var consumableId = selectedConsumables2.eq(i).attr('name');
             consumables2.push(consumableId);
         }
+
+        notSelectedConsumables2 = $('.button_consumable_2');
 
         $.ajax({
             url: '/shipStatComparison?' + warship1 + '&' + warship2,
@@ -618,7 +626,7 @@
                     history.replaceState({
                         warship1: warship1Name,
                         warship2: warship2Name
-                    }, warship1Name + warship2Name, '/shipStatSelection?' + '&ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + encodeURIComponent(JSON.stringify(upgradesSkills)));
+                    }, warship1Name + warship2Name, '/shipStatSelection?' + '&ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + encodeURIComponent(JSON.stringify(upgradesSkills)) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
                 }
                 else
                 {
@@ -716,48 +724,55 @@
         if (list == null || ([[${warship1}]] != null && [[${warship2}]] != null && ([[${ship1}]] != warship1Name || [[${ship2}]] != warship2Name)))
         {
             list = [];
-        }
 
-        var notSelected = $('.button_consumable_1');
-        var selected = $('.button_consumable_selected_1');
-
-        if (selected.length > 0)
-        {
-            list = [];
-
-            for (var i = 0; i < selected.length; i++)
+            for (var i = 0; i < selectedConsumables1.length; i++)
             {
-                list.push(selected.eq(i).attr('name'));
+                list.push(selectedConsumables1.eq(i).attr('name'));
             }
         }
-
-        var allConsumables = [];
-        for (var i = 0; i < notSelected.length; i++)
+        else
         {
-            allConsumables.push(notSelected.eq(i).attr('name'));
-        }
-        for (var i = 0; i < selected.length; i++)
-        {
-            allConsumables.push(selected.eq(i).attr('name'));
-        }
+            var notSelected = $('.button_consumable_1');
+            var selected = $('.button_consumable_selected_1');
 
-        for (var i = 0; i < list.length; i++)
-        {
-            var mismatch = true;
-
-            for (var j = 0; j < allConsumables.length; j++)
+            if (selected.length > 0)
             {
-                if (list[i] == allConsumables[j])
+                list = [];
+
+                for (var i = 0; i < selected.length; i++)
                 {
-                    mismatch = false;
-                    break;
+                    list.push(selected.eq(i).attr('name'));
                 }
             }
 
-            if (mismatch)
+            var allConsumables = [];
+            for (var i = 0; i < notSelected.length; i++)
             {
-                list = [];
-                break;
+                allConsumables.push(notSelected.eq(i).attr('name'));
+            }
+            for (var i = 0; i < selected.length; i++)
+            {
+                allConsumables.push(selected.eq(i).attr('name'));
+            }
+
+            for (var i = 0; i < list.length; i++)
+            {
+                var mismatch = true;
+
+                for (var j = 0; j < allConsumables.length; j++)
+                {
+                    if (list[i] == allConsumables[j])
+                    {
+                        mismatch = false;
+                        break;
+                    }
+                }
+
+                if (mismatch)
+                {
+                    list = [];
+                    break;
+                }
             }
         }
 
@@ -782,51 +797,58 @@
     {
         var list = [[${consumables2}]];
 
-        if (list == null || ([[${warship1}]] != null && [[${warship2}]] != null && ([[${ship1}]] != warship1Name || [[${ship2}]] != warship2Name)))
-        {
-            list = [];
-        }
-
-        var notSelected = $('.button_consumable_2');
-        var selected = $('.button_consumable_selected_2');
-
-        if (selected.length > 0)
+        if (list == null || ([[${warship2}]] != null && [[${warship2}]] != null && ([[${ship2}]] != warship2Name || [[${ship2}]] != warship2Name)))
         {
             list = [];
 
-            for (var i = 0; i < selected.length; i++)
+            for (var i = 0; i < selectedConsumables2.length; i++)
             {
-                list.push(selected.eq(i).attr('name'));
+                list.push(selectedConsumables2.eq(i).attr('name'));
             }
         }
-
-        var allConsumables = [];
-        for (var i = 0; i < notSelected.length; i++)
+        else
         {
-            allConsumables.push(notSelected.eq(i).attr('name'));
-        }
-        for (var i = 0; i < selected.length; i++)
-        {
-            allConsumables.push(selected.eq(i).attr('name'));
-        }
+            var notSelected = $('.button_consumable_2');
+            var selected = $('.button_consumable_selected_2');
 
-        for (var i = 0; i < list.length; i++)
-        {
-            var mismatch = true;
-
-            for (var j = 0; j < allConsumables.length; j++)
+            if (selected.length > 0)
             {
-                if (list[i] == allConsumables[j])
+                list = [];
+
+                for (var i = 0; i < selected.length; i++)
                 {
-                    mismatch = false;
-                    break;
+                    list.push(selected.eq(i).attr('name'));
                 }
             }
 
-            if (mismatch)
+            var allConsumables = [];
+            for (var i = 0; i < notSelected.length; i++)
             {
-                list = [];
-                break;
+                allConsumables.push(notSelected.eq(i).attr('name'));
+            }
+            for (var i = 0; i < selected.length; i++)
+            {
+                allConsumables.push(selected.eq(i).attr('name'));
+            }
+
+            for (var i = 0; i < list.length; i++)
+            {
+                var mismatch = true;
+
+                for (var j = 0; j < allConsumables.length; j++)
+                {
+                    if (list[i] == allConsumables[j])
+                    {
+                        mismatch = false;
+                        break;
+                    }
+                }
+
+                if (mismatch)
+                {
+                    list = [];
+                    break;
+                }
             }
         }
 
@@ -846,8 +868,6 @@
             warship2: warship2Name
         }, warship1Name + warship2Name, '/shipStatSelection?' + '&ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + encodeURIComponent(JSON.stringify(upgradesSkills)) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
     }
-
-
 
     //    ]]>
 </script>
