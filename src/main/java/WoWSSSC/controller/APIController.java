@@ -8,16 +8,20 @@ import WoWSSSC.service.APIService;
 import WoWSSSC.service.GPService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -119,6 +123,12 @@ public class APIController
             else
             {
                 logger.info("Loading " + nation + " " + shipType + " " + ship + " from /warship?" + request.getQueryString());
+
+                if (!skills.contains("tier") && !skills.contains("type_id") && !skills.contains("[]"))
+                {
+                    skills = new String(Base64.getDecoder().decode(skills));
+                    skills = URLDecoder.decode(skills, "UTF-8");
+                }
 
                 HashSet<CrewSkills> crewSkills = skills != null ? mapper.readValue(skills, HashSet.class) : new HashSet<>();
 
@@ -324,6 +334,12 @@ public class APIController
         }
         else
         {
+            if (!upgradesSkills.contains(ship1) && !upgradesSkills.contains(ship2))
+            {
+                upgradesSkills = new String(Base64.getDecoder().decode(upgradesSkills));
+                upgradesSkills = URLDecoder.decode(upgradesSkills, "UTF-8");
+            }
+
             TypeReference<List<HashMap>> typeRef = new TypeReference<List<HashMap>>() {};
             List<HashMap> USs = (upgradesSkills != null) ? mapper.readValue(upgradesSkills, typeRef) : new ArrayList<>();
 

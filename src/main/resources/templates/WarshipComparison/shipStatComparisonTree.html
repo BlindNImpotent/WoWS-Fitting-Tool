@@ -688,7 +688,7 @@
                     history.replaceState({
                         warship1: warship1Name,
                         warship2: warship2Name
-                    }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + encodeURIComponent(JSON.stringify(upgradesSkills)) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
+                    }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
                 }
                 else
                 {
@@ -750,7 +750,7 @@
         history.replaceState({
             warship1: warship1Name,
             warship2: warship2Name
-        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + encodeURIComponent(JSON.stringify(upgradesSkills)) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
+        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
     });
 
     $(document).on('click', '.button_consumable_2', function () {
@@ -776,7 +776,7 @@
         history.replaceState({
             warship1: warship1Name,
             warship2: warship2Name
-        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + encodeURIComponent(JSON.stringify(upgradesSkills)) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
+        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
     });
 
     function setConsumables1()
@@ -844,7 +844,7 @@
         history.replaceState({
             warship1: warship1Name,
             warship2: warship2Name
-        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + encodeURIComponent(JSON.stringify(upgradesSkills)) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
+        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
     }
 
     function setConsumables2()
@@ -911,7 +911,7 @@
         history.replaceState({
             warship1: warship1Name,
             warship2: warship2Name
-        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + encodeURIComponent(JSON.stringify(upgradesSkills)) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
+        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2);
     }
 
     //    ]]>
