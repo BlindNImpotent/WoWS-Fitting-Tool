@@ -326,7 +326,7 @@ public class APIController
                                     @RequestParam(required = false) HashSet<String> consumables2,
                                     @RequestParam(required = false) String upgradesSkills) throws IOException
     {
-        if (StringUtils.isEmpty(ship1) || StringUtils.isEmpty(ship2))
+        if ((StringUtils.isEmpty(ship1) || StringUtils.isEmpty(ship2)) && CollectionUtils.isEmpty(shipList))
         {
             return "redirect:/shipStatComparison";
         }
