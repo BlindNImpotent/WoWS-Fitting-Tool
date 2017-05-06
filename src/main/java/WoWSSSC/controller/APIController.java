@@ -337,6 +337,8 @@ public class APIController
             }
             else
             {
+                logger.info("Loading Ship Comparison from /shipStatSelection?" + request.getQueryString());
+
                 if (!upgradesSkills.contains(ship1) && !upgradesSkills.contains(ship2))
                 {
                     upgradesSkills = new String(Base64.getDecoder().decode(upgradesSkills));
