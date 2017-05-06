@@ -296,7 +296,8 @@
                 selectedFlags.eq(i).attr('class', 'button_flag');
             }
 
-            $('#camouflageCheckbox').attr('checked', false);
+//            $('#camouflageCheckbox').attr('checked', false);
+            document.getElementById('camouflageCheckbox').checked = false;
 
             var selectedConsumables1 = $('.button_consumable_selected_1');
             for (var i = 0; i < selectedConsumables1.length; i++)
