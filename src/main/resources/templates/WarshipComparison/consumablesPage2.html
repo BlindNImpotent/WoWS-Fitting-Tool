@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div id="consumablesData2" th:fragment="consumablesData2" th:unless="${shipAPI2.shipComponents.shipAbilities == null}">
-    <div class="consumables">
+    <div class="consumables" style="float: left;">
         <div class="consumables" th:each="ability : ${shipAPI2.shipComponents.shipAbilities}">
             <th:block th:each="consumable : ${ability.AbilitySlot0.abils}">
                 <li th:each="abil : ${shipAPI2.shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
-                    <button th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1] + '_2'}" th:class="${consumables != null and #sets.contains(consumables2, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected_2 abil0' : 'button_consumable_2 abil0'}">
+                    <button th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1] + '_2'}" th:class="${consumables2 != null and #sets.contains(consumables2, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected_2 abil0' : 'button_consumable_2 abil0'}">
                         <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
                     </button>
                 </li>
@@ -14,7 +14,7 @@
         <div class="consumables" th:each="ability : ${shipAPI2.shipComponents.shipAbilities}">
             <th:block th:each="consumable : ${ability.AbilitySlot1.abils}">
                 <li th:each="abil : ${shipAPI2.shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
-                    <button th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1] + '_2'}" th:class="${consumables != null and #sets.contains(consumables2, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected_2 abil1' : 'button_consumable_2 abil1'}">
+                    <button th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1] + '_2'}" th:class="${consumables2 != null and #sets.contains(consumables2, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected_2 abil1' : 'button_consumable_2 abil1'}">
                         <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
                     </button>
                 </li>
@@ -23,7 +23,7 @@
         <div class="consumables" th:each="ability : ${shipAPI2.shipComponents.shipAbilities}">
             <th:block th:each="consumable : ${ability.AbilitySlot2.abils}">
                 <li th:each="abil : ${shipAPI2.shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
-                    <button th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1] + '_2'}" th:class="${consumables != null and #sets.contains(consumables2, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected_2 abil2' : 'button_consumable_2 abil2'}">
+                    <button th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1] + '_2'}" th:class="${consumables2 != null and #sets.contains(consumables2, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected_2 abil2' : 'button_consumable_2 abil2'}">
                         <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
                     </button>
                 </li>
@@ -32,7 +32,7 @@
         <div class="consumables" th:each="ability : ${shipAPI2.shipComponents.shipAbilities}">
             <th:block th:each="consumable : ${ability.AbilitySlot3.abils}">
                 <li th:each="abil : ${shipAPI2.shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
-                    <button th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1] + '_2'}" th:class="${consumables != null and #sets.contains(consumables2, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected_2 abil3' : 'button_consumable_2 abil3'}">
+                    <button th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1] + '_2'}" th:class="${consumables2 != null and #sets.contains(consumables2, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected_2 abil3' : 'button_consumable_2 abil3'}">
                         <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
                     </button>
                 </li>

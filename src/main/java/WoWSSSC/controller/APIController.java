@@ -74,7 +74,7 @@ public class APIController
     }
 
     @RequestMapping (value = "/WarshipStats", method = RequestMethod.GET)
-    public String WarshipStats(HttpServletRequest request, Model model, @RequestParam(required = false, defaultValue="false") boolean mobile)
+    public String WarshipStats(Model model, @RequestParam(required = false, defaultValue="false") boolean mobile)
     {
         model.addAttribute("data", data);
         model.addAttribute("notification", notification);
@@ -140,7 +140,6 @@ public class APIController
     @RequestMapping (value = "/shipAPI", method = RequestMethod.POST)
     public String getShipAPI
             (
-                    HttpServletRequest request,
                     Model model,
                     @RequestParam(required = false, defaultValue = "") String nation,
                     @RequestParam(required = false, defaultValue = "") String shipType,
