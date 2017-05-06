@@ -18,7 +18,8 @@ public class Scheduler
 
     private final static Logger logger = LoggerFactory.getLogger(Scheduler.class);
 
-    @Scheduled(fixedRate = 24 * 60 * 60 * 1000, initialDelay = 24 * 60 * 60 * 1000)
+//    @Scheduled(fixedRate = 24 * 60 * 60 * 1000, initialDelay = 24 * 60 * 60 * 1000)
+    @Scheduled(cron = "0 0 12 * * ?")
     public void run() throws Exception
     {
         logger.info("Getting API data");

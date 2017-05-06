@@ -324,58 +324,66 @@ public class APIController
                                     @RequestParam(required = false) HashSet<String> modules2,
                                     @RequestParam(required = false) HashSet<String> consumables1,
                                     @RequestParam(required = false) HashSet<String> consumables2,
-                                    @RequestParam(required = false) String upgradesSkills) throws IOException {
-        if (request.getMethod().equalsIgnoreCase("post"))
+                                    @RequestParam(required = false) String upgradesSkills) throws IOException
+    {
+        if (StringUtils.isEmpty(ship1) || StringUtils.isEmpty(ship2))
         {
-            model.addAttribute("warship1", data.get("rawShipData").get(shipList.get(0)));
-            model.addAttribute("warship2", data.get("rawShipData").get(shipList.get(1)));
-
-            return "WarshipComparison/shipStatSelection :: warshipSelection";
+            return "redirect:/shipStatComparison";
         }
         else
         {
-            if (!upgradesSkills.contains(ship1) && !upgradesSkills.contains(ship2))
+            if (request.getMethod().equalsIgnoreCase("post"))
             {
-                upgradesSkills = new String(Base64.getDecoder().decode(upgradesSkills));
-                upgradesSkills = URLDecoder.decode(upgradesSkills, "UTF-8");
+                model.addAttribute("warship1", data.get("rawShipData").get(shipList.get(0)));
+                model.addAttribute("warship2", data.get("rawShipData").get(shipList.get(1)));
+
+                return "WarshipComparison/shipStatSelection :: warshipSelection";
             }
-
-            TypeReference<List<HashMap>> typeRef = new TypeReference<List<HashMap>>() {};
-            List<HashMap> USs = (upgradesSkills != null) ? mapper.readValue(upgradesSkills, typeRef) : new ArrayList<>();
-
-            Warship warship1 = (Warship) data.get("rawShipData").get(ship1);
-            Warship warship2 = (Warship) data.get("rawShipData").get(ship2);
-
-            HashMap<String, List> upgradesSkills1 = new HashMap<>();
-            HashMap<String, List> upgradesSkills2 = new HashMap<>();
-            for (HashMap US : USs) {
-                if (US.get("shipName").equals(ship1))
+            else
+            {
+                if (!upgradesSkills.contains(ship1) && !upgradesSkills.contains(ship2))
                 {
-                    upgradesSkills1 = US;
+                    upgradesSkills = new String(Base64.getDecoder().decode(upgradesSkills));
+                    upgradesSkills = URLDecoder.decode(upgradesSkills, "UTF-8");
                 }
 
-                if (US.get("shipName").equals(ship2))
-                {
-                    upgradesSkills2 = US;
-                }
-            }
-            
-            redirectAttributes.addFlashAttribute("url", "/shipStatComparison?" + request.getQueryString());
-            redirectAttributes.addFlashAttribute("warship1", warship1);
-            redirectAttributes.addFlashAttribute("ship1", ship1);
-            redirectAttributes.addFlashAttribute("warship2", warship2);
-            redirectAttributes.addFlashAttribute("ship2", ship2);
-            redirectAttributes.addFlashAttribute("modules1", modules1);
-            redirectAttributes.addFlashAttribute("modules2", modules2);
-            redirectAttributes.addFlashAttribute("upgrades1", upgradesSkills1.get("upgrades"));
-            redirectAttributes.addFlashAttribute("upgrades2", upgradesSkills2.get("upgrades"));
-            redirectAttributes.addFlashAttribute("consumables1", consumables1);
-            redirectAttributes.addFlashAttribute("consumables2", consumables2);
-            redirectAttributes.addFlashAttribute("camo", upgradesSkills1.get("camouflage").get(0));
-            redirectAttributes.addFlashAttribute("crewSkills", upgradesSkills1.get("skills"));
-            redirectAttributes.addFlashAttribute("flags", upgradesSkills1.get("flags"));
+                TypeReference<List<HashMap>> typeRef = new TypeReference<List<HashMap>>() {};
+                List<HashMap> USs = (upgradesSkills != null) ? mapper.readValue(upgradesSkills, typeRef) : new ArrayList<>();
 
-            return "redirect:/shipStatComparison";
+                Warship warship1 = (Warship) data.get("rawShipData").get(ship1);
+                Warship warship2 = (Warship) data.get("rawShipData").get(ship2);
+
+                HashMap<String, List> upgradesSkills1 = new HashMap<>();
+                HashMap<String, List> upgradesSkills2 = new HashMap<>();
+                for (HashMap US : USs) {
+                    if (US.get("shipName").equals(ship1))
+                    {
+                        upgradesSkills1 = US;
+                    }
+
+                    if (US.get("shipName").equals(ship2))
+                    {
+                        upgradesSkills2 = US;
+                    }
+                }
+
+                redirectAttributes.addFlashAttribute("url", "/shipStatComparison?" + request.getQueryString());
+                redirectAttributes.addFlashAttribute("warship1", warship1);
+                redirectAttributes.addFlashAttribute("ship1", ship1);
+                redirectAttributes.addFlashAttribute("warship2", warship2);
+                redirectAttributes.addFlashAttribute("ship2", ship2);
+                redirectAttributes.addFlashAttribute("modules1", modules1);
+                redirectAttributes.addFlashAttribute("modules2", modules2);
+                redirectAttributes.addFlashAttribute("upgrades1", upgradesSkills1.get("upgrades"));
+                redirectAttributes.addFlashAttribute("upgrades2", upgradesSkills2.get("upgrades"));
+                redirectAttributes.addFlashAttribute("consumables1", consumables1);
+                redirectAttributes.addFlashAttribute("consumables2", consumables2);
+                redirectAttributes.addFlashAttribute("camo", upgradesSkills1.get("camouflage").get(0));
+                redirectAttributes.addFlashAttribute("crewSkills", upgradesSkills1.get("skills"));
+                redirectAttributes.addFlashAttribute("flags", upgradesSkills1.get("flags"));
+
+                return "redirect:/shipStatComparison";
+            }
         }
     }
 
