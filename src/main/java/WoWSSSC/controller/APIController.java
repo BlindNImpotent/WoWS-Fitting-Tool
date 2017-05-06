@@ -326,11 +326,7 @@ public class APIController
                                     @RequestParam(required = false) HashSet<String> consumables2,
                                     @RequestParam(required = false) String upgradesSkills) throws IOException
     {
-        if ((StringUtils.isEmpty(ship1) || StringUtils.isEmpty(ship2)) && CollectionUtils.isEmpty(shipList))
-        {
-            return "redirect:/shipStatComparison";
-        }
-        else
+        if ((StringUtils.isNotEmpty(ship1) && StringUtils.isNotEmpty(ship2)) || !CollectionUtils.isEmpty(shipList))
         {
             if (request.getMethod().equalsIgnoreCase("post"))
             {
@@ -381,10 +377,9 @@ public class APIController
                 redirectAttributes.addFlashAttribute("camo", upgradesSkills1.get("camouflage").get(0));
                 redirectAttributes.addFlashAttribute("crewSkills", upgradesSkills1.get("skills"));
                 redirectAttributes.addFlashAttribute("flags", upgradesSkills1.get("flags"));
-
-                return "redirect:/shipStatComparison";
             }
         }
+        return "redirect:/shipStatComparison";
     }
 
     @RequestMapping (value = "/shipStatComparison", method = RequestMethod.POST)
