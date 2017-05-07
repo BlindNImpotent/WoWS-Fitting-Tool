@@ -24,5 +24,6 @@ public class Scheduler
     {
         logger.info("Getting API data");
         asyncHashMap.run();
+        logger.info("Finished getting API data");
     }
 }
