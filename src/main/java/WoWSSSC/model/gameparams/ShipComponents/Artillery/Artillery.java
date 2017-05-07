@@ -40,7 +40,7 @@ public class Artillery
     private LinkedHashMap<String, List> targetWeightTypeTable;
     private float targetWeightYaw;
 
-    private long barrelDiameter;
+    private int barrelDiameter;
     private long penetrationHE;
     private float penetrationHEFloat;
 

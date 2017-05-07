@@ -129,19 +129,19 @@ public class APIService
             ship.getArtillery().setTotalGuns(totalGuns);
         }
 
-        if (ship.getHull() != null && gameParamsCHM.get(String.valueOf(ship.getHull().getHull_id())) != null)
-        {
-            String tGPHullName = (String) gameParamsCHM.get(String.valueOf(ship.getHull().getHull_id())).get("name");
-
-            List<String> tGPShipHullNameList = mapper.convertValue(gameParamsCHM.get(ship_id), Temporary.class).getShipUpgradeInfo().getModules().get(tGPHullName).getComponents().getHull();
-//            List<String> tGPShipHullNameList = (List<String>) ((HashMap<String, HashMap>) ((HashMap<String, HashMap>) gameParamsCHM.get(ship_id).get("ShipUpgradeInfo")).get(tGPHullName).get("components")).get("hull");
-            if (tGPShipHullNameList.size() == 1)
-            {
-                String tGPShipHullName = tGPShipHullNameList.get(0);
-
-                ship.getConcealment().setVisibilityCoefGK(Float.parseFloat(new DecimalFormat("#").format((double) ((HashMap) gameParamsCHM.get(ship_id).get(tGPShipHullName)).get("visibilityCoefGK"))));
-            }
-        }
+//        if (ship.getHull() != null && gameParamsCHM.get(String.valueOf(ship.getHull().getHull_id())) != null)
+//        {
+//            String tGPHullName = (String) gameParamsCHM.get(String.valueOf(ship.getHull().getHull_id())).get("name");
+//
+//            List<String> tGPShipHullNameList = mapper.convertValue(gameParamsCHM.get(ship_id), Temporary.class).getShipUpgradeInfo().getModules().get(tGPHullName).getComponents().getHull();
+////            List<String> tGPShipHullNameList = (List<String>) ((HashMap<String, HashMap>) ((HashMap<String, HashMap>) gameParamsCHM.get(ship_id).get("ShipUpgradeInfo")).get(tGPHullName).get("components")).get("hull");
+//            if (tGPShipHullNameList.size() == 1)
+//            {
+//                String tGPShipHullName = tGPShipHullNameList.get(0);
+//
+//                ship.getConcealment().setVisibilityCoefGK(Float.parseFloat(new DecimalFormat("#").format((double) ((HashMap) gameParamsCHM.get(ship_id).get(tGPShipHullName)).get("visibilityCoefGK"))));
+//            }
+//        }
     }
 
     public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, String ship_id, String artillery_id, String dive_bomber_id, String engine_id, String fighter_id, String fire_control_id, String flight_control_id, String hull_id, String torpedo_bomber_id, String torpedoes_id, List<String> modules, HashMap<String, List> upgradesSkills) throws Exception
@@ -201,7 +201,7 @@ public class APIService
                 {
                     Consumables temp = (Consumables) data.get("upgrades").get(flag);
 
-                    setFlagsModernization(ship, temp);
+                    setFlagsModernization(ship, shipComponents, temp);
                 }
             });
         }
@@ -214,7 +214,7 @@ public class APIService
                 {
                     Consumables temp = (Consumables) data.get("upgrades").get(upgrade);
 
-                    setFlagsModernization(ship, temp);
+                    setFlagsModernization(ship, shipComponents, temp);
                 }
             });
         }
@@ -301,8 +301,9 @@ public class APIService
                     {
                         if (ship.getArtillery() != null)
                         {
-                            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
-                            int caliber = Integer.parseInt(splitName[0].trim());
+//                            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
+//                            int caliber = Integer.parseInt(splitName[0].trim());
+                            int caliber = shipComponents.getArtillery().getBarrelDiameter();
                             float timeToDeg = 180 / ship.getArtillery().getRotation_time();
 
                             if (caliber <= 139)
@@ -405,8 +406,9 @@ public class APIService
                     {
                         if (ship.getArtillery() != null)
                         {
-                            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
-                            int caliber = Integer.parseInt(splitName[0].trim());
+//                            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
+//                            int caliber = Integer.parseInt(splitName[0].trim());
+                            int caliber = shipComponents.getArtillery().getBarrelDiameter();
 
                             if (caliber <= 139)
                             {
@@ -503,9 +505,9 @@ public class APIService
                     {
                         if (ship.getArtillery() != null)
                         {
-                            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
-                            int caliber = Integer.parseInt(splitName[0].trim());
-
+//                            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
+//                            int caliber = Integer.parseInt(splitName[0].trim());
+                            int caliber = shipComponents.getArtillery().getBarrelDiameter();
                             if (caliber <= 139)
                             {
                                 float tempRatio = ship.getArtillery().getDistance() / ship.getArtillery().getMax_dispersion();
@@ -573,7 +575,7 @@ public class APIService
         return ship;
     }
 
-    private void setFlagsModernization(Ship ship, Consumables consumables)
+    private void setFlagsModernization(Ship ship, ShipComponents shipComponents, Consumables consumables)
     {
         if (ship.getAnti_aircraft() != null)
         {
@@ -593,9 +595,9 @@ public class APIService
 
         if (ship.getArtillery() != null)
         {
-            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
-            int caliber = Integer.parseInt(splitName[0].trim());
-
+//            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
+//            int caliber = Integer.parseInt(splitName[0].trim());
+            int caliber = shipComponents.getArtillery().getBarrelDiameter();
             if (consumables.getProfile().getBurnChanceFactorBig() != null)
             {
                 if (caliber >= 160)
