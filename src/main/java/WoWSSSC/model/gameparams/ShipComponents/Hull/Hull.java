@@ -28,6 +28,8 @@ public class Hull
     private double visibilityCoefFire;
     private double visibilityCoefFireByPlane;
 
+    private int weight;
+
     public void setBurnNodes(List<List> burnNodes)
     {
         this.burnNodes = burnNodes;

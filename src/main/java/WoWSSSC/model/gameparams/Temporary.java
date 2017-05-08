@@ -17,6 +17,7 @@ public class Temporary
     private long id;
     private String name;
     private TypeInfo typeinfo;
+    private int weight;
 
     @JsonProperty(defaultValue = "ShipAbilities")
     private ShipAbilities ShipAbilities;

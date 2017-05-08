@@ -74,10 +74,11 @@ public class GPService
             ShipComponents shipComponents = new ShipComponents();
             Field[] fields = shipComponents.getClass().getDeclaredFields();
 
+            Temporary tempShip = mapper.convertValue(gameParamsCHM.get(ship_id), Temporary.class);
             ShipUpgradeInfo shipUpgradeInfo;
             try
             {
-                shipUpgradeInfo = mapper.convertValue(gameParamsCHM.get(ship_id), Temporary.class).getShipUpgradeInfo();
+                shipUpgradeInfo = tempShip.getShipUpgradeInfo();
             }
             catch (Exception e)
             {
@@ -130,6 +131,11 @@ public class GPService
                             field.setAccessible(true);
                             if (field.getName().equalsIgnoreCase("Artillery"))
                             {
+
+
+
+
+
                                 field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Artillery.class));
                             }
                             else if (field.getName().equalsIgnoreCase("Engine"))
@@ -150,6 +156,8 @@ public class GPService
                 }
             }
             setShipAbilities(shipComponents, ship_id);
+
+            shipComponents.getHull().setWeight(tempShip.getWeight());
 
             return shipComponents;
         }

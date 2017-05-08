@@ -92,7 +92,7 @@
                 <li id="mobility1" style="display: inline-block; float:left; width: 160px;">
                     <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.mobility.max_speed, 1, 1)} + ' kts'"/><br />
                     <br />
-                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.engine.histEnginePower / shipAPI1.shipComponents.hull.tonnage, 1, 2) + ' HP / Ton'}"/><br />
+                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.engine.histEnginePower / shipAPI1.shipComponents.hull.weight, 1, 2) + ' HP / Ton'}"/><br />
                     <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.engine.forwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
                     <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.engine.backwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
                     <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.mobility.rudder_time, 1, 1)} + ' s'"/><br />
@@ -110,7 +110,7 @@
                 <li id="mobility2" style="display: inline-block; float:right; width: 160px;">
                     <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.mobility.max_speed, 1, 1)} + ' kts'"/><br />
                     <br />
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.engine.histEnginePower / shipAPI2.shipComponents.hull.tonnage, 1, 2) + ' HP / Ton'}"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.engine.histEnginePower / shipAPI2.shipComponents.hull.weight, 1, 2) + ' HP / Ton'}"/><br />
                     <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.engine.forwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
                     <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.engine.backwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
                     <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.mobility.rudder_time, 1, 1)} + ' s'"/><br />

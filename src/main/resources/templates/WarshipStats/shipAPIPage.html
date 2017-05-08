@@ -51,7 +51,7 @@
                 <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed, 1, 1)} + ' kts'"/><br />
                 <span style="float: left;">Acceleration</span><br />
                 <span style="float: left;">- Engine Output</span>
-                <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.engine.histEnginePower / shipAPI.shipComponents.hull.tonnage, 1, 2) + ' HP / Ton'}"/><br />
+                <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.engine.histEnginePower / shipAPI.shipComponents.hull.weight, 1, 2) + ' HP / Ton'}"/><br />
                 <span style="float: left;">- Forward</span>
                 <span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.engine.forwardEngineUpTime - configurationAPI.shipComponents.engine.forwardEngineUpTime != 0}" th:text="${'(' + (shipAPI.shipComponents.engine.forwardEngineUpTime - configurationAPI.shipComponents.engine.forwardEngineUpTime) +')'}"/>
                 <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.shipComponents.engine.forwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
