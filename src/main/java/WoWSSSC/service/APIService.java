@@ -144,7 +144,7 @@ public class APIService
 //        }
     }
 
-    public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, String ship_id, String artillery_id, String dive_bomber_id, String engine_id, String fighter_id, String fire_control_id, String flight_control_id, String hull_id, String torpedo_bomber_id, String torpedoes_id, List<String> modules, HashMap<String, List> upgradesSkills) throws Exception
+    public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, String ship_id, String artillery_id, String dive_bomber_id, String engine_id, String fighter_id, String fire_control_id, String flight_control_id, String hull_id, String torpedo_bomber_id, String torpedoes_id, List<String> modules, HashMap<String, List> upgradesSkills, int adrenalineValue) throws Exception
     {
         if (shipHashMap.get(key) == null)
         {
@@ -344,7 +344,22 @@ public class APIService
                     }
                     else if (skill.get("type_id").equals("6"))
                     {
+                        float coef = 1 - ((100 - adrenalineValue) * 0.2f / 100);
 
+                        if (ship.getArtillery() != null)
+                        {
+                            ship.getArtillery().setGun_rate(ship.getArtillery().getGun_rate() / coef);
+                        }
+
+                        if (ship.getTorpedoes() != null)
+                        {
+                            ship.getTorpedoes().setReload_time(ship.getTorpedoes().getReload_time() * coef);
+                        }
+
+                        if (ship.getAtbas() != null)
+                        {
+                            ship.getAtbas().getSlots().values().forEach(slot -> slot.setShot_delay(slot.getShot_delay() * coef));
+                        }
                     }
                     else if (skill.get("type_id").equals("7"))
                     {
@@ -452,6 +467,11 @@ public class APIService
                             });
                         }
 
+                        if (ship.getAtbas() != null)
+                        {
+                            ship.getAtbas().getSlots().values().forEach(slot -> slot.setBurn_probability(slot.getBurn_probability() + 2));
+                        }
+
                         if (ship.getDive_bomber() != null)
                         {
                             ship.getDive_bomber().setBomb_burn_probability(ship.getDive_bomber().getBomb_burn_probability() + 2);
@@ -470,6 +490,11 @@ public class APIService
                     }
                     else if (skill.get("type_id").equals("1"))
                     {
+                        if (ship.getShipComponents() != null)
+                        {
+                            ship.getShipComponents().getHull().setBurnChanceReduction(ship.getShipComponents().getHull().getBurnChanceReduction() / 0.9);
+                            ship.getShipComponents().getHull().setBurnNodesSize(ship.getShipComponents().getHull().getBurnNodesSize() - 1);
+                        }
 
                     }
                     else if (skill.get("type_id").equals("2"))
@@ -924,6 +949,11 @@ public class APIService
 
                     tempAbilities.put(entry.getKey(), tempConsumable);
                 });
+            }
+
+            if (consumables.getProfile().getEngineForwardUpTime() != null)
+            {
+                shipComponents.getEngine().setForwardEngineUpTime(shipComponents.getEngine().getForwardEngineUpTime() * consumables.getProfile().getEngineForwardUpTime().getValue());
             }
         }
     }

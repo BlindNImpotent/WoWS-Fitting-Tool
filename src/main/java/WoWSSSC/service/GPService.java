@@ -1,6 +1,8 @@
 package WoWSSSC.service;
 
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
+import WoWSSSC.model.gameparams.ShipComponents.Engine.Engine;
+import WoWSSSC.model.gameparams.ShipComponents.Hull.Hull;
 import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
@@ -129,6 +131,14 @@ public class GPService
                             if (field.getName().equalsIgnoreCase("Artillery"))
                             {
                                 field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Artillery.class));
+                            }
+                            else if (field.getName().equalsIgnoreCase("Engine"))
+                            {
+                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Engine.class));
+                            }
+                            else if (field.getName().equalsIgnoreCase("Hull"))
+                            {
+                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Hull.class));
                             }
                             else
                             {

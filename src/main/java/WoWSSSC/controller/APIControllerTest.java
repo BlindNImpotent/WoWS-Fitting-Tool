@@ -112,7 +112,7 @@ public class APIControllerTest
             upgradesSkills.put("upgrades", upgrades);
 
             String returnedKey = apiService.setShipAPI(nation, shipType, shipName, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
-            Ship shipAPI = apiService.getUpgradeSkillStats(returnedKey, nation, shipType, shipName, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills);
+            Ship shipAPI = apiService.getUpgradeSkillStats(returnedKey, nation, shipType, shipName, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills, 100);
             model.addAttribute("shipAPI", shipAPI);
 
             if (shipAPI != null)

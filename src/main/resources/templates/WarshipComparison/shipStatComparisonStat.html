@@ -51,8 +51,13 @@
                     <span style="float: left;" th:text="${shipAPI1.hull.range.min} + ' ~ ' + ${shipAPI1.hull.range.max} + ' mm'"/><br />
                     <span style="float: left;" th:if="${shipAPI1.armour.extremities != null}" th:text="${shipAPI1.armour.extremities.min} + ' ~ ' + ${shipAPI1.armour.extremities.max} + ' mm'"/><br />
                     <span style="float: left;" th:if="${shipAPI1.armour.citadel.max > 0}" th:text="${shipAPI1.armour.citadel.max} + ' mm'"/><br />
-                    <span style="float: left" th:text="${#numbers.formatDecimal(shipAPI1.burn, 0, 1)} + ' s'"/><br />
-                    <span style="float: left" th:text="${#numbers.formatDecimal(shipAPI1.flood, 0, 1)} + ' s'"/><br />
+                    <br />
+                    <span style="float: left;" th:text="${shipAPI1.shipComponents.hull.burnNodesSize}"/><br />
+                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.hull.burnChanceReduction * 100, 1, 2) + ' %'}"/><br />
+                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.burn, 1, 1)} + ' s'"/><br />
+                    <br />
+                    <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.hull.floodChance * 100, 1, 'COMMA') + ' %'}"/><br />
+                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.flood, 1, 1)} + ' s'"/><br />
                 </li>
                 <li style="display: inline-block; text-align: center; width: 160px;">
                     <span>Health</span><br />
@@ -60,52 +65,83 @@
                     <span>- Bow -</span><br />
                     <span>- Citadel - </span><br />
                     <span>Burn</span><br />
+                    <span>- Nodes -</span><br />
+                    <span>- Chance Reduction -</span><br />
+                    <span>- Duration- </span><br />
                     <span>Flood</span><br />
+                    <span>- Chance -</span><br />
+                    <span>- Duration -</span><br />
                 </li>
                 <li id="hull2" style="display: inline-block; float:right; width: 160px;">
                     <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.hull.health, 0, 'COMMA')}"/><br />
                     <span style="float: right;" th:text="${shipAPI2.hull.range.min} + ' ~ ' + ${shipAPI2.hull.range.max} + ' mm'"/><br />
                     <span style="float: right;" th:if="${shipAPI2.armour.extremities != null}" th:text="${shipAPI2.armour.extremities.min} + ' ~ ' + ${shipAPI2.armour.extremities.max} + ' mm'"/><br />
                     <span style="float: right;" th:if="${shipAPI2.armour.citadel.max > 0}" th:text="${shipAPI2.armour.citadel.max} + ' mm'"/><br />
-                    <span style="float: right" th:text="${#numbers.formatDecimal(shipAPI2.burn, 0, 1)} + ' s'"/><br />
-                    <span style="float: right" th:text="${#numbers.formatDecimal(shipAPI2.flood, 0, 1)} + ' s'"/><br />
+                    <br />
+                    <span style="float: right;" th:text="${shipAPI2.shipComponents.hull.burnNodesSize}"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.hull.burnChanceReduction * 100, 1, 2) + ' %'}"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.burn, 1, 1)} + ' s'"/><br />
+                    <br />
+                    <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.hull.floodChance * 100, 1, 'COMMA') + ' %'}"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.flood, 1, 1)} + ' s'"/><br />
                 </li>
             </div>
             <br />
             <div th:if="${shipAPI1.mobility != null and shipAPI2.mobility != null}" style="width: 500px; margin: 0 auto; text-align: center">
                 <strong>Mobility</strong><br />
                 <li id="mobility1" style="display: inline-block; float:left; width: 160px;">
-                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.mobility.max_speed, 0, 1)} + ' kts'"/><br />
-                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.mobility.rudder_time, 0, 1)} + ' s'"/><br />
-                    <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.mobility.turning_radius, 0, 'COMMA')} + ' m'"/><br />
+                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.mobility.max_speed, 1, 1)} + ' kts'"/><br />
+                    <br />
+                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.engine.histEnginePower / shipAPI1.shipComponents.hull.tonnage, 1, 2) + ' HP / Ton'}"/><br />
+                    <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.engine.forwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
+                    <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.engine.backwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
+                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.mobility.rudder_time, 1, 1)} + ' s'"/><br />
+                    <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.mobility.turning_radius, 1, 'COMMA')} + ' m'"/><br />
                 </li>
                 <li style="display: inline-block; text-align: center; width: 160px;">
                     <span>Speed</span><br />
+                    <span>Acceleration</span><br />
+                    <span>- Engine Output -</span><br />
+                    <span>- Forward -</span><br />
+                    <span>- Backward -</span><br />
                     <span>Rudder Shift</span><br />
                     <span>Turn Radius</span><br />
                 </li>
                 <li id="mobility2" style="display: inline-block; float:right; width: 160px;">
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.mobility.max_speed, 0, 1)} + ' kts'"/><br />
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.mobility.rudder_time, 0, 1)} + ' s'"/><br />
-                    <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.mobility.turning_radius, 0, 'COMMA')} + ' m'"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.mobility.max_speed, 1, 1)} + ' kts'"/><br />
+                    <br />
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.engine.histEnginePower / shipAPI2.shipComponents.hull.tonnage, 1, 2) + ' HP / Ton'}"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.engine.forwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.engine.backwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.mobility.rudder_time, 1, 1)} + ' s'"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.mobility.turning_radius, 1, 'COMMA')} + ' m'"/><br />
                 </li>
             </div>
             <br />
             <div id="concealment" th:if="${shipAPI1.concealment != null and shipAPI2.concealment != null}" style="width: 500px; margin: 0 auto; text-align: center">
                 <strong>Concealment</strong><br />
                 <li style="display: inline-block; float: left; width: 160px;">
-                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.concealment.detect_distance_by_ship, 0, 1)} + ' km'"/><br />
-                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.concealment.detect_distance_by_plane, 0, 1)} + ' km'"/><br />
+                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.concealment.detect_distance_by_ship, 1, 1)} + ' km'"/><br />
+                    <span style="float: left;" th:text="${'+' + #numbers.formatDecimal(shipAPI1.shipComponents.hull.visibilityCoefFire, 1, 1) + ' km'}"/><br />
+                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.concealment.detect_distance_by_plane, 1, 1)} + ' km'"/><br />
+                    <span style="float: left;" th:text="${'+' + #numbers.formatDecimal(shipAPI1.shipComponents.hull.visibilityCoefFireByPlane, 1, 1) + ' km'}"/><br />
+                    <span style="float: left;" th:text="${'+' + #numbers.formatDecimal(shipAPI1.shipComponents.hull.visibilityCoefATBAByPlane, 1, 1) + ' km'}"/><br />
                     <span th:if="${shipAPI1.artillery != null}" style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.distance, 0, 1)} + ' km'"/><br />
                 </li>
                 <li style="display: inline-block; text-align: center; width: 160px;">
                     <span>Surface</span><br />
+                    <span>- Burn -</span><br />
                     <span>Air</span><br />
+                    <span>- Burn -</span><br />
+                    <span>- AA/Secondary -</span><br />
                     <span th:text="'Stealth Fire'" th:if="${shipAPI1.artillery != null and shipAPI2.artillery != null}"/><br />
                 </li>
                 <li style="display: inline-block; float:right; width: 160px;">
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.concealment.detect_distance_by_ship, 0, 1)} + ' km'"/><br />
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.concealment.detect_distance_by_plane, 0, 1)} + ' km'"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.concealment.detect_distance_by_ship, 1, 1)} + ' km'"/><br />
+                    <span style="float: right;" th:text="${'+' + #numbers.formatDecimal(shipAPI2.shipComponents.hull.visibilityCoefFire, 1, 1) + ' km'}"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.concealment.detect_distance_by_plane, 1, 1)} + ' km'"/><br />
+                    <span style="float: right;" th:text="${'+' + #numbers.formatDecimal(shipAPI2.shipComponents.hull.visibilityCoefFireByPlane, 1, 1) + ' km'}"/><br />
+                    <span style="float: right;" th:text="${'+' + #numbers.formatDecimal(shipAPI2.shipComponents.hull.visibilityCoefATBAByPlane, 1, 1) + ' km'}"/><br />
                     <span th:if="${shipAPI2.artillery != null}" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.distance, 0, 1)} + ' km'"/><br />
                 </li>
             </div>
@@ -240,91 +276,53 @@
                 </div>
                 <th:block th:if="${adrenaline == true}">
                     <script th:inline="javascript">
-                        //    <![CDATA[
+//                        <![CDATA[
 
                         $(function () {
                             var handle1 = $('#custom-handle1').css('width', '2em').css('text-align', 'center');
-                            var originalGunRate1 = parseFloat($('#rof1').text().replace(' RPM', ''));
-                            var DamageHE = parseInt($('#DamageHE1').text().replace(',', '').replace(' hp', ''));
-                            var DamageAP = parseInt($('#DamageAP1').text().replace(',', '').replace(' hp', ''));
-
-                            var rofDiffModified1 = 0;
-                            if (document.getElementById('rofDiff1') != null)
-                            {
-                                rofDiffModified1 = parseFloat(document.getElementById('rofDiff1').textContent.replace('(', '').replace(')', ''));
-                            }
 
                             $('#slider1').slider({
-                                orientation: "horizontal",
-                                range: "min",
+                                orientation: 'horizontal',
+                                range: 'min',
                                 min: 0,
                                 max: 100,
-                                value: 100,
-                                create: function() {
-                                    handle1.text($( this ).slider('value'));
+                                value: [[${adrenalineValue1}]],
+                                create: function(event, ui) {
+                                    handle1.text($(this).slider('value'));
                                 },
-                                slide: function(event, ui) {
+                                slide: function(eent, ui) {
                                     handle1.text(ui.value);
                                 },
                                 change: function (event, ui) {
-                                    test(parseInt(ui.value));
-
-                                    function test(shipHP)
-                                    {
-                                        var coef = 1 - ((100 - shipHP) * 0.2 / 100);
-                                        var newGunRate = (originalGunRate1 / coef);
-
-                                        $('#rof1').text(newGunRate.toFixed(2) + ' RPM');
-                                        $('#reload1').text((60 / newGunRate).toFixed(1) + ' s');
-                                        $('#DPMHE1').text(((newGunRate + 1) * DamageHE).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' hp');
-                                        $('#DPMAP1').text(((newGunRate + 1) * DamageAP).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' hp');
-                                    }
+                                    adrenalineValue1 = $('#custom-handle1').text();
+                                    callAPI();
                                 }
                             })
-                        });
+                        })
 
                         $(function () {
                             var handle2 = $('#custom-handle2').css('width', '2em').css('text-align', 'center');
-                            var originalGunRate2 = parseFloat($('#rof2').text().replace(' RPM', ''));
-                            var DamageHE = parseInt($('#DamageHE2').text().replace(',', '').replace(' hp', ''));
-                            var DamageAP = parseInt($('#DamageAP2').text().replace(',', '').replace(' hp', ''));
-
-                            var rofDiffModified2 = 0;
-                            if (document.getElementById('rofDiff2') != null)
-                            {
-                                rofDiffModified2 = parseFloat(document.getElementById('rofDiff2').textContent.replace('(', '').replace(')', ''));
-                            }
-
+                        
                             $('#slider2').slider({
-                                orientation: "horizontal",
-                                range: "min",
+                                orientation: 'horizontal',
+                                range: 'min',
                                 min: 0,
                                 max: 100,
-                                value: 100,
-                                create: function() {
-                                    handle2.text($( this ).slider('value'));
+                                value: [[${adrenalineValue2}]],
+                                create: function(event, ui) {
+                                    handle2.text($(this).slider('value'));
                                 },
-                                slide: function(event, ui) {
+                                slide: function(eent, ui) {
                                     handle2.text(ui.value);
                                 },
                                 change: function (event, ui) {
-                                    test(parseInt(ui.value));
-
-                                    function test(shipHP)
-                                    {
-                                        var coef = 1 - ((100 - shipHP) * 0.2 / 100);
-                                        var newGunRate = (originalGunRate2 / coef);
-
-                                        $('#rof2').text(newGunRate.toFixed(2) + ' RPM');
-                                        $('#reload2').text((60 / newGunRate).toFixed(1) + ' s');
-                                        $('#DPMHE2').text(((newGunRate + 1) * DamageHE).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' hp');
-                                        $('#DPMAP2').text(((newGunRate + 1) * DamageAP).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' hp');
-                                    }
+                                    adrenalineValue2 = $('#custom-handle2').text();
+                                    callAPI();
                                 }
                             })
-                        });
+                        })
 
-                        //    ]]>
+//                        ]]>
                     </script>
                 </th:block>
             </div>
