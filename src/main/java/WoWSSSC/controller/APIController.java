@@ -21,7 +21,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -329,6 +328,11 @@ public class APIController
                                     @RequestParam(required = false) HashSet<String> consumables1,
                                     @RequestParam(required = false) HashSet<String> consumables2,
                                     @RequestParam(required = false) String upgradesSkills,
+                                    @RequestParam(required = false) String upgrades1,
+                                    @RequestParam(required = false) String upgrades2,
+                                    @RequestParam(required = false) String skills,
+                                    @RequestParam(required = false) HashSet<String> flags,
+                                    @RequestParam(required = false) boolean camo,
                                     @RequestParam(required = false, defaultValue = "100") int adrenalineValue1,
                                     @RequestParam(required = false, defaultValue = "100") int adrenalineValue2) throws IOException
     {
@@ -345,14 +349,43 @@ public class APIController
             {
                 logger.info("Loading Ship Comparison from /shipStatSelection?" + request.getQueryString());
 
-                if (!upgradesSkills.contains(ship1) && !upgradesSkills.contains(ship2))
+                if (upgradesSkills != null && !upgradesSkills.contains(ship1) && !upgradesSkills.contains(ship2))
                 {
-                    upgradesSkills = new String(Base64.getDecoder().decode(upgradesSkills));
-                    upgradesSkills = URLDecoder.decode(upgradesSkills, "UTF-8");
+                    if (StringUtils.isNotEmpty(upgradesSkills))
+                    {
+                        upgradesSkills = new String(Base64.getDecoder().decode(upgradesSkills));
+                        upgradesSkills = URLDecoder.decode(upgradesSkills, "UTF-8");
+                    }
+                }
+                else
+                {
+                    if (StringUtils.isNotEmpty(upgrades1))
+                    {
+                        upgrades1 = new String(Base64.getDecoder().decode(upgrades1));
+                        upgrades1 = URLDecoder.decode(upgrades1, "UTF-8");
+                    }
+
+                    if (StringUtils.isNotEmpty(upgrades2))
+                    {
+                        upgrades2 = new String(Base64.getDecoder().decode(upgrades2));
+                        upgrades2 = URLDecoder.decode(upgrades2, "UTF-8");
+                    }
+
+                    if (StringUtils.isNotEmpty(skills))
+                    {
+                        skills = new String(Base64.getDecoder().decode(skills));
+                        skills = URLDecoder.decode(skills, "UTF-8");
+                    }
                 }
 
-                TypeReference<List<HashMap>> typeRef = new TypeReference<List<HashMap>>() {};
-                List<HashMap> USs = (upgradesSkills != null) ? mapper.readValue(upgradesSkills, typeRef) : new ArrayList<>();
+                TypeReference<List<HashMap>> typeRef1 = new TypeReference<List<HashMap>>() {};
+                List<HashMap> USs = (upgradesSkills != null) ? mapper.readValue(upgradesSkills, typeRef1) : new ArrayList<>();
+
+                TypeReference<HashMap> typeRef2 = new TypeReference<HashMap>() {};
+                HashMap upgrades1Converted = (upgrades1 != null) ? mapper.readValue(upgrades1, typeRef2) : new HashMap();
+                HashMap upgrades2Converted = (upgrades2 != null) ? mapper.readValue(upgrades2, typeRef2) : new HashMap();
+
+                List<HashMap> skillsConverted = (skills != null ) ? mapper.readValue(skills, typeRef1) : new ArrayList<>();
 
                 Warship warship1 = (Warship) data.get("rawShipData").get(ship1);
                 Warship warship2 = (Warship) data.get("rawShipData").get(ship2);
@@ -378,13 +411,26 @@ public class APIController
                 redirectAttributes.addFlashAttribute("ship2", ship2);
                 redirectAttributes.addFlashAttribute("modules1", modules1);
                 redirectAttributes.addFlashAttribute("modules2", modules2);
-                redirectAttributes.addFlashAttribute("upgrades1", upgradesSkills1.get("upgrades"));
-                redirectAttributes.addFlashAttribute("upgrades2", upgradesSkills2.get("upgrades"));
+
+                if (upgradesSkills1.size() > 0 || upgradesSkills2.size() > 0)
+                {
+                    redirectAttributes.addFlashAttribute("upgrades1", upgradesSkills1.get("upgrades"));
+                    redirectAttributes.addFlashAttribute("upgrades2", upgradesSkills2.get("upgrades"));
+                    redirectAttributes.addFlashAttribute("flags", upgradesSkills1.get("flags"));
+                    redirectAttributes.addFlashAttribute("camo", upgradesSkills1.get("camouflage").get(0));
+                    redirectAttributes.addFlashAttribute("crewSkills", upgradesSkills1.get("skills"));
+                }
+                else
+                {
+                    redirectAttributes.addFlashAttribute("upgrades1", upgrades1Converted.get("upgrades"));
+                    redirectAttributes.addFlashAttribute("upgrades2", upgrades2Converted.get("upgrades"));
+                    redirectAttributes.addFlashAttribute("flags", flags);
+                    redirectAttributes.addFlashAttribute("camo", camo);
+                    redirectAttributes.addFlashAttribute("crewSkills", skillsConverted);
+                }
+
                 redirectAttributes.addFlashAttribute("consumables1", consumables1);
                 redirectAttributes.addFlashAttribute("consumables2", consumables2);
-                redirectAttributes.addFlashAttribute("camo", upgradesSkills1.get("camouflage").get(0));
-                redirectAttributes.addFlashAttribute("crewSkills", upgradesSkills1.get("skills"));
-                redirectAttributes.addFlashAttribute("flags", upgradesSkills1.get("flags"));
                 redirectAttributes.addFlashAttribute("adrenalineValue1", adrenalineValue1);
                 redirectAttributes.addFlashAttribute("adrenalineValue2", adrenalineValue2);
             }
@@ -420,38 +466,44 @@ public class APIController
                                           @RequestParam(required = false, defaultValue = "") String Hull2,
                                           @RequestParam(required = false, defaultValue = "") String TorpedoBomber2,
                                           @RequestParam(required = false, defaultValue = "") String Torpedoes2,
-                                          @RequestBody(required = false) List<HashMap> upgradesSkills,
+                                          @RequestBody(required = false) HashMap<String, HashMap> upgradesSkillsV2,
                                           @RequestParam(required = false, defaultValue = "100") int adrenalineValue1,
                                           @RequestParam(required = false, defaultValue = "100") int adrenalineValue2) throws Exception
     {
         HashMap<String, List> upgradesSkills1 = new HashMap<>();
         HashMap<String, List> upgradesSkills2 = new HashMap<>();
 
-        for (HashMap upgradesSkill : upgradesSkills)
+        if (((String) upgradesSkillsV2.get("upgradesSkills1").get("shipName")).equalsIgnoreCase(ship1))
         {
-            if (upgradesSkill.get("shipName").equals(ship1))
-            {
-                upgradesSkills1 = upgradesSkill;
-            }
-
-            if (upgradesSkill.get("shipName").equals(ship2))
-            {
-                upgradesSkills2 = upgradesSkill;
-            }
-
-            if (upgradesSkill.get("skills") != null)
-            {
-                ((List<HashMap>) upgradesSkill.get("skills")).forEach(skill ->
-                {
-                    if (skill.get("tier").equals("2") && skill.get("type_id").equals("6"))
-                    {
-                        model.addAttribute("adrenaline", true);
-                        model.addAttribute("adrenalineValue1", adrenalineValue1);
-                        model.addAttribute("adrenalineValue2", adrenalineValue2);
-                    }
-                });
-            }
+            upgradesSkills1 = upgradesSkillsV2.get("upgradesSkills1");
+            upgradesSkills2 = upgradesSkillsV2.get("upgradesSkills2");
         }
+        else if (((String) upgradesSkillsV2.get("upgradesSkills1").get("shipName")).equalsIgnoreCase(ship2))
+        {
+            upgradesSkills1 = upgradesSkillsV2.get("upgradesSkills2");
+            upgradesSkills2 = upgradesSkillsV2.get("upgradesSkills1");
+        }
+
+        if (upgradesSkillsV2.get("skills").get("skills") != null)
+        {
+            ((List<HashMap>) upgradesSkillsV2.get("skills").get("skills")).forEach(skill ->
+            {
+                if (skill.get("tier").equals("2") && skill.get("type_id").equals("6"))
+                {
+                    model.addAttribute("adrenaline", true);
+                    model.addAttribute("adrenalineValue1", adrenalineValue1);
+                    model.addAttribute("adrenalineValue2", adrenalineValue2);
+                }
+            });
+        }
+
+        upgradesSkills1.put("skills", (List<HashMap>) upgradesSkillsV2.get("skills").get("skills"));
+        upgradesSkills1.put("flags", (List<String>) upgradesSkillsV2.get("flags").get("flags"));
+        upgradesSkills1.put("camouflage", (List<Boolean>) upgradesSkillsV2.get("camouflage").get("camouflage"));
+
+        upgradesSkills2.put("skills", (List<HashMap>) upgradesSkillsV2.get("skills").get("skills"));
+        upgradesSkills2.put("flags", (List<String>) upgradesSkillsV2.get("flags").get("flags"));
+        upgradesSkills2.put("camouflage", (List<Boolean>) upgradesSkillsV2.get("camouflage").get("camouflage"));
 
         logger.info("Ship Comparison");
 
@@ -478,5 +530,12 @@ public class APIController
             model.addAttribute("encyclopedia", data.get("encyclopedia"));
         }
         return "WarshipComparison/shipStatComparisonStat :: shipAPIData";
+    }
+
+    @ResponseBody
+    @RequestMapping (value = "/shortenUrl", method = RequestMethod.POST)
+    public String getShortUrl(@RequestBody String longUrl) throws Exception
+    {
+        return apiService.shortenUrl(longUrl);
     }
 }

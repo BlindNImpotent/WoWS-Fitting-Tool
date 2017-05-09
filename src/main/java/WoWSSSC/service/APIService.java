@@ -1,5 +1,7 @@
 package WoWSSSC.service;
 
+import WoWSSSC.model.bitly.Bitly;
+import WoWSSSC.model.bitly.BitlyData;
 import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
 import WoWSSSC.model.WoWSAPI.consumables.Consumables;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
@@ -19,9 +21,14 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -197,7 +204,7 @@ public class APIService
         {
             flags.forEach(flag ->
             {
-                if (!flag.equals(""))
+                if (!StringUtils.isEmpty(flag))
                 {
                     Consumables temp = (Consumables) data.get("upgrades").get(flag);
 
@@ -210,7 +217,7 @@ public class APIService
         if (upgrades != null)
         {
             upgrades.forEach(upgrade -> {
-                if (!upgrade.equals(""))
+                if (!StringUtils.isEmpty(upgrade))
                 {
                     Consumables temp = (Consumables) data.get("upgrades").get(upgrade);
 
@@ -1061,5 +1068,20 @@ public class APIService
         }
 
         return requiredShipXp + requiredModuleXp;
+    }
+
+    public String shortenUrl(String longUrl) throws Exception
+    {
+        String accessToken = "c1443fd5d0d9d1fee1ac665995c594c01612f595";
+        String bitly = "https://api-ssl.bitly.com/v3/shorten?access_token=" + accessToken + "&longUrl=" + longUrl + "&format=json";
+
+        BitlyData bitlyData = mapper.readValue(new URL(bitly), BitlyData.class);
+
+        if (bitlyData.getStatus_code() == 200)
+        {
+            Bitly bitlyClass = mapper.convertValue(bitlyData.getData(), Bitly.class);
+            return bitlyClass.getUrl();
+        }
+        return "";
     }
 }

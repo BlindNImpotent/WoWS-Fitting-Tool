@@ -195,6 +195,12 @@
     var modules1 = [];
     var modules2 = [];
     var upgradesSkills = [];
+    var upgradesSkillsV2 = {};
+    var upgradesSkills1 = {};
+    var upgradesSkills2 = {};
+    var skills = [];
+    var flags = [];
+    var camouflage = [];
     var consumables1 = [[${consumables1}]] != null ? [[${consumables1}]] : [];
     var consumables2 = [[${consumables2}]] != null ? [[${consumables2}]] : [];
     var list1 = [[${consumables1}]] != null ? [[${consumables1}]] : [];
@@ -552,9 +558,10 @@
 
         var selectedSkills = $('.button_skill_selected');
         var selectedFlags = $('.button_flag_selected');
-        var skills = [];
-        var flags = [];
+        skills = [];
+        flags = [];
         upgradesSkills = [];
+        upgradesSkillsV2 = {};
 
         for (var i = 0; i < selectedSkills.length; i++)
         {
@@ -576,7 +583,7 @@
             flags.push(flagId);
         }
 
-        var camouflage = [$('#camouflageCheckbox').is(':checked')];
+        camouflage = [$('#camouflageCheckbox').is(':checked')];
 
         warship1Name = $('#warship1').attr('title');
         if (warship1Name == null || warship1Name == '')
@@ -609,14 +616,10 @@
             upgrades1.push(upgradeId);
         }
 
-        var upgradesSkills1 = {
+        upgradesSkills1 = {
             shipName: warship1Name,
-            upgrades: upgrades1,
-            skills: skills,
-            camouflage: camouflage,
-            flags: flags
+            upgrades: upgrades1
         };
-        upgradesSkills.push(upgradesSkills1);
 
         warship2Name = $('#warship2').attr('title');
         if (warship2Name == null || warship2Name == '')
@@ -649,14 +652,10 @@
             upgrades2.push(upgradeId);
         }
 
-        var upgradesSkills2 = {
+        upgradesSkills2 = {
             shipName: warship2Name,
-            upgrades: upgrades2,
-            skills: skills,
-            camouflage: camouflage,
-            flags: flags
+            upgrades: upgrades2
         };
-        upgradesSkills.push(upgradesSkills2);
 
         var selectedConsumables1 = $('.button_consumable_selected_1');
         var selectedConsumables2 = $('.button_consumable_selected_2');
@@ -680,11 +679,19 @@
             list2.push(consumableId);
         }
 
+        upgradesSkillsV2 = {
+            upgradesSkills1: upgradesSkills1,
+            upgradesSkills2: upgradesSkills2,
+            skills: { skills: skills },
+            flags: { flags: flags },
+            camouflage: { camouflage: camouflage }
+        };
+
         $.ajax({
             url: '/shipStatComparison?' + warship1 + '&' + warship2,
             type: 'post',
             contentType: "application/json",
-            data: JSON.stringify(upgradesSkills),
+            data: JSON.stringify(upgradesSkillsV2),
             success: function (data) {
                 if (data != '')
                 {
@@ -697,7 +704,7 @@
                     history.replaceState({
                         warship1: warship1Name,
                         warship2: warship2Name
-                    }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
+                    }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgrades1=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills1))) + '&upgrades2=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills2))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&flags=' + flags + '&camo=' + camouflage[0] +'&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
                 }
                 else
                 {
@@ -716,19 +723,15 @@
     });
 
     $(document).on('click', '#shortenURL', function () {
-        var longUrl = window.location.href;
-
-        var json = {
-            longUrl: longUrl
-        };
+        var longUrl = encodeURIComponent(window.location.href);
 
         $.ajax({
-            url: 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyCaUYoTN7aKfyckK9Wd0SyaaFEA7eYoBbg',
+            url: '/shortenUrl',
             type: 'post',
             contentType: "application/json",
-            data: JSON.stringify(json),
+            data: longUrl,
             success: function (data) {
-                $('#shortenUrlAddress').val(data.id);
+                $('#shortenUrlAddress').val(data);
             },
             error: function (data) {
                 console.log(data);
@@ -741,7 +744,7 @@
         var abil = $(this).attr('class').split(' ')[1];
         var abilDot = '.' + abil;
 
-        $('.consumablesStats1' + abilDot).attr('style', 'display: none;');
+        $('.consumablesStats1' + abilDot).attr('style', 'display: none');
         $('.button_consumable_selected_1' + abilDot).attr('class', 'button_consumable_1 ' + abil);
 
         $('#' + id).removeAttr('style');
@@ -759,7 +762,7 @@
         history.replaceState({
             warship1: warship1Name,
             warship2: warship2Name
-        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
+        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgrades1=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills1))) + '&upgrades2=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills2))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&flags=' + flags + '&camo=' + camouflage[0] +'&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
     });
 
     $(document).on('click', '.button_consumable_2', function () {
@@ -785,7 +788,7 @@
         history.replaceState({
             warship1: warship1Name,
             warship2: warship2Name
-        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
+        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgrades1=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills1))) + '&upgrades2=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills2))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&flags=' + flags + '&camo=' + camouflage[0] +'&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
     });
 
     function setConsumables1()
@@ -853,7 +856,7 @@
         history.replaceState({
             warship1: warship1Name,
             warship2: warship2Name
-        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
+        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgrades1=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills1))) + '&upgrades2=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills2))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&flags=' + flags + '&camo=' + camouflage[0] +'&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
     }
 
     function setConsumables2()
@@ -920,7 +923,7 @@
         history.replaceState({
             warship1: warship1Name,
             warship2: warship2Name
-        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgradesSkills=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
+        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgrades1=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills1))) + '&upgrades2=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills2))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&flags=' + flags + '&camo=' + camouflage[0] +'&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
     }
 
     //    ]]>

@@ -581,19 +581,15 @@
     });
 
     $(document).on('click', '#shortenURL', function () {
-        var longUrl = window.location.href;
-
-        var json = {
-            longUrl: longUrl
-        };
+        var longUrl = encodeURIComponent(window.location.href);
 
         $.ajax({
-            url: 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyCaUYoTN7aKfyckK9Wd0SyaaFEA7eYoBbg',
+            url: '/shortenUrl',
             type: 'post',
             contentType: "application/json",
-            data: JSON.stringify(json),
+            data: longUrl,
             success: function (data) {
-                $('#shortenUrlAddress').val(data.id);
+                $('#shortenUrlAddress').val(data);
             },
             error: function (data) {
                 console.log(data);
