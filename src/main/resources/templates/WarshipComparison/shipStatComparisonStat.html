@@ -341,7 +341,7 @@
             <br th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) and (shipAPI1.torpedoes != null or shipAPI2.torpedoes != null)}"/>
             <div th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) and (shipAPI1.torpedoes != null or shipAPI2.torpedoes != null)}" id="torpedoes" style="width: 500px; margin: 0 auto; text-align: center">
                 <strong>Torpedoes</strong><br />
-                <div style="display: inline-block;">
+                <div style="display: inline-block; width: 500px; margin: 0 auto;">
                     <th:block th:if="${shipAPI1.torpedoes != null}" >
                         <th:block th:each="slot : ${shipAPI1.torpedoes.slots}">
                             <u style="float: left; width: 240px;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
