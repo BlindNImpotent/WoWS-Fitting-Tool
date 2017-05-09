@@ -44,6 +44,8 @@ public class Artillery
     private long penetrationHE;
     private float penetrationHEFloat;
 
+    private APShell APShell;
+
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();
 

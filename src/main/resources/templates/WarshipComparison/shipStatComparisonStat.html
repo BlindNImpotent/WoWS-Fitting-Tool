@@ -256,6 +256,10 @@
                         <span style="float: left;" th:id="'DPMAP1'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI1.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
                         <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                         <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
+                        <br />
+                        <span style="float: left;" th:if="${shipAPI1.artillery.distance >= 5}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtFive, 1, 'COMMA') + ' mm'}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.artillery.distance >= 10}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtTen, 1, 'COMMA') + ' mm'}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.artillery.distance >= 15}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtFifteen, 1, 'COMMA') + ' mm'}"/><br />
                     </li>
                     <li style="display: inline-block; text-align: center; vertical-align: top; width: 160px;" th:if="${shipAPI1.artillery.shells.?[value.type == 'AP'].size() > 0 or shipAPI2.artillery.shells.?[value.type == 'AP'].size() > 0}">
                         <span>Damage</span><br />
@@ -263,6 +267,10 @@
                         <span>- DPM -</span><br />
                         <span>Speed</span><br />
                         <span>Mass</span><br />
+                        <span>Penetration</span><br />
+                        <span th:if="${shipAPI1.artillery.distance >= 5 or shipAPI2.artillery.distance >= 5}" th:text="'- 5 km -'"/><br />
+                        <span th:if="${shipAPI1.artillery.distance >= 10 or shipAPI2.artillery.distance >= 10}" th:text="'- 10 km -'"/><br />
+                        <span th:if="${shipAPI1.artillery.distance >= 15 or shipAPI2.artillery.distance >= 15}" th:text="'- 15 km -'"/><br />
                     </li>
                     <li style="display: inline-block; vertical-align: top; float: right; width: 160px;" th:if="${shipAPI2.artillery.shells.?[value.type == 'AP'].size() == 0}">
                     </li>
@@ -272,6 +280,10 @@
                         <span style="float: right;" th:id="'DPMAP2'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI2.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
                         <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                         <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
+                        <br />
+                        <span style="float: right;" th:if="${shipAPI2.artillery.distance >= 5}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtFive, 1, 'COMMA') + ' mm'}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.artillery.distance >= 10}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtTen, 1, 'COMMA') + ' mm'}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.artillery.distance >= 15}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtFifteen, 1, 'COMMA') + ' mm'}"/><br />
                     </li>
                 </div>
                 <th:block th:if="${adrenaline == true}">
@@ -284,8 +296,8 @@
                             $('#slider1').slider({
                                 orientation: 'horizontal',
                                 range: 'min',
-                                min: 0,
                                 max: 100,
+                                min: 0,
                                 value: [[${adrenalineValue1}]],
                                 create: function(event, ui) {
                                     handle1.text($(this).slider('value'));
@@ -329,16 +341,18 @@
             <br th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) and (shipAPI1.torpedoes != null or shipAPI2.torpedoes != null)}"/>
             <div th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) and (shipAPI1.torpedoes != null or shipAPI2.torpedoes != null)}" id="torpedoes" style="width: 500px; margin: 0 auto; text-align: center">
                 <strong>Torpedoes</strong><br />
-                <th:block th:if="${shipAPI1.torpedoes != null}" >
-                    <th:block th:each="slot : ${shipAPI1.torpedoes.slots}">
-                        <u style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
+                <div style="display: inline-block;">
+                    <th:block th:if="${shipAPI1.torpedoes != null}" >
+                        <th:block th:each="slot : ${shipAPI1.torpedoes.slots}">
+                            <u style="float: left; width: 240px;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
+                        </th:block>
                     </th:block>
-                </th:block>
-                <th:block th:if="${shipAPI2.torpedoes != null}">
-                    <th:block th:each="slot : ${shipAPI2.torpedoes.slots}">
-                        <u style="float: right;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
+                    <th:block th:if="${shipAPI2.torpedoes != null}">
+                        <th:block th:each="slot : ${shipAPI2.torpedoes.slots}">
+                            <u style="float: right; width: 240px;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
+                        </th:block>
                     </th:block>
-                </th:block>
+                </div>
                 <br />
                 <div>
                     <li th:if="${shipAPI1.torpedoes == null}" style="display: inline-block; float: left; width: 160px;">
