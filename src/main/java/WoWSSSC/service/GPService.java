@@ -140,6 +140,7 @@ public class GPService
                                 {
                                     Artillery artillery = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Artillery.class);
                                     field.set(shipComponents, artillery);
+
                                     shipComponents.getArtillery().getTurrets().values().forEach(value -> value.getAmmoList().forEach(ammo ->
                                     {
                                         String id = nameToId.get(ammo);
