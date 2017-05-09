@@ -50,11 +50,11 @@ public class APShell
         this.penetration = penetration;
 
         float fiveOne = 1000;
-        float fiveTwo = 1000;
+        float fiveTwo = -1000;
         float tenOne = 1000;
-        float tenTwo = 1000;
+        float tenTwo = -1000;
         float fifteenOne = 1000;
-        float fifteenTwo = 1000;
+        float fifteenTwo = -1000;
 
         for (Map.Entry<Float, Float> entry : penetration.entrySet())
         {
@@ -63,7 +63,7 @@ public class APShell
             {
                 fiveOne = entry.getKey();
             }
-            else if (diffFive <= 0 && Math.abs(diffFive) < fiveTwo)
+            else if (diffFive <= 0 && diffFive > fiveTwo)
             {
                 fiveTwo = entry.getKey();
             }
@@ -73,25 +73,34 @@ public class APShell
             {
                 tenOne = entry.getKey();
             }
-            else if (diffTen <= 0 && Math.abs(diffTen) < tenTwo)
+            else if (diffTen <= 0 && diffTen > tenTwo)
             {
                 tenTwo = entry.getKey();
             }
 
-            float diffFifteen = 10000 - entry.getKey();
+            float diffFifteen = 15000 - entry.getKey();
             if (diffFifteen >= 0 && diffFifteen < fifteenOne)
             {
                 fifteenOne = entry.getKey();
             }
-            else if (diffFifteen <= 0 && Math.abs(diffFifteen) < fifteenTwo)
+            else if (diffFifteen <= 0 && diffFifteen > fifteenTwo)
             {
                 fifteenTwo = entry.getKey();
             }
         }
 
-        penetrationAtFive = setPenetrationAtDistance(fiveOne, penetration.get(fiveOne), fiveTwo, penetration.get(fiveTwo), 5000);
-        penetrationAtTen = setPenetrationAtDistance(tenOne, penetration.get(tenOne), tenTwo, penetration.get(tenTwo), 10000);
-        penetrationAtFifteen = setPenetrationAtDistance(fifteenOne, penetration.get(fifteenOne), fifteenTwo, penetration.get(fifteenTwo), 15000);
+        if (penetration.get(fiveOne) != null && fiveOne > 4000 && penetration.get(fiveTwo) != null && fiveTwo < 6000)
+        {
+            penetrationAtFive = setPenetrationAtDistance(fiveOne, penetration.get(fiveOne), fiveTwo, penetration.get(fiveTwo), 5000);
+        }
+        if (penetration.get(tenOne) != null && tenOne > 9000 && penetration.get(tenTwo) != null && tenTwo < 11000)
+        {
+            penetrationAtTen = setPenetrationAtDistance(tenOne, penetration.get(tenOne), tenTwo, penetration.get(tenTwo), 5000);
+        }
+        if (penetration.get(fifteenOne) != null && fifteenOne > 14000 && penetration.get(fifteenTwo) != null && fifteenTwo < 16000)
+        {
+            penetrationAtFifteen = setPenetrationAtDistance(fifteenOne, penetration.get(fifteenOne), fifteenTwo, penetration.get(fifteenTwo), 5000);
+        }
     }
 
     private float setPenetrationAtDistance(float x1, float y1, float x2, float y2, float target)

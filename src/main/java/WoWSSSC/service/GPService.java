@@ -216,7 +216,7 @@ public class GPService
     {
         // SHELL CONSTANTS
         float C = 0.5561613f; // PENETRATION
-        float a = 9.81f; // GRAVITY
+        float a = 9.80665f; // GRAVITY
         float T_0 = 288f; // TEMPERATURE AT SEA LEVEL
         float L = 0.0065f; // TEMPERATURE LAPSE RATE
         float p_0 = 101325f; // PRESSURE AT SEA LEVEL
