@@ -62,7 +62,7 @@ public class Artillery
 
             if (barrelDiameter < turret.getBarrelDiameter() * 1000)
             {
-                barrelDiameter = (int) turret.getBarrelDiameter() * 1000;
+                barrelDiameter = (int) (turret.getBarrelDiameter() * 1000);
             }
         }
     }
