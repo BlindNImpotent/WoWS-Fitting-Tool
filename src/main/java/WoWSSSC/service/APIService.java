@@ -288,6 +288,20 @@ public class APIService
                     if (skill.get("type_id").equals("0"))
                     {
 
+                        HashMap<String, Consumable> tempAbilities = new HashMap<>();
+
+                        ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                        {
+                            Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+
+                            if (tempConsumable.getName().contains("CrashCrew"))
+                            {
+                                tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * 0.90f));
+                            }
+                            tempAbilities.put(entry.getKey(), tempConsumable);
+                        });
+
+                        ship.getShipComponents().setAbilities(tempAbilities);
                     }
                     else if (skill.get("type_id").equals("1"))
                     {
