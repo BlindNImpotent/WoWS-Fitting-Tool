@@ -161,10 +161,12 @@ public class APIService
         Cloner cloner = new Cloner();
         Ship ship = cloner.deepClone(shipHashMap.get(key));
 
+        Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(shipName);
+
         ShipComponents shipComponents = gpService.setShipGP(nation, shipType, shipName, ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id, modules);
         if (shipComponents.getArtillery() != null)
         {
-            shipComponents.getArtillery().setPenetrationHEWithNation(nation);
+            shipComponents.getArtillery().setPenetrationHEWithNation(warship.getNation(), warship.getDefaultType(), warship.getName());
         }
         ship.setShipComponents(shipComponents);
 
@@ -172,8 +174,6 @@ public class APIService
 
 //        LinkedHashMap<String, LinkedHashMap> nationLHM = (LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation);
 //        Warship warship = (Warship) nationLHM.get(shipType).get(shipName);
-
-        Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(shipName);
 
         if (CollectionUtils.isEmpty(upgradesSkills))
         {

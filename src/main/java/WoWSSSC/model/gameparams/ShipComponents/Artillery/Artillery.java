@@ -67,17 +67,17 @@ public class Artillery
         }
     }
 
-    public void setPenetrationHEWithNation(String nation)
+    public void setPenetrationHEWithNation(String nation, String shipType, String shipName)
     {
-        if ("germany".equalsIgnoreCase(nation))
+        if (("germany".equalsIgnoreCase(nation) && "Battleship".equalsIgnoreCase(shipType)) || shipName.contains("Spree"))
         {
-            penetrationHE = Math.round((float) barrelDiameter / 4);
-            penetrationHEFloat = (float) barrelDiameter / 4;
+            penetrationHE = Math.round((float) barrelDiameter / 4) - 2;
+            penetrationHEFloat = (float) barrelDiameter / 4 - 2;
         }
         else
         {
-            penetrationHE = Math.round((float) barrelDiameter / 6);
-            penetrationHEFloat = (float) barrelDiameter / 6;
+            penetrationHE = Math.round((float) barrelDiameter / 6) - 2;
+            penetrationHEFloat = (float) barrelDiameter / 6 - 2;
         }
     }
 }

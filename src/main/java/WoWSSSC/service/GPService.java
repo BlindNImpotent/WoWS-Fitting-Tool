@@ -136,22 +136,19 @@ public class GPService
                             field.setAccessible(true);
                             if (field.getName().equalsIgnoreCase("Artillery"))
                             {
-                                if (shipComponents.getArtillery() == null)
-                                {
-                                    Artillery artillery = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Artillery.class);
-                                    field.set(shipComponents, artillery);
+                                Artillery artillery = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Artillery.class);
+                                field.set(shipComponents, artillery);
 
-                                    shipComponents.getArtillery().getTurrets().values().forEach(value -> value.getAmmoList().forEach(ammo ->
+                                shipComponents.getArtillery().getTurrets().values().forEach(value -> value.getAmmoList().forEach(ammo ->
+                                {
+                                    String id = nameToId.get(ammo);
+                                    APShell APShell = mapper.convertValue(gameParamsCHM.get(id), APShell.class);
+                                    if ("AP".equalsIgnoreCase(APShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
                                     {
-                                        String id = nameToId.get(ammo);
-                                        APShell APShell = mapper.convertValue(gameParamsCHM.get(id), APShell.class);
-                                        if ("AP".equalsIgnoreCase(APShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
-                                        {
-                                            setAPPenetration(APShell);
-                                            shipComponents.getArtillery().setAPShell(APShell);
-                                        }
-                                    }));
-                                }
+                                        setAPPenetration(APShell);
+                                        shipComponents.getArtillery().setAPShell(APShell);
+                                    }
+                                }));
                             }
                             else if (field.getName().equalsIgnoreCase("Engine"))
                             {
