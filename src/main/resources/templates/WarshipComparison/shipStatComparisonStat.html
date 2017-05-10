@@ -198,12 +198,14 @@
                     </li>
                 </div>
                 <div style="width: 500px; margin: 0 auto; text-align: center" th:if="${shipAPI1.artillery.shells.?[value.type == 'HE'].size() > 0 or shipAPI2.artillery.shells.?[value.type == 'HE'].size() > 0}">
-                    <th:block th:if="${shell.value != null and shell.value.type == 'HE'}" th:each="shell : ${shipAPI1.artillery.shells}">
-                        <u style="float: left;" th:text="${shell.value.type == 'HE'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
-                    </th:block>
-                    <th:block th:if="${shell.value != null and shell.value.type == 'HE'}" th:each="shell : ${shipAPI2.artillery.shells}">
-                        <u style="float: right;" th:text="${shell.value.type == 'HE'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
-                    </th:block>
+                    <div style="width: 500px; display: inline-block;">
+                        <th:block th:if="${shell.value != null and shell.value.type == 'HE'}" th:each="shell : ${shipAPI1.artillery.shells}">
+                            <u style="float: left;" th:text="${shell.value.type == 'HE'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
+                        </th:block>
+                        <th:block th:if="${shell.value != null and shell.value.type == 'HE'}" th:each="shell : ${shipAPI2.artillery.shells}">
+                            <u style="float: right;" th:text="${shell.value.type == 'HE'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
+                        </th:block>
+                    </div>
                     <br />
                     <li style="display: inline-block; vertical-align: top; float: left; width: 160px;" th:if="${shipAPI1.artillery.shells.?[value.type == 'HE'].size() == 0}">
                     </li>
@@ -241,12 +243,14 @@
                     </li>
                 </div>
                 <div style="width: 500px; margin: 0 auto; text-align: center" th:if="${shipAPI1.artillery.shells.?[value.type == 'AP'].size() > 0 or shipAPI2.artillery.shells.?[value.type == 'AP'].size() > 0}">
-                    <th:block th:if="${shell.value != null and shell.value.type == 'AP'}" th:each="shell : ${shipAPI1.artillery.shells}">
-                        <u style="float: left;" th:text="${shell.value.type == 'AP'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
-                    </th:block>
-                    <th:block th:if="${shell.value != null and shell.value.type == 'AP'}" th:each="shell : ${shipAPI2.artillery.shells}">
-                        <u style="float: right;" th:text="${shell.value.type == 'AP'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
-                    </th:block>
+                    <div style="width: 500px; display: inline-block;">
+                        <th:block th:if="${shell.value != null and shell.value.type == 'AP'}" th:each="shell : ${shipAPI1.artillery.shells}">
+                            <u style="float: left;" th:text="${shell.value.type == 'AP'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
+                        </th:block>
+                        <th:block th:if="${shell.value != null and shell.value.type == 'AP'}" th:each="shell : ${shipAPI2.artillery.shells}">
+                            <u style="float: right;" th:text="${shell.value.type == 'AP'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
+                        </th:block>
+                    </div>
                     <br />
                     <li style="display: inline-block; vertical-align: top; float: left; width: 160px;" th:if="${shipAPI1.artillery.shells.?[value.type == 'AP'].size() == 0}">
                     </li>
