@@ -257,9 +257,10 @@
                         <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                         <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
                         <br />
-                        <span style="float: left;" th:if="${shipAPI1.artillery.distance >= 5 and shipAPI1.shipComponents.artillery.APShell.penetrationAtFive > 0}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtFive, 1, 'COMMA') + ' mm'}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.artillery.distance >= 10 and shipAPI1.shipComponents.artillery.APShell.penetrationAtTen > 0}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtTen, 1, 'COMMA') + ' mm'}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.artillery.distance >= 15 and shipAPI1.shipComponents.artillery.APShell.penetrationAtFifteen > 0}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtFifteen, 1, 'COMMA') + ' mm'}"/><br />
+                        <span style="float: left;" th:text="${shipAPI1.shipComponents.artillery.overmatch + ' mm'}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.artillery.distance >= 5 and shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtFive > 0}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtFive, 1, 'COMMA') + ' mm'}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.artillery.distance >= 10 and shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtTen > 0}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtTen, 1, 'COMMA') + ' mm'}"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.artillery.distance >= 15 and shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtFifteen > 0}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtFifteen, 1, 'COMMA') + ' mm'}"/><br />
                     </li>
                     <li style="display: inline-block; text-align: center; vertical-align: top; width: 160px;" th:if="${shipAPI1.artillery.shells.?[value.type == 'AP'].size() > 0 or shipAPI2.artillery.shells.?[value.type == 'AP'].size() > 0}">
                         <span>Damage</span><br />
@@ -268,9 +269,10 @@
                         <span>Speed</span><br />
                         <span>Mass</span><br />
                         <span>Penetration</span><br />
-                        <span th:if="${(shipAPI1.artillery.distance >= 5 or shipAPI2.artillery.distance >= 5) and (shipAPI1.shipComponents.artillery.APShell.penetrationAtFive > 0 or shipAPI2.shipComponents.artillery.APShell.penetrationAtFive > 0)}" th:text="'- 5 km -'"/><br />
-                        <span th:if="${(shipAPI1.artillery.distance >= 10 or shipAPI2.artillery.distance >= 10) and (shipAPI1.shipComponents.artillery.APShell.penetrationAtTen > 0 or shipAPI2.shipComponents.artillery.APShell.penetrationAtTen > 0)}" th:text="'- 10 km -'"/><br />
-                        <span th:if="${(shipAPI1.artillery.distance >= 15 or shipAPI2.artillery.distance >= 15) and (shipAPI1.shipComponents.artillery.APShell.penetrationAtFifteen > 0 or shipAPI2.shipComponents.artillery.APShell.penetrationAtFifteen > 0)}" th:text="'- 15 km -'"/><br />
+                        <span>- Overmatch -</span><br />
+                        <span th:if="${(shipAPI1.artillery.distance >= 5 or shipAPI2.artillery.distance >= 5) and ((shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtFive > 0) or (shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtFive > 0))}" th:text="'- 5 km -'"/><br />
+                        <span th:if="${(shipAPI1.artillery.distance >= 10 or shipAPI2.artillery.distance >= 10) and ((shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtTen > 0) or (shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtTen > 0))}" th:text="'- 10 km -'"/><br />
+                        <span th:if="${(shipAPI1.artillery.distance >= 15 or shipAPI2.artillery.distance >= 15) and ((shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtFifteen > 0) or (shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtFifteen > 0))}" th:text="'- 15 km -'"/><br />
                     </li>
                     <li style="display: inline-block; vertical-align: top; float: right; width: 160px;" th:if="${shipAPI2.artillery.shells.?[value.type == 'AP'].size() == 0}">
                     </li>
@@ -281,9 +283,10 @@
                         <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                         <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
                         <br />
-                        <span style="float: right;" th:if="${shipAPI2.artillery.distance >= 5 and shipAPI2.shipComponents.artillery.APShell.penetrationAtFive > 0}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtFive, 1, 'COMMA') + ' mm'}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.artillery.distance >= 10 and shipAPI2.shipComponents.artillery.APShell.penetrationAtTen > 0}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtTen, 1, 'COMMA') + ' mm'}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.artillery.distance >= 15 and shipAPI2.shipComponents.artillery.APShell.penetrationAtFifteen > 0}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtFifteen, 1, 'COMMA') + ' mm'}"/><br />
+                        <span style="float: right;" th:text="${shipAPI2.shipComponents.artillery.overmatch + ' mm'}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.artillery.distance >= 5 and shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtFive > 0}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtFive, 1, 'COMMA') + ' mm'}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.artillery.distance >= 10 and shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtTen > 0}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtTen, 1, 'COMMA') + ' mm'}"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.artillery.distance >= 15 and shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtFifteen > 0}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtFifteen, 1, 'COMMA') + ' mm'}"/><br />
                     </li>
                 </div>
                 <th:block th:if="${adrenaline == true}">

@@ -46,6 +46,7 @@ public class Artillery
     private int barrelDiameter;
     private long penetrationHE;
     private float penetrationHEFloat;
+    private int overmatch;
 
     private APShell APShell;
 
@@ -63,6 +64,7 @@ public class Artillery
             if (barrelDiameter < turret.getBarrelDiameter() * 1000)
             {
                 barrelDiameter = (int) (turret.getBarrelDiameter() * 1000);
+                overmatch = (int) Math.floor(barrelDiameter / 14.3);
             }
         }
     }
