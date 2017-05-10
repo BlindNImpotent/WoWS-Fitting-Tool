@@ -152,17 +152,11 @@ public class GPService
                             }
                             else if (field.getName().equalsIgnoreCase("Engine"))
                             {
-                                if (shipComponents.getEngine() == null)
-                                {
-                                    field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Engine.class));
-                                }
+                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Engine.class));
                             }
                             else if (field.getName().equalsIgnoreCase("Hull"))
                             {
-                                if (shipComponents.getHull() == null)
-                                {
-                                    field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Hull.class));
-                                }
+                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Hull.class));
                             }
                             else
                             {
