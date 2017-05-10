@@ -8,6 +8,8 @@ import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.gameparams.Consumables.Consumable;
+import WoWSSSC.model.gameparams.ShipUpgradeInfo.Module.Components;
+import WoWSSSC.model.gameparams.ShipUpgradeInfo.Module.Module;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.ShipUpgradeInfo;
 import WoWSSSC.model.gameparams.Temporary;
 import WoWSSSC.model.gameparams.test.Values.ShipAbilities.ShipAbilities;
@@ -109,6 +111,21 @@ public class GPService
 
             moduleNames.remove(null);
 
+            Components components = null;
+
+            for (String name : moduleNames)
+            {
+                for (Field cField : shipUpgradeInfo.getModules().get(name).getComponents().getClass().getDeclaredFields())
+                {
+                    cField.setAccessible(true);
+                    if (cField.get(shipUpgradeInfo.getModules().get(name).getComponents()) != null && CollectionUtils.isNotEmpty(shipUpgradeInfo.getModules().get(name).getComponents().getArtillery()) && shipUpgradeInfo.getModules().get(name).getUcType().equalsIgnoreCase("_Artillery"))
+                    {
+                        components = shipUpgradeInfo.getModules().get(name).getComponents();
+                    }
+                    cField.setAccessible(false);
+                }
+            }
+
             for (String name : moduleNames)
             {
 //                String prev = shipUpgradeInfo.getModules().get(name).getPrev();
@@ -136,7 +153,17 @@ public class GPService
                             field.setAccessible(true);
                             if (field.getName().equalsIgnoreCase("Artillery"))
                             {
-                                Artillery artillery = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Artillery.class);
+                                String tempArtillery = "";
+
+                                for (String s : tempList)
+                                {
+                                    if (components != null && components.getArtillery().contains(s))
+                                    {
+                                        tempArtillery = s;
+                                    }
+                                }
+
+                                Artillery artillery = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempArtillery), Artillery.class);
                                 field.set(shipComponents, artillery);
 
                                 shipComponents.getArtillery().getTurrets().values().forEach(value -> value.getAmmoList().forEach(ammo ->
