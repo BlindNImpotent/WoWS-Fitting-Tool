@@ -379,7 +379,7 @@
             document.getElementById(clickedId).className = 'button_flag';
         }
 
-        $('[aria-describedby=flags]').find('.ui-dialog-title').text(selected.length.toString() + ' / ' + maxFlags);
+        $('[aria-describedby=flags]').find('.ui-dialog-title').text('Flags ' + selected.length.toString() + ' / ' + maxFlags.toString());
 
         callAPI();
     });
