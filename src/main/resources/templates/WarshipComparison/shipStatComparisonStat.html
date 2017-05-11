@@ -16,7 +16,7 @@
 <header>
 </header>
 <main>
-    <div class="shipAPIData" id="shipAPIData" th:fragment="shipAPIData" th:unless="${shipAPI1 == null}" style="margin: 0 auto;">
+    <div class="shipAPIData" id="shipAPIData" th:fragment="shipAPIData" th:unless="${warship1 == null and warship2 == null}" style="margin: 0 auto;">
         <div style="margin: 0 auto;">
             <button id="shipAPI1Button" class="button_ship_comparison" style="margin: 0 15px;">
                 <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship1.defaultType}">
@@ -37,507 +37,510 @@
                 <img th:src="${warship2.images.small}" th:title="${warship2.description}"/><br />
             </button>
             <br />
-            <div id="consumablesData1" th:include="WarshipComparison/consumablesPage1 :: consumablesData1" style="display: inline-block; width: 400px;">
+            <h2 th:if="${shipAPI1 == null and shipAPI2 == null}" th:text="${'Wrong path of research for ' + (warship1.name + ' and/or ' + warship2.name)}"/>
+            <div id="consumablesData1" th:if="${shipAPI1 != null}" th:include="WarshipComparison/consumablesPage1 :: consumablesData1" style="display: inline-block; width: 400px;">
             </div>
-            <div id="consumablesData2" th:include="WarshipComparison/consumablesPage2 :: consumablesData2" style="display: inline-block; width: 400px;">
+            <div id="consumablesData2" th:if="${shipAPI2 != null}" th:include="WarshipComparison/consumablesPage2 :: consumablesData2" style="display: inline-block; width: 400px;">
             </div>
         </div>
         <br />
-        <div id="hullStats" class="hullStats" style="display: inline-block; margin: 0 15px;">
-            <div th:if="${shipAPI1.hull != null and shipAPI2.hull != null}" style="width: 500px; margin: 0 auto; text-align: center">
-                <strong style="text-align: center;">Hull</strong><br />
-                <li id="hull1" style="display: inline-block; float:left; width: 160px;">
-                    <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.hull.health, 0, 'COMMA')}"/><br />
-                    <span style="float: left;" th:text="${shipAPI1.hull.range.min} + ' ~ ' + ${shipAPI1.hull.range.max} + ' mm'"/><br />
-                    <span style="float: left;" th:if="${shipAPI1.armour.extremities != null}" th:text="${shipAPI1.armour.extremities.min} + ' ~ ' + ${shipAPI1.armour.extremities.max} + ' mm'"/><br />
-                    <span style="float: left;" th:if="${shipAPI1.armour.citadel.max > 0}" th:text="${shipAPI1.armour.citadel.max} + ' mm'"/><br />
-                    <br />
-                    <span style="float: left;" th:text="${shipAPI1.shipComponents.hull.burnNodesSize}"/><br />
-                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.hull.burnChanceReduction * 100, 1, 2) + ' %'}"/><br />
-                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.burn, 1, 1)} + ' s'"/><br />
-                    <br />
-                    <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.hull.floodChance * 100, 1, 'COMMA') + ' %'}"/><br />
-                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.flood, 1, 1)} + ' s'"/><br />
-                </li>
-                <li style="display: inline-block; text-align: center; width: 160px;">
-                    <span>Health</span><br />
-                    <span>Armour</span><br />
-                    <span>- Bow -</span><br />
-                    <span>- Citadel - </span><br />
-                    <span>Burn</span><br />
-                    <span>- Nodes -</span><br />
-                    <span>- Chance Reduction -</span><br />
-                    <span>- Duration- </span><br />
-                    <span>Flood</span><br />
-                    <span>- Chance -</span><br />
-                    <span>- Duration -</span><br />
-                </li>
-                <li id="hull2" style="display: inline-block; float:right; width: 160px;">
-                    <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.hull.health, 0, 'COMMA')}"/><br />
-                    <span style="float: right;" th:text="${shipAPI2.hull.range.min} + ' ~ ' + ${shipAPI2.hull.range.max} + ' mm'"/><br />
-                    <span style="float: right;" th:if="${shipAPI2.armour.extremities != null}" th:text="${shipAPI2.armour.extremities.min} + ' ~ ' + ${shipAPI2.armour.extremities.max} + ' mm'"/><br />
-                    <span style="float: right;" th:if="${shipAPI2.armour.citadel.max > 0}" th:text="${shipAPI2.armour.citadel.max} + ' mm'"/><br />
-                    <br />
-                    <span style="float: right;" th:text="${shipAPI2.shipComponents.hull.burnNodesSize}"/><br />
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.hull.burnChanceReduction * 100, 1, 2) + ' %'}"/><br />
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.burn, 1, 1)} + ' s'"/><br />
-                    <br />
-                    <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.hull.floodChance * 100, 1, 'COMMA') + ' %'}"/><br />
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.flood, 1, 1)} + ' s'"/><br />
-                </li>
-            </div>
-            <br />
-            <div th:if="${shipAPI1.mobility != null and shipAPI2.mobility != null}" style="width: 500px; margin: 0 auto; text-align: center">
-                <strong>Mobility</strong><br />
-                <li id="mobility1" style="display: inline-block; float:left; width: 160px;">
-                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.mobility.max_speed, 1, 1)} + ' kts'"/><br />
-                    <br />
-                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.engine.histEnginePower / shipAPI1.shipComponents.hull.weight, 1, 2) + ' HP / Ton'}"/><br />
-                    <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.engine.forwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
-                    <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.engine.backwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
-                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.mobility.rudder_time, 1, 1)} + ' s'"/><br />
-                    <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.mobility.turning_radius, 1, 'COMMA')} + ' m'"/><br />
-                </li>
-                <li style="display: inline-block; text-align: center; width: 160px;">
-                    <span>Speed</span><br />
-                    <span>Acceleration</span><br />
-                    <span>- Engine Output -</span><br />
-                    <span>- Forward -</span><br />
-                    <span>- Backward -</span><br />
-                    <span>Rudder Shift</span><br />
-                    <span>Turn Radius</span><br />
-                </li>
-                <li id="mobility2" style="display: inline-block; float:right; width: 160px;">
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.mobility.max_speed, 1, 1)} + ' kts'"/><br />
-                    <br />
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.engine.histEnginePower / shipAPI2.shipComponents.hull.weight, 1, 2) + ' HP / Ton'}"/><br />
-                    <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.engine.forwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
-                    <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.engine.backwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.mobility.rudder_time, 1, 1)} + ' s'"/><br />
-                    <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.mobility.turning_radius, 1, 'COMMA')} + ' m'"/><br />
-                </li>
-            </div>
-            <br />
-            <div id="concealment" th:if="${shipAPI1.concealment != null and shipAPI2.concealment != null}" style="width: 500px; margin: 0 auto; text-align: center">
-                <strong>Concealment</strong><br />
-                <li style="display: inline-block; float: left; width: 160px;">
-                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.concealment.detect_distance_by_ship, 1, 1)} + ' km'"/><br />
-                    <span style="float: left;" th:text="${'+' + #numbers.formatDecimal(shipAPI1.shipComponents.hull.visibilityCoefFire, 1, 1) + ' km'}"/><br />
-                    <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.concealment.detect_distance_by_plane, 1, 1)} + ' km'"/><br />
-                    <span style="float: left;" th:text="${'+' + #numbers.formatDecimal(shipAPI1.shipComponents.hull.visibilityCoefFireByPlane, 1, 1) + ' km'}"/><br />
-                    <span style="float: left;" th:text="${'+' + #numbers.formatDecimal(shipAPI1.shipComponents.hull.visibilityCoefATBAByPlane, 1, 1) + ' km'}"/><br />
-                    <span th:if="${shipAPI1.artillery != null}" style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.distance, 0, 1)} + ' km'"/><br />
-                </li>
-                <li style="display: inline-block; text-align: center; width: 160px;">
-                    <span>Surface</span><br />
-                    <span>- Burn -</span><br />
-                    <span>Air</span><br />
-                    <span>- Burn -</span><br />
-                    <span>- AA/Secondary -</span><br />
-                    <span th:text="'Stealth Fire'" th:if="${shipAPI1.artillery != null and shipAPI2.artillery != null}"/><br />
-                </li>
-                <li style="display: inline-block; float:right; width: 160px;">
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.concealment.detect_distance_by_ship, 1, 1)} + ' km'"/><br />
-                    <span style="float: right;" th:text="${'+' + #numbers.formatDecimal(shipAPI2.shipComponents.hull.visibilityCoefFire, 1, 1) + ' km'}"/><br />
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.concealment.detect_distance_by_plane, 1, 1)} + ' km'"/><br />
-                    <span style="float: right;" th:text="${'+' + #numbers.formatDecimal(shipAPI2.shipComponents.hull.visibilityCoefFireByPlane, 1, 1) + ' km'}"/><br />
-                    <span style="float: right;" th:text="${'+' + #numbers.formatDecimal(shipAPI2.shipComponents.hull.visibilityCoefATBAByPlane, 1, 1) + ' km'}"/><br />
-                    <span th:if="${shipAPI2.artillery != null}" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.distance, 0, 1)} + ' km'"/><br />
-                </li>
-            </div>
-        </div>
-        <div id="mainWeaponStats" class="mainWeaponStats" style="display: inline-block; margin: 0 15px;" th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) or (shipAPI1.flight_control != null and shipAPI2.flight_control != null)}">
-            <div th:if="${shipAPI1.artillery != null and shipAPI2.artillery != null}" id="artillery" style="width: 500px; margin: 0 auto; text-align: center">
-                <strong>Main Battery</strong><br />
-                <div style="display: inline-block; width: 500px;">
-                    <div style="width: 240px; text-align: left; float: left; display: inline-block;">
-                        <li th:each="slot : ${shipAPI1.artillery.slots}" name="guns">
-                            <u th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
-                        </li>
-                    </div>
-                    <div style="width: 240px; text-align: right; float: right; display: inline-block;">
-                        <li th:each="slot : ${shipAPI2.artillery.slots}" name="guns">
-                            <u th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
-                        </li>
-                    </div>
+        <div th:if="${shipAPI1 != null and shipAPI2 != null}">
+            <div id="hullStats" class="hullStats" style="display: inline-block; margin: 0 15px;">
+                <div th:if="${shipAPI1.hull != null and shipAPI2.hull != null}" style="width: 500px; margin: 0 auto; text-align: center">
+                    <strong style="text-align: center;">Hull</strong><br />
+                    <li id="hull1" style="display: inline-block; float:left; width: 160px;">
+                        <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.hull.health, 0, 'COMMA')}"/><br />
+                        <span style="float: left;" th:text="${shipAPI1.hull.range.min} + ' ~ ' + ${shipAPI1.hull.range.max} + ' mm'"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.armour.extremities != null}" th:text="${shipAPI1.armour.extremities.min} + ' ~ ' + ${shipAPI1.armour.extremities.max} + ' mm'"/><br />
+                        <span style="float: left;" th:if="${shipAPI1.armour.citadel.max > 0}" th:text="${shipAPI1.armour.citadel.max} + ' mm'"/><br />
+                        <br />
+                        <span style="float: left;" th:text="${shipAPI1.shipComponents.hull.burnNodesSize}"/><br />
+                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.hull.burnChanceReduction * 100, 1, 2) + ' %'}"/><br />
+                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.burn, 1, 1)} + ' s'"/><br />
+                        <br />
+                        <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.hull.floodChance * 100, 1, 'COMMA') + ' %'}"/><br />
+                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.flood, 1, 1)} + ' s'"/><br />
+                    </li>
+                    <li style="display: inline-block; text-align: center; width: 160px;">
+                        <span>Health</span><br />
+                        <span>Armour</span><br />
+                        <span>- Bow -</span><br />
+                        <span>- Citadel - </span><br />
+                        <span>Burn</span><br />
+                        <span>- Nodes -</span><br />
+                        <span>- Chance Reduction -</span><br />
+                        <span>- Duration- </span><br />
+                        <span>Flood</span><br />
+                        <span>- Chance -</span><br />
+                        <span>- Duration -</span><br />
+                    </li>
+                    <li id="hull2" style="display: inline-block; float:right; width: 160px;">
+                        <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.hull.health, 0, 'COMMA')}"/><br />
+                        <span style="float: right;" th:text="${shipAPI2.hull.range.min} + ' ~ ' + ${shipAPI2.hull.range.max} + ' mm'"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.armour.extremities != null}" th:text="${shipAPI2.armour.extremities.min} + ' ~ ' + ${shipAPI2.armour.extremities.max} + ' mm'"/><br />
+                        <span style="float: right;" th:if="${shipAPI2.armour.citadel.max > 0}" th:text="${shipAPI2.armour.citadel.max} + ' mm'"/><br />
+                        <br />
+                        <span style="float: right;" th:text="${shipAPI2.shipComponents.hull.burnNodesSize}"/><br />
+                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.hull.burnChanceReduction * 100, 1, 2) + ' %'}"/><br />
+                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.burn, 1, 1)} + ' s'"/><br />
+                        <br />
+                        <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.hull.floodChance * 100, 1, 'COMMA') + ' %'}"/><br />
+                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.flood, 1, 1)} + ' s'"/><br />
+                    </li>
                 </div>
                 <br />
-                <div>
+                <div th:if="${shipAPI1.mobility != null and shipAPI2.mobility != null}" style="width: 500px; margin: 0 auto; text-align: center">
+                    <strong>Mobility</strong><br />
+                    <li id="mobility1" style="display: inline-block; float:left; width: 160px;">
+                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.mobility.max_speed, 1, 1)} + ' kts'"/><br />
+                        <br />
+                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.engine.histEnginePower / shipAPI1.shipComponents.hull.weight, 1, 2) + ' HP / Ton'}"/><br />
+                        <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.engine.forwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
+                        <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.engine.backwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
+                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.mobility.rudder_time, 1, 1)} + ' s'"/><br />
+                        <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.mobility.turning_radius, 1, 'COMMA')} + ' m'"/><br />
+                    </li>
+                    <li style="display: inline-block; text-align: center; width: 160px;">
+                        <span>Speed</span><br />
+                        <span>Acceleration</span><br />
+                        <span>- Engine Output -</span><br />
+                        <span>- Forward -</span><br />
+                        <span>- Backward -</span><br />
+                        <span>Rudder Shift</span><br />
+                        <span>Turn Radius</span><br />
+                    </li>
+                    <li id="mobility2" style="display: inline-block; float:right; width: 160px;">
+                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.mobility.max_speed, 1, 1)} + ' kts'"/><br />
+                        <br />
+                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.engine.histEnginePower / shipAPI2.shipComponents.hull.weight, 1, 2) + ' HP / Ton'}"/><br />
+                        <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.engine.forwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
+                        <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.engine.backwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
+                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.mobility.rudder_time, 1, 1)} + ' s'"/><br />
+                        <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.mobility.turning_radius, 1, 'COMMA')} + ' m'"/><br />
+                    </li>
+                </div>
+                <br />
+                <div id="concealment" th:if="${shipAPI1.concealment != null and shipAPI2.concealment != null}" style="width: 500px; margin: 0 auto; text-align: center">
+                    <strong>Concealment</strong><br />
                     <li style="display: inline-block; float: left; width: 160px;">
-                        <span style="float: left" th:if="${shipAPI1.shipComponents.artillery != null}" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.artillery.sigmaCount, 0, 2)}"/><br />
-                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.distance, 0, 1)} + ' km'"/><br />
-                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.max_dispersion, 0, 1)} + ' m'"/><br />
-                        <span id="reload1" style="float: left;" th:text="${#numbers.formatDecimal(60 / shipAPI1.artillery.gun_rate, 0, 1)} + ' s'"/><br />
-                        <span id="rof1" style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.gun_rate, 0 ,2)} + ' RPM'"/><br />
-                        <div id="slider1" style="width: 100px; float: left">
-                            <div id="custom-handle1" class="ui-slider-handle"></div>
-                        </div><br th:if="${adrenaline == true}" />
-                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.rotation_time, 0, 2)} + ' s'"/><br />
-                        <span style="float: left;" th:text="${#numbers.formatDecimal(180 / shipAPI1.artillery.rotation_time, 0, 1)} + ' deg / s'"/><br />
+                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.concealment.detect_distance_by_ship, 1, 1)} + ' km'"/><br />
+                        <span style="float: left;" th:text="${'+' + #numbers.formatDecimal(shipAPI1.shipComponents.hull.visibilityCoefFire, 1, 1) + ' km'}"/><br />
+                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.concealment.detect_distance_by_plane, 1, 1)} + ' km'"/><br />
+                        <span style="float: left;" th:text="${'+' + #numbers.formatDecimal(shipAPI1.shipComponents.hull.visibilityCoefFireByPlane, 1, 1) + ' km'}"/><br />
+                        <span style="float: left;" th:text="${'+' + #numbers.formatDecimal(shipAPI1.shipComponents.hull.visibilityCoefATBAByPlane, 1, 1) + ' km'}"/><br />
+                        <span th:if="${shipAPI1.artillery != null}" style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.distance, 0, 1)} + ' km'"/><br />
                     </li>
                     <li style="display: inline-block; text-align: center; width: 160px;">
-                        <span>Sigma</span><br />
-                        <span>Distance</span><br />
-                        <span>Dispersion</span><br />
-                        <span>Reload</span><br />
-                        <span>RoF</span><br /><br th:if="${adrenaline == true}" />
-                        <span>Rotation</span><br />
-                        <span>Rotation / 180 deg</span><br />
+                        <span>Surface</span><br />
+                        <span>- Burn -</span><br />
+                        <span>Air</span><br />
+                        <span>- Burn -</span><br />
+                        <span>- AA/Secondary -</span><br />
+                        <span th:text="'Stealth Fire'" th:if="${shipAPI1.artillery != null and shipAPI2.artillery != null}"/><br />
                     </li>
-                    <li style="display: inline-block; float: right; width: 160px;">
-                        <span style="float: right" th:if="${shipAPI2.shipComponents.artillery != null}" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.artillery.sigmaCount, 0, 2)}"/><br />
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.distance, 0, 1)} + ' km'"/><br />
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.max_dispersion, 0, 1)} + ' m'"/><br />
-                        <span id="reload2" style="float: right;" th:text="${#numbers.formatDecimal(60 / shipAPI2.artillery.gun_rate, 0, 1)} + ' s'"/><br />
-                        <span id="rof2" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.gun_rate, 0 ,2)} + ' RPM'"/><br />
-                        <div id="slider2" style="width: 100px; float: right;">
-                            <div id="custom-handle2" class="ui-slider-handle"></div>
-                        </div><br th:if="${adrenaline == true}" />
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.rotation_time, 0, 2)} + ' s'"/><br />
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(180 / shipAPI2.artillery.rotation_time, 0, 1)} + ' deg / s'"/><br />
+                    <li style="display: inline-block; float:right; width: 160px;">
+                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.concealment.detect_distance_by_ship, 1, 1)} + ' km'"/><br />
+                        <span style="float: right;" th:text="${'+' + #numbers.formatDecimal(shipAPI2.shipComponents.hull.visibilityCoefFire, 1, 1) + ' km'}"/><br />
+                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.concealment.detect_distance_by_plane, 1, 1)} + ' km'"/><br />
+                        <span style="float: right;" th:text="${'+' + #numbers.formatDecimal(shipAPI2.shipComponents.hull.visibilityCoefFireByPlane, 1, 1) + ' km'}"/><br />
+                        <span style="float: right;" th:text="${'+' + #numbers.formatDecimal(shipAPI2.shipComponents.hull.visibilityCoefATBAByPlane, 1, 1) + ' km'}"/><br />
+                        <span th:if="${shipAPI2.artillery != null}" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.distance, 0, 1)} + ' km'"/><br />
                     </li>
                 </div>
-                <div style="width: 500px; margin: 0 auto; text-align: center" th:if="${shipAPI1.artillery.shells.?[value.type == 'HE'].size() > 0 or shipAPI2.artillery.shells.?[value.type == 'HE'].size() > 0}">
-                    <div style="width: 500px; display: inline-block;">
-                        <th:block th:if="${shell.value != null and shell.value.type == 'HE'}" th:each="shell : ${shipAPI1.artillery.shells}">
-                            <u style="float: left;" th:text="${shell.value.type == 'HE'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
-                        </th:block>
-                        <th:block th:if="${shell.value != null and shell.value.type == 'HE'}" th:each="shell : ${shipAPI2.artillery.shells}">
-                            <u style="float: right;" th:text="${shell.value.type == 'HE'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
-                        </th:block>
-                    </div>
-                    <br />
-                    <li style="display: inline-block; vertical-align: top; float: left; width: 160px;" th:if="${shipAPI1.artillery.shells.?[value.type == 'HE'].size() == 0}">
-                    </li>
-                    <li style="display: inline-block; vertical-align: top; float: left; width: 160px;" th:if="${shell.value != null and shell.value.type == 'HE'}" th:each="shell : ${shipAPI1.artillery.shells}">
-                        <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
-                        <span style="float: left;" th:id="'DamageHE1'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
-                        <span style="float: left;" th:id="'DPMHE1'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI1.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
-                        <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
-                        <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
-                        <span style="float: left;" th:text="${shipAPI1.shipComponents.artillery.penetrationHE + ' mm'}"/><br />
-                        <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal(shell.value.burn_probability, 0, 1)} + ' %' : ''"/><br />
-                        <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal((100 - (T(java.lang.Math).pow((100 - shell.value.burn_probability) / 100, shipAPI1.artillery.totalGuns)) * 100), 0, 1)} + ' %' : ''"/><br />
-                    </li>
-                    <li style="display: inline-block; text-align: center; vertical-align: top; width: 160px;" th:if="${shipAPI1.artillery.shells.?[value.type == 'HE'].size() > 0 or shipAPI2.artillery.shells.?[value.type == 'HE'].size() > 0}">
-                        <span>Damage</span><br />
-                        <span>- Per Salvo -</span><br />
-                        <span>- DPM -</span><br />
-                        <span>Speed</span><br />
-                        <span>Mass</span><br />
-                        <span>Penetration</span><br />
-                        <span>Burn Probability</span><br />
-                        <span>- Per Salvo -</span><br />
-                    </li>
-                    <li style="display: inline-block; vertical-align: top; float: right; width: 160px;" th:if="${shipAPI2.artillery.shells.?[value.type == 'HE'].size() == 0}">
-                    </li>
-                    <li style="display: inline-block; vertical-align: top; float:right; width: 160px;" th:if="${shell.value != null and shell.value.type =='HE'}" th:each="shell : ${shipAPI2.artillery.shells}">
-                        <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
-                        <span style="float: right;" th:id="'DamageHE2'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
-                        <span style="float: right;" th:id="'DPMHE2'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI2.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
-                        <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
-                        <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
-                        <span style="float: right;" th:text="${shipAPI2.shipComponents.artillery.penetrationHE + ' mm'}"/><br />
-                        <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal(shell.value.burn_probability, 0, 1)} + ' %' : ''"/><br />
-                        <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal((100 - (T(java.lang.Math).pow((100 - shell.value.burn_probability) / 100, shipAPI2.artillery.totalGuns)) * 100), 0, 1)} + ' %' : ''"/><br />
-                    </li>
-                </div>
-                <div style="width: 500px; margin: 0 auto; text-align: center" th:if="${shipAPI1.artillery.shells.?[value.type == 'AP'].size() > 0 or shipAPI2.artillery.shells.?[value.type == 'AP'].size() > 0}">
-                    <div style="width: 500px; display: inline-block;">
-                        <th:block th:if="${shell.value != null and shell.value.type == 'AP'}" th:each="shell : ${shipAPI1.artillery.shells}">
-                            <u style="float: left;" th:text="${shell.value.type == 'AP'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
-                        </th:block>
-                        <th:block th:if="${shell.value != null and shell.value.type == 'AP'}" th:each="shell : ${shipAPI2.artillery.shells}">
-                            <u style="float: right;" th:text="${shell.value.type == 'AP'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
-                        </th:block>
-                    </div>
-                    <br />
-                    <li style="display: inline-block; vertical-align: top; float: left; width: 160px;" th:if="${shipAPI1.artillery.shells.?[value.type == 'AP'].size() == 0}">
-                    </li>
-                    <li style="display: inline-block; vertical-align: top; float: left; width: 160px;" th:if="${shell.value != null and shell.value.type == 'AP'}" th:each="shell : ${shipAPI1.artillery.shells}">
-                        <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
-                        <span style="float: left;" th:id="'DamageAP1'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
-                        <span style="float: left;" th:id="'DPMAP1'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI1.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
-                        <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
-                        <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
-                        <br />
-                        <span style="float: left;" th:text="${shipAPI1.shipComponents.artillery.overmatch + ' mm'}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.artillery.distance >= 5 and shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtFive > 0}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtFive, 1, 'COMMA') + ' mm'}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.artillery.distance >= 10 and shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtTen > 0}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtTen, 1, 'COMMA') + ' mm'}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.artillery.distance >= 15 and shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtFifteen > 0}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtFifteen, 1, 'COMMA') + ' mm'}"/><br />
-                    </li>
-                    <li style="display: inline-block; text-align: center; vertical-align: top; width: 160px;" th:if="${shipAPI1.artillery.shells.?[value.type == 'AP'].size() > 0 or shipAPI2.artillery.shells.?[value.type == 'AP'].size() > 0}">
-                        <span>Damage</span><br />
-                        <span>- Per Salvo -</span><br />
-                        <span>- DPM -</span><br />
-                        <span>Speed</span><br />
-                        <span>Mass</span><br />
-                        <span>Penetration</span><br />
-                        <span>- Overmatch -</span><br />
-                        <span th:if="${(shipAPI1.artillery.distance >= 5 or shipAPI2.artillery.distance >= 5) and ((shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtFive > 0) or (shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtFive > 0))}" th:text="'- 5 km -'"/><br />
-                        <span th:if="${(shipAPI1.artillery.distance >= 10 or shipAPI2.artillery.distance >= 10) and ((shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtTen > 0) or (shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtTen > 0))}" th:text="'- 10 km -'"/><br />
-                        <span th:if="${(shipAPI1.artillery.distance >= 15 or shipAPI2.artillery.distance >= 15) and ((shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtFifteen > 0) or (shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtFifteen > 0))}" th:text="'- 15 km -'"/><br />
-                    </li>
-                    <li style="display: inline-block; vertical-align: top; float: right; width: 160px;" th:if="${shipAPI2.artillery.shells.?[value.type == 'AP'].size() == 0}">
-                    </li>
-                    <li style="display: inline-block; vertical-align: top; float:right; width: 160px;" th:if="${shell.value != null and shell.value.type =='AP'}" th:each="shell : ${shipAPI2.artillery.shells}">
-                        <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
-                        <span style="float: right;" th:id="'DamageAP2'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
-                        <span style="float: right;" th:id="'DPMAP2'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI2.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
-                        <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
-                        <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
-                        <br />
-                        <span style="float: right;" th:text="${shipAPI2.shipComponents.artillery.overmatch + ' mm'}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.artillery.distance >= 5 and shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtFive > 0}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtFive, 1, 'COMMA') + ' mm'}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.artillery.distance >= 10 and shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtTen > 0}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtTen, 1, 'COMMA') + ' mm'}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.artillery.distance >= 15 and shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtFifteen > 0}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtFifteen, 1, 'COMMA') + ' mm'}"/><br />
-                    </li>
-                </div>
-                <th:block th:if="${adrenaline == true}">
-                    <script th:inline="javascript">
-//                        <![CDATA[
-
-                        $(function () {
-                            var handle1 = $('#custom-handle1').css('width', '2em').css('text-align', 'center');
-
-                            $('#slider1').slider({
-                                orientation: 'horizontal',
-                                range: 'min',
-                                max: 100,
-                                min: 0,
-                                value: [[${adrenalineValue1}]],
-                                create: function(event, ui) {
-                                    handle1.text($(this).slider('value'));
-                                },
-                                slide: function(eent, ui) {
-                                    handle1.text(ui.value);
-                                },
-                                change: function (event, ui) {
-                                    adrenalineValue1 = $('#custom-handle1').text();
-                                    callAPI();
-                                }
-                            })
-                        })
-
-                        $(function () {
-                            var handle2 = $('#custom-handle2').css('width', '2em').css('text-align', 'center');
-                        
-                            $('#slider2').slider({
-                                orientation: 'horizontal',
-                                range: 'min',
-                                min: 0,
-                                max: 100,
-                                value: [[${adrenalineValue2}]],
-                                create: function(event, ui) {
-                                    handle2.text($(this).slider('value'));
-                                },
-                                slide: function(eent, ui) {
-                                    handle2.text(ui.value);
-                                },
-                                change: function (event, ui) {
-                                    adrenalineValue2 = $('#custom-handle2').text();
-                                    callAPI();
-                                }
-                            })
-                        })
-
-//                        ]]>
-                    </script>
-                </th:block>
             </div>
-            <br th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) and (shipAPI1.torpedoes != null or shipAPI2.torpedoes != null)}"/>
-            <div th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) and (shipAPI1.torpedoes != null or shipAPI2.torpedoes != null)}" id="torpedoes" style="width: 500px; margin: 0 auto; text-align: center">
-                <strong>Torpedoes</strong><br />
-                <div style="display: inline-block; width: 500px; margin: 0 auto;">
-                    <th:block th:if="${shipAPI1.torpedoes != null}" >
-                        <th:block th:each="slot : ${shipAPI1.torpedoes.slots}">
-                            <u style="float: left; width: 240px;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
-                        </th:block>
+            <div id="mainWeaponStats" class="mainWeaponStats" style="display: inline-block; margin: 0 15px;" th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) or (shipAPI1.flight_control != null and shipAPI2.flight_control != null)}">
+                <div th:if="${shipAPI1.artillery != null and shipAPI2.artillery != null}" id="artillery" style="width: 500px; margin: 0 auto; text-align: center">
+                    <strong>Main Battery</strong><br />
+                    <div style="display: inline-block; width: 500px;">
+                        <div style="width: 240px; text-align: left; float: left; display: inline-block;">
+                            <li th:each="slot : ${shipAPI1.artillery.slots}" name="guns">
+                                <u th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
+                            </li>
+                        </div>
+                        <div style="width: 240px; text-align: right; float: right; display: inline-block;">
+                            <li th:each="slot : ${shipAPI2.artillery.slots}" name="guns">
+                                <u th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
+                            </li>
+                        </div>
+                    </div>
+                    <br />
+                    <div>
+                        <li style="display: inline-block; float: left; width: 160px;">
+                            <span style="float: left" th:if="${shipAPI1.shipComponents.artillery != null}" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.artillery.sigmaCount, 0, 2)}"/><br />
+                            <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.distance, 0, 1)} + ' km'"/><br />
+                            <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.max_dispersion, 0, 1)} + ' m'"/><br />
+                            <span id="reload1" style="float: left;" th:text="${#numbers.formatDecimal(60 / shipAPI1.artillery.gun_rate, 0, 1)} + ' s'"/><br />
+                            <span id="rof1" style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.gun_rate, 0 ,2)} + ' RPM'"/><br />
+                            <div id="slider1" style="width: 100px; float: left">
+                                <div id="custom-handle1" class="ui-slider-handle"></div>
+                            </div><br th:if="${adrenaline == true}" />
+                            <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.rotation_time, 0, 2)} + ' s'"/><br />
+                            <span style="float: left;" th:text="${#numbers.formatDecimal(180 / shipAPI1.artillery.rotation_time, 0, 1)} + ' deg / s'"/><br />
+                        </li>
+                        <li style="display: inline-block; text-align: center; width: 160px;">
+                            <span>Sigma</span><br />
+                            <span>Distance</span><br />
+                            <span>Dispersion</span><br />
+                            <span>Reload</span><br />
+                            <span>RoF</span><br /><br th:if="${adrenaline == true}" />
+                            <span>Rotation</span><br />
+                            <span>Rotation / 180 deg</span><br />
+                        </li>
+                        <li style="display: inline-block; float: right; width: 160px;">
+                            <span style="float: right" th:if="${shipAPI2.shipComponents.artillery != null}" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.artillery.sigmaCount, 0, 2)}"/><br />
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.distance, 0, 1)} + ' km'"/><br />
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.max_dispersion, 0, 1)} + ' m'"/><br />
+                            <span id="reload2" style="float: right;" th:text="${#numbers.formatDecimal(60 / shipAPI2.artillery.gun_rate, 0, 1)} + ' s'"/><br />
+                            <span id="rof2" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.gun_rate, 0 ,2)} + ' RPM'"/><br />
+                            <div id="slider2" style="width: 100px; float: right;">
+                                <div id="custom-handle2" class="ui-slider-handle"></div>
+                            </div><br th:if="${adrenaline == true}" />
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.rotation_time, 0, 2)} + ' s'"/><br />
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(180 / shipAPI2.artillery.rotation_time, 0, 1)} + ' deg / s'"/><br />
+                        </li>
+                    </div>
+                    <div style="width: 500px; margin: 0 auto; text-align: center" th:if="${shipAPI1.artillery.shells.?[value.type == 'HE'].size() > 0 or shipAPI2.artillery.shells.?[value.type == 'HE'].size() > 0}">
+                        <div style="width: 500px; display: inline-block;">
+                            <th:block th:if="${shell.value != null and shell.value.type == 'HE'}" th:each="shell : ${shipAPI1.artillery.shells}">
+                                <u style="float: left;" th:text="${shell.value.type == 'HE'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
+                            </th:block>
+                            <th:block th:if="${shell.value != null and shell.value.type == 'HE'}" th:each="shell : ${shipAPI2.artillery.shells}">
+                                <u style="float: right;" th:text="${shell.value.type == 'HE'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
+                            </th:block>
+                        </div>
+                        <br />
+                        <li style="display: inline-block; vertical-align: top; float: left; width: 160px;" th:if="${shipAPI1.artillery.shells.?[value.type == 'HE'].size() == 0}">
+                        </li>
+                        <li style="display: inline-block; vertical-align: top; float: left; width: 160px;" th:if="${shell.value != null and shell.value.type == 'HE'}" th:each="shell : ${shipAPI1.artillery.shells}">
+                            <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
+                            <span style="float: left;" th:id="'DamageHE1'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
+                            <span style="float: left;" th:id="'DPMHE1'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI1.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
+                            <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
+                            <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
+                            <span style="float: left;" th:text="${shipAPI1.shipComponents.artillery.penetrationHE + ' mm'}"/><br />
+                            <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal(shell.value.burn_probability, 0, 1)} + ' %' : ''"/><br />
+                            <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal((100 - (T(java.lang.Math).pow((100 - shell.value.burn_probability) / 100, shipAPI1.artillery.totalGuns)) * 100), 0, 1)} + ' %' : ''"/><br />
+                        </li>
+                        <li style="display: inline-block; text-align: center; vertical-align: top; width: 160px;" th:if="${shipAPI1.artillery.shells.?[value.type == 'HE'].size() > 0 or shipAPI2.artillery.shells.?[value.type == 'HE'].size() > 0}">
+                            <span>Damage</span><br />
+                            <span>- Per Salvo -</span><br />
+                            <span>- DPM -</span><br />
+                            <span>Speed</span><br />
+                            <span>Mass</span><br />
+                            <span>Penetration</span><br />
+                            <span>Burn Probability</span><br />
+                            <span>- Per Salvo -</span><br />
+                        </li>
+                        <li style="display: inline-block; vertical-align: top; float: right; width: 160px;" th:if="${shipAPI2.artillery.shells.?[value.type == 'HE'].size() == 0}">
+                        </li>
+                        <li style="display: inline-block; vertical-align: top; float:right; width: 160px;" th:if="${shell.value != null and shell.value.type =='HE'}" th:each="shell : ${shipAPI2.artillery.shells}">
+                            <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
+                            <span style="float: right;" th:id="'DamageHE2'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
+                            <span style="float: right;" th:id="'DPMHE2'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI2.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
+                            <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
+                            <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
+                            <span style="float: right;" th:text="${shipAPI2.shipComponents.artillery.penetrationHE + ' mm'}"/><br />
+                            <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal(shell.value.burn_probability, 0, 1)} + ' %' : ''"/><br />
+                            <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal((100 - (T(java.lang.Math).pow((100 - shell.value.burn_probability) / 100, shipAPI2.artillery.totalGuns)) * 100), 0, 1)} + ' %' : ''"/><br />
+                        </li>
+                    </div>
+                    <div style="width: 500px; margin: 0 auto; text-align: center" th:if="${shipAPI1.artillery.shells.?[value.type == 'AP'].size() > 0 or shipAPI2.artillery.shells.?[value.type == 'AP'].size() > 0}">
+                        <div style="width: 500px; display: inline-block;">
+                            <th:block th:if="${shell.value != null and shell.value.type == 'AP'}" th:each="shell : ${shipAPI1.artillery.shells}">
+                                <u style="float: left;" th:text="${shell.value.type == 'AP'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
+                            </th:block>
+                            <th:block th:if="${shell.value != null and shell.value.type == 'AP'}" th:each="shell : ${shipAPI2.artillery.shells}">
+                                <u style="float: right;" th:text="${shell.value.type == 'AP'} ? ${shell.value.name} + ' (' + ${shell.value.type} + ')' : ''"/>
+                            </th:block>
+                        </div>
+                        <br />
+                        <li style="display: inline-block; vertical-align: top; float: left; width: 160px;" th:if="${shipAPI1.artillery.shells.?[value.type == 'AP'].size() == 0}">
+                        </li>
+                        <li style="display: inline-block; vertical-align: top; float: left; width: 160px;" th:if="${shell.value != null and shell.value.type == 'AP'}" th:each="shell : ${shipAPI1.artillery.shells}">
+                            <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
+                            <span style="float: left;" th:id="'DamageAP1'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
+                            <span style="float: left;" th:id="'DPMAP1'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI1.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
+                            <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
+                            <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
+                            <br />
+                            <span style="float: left;" th:text="${shipAPI1.shipComponents.artillery.overmatch + ' mm'}"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.artillery.distance >= 5 and shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtFive > 0}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtFive, 1, 'COMMA') + ' mm'}"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.artillery.distance >= 10 and shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtTen > 0}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtTen, 1, 'COMMA') + ' mm'}"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.artillery.distance >= 15 and shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtFifteen > 0}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtFifteen, 1, 'COMMA') + ' mm'}"/><br />
+                        </li>
+                        <li style="display: inline-block; text-align: center; vertical-align: top; width: 160px;" th:if="${shipAPI1.artillery.shells.?[value.type == 'AP'].size() > 0 or shipAPI2.artillery.shells.?[value.type == 'AP'].size() > 0}">
+                            <span>Damage</span><br />
+                            <span>- Per Salvo -</span><br />
+                            <span>- DPM -</span><br />
+                            <span>Speed</span><br />
+                            <span>Mass</span><br />
+                            <span>Penetration</span><br />
+                            <span>- Overmatch -</span><br />
+                            <span th:if="${(shipAPI1.artillery.distance >= 5 or shipAPI2.artillery.distance >= 5) and ((shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtFive > 0) or (shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtFive > 0))}" th:text="'- 5 km -'"/><br />
+                            <span th:if="${(shipAPI1.artillery.distance >= 10 or shipAPI2.artillery.distance >= 10) and ((shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtTen > 0) or (shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtTen > 0))}" th:text="'- 10 km -'"/><br />
+                            <span th:if="${(shipAPI1.artillery.distance >= 15 or shipAPI2.artillery.distance >= 15) and ((shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtFifteen > 0) or (shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtFifteen > 0))}" th:text="'- 15 km -'"/><br />
+                        </li>
+                        <li style="display: inline-block; vertical-align: top; float: right; width: 160px;" th:if="${shipAPI2.artillery.shells.?[value.type == 'AP'].size() == 0}">
+                        </li>
+                        <li style="display: inline-block; vertical-align: top; float:right; width: 160px;" th:if="${shell.value != null and shell.value.type =='AP'}" th:each="shell : ${shipAPI2.artillery.shells}">
+                            <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.damage, 0, 'COMMA')} + ' hp' : ''"/><br />
+                            <span style="float: right;" th:id="'DamageAP2'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns, 1, 'COMMA')} + ' hp'"/><br />
+                            <span style="float: right;" th:id="'DPMAP2'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI2.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
+                            <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
+                            <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
+                            <br />
+                            <span style="float: right;" th:text="${shipAPI2.shipComponents.artillery.overmatch + ' mm'}"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.artillery.distance >= 5 and shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtFive > 0}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtFive, 1, 'COMMA') + ' mm'}"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.artillery.distance >= 10 and shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtTen > 0}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtTen, 1, 'COMMA') + ' mm'}"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.artillery.distance >= 15 and shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtFifteen > 0}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtFifteen, 1, 'COMMA') + ' mm'}"/><br />
+                        </li>
+                    </div>
+                    <th:block th:if="${adrenaline == true}">
+                        <script th:inline="javascript">
+                            //                        <![CDATA[
+
+                            $(function () {
+                                var handle1 = $('#custom-handle1').css('width', '2em').css('text-align', 'center');
+
+                                $('#slider1').slider({
+                                    orientation: 'horizontal',
+                                    range: 'min',
+                                    max: 100,
+                                    min: 0,
+                                    value: [[${adrenalineValue1}]],
+                                    create: function(event, ui) {
+                                        handle1.text($(this).slider('value'));
+                                    },
+                                    slide: function(eent, ui) {
+                                        handle1.text(ui.value);
+                                    },
+                                    change: function (event, ui) {
+                                        adrenalineValue1 = $('#custom-handle1').text();
+                                        callAPI();
+                                    }
+                                })
+                            })
+
+                            $(function () {
+                                var handle2 = $('#custom-handle2').css('width', '2em').css('text-align', 'center');
+
+                                $('#slider2').slider({
+                                    orientation: 'horizontal',
+                                    range: 'min',
+                                    min: 0,
+                                    max: 100,
+                                    value: [[${adrenalineValue2}]],
+                                    create: function(event, ui) {
+                                        handle2.text($(this).slider('value'));
+                                    },
+                                    slide: function(eent, ui) {
+                                        handle2.text(ui.value);
+                                    },
+                                    change: function (event, ui) {
+                                        adrenalineValue2 = $('#custom-handle2').text();
+                                        callAPI();
+                                    }
+                                })
+                            })
+
+                            //                        ]]>
+                        </script>
                     </th:block>
-                    <th:block th:if="${shipAPI2.torpedoes != null}">
-                        <th:block th:each="slot : ${shipAPI2.torpedoes.slots}">
-                            <u style="float: right; width: 240px;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
+                </div>
+                <br th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) and (shipAPI1.torpedoes != null or shipAPI2.torpedoes != null)}"/>
+                <div th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) and (shipAPI1.torpedoes != null or shipAPI2.torpedoes != null)}" id="torpedoes" style="width: 500px; margin: 0 auto; text-align: center">
+                    <strong>Torpedoes</strong><br />
+                    <div style="display: inline-block; width: 500px; margin: 0 auto;">
+                        <th:block th:if="${shipAPI1.torpedoes != null}" >
+                            <th:block th:each="slot : ${shipAPI1.torpedoes.slots}">
+                                <u style="float: left; width: 240px;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
+                            </th:block>
                         </th:block>
-                    </th:block>
+                        <th:block th:if="${shipAPI2.torpedoes != null}">
+                            <th:block th:each="slot : ${shipAPI2.torpedoes.slots}">
+                                <u style="float: right; width: 240px;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+                    <br />
+                    <div>
+                        <li th:if="${shipAPI1.torpedoes == null}" style="display: inline-block; float: left; width: 160px;">
+                        </li>
+                        <li th:if="${shipAPI1.torpedoes != null}" style="display: inline-block; float: left; width: 160px;">
+                            <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.torpedoes.max_damage, 0, 'COMMA')} + ' hp'"/><br />
+                            <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.torpedoes.reload_time, 0, 1)} + ' s'"/><br />
+                            <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.torpedoes.torpedo_speed, 0, 1)} + ' kts'"/><br />
+                            <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.torpedoes.distance, 0, 1)} + ' km'"/><br />
+                            <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.torpedoes.visibility_dist, 0, 1)} + ' km'"/><br />
+                            <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.torpedoes.visibility_dist * 1000 / (shipAPI1.torpedoes.torpedo_speed * 2.6), 0, 1)} + ' s'"/><br />
+                        </li>
+                        <li style="display: inline-block; text-align: center; width: 160px;">
+                            <span>Damage</span><br />
+                            <span>Reload</span><br />
+                            <span>Speed</span><br />
+                            <span>Distance</span><br />
+                            <span>Visibility</span><br />
+                            <span>- Reaction -</span><br />
+                        </li>
+                        <li th:if="${shipAPI2.torpedoes == null}" style="display: inline-block; float: right; width: 160px;">
+                        </li>
+                        <li th:if="${shipAPI2.torpedoes != null}" style="display: inline-block; float: right; width: 160px;">
+                            <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.torpedoes.max_damage, 0, 'COMMA')} + ' hp'"/><br />
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.torpedoes.reload_time, 0, 1)} + ' s'"/><br />
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.torpedoes.torpedo_speed, 0, 1)} + ' kts'"/><br />
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.torpedoes.distance, 0, 1)} + ' km'"/><br />
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.torpedoes.visibility_dist, 0, 1)} + ' km'"/><br />
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.torpedoes.visibility_dist * 1000 / (shipAPI2.torpedoes.torpedo_speed * 2.6), 0, 1)} + ' s'"/><br />
+                        </li>
+                    </div>
+                </div>
+                <div th:if="${shipAPI1.flight_control != null and shipAPI2.flight_control != null}" id="flight_control" style="width: 500px; margin: 0 auto; text-align: center;">
+                    <strong>Flight Control</strong>
+                    <div>
+                        <li style="display: inline-block; width: 160px;">
+                            <span style="float: left;" th:text="${shipAPI1.flight_control.fighter_squadrons} + ' X ' + ${shipAPI1.fighters != null ? shipAPI1.fighters.count_in_squadron.max : 0}"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.fighters != null}" th:text="${shipAPI1.fighters.plane_level}"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.fighters != null}" th:text="${#numbers.formatDecimal(shipAPI1.fighters.cruise_speed, 1, 1) + ' kts'}"/><br />
+                            <span style="float: left;" th:text="${shipAPI1.fighters != null ? #numbers.formatDecimal(shipAPI1.fighters.prepare_time, 0, 1) : 0} + ' s'"/><br />
+                            <br />
+                            <span style="float: left;" th:text="${shipAPI1.flight_control.bomber_squadrons} + ' X ' + ${shipAPI1.dive_bomber != null ? shipAPI1.dive_bomber.count_in_squadron.max : 0}"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${shipAPI1.dive_bomber.plane_level}"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI1.dive_bomber.cruise_speed, 1, 1) + ' kts'}"/><br />
+                            <span style="float: left;" th:text="${shipAPI1.dive_bomber != null ? #numbers.formatDecimal(shipAPI1.dive_bomber.prepare_time, 0, 1) : 0} + ' s'"/><br />
+                            <u style="float: left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${shipAPI1.dive_bomber.bomb_name}"/><br />
+                            <span style="float:left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.dive_bomber.bomb_bullet_mass, 1, 'COMMA') + ' kg'}"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.dive_bomber.bomb_damage, 1, 'COMMA') + ' hp'}"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.dive_bomber.count_in_squadron.max * shipAPI1.dive_bomber.bomb_damage, 1, 'COMMA') + ' hp'}"/><br />
+                            <br />
+                            <span style="float: left;" th:text="${shipAPI1.flight_control.torpedo_squadrons} + ' X ' + ${shipAPI1.torpedo_bomber != null ? shipAPI1.torpedo_bomber.count_in_squadron.max : 0}"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${shipAPI1.torpedo_bomber.plane_level}"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI1.torpedo_bomber.cruise_speed, 1, 1) + ' kts'}"/><br />
+                            <span style="float: left;" th:text="${shipAPI1.torpedo_bomber != null ? #numbers.formatDecimal(shipAPI1.torpedo_bomber.prepare_time, 0, 1) : 0} + ' s'"/><br />
+                            <u style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${shipAPI1.torpedo_bomber.torpedo_name}"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.torpedo_bomber.torpedo_max_speed, 1, 'COMMA') + ' kts'}"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI1.torpedo_bomber.torpedo_distance, 1, 1) + ' km'}"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.torpedo_bomber.torpedo_damage, 1, 'COMMA') + ' hp'}"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.torpedo_bomber.count_in_squadron.max * shipAPI1.torpedo_bomber.torpedo_damage, 1, 'COMMA') + ' hp'}"/><br />
+                        </li>
+                        <li style="display: inline-block; width: 160px; text-align: center;">
+                            <u>Fighter</u><br />
+                            <span>Tier</span><br />
+                            <span>Speed</span><br />
+                            <span>Preparation</span><br />
+                            <br />
+                            <u>Dive Bomber</u><br />
+                            <span>Tier</span><br />
+                            <span>Speed</span><br />
+                            <span>Preparation</span><br />
+                            <span>Bomb</span><br />
+                            <span>Weight</span><br />
+                            <span>Damage</span><br />
+                            <span>- Per Squadron -</span><br />
+                            <br />
+                            <u>Torpedo Bomber</u><br />
+                            <span>Tier</span><br />
+                            <span>Speed</span><br />
+                            <span>Preparation</span><br />
+                            <span>Torpedo</span><br />
+                            <span>Speed</span><br />
+                            <span>Distance</span><br />
+                            <span>Damage</span><br />
+                            <span>- Per Squadron -</span><br />
+                        </li>
+                        <li style="display: inline-block; width: 160px;">
+                            <span style="float: right;" th:text="${shipAPI2.flight_control.fighter_squadrons} + ' X ' + ${shipAPI2.fighters != null ? shipAPI2.fighters.count_in_squadron.max : 0}"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.fighters != null}" th:text="${shipAPI2.fighters.plane_level}"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.fighters != null}" th:text="${#numbers.formatDecimal(shipAPI2.fighters.cruise_speed, 1, 1) + ' kts'}"/><br />
+                            <span style="float: right;" th:text="${shipAPI2.fighters != null ? #numbers.formatDecimal(shipAPI2.fighters.prepare_time, 0, 1) : 0} + ' s'"/><br />
+                            <br />
+                            <span style="float: right;" th:text="${shipAPI2.flight_control.bomber_squadrons} + ' X ' + ${shipAPI2.dive_bomber != null ? shipAPI2.dive_bomber.count_in_squadron.max : 0}"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${shipAPI2.dive_bomber.plane_level}"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI2.dive_bomber.cruise_speed, 1, 1) + ' kts'}"/><br />
+                            <span style="float: right;" th:text="${shipAPI2.dive_bomber != null ? #numbers.formatDecimal(shipAPI2.dive_bomber.prepare_time, 0, 1) : 0} + ' s'"/><br />
+                            <u style="float: right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${shipAPI2.dive_bomber.bomb_name}"/><br />
+                            <span style="float:right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.dive_bomber.bomb_bullet_mass, 1, 'COMMA') + ' kg'}"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.dive_bomber.bomb_damage, 1, 'COMMA') + ' hp'}"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.dive_bomber.count_in_squadron.max * shipAPI2.dive_bomber.bomb_damage, 1, 'COMMA') + ' hp'}"/><br />
+                            <br />
+                            <span style="float: right;" th:text="${shipAPI2.flight_control.torpedo_squadrons} + ' X ' + ${shipAPI2.torpedo_bomber != null ? shipAPI2.torpedo_bomber.count_in_squadron.max : 0}"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${shipAPI2.torpedo_bomber.plane_level}"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI2.torpedo_bomber.cruise_speed, 1, 1) + ' kts'}"/><br />
+                            <span style="float: right;" th:text="${shipAPI2.torpedo_bomber != null ? #numbers.formatDecimal(shipAPI2.torpedo_bomber.prepare_time, 0, 1) : 0} + ' s'"/><br />
+                            <u style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${shipAPI2.torpedo_bomber.torpedo_name}"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.torpedo_bomber.torpedo_max_speed, 1, 'COMMA') + ' kts'}"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI2.torpedo_bomber.torpedo_distance, 1, 1) + ' km'}"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.torpedo_bomber.torpedo_damage, 1, 'COMMA') + ' hp'}"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.torpedo_bomber.count_in_squadron.max * shipAPI2.torpedo_bomber.torpedo_damage, 1, 'COMMA') + ' hp'}"/><br />
+                        </li>
+                    </div>
+                </div>
+            </div>
+            <div id="AASecondaryStats" class="AASecondaryStats" style="display: inline-block; margin: 0 15px;">
+                <div th:if="${shipAPI1.anti_aircraft != null or shipAPI2.anti_aircraft != null}" id="anti_aircraft" style="width: 500px; text-align: left; display: inline-block;">
+                    <div style="text-align: center">
+                        <strong>Anti Air</strong>
+                    </div>
+                    <div style="display: inline-block; vertical-align: top; float: left; width: 240px;" th:if="${shipAPI1.anti_aircraft != null}">
+                        <li th:each="slot : ${shipAPI1.anti_aircraft.slots}" th:id="${slot.value.caliber}">
+                            <u style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.name}"/><br />
+                            DPS
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.avg_damage, 0, 1)} + ' dps'"/><br />
+                            Distance
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.distance, 0, 1)} + ' km'"/><br />
+                        </li>
+                    </div>
+                    <div style="display: inline-block; vertical-align: top; float: right; width: 240px;" th:if="${shipAPI2.anti_aircraft != null}">
+                        <li th:each="slot : ${shipAPI2.anti_aircraft.slots}" th:id="${slot.value.caliber}">
+                            <u style="float: right;" th:text="${slot.value.guns} + ' X ' + ${slot.value.name}"/><br />
+                            DPS
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.avg_damage, 0, 1)} + ' dps'"/><br />
+                            Distance
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.distance, 0, 1)} + ' km'"/><br />
+                        </li>
+                    </div>
                 </div>
                 <br />
-                <div>
-                    <li th:if="${shipAPI1.torpedoes == null}" style="display: inline-block; float: left; width: 160px;">
-                    </li>
-                    <li th:if="${shipAPI1.torpedoes != null}" style="display: inline-block; float: left; width: 160px;">
-                        <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.torpedoes.max_damage, 0, 'COMMA')} + ' hp'"/><br />
-                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.torpedoes.reload_time, 0, 1)} + ' s'"/><br />
-                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.torpedoes.torpedo_speed, 0, 1)} + ' kts'"/><br />
-                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.torpedoes.distance, 0, 1)} + ' km'"/><br />
-                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.torpedoes.visibility_dist, 0, 1)} + ' km'"/><br />
-                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.torpedoes.visibility_dist * 1000 / (shipAPI1.torpedoes.torpedo_speed * 2.6), 0, 1)} + ' s'"/><br />
-                    </li>
-                    <li style="display: inline-block; text-align: center; width: 160px;">
-                        <span>Damage</span><br />
-                        <span>Reload</span><br />
-                        <span>Speed</span><br />
-                        <span>Distance</span><br />
-                        <span>Visibility</span><br />
-                        <span>- Reaction -</span><br />
-                    </li>
-                    <li th:if="${shipAPI2.torpedoes == null}" style="display: inline-block; float: right; width: 160px;">
-                    </li>
-                    <li th:if="${shipAPI2.torpedoes != null}" style="display: inline-block; float: right; width: 160px;">
-                        <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.torpedoes.max_damage, 0, 'COMMA')} + ' hp'"/><br />
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.torpedoes.reload_time, 0, 1)} + ' s'"/><br />
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.torpedoes.torpedo_speed, 0, 1)} + ' kts'"/><br />
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.torpedoes.distance, 0, 1)} + ' km'"/><br />
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.torpedoes.visibility_dist, 0, 1)} + ' km'"/><br />
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.torpedoes.visibility_dist * 1000 / (shipAPI2.torpedoes.torpedo_speed * 2.6), 0, 1)} + ' s'"/><br />
-                    </li>
-                </div>
-            </div>
-            <div th:if="${shipAPI1.flight_control != null and shipAPI2.flight_control != null}" id="flight_control" style="width: 500px; margin: 0 auto; text-align: center;">
-                <strong>Flight Control</strong>
-                <div>
-                    <li style="display: inline-block; width: 160px;">
-                        <span style="float: left;" th:text="${shipAPI1.flight_control.fighter_squadrons} + ' X ' + ${shipAPI1.fighters != null ? shipAPI1.fighters.count_in_squadron.max : 0}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.fighters != null}" th:text="${shipAPI1.fighters.plane_level}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.fighters != null}" th:text="${#numbers.formatDecimal(shipAPI1.fighters.cruise_speed, 1, 1) + ' kts'}"/><br />
-                        <span style="float: left;" th:text="${shipAPI1.fighters != null ? #numbers.formatDecimal(shipAPI1.fighters.prepare_time, 0, 1) : 0} + ' s'"/><br />
-                        <br />
-                        <span style="float: left;" th:text="${shipAPI1.flight_control.bomber_squadrons} + ' X ' + ${shipAPI1.dive_bomber != null ? shipAPI1.dive_bomber.count_in_squadron.max : 0}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${shipAPI1.dive_bomber.plane_level}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI1.dive_bomber.cruise_speed, 1, 1) + ' kts'}"/><br />
-                        <span style="float: left;" th:text="${shipAPI1.dive_bomber != null ? #numbers.formatDecimal(shipAPI1.dive_bomber.prepare_time, 0, 1) : 0} + ' s'"/><br />
-                        <u style="float: left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${shipAPI1.dive_bomber.bomb_name}"/><br />
-                        <span style="float:left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.dive_bomber.bomb_bullet_mass, 1, 'COMMA') + ' kg'}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.dive_bomber.bomb_damage, 1, 'COMMA') + ' hp'}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.dive_bomber.count_in_squadron.max * shipAPI1.dive_bomber.bomb_damage, 1, 'COMMA') + ' hp'}"/><br />
-                        <br />
-                        <span style="float: left;" th:text="${shipAPI1.flight_control.torpedo_squadrons} + ' X ' + ${shipAPI1.torpedo_bomber != null ? shipAPI1.torpedo_bomber.count_in_squadron.max : 0}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${shipAPI1.torpedo_bomber.plane_level}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI1.torpedo_bomber.cruise_speed, 1, 1) + ' kts'}"/><br />
-                        <span style="float: left;" th:text="${shipAPI1.torpedo_bomber != null ? #numbers.formatDecimal(shipAPI1.torpedo_bomber.prepare_time, 0, 1) : 0} + ' s'"/><br />
-                        <u style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${shipAPI1.torpedo_bomber.torpedo_name}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.torpedo_bomber.torpedo_max_speed, 1, 'COMMA') + ' kts'}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI1.torpedo_bomber.torpedo_distance, 1, 1) + ' km'}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.torpedo_bomber.torpedo_damage, 1, 'COMMA') + ' hp'}"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI1.torpedo_bomber.count_in_squadron.max * shipAPI1.torpedo_bomber.torpedo_damage, 1, 'COMMA') + ' hp'}"/><br />
-                    </li>
-                    <li style="display: inline-block; width: 160px; text-align: center;">
-                        <u>Fighter</u><br />
-                        <span>Tier</span><br />
-                        <span>Speed</span><br />
-                        <span>Preparation</span><br />
-                        <br />
-                        <u>Dive Bomber</u><br />
-                        <span>Tier</span><br />
-                        <span>Speed</span><br />
-                        <span>Preparation</span><br />
-                        <span>Bomb</span><br />
-                        <span>Weight</span><br />
-                        <span>Damage</span><br />
-                        <span>- Per Squadron -</span><br />
-                        <br />
-                        <u>Torpedo Bomber</u><br />
-                        <span>Tier</span><br />
-                        <span>Speed</span><br />
-                        <span>Preparation</span><br />
-                        <span>Torpedo</span><br />
-                        <span>Speed</span><br />
-                        <span>Distance</span><br />
-                        <span>Damage</span><br />
-                        <span>- Per Squadron -</span><br />
-                    </li>
-                    <li style="display: inline-block; width: 160px;">
-                        <span style="float: right;" th:text="${shipAPI2.flight_control.fighter_squadrons} + ' X ' + ${shipAPI2.fighters != null ? shipAPI2.fighters.count_in_squadron.max : 0}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.fighters != null}" th:text="${shipAPI2.fighters.plane_level}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.fighters != null}" th:text="${#numbers.formatDecimal(shipAPI2.fighters.cruise_speed, 1, 1) + ' kts'}"/><br />
-                        <span style="float: right;" th:text="${shipAPI2.fighters != null ? #numbers.formatDecimal(shipAPI2.fighters.prepare_time, 0, 1) : 0} + ' s'"/><br />
-                        <br />
-                        <span style="float: right;" th:text="${shipAPI2.flight_control.bomber_squadrons} + ' X ' + ${shipAPI2.dive_bomber != null ? shipAPI2.dive_bomber.count_in_squadron.max : 0}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${shipAPI2.dive_bomber.plane_level}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI2.dive_bomber.cruise_speed, 1, 1) + ' kts'}"/><br />
-                        <span style="float: right;" th:text="${shipAPI2.dive_bomber != null ? #numbers.formatDecimal(shipAPI2.dive_bomber.prepare_time, 0, 1) : 0} + ' s'"/><br />
-                        <u style="float: right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${shipAPI2.dive_bomber.bomb_name}"/><br />
-                        <span style="float:right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.dive_bomber.bomb_bullet_mass, 1, 'COMMA') + ' kg'}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.dive_bomber.bomb_damage, 1, 'COMMA') + ' hp'}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.dive_bomber.count_in_squadron.max * shipAPI2.dive_bomber.bomb_damage, 1, 'COMMA') + ' hp'}"/><br />
-                        <br />
-                        <span style="float: right;" th:text="${shipAPI2.flight_control.torpedo_squadrons} + ' X ' + ${shipAPI2.torpedo_bomber != null ? shipAPI2.torpedo_bomber.count_in_squadron.max : 0}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${shipAPI2.torpedo_bomber.plane_level}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI2.torpedo_bomber.cruise_speed, 1, 1) + ' kts'}"/><br />
-                        <span style="float: right;" th:text="${shipAPI2.torpedo_bomber != null ? #numbers.formatDecimal(shipAPI2.torpedo_bomber.prepare_time, 0, 1) : 0} + ' s'"/><br />
-                        <u style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${shipAPI2.torpedo_bomber.torpedo_name}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.torpedo_bomber.torpedo_max_speed, 1, 'COMMA') + ' kts'}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI2.torpedo_bomber.torpedo_distance, 1, 1) + ' km'}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.torpedo_bomber.torpedo_damage, 1, 'COMMA') + ' hp'}"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI2.torpedo_bomber.count_in_squadron.max * shipAPI2.torpedo_bomber.torpedo_damage, 1, 'COMMA') + ' hp'}"/><br />
-                    </li>
-                </div>
-            </div>
-        </div>
-        <div id="AASecondaryStats" class="AASecondaryStats" style="display: inline-block; margin: 0 15px;">
-            <div th:if="${shipAPI1.anti_aircraft != null or shipAPI2.anti_aircraft != null}" id="anti_aircraft" style="width: 500px; text-align: left; display: inline-block;">
-                <div style="text-align: center">
-                    <strong>Anti Air</strong>
-                </div>
-                <div style="display: inline-block; vertical-align: top; float: left; width: 240px;" th:if="${shipAPI1.anti_aircraft != null}">
-                    <li th:each="slot : ${shipAPI1.anti_aircraft.slots}" th:id="${slot.value.caliber}">
-                        <u style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.name}"/><br />
-                        DPS
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.avg_damage, 0, 1)} + ' dps'"/><br />
-                        Distance
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.distance, 0, 1)} + ' km'"/><br />
-                    </li>
-                </div>
-                <div style="display: inline-block; vertical-align: top; float: right; width: 240px;" th:if="${shipAPI2.anti_aircraft != null}">
-                    <li th:each="slot : ${shipAPI2.anti_aircraft.slots}" th:id="${slot.value.caliber}">
-                        <u style="float: right;" th:text="${slot.value.guns} + ' X ' + ${slot.value.name}"/><br />
-                        DPS
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.avg_damage, 0, 1)} + ' dps'"/><br />
-                        Distance
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.distance, 0, 1)} + ' km'"/><br />
-                    </li>
-                </div>
-            </div>
-            <br />
-            <div th:if="${shipAPI1.atbas != null or shipAPI2.atbas != null}" id="atbas" style="width: 500px; margin: 0 auto; text-align: left; display: inline-block;">
-                <div style="text-align: center;">
-                    <strong>Secondary</strong>
-                </div>
-                <div style="width: 500px; margin: 0 auto; text-align: center">
-                    <li style="display: inline-block; float: left; width: 160px;" th:if="${shipAPI1.atbas == null}">
-                    </li>
-                    <li style="display: inline-block; float: left; width: 160px;" th:if="${shipAPI1.atbas != null}">
-                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.atbas.distance, 0, 1)} + ' km'"/>
-                    </li>
-                    <li style="display: inline-block; text-align: center; width: 160px;">
-                        <span>Max Distance</span>
-                    </li>
-                    <li style="display: inline-block; float: right; width: 160px;" th:if="${shipAPI2.atbas == null}">
-                    </li>
-                    <li style="display: inline-block; float: right; width: 160px;" th:if="${shipAPI2.atbas != null}">
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.atbas.distance, 0, 1)} + ' km'"/>
-                    </li>
-                </div>
-                <div style="display: inline-block; vertical-align: top; float: left; width: 240px;" th:if="${shipAPI1.atbas != null}">
-                    <li th:each="slot : ${shipAPI1.atbas.slots}" th:if="${shipAPI1.atbas.slots != null}">
-                        <u style="float: left;" th:text="${slot.value.name}"/><br />
-                        Damage<span style="float: right;" th:text="${#numbers.formatInteger(slot.value.damage, 0, 'COMMA')} + ' hp'"/><br />
-                        Reload
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.shot_delay, 0, 1)} + ' s'"/><br />
-                        Speed<span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.bullet_speed, 0, 1)} + ' m / s'"/><br />
-                        Type<span style="float: right;" th:text="${slot.value.type}"/><br />
-                        Burn Probability<span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.burn_probability, 0, 1)} + ' %'"/><br />
-                    </li>
-                </div>
-                <div style="display: inline-block; vertical-align: top; float: right; width: 240px;" th:if="${shipAPI2.atbas != null}">
-                    <li th:each="slot : ${shipAPI2.atbas.slots}" th:if="${shipAPI2.atbas.slots != null}">
-                        <u style="float: right;" th:text="${slot.value.name}"/><br />
-                        Damage<span style="float: right;" th:text="${#numbers.formatInteger(slot.value.damage, 0, 'COMMA')} + ' hp'"/><br />
-                        Reload
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.shot_delay, 0, 1)} + ' s'"/><br />
-                        Speed<span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.bullet_speed, 0, 1)} + ' m / s'"/><br />
-                        Type<span style="float: right;" th:text="${slot.value.type}"/><br />
-                        Burn Probability<span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.burn_probability, 0, 1)} + ' %'"/><br />
-                    </li>
+                <div th:if="${shipAPI1.atbas != null or shipAPI2.atbas != null}" id="atbas" style="width: 500px; margin: 0 auto; text-align: left; display: inline-block;">
+                    <div style="text-align: center;">
+                        <strong>Secondary</strong>
+                    </div>
+                    <div style="width: 500px; margin: 0 auto; text-align: center">
+                        <li style="display: inline-block; float: left; width: 160px;" th:if="${shipAPI1.atbas == null}">
+                        </li>
+                        <li style="display: inline-block; float: left; width: 160px;" th:if="${shipAPI1.atbas != null}">
+                            <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.atbas.distance, 0, 1)} + ' km'"/>
+                        </li>
+                        <li style="display: inline-block; text-align: center; width: 160px;">
+                            <span>Max Distance</span>
+                        </li>
+                        <li style="display: inline-block; float: right; width: 160px;" th:if="${shipAPI2.atbas == null}">
+                        </li>
+                        <li style="display: inline-block; float: right; width: 160px;" th:if="${shipAPI2.atbas != null}">
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.atbas.distance, 0, 1)} + ' km'"/>
+                        </li>
+                    </div>
+                    <div style="display: inline-block; vertical-align: top; float: left; width: 240px;" th:if="${shipAPI1.atbas != null}">
+                        <li th:each="slot : ${shipAPI1.atbas.slots}" th:if="${shipAPI1.atbas.slots != null}">
+                            <u style="float: left;" th:text="${slot.value.name}"/><br />
+                            Damage<span style="float: right;" th:text="${#numbers.formatInteger(slot.value.damage, 0, 'COMMA')} + ' hp'"/><br />
+                            Reload
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.shot_delay, 0, 1)} + ' s'"/><br />
+                            Speed<span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.bullet_speed, 0, 1)} + ' m / s'"/><br />
+                            Type<span style="float: right;" th:text="${slot.value.type}"/><br />
+                            Burn Probability<span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.burn_probability, 0, 1)} + ' %'"/><br />
+                        </li>
+                    </div>
+                    <div style="display: inline-block; vertical-align: top; float: right; width: 240px;" th:if="${shipAPI2.atbas != null}">
+                        <li th:each="slot : ${shipAPI2.atbas.slots}" th:if="${shipAPI2.atbas.slots != null}">
+                            <u style="float: right;" th:text="${slot.value.name}"/><br />
+                            Damage<span style="float: right;" th:text="${#numbers.formatInteger(slot.value.damage, 0, 'COMMA')} + ' hp'"/><br />
+                            Reload
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.shot_delay, 0, 1)} + ' s'"/><br />
+                            Speed<span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.bullet_speed, 0, 1)} + ' m / s'"/><br />
+                            Type<span style="float: right;" th:text="${slot.value.type}"/><br />
+                            Burn Probability<span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.burn_probability, 0, 1)} + ' %'"/><br />
+                        </li>
+                    </div>
                 </div>
             </div>
         </div>

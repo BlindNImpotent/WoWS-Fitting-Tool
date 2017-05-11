@@ -535,7 +535,9 @@
                     }
                     else
                     {
-//                        alert('Wrong path of research!');
+                        var html = '<div class="shipAPIData" id="shipAPIData"><h2>Wrong path of research</h2></div>';
+
+                        $('.shipAPIData').replaceWith(html);
                     }
                 }
             });

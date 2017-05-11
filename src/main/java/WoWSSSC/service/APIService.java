@@ -96,19 +96,29 @@ public class APIService
 
                 if (shipData.getStatus().equals("ok"))
                 {
-                    logger.info("Requested API for " + nation + " " + shipType + " " + ship + " - " + url);
+                    logger.info("Requested valid API for " + nation + " " + shipType + " " + ship + " - " + url);
 
                     shipHashMap.put(key, shipData.getData().get(ship_id));
+                }
+                else
+                {
+                    logger.info("Requested invalid API for " + nation + " " + shipType + " " + ship + " - " + url);
+
+                    shipHashMap.put(key, null);
                 }
             }
             else
             {
-                logger.info("Requesting data for " + nation + " " + shipType + " " + ship + " - " + url);
-
                 if (shipHashMap.get(key) == null)
                 {
-                    apiJsonParser.checkShipData(url, key, ship_id, nation, shipType, ship);
+//                    apiJsonParser.checkShipData(url, key, ship_id, nation, shipType, ship);
+                    logger.info("Requested invalid data for " + nation + " " + shipType + " " + ship + " - " + url);
                 }
+                else
+                {
+                    logger.info("Requested valid data for " + nation + " " + shipType + " " + ship + " - " + url);
+                }
+
             }
             return key;
         }

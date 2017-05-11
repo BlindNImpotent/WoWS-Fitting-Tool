@@ -51,7 +51,7 @@ public class APIController
 
     ObjectMapper mapper = new ObjectMapper();
 
-    private long cacheStart = 0;
+    private long cacheStart = System.currentTimeMillis();
 
     @ResponseBody
     @RequestMapping (value = "/data", method = RequestMethod.GET)
@@ -179,7 +179,7 @@ public class APIController
         {
             ship = URLDecoder.decode(ship, "UTF-8");
 
-            logger.info("Ship API");
+            logger.info("Ship API - " + nation + " " + shipType + " " + ship);
 
             if (System.currentTimeMillis() - cacheStart >= 60 * 60 * 1000)
             {
@@ -311,7 +311,20 @@ public class APIController
     @RequestMapping (value = "/shipTree", method = RequestMethod.POST)
     public long getXp(@RequestBody List<String> shipList)
     {
-        return apiService.getXp(shipList);
+        logger.info("Calculating xp between " + shipList.get(0) + " and " + shipList.get(1));
+
+        long xp = apiService.getXp(shipList);
+
+        if (xp >= 0)
+        {
+            logger.info(String.format("%,d", xp)  + " xp required");
+        }
+        else
+        {
+            logger.info("Wrong path of research");
+        }
+
+        return xp;
     }
 
     @RequestMapping (value = "/shipStatComparison", method = RequestMethod.GET)
@@ -358,6 +371,8 @@ public class APIController
 
             if (request.getMethod().equalsIgnoreCase("post"))
             {
+                logger.info("Loading " + ship1 + " and " + ship2);
+
                 model.addAttribute("warship1", data.get("rawShipData").get(shipList.get(0)));
                 model.addAttribute("warship2", data.get("rawShipData").get(shipList.get(1)));
 
@@ -365,7 +380,7 @@ public class APIController
             }
             else
             {
-                logger.info("Loading Ship Comparison from /shipStatSelection?" + request.getQueryString());
+                logger.info("Loading " + ship1 + " and " + ship2 + " from /shipStatSelection?" + request.getQueryString());
 
                 if (upgradesSkills != null && !upgradesSkills.contains(ship1) && !upgradesSkills.contains(ship2))
                 {
@@ -526,7 +541,7 @@ public class APIController
         upgradesSkills2.put("flags", (List<String>) upgradesSkillsV2.get("flags").get("flags"));
         upgradesSkills2.put("camouflage", (List<Boolean>) upgradesSkillsV2.get("camouflage").get("camouflage"));
 
-        logger.info("Ship Comparison");
+        logger.info("Ship Comparison - " + ship1 + " and " + ship2);
 
         if (System.currentTimeMillis() - cacheStart >= 60 * 60 * 1000)
         {
@@ -540,15 +555,14 @@ public class APIController
         String returnedKey2 = apiService.setShipAPI(nation2, shipType2, ship2, ship_id2, Artillery2, DiveBomber2, Engine2, Fighter2, Suo2, FlightControl2, Hull2, TorpedoBomber2, Torpedoes2, new ArrayList<>());
         Ship shipAPI2 = apiService.getUpgradeSkillStats(returnedKey2, nation2, shipType2, ship2, ship_id2, Artillery2, DiveBomber2, Engine2, Fighter2, Suo2, FlightControl2, Hull2, TorpedoBomber2, Torpedoes2, new ArrayList<>(), upgradesSkills2, adrenalineValue2);
 
+        model.addAttribute("warship1", data.get("rawShipData").get(ship1));
+        model.addAttribute("warship2", data.get("rawShipData").get(ship2));
+        model.addAttribute("encyclopedia", data.get("encyclopedia"));
+
         if (shipAPI1 != null && shipAPI2 != null)
         {
             model.addAttribute("shipAPI1", shipAPI1);
-            model.addAttribute("warship1", data.get("rawShipData").get(ship1));
-
             model.addAttribute("shipAPI2", shipAPI2);
-            model.addAttribute("warship2", data.get("rawShipData").get(ship2));
-
-            model.addAttribute("encyclopedia", data.get("encyclopedia"));
         }
         return "WarshipComparison/shipStatComparisonStat :: shipAPIData";
     }
