@@ -113,6 +113,8 @@ public class APIController
         model.addAttribute("encyclopedia", data.get("encyclopedia"));
         if (nation != null && shipType != null && ship != null)
         {
+            ship = URLDecoder.decode(ship, "UTF-8");
+
             if (request.getMethod().equalsIgnoreCase("post"))
             {
                 logger.info("Loading " + nation + " " + shipType + " " + ship);
@@ -175,6 +177,8 @@ public class APIController
     {
         if (!ship_id.equals(""))
         {
+            ship = URLDecoder.decode(ship, "UTF-8");
+
             logger.info("Ship API");
 
             if (System.currentTimeMillis() - cacheStart >= 60 * 60 * 1000)
@@ -244,6 +248,8 @@ public class APIController
             @RequestParam(required = false) List<String> modules
     ) throws Exception
     {
+        ship = URLDecoder.decode(ship, "UTF-8");
+
         String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
                 + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
 
@@ -269,6 +275,8 @@ public class APIController
                                  @RequestParam(required = false) List<String> modules
     ) throws Exception
     {
+        ship = URLDecoder.decode(ship, "UTF-8");
+
         String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
             + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
 
@@ -338,6 +346,16 @@ public class APIController
     {
         if ((StringUtils.isNotEmpty(ship1) && StringUtils.isNotEmpty(ship2)) || !CollectionUtils.isEmpty(shipList))
         {
+            if (StringUtils.isNotEmpty(ship1))
+            {
+                ship1 = URLDecoder.decode(ship1, "UTF-8");
+            }
+
+            if (StringUtils.isNotEmpty(ship2))
+            {
+                ship2 = URLDecoder.decode(ship2, "UTF-8");
+            }
+
             if (request.getMethod().equalsIgnoreCase("post"))
             {
                 model.addAttribute("warship1", data.get("rawShipData").get(shipList.get(0)));
@@ -470,6 +488,9 @@ public class APIController
                                           @RequestParam(required = false, defaultValue = "100") int adrenalineValue1,
                                           @RequestParam(required = false, defaultValue = "100") int adrenalineValue2) throws Exception
     {
+        ship1 = URLDecoder.decode(ship1, "UTF-8");
+        ship2 = URLDecoder.decode(ship2, "UTF-8");
+
         HashMap<String, List> upgradesSkills1 = new HashMap<>();
         HashMap<String, List> upgradesSkills2 = new HashMap<>();
 

@@ -688,7 +688,7 @@
         };
 
         $.ajax({
-            url: '/shipStatComparison?' + warship1 + '&' + warship2,
+            url: '/shipStatComparison?' + encodeURI(warship1) + '&' + encodeURI(warship2),
             type: 'post',
             contentType: "application/json",
             data: JSON.stringify(upgradesSkillsV2),
@@ -704,7 +704,7 @@
                     history.replaceState({
                         warship1: warship1Name,
                         warship2: warship2Name
-                    }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgrades1=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills1))) + '&upgrades2=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills2))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&flags=' + flags + '&camo=' + camouflage[0] +'&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
+                    }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + encodeURIComponent(warship1Name) + '&ship2=' + encodeURIComponent(warship2Name) + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgrades1=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills1))) + '&upgrades2=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills2))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&flags=' + flags + '&camo=' + camouflage[0] +'&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
                 }
                 else
                 {
@@ -762,7 +762,7 @@
         history.replaceState({
             warship1: warship1Name,
             warship2: warship2Name
-        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgrades1=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills1))) + '&upgrades2=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills2))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&flags=' + flags + '&camo=' + camouflage[0] +'&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
+        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + encodeURIComponent(warship1Name) + '&ship2=' + encodeURIComponent(warship2Name) + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgrades1=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills1))) + '&upgrades2=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills2))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&flags=' + flags + '&camo=' + camouflage[0] +'&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
     });
 
     $(document).on('click', '.button_consumable_2', function () {
@@ -788,7 +788,7 @@
         history.replaceState({
             warship1: warship1Name,
             warship2: warship2Name
-        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgrades1=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills1))) + '&upgrades2=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills2))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&flags=' + flags + '&camo=' + camouflage[0] +'&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
+        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + encodeURIComponent(warship1Name) + '&ship2=' + encodeURIComponent(warship2Name) + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgrades1=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills1))) + '&upgrades2=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills2))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&flags=' + flags + '&camo=' + camouflage[0] +'&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
     });
 
     function setConsumables1()
@@ -856,7 +856,7 @@
         history.replaceState({
             warship1: warship1Name,
             warship2: warship2Name
-        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgrades1=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills1))) + '&upgrades2=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills2))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&flags=' + flags + '&camo=' + camouflage[0] +'&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
+        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + encodeURIComponent(warship1Name) + '&ship2=' + encodeURIComponent(warship2Name) + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgrades1=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills1))) + '&upgrades2=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills2))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&flags=' + flags + '&camo=' + camouflage[0] +'&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
     }
 
     function setConsumables2()
@@ -923,7 +923,7 @@
         history.replaceState({
             warship1: warship1Name,
             warship2: warship2Name
-        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + warship1Name + '&ship2=' + warship2Name + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgrades1=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills1))) + '&upgrades2=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills2))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&flags=' + flags + '&camo=' + camouflage[0] +'&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
+        }, warship1Name + warship2Name, '/shipStatSelection?ship1=' + encodeURIComponent(warship1Name) + '&ship2=' + encodeURIComponent(warship2Name) + '&modules1=' + modules1 + '&modules2=' + modules2 + '&upgrades1=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills1))) + '&upgrades2=' + btoa(encodeURIComponent(JSON.stringify(upgradesSkills2))) + '&consumables1=' + consumables1 + '&consumables2=' + consumables2 + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&flags=' + flags + '&camo=' + camouflage[0] +'&adrenalineValue1=' + adrenalineValue1 + '&adrenalineValue2=' + adrenalineValue2);
     }
 
     //    ]]>
