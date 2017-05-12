@@ -371,7 +371,7 @@ public class APIController
 
             if (request.getMethod().equalsIgnoreCase("post"))
             {
-                logger.info("Loading " + ship1 + " and " + ship2);
+                logger.info("Loading " + shipList.get(0) + " and " + shipList.get(1));
 
                 model.addAttribute("warship1", data.get("rawShipData").get(shipList.get(0)));
                 model.addAttribute("warship2", data.get("rawShipData").get(shipList.get(1)));
