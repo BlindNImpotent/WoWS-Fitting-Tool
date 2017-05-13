@@ -196,7 +196,7 @@
             <div th:if="${shipAPI.torpedoes != null}" id="torpedoes">
                 <strong>Torpedoes</strong><br />
                 <li th:each="slot : ${shipAPI.torpedoes.slots}">
-                    <u style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/><br />
+                    <u th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/><br />
                 </li>
                 <span style="float:left;">Damage</span>
                 <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.torpedoes.max_damage, 1, 'COMMA')} + ' hp'"/><br />
