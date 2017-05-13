@@ -83,11 +83,11 @@
                 <span th:if="${shipAPI.artillery != null}" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.distance, 1, 1)} + ' km'"/><br />
             </div>
         </div>
-        <div id="mainWeaponStats" class="mainWeaponStats" style="width: 300px;">
+        <div id="mainWeaponStats" class="mainWeaponStats" style="width: 300px; text-align: left;">
             <div th:if="${shipAPI.artillery != null}" id="artillery">
                 <strong>Main Battery</strong><br />
                 <li th:each="slot : ${shipAPI.artillery.slots}" name="guns">
-                    <u style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/><br />
+                    <u th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/><br />
                 </li>
                 <th:block th:if="${shipAPI.shipComponents.artillery != null}">
                     <span style="float:left;">Sigma</span>
