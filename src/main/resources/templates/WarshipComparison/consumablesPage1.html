@@ -139,7 +139,7 @@
             </th:block>
         </th:block>
     </div>
-    <div class="consumables" style="float: right; width: 260px;">
+    <div class="consumables" style="float: right; width: 270px;">
         <div class="consumables" th:each="ability : ${shipAPI1.shipComponents.shipAbilities}">
             <th:block th:each="consumable : ${ability.AbilitySlot0.abils}">
                 <li th:each="abil : ${shipAPI1.shipComponents.abilities}" th:if="${abil.key == consumable[0]}">

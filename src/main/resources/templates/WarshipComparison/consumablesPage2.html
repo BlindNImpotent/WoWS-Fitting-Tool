@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div id="consumablesData2" th:fragment="consumablesData2" th:unless="${shipAPI2.shipComponents.shipAbilities == null}">
-    <div class="consumables" style="float: left; width: 260px;">
+    <div class="consumables" style="float: left; width: 270px;">
         <div class="consumables" th:each="ability : ${shipAPI2.shipComponents.shipAbilities}">
             <th:block th:each="consumable : ${ability.AbilitySlot0.abils}">
                 <li th:each="abil : ${shipAPI2.shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
