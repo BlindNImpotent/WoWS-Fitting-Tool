@@ -142,7 +142,7 @@
                         <th:block th:if="${configurationAPI != null}">
                             <span style="float: right;" th:if="${(shipAPI.shipComponents.artillery.penetrationHE - configurationAPI.shipComponents.artillery.penetrationHE) != 0}" th:text="${'(+' + (shipAPI.shipComponents.artillery.penetrationHE - configurationAPI.shipComponents.artillery.penetrationHE) + ')'}"/>
                         </th:block>
-                        <span style="float: right;" th:text="${shipAPI.shipComponents.artillery.penetrationHE + ' mm'}"/><br />
+                        <span style="float: right;" th:text="${shipAPI.shipComponents.artillery.penetrationHE + ' [' + shipAPI.shipComponents.artillery.penetrationHEBefore + ']' + ' mm'}"/><br />
                     </th:block>
                     <span th:text="'Burn Probability'" th:if="${shell.value.burn_probability > 0}" style="float: left;"/>
                     <th:block th:if="${configurationAPI != null}">

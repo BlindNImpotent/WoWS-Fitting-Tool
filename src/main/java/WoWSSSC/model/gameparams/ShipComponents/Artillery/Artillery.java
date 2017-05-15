@@ -45,6 +45,7 @@ public class Artillery
 
     private int barrelDiameter;
     private long penetrationHE;
+    private long penetrationHEBefore;
     private float penetrationHEFloat;
     private int overmatch;
 
@@ -71,6 +72,7 @@ public class Artillery
 
     public void setPenetrationHE(float penetrationHE)
     {
+        this.penetrationHEBefore = Math.round(penetrationHE);
         this.penetrationHE = Math.round(penetrationHE) - 1;
     }
 
@@ -78,11 +80,13 @@ public class Artillery
     {
         if (("germany".equalsIgnoreCase(nation) && "Battleship".equalsIgnoreCase(shipType)) || shipName.contains("Graf Spee"))
         {
+            penetrationHEBefore = Math.round((float) barrelDiameter / 4);
             penetrationHE = Math.round((float) barrelDiameter / 4) - 1;
             penetrationHEFloat = (float) barrelDiameter / 4 ;
         }
         else
         {
+            penetrationHEBefore = Math.round((float) barrelDiameter / 6);
             penetrationHE = Math.round((float) barrelDiameter / 6) - 1;
             penetrationHEFloat = (float) barrelDiameter / 6;
         }
