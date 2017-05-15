@@ -8,7 +8,6 @@ import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkillsData;
-import WoWSSSC.model.WoWSAPI.warships.TotalWarship;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipData;
 import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
@@ -60,30 +59,23 @@ public class AsyncHashMap implements CommandLineRunner
 
         apiJsonParser.setGameParams();
 
-        HashMap<String, TotalWarship> tempWarships = apiJsonParser.getTotalWarships();
-
+        HashMap<String, Warship> tempWarships = apiJsonParser.getTotalWarships();
         tempWarships.values().forEach(warship ->
         {
             if (warship.getNext_ships().size() > 0)
             {
+                Warship tempWS = new Warship(warship.getNation(), warship.getType(), warship.getName(), warship.getImages(), null).setTier(warship.getTier()).setShip_id(warship.getShip_id());
                 warship.getNext_ships().keySet().forEach(shipKey ->
                 {
-                    tempWarships.values().forEach(tempWarship ->
-                    {
-                        if (String.valueOf(tempWarship.getShip_id()).equals(shipKey))
-                        {
-                            Warship tempWS = new Warship(warship.getNation(), warship.getType(), warship.getName(), warship.getImages(), null).setTier(warship.getTier()).setShip_id(warship.getShip_id());
-                            tempWarship.setPrevWarship(tempWS);
-                        }
-                    });
+                    tempWarships.get(shipKey).setPrevWarship(tempWS);
                 });
             }
         });
 
         Encyclopedia encyclopedia = apiJsonParser.getEncyclopedia().getData();
 
-        encyclopedia.getShip_nations().entrySet().forEach(entry -> nationsString.add(entry.getKey()));
-        encyclopedia.getShip_types().entrySet().forEach(entry -> shipTypeString.add(entry.getKey()));
+        nationsString.addAll(encyclopedia.getShip_nations().keySet());
+        shipTypeString.addAll(encyclopedia.getShip_types().keySet());
         Collections.sort(nationsString);
         Collections.sort(shipTypeString);
 
@@ -99,9 +91,8 @@ public class AsyncHashMap implements CommandLineRunner
             futures.put(nationsString.get(i), temp);
         }
 
-//        CompletableFuture<UpgradeData> upgradeData = apiJsonParser.getUpgrades();
         CompletableFuture<CrewSkillsData> crewsSkillsData = apiJsonParser.getCrewSkills();
-//        CompletableFuture<ExteriorData> exteriorData = apiJsonParser.getExteriorData();
+
         CompletableFuture<ConsumablesData> consumablesData = apiJsonParser.getConsumables();
 
         CompletableFuture.runAsync(() -> futures.entrySet().forEach(futureEntry ->
@@ -115,9 +106,9 @@ public class AsyncHashMap implements CommandLineRunner
                 {
                     shipType.getValue().get().getData().entrySet().forEach(warship ->
                     {
-                        TotalWarship tws = tempWarships.get(String.valueOf(warship.getValue().getShip_id()));
+                        Warship tws = tempWarships.get(String.valueOf(warship.getValue().getShip_id()));
 
-                        TotalWarship prevShip;
+                        Warship prevShip;
                         long nextShipXp = 0;
                         if (tws.getPrevWarship() != null)
                         {
@@ -164,7 +155,7 @@ public class AsyncHashMap implements CommandLineRunner
                                         {
                                             for (int j = 0; j < tempWSMT.getNext_ships().size(); j++)
                                             {
-                                                TotalWarship totalWarship = tempWarships.get(String.valueOf(tempWSMT.getNext_ships().get(j)));
+                                                Warship totalWarship = tempWarships.get(String.valueOf(tempWSMT.getNext_ships().get(j)));
                                                 Warship nextWarshipTemp = new Warship(totalWarship.getNation(), totalWarship.getType(), totalWarship.getName(), totalWarship.getImages(), null).setTier(totalWarship.getTier()).setShip_id(totalWarship.getShip_id());
 
                                                 if (value.getNext_ships() != null)

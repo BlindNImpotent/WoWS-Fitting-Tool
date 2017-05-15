@@ -1,5 +1,6 @@
 package WoWSSSC.model.WoWSAPI.consumables;
 
+import WoWSSSC.model.WoWSAPI.Meta;
 import lombok.Data;
 
 import java.util.LinkedHashMap;
@@ -11,5 +12,6 @@ import java.util.LinkedHashMap;
 public class ConsumablesData
 {
     private String status;
+    private Meta meta;
     private LinkedHashMap<String, Consumables> data = new LinkedHashMap<>();
 }
