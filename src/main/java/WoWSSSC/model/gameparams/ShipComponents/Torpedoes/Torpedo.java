@@ -12,4 +12,9 @@ public class Torpedo
 {
     private boolean uwAbility;
     private float uwCritical;
+
+    public int getUwCriticalHundred()
+    {
+        return (int) (uwCritical * 100);
+    }
 }

@@ -353,12 +353,12 @@
                     <div style="display: inline-block; width: 500px; margin: 0 auto;">
                         <th:block th:if="${shipAPI1.torpedoes != null}" >
                             <th:block th:each="slot : ${shipAPI1.torpedoes.slots}">
-                                <u style="float: left; width: 240px;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
+                                <u style="float: left; width: 240px; text-align: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
                             </th:block>
                         </th:block>
                         <th:block th:if="${shipAPI2.torpedoes != null}">
                             <th:block th:each="slot : ${shipAPI2.torpedoes.slots}">
-                                <u style="float: right; width: 240px;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
+                                <u style="float: right; width: 240px; text-align: right;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
                             </th:block>
                         </th:block>
                     </div>
@@ -373,6 +373,7 @@
                             <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.torpedoes.distance, 0, 1)} + ' km'"/><br />
                             <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.torpedoes.visibility_dist, 0, 1)} + ' km'"/><br />
                             <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.torpedoes.visibility_dist * 1000 / (shipAPI1.torpedoes.torpedo_speed * 2.6), 0, 1)} + ' s'"/><br />
+                            <span style="float: left;" th:text="${shipAPI1.shipComponents.torpedoes.torpedo.uwCriticalHundred + ' %'}"/><br />
                         </li>
                         <li style="display: inline-block; text-align: center; width: 160px;">
                             <span>Damage</span><br />
@@ -381,6 +382,7 @@
                             <span>Distance</span><br />
                             <span>Visibility</span><br />
                             <span>- Reaction -</span><br />
+                            <span>Flood Chance</span><br />
                         </li>
                         <li th:if="${shipAPI2.torpedoes == null}" style="display: inline-block; float: right; width: 160px;">
                         </li>
@@ -391,6 +393,7 @@
                             <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.torpedoes.distance, 0, 1)} + ' km'"/><br />
                             <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.torpedoes.visibility_dist, 0, 1)} + ' km'"/><br />
                             <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.torpedoes.visibility_dist * 1000 / (shipAPI2.torpedoes.torpedo_speed * 2.6), 0, 1)} + ' s'"/><br />
+                            <span style="float: right;" th:text="${shipAPI2.shipComponents.torpedoes.torpedo.uwCriticalHundred + ' %'}"/><br />
                         </li>
                     </div>
                 </div>

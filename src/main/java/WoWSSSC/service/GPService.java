@@ -8,6 +8,7 @@ import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.gameparams.Consumables.Consumable;
+import WoWSSSC.model.gameparams.ShipComponents.Torpedoes.Torpedo;
 import WoWSSSC.model.gameparams.ShipComponents.Torpedoes.Torpedoes;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.Module.Components;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.Module.Module;
@@ -97,13 +98,13 @@ public class GPService
 
             moduleNames.add(idToName.get(artillery_id));
             moduleNames.add(idToName.get(dive_bomber_id));
-            moduleNames.add(idToName.get(engine_id));
             moduleNames.add(idToName.get(fighter_id));
-            moduleNames.add(idToName.get(fire_control_id));
-            moduleNames.add(idToName.get(flight_control_id));
-            moduleNames.add(idToName.get(hull_id));
             moduleNames.add(idToName.get(torpedo_bomber_id));
             moduleNames.add(idToName.get(torpedoes_id));
+            moduleNames.add(idToName.get(flight_control_id));
+            moduleNames.add(idToName.get(fire_control_id));
+            moduleNames.add(idToName.get(engine_id));
+            moduleNames.add(idToName.get(hull_id));
 
             if (CollectionUtils.isNotEmpty(modules))
             {
@@ -124,7 +125,7 @@ public class GPService
                     {
                         artilleryComponents = shipUpgradeInfo.getModules().get(name).getComponents();
                     }
-                    else if (cField.get(shipUpgradeInfo.getModules().get(name).getComponents()) != null && CollectionUtils.isNotEmpty(shipUpgradeInfo.getModules().get(name).getComponents().getArtillery()) && shipUpgradeInfo.getModules().get(name).getUcType().equalsIgnoreCase("_Torpedoes"))
+                    else if (cField.get(shipUpgradeInfo.getModules().get(name).getComponents()) != null && CollectionUtils.isNotEmpty(shipUpgradeInfo.getModules().get(name).getComponents().getTorpedoes()) && shipUpgradeInfo.getModules().get(name).getUcType().equalsIgnoreCase("_Torpedoes"))
                     {
                         torpedoesComponents = shipUpgradeInfo.getModules().get(name).getComponents();
                     }
@@ -194,9 +195,10 @@ public class GPService
                             else if (field.getName().equalsIgnoreCase("Torpedoes"))
                             {
                                 String tempTorpedoes = "";
+
                                 for (String s : tempList)
                                 {
-                                    if (artilleryComponents != null && artilleryComponents.getArtillery().contains(s))
+                                    if (torpedoesComponents != null && torpedoesComponents.getTorpedoes().contains(s))
                                     {
                                         tempTorpedoes = s;
                                     }
@@ -204,6 +206,16 @@ public class GPService
 
                                 Torpedoes torpedoes = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempTorpedoes), Torpedoes.class);
                                 field.set(shipComponents, torpedoes);
+
+                                shipComponents.getTorpedoes().getLaunchers().values().forEach(value -> value.getAmmoList().forEach(ammo ->
+                                {
+                                    String id = nameToId.get(ammo);
+                                    Torpedo torpedo = mapper.convertValue(gameParamsCHM.get(id), Torpedo.class);
+                                    if (shipComponents.getTorpedoes().getTorpedo() == null)
+                                    {
+                                        shipComponents.getTorpedoes().setTorpedo(torpedo);
+                                    }
+                                }));
                             }
                             else
                             {

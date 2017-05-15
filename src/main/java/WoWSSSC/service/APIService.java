@@ -986,6 +986,14 @@ public class APIService
             {
                 shipComponents.getEngine().setForwardEngineUpTime(shipComponents.getEngine().getForwardEngineUpTime() * consumables.getProfile().getEngineForwardUpTime().getValue());
             }
+
+            if (consumables.getProfile().getFloodChanceFactor() != null)
+            {
+                if (ship.getShipComponents().getTorpedoes() != null)
+                {
+                    ship.getShipComponents().getTorpedoes().getTorpedo().setUwCritical(ship.getShipComponents().getTorpedoes().getTorpedo().getUwCritical() * consumables.getProfile().getFloodChanceFactor().getValue());
+                }
+            }
         }
     }
 
