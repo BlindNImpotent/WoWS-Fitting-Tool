@@ -100,6 +100,7 @@ public class APIService
 
                     if ("Saipan".equalsIgnoreCase(ship))
                     {
+                        shipData.getData().get(ship_id).getFighters().getCount_in_squadron().setMin(3);
                         shipData.getData().get(ship_id).getFighters().getCount_in_squadron().setMax(3);
                     }
 
