@@ -1,7 +1,11 @@
 package WoWSSSC.service;
 
+import WoWSSSC.model.gameparams.ShipComponents.AirArmament;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.APShell;
+import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomber;
+import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomberBomb;
+import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomberPlane;
 import WoWSSSC.model.gameparams.ShipComponents.Engine.Engine;
 import WoWSSSC.model.gameparams.ShipComponents.Hull.Hull;
 import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
@@ -197,14 +201,6 @@ public class GPService
                                     }
                                 }));
                             }
-                            else if (field.getName().equalsIgnoreCase("Engine"))
-                            {
-                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Engine.class));
-                            }
-                            else if (field.getName().equalsIgnoreCase("Hull"))
-                            {
-                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Hull.class));
-                            }
                             else if (field.getName().equalsIgnoreCase("Torpedoes"))
                             {
                                 String tempTorpedoes = "";
@@ -230,6 +226,34 @@ public class GPService
                                     }
                                 }));
                             }
+                            else if (field.getName().equalsIgnoreCase("AirArmament"))
+                            {
+                                AirArmament airArmament = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), AirArmament.class);
+                                field.set(shipComponents, airArmament);
+                            }
+                            else if (field.getName().equalsIgnoreCase("DiveBomber"))
+                            {
+                                String tempDiveBomber = "";
+
+                                for (String s : tempList)
+                                {
+                                    if (diveBomberComponents != null && diveBomberComponents.getDiveBomber().contains(s))
+                                    {
+                                        tempDiveBomber = s;
+                                    }
+                                }
+
+                                DiveBomber diveBomber = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempDiveBomber), DiveBomber.class);
+                                field.set(shipComponents, diveBomber);
+
+                                String id = nameToId.get(shipComponents.getDiveBomber().getPlaneType());
+                                DiveBomberPlane diveBomberPlane = mapper.convertValue(gameParamsCHM.get(id), DiveBomberPlane.class);
+
+                                String bombId = nameToId.get(diveBomberPlane.getBombName());
+                                DiveBomberBomb bomb = mapper.convertValue(gameParamsCHM.get(bombId), DiveBomberBomb.class);
+
+                                shipComponents.getDiveBomber().setBomb(bomb);
+                            }
                             else if (field.getName().equalsIgnoreCase("TorpedoBomber"))
                             {
                                 String tempTorpedoBomber = "";
@@ -252,6 +276,14 @@ public class GPService
                                 TorpedoBomberTorpedo torpedo = mapper.convertValue(gameParamsCHM.get(torpedoId), TorpedoBomberTorpedo.class);
 
                                 shipComponents.getTorpedoBomber().setTorpedo(torpedo);
+                            }
+                            else if (field.getName().equalsIgnoreCase("Engine"))
+                            {
+                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Engine.class));
+                            }
+                            else if (field.getName().equalsIgnoreCase("Hull"))
+                            {
+                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Hull.class));
                             }
                             else
                             {

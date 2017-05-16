@@ -2,6 +2,7 @@ package WoWSSSC.model.gameparams.ShipComponents;
 
 import WoWSSSC.model.gameparams.Consumables.Consumable;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
+import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomber;
 import WoWSSSC.model.gameparams.ShipComponents.Engine.Engine;
 import WoWSSSC.model.gameparams.ShipComponents.Hull.Hull;
 import WoWSSSC.model.gameparams.ShipComponents.TorpedoBomber.TorpedoBomber;
@@ -18,12 +19,12 @@ import java.util.LinkedHashMap;
 @Data
 public class ShipComponents
 {
-    private LinkedHashMap<String, LinkedHashMap> airArmament;
+    private AirArmament airArmament;
     private LinkedHashMap<String, LinkedHashMap> airDefense;
     private Artillery artillery;
     private LinkedHashMap<String, LinkedHashMap> atba;
     private LinkedHashMap<String, LinkedHashMap> directors;
-    private LinkedHashMap<String, LinkedHashMap> diveBomber;
+    private DiveBomber diveBomber;
     private Engine engine;
     private LinkedHashMap<String, LinkedHashMap> fighter;
     private LinkedHashMap<String, LinkedHashMap> finders;

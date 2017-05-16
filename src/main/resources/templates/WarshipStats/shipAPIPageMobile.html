@@ -31,13 +31,13 @@
                 <u style="float: left;">Burn</u><br />
                 <span style="float: left;">- Nodes</span>
                 <span style="float: right;" th:text="${shipAPI.shipComponents.hull.burnNodesSize}"/><br />
-                <span style="float: left;">- Chance Reduction</span>
+                <span style="float: left;">-  Reduction</span>
                 <span style="float:right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.hull.burnChanceReduction * 100, 1, 2) + ' %'}"/><br />
                 <span style="float: left;">- Duration</span>
                 <span style="float: right;" th:if="${configurationAPI != null and shipAPI.burn - configurationAPI.burn != 0}" th:text="${shipAPI.burn - configurationAPI.burn > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.burn - configurationAPI.burn, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.burn - configurationAPI.burn, 1, 1) + ')'}"/>
                 <span style="float: right" th:text="${#numbers.formatDecimal(shipAPI.burn, 1, 1)} + ' s'"/><br />
                 <u style="float: left;">Flood</u><br />
-                <span style="float: left;">- Chance</span>
+                <span style="float: left;">- Probability</span>
                 <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.shipComponents.hull.floodChance * 100, 1, 'COMMA') + ' %'}"/><br />
                 <span style="float: left;">- Duration</span>
                 <span style="float: right;" th:if="${configurationAPI != null and shipAPI.flood - configurationAPI.flood != 0}" th:text="${shipAPI.flood - configurationAPI.flood > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.flood - configurationAPI.flood, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.flood - configurationAPI.flood, 1, 1) + ')'}"/>
@@ -215,13 +215,17 @@
                 <span style="float: right;" th:if="${configurationAPI != null and shipAPI.torpedoes.torpedo_speed - configurationAPI.torpedoes.torpedo_speed != 0}" th:text="${shipAPI.torpedoes.torpedo_speed - configurationAPI.torpedoes.torpedo_speed > 0 ? ' (' + #numbers.formatDecimal((shipAPI.torpedoes.visibility_dist * 1000 / (shipAPI.torpedoes.torpedo_speed * 2.6)) - (configurationAPI.torpedoes.visibility_dist * 1000 / (configurationAPI.torpedoes.torpedo_speed * 2.6)), 1, 1) + ')' : ' (+' + #numbers.formatDecimal((shipAPI.torpedoes.visibility_dist * 1000 / (shipAPI.torpedoes.torpedo_speed * 2.6)) - (configurationAPI.torpedoes.visibility_dist * 1000 / (configurationAPI.torpedoes.torpedo_speed * 2.6)), 1, 1) + ')'}"/>
                 <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.torpedoes.visibility_dist * 1000 / (shipAPI.torpedoes.torpedo_speed * 2.6), 1, 1)} + ' s'"/><br />
                 <th:block th:if="${shipAPI.shipComponents.torpedoes != null}">
-                    <span style="float: left;">Flood Chance</span>
+                    <span style="float: left;">Flood Probability</span>
                     <span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.torpedoes.torpedo.uwCritical - configurationAPI.shipComponents.torpedoes.torpedo.uwCritical != 0}" th:text="${shipAPI.shipComponents.torpedoes.torpedo.uwCritical - configurationAPI.shipComponents.torpedoes.torpedo.uwCritical > 0 ? '(+' + #numbers.formatInteger(shipAPI.shipComponents.torpedoes.torpedo.uwCriticalHundred - configurationAPI.shipComponents.torpedoes.torpedo.uwCriticalHundred, 1, 'COMMA') + ')' : '(' + #numbers.formatInteger(shipAPI.shipComponents.torpedoes.torpedo.uwCriticalHundred - configurationAPI.shipComponents.torpedoes.torpedo.uwCriticalHundred, 1, 'COMMA') + ')'}"/>
                     <span style="float: right;" th:text="${shipAPI.shipComponents.torpedoes.torpedo.uwCriticalHundred + ' %'}"/><br />
                 </th:block>
             </div>
             <div th:if="${shipAPI.flight_control != null}" id="flight_control">
                 <strong>Flight Control</strong><br />
+                <th:block th:if="${shipAPI.shipComponents.airArmament != null}">
+                    <span style="float: left;">Total Reserve</span>
+                    <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.shipComponents.airArmament.planesReserveCapacity, 1, 'COMMA')}"/><br />
+                </th:block>
                 <strong style="float: left;" th:if="${shipAPI.fighters != null}" th:text="'Fighters'"/>
                 <span style="float: right;" th:if="${configurationAPI != null and configurationAPI.fighters != null and shipAPI.fighters.count_in_squadron.max - configurationAPI.fighters.count_in_squadron.max != 0}" th:text="${shipAPI.fighters.count_in_squadron.max - configurationAPI.fighters.count_in_squadron.max > 0 ? '(+' + #numbers.formatInteger(shipAPI.fighters.count_in_squadron.max - configurationAPI.fighters.count_in_squadron.max, 0) + ')' : '(' + #numbers.formatInteger(shipAPI.fighters.count_in_squadron.max - configurationAPI.fighters.count_in_squadron.max, 0) + ')'}"/>
                 <span style="float: right;" th:text="${shipAPI.flight_control.fighter_squadrons} + ' X ' + ${shipAPI.fighters != null ? shipAPI.fighters.count_in_squadron.max : 0}"/><br />
@@ -248,6 +252,14 @@
                 <u style="float: left;" th:if="${shipAPI.dive_bomber != null}" th:text="${shipAPI.dive_bomber.bomb_name}"/><br th:if="${shipAPI.dive_bomber != null}"/>
                 <span style="float:left;" th:if="${shipAPI.dive_bomber != null}" th:text="'Weight'"/>
                 <span style="float:right;" th:if="${shipAPI.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI.dive_bomber.bomb_bullet_mass, 1, 'COMMA') + ' kg'}"/><br th:if="${shipAPI.dive_bomber != null}"/>
+                <span style="float: left;" th:if="${shipAPI.fighters != null}" th:text="'Average Damage'"/>
+                <span style="float: right;" th:if="${configurationAPI != null and configurationAPI.fighters != null and shipAPI.fighters.avg_damage - configurationAPI.fighters.avg_damage != 0}" th:text="${shipAPI.fighters.avg_damage - configurationAPI.fighters.avg_damage > 0 ? '(+' + #numbers.formatInteger(shipAPI.fighters.avg_damage - configurationAPI.fighters.avg_damage, 1, 'COMMA') + ')' : '(' + #numbers.formatInteger(shipAPI.fighters.avg_damage - configurationAPI.fighters.avg_damage, 1, 'COMMA') + ')'}"/>
+                <span style="float: right;" th:if="${shipAPI.fighters != null}" th:text="${shipAPI.fighters.avg_damage + ' dps'}"/><br />
+                <th:block th:if="${shipAPI.shipComponents.diveBomber != null}">
+                    <span style="float: left;" th:if="${shipAPI.torpedo_bomber != null}" th:text="'Burn Probability'"/>
+                    <span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.diveBomber.bomb.burnProbHundred - configurationAPI.shipComponents.diveBomber.bomb.burnProbHundred != 0}" th:text="${shipAPI.shipComponents.diveBomber.bomb.burnProbHundred - configurationAPI.shipComponents.diveBomber.bomb.burnProbHundred > 0 ? '(+' + #numbers.formatInteger(shipAPI.shipComponents.diveBomber.bomb.burnProbHundredHundred - configurationAPI.shipComponents.diveBomber.bomb.burnProbHundredHundred, 1, 'COMMA') + ')' : '(' + #numbers.formatInteger(shipAPI.shipComponents.diveBomber.bomb.burnProbHundredHundred - configurationAPI.shipComponents.diveBomber.bomb.burnProbHundredHundred, 1, 'COMMA') + ')'}"/>
+                    <span style="float: right;" th:if="${shipAPI.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI.shipComponents.diveBomber.bomb.burnProbHundred, 1, 'COMMA') + ' %'}"/><br th:if="${shipAPI.torpedo_bomber != null}"/>
+                </th:block>
                 <span style="float:left;" th:if="${shipAPI.dive_bomber != null}" th:text="'Damage'"/>
                 <span style="float: right;" th:if="${shipAPI.dive_bomber != null}" th:text="${#numbers.formatInteger(shipAPI.dive_bomber.bomb_damage, 1, 'COMMA') + ' hp'}"/><br th:if="${shipAPI.dive_bomber != null}"/>
                 <span style="float: left;" th:if="${shipAPI.dive_bomber != null}" th:text="'-Per Squadron'"/>
@@ -271,6 +283,11 @@
                 <span style="float: left;" th:if="${shipAPI.torpedo_bomber != null}" th:text="'Distance'"/>
                 <span style="float: right;" th:if="${configurationAPI != null and configurationAPI.torpedo_bomber != null and shipAPI.torpedo_bomber.torpedo_distance - configurationAPI.torpedo_bomber.torpedo_distance != 0}" th:text="${shipAPI.torpedo_bomber.torpedo_distance - configurationAPI.torpedo_bomber.torpedo_distance > 0 ? '(+' + #numbers.formatDecimal(shipAPI.torpedo_bomber.torpedo_distance - configurationAPI.torpedo_bomber.torpedo_distance, 1, 1) + ')' : '(' + #numbers.formatDecimal(shipAPI.torpedo_bomber.torpedo_distance - configurationAPI.torpedo_bomber.torpedo_distance, 1, 1) + ')'}"/>
                 <span style="float: right;" th:if="${shipAPI.torpedo_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI.torpedo_bomber.torpedo_distance, 1, 1) + ' km'}"/><br th:if="${shipAPI.torpedo_bomber != null}"/>
+                <th:block th:if="${shipAPI.shipComponents.torpedoBomber != null}">
+                    <span style="float: left;" th:if="${shipAPI.torpedo_bomber != null}" th:text="'Flood Probability'"/>
+                    <span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.torpedoBomber.torpedo.uwCritical - configurationAPI.shipComponents.torpedoBomber.torpedo.uwCritical != 0}" th:text="${shipAPI.shipComponents.torpedoBomber.torpedo.uwCritical - configurationAPI.shipComponents.torpedoBomber.torpedo.uwCritical > 0 ? '(+' + #numbers.formatInteger(shipAPI.shipComponents.torpedoBomber.torpedo.uwCriticalHundred - configurationAPI.shipComponents.torpedoBomber.torpedo.uwCriticalHundred, 1, 'COMMA') + ')' : '(' + #numbers.formatInteger(shipAPI.shipComponents.torpedoBomber.torpedo.uwCriticalHundred - configurationAPI.shipComponents.torpedoBomber.torpedo.uwCriticalHundred, 1, 'COMMA') + ')'}"/>
+                    <span style="float: right;" th:if="${shipAPI.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI.shipComponents.torpedoBomber.torpedo.uwCriticalHundred, 1, 'COMMA') + ' %'}"/><br th:if="${shipAPI.torpedo_bomber != null}"/>
+                </th:block>
                 <span style="float:left;" th:if="${shipAPI.torpedo_bomber != null}" th:text="'Damage'"/>
                 <span style="float: right;" th:if="${shipAPI.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI.torpedo_bomber.torpedo_damage, 1, 'COMMA') + ' hp'}"/><br th:if="${shipAPI.torpedo_bomber != null}"/>
                 <span style="float: left;" th:if="${shipAPI.torpedo_bomber != null}" th:text="'-Per Squadron'"/>
