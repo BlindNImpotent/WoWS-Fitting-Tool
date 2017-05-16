@@ -98,6 +98,11 @@ public class APIService
                 {
                     logger.info("Requested valid API for " + nation + " " + shipType + " " + ship + " - " + url);
 
+                    if ("Saipan".equalsIgnoreCase(ship))
+                    {
+                        shipData.getData().get(ship_id).getFighters().getCount_in_squadron().setMax(3);
+                    }
+
                     shipHashMap.put(key, shipData.getData().get(ship_id));
                 }
                 else
