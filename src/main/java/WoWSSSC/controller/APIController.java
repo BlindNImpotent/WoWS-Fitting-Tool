@@ -297,6 +297,7 @@ public class APIController
     @RequestMapping (value = "/shipTree", method = RequestMethod.GET)
     public String shipTree(Model model, @RequestParam(required = false, defaultValue = "false") boolean mobile)
     {
+        model.addAttribute("data", data);
         model.addAttribute("nations", data.get("nations"));
         model.addAttribute("premiumTable", data.get("premiumTable"));
 

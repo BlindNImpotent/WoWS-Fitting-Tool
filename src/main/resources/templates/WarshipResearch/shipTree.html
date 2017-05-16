@@ -42,7 +42,9 @@
         <button id="changeView">Go Mobile</button><br /><br />
         <button th:each="nation : ${nations}" th:name="${nation.key}" th:class="button_nation">
             <img th:src="${'/images/Nations/' + nation.key + '.png'}"/><br />
-            <span th:text="${nation.key}"/>
+            <th:block th:each="eNation : ${data.encyclopedia.ship_nations}" th:if="${nation.key == eNation.key}">
+                <span th:text="${eNation.value}" />
+            </th:block>
         </button>
     </div>
     <div style="text-align: center;">
