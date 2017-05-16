@@ -4,6 +4,7 @@ import WoWSSSC.model.gameparams.Consumables.Consumable;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
 import WoWSSSC.model.gameparams.ShipComponents.Engine.Engine;
 import WoWSSSC.model.gameparams.ShipComponents.Hull.Hull;
+import WoWSSSC.model.gameparams.ShipComponents.TorpedoBomber.TorpedoBomber;
 import WoWSSSC.model.gameparams.ShipComponents.Torpedoes.Torpedoes;
 import WoWSSSC.model.gameparams.test.Values.ShipAbilities.ShipAbilities;
 import lombok.Data;
@@ -30,7 +31,7 @@ public class ShipComponents
     private LinkedHashMap<String, LinkedHashMap> flightControl;
     private Hull hull;
     private Torpedoes torpedoes;
-    private LinkedHashMap<String, LinkedHashMap> torpedoBomber;
+    private TorpedoBomber torpedoBomber;
 
     private ShipAbilities shipAbilities;
     private HashMap<String, Consumable> abilities = new HashMap<>();

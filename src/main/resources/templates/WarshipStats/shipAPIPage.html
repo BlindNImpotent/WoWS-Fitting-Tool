@@ -269,6 +269,8 @@
                 <span style="float: left;" th:if="${shipAPI.torpedo_bomber != null}" th:text="'Distance'"/>
                 <span style="float: right;" th:if="${configurationAPI != null and configurationAPI.torpedo_bomber != null and shipAPI.torpedo_bomber.torpedo_distance - configurationAPI.torpedo_bomber.torpedo_distance != 0}" th:text="${shipAPI.torpedo_bomber.torpedo_distance - configurationAPI.torpedo_bomber.torpedo_distance > 0 ? '(+' + #numbers.formatDecimal(shipAPI.torpedo_bomber.torpedo_distance - configurationAPI.torpedo_bomber.torpedo_distance, 1, 1) + ')' : '(' + #numbers.formatDecimal(shipAPI.torpedo_bomber.torpedo_distance - configurationAPI.torpedo_bomber.torpedo_distance, 1, 1) + ')'}"/>
                 <span style="float: right;" th:if="${shipAPI.torpedo_bomber != null}" th:text="${#numbers.formatDecimal(shipAPI.torpedo_bomber.torpedo_distance, 1, 1) + ' km'}"/><br th:if="${shipAPI.torpedo_bomber != null}"/>
+                <span style="float: left;" th:if="${shipAPI.torpedo_bomber != null}" th:text="'Flood Chance'"/>
+                <span style="float: right;" th:if="${shipAPI.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI.shipComponents.torpedoBomber.torpedo.uwCritical, 1, 'COMMA')}"/><br th:if="${shipAPI.torpedo_bomber != null}"/>
                 <span style="float:left;" th:if="${shipAPI.torpedo_bomber != null}" th:text="'Damage'"/>
                 <span style="float: right;" th:if="${shipAPI.torpedo_bomber != null}" th:text="${#numbers.formatInteger(shipAPI.torpedo_bomber.torpedo_damage, 1, 'COMMA') + ' hp'}"/><br th:if="${shipAPI.torpedo_bomber != null}"/>
                 <span style="float: left;" th:if="${shipAPI.torpedo_bomber != null}" th:text="'-Per Squadron'"/>
