@@ -304,8 +304,6 @@ public class APIService
                     if (skill.get("type_id").equals("0"))
                     {
 
-                        HashMap<String, Consumable> tempAbilities = new HashMap<>();
-
                         ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                         {
                             Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
@@ -314,25 +312,19 @@ public class APIService
                             {
                                 tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * 0.90f));
                             }
-                            tempAbilities.put(entry.getKey(), tempConsumable);
+                            ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                         });
-
-                        ship.getShipComponents().setAbilities(tempAbilities);
                     }
                     else if (skill.get("type_id").equals("1"))
                     {
-                        HashMap<String, Consumable> tempAbilities = new HashMap<>();
-
                         ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                         {
                             Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
 
                             tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * 0.95f));
 
-                            tempAbilities.put(entry.getKey(), tempConsumable);
+                            ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                         });
-
-                        ship.getShipComponents().setAbilities(tempAbilities);
                     }
                     else if (skill.get("type_id").equals("2"))
                     {
@@ -416,8 +408,6 @@ public class APIService
                             ship.setFlood(ship.getFlood() * 0.85f);
                         }
 
-                        HashMap<String, Consumable> tempAbilities = new HashMap<>();
-
                         ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                         {
                             Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
@@ -427,10 +417,8 @@ public class APIService
                                 tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * 0.85f));
                             }
 
-                            tempAbilities.put(entry.getKey(), tempConsumable);
+                            ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                         });
-
-                        ship.getShipComponents().setAbilities(tempAbilities);
                     }
                     else if (skill.get("type_id").equals("1"))
                     {
@@ -478,18 +466,14 @@ public class APIService
                     }
                     else if (skill.get("type_id").equals("5"))
                     {
-                        HashMap<String, Consumable> tempAbilities = new HashMap<>();
-
                         ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                         {
                             Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
 
                             tempConsumable.getTypes().values().forEach(cType -> cType.setNumConsumables(cType.getNumConsumables() + 1));
 
-                            tempAbilities.put(entry.getKey(), tempConsumable);
+                            ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                         });
-
-                        ship.getShipComponents().setAbilities(tempAbilities);
                     }
                     else if (skill.get("type_id").equals("6"))
                     {
@@ -516,7 +500,17 @@ public class APIService
                     }
                     else if (skill.get("type_id").equals("7"))
                     {
+                        ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                        {
+                            Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
 
+                            if (tempConsumable.getName().contains("SonarSearch"))
+                            {
+                                tempConsumable.getTypes().values().forEach(cType -> cType.setDistTorpedo(cType.getDistTorpedo() * 1.25f));
+                            }
+
+                            ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
+                        });
                     }
                 }
                 else if (skill.get("tier").equals("4"))
@@ -877,24 +871,18 @@ public class APIService
         {
             if (consumables.getProfile().getAbilReloadTimeFactor() != null)
             {
-                HashMap<String, Consumable> tempAbilities = new HashMap<>();
-
                 ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                 {
                     Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
 
                     tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * consumables.getProfile().getAbilReloadTimeFactor().getValue()));
 
-                    tempAbilities.put(entry.getKey(), tempConsumable);
+                    ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                 });
-
-                ship.getShipComponents().setAbilities(tempAbilities);
             }
 
             if (consumables.getProfile().getAirDefenseDispWorkTime() != null)
             {
-                HashMap<String, Consumable> tempAbilities = new HashMap<>();
-
                 ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                 {
                     Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
@@ -904,14 +892,12 @@ public class APIService
                         tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
                     }
 
-                    tempAbilities.put(entry.getKey(), tempConsumable);
+                    ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                 });
             }
 
             if (consumables.getProfile().getCrashCrewWorkTime() != null)
             {
-                HashMap<String, Consumable> tempAbilities = new HashMap<>();
-
                 ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                 {
                     Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
@@ -921,14 +907,12 @@ public class APIService
                         tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
                     }
 
-                    tempAbilities.put(entry.getKey(), tempConsumable);
+                    ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                 });
             }
 
             if (consumables.getProfile().getRegenerationHPSpeed() != null)
             {
-                HashMap<String, Consumable> tempAbilities = new HashMap<>();
-
                 ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                 {
                     Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
@@ -938,14 +922,12 @@ public class APIService
                         tempConsumable.getTypes().values().forEach(cType -> cType.setRegenerationHPSpeed(cType.getRegenerationHPSpeed() * consumables.getProfile().getRegenerationHPSpeed().getValue()));
                     }
 
-                    tempAbilities.put(entry.getKey(), tempConsumable);
+                    ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                 });
             }
 
             if (consumables.getProfile().getRlsSearchWorkTime() != null)
             {
-                HashMap<String, Consumable> tempAbilities = new HashMap<>();
-
                 ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                 {
                     Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
@@ -955,14 +937,12 @@ public class APIService
                         tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
                     }
 
-                    tempAbilities.put(entry.getKey(), tempConsumable);
+                    ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                 });
             }
 
             if (consumables.getProfile().getSmokeGeneratorWorkTime() != null)
             {
-                HashMap<String, Consumable> tempAbilities = new HashMap<>();
-
                 ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                 {
                     Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
@@ -972,14 +952,12 @@ public class APIService
                         tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
                     }
 
-                    tempAbilities.put(entry.getKey(), tempConsumable);
+                    ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                 });
             }
 
             if (consumables.getProfile().getScoutWorkTime() != null)
             {
-                HashMap<String, Consumable> tempAbilities = new HashMap<>();
-
                 ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                 {
                     Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
@@ -989,14 +967,12 @@ public class APIService
                         tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
                     }
 
-                    tempAbilities.put(entry.getKey(), tempConsumable);
+                    ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                 });
             }
 
             if (consumables.getProfile().getSonarSearchWorkTime() != null)
             {
-                HashMap<String, Consumable> tempAbilities = new HashMap<>();
-
                 ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                 {
                     Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
@@ -1006,14 +982,12 @@ public class APIService
                         tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
                     }
 
-                    tempAbilities.put(entry.getKey(), tempConsumable);
+                    ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                 });
             }
 
             if (consumables.getProfile().getSpeedBoosterWorkTime() != null)
             {
-                HashMap<String, Consumable> tempAbilities = new HashMap<>();
-
                 ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                 {
                     Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
@@ -1023,7 +997,7 @@ public class APIService
                         tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
                     }
 
-                    tempAbilities.put(entry.getKey(), tempConsumable);
+                    ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                 });
             }
 

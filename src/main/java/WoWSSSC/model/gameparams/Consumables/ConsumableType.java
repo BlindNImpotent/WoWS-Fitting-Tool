@@ -31,18 +31,34 @@ public class ConsumableType
     private float distTorpedo; //
     private float torpedoReloadTime;
 
-    public void setBoostCoeff(float boostCoeff)
+    public float getBoostCoeffModified()
     {
-        this.boostCoeff = 1 + boostCoeff;
+        return boostCoeff + 1;
     }
 
-    public void setDistShip(float distShip)
+    public float getDistShipModified()
     {
-        this.distShip = distShip / (33 + (1 / 3));
+        return distShip / (33 + (1 / 3));
     }
 
-    public void setDistTorpedo(float distTorpedo)
+    public float getDistTorpedoModified()
     {
-        this.distTorpedo = distTorpedo / (33 + (1 / 3));
+        return distTorpedo / (33 + (1 / 3));
     }
+
+
+//    public void setBoostCoeff(float boostCoeff)
+//    {
+//        this.boostCoeff = 1 + boostCoeff;
+//    }
+//
+//    public void setDistShip(float distShip)
+//    {
+//        this.distShip = distShip / (33 + (1 / 3));
+//    }
+//
+//    public void setDistTorpedo(float distTorpedo)
+//    {
+//        this.distTorpedo = distTorpedo / (33 + (1 / 3));
+//    }
 }
