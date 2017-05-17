@@ -1,13 +1,22 @@
 package WoWSSSC.service;
 
+import WoWSSSC.model.gameparams.ShipComponents.AirArmament;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.APShell;
+import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomber;
+import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomberBomb;
+import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomberPlane;
 import WoWSSSC.model.gameparams.ShipComponents.Engine.Engine;
 import WoWSSSC.model.gameparams.ShipComponents.Hull.Hull;
 import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.gameparams.Consumables.Consumable;
+import WoWSSSC.model.gameparams.ShipComponents.TorpedoBomber.TorpedoBomber;
+import WoWSSSC.model.gameparams.ShipComponents.TorpedoBomber.TorpedoBomberPlane;
+import WoWSSSC.model.gameparams.ShipComponents.TorpedoBomber.TorpedoBomberTorpedo;
+import WoWSSSC.model.gameparams.ShipComponents.Torpedoes.Torpedo;
+import WoWSSSC.model.gameparams.ShipComponents.Torpedoes.Torpedoes;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.Module.Components;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.Module.Module;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.ShipUpgradeInfo;
@@ -52,7 +61,7 @@ public class GPService
 
     private static final Logger logger = LoggerFactory.getLogger(GPService.class);
 
-    ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = new ObjectMapper();
 
     public ShipComponents setShipGP(
             String nation,
@@ -96,13 +105,13 @@ public class GPService
 
             moduleNames.add(idToName.get(artillery_id));
             moduleNames.add(idToName.get(dive_bomber_id));
-            moduleNames.add(idToName.get(engine_id));
             moduleNames.add(idToName.get(fighter_id));
-            moduleNames.add(idToName.get(fire_control_id));
-            moduleNames.add(idToName.get(flight_control_id));
-            moduleNames.add(idToName.get(hull_id));
             moduleNames.add(idToName.get(torpedo_bomber_id));
             moduleNames.add(idToName.get(torpedoes_id));
+            moduleNames.add(idToName.get(flight_control_id));
+            moduleNames.add(idToName.get(fire_control_id));
+            moduleNames.add(idToName.get(engine_id));
+            moduleNames.add(idToName.get(hull_id));
 
             if (CollectionUtils.isNotEmpty(modules))
             {
@@ -111,7 +120,10 @@ public class GPService
 
             moduleNames.remove(null);
 
-            Components components = null;
+            Components artilleryComponents = null;
+            Components torpedoesComponents = null;
+            Components torpedoBomberComponents = null;
+            Components diveBomberComponents = null;
 
             for (String name : moduleNames)
             {
@@ -120,7 +132,19 @@ public class GPService
                     cField.setAccessible(true);
                     if (cField.get(shipUpgradeInfo.getModules().get(name).getComponents()) != null && CollectionUtils.isNotEmpty(shipUpgradeInfo.getModules().get(name).getComponents().getArtillery()) && shipUpgradeInfo.getModules().get(name).getUcType().equalsIgnoreCase("_Artillery"))
                     {
-                        components = shipUpgradeInfo.getModules().get(name).getComponents();
+                        artilleryComponents = shipUpgradeInfo.getModules().get(name).getComponents();
+                    }
+                    else if (cField.get(shipUpgradeInfo.getModules().get(name).getComponents()) != null && CollectionUtils.isNotEmpty(shipUpgradeInfo.getModules().get(name).getComponents().getTorpedoes()) && shipUpgradeInfo.getModules().get(name).getUcType().equalsIgnoreCase("_Torpedoes"))
+                    {
+                        torpedoesComponents = shipUpgradeInfo.getModules().get(name).getComponents();
+                    }
+                    else if (cField.get(shipUpgradeInfo.getModules().get(name).getComponents()) != null && CollectionUtils.isNotEmpty(shipUpgradeInfo.getModules().get(name).getComponents().getTorpedoBomber()) && shipUpgradeInfo.getModules().get(name).getUcType().equalsIgnoreCase("_TorpedoBomber"))
+                    {
+                        torpedoBomberComponents = shipUpgradeInfo.getModules().get(name).getComponents();
+                    }
+                    else if (cField.get(shipUpgradeInfo.getModules().get(name).getComponents()) != null && CollectionUtils.isNotEmpty(shipUpgradeInfo.getModules().get(name).getComponents().getDiveBomber()) && shipUpgradeInfo.getModules().get(name).getUcType().equalsIgnoreCase("_DiveBomber"))
+                    {
+                        diveBomberComponents = shipUpgradeInfo.getModules().get(name).getComponents();
                     }
                     cField.setAccessible(false);
                 }
@@ -157,7 +181,7 @@ public class GPService
 
                                 for (String s : tempList)
                                 {
-                                    if (components != null && components.getArtillery().contains(s))
+                                    if (artilleryComponents != null && artilleryComponents.getArtillery().contains(s))
                                     {
                                         tempArtillery = s;
                                     }
@@ -176,6 +200,82 @@ public class GPService
                                         shipComponents.getArtillery().setAPShell(APShell);
                                     }
                                 }));
+                            }
+                            else if (field.getName().equalsIgnoreCase("Torpedoes"))
+                            {
+                                String tempTorpedoes = "";
+
+                                for (String s : tempList)
+                                {
+                                    if (torpedoesComponents != null && torpedoesComponents.getTorpedoes().contains(s))
+                                    {
+                                        tempTorpedoes = s;
+                                    }
+                                }
+
+                                Torpedoes torpedoes = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempTorpedoes), Torpedoes.class);
+                                field.set(shipComponents, torpedoes);
+
+                                shipComponents.getTorpedoes().getLaunchers().values().forEach(value -> value.getAmmoList().forEach(ammo ->
+                                {
+                                    String id = nameToId.get(ammo);
+                                    Torpedo torpedo = mapper.convertValue(gameParamsCHM.get(id), Torpedo.class);
+                                    if (shipComponents.getTorpedoes().getTorpedo() == null)
+                                    {
+                                        shipComponents.getTorpedoes().setTorpedo(torpedo);
+                                    }
+                                }));
+                            }
+                            else if (field.getName().equalsIgnoreCase("AirArmament"))
+                            {
+                                AirArmament airArmament = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), AirArmament.class);
+                                field.set(shipComponents, airArmament);
+                            }
+                            else if (field.getName().equalsIgnoreCase("DiveBomber"))
+                            {
+                                String tempDiveBomber = "";
+
+                                for (String s : tempList)
+                                {
+                                    if (diveBomberComponents != null && diveBomberComponents.getDiveBomber().contains(s))
+                                    {
+                                        tempDiveBomber = s;
+                                    }
+                                }
+
+                                DiveBomber diveBomber = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempDiveBomber), DiveBomber.class);
+                                field.set(shipComponents, diveBomber);
+
+                                String id = nameToId.get(shipComponents.getDiveBomber().getPlaneType());
+                                DiveBomberPlane diveBomberPlane = mapper.convertValue(gameParamsCHM.get(id), DiveBomberPlane.class);
+
+                                String bombId = nameToId.get(diveBomberPlane.getBombName());
+                                DiveBomberBomb bomb = mapper.convertValue(gameParamsCHM.get(bombId), DiveBomberBomb.class);
+
+                                shipComponents.getDiveBomber().setBomb(bomb);
+                            }
+                            else if (field.getName().equalsIgnoreCase("TorpedoBomber"))
+                            {
+                                String tempTorpedoBomber = "";
+
+                                for (String s : tempList)
+                                {
+                                    if (torpedoBomberComponents != null && torpedoBomberComponents.getTorpedoBomber().contains(s))
+                                    {
+                                        tempTorpedoBomber = s;
+                                    }
+                                }
+
+                                TorpedoBomber torpedoBomber = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempTorpedoBomber), TorpedoBomber.class);
+                                field.set(shipComponents, torpedoBomber);
+
+                                String id = nameToId.get(shipComponents.getTorpedoBomber().getPlaneType());
+                                TorpedoBomberPlane torpedoBomberPlane = mapper.convertValue(gameParamsCHM.get(id), TorpedoBomberPlane.class);
+
+                                String torpedoId = nameToId.get(torpedoBomberPlane.getBombName());
+                                TorpedoBomberTorpedo torpedo = mapper.convertValue(gameParamsCHM.get(torpedoId), TorpedoBomberTorpedo.class);
+
+                                shipComponents.getTorpedoBomber().setTorpedo(torpedo);
                             }
                             else if (field.getName().equalsIgnoreCase("Engine"))
                             {

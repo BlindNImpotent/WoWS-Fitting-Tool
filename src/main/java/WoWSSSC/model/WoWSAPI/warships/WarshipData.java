@@ -1,5 +1,6 @@
 package WoWSSSC.model.WoWSAPI.warships;
 
+import WoWSSSC.model.WoWSAPI.Meta;
 import lombok.Data;
 
 import java.util.*;
@@ -11,6 +12,7 @@ import java.util.*;
 public class WarshipData
 {
     private String status;
+    private Meta meta;
     private LinkedHashMap<String, Warship> data = new LinkedHashMap<>();
 
     public void setData(LinkedHashMap<String, Warship> data)

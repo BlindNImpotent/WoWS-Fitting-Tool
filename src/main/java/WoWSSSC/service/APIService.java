@@ -98,6 +98,12 @@ public class APIService
                 {
                     logger.info("Requested valid API for " + nation + " " + shipType + " " + ship + " - " + url);
 
+                    if ("Saipan".equalsIgnoreCase(ship))
+                    {
+                        shipData.getData().get(ship_id).getFighters().getCount_in_squadron().setMin(3);
+                        shipData.getData().get(ship_id).getFighters().getCount_in_squadron().setMax(3);
+                    }
+
                     shipHashMap.put(key, shipData.getData().get(ship_id));
                 }
                 else
@@ -651,8 +657,6 @@ public class APIService
 
         if (ship.getArtillery() != null)
         {
-//            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
-//            int caliber = Integer.parseInt(splitName[0].trim());
             int caliber = shipComponents.getArtillery().getBarrelDiameter();
             if (consumables.getProfile().getBurnChanceFactorBig() != null)
             {
@@ -662,7 +666,7 @@ public class APIService
                     {
                         if (value != null && value.getBurn_probability() != 0)
                         {
-                            value.setBurn_probability(value.getBurn_probability() + consumables.getProfile().getBurnChanceFactorBig().getValue());
+                            value.setBurn_probability(value.getBurn_probability() + 1);
                         }
                     });
                 }
@@ -676,7 +680,7 @@ public class APIService
                     {
                         if (value != null && value.getBurn_probability() != 0)
                         {
-                            value.setBurn_probability(value.getBurn_probability() + consumables.getProfile().getBurnChanceFactorBig().getValue());
+                            value.setBurn_probability(value.getBurn_probability() + 0.5f);
                         }
                     });
                 }
@@ -707,6 +711,17 @@ public class APIService
 
         if (ship.getAtbas() != null)
         {
+            if (consumables.getProfile().getBurnChanceFactorSmall() != null)
+            {
+                ship.getAtbas().getSlots().values().forEach(sg ->
+                {
+                    if (sg.getBurn_probability() != 0)
+                    {
+                        sg.setBurn_probability(sg.getBurn_probability() + 0.5f);
+                    }
+                });
+            }
+
             if (consumables.getProfile().getGSMaxDist() != null)
             {
                 ship.getAtbas().setDistance(ship.getAtbas().getDistance() * consumables.getProfile().getGSMaxDist().getValue());
@@ -752,6 +767,11 @@ public class APIService
 
         if (ship.getFighters() != null)
         {
+            if (consumables.getProfile().getAirplanesAntiAirAura() != null)
+            {
+                ship.getFighters().setAvg_damage((int) (ship.getFighters().getAvg_damage() * consumables.getProfile().getAirplanesAntiAirAura().getValue()));
+            }
+
             if (consumables.getProfile().getAirplanesPrepareTime() != null)
             {
                 ship.getFighters().setPrepare_time(ship.getFighters().getPrepare_time() * consumables.getProfile().getAirplanesPrepareTime().getValue());
@@ -982,9 +1002,30 @@ public class APIService
                 });
             }
 
+            if (consumables.getProfile().getBurnChanceFactorBig() != null)
+            {
+                if (shipComponents.getDiveBomber() != null)
+                {
+                    shipComponents.getDiveBomber().getBomb().setBurnProb(shipComponents.getDiveBomber().getBomb().getBurnProb() + 0.01f);
+                }
+            }
+
             if (consumables.getProfile().getEngineForwardUpTime() != null)
             {
                 shipComponents.getEngine().setForwardEngineUpTime(shipComponents.getEngine().getForwardEngineUpTime() * consumables.getProfile().getEngineForwardUpTime().getValue());
+            }
+
+            if (consumables.getProfile().getFloodChanceFactor() != null)
+            {
+                if (ship.getShipComponents().getTorpedoes() != null)
+                {
+                    ship.getShipComponents().getTorpedoes().getTorpedo().setUwCritical(ship.getShipComponents().getTorpedoes().getTorpedo().getUwCritical() + 0.04f);
+                }
+
+                if (ship.getShipComponents().getTorpedoBomber() != null)
+                {
+                    ship.getShipComponents().getTorpedoBomber().getTorpedo().setUwCritical(ship.getShipComponents().getTorpedoBomber().getTorpedo().getUwCritical() + 0.04f);
+                }
             }
         }
     }
