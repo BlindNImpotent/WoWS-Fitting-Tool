@@ -66,7 +66,7 @@ public class APIJsonParser
     public HashMap<String, TotalWarship> getTotalWarships() throws IOException
     {
         logger.info("Looking up all ships");
-        String url = "https://api.worldofwarships.com/wows/encyclopedia/ships/?application_id=" + APP_ID;
+        String url = "https://api.worldofwarships.ru/wows/encyclopedia/ships/?application_id=" + APP_ID + "&language=en";
         TotalWarshipData result = restTemplate.getForObject(url, TotalWarshipData.class);
 
         return result.getData();
@@ -76,7 +76,7 @@ public class APIJsonParser
     public CompletableFuture<WarshipData> getNationShip(String nation, String type) throws IOException
     {
         logger.info("Looking up " + nation + " " + type);
-        String url = "https://api.worldofwarships.com/wows/encyclopedia/ships/?application_id=" + APP_ID + "&nation=" + nation + "&type=" + type + "&fields=-default_profile";
+        String url = "https://api.worldofwarships.ru/wows/encyclopedia/ships/?application_id=" + APP_ID + "&nation=" + nation + "&type=" + type + "&fields=-default_profile&language=en";
         WarshipData result = restTemplate.getForObject(url, WarshipData.class);
 
         return CompletableFuture.completedFuture(result);
@@ -86,7 +86,7 @@ public class APIJsonParser
     public CompletableFuture<ConsumablesData> getConsumables() throws IOException
     {
         logger.info("Looking up consumables");
-        String url = "https://api.worldofwarships.com/wows/encyclopedia/consumables/?application_id=" + APP_ID;
+        String url = "https://api.worldofwarships.ru/wows/encyclopedia/consumables/?application_id=" + APP_ID+ "&language=en";
         ConsumablesData result = restTemplate.getForObject(url, ConsumablesData.class);
 
         return CompletableFuture.completedFuture(result);
@@ -96,7 +96,7 @@ public class APIJsonParser
 //    public CompletableFuture<UpgradeData> getUpgrades() throws IOException
 //    {
 //        logger.info("Looking up upgrades");
-//        String url = "https://api.worldofwarships.com/wows/encyclopedia/upgrades/?application_id=" + APP_ID;
+//        String url = "https://api.worldofwarships.ru/wows/encyclopedia/upgrades/?application_id=" + APP_ID;
 //        UpgradeData result = restTemplate.getForObject(url, UpgradeData.class);
 //
 //        return CompletableFuture.completedFuture(result);
@@ -105,7 +105,7 @@ public class APIJsonParser
     public EncyclopediaData getEncyclopedia() throws IOException
     {
         logger.info("Looking up encyclopedia");
-        String url = "https://api.worldofwarships.com/wows/encyclopedia/info/?application_id=" + APP_ID;
+        String url = "https://api.worldofwarships.ru/wows/encyclopedia/info/?application_id=" + APP_ID + "&language=en";
 
         return restTemplate.getForObject(url, EncyclopediaData.class);
     }
@@ -114,7 +114,7 @@ public class APIJsonParser
     public CompletableFuture<CrewSkillsData> getCrewSkills() throws IOException
     {
         logger.info("Looking up crew skills");
-        String url = "https://api.worldofwarships.com/wows/encyclopedia/crewskills/?application_id=" + APP_ID;
+        String url = "https://api.worldofwarships.ru/wows/encyclopedia/crewskills/?application_id=" + APP_ID + "&language=en";
         CrewSkillsData result = restTemplate.getForObject(url, CrewSkillsData.class);
 
         return CompletableFuture.completedFuture(result);
@@ -124,7 +124,7 @@ public class APIJsonParser
 //    public CompletableFuture<ExteriorData> getExteriorData() throws IOException
 //    {
 //        logger.info("Looking up exterior");
-//        String url = "https://api.worldofwarships.com/wows/encyclopedia/exterior/?application_id=" + APP_ID;
+//        String url = "https://api.worldofwarships.ru/wows/encyclopedia/exterior/?application_id=" + APP_ID;
 //        ExteriorData result = restTemplate.getForObject(url, ExteriorData.class);
 //
 //        return CompletableFuture.completedFuture(result);

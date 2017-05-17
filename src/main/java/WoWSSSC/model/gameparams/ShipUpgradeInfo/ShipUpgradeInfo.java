@@ -24,6 +24,7 @@ public class ShipUpgradeInfo
     private List lockedConfig;
     private long rentCostCR;
     private long rentCostGold;
+    private long value;
 
     @JsonIgnore
     ObjectMapper mapper = new ObjectMapper();
