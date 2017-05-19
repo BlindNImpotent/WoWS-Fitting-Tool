@@ -246,6 +246,24 @@ public class AsyncHashMap implements CommandLineRunner
         {
             if (entry.getValue().getType().equals("Flags"))
             {
+                List<String> stringsList = new ArrayList<>();
+                stringsList.add(entry.getValue().getDescription());
+                entry.getValue().getProfileHashMap().values().forEach(value ->
+                {
+                    if (value != null)
+                    {
+                        String tempDescription = "\n" + value.get("description");
+                        stringsList.add(tempDescription);
+                    }
+                });
+
+                String finalString = "";
+                for (String s : stringsList)
+                {
+                    finalString = finalString + s;
+                }
+                entry.getValue().setDescription(finalString);
+
                 tempFlags.put(entry.getKey(), entry.getValue());
             }
             else if (entry.getValue().getType().equals("Camouflage"))
