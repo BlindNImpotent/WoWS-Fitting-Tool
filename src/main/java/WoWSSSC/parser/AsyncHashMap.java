@@ -248,12 +248,14 @@ public class AsyncHashMap implements CommandLineRunner
             {
                 List<String> stringsList = new ArrayList<>();
                 stringsList.add(entry.getValue().getDescription());
-                entry.getValue().getProfileHashMap().values().forEach(value ->
+
+                LinkedHashMap<String, HashMap> profileHashMap = mapper.convertValue(entry.getValue().getProfile(), LinkedHashMap.class);
+
+                profileHashMap.values().forEach(value ->
                 {
                     if (value != null)
                     {
-                        String tempDescription = "\n" + value.get("description");
-                        stringsList.add(tempDescription);
+                        stringsList.add("\n" + value.get("description"));
                     }
                 });
 

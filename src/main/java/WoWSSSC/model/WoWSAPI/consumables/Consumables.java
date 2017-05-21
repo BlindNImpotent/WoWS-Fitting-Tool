@@ -13,8 +13,6 @@ import java.util.HashMap;
 public class Consumables
 {
     private ConsumablesProfile profile;
-    @JsonIgnore
-    private HashMap<String, HashMap> profileHashMap;
     private String name;
     private int price_gold;
     private String image;
@@ -24,14 +22,4 @@ public class Consumables
     private String description;
 
     private String upgradeSlot;
-
-    @JsonIgnore
-    private ObjectMapper mapper = new ObjectMapper();
-
-    public void setProfile(ConsumablesProfile profile)
-    {
-        this.profile = profile;
-
-        profileHashMap = mapper.convertValue(profile, HashMap.class);
-    }
 }
