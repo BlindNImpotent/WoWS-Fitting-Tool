@@ -51,7 +51,10 @@
 //                https.append(queryString);
 //            }
 //
-//            response.sendRedirect(https.toString());
+//            response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+//            response.setHeader("Location", https.toString());
+//            response.setHeader("Connection", "close");
+////            response.sendRedirect(https.toString());
 //        }
 //
 //        chain.doFilter(req, res);
