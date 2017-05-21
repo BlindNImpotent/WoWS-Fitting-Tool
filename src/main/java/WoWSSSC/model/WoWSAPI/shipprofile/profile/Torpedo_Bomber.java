@@ -10,7 +10,7 @@ import lombok.Data;
 public class Torpedo_Bomber
 {
     private float cruise_speed;
-    private int gunner_damage;
+    private float gunner_damage;
     private int max_damage;
     private float max_health;
     private String name;

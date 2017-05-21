@@ -370,6 +370,11 @@ public class APIService
                         {
                             ship.getDive_bomber().setGunner_damage(ship.getDive_bomber().getGunner_damage() * 1.1f);
                         }
+
+                        if (ship.getTorpedo_bomber() != null)
+                        {
+                            ship.getTorpedo_bomber().setGunner_damage(ship.getTorpedo_bomber().getGunner_damage() * 1.1f);
+                        }
                     }
                     else if (skill.get("type_id").equals("6"))
                     {
