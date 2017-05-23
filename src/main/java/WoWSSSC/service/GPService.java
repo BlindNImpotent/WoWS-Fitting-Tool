@@ -125,6 +125,7 @@ public class GPService
             Components torpedoesComponents = null;
             Components torpedoBomberComponents = null;
             Components diveBomberComponents = null;
+            List<String> disabledAbilities = new ArrayList<>();
 
             for (String name : moduleNames)
             {
@@ -146,6 +147,10 @@ public class GPService
                     else if (cField.get(shipUpgradeInfo.getModules().get(name).getComponents()) != null && CollectionUtils.isNotEmpty(shipUpgradeInfo.getModules().get(name).getComponents().getDiveBomber()) && shipUpgradeInfo.getModules().get(name).getUcType().equalsIgnoreCase("_DiveBomber"))
                     {
                         diveBomberComponents = shipUpgradeInfo.getModules().get(name).getComponents();
+                    }
+                    else if (cField.get(shipUpgradeInfo.getModules().get(name).getComponents()) != null && CollectionUtils.isNotEmpty(shipUpgradeInfo.getModules().get(name).getDisabledAbilities()) && shipUpgradeInfo.getModules().get(name).getUcType().equalsIgnoreCase("_Hull"))
+                    {
+                        disabledAbilities = shipUpgradeInfo.getModules().get(name).getDisabledAbilities();
                     }
                     cField.setAccessible(false);
                 }
@@ -295,7 +300,7 @@ public class GPService
                     }
                 }
             }
-            setShipAbilities(shipComponents, ship_id);
+            setShipAbilities(shipComponents, ship_id, disabledAbilities);
 
             shipComponents.getHull().setWeight(tempShip.getWeight());
 
@@ -304,7 +309,7 @@ public class GPService
         return null;
     }
 
-    private void setShipAbilities(ShipComponents shipComponents, String ship_id)
+    private void setShipAbilities(ShipComponents shipComponents, String ship_id, List<String> disabledAbilities)
     {
         ShipAbilities shipAbilities = mapper.convertValue(gameParamsCHM.get(ship_id), Temporary.class).getShipAbilities();
 
@@ -312,19 +317,31 @@ public class GPService
 
         shipAbilities.getAbilitySlot0().getAbils().forEach(list ->
         {
-            abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
+            if (CollectionUtils.isEmpty(disabledAbilities) || !disabledAbilities.contains(list.get(0)))
+            {
+                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
+            }
         });
         shipAbilities.getAbilitySlot1().getAbils().forEach(list ->
         {
-            abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
+            if (CollectionUtils.isEmpty(disabledAbilities) || !disabledAbilities.contains(list.get(0)))
+            {
+                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
+            }
         });
         shipAbilities.getAbilitySlot2().getAbils().forEach(list ->
         {
-            abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
+            if (CollectionUtils.isEmpty(disabledAbilities) || !disabledAbilities.contains(list.get(0)))
+            {
+                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
+            }
         });
         shipAbilities.getAbilitySlot3().getAbils().forEach(list ->
         {
-            abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
+            if (CollectionUtils.isEmpty(disabledAbilities) || !disabledAbilities.contains(list.get(0)))
+            {
+                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
+            }
         });
 
         shipComponents.setShipAbilities(shipAbilities);

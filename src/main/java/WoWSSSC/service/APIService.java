@@ -748,7 +748,12 @@ public class APIService
         {
             if (consumables.getProfile().getAAPassiveAura() != null)
             {
-                ship.getDive_bomber().setGunner_damage(ship.getDive_bomber().getGunner_damage() * ship.getDive_bomber().getGunner_damage());
+                ship.getDive_bomber().setGunner_damage(ship.getDive_bomber().getGunner_damage() * consumables.getProfile().getAAPassiveAura().getValue());
+            }
+
+            if (consumables.getProfile().getAirplanesAntiAirAura() != null)
+            {
+                ship.getDive_bomber().setGunner_damage(ship.getDive_bomber().getGunner_damage() * consumables.getProfile().getAirplanesAntiAirAura().getValue());
             }
 
             if (consumables.getProfile().getAirplanesPrepareTime() != null)
@@ -832,7 +837,12 @@ public class APIService
         {
             if (consumables.getProfile().getAAPassiveAura() != null)
             {
-                ship.getTorpedo_bomber().setGunner_damage(ship.getTorpedo_bomber().getGunner_damage() * ship.getTorpedo_bomber().getGunner_damage());
+                ship.getTorpedo_bomber().setGunner_damage(ship.getTorpedo_bomber().getGunner_damage() * consumables.getProfile().getAAPassiveAura().getValue());
+            }
+
+            if (consumables.getProfile().getAirplanesAntiAirAura() != null)
+            {
+                ship.getTorpedo_bomber().setGunner_damage(ship.getTorpedo_bomber().getGunner_damage() * consumables.getProfile().getAirplanesAntiAirAura().getValue());
             }
 
             if (consumables.getProfile().getAirplanesPrepareTime() != null)
