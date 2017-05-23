@@ -47,6 +47,8 @@ public class Artillery
     private long penetrationHE;
     private long penetrationHEBefore;
     private float penetrationHEFloat;
+    private long penetraionIFHEBefore;
+    private long penetraionIFHEAfter;
     private int overmatch;
 
     private APShell APShell;
@@ -83,12 +85,16 @@ public class Artillery
             penetrationHEBefore = Math.round((float) barrelDiameter / 4);
             penetrationHE = Math.round((float) barrelDiameter / 4) - 1;
             penetrationHEFloat = (float) barrelDiameter / 4 ;
+            penetraionIFHEBefore = Math.round((float) barrelDiameter / 4 * 1.3);
+            penetraionIFHEAfter = penetraionIFHEBefore - 1;
         }
         else
         {
             penetrationHEBefore = Math.round((float) barrelDiameter / 6);
             penetrationHE = Math.round((float) barrelDiameter / 6) - 1;
             penetrationHEFloat = (float) barrelDiameter / 6;
+            penetraionIFHEBefore = Math.round((float) barrelDiameter / 6 * 1.3);
+            penetraionIFHEAfter = penetraionIFHEBefore - 1;
         }
     }
 }

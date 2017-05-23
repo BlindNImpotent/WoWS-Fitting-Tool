@@ -217,7 +217,7 @@
                             <span style="float: left;" th:id="'DPMHE1'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI1.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI1.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
                             <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                             <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
-                            <span style="float: left;" th:text="${shipAPI1.shipComponents.artillery.penetrationHE + ' [' + shipAPI1.shipComponents.artillery.penetrationHEBefore + ']' + ' mm'}"/><br />
+                            <span style="float: left;" th:title="${IFHE == null ? 'IFHE: ' + shipAPI1.shipComponents.artillery.penetraionIFHEAfter + ' [' + shipAPI1.shipComponents.artillery.penetraionIFHEBefore + '] mm' : ''}" th:text="${shipAPI1.shipComponents.artillery.penetrationHE + ' [' + shipAPI1.shipComponents.artillery.penetrationHEBefore + ']' + ' mm'}"/><br />
                             <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal(shell.value.burn_probability, 0, 1)} + ' %' : ''"/><br />
                             <span style="float: left;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal((100 - (T(java.lang.Math).pow((100 - shell.value.burn_probability) / 100, shipAPI1.artillery.totalGuns)) * 100), 0, 1)} + ' %' : ''"/><br />
                         </li>
@@ -239,7 +239,7 @@
                             <span style="float: right;" th:id="'DPMHE2'" th:text="${#numbers.formatInteger(shell.value.damage * shipAPI2.artillery.totalGuns * (T(Float).parseFloat(#numbers.formatDecimal(shipAPI2.artillery.gun_rate, 1, 2, 'POINT')) + 1), 1, 'COMMA') + ' hp'}"/><br />
                             <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_speed, 0, 'COMMA')} + ' m / s' : ''"/><br />
                             <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
-                            <span style="float: right;" th:text="${shipAPI2.shipComponents.artillery.penetrationHE + ' [' + shipAPI2.shipComponents.artillery.penetrationHEBefore + ']' + ' mm'}"/><br />
+                            <span style="float: right;" th:title="${IFHE == null ? 'IFHE: ' + shipAPI2.shipComponents.artillery.penetraionIFHEAfter + ' [' + shipAPI2.shipComponents.artillery.penetraionIFHEBefore + '] mm' : ''}" th:text="${shipAPI2.shipComponents.artillery.penetrationHE + ' [' + shipAPI2.shipComponents.artillery.penetrationHEBefore + ']' + ' mm'}"/><br />
                             <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal(shell.value.burn_probability, 0, 1)} + ' %' : ''"/><br />
                             <span style="float: right;" th:text="${shell.value.type == 'HE'} ? ${#numbers.formatDecimal((100 - (T(java.lang.Math).pow((100 - shell.value.burn_probability) / 100, shipAPI2.artillery.totalGuns)) * 100), 0, 1)} + ' %' : ''"/><br />
                         </li>

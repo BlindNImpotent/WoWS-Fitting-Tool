@@ -215,6 +215,11 @@ public class APIController
                             model.addAttribute("adrenaline", true);
                             model.addAttribute("adrenalineValue", adrenalineValue);
                         }
+
+                        if (skill.get("tier").equals("4") && skill.get("type_id").equals("2"))
+                        {
+                            model.addAttribute("IFHE", true);
+                        }
                     });
                 }
             }
@@ -543,6 +548,11 @@ public class APIController
                     model.addAttribute("adrenaline", true);
                     model.addAttribute("adrenalineValue1", adrenalineValue1);
                     model.addAttribute("adrenalineValue2", adrenalineValue2);
+                }
+
+                if (skill.get("tier").equals("4") && skill.get("type_id").equals("2"))
+                {
+                    model.addAttribute("IFHE", true);
                 }
             });
         }
