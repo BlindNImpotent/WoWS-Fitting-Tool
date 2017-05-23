@@ -912,7 +912,7 @@ public class APIService
 
                     if (tempConsumable.getName().contains("CrashCrew"))
                     {
-                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getCrashCrewWorkTime().getValue()));
                     }
 
                     ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
@@ -958,6 +958,7 @@ public class APIService
                     if (tempConsumable.getName().contains("SmokeGenerator"))
                     {
                         tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getSmokeGeneratorWorkTime().getValue()));
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setLifeTime(cType.getLifeTime() * consumables.getProfile().getSmokeGeneratorLifeTime().getValue()));
                     }
 
                     ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
