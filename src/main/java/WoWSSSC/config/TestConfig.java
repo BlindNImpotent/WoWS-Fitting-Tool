@@ -33,6 +33,8 @@ public class TestConfig
 
     private HashMap<String, LinkedHashMap> gameParamsCHM = new HashMap<>();
 
+    private HashMap<String, LinkedHashMap> gameParamsPTCHM = new HashMap<>();
+
     private AsyncHashMap asyncHashMap = new AsyncHashMap();
 
     private LinkedHashMap<String, String> notification = new LinkedHashMap<>();
@@ -89,10 +91,16 @@ public class TestConfig
         return data;
     }
 
-    @Bean
+    @Bean (value = "gameParamsCHM")
     public HashMap<String, LinkedHashMap> gameParamsCHM()
     {
         return gameParamsCHM;
+    }
+
+    @Bean (value = "gameParamsPTCHM")
+    public HashMap<String, LinkedHashMap> getGameParamsPTCHM()
+    {
+        return gameParamsPTCHM;
     }
 
     @Bean

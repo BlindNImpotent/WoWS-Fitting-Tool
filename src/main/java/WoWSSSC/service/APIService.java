@@ -11,12 +11,14 @@ import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.model.gameparams.Consumables.Consumable;
 import WoWSSSC.model.gameparams.Temporary;
+import WoWSSSC.model.gameparams.test.Values.ShipModernization.Modernization;
 import WoWSSSC.parser.APIJsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rits.cloning.Cloner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -55,6 +57,7 @@ public class APIService
     private HashMap<String, Ship> shipHashMap;
 
     @Autowired
+    @Qualifier (value = "gameParamsCHM")
     private HashMap<String, LinkedHashMap> gameParamsCHM;
 
     @Autowired
@@ -939,7 +942,7 @@ public class APIService
 
                     if (tempConsumable.getName().contains("RLSSearch"))
                     {
-                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getRlsSearchWorkTime().getValue()));
                     }
 
                     ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
@@ -954,7 +957,7 @@ public class APIService
 
                     if (tempConsumable.getName().contains("SmokeGenerator"))
                     {
-                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getSmokeGeneratorWorkTime().getValue()));
                     }
 
                     ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
@@ -969,7 +972,7 @@ public class APIService
 
                     if (tempConsumable.getName().contains("Spotter"))
                     {
-                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getScoutWorkTime().getValue()));
                     }
 
                     ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
@@ -984,7 +987,7 @@ public class APIService
 
                     if (tempConsumable.getName().contains("SonarSearch"))
                     {
-                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getSonarSearchWorkTime().getValue()));
                     }
 
                     ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
@@ -999,7 +1002,7 @@ public class APIService
 
                     if (tempConsumable.getName().contains("SpeedBooster"))
                     {
-                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getAirDefenseDispWorkTime().getValue()));
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setWorkTime(cType.getWorkTime() * consumables.getProfile().getSpeedBoosterWorkTime().getValue()));
                     }
 
                     ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);

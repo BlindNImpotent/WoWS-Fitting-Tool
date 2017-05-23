@@ -46,6 +46,7 @@ public class GPService
     private LinkedHashMap<String, LinkedHashMap> data;
 
     @Autowired
+    @Qualifier (value = "gameParamsCHM")
     private HashMap<String, LinkedHashMap> gameParamsCHM;
 
     @Autowired

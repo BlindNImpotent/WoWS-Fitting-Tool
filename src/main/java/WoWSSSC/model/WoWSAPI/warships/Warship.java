@@ -40,6 +40,7 @@ public class Warship
     private HashMap<String, Long> next_ships;
     private List<Long> upgrades;
     private LinkedHashMap<String, LinkedHashMap> upgradesNew = new LinkedHashMap<>();
+//    private LinkedHashMap<String, LinkedHashMap> upgradesSpecial = new LinkedHashMap<>();
     private LinkedHashMap<String, LinkedHashMap> warshipModulesTreeNew = new LinkedHashMap<>();
     private LinkedHashMap<String, List<WarshipModulesTree>> warshipModulesTreeTable = new LinkedHashMap<>();
     private List<Warship> nextWarship = new ArrayList<>();

@@ -7,6 +7,7 @@ import WoWSSSC.model.WoWSAPI.skills.CrewSkillsData;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipData;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.*;
+import WoWSSSC.model.gameparams.TypeInfo;
 import WoWSSSC.model.gameparams.test.Values.ShipAbilities.ShipAbilities;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,7 +42,12 @@ public class APIJsonParser
     private HashMap<String, Ship> shipHashMap;
 
     @Autowired
+    @Qualifier (value = "gameParamsCHM")
     private HashMap<String, LinkedHashMap> gameParamsCHM;
+
+    @Autowired
+    @Qualifier (value = "gameParamsPTCHM")
+    private HashMap<String, LinkedHashMap> gameParamsPTCHM;
 
     @Autowired
     private LinkedHashMap<String, String> notification;
@@ -143,6 +149,52 @@ public class APIJsonParser
             gameParamsCHM.put(String.valueOf(value.getValue().get("id")), value.getValue());
         });
         temp.clear();
+
+        Resource GameParamsPTFile = new ClassPathResource("static/json/GameParams_PT.json");
+        HashMap<String, LinkedHashMap> tempPT = mapper.readValue(GameParamsPTFile.getFile(), new TypeReference<HashMap<String, LinkedHashMap>>(){});
+
+        tempPT.entrySet().forEach(value ->
+        {
+            if (!idToName.containsKey(String.valueOf(value.getValue().get("id"))))
+            {
+                nameToId.put(value.getKey(), String.valueOf(value.getValue().get("id")));
+                idToName.put(String.valueOf(value.getValue().get("id")), value.getKey());
+
+                if (value.getValue().get("ShipUpgradeInfo") == null)
+                {
+                    gameParamsCHM.put(String.valueOf(value.getValue().get("id")), value.getValue());
+                }
+                else if (!mapper.convertValue(value.getValue().get("typeinfo"), TypeInfo.class).getSpecies().equalsIgnoreCase("Auxiliary"))
+                {
+                    ShipUpgradeInfo shipUpgradeInfo = mapper.convertValue(value.getValue().get("ShipUpgradeInfo"), ShipUpgradeInfo.class);
+
+                    shipUpgradeInfo.getModules().entrySet().forEach(entry ->
+                    {
+                        String key = entry.getKey();
+                        HashSet<String> next = new HashSet<>();
+
+                        shipUpgradeInfo.getModules().entrySet().forEach(mv ->
+                        {
+                            if (mv.getValue().getPrev().equals(key))
+                            {
+                                next.add(mv.getKey());
+                            }
+                        });
+
+                        ((LinkedHashMap<String, LinkedHashMap>) value.getValue().get("ShipUpgradeInfo")).get(key).put("next", next);
+                    });
+
+                    ShipAbilities shipAbilities = mapper.convertValue(value.getValue().get("ShipAbilities"), ShipAbilities.class);
+
+                    shipAbilities.getAbilitySlot0().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), tempPT.get(list.get(0))));
+                    shipAbilities.getAbilitySlot1().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), tempPT.get(list.get(0))));
+                    shipAbilities.getAbilitySlot2().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), tempPT.get(list.get(0))));
+                    shipAbilities.getAbilitySlot3().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), tempPT.get(list.get(0))));
+
+                    gameParamsPTCHM.put(String.valueOf(value.getValue().get("id")), value.getValue());
+                }
+            }
+        });
     }
 
     @Async

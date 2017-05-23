@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -39,7 +40,12 @@ public class APIController
     private LinkedHashMap<String, LinkedHashMap> data;
 
     @Autowired
+    @Qualifier (value = "gameParamsCHM")
     private HashMap<String, LinkedHashMap> gameParamsCHM;
+
+    @Autowired
+    @Qualifier (value = "gameParamsPTCHM")
+    private HashMap<String, LinkedHashMap> gameParamsPTCHM;
 
     @Autowired
     private LinkedHashMap<String, String> notification;
@@ -65,6 +71,13 @@ public class APIController
     public HashMap<String, LinkedHashMap> getGameParamsCHM(@PathVariable("id") String id)
     {
         return gameParamsCHM.get(id);
+    }
+
+    @ResponseBody
+    @RequestMapping (value = "/gameParamsPT", method = RequestMethod.GET)
+    public HashMap<String, LinkedHashMap> getGameParamsPTCHM()
+    {
+        return gameParamsPTCHM;
     }
 
     @RequestMapping (value = "/", method = RequestMethod.GET)

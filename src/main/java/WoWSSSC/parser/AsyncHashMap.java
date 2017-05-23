@@ -14,9 +14,12 @@ import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
 import WoWSSSC.model.WoWSAPI.upgrade.UpgradeData;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.model.gameparams.Consumables.Consumable;
+import WoWSSSC.model.gameparams.test.Values.ShipModernization.Modernization;
+import WoWSSSC.model.gameparams.test.Values.ShipModernization.ShipModernization;
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -41,6 +44,14 @@ public class AsyncHashMap implements CommandLineRunner
     private HashMap<String, Ship> shipHashMap;
 
     @Autowired
+    @Qualifier (value = "gameParamsCHM")
+    private HashMap<String, LinkedHashMap> gameParamsCHM;
+
+    @Autowired
+    @Qualifier (value = "nameToId")
+    private HashMap<String, String> nameToId;
+
+    @Autowired
     private Sorter sorter;
 
     private ObjectMapper mapper = new ObjectMapper();
@@ -54,6 +65,8 @@ public class AsyncHashMap implements CommandLineRunner
         List<String> shipTypeString = new ArrayList<>();
 
         LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
+
+        LinkedHashMap<String, Modernization> upgradesSpecial = new LinkedHashMap<>();
 
         apiJsonParser.setNotification();
 
@@ -94,6 +107,61 @@ public class AsyncHashMap implements CommandLineRunner
         CompletableFuture<CrewSkillsData> crewsSkillsData = apiJsonParser.getCrewSkills();
 
         CompletableFuture<ConsumablesData> consumablesData = apiJsonParser.getConsumables();
+
+        LinkedHashMap<String, Consumables> tempUpgrades = new LinkedHashMap<>();
+        consumablesData.get().getData().entrySet().forEach(entry ->
+        {
+            tempUpgrades.put(entry.getKey(), entry.getValue());
+        });
+
+        LinkedHashMap<String, LinkedHashMap> tempExteriors = new LinkedHashMap<>();
+        LinkedHashMap<String, Consumables> tempFlags = new LinkedHashMap<>();
+        LinkedHashMap<String, Consumables> tempPermoflage = new LinkedHashMap<>();
+        LinkedHashMap<String, Consumables> tempCamouflage = new LinkedHashMap<>();
+
+        consumablesData.get().getData().entrySet().forEach(entry ->
+        {
+            if (entry.getValue().getType().equals("Flags"))
+            {
+                List<String> stringsList = new ArrayList<>();
+                stringsList.add(entry.getValue().getDescription());
+
+                LinkedHashMap<String, HashMap> profileHashMap = mapper.convertValue(entry.getValue().getProfile(), LinkedHashMap.class);
+
+                profileHashMap.values().forEach(value ->
+                {
+                    if (value != null)
+                    {
+                        stringsList.add("\n" + value.get("description"));
+                    }
+                });
+
+                String finalString = "";
+                for (String s : stringsList)
+                {
+                    finalString = finalString + s;
+                }
+                entry.getValue().setDescription(finalString);
+
+                tempFlags.put(entry.getKey(), entry.getValue());
+            }
+            else if (entry.getValue().getType().equals("Camouflage"))
+            {
+                tempCamouflage.put(entry.getKey(), entry.getValue());
+            }
+            else if (entry.getValue().getType().equals("Permoflage"))
+            {
+                tempPermoflage.put(entry.getKey(), entry.getValue());
+            }
+            else if (entry.getValue().getType().equals("Modernization"))
+            {
+                tempUpgrades.put(entry.getKey(), entry.getValue());
+            }
+        });
+
+        tempExteriors.put("Flags", tempFlags);
+        tempExteriors.put("Camouflage", tempCamouflage);
+        tempExteriors.put("Permoflage", tempPermoflage);
 
         CompletableFuture.runAsync(() -> futures.entrySet().forEach(futureEntry ->
         {
@@ -209,6 +277,8 @@ public class AsyncHashMap implements CommandLineRunner
                             {
                                 e.printStackTrace();
                             }
+
+                            setUpgradesPerShipGameParams(encyclopedia, value, String.valueOf(value.getShip_id()), tempUpgrades, upgradesSpecial);
                         }
                         wsd.getData().put(key, value);
                     });
@@ -230,61 +300,6 @@ public class AsyncHashMap implements CommandLineRunner
         LinkedHashMap<String, LinkedHashMap> tempTree = new LinkedHashMap<>();
 
         nations.entrySet().forEach(entry -> tempTree.put(entry.getKey(), setShipTree(entry.getValue())));
-
-        LinkedHashMap<String, Consumables> tempUpgrades = new LinkedHashMap<>();
-        consumablesData.get().getData().entrySet().forEach(entry ->
-        {
-            tempUpgrades.put(entry.getKey(), entry.getValue());
-        });
-
-        LinkedHashMap<String, LinkedHashMap> tempExteriors = new LinkedHashMap<>();
-        LinkedHashMap<String, Consumables> tempFlags = new LinkedHashMap<>();
-        LinkedHashMap<String, Consumables> tempPermoflage = new LinkedHashMap<>();
-        LinkedHashMap<String, Consumables> tempCamouflage = new LinkedHashMap<>();
-
-        consumablesData.get().getData().entrySet().forEach(entry ->
-        {
-            if (entry.getValue().getType().equals("Flags"))
-            {
-                List<String> stringsList = new ArrayList<>();
-                stringsList.add(entry.getValue().getDescription());
-
-                LinkedHashMap<String, HashMap> profileHashMap = mapper.convertValue(entry.getValue().getProfile(), LinkedHashMap.class);
-
-                profileHashMap.values().forEach(value ->
-                {
-                    if (value != null)
-                    {
-                        stringsList.add("\n" + value.get("description"));
-                    }
-                });
-
-                String finalString = "";
-                for (String s : stringsList)
-                {
-                    finalString = finalString + s;
-                }
-                entry.getValue().setDescription(finalString);
-
-                tempFlags.put(entry.getKey(), entry.getValue());
-            }
-            else if (entry.getValue().getType().equals("Camouflage"))
-            {
-                tempCamouflage.put(entry.getKey(), entry.getValue());
-            }
-            else if (entry.getValue().getType().equals("Permoflage"))
-            {
-                tempPermoflage.put(entry.getKey(), entry.getValue());
-            }
-            else if (entry.getValue().getType().equals("Modernization"))
-            {
-                tempUpgrades.put(entry.getKey(), entry.getValue());
-            }
-        });
-
-        tempExteriors.put("Flags", tempFlags);
-        tempExteriors.put("Camouflage", tempCamouflage);
-        tempExteriors.put("Permoflage", tempPermoflage);
 
         LinkedHashMap<String, LinkedHashMap> tempPremiumTable = new LinkedHashMap<>();
         for (Map.Entry<String, LinkedHashMap> nation : tempTree.entrySet())
@@ -323,6 +338,7 @@ public class AsyncHashMap implements CommandLineRunner
         data.put("rawShipData", rawShipData);
 //        data.put("nations", nations);
         data.put("upgrades", tempUpgrades);
+        data.put("upgradesSpecial", upgradesSpecial);
         data.put("skills", setCrewSkills(crewsSkillsData.get().getData()));
         data.put("exteriors", tempExteriors);
 //        data.put("exteriors", setExteriors(exteriorData.get().getData()));
@@ -424,6 +440,199 @@ public class AsyncHashMap implements CommandLineRunner
             }
         });
         warship.setUpgradesNew(tempConsumablesHM);
+    }
+
+    private void setUpgradesPerShipGameParams(Encyclopedia encyclopedia, Warship warship, String shipId, LinkedHashMap<String, Consumables> upgrades, LinkedHashMap<String, Modernization> upgradesSpecial)
+    {
+        LinkedHashMap<String, LinkedHashMap> ship = gameParamsCHM.get(shipId);
+        ShipModernization shipModernization = mapper.convertValue(ship.get("ShipModernization"), ShipModernization.class);
+
+        LinkedHashMap<String, Modernization> tempModernization = new LinkedHashMap<>();
+        LinkedHashMap<String, LinkedHashMap> tempSlot = new LinkedHashMap<>();
+
+        Modernization modernization;
+
+        if (shipModernization.getModernizationSlot1() != null)
+        {
+            int credit = 0;
+            for (String mod : shipModernization.getModernizationSlot1().getMods())
+            {
+                String id = nameToId.get(mod);
+                modernization = mapper.convertValue(gameParamsCHM.get(id), Modernization.class);
+
+                if (warship.getUpgrades().contains(Long.parseLong(id)))
+                {
+                    if (credit == 0 || credit == 1250000)
+                    {
+                        credit = modernization.getCostCR();
+                    }
+                }
+                else if (!warship.getUpgrades().contains(Long.parseLong(id)))
+                {
+                    Consumables tempConsumable = upgrades.get(id);
+                    warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+                }
+            }
+        }
+
+        if (shipModernization.getModernizationSlot2() != null)
+        {
+            int credit = 0;
+            for (String mod : shipModernization.getModernizationSlot2().getMods())
+            {
+                String id = nameToId.get(mod);
+                modernization = mapper.convertValue(gameParamsCHM.get(id), Modernization.class);
+
+                if (warship.getUpgrades().contains(Long.parseLong(id)))
+                {
+                    if (credit == 0 || credit == 1250000)
+                    {
+                        credit = modernization.getCostCR();
+                    }
+                }
+                else if (!warship.getUpgrades().contains(Long.parseLong(id)))
+                {
+                    Consumables tempConsumable = upgrades.get(id);
+                    warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+                }
+            }
+        }
+
+        if (shipModernization.getModernizationSlot3() != null)
+        {
+            int credit = 0;
+            for (String mod : shipModernization.getModernizationSlot3().getMods())
+            {
+                String id = nameToId.get(mod);
+                modernization = mapper.convertValue(gameParamsCHM.get(id), Modernization.class);
+
+                if (warship.getUpgrades().contains(Long.parseLong(id)))
+                {
+                    if (credit == 0 || credit == 1250000)
+                    {
+                        credit = modernization.getCostCR();
+                    }
+                }
+                else if (!warship.getUpgrades().contains(Long.parseLong(id)))
+                {
+                    Consumables tempConsumable = upgrades.get(id);
+                    warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+                }
+            }
+        }
+
+        if (shipModernization.getModernizationSlot4() != null)
+        {
+            int credit = 0;
+            for (String mod : shipModernization.getModernizationSlot4().getMods())
+            {
+                String id = nameToId.get(mod);
+                modernization = mapper.convertValue(gameParamsCHM.get(id), Modernization.class);
+
+                if (warship.getUpgrades().contains(Long.parseLong(id)))
+                {
+                    if (credit == 0 || credit == 1250000)
+                    {
+                        credit = modernization.getCostCR();
+                    }
+                }
+                else if (!warship.getUpgrades().contains(Long.parseLong(id)))
+                {
+                    Consumables tempConsumable = upgrades.get(id);
+                    warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+                }
+            }
+        }
+
+        if (shipModernization.getModernizationSlot5() != null)
+        {
+            int credit = 0;
+            for (String mod : shipModernization.getModernizationSlot5().getMods())
+            {
+                String id = nameToId.get(mod);
+                modernization = mapper.convertValue(gameParamsCHM.get(id), Modernization.class);
+
+                if (warship.getUpgrades().contains(Long.parseLong(id)))
+                {
+                    if (credit == 0 || credit == 1250000)
+                    {
+                        credit = modernization.getCostCR();
+                    }
+                }
+                else if (!warship.getUpgrades().contains(Long.parseLong(id)))
+                {
+                    Consumables tempConsumable = upgrades.get(id);
+                    warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+                }
+            }
+        }
+
+        if (shipModernization.getModernizationSlot6() != null)
+        {
+            int credit = 0;
+            for (String mod : shipModernization.getModernizationSlot6().getMods())
+            {
+                String id = nameToId.get(mod);
+                modernization = mapper.convertValue(gameParamsCHM.get(id), Modernization.class);
+
+                if (warship.getUpgrades().contains(Long.parseLong(id)))
+                {
+                    if (credit == 0 || credit == 1250000)
+                    {
+                        credit = modernization.getCostCR();
+                    }
+                }
+                else if (!warship.getUpgrades().contains(Long.parseLong(id)))
+                {
+                    Consumables tempConsumable = upgrades.get(id);
+                    warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+                }
+            }
+        }
+
+//        LinkedHashMap<String, Modernization> k125 = new LinkedHashMap<>();
+//        LinkedHashMap<String, Modernization> k250 = new LinkedHashMap<>();
+//        LinkedHashMap<String, Modernization> k500 = new LinkedHashMap<>();
+//        LinkedHashMap<String, Modernization> k1000 = new LinkedHashMap<>();
+//        LinkedHashMap<String, Modernization> k2000 = new LinkedHashMap<>();
+//        LinkedHashMap<String, Modernization> k3000 = new LinkedHashMap<>();
+//
+//        tempModernization.entrySet().forEach(entry ->
+//        {
+//            if (entry.getValue().getTempCR() == 125000)
+//            {
+//                k125.put(entry.getKey(), entry.getValue());
+//            }
+//            else if (entry.getValue().getTempCR() == 250000)
+//            {
+//                k250.put(entry.getKey(), entry.getValue());
+//            }
+//            else if (entry.getValue().getTempCR() == 500000)
+//            {
+//                k500.put(entry.getKey(), entry.getValue());
+//            }
+//            else if (entry.getValue().getTempCR() == 1000000)
+//            {
+//                k1000.put(entry.getKey(), entry.getValue());
+//            }
+//            else if (entry.getValue().getTempCR() == 2000000)
+//            {
+//                k2000.put(entry.getKey(), entry.getValue());
+//            }
+//            else if (entry.getValue().getTempCR() == 3000000)
+//            {
+//                k3000.put(entry.getKey(), entry.getValue());
+//            }
+//        });
+//
+//        tempSlot.put("125000", k125);
+//        tempSlot.put("250000", k250);
+//        tempSlot.put("500000", k500);
+//        tempSlot.put("1000000", k1000);
+//        tempSlot.put("2000000", k2000);
+//        tempSlot.put("3000000", k3000);
+//
+//        warship.setUpgradesSpecial(tempSlot);
     }
 
     private LinkedHashMap<String, LinkedHashMap> setCrewSkills(LinkedHashMap<String, CrewSkills> crewSkills)
