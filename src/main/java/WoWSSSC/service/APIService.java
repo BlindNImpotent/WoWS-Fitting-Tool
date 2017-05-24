@@ -1,5 +1,6 @@
 package WoWSSSC.service;
 
+import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
 import WoWSSSC.model.bitly.Bitly;
 import WoWSSSC.model.bitly.BitlyData;
 import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
@@ -13,6 +14,7 @@ import WoWSSSC.model.gameparams.Consumables.Consumable;
 import WoWSSSC.model.gameparams.Temporary;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.Modernization;
 import WoWSSSC.parser.APIJsonParser;
+import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rits.cloning.Cloner;
 import org.slf4j.Logger;
@@ -63,6 +65,9 @@ public class APIService
     @Autowired
     private GPService gpService;
 
+    @Autowired
+    private Sorter sorter;
+
     private ObjectMapper mapper = new ObjectMapper();
 
     private static final Logger logger = LoggerFactory.getLogger(APIService.class);
@@ -106,6 +111,8 @@ public class APIService
                         shipData.getData().get(ship_id).getFighters().getCount_in_squadron().setMin(3);
                         shipData.getData().get(ship_id).getFighters().getCount_in_squadron().setMax(3);
                     }
+
+                    shipData.getData().get(ship_id).getAnti_aircraft().setSlots(sorter.sortAARange(shipData.getData().get(ship_id).getAnti_aircraft().getSlots()));
 
                     shipHashMap.put(key, shipData.getData().get(ship_id));
                 }
@@ -182,10 +189,13 @@ public class APIService
 
         Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(shipName);
 
+        String gameVersion = mapper.convertValue(data.get("encyclopedia"), Encyclopedia.class).getGame_version().replace(".", "");
+        int version = Integer.parseInt(gameVersion);
+
         ShipComponents shipComponents = gpService.setShipGP(nation, shipType, shipName, ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id, modules);
         if (shipComponents.getArtillery() != null)
         {
-            shipComponents.getArtillery().setPenetrationHEWithNation(warship.getNation(), warship.getDefaultType(), warship.getName());
+            shipComponents.getArtillery().setPenetrationHEWithNation(warship.getNation(), warship.getDefaultType(), warship.getName(), version);
         }
         ship.setShipComponents(shipComponents);
 

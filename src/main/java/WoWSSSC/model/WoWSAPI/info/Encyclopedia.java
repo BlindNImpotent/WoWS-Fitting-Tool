@@ -1,6 +1,7 @@
 package WoWSSSC.model.WoWSAPI.info;
 
 import WoWSSSC.model.WoWSAPI.info.ShipTypeImages.ShipTypeImages;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.text.SimpleDateFormat;
@@ -20,6 +21,8 @@ public class Encyclopedia
     private ShipTypeImages ship_type_images;
     private LinkedHashMap<String, String> ship_nations = new LinkedHashMap<>();
     private String game_version;
+
+    private String shipUpdatedDate;
 
     public void setShip_nations(HashMap<String, String> ship_nations)
     {

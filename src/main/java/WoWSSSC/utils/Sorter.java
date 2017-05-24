@@ -1,7 +1,9 @@
 package WoWSSSC.utils;
 
 import WoWSSSC.model.WoWSAPI.consumables.Consumables;
+import WoWSSSC.model.WoWSAPI.shipprofile.profile.anti_aircraft.Anti_Aircraft_Slot;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
+import WoWSSSC.model.WoWSAPI.upgrade.profile.Anti_Aircraft;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
@@ -265,6 +267,41 @@ public class Sorter
             sorted.put(entry.getKey(), entry.getValue());
         }
 
+        return sorted;
+    }
+
+    public LinkedHashMap<String, Anti_Aircraft_Slot> sortAARange(LinkedHashMap<String, Anti_Aircraft_Slot> unsorted)
+    {
+        LinkedHashMap<String, Anti_Aircraft_Slot> sorted = new LinkedHashMap<>();
+
+        List<Map.Entry<String, Anti_Aircraft_Slot>> list = new LinkedList<>(unsorted.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<String, Anti_Aircraft_Slot>>() {
+            @Override
+            public int compare(Map.Entry<String, Anti_Aircraft_Slot> o1, Map.Entry<String, Anti_Aircraft_Slot> o2)
+            {
+                if (o1.getValue().getDistance() == o2.getValue().getDistance())
+                {
+                    if (o1.getValue().getCaliber() == o2.getValue().getCaliber())
+                    {
+                        return (int) ((o1.getValue().getAvg_damage() - o2.getValue().getAvg_damage()) * 100);
+                    }
+                    else
+                    {
+                        return (int) ((o1.getValue().getCaliber() - o2.getValue().getCaliber()) * 100);
+                    }
+                }
+                else
+                {
+                    return (int) ((o1.getValue().getDistance() - o2.getValue().getDistance()) * 100);
+                }
+            }
+        });
+
+        for (Map.Entry<String, Anti_Aircraft_Slot> entry : list)
+        {
+            sorted.put(entry.getKey(), entry.getValue());
+        }
         return sorted;
     }
 }
