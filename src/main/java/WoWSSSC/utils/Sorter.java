@@ -302,6 +302,7 @@ public class Sorter
         {
             sorted.put(entry.getKey(), entry.getValue());
         }
+
         return sorted;
     }
 }

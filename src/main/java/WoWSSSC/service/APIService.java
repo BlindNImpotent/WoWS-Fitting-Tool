@@ -112,7 +112,10 @@ public class APIService
                         shipData.getData().get(ship_id).getFighters().getCount_in_squadron().setMax(3);
                     }
 
-                    shipData.getData().get(ship_id).getAnti_aircraft().setSlots(sorter.sortAARange(shipData.getData().get(ship_id).getAnti_aircraft().getSlots()));
+                    if (shipData.getData().get(ship_id).getAnti_aircraft() != null)
+                    {
+                        shipData.getData().get(ship_id).getAnti_aircraft().setSlots(sorter.sortAARange(shipData.getData().get(ship_id).getAnti_aircraft().getSlots()));
+                    }
 
                     shipHashMap.put(key, shipData.getData().get(ship_id));
                 }
