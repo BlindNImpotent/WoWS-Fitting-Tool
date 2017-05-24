@@ -1030,7 +1030,7 @@ public class APIService
 
             if (consumables.getProfile().getBurnProb() != null)
             {
-                shipComponents.getHull().setBurnChanceReduction(shipComponents.getHull().getBurnChanceReduction() + 0.05);
+                shipComponents.getHull().setBurnChanceReduction(shipComponents.getHull().getBurnChanceReduction() + (1 - consumables.getProfile().getBurnProb().getValue()));
             }
 
             if (consumables.getProfile().getEngineForwardUpTime() != null)
@@ -1042,18 +1042,18 @@ public class APIService
             {
                 if (ship.getShipComponents().getTorpedoes() != null)
                 {
-                    ship.getShipComponents().getTorpedoes().getTorpedo().setUwCritical(ship.getShipComponents().getTorpedoes().getTorpedo().getUwCritical() + 0.04f);
+                    ship.getShipComponents().getTorpedoes().getTorpedo().setUwCritical(ship.getShipComponents().getTorpedoes().getTorpedo().getUwCritical() + (consumables.getProfile().getFloodChanceFactor().getValue() - 1));
                 }
 
                 if (ship.getShipComponents().getTorpedoBomber() != null)
                 {
-                    ship.getShipComponents().getTorpedoBomber().getTorpedo().setUwCritical(ship.getShipComponents().getTorpedoBomber().getTorpedo().getUwCritical() + 0.04f);
+                    ship.getShipComponents().getTorpedoBomber().getTorpedo().setUwCritical(ship.getShipComponents().getTorpedoBomber().getTorpedo().getUwCritical() + (consumables.getProfile().getFloodChanceFactor().getValue() - 1));
                 }
             }
 
             if (consumables.getProfile().getFloodProb() != null)
             {
-                shipComponents.getHull().setFloodChance(shipComponents.getHull().getFloodChance() - 0.03);
+                shipComponents.getHull().setFloodChance(shipComponents.getHull().getFloodChance() - (1 - consumables.getProfile().getFloodProb().getValue()));
             }
         }
     }
