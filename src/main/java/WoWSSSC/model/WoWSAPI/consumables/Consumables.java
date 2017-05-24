@@ -22,4 +22,7 @@ public class Consumables
     private String description;
 
     private String upgradeSlot;
+
+    @JsonIgnore
+    private int tempCR;
 }

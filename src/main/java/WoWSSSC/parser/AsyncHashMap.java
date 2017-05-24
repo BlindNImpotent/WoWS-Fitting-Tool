@@ -58,6 +58,13 @@ public class AsyncHashMap implements CommandLineRunner
 
     private LinkedHashMap<String, Warship> rawShipData = new LinkedHashMap<>();
 
+    LinkedHashMap<String, Consumables> k125 = new LinkedHashMap<>();
+    LinkedHashMap<String, Consumables> k250 = new LinkedHashMap<>();
+    LinkedHashMap<String, Consumables> k500 = new LinkedHashMap<>();
+    LinkedHashMap<String, Consumables> k1000 = new LinkedHashMap<>();
+    LinkedHashMap<String, Consumables> k2000 = new LinkedHashMap<>();
+    LinkedHashMap<String, Consumables> k3000 = new LinkedHashMap<>();
+
     @Override
     public void run(String... strings) throws Exception
     {
@@ -66,7 +73,7 @@ public class AsyncHashMap implements CommandLineRunner
 
         LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
 
-        LinkedHashMap<String, Modernization> upgradesSpecial = new LinkedHashMap<>();
+        LinkedHashMap<String, LinkedHashMap> upgradesSpecial = new LinkedHashMap<>();
 
         apiJsonParser.setNotification();
 
@@ -442,12 +449,12 @@ public class AsyncHashMap implements CommandLineRunner
         warship.setUpgradesNew(tempConsumablesHM);
     }
 
-    private void setUpgradesPerShipGameParams(Encyclopedia encyclopedia, Warship warship, String shipId, LinkedHashMap<String, Consumables> upgrades, LinkedHashMap<String, Modernization> upgradesSpecial)
+    private void setUpgradesPerShipGameParams(Encyclopedia encyclopedia, Warship warship, String shipId, LinkedHashMap<String, Consumables> upgrades, LinkedHashMap<String, LinkedHashMap> upgradesSpecial)
     {
         LinkedHashMap<String, LinkedHashMap> ship = gameParamsCHM.get(shipId);
         ShipModernization shipModernization = mapper.convertValue(ship.get("ShipModernization"), ShipModernization.class);
 
-        LinkedHashMap<String, Modernization> tempModernization = new LinkedHashMap<>();
+        LinkedHashMap<String, Consumables> tempModernization = new LinkedHashMap<>();
         LinkedHashMap<String, LinkedHashMap> tempSlot = new LinkedHashMap<>();
 
         Modernization modernization;
@@ -471,6 +478,9 @@ public class AsyncHashMap implements CommandLineRunner
                 {
                     Consumables tempConsumable = upgrades.get(id);
                     warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+
+                    tempConsumable.setTempCR(credit);
+                    tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
                 }
             }
         }
@@ -494,6 +504,9 @@ public class AsyncHashMap implements CommandLineRunner
                 {
                     Consumables tempConsumable = upgrades.get(id);
                     warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+
+                    tempConsumable.setTempCR(credit);
+                    tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
                 }
             }
         }
@@ -517,6 +530,9 @@ public class AsyncHashMap implements CommandLineRunner
                 {
                     Consumables tempConsumable = upgrades.get(id);
                     warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+
+                    tempConsumable.setTempCR(credit);
+                    tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
                 }
             }
         }
@@ -540,6 +556,9 @@ public class AsyncHashMap implements CommandLineRunner
                 {
                     Consumables tempConsumable = upgrades.get(id);
                     warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+
+                    tempConsumable.setTempCR(credit);
+                    tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
                 }
             }
         }
@@ -563,6 +582,9 @@ public class AsyncHashMap implements CommandLineRunner
                 {
                     Consumables tempConsumable = upgrades.get(id);
                     warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+
+                    tempConsumable.setTempCR(credit);
+                    tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
                 }
             }
         }
@@ -586,53 +608,47 @@ public class AsyncHashMap implements CommandLineRunner
                 {
                     Consumables tempConsumable = upgrades.get(id);
                     warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+
+                    tempConsumable.setTempCR(credit);
+                    tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
                 }
             }
         }
 
-//        LinkedHashMap<String, Modernization> k125 = new LinkedHashMap<>();
-//        LinkedHashMap<String, Modernization> k250 = new LinkedHashMap<>();
-//        LinkedHashMap<String, Modernization> k500 = new LinkedHashMap<>();
-//        LinkedHashMap<String, Modernization> k1000 = new LinkedHashMap<>();
-//        LinkedHashMap<String, Modernization> k2000 = new LinkedHashMap<>();
-//        LinkedHashMap<String, Modernization> k3000 = new LinkedHashMap<>();
-//
-//        tempModernization.entrySet().forEach(entry ->
-//        {
-//            if (entry.getValue().getTempCR() == 125000)
-//            {
-//                k125.put(entry.getKey(), entry.getValue());
-//            }
-//            else if (entry.getValue().getTempCR() == 250000)
-//            {
-//                k250.put(entry.getKey(), entry.getValue());
-//            }
-//            else if (entry.getValue().getTempCR() == 500000)
-//            {
-//                k500.put(entry.getKey(), entry.getValue());
-//            }
-//            else if (entry.getValue().getTempCR() == 1000000)
-//            {
-//                k1000.put(entry.getKey(), entry.getValue());
-//            }
-//            else if (entry.getValue().getTempCR() == 2000000)
-//            {
-//                k2000.put(entry.getKey(), entry.getValue());
-//            }
-//            else if (entry.getValue().getTempCR() == 3000000)
-//            {
-//                k3000.put(entry.getKey(), entry.getValue());
-//            }
-//        });
-//
-//        tempSlot.put("125000", k125);
-//        tempSlot.put("250000", k250);
-//        tempSlot.put("500000", k500);
-//        tempSlot.put("1000000", k1000);
-//        tempSlot.put("2000000", k2000);
-//        tempSlot.put("3000000", k3000);
-//
-//        warship.setUpgradesSpecial(tempSlot);
+        tempModernization.entrySet().forEach(entry ->
+        {
+            if (entry.getValue().getTempCR() == 125000)
+            {
+                k125.put(entry.getKey(), entry.getValue());
+            }
+            else if (entry.getValue().getTempCR() == 250000)
+            {
+                k250.put(entry.getKey(), entry.getValue());
+            }
+            else if (entry.getValue().getTempCR() == 500000)
+            {
+                k500.put(entry.getKey(), entry.getValue());
+            }
+            else if (entry.getValue().getTempCR() == 1000000)
+            {
+                k1000.put(entry.getKey(), entry.getValue());
+            }
+            else if (entry.getValue().getTempCR() == 2000000)
+            {
+                k2000.put(entry.getKey(), entry.getValue());
+            }
+            else if (entry.getValue().getTempCR() == 3000000)
+            {
+                k3000.put(entry.getKey(), entry.getValue());
+            }
+        });
+
+        upgradesSpecial.put("125000", k125);
+        upgradesSpecial.put("250000", k250);
+        upgradesSpecial.put("500000", k500);
+        upgradesSpecial.put("1000000", k1000);
+        upgradesSpecial.put("2000000", k2000);
+        upgradesSpecial.put("3000000", k3000);
     }
 
     private LinkedHashMap<String, LinkedHashMap> setCrewSkills(LinkedHashMap<String, CrewSkills> crewSkills)
