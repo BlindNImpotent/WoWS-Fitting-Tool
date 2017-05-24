@@ -55,7 +55,7 @@ public class APIController
 
     private static final Logger logger = LoggerFactory.getLogger(APIController.class);
 
-    ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = new ObjectMapper();
 
     private long cacheStart = System.currentTimeMillis();
 
