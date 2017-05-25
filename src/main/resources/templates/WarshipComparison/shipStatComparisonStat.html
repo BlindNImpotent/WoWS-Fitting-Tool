@@ -549,45 +549,45 @@
                     </div>
                 </div>
                 <br />
-                <div th:if="${shipAPI1.atbas != null or shipAPI2.atbas != null}" id="atbas" style="width: 500px; margin: 0 auto; text-align: left; display: inline-block;">
+                <div th:if="${shipAPI1.shipComponents.atba != null or shipAPI2.shipComponents.atba != null}" id="atbas" style="width: 500px; margin: 0 auto; text-align: left; display: inline-block;">
                     <div style="text-align: center;">
                         <strong>Secondary</strong>
                     </div>
                     <div style="width: 500px; margin: 0 auto; text-align: center">
-                        <li style="display: inline-block; float: left; width: 160px;" th:if="${shipAPI1.atbas == null}">
+                        <li style="display: inline-block; float: left; width: 160px;" th:if="${shipAPI1.shipComponents.atba == null}">
                         </li>
-                        <li style="display: inline-block; float: left; width: 160px;" th:if="${shipAPI1.atbas != null}">
-                            <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.atbas.distance, 0, 1)} + ' km'"/>
+                        <li style="display: inline-block; float: left; width: 160px;" th:if="${shipAPI1.shipComponents.atba != null}">
+                            <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.atba.maxDist, 0, 1)} + ' km'"/>
                         </li>
                         <li style="display: inline-block; text-align: center; width: 160px;">
                             <span>Max Distance</span>
                         </li>
-                        <li style="display: inline-block; float: right; width: 160px;" th:if="${shipAPI2.atbas == null}">
+                        <li style="display: inline-block; float: right; width: 160px;" th:if="${shipAPI2.shipComponents.atba == null}">
                         </li>
-                        <li style="display: inline-block; float: right; width: 160px;" th:if="${shipAPI2.atbas != null}">
-                            <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.atbas.distance, 0, 1)} + ' km'"/>
-                        </li>
-                    </div>
-                    <div style="display: inline-block; vertical-align: top; float: left; width: 240px;" th:if="${shipAPI1.atbas != null}">
-                        <li th:each="slot : ${shipAPI1.atbas.slots}" th:if="${shipAPI1.atbas.slots != null}">
-                            <u style="float: left;" th:text="${slot.value.name}"/><br />
-                            Damage<span style="float: right;" th:text="${#numbers.formatInteger(slot.value.damage, 0, 'COMMA')} + ' hp'"/><br />
-                            Reload
-                            <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.shot_delay, 0, 1)} + ' s'"/><br />
-                            Speed<span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.bullet_speed, 0, 1)} + ' m / s'"/><br />
-                            Type<span style="float: right;" th:text="${slot.value.type}"/><br />
-                            Burn Probability<span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.burn_probability, 0, 1)} + ' %'"/><br />
+                        <li style="display: inline-block; float: right; width: 160px;" th:if="${shipAPI2.shipComponents.atba != null}">
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.atba.maxDist, 0, 1)} + ' km'"/>
                         </li>
                     </div>
-                    <div style="display: inline-block; vertical-align: top; float: right; width: 240px;" th:if="${shipAPI2.atbas != null}">
-                        <li th:each="slot : ${shipAPI2.atbas.slots}" th:if="${shipAPI2.atbas.slots != null}">
-                            <u style="float: right;" th:text="${slot.value.name}"/><br />
-                            Damage<span style="float: right;" th:text="${#numbers.formatInteger(slot.value.damage, 0, 'COMMA')} + ' hp'"/><br />
+                    <div style="display: inline-block; vertical-align: top; float: left; width: 240px;" th:if="${shipAPI1.shipComponents.atba != null}">
+                        <li th:each="secondary : ${shipAPI1.shipComponents.atba.secondariesList}" th:if="${!#lists.isEmpty(shipAPI1.shipComponents.atba.secondariesList)}">
+                            <u style="float: left;" th:text="${secondary.count + ' X ' + secondary.numBarrels + ' ' + secondary.realName}"/><br />
+                            Damage<span style="float: right;" th:text="${#numbers.formatInteger(secondary.shell.alphaDamage, 0, 'COMMA')} + ' hp'"/><br />
                             Reload
-                            <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.shot_delay, 0, 1)} + ' s'"/><br />
-                            Speed<span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.bullet_speed, 0, 1)} + ' m / s'"/><br />
-                            Type<span style="float: right;" th:text="${slot.value.type}"/><br />
-                            Burn Probability<span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.burn_probability, 0, 1)} + ' %'"/><br />
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(secondary.shotDelay, 0, 1)} + ' s'"/><br />
+                            Speed<span style="float: right;" th:text="${#numbers.formatDecimal(secondary.shell.bulletSpeed, 0, 1)} + ' m / s'"/><br />
+                            Type<span style="float: right;" th:text="${secondary.shell.ammoType}"/><br />
+                            Burn Probability<span style="float: right;" th:text="${#numbers.formatDecimal(secondary.shell.burnProbHundred, 0, 1)} + ' %'"/><br />
+                        </li>
+                    </div>
+                    <div style="display: inline-block; vertical-align: top; float: right; width: 240px;" th:if="${shipAPI2.shipComponents.atba != null}">
+                        <li th:each="secondary : ${shipAPI2.shipComponents.atba.secondariesList}" th:if="${!#lists.isEmpty(shipAPI2.shipComponents.atba.secondariesList)}">
+                            <u style="float: right;" th:text="${secondary.count + ' X ' + secondary.numBarrels + ' ' + secondary.realName}"/><br />
+                            Damage<span style="float: right;" th:text="${#numbers.formatInteger(secondary.shell.alphaDamage, 0, 'COMMA')} + ' hp'"/><br />
+                            Reload
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(secondary.shotDelay, 0, 1)} + ' s'"/><br />
+                            Speed<span style="float: right;" th:text="${#numbers.formatDecimal(secondary.shell.bulletSpeed, 0, 1)} + ' m / s'"/><br />
+                            Type<span style="float: right;" th:text="${secondary.shell.ammoType}"/><br />
+                            Burn Probability<span style="float: right;" th:text="${#numbers.formatDecimal(secondary.shell.burnProbHundred, 0, 1)} + ' %'"/><br />
                         </li>
                     </div>
                 </div>
