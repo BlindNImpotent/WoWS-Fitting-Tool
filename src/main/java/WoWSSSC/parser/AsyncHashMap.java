@@ -79,6 +79,8 @@ public class AsyncHashMap implements CommandLineRunner
 
         apiJsonParser.setGameParams();
 
+        apiJsonParser.setPO();
+
         HashMap<String, Warship> tempWarships = apiJsonParser.getTotalWarships();
         tempWarships.values().forEach(warship ->
         {

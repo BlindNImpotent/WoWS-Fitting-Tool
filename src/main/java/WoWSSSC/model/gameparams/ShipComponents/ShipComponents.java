@@ -1,6 +1,7 @@
 package WoWSSSC.model.gameparams.ShipComponents;
 
 import WoWSSSC.model.gameparams.Consumables.Consumable;
+import WoWSSSC.model.gameparams.ShipComponents.ATBA.ATBA;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
 import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomber;
 import WoWSSSC.model.gameparams.ShipComponents.Engine.Engine;
@@ -22,7 +23,7 @@ public class ShipComponents
     private AirArmament airArmament;
     private LinkedHashMap<String, LinkedHashMap> airDefense;
     private Artillery artillery;
-    private LinkedHashMap<String, LinkedHashMap> atba;
+    private ATBA atba;
     private LinkedHashMap<String, LinkedHashMap> directors;
     private DiveBomber diveBomber;
     private Engine engine;

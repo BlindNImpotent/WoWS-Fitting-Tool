@@ -7,7 +7,6 @@ import WoWSSSC.model.WoWSAPI.skills.CrewSkillsData;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipData;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.*;
-import WoWSSSC.model.gameparams.TypeInfo;
 import WoWSSSC.model.gameparams.test.Values.ShipAbilities.ShipAbilities;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -59,6 +58,10 @@ public class APIJsonParser
     @Autowired
     @Qualifier(value = "idToName")
     private HashMap<String, String> idToName;
+
+    @Autowired
+    @Qualifier (value = "global")
+    private HashMap global;
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -235,6 +238,18 @@ public class APIJsonParser
         logger.info("Looked up " + result.getData().size() + " consumables");
 
         return CompletableFuture.completedFuture(result);
+    }
+
+    @Async
+    public void setPO() throws IOException
+    {
+        logger.info("Setting up PO");
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        Resource GlobalFile = new ClassPathResource("static/json/global.json");
+
+        global = mapper.readValue(GlobalFile.getFile(), new TypeReference<HashMap>(){});
     }
 
 //    @Async

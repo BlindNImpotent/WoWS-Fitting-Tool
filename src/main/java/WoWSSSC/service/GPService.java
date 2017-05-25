@@ -1,5 +1,6 @@
 package WoWSSSC.service;
 
+import WoWSSSC.model.gameparams.ShipComponents.ATBA.ATBA;
 import WoWSSSC.model.gameparams.ShipComponents.AirArmament;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.APShell;
@@ -282,6 +283,10 @@ public class GPService
                                 TorpedoBomberTorpedo torpedo = mapper.convertValue(gameParamsCHM.get(torpedoId), TorpedoBomberTorpedo.class);
 
                                 shipComponents.getTorpedoBomber().setTorpedo(torpedo);
+                            }
+                            else if (field.getName().equalsIgnoreCase("ATBA"))
+                            {
+                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), ATBA.class));
                             }
                             else if (field.getName().equalsIgnoreCase("Engine"))
                             {
