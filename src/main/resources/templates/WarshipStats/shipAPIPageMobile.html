@@ -349,7 +349,7 @@
                     <span style="float: right;" th:text="${#numbers.formatInteger(secondary.shell.alphaDamage, 1, 'COMMA')} + ' hp'"/><br />
                     <span style="float: left;">Reload</span>
                     <th:block th:if="${configurationAPI != null}">
-                        <th:block th:if="${configurationAPI.shipComponents.atba != null and defaultSecondary != null and defaultSecondary.realName == secondary.realName}" th:each="defaultSecondary : ${configurationAPI.shipComponents.atba.secondariesList}">
+                        <th:block th:if="${configurationAPI.shipComponents.atba != null and defaultSecondary != null and defaultSecondary.name == secondary.name}" th:each="defaultSecondary : ${configurationAPI.shipComponents.atba.secondariesList}">
                             <span style="float: right;" th:if="${secondary.shotDelay - defaultSecondary.shotDelay != 0}" th:text="${secondary.shotDelay - defaultSecondary.shotDelay > 0 ? ' (+' + #numbers.formatDecimal(secondary.shotDelay - defaultSecondary.shotDelay, 1, 1) + ')' : ' (' + #numbers.formatDecimal(secondary.shotDelay - defaultSecondary.shotDelay, 1, 1) + ')'}"/>
                         </th:block>
                     </th:block>
@@ -360,8 +360,8 @@
                     <span style="float: right;" th:text="${secondary.shell.ammoType}"/><br />
                     <span style="float: left;">Burn Probability</span>
                     <th:block th:if="${configurationAPI != null}">
-                        <th:block th:if="${configurationAPI.shipComponents.atba != null and defaultSecondary != null and defaultSecondary.realName == secondary.realName}" th:each="defaultSecondary : ${configurationAPI.shipComponents.atba.secondariesList}">
-                            <span style="float: right;" th:if="${secondary.shell.burnProbHundred - defaultSecondary.shell.burnProbHundred != 0}" th:text="${secondary.shell.burnProbHundred - defaultSecondary.shell.burnProbHundred > 0 ? ' (+' + #numbers.formatDecimal(ssecondary.shell.burnProbHundred - defaultSecondary.shell.burnProbHundredy, 1, 1) + ')' : ' (' + #numbers.formatDecimal(secondary.shell.burnProbHundred - defaultSecondary.shell.burnProbHundred, 1, 1) + ')'}"/>
+                        <th:block th:if="${configurationAPI.shipComponents.atba != null and defaultSecondary != null and defaultSecondary.name == secondary.name}" th:each="defaultSecondary : ${configurationAPI.shipComponents.atba.secondariesList}">
+                            <span style="float: right;" th:if="${secondary.shell.burnProbHundred - defaultSecondary.shell.burnProbHundred != 0}" th:text="${secondary.shell.burnProbHundred - defaultSecondary.shell.burnProbHundred > 0 ? ' (+' + #numbers.formatDecimal(secondary.shell.burnProbHundred - defaultSecondary.shell.burnProbHundred, 1, 1) + ')' : ' (' + #numbers.formatDecimal(secondary.shell.burnProbHundred - defaultSecondary.shell.burnProbHundred, 1, 1) + ')'}"/>
                         </th:block>
                     </th:block>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(secondary.shell.burnProbHundred, 1, 1)} + ' %'"/><br />
