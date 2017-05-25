@@ -17,6 +17,6 @@ public class Shell
 
     public float getBurnProbHundred()
     {
-        return burnProb * 100;
+        return "HE".equalsIgnoreCase(ammoType) ? burnProb * 100 : 0;
     }
 }
