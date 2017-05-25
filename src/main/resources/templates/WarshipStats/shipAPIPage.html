@@ -337,7 +337,7 @@
             <div th:if="${shipAPI.shipComponents.atba != null}" id="atbas">
                 <strong>Secondary</strong><br />
                 <span style="float: left;">Max Distance</span>
-                <span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.atba.maxDist - configurationAPI.shipComponents.atba.maxDist != 0}" th:text="${shipAPI.shipComponents.atba.maxDist - configurationAPI.shipComponents.atba.maxDist > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.shipComponents.atba.maxDist - configurationAPI.shipComponents.atba.maxDist, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.shipComponents.atba.maxDist - configurationAPI.shipComponents.atba.maxDist, 1, 1) + ')'}"/>
+                <span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.atba.maxDist - configurationAPI.shipComponents.atba.maxDist != 0}" th:text="${shipAPI.shipComponents.atba.maxDist - configurationAPI.shipComponents.atba.maxDist > 0 ? ' (+' + #numbers.formatDecimal((shipAPI.shipComponents.atba.maxDist - configurationAPI.shipComponents.atba.maxDist) / 1000, 1, 1) + ')' : ' (' + #numbers.formatDecimal((shipAPI.shipComponents.atba.maxDist - configurationAPI.shipComponents.atba.maxDist) / 1000, 1, 1) + ')'}"/>
                 <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.atba.maxDist / 1000, 1, 1)} + ' km'"/><br />
                 <li th:each="secondary : ${shipAPI.shipComponents.atba.secondariesList}" th:if="${!#lists.isEmpty(shipAPI.shipComponents.atba.secondariesList)}">
                     <u style="float: left;" th:text="${secondary.count + ' X ' + secondary.numBarrels + ' ' + secondary.realName}"/><br />
