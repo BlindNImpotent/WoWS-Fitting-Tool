@@ -61,7 +61,7 @@ public class APIJsonParser
 
     @Autowired
     @Qualifier (value = "global")
-    private HashMap global;
+    private HashMap<String, Object> global;
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -240,16 +240,19 @@ public class APIJsonParser
         return CompletableFuture.completedFuture(result);
     }
 
-    @Async
-    public void setPO() throws IOException
+    public void setGlobal() throws IOException
     {
-        logger.info("Setting up PO");
-
-        ObjectMapper mapper = new ObjectMapper();
+        logger.info("Setting up Global");
 
         Resource GlobalFile = new ClassPathResource("static/json/global.json");
 
-        global = mapper.readValue(GlobalFile.getFile(), new TypeReference<HashMap>(){});
+        HashMap<String, Object> temp = mapper.readValue(GlobalFile.getFile(), new TypeReference<HashMap<String, Object>>(){});
+
+        temp.entrySet().forEach(entry ->
+        {
+            global.put(entry.getKey(), entry.getValue());
+        });
+        temp.clear();
     }
 
 //    @Async

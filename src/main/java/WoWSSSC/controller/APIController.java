@@ -53,6 +53,10 @@ public class APIController
     @Autowired
     private HashMap<String, Ship> shipHashMap;
 
+    @Autowired
+    @Qualifier (value = "global")
+    private HashMap<String, Object> global;
+
     private static final Logger logger = LoggerFactory.getLogger(APIController.class);
 
     private ObjectMapper mapper = new ObjectMapper();

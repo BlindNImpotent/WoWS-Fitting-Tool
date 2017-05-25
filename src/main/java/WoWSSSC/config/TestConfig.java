@@ -43,7 +43,7 @@ public class TestConfig
 
     private HashMap<String, String> idToName = new HashMap<>();
 
-    private HashMap global = new HashMap<>();
+    private HashMap<String, Object> global = new HashMap<>();
 
     @Bean
     public String app_id()
@@ -117,7 +117,7 @@ public class TestConfig
     }
 
     @Bean (value = "global")
-    public HashMap global()
+    public HashMap<String, Object> global()
     {
         return global;
     }

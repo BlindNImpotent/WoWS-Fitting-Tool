@@ -1,6 +1,8 @@
 package WoWSSSC.service;
 
 import WoWSSSC.model.gameparams.ShipComponents.ATBA.ATBA;
+import WoWSSSC.model.gameparams.ShipComponents.ATBA.Secondary;
+import WoWSSSC.model.gameparams.ShipComponents.ATBA.Shell;
 import WoWSSSC.model.gameparams.ShipComponents.AirArmament;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.APShell;
@@ -57,6 +59,10 @@ public class GPService
     @Autowired
     @Qualifier(value = "idToName")
     private HashMap<String, String> idToName;
+
+    @Autowired
+    @Qualifier (value = "global")
+    private HashMap<String, Object> global;
 
     @Autowired
     private HashMap<String, Ship> shipHashMap;
@@ -287,6 +293,34 @@ public class GPService
                             else if (field.getName().equalsIgnoreCase("ATBA"))
                             {
                                 field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), ATBA.class));
+
+                                HashSet<String> indexNameList = new HashSet<>();
+                                shipComponents.getAtba().getSecondaries().values().forEach(value ->
+                                {
+                                    indexNameList.add(value.getName());
+                                });
+
+                                for (String indexName : indexNameList)
+                                {
+                                    int count = 0;
+                                    Secondary secondary = null;
+                                    for (Secondary value : shipComponents.getAtba().getSecondaries().values())
+                                    {
+                                        if (indexName.equalsIgnoreCase(value.getName()))
+                                        {
+                                            count = count + 1;
+                                            secondary = value;
+                                        }
+                                    }
+                                    secondary.setCount(count);
+                                    secondary.setRealName((String) global.get("IDS_" + secondary.getName().toUpperCase()));
+                                    String id = nameToId.get(secondary.getAmmoList().get(0));
+                                    Shell shell = mapper.convertValue(gameParamsCHM.get(id), Shell.class);
+                                    secondary.setShell(shell);
+
+                                    shipComponents.getAtba().getSecondariesList().add(secondary);
+                                }
+                                Collections.sort(shipComponents.getAtba().getSecondariesList(), (o1, o2) -> o1.getBarrelDiameterReal() - o2.getBarrelDiameterReal());
                             }
                             else if (field.getName().equalsIgnoreCase("Engine"))
                             {

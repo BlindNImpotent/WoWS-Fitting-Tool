@@ -52,6 +52,10 @@ public class AsyncHashMap implements CommandLineRunner
     private HashMap<String, String> nameToId;
 
     @Autowired
+    @Qualifier (value = "global")
+    private HashMap<String, Object> global;
+
+    @Autowired
     private Sorter sorter;
 
     private ObjectMapper mapper = new ObjectMapper();
@@ -79,7 +83,7 @@ public class AsyncHashMap implements CommandLineRunner
 
         apiJsonParser.setGameParams();
 
-        apiJsonParser.setPO();
+        apiJsonParser.setGlobal();
 
         HashMap<String, Warship> tempWarships = apiJsonParser.getTotalWarships();
         tempWarships.values().forEach(warship ->

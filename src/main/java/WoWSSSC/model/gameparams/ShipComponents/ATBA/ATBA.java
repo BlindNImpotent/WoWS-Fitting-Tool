@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -38,6 +39,8 @@ public class ATBA
     private float targetWeightYaw;
 
     private HashMap<String, Secondary> secondaries = new HashMap<>();
+
+    private List<Secondary> secondariesList = new ArrayList<>();
 
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();
