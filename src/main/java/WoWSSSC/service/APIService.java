@@ -410,6 +410,11 @@ public class APIService
                         {
                             ship.getAtbas().getSlots().values().forEach(slot -> slot.setShot_delay(slot.getShot_delay() * coef));
                         }
+
+                        if (ship.getShipComponents().getAtba() != null)
+                        {
+                            ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary -> secondary.setShotDelay(secondary.getShotDelay() * coef));
+                        }
                     }
                     else if (skill.get("type_id").equals("7"))
                     {
@@ -484,6 +489,11 @@ public class APIService
                         {
                             ship.getAtbas().getSlots().entrySet().forEach(entry -> entry.getValue().setShot_delayWithoutDefault(entry.getValue().getShot_delay() * 0.9f));
                         }
+
+                        if (ship.getShipComponents().getAtba() != null)
+                        {
+                            ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary -> secondary.setShotDelay(secondary.getShotDelay() * 0.9f));
+                        }
                     }
                     else if (skill.get("type_id").equals("5"))
                     {
@@ -502,7 +512,7 @@ public class APIService
                         {
                             ship.getArtillery().getShells().values().forEach(value ->
                             {
-                                if (value != null && value.getBurn_probability() != 0)
+                                if (value != null && "HE".equalsIgnoreCase(value.getType()))
                                 {
                                     value.setBurn_probability(value.getBurn_probability() + 2);
                                 }
@@ -517,6 +527,17 @@ public class APIService
                         if (ship.getDive_bomber() != null)
                         {
                             ship.getDive_bomber().setBomb_burn_probability(ship.getDive_bomber().getBomb_burn_probability() + 2);
+                        }
+
+                        if (ship.getShipComponents().getAtba() != null)
+                        {
+                            ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary ->
+                            {
+                                if ("HE".equalsIgnoreCase(secondary.getShell().getAmmoType()))
+                                {
+                                    secondary.getShell().setBurnProb(secondary.getShell().getBurnProb() + 0.02f);
+                                }
+                            });
                         }
                     }
                     else if (skill.get("type_id").equals("7"))
@@ -555,9 +576,20 @@ public class APIService
                         {
                             ship.getArtillery().getShells().values().forEach(value ->
                             {
-                                if (value != null && value.getBurn_probability() != 0)
+                                if (value != null && "HE".equalsIgnoreCase(value.getType()))
                                 {
                                     value.setBurn_probability(value.getBurn_probability() - 3 > 0 ? value.getBurn_probability() - 3 : 0);
+                                }
+                            });
+                        }
+
+                        if (ship.getAtbas() != null)
+                        {
+                            ship.getAtbas().getSlots().values().forEach(slot ->
+                            {
+                                if (slot.getBurn_probability() > 0)
+                                {
+                                    slot.setBurn_probability(slot.getBurn_probability() - 3);
                                 }
                             });
                         }
@@ -565,6 +597,17 @@ public class APIService
                         if (ship.getShipComponents().getArtillery() != null)
                         {
                             ship.getShipComponents().getArtillery().setPenetrationHE(Math.round(ship.getShipComponents().getArtillery().getPenetrationHEFloat() * 1.3));
+                        }
+
+                        if (ship.getShipComponents().getAtba() != null)
+                        {
+                            ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary ->
+                            {
+                                if ("HE".equalsIgnoreCase(secondary.getShell().getAmmoType()))
+                                {
+                                    secondary.getShell().setBurnProb(secondary.getShell().getBurnProb() - 0.03f);
+                                }
+                            });
                         }
                     }
                     else if (skill.get("type_id").equals("3"))
@@ -599,6 +642,11 @@ public class APIService
                         if (ship.getAnti_aircraft() != null)
                         {
                             ship.getAnti_aircraft().getSlots().values().forEach(value -> value.setDistance(value.getDistance() * 1.2f));
+                        }
+
+                        if (ship.getShipComponents().getAtba() != null)
+                        {
+                            ship.getShipComponents().getAtba().setMaxDist(ship.getShipComponents().getAtba().getMaxDist() * 1.2f);
                         }
                     }
                     else if (skill.get("type_id").equals("5"))
@@ -745,6 +793,30 @@ public class APIService
             if (consumables.getProfile().getGSShotDelay() != null)
             {
                 ship.getAtbas().getSlots().values().forEach(sg -> sg.setShot_delay(sg.getShot_delay() * consumables.getProfile().getGSShotDelay().getValue()));
+            }
+        }
+
+        if (ship.getShipComponents().getAtba() != null)
+        {
+            if (consumables.getProfile().getBurnChanceFactorSmall() != null)
+            {
+                ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary ->
+                {
+                    if ("HE".equalsIgnoreCase(secondary.getShell().getAmmoType()))
+                    {
+                        secondary.getShell().setBurnProb(secondary.getShell().getBurnProb() + 0.005f);
+                    }
+                });
+            }
+
+            if (consumables.getProfile().getGSMaxDist() != null)
+            {
+                ship.getShipComponents().getAtba().setMaxDist(ship.getShipComponents().getAtba().getMaxDist() * consumables.getProfile().getGSMaxDist().getValue());
+            }
+
+            if (consumables.getProfile().getGSShotDelay() != null)
+            {
+                ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary -> secondary.setShotDelay(secondary.getShotDelay() * consumables.getProfile().getGSShotDelay().getValue()));
             }
         }
 

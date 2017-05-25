@@ -334,33 +334,33 @@
                 </li>
                 <br />
             </div>
-            <div th:if="${shipAPI.atbas != null}" id="atbas">
+            <div th:if="${shipAPI.shipComponents.atba != null}" id="atbas">
                 <strong>Secondary</strong><br />
                 <span style="float: left;">Max Distance</span>
-                <span style="float: right;" th:if="${configurationAPI != null and shipAPI.atbas.distance - configurationAPI.atbas.distance != 0}" th:text="${shipAPI.atbas.distance - configurationAPI.atbas.distance > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.atbas.distance - configurationAPI.atbas.distance, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.atbas.distance - configurationAPI.atbas.distance, 1, 1) + ')'}"/>
+                <span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.atba.maxDist - configurationAPI.shipComponents.atba.maxDist != 0}" th:text="${shipAPI.shipComponents.atba.maxDist - configurationAPI.shipComponents.atba.maxDist > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.shipComponents.atba.maxDist - configurationAPI.shipComponents.atba.maxDist, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.shipComponents.atba.maxDist - configurationAPI.shipComponents.atba.maxDist, 1, 1) + ')'}"/>
                 <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.atbas.distance, 1, 1)} + ' km'"/><br />
-                <li th:each="slot : ${shipAPI.atbas.slots}" th:if="${shipAPI.atbas.slots != null}">
-                    <u style="float: left;" th:text="${slot.value.name}"/><br />
+                <li th:each="secondary : ${shipAPI.shipComponents.atba.secondariesList}" th:if="${!#lists.isEmpty(shipAPI.shipComponents.atba.secondariesList)}">
+                    <u style="float: left;" th:text="${secondary.count + ' X ' + secondary.numBarrels + ' ' + secondary.realName}"/><br />
                     <span style="float: left;">Damage</span>
-                    <span style="float: right;" th:text="${#numbers.formatInteger(slot.value.damage, 1, 'COMMA')} + ' hp'"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatInteger(secondary.shell.alphaDamage, 1, 'COMMA')} + ' hp'"/><br />
                     <span style="float: left;">Reload</span>
                     <th:block th:if="${configurationAPI != null}">
-                        <th:block th:if="${configurationAPI.atbas != null and defaultSlot.value != null and defaultSlot.value.name == slot.value.name}" th:each="defaultSlot : ${configurationAPI.atbas.slots}">
-                            <span style="float: right;" th:if="${slot.value.shot_delay - defaultSlot.value.shot_delay != 0}" th:text="${slot.value.shot_delay - defaultSlot.value.shot_delay > 0 ? ' (+' + #numbers.formatDecimal(slot.value.shot_delay - defaultSlot.value.shot_delay, 1, 1) + ')' : ' (' + #numbers.formatDecimal(slot.value.shot_delay - defaultSlot.value.shot_delay, 1, 1) + ')'}"/>
+                        <th:block th:if="${configurationAPI.shipComponents.atba != null and defaultSecondary != null and defaultSecondary.realName == secondary.realName}" th:each="defaultSecondary : ${configurationAPI.shipComponents.atba.secondariesList}">
+                            <span style="float: right;" th:if="${secondary.shotDelay - defaultSecondary.shotDelay != 0}" th:text="${secondary.shotDelay - defaultSecondary.shotDelay > 0 ? ' (+' + #numbers.formatDecimal(secondary.shotDelay - defaultSecondary.shotDelay, 1, 1) + ')' : ' (' + #numbers.formatDecimal(secondary.shotDelay - defaultSecondary.shotDelay, 1, 1) + ')'}"/>
                         </th:block>
                     </th:block>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.shot_delay, 1, 1)} + ' s'"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(secondary.shotDelay, 1, 1)} + ' s'"/><br />
                     <span style="float: left;">Speed</span>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.bullet_speed, 1, 1)} + ' m / s'"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(secondary.shell.bulletSpeed, 1, 1)} + ' m / s'"/><br />
                     <span style="float: left;">Type</span>
-                    <span style="float: right;" th:text="${slot.value.type}"/><br />
+                    <span style="float: right;" th:text="${secondary.shell.ammoType}"/><br />
                     <span style="float: left;">Burn Probability</span>
                     <th:block th:if="${configurationAPI != null}">
-                        <th:block th:if="${configurationAPI.atbas != null and defaultSlot.value != null and defaultSlot.value.name == slot.value.name}" th:each="defaultSlot : ${configurationAPI.atbas.slots}">
-                            <span style="float: right;" th:if="${slot.value.burn_probability - defaultSlot.value.burn_probability != 0}" th:text="${slot.value.burn_probability - defaultSlot.value.burn_probability > 0 ? ' (+' + #numbers.formatDecimal(slot.value.burn_probability - defaultSlot.value.burn_probability, 1, 1) + ')' : ' (' + #numbers.formatDecimal(slot.value.burn_probability - defaultSlot.value.burn_probability, 1, 1) + ')'}"/>
+                        <th:block th:if="${configurationAPI.shipComponents.atba != null and defaultSecondary != null and defaultSecondary.realName == secondary.realName}" th:each="defaultSecondary : ${configurationAPI.shipComponents.atba.secondariesList}">
+                            <span style="float: right;" th:if="${secondary.shell.burnProbHundred - defaultSecondary.shell.burnProbHundred != 0}" th:text="${secondary.shell.burnProbHundred - defaultSecondary.shell.burnProbHundred > 0 ? ' (+' + #numbers.formatDecimal(ssecondary.shell.burnProbHundred - defaultSecondary.shell.burnProbHundredy, 1, 1) + ')' : ' (' + #numbers.formatDecimal(secondary.shell.burnProbHundred - defaultSecondary.shell.burnProbHundred, 1, 1) + ')'}"/>
                         </th:block>
                     </th:block>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.burn_probability, 1, 1)} + ' %'"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(secondary.shell.burnProbHundred, 1, 1)} + ' %'"/><br />
                 </li>
             </div>
         </div>
