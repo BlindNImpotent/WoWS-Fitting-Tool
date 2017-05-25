@@ -240,6 +240,7 @@ public class APIJsonParser
         return CompletableFuture.completedFuture(result);
     }
 
+    @Async
     public void setGlobal() throws IOException
     {
         logger.info("Setting up Global");

@@ -557,7 +557,7 @@
                         <li style="display: inline-block; float: left; width: 160px;" th:if="${shipAPI1.shipComponents.atba == null}">
                         </li>
                         <li style="display: inline-block; float: left; width: 160px;" th:if="${shipAPI1.shipComponents.atba != null}">
-                            <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.atba.maxDist, 0, 1)} + ' km'"/>
+                            <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.atba.maxDist / 1000, 0, 1)} + ' km'"/>
                         </li>
                         <li style="display: inline-block; text-align: center; width: 160px;">
                             <span>Max Distance</span>
@@ -565,7 +565,7 @@
                         <li style="display: inline-block; float: right; width: 160px;" th:if="${shipAPI2.shipComponents.atba == null}">
                         </li>
                         <li style="display: inline-block; float: right; width: 160px;" th:if="${shipAPI2.shipComponents.atba != null}">
-                            <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.atba.maxDist, 0, 1)} + ' km'"/>
+                            <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.atba.maxDist / 1000, 0, 1)} + ' km'"/>
                         </li>
                     </div>
                     <div style="display: inline-block; vertical-align: top; float: left; width: 240px;" th:if="${shipAPI1.shipComponents.atba != null}">
