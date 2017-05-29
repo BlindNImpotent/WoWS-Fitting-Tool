@@ -149,6 +149,18 @@
     $(document).on('click', '.button_ship_tree', function () {
         var clickedId = $(this).attr('id');
 
+        if ($('.button_ship_tree_selected').length == 2)
+        {
+            var selected = $('.button_ship_tree_selected');
+
+            for (var i = 0; i < selected.length; i++)
+            {
+                var currentId = selected.eq(i).attr('id');
+                document.getElementById(currentId).className = 'button_ship_tree';
+            }
+            $('#xpRequired').text('Click on two ships for lowest research xp');
+        }
+
         if ($('.button_ship_tree_selected').length < 2)
         {
             document.getElementById(clickedId).className = 'button_ship_tree_selected';
