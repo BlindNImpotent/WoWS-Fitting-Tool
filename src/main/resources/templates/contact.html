@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script>
+        //    <![CDATA[
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event:'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5KDG7W6');
+        //    ]]>
+    </script>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="UTF-8" />
+    <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
+    <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
+    <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
+    <script th:src="@{/js/accounting/accounting.js}"></script>
+    <title>WoWS Fitting Tool by Aesis</title>
+</head>
+<body>
+<noscript>
+    //    <![CDATA[
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5KDG7W6" height="0" width="0" style="display:none; visibility:hidden;"></iframe>
+    //    ]]>
+</noscript>
+<header>
+    <div th:include="top :: top" id="top">
+    </div>
+</header>
+<main>
+    <div class="container">
+        <div align="center">
+            <br />
+            <h2>If you have any questions or problems,<br />please don't hesitate to use Tawk.to or contact by email.</h2>
+            <input id="email" style="width: 20%" type="text" placeholder="Email"/><br />
+            <br />
+            <input id="subject" style="width: 40%;" type="text" placeholder="Subject"/><br />
+            <br />
+            <textarea id="description" rows="10" style="width: 40%"></textarea>
+            <br />
+            <button id="sendEmail">Send Email</button>
+        </div>
+    </div>
+</main>
+<script th:inline="javascript">
+    //    <![CDATA[
+
+    $(document).on('click', '#sendEmail', function () {
+        var data = {
+            email: $('#email').val(),
+            subject: $('#subject').val(),
+            description: $('#description').val()
+        };
+
+        if (!data.email.includes('@') || !data.email.includes('.'))
+        {
+            alert('Input correct email!');
+            return false;
+        }
+
+        if (data.description === '')
+        {
+            alert('Input context!');
+            return false;
+        }
+
+        console.log(data);
+
+        $.ajax({
+            url: '/contact',
+            type: 'post',
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function () {
+                location.href = '/'
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    })
+
+    //    ]]>
+</script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/5900f83364f23d19a89af69f/default';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+<!--End of Tawk.to Script-->
+</body>
+</html>

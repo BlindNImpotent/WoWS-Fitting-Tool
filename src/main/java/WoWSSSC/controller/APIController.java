@@ -1,11 +1,13 @@
 package WoWSSSC.controller;
 
 import WoWSSSC.model.WoWSAPI.warships.Warship;
+import WoWSSSC.model.email.EmailModel;
 import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
 import WoWSSSC.service.APIService;
 import WoWSSSC.service.GPService;
+import WoWSSSC.service.MailService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -35,6 +38,9 @@ public class APIController
 
     @Autowired
     private GPService gpService;
+
+    @Autowired
+    private MailService mailService;
 
     @Autowired
     private LinkedHashMap<String, LinkedHashMap> data;
@@ -600,5 +606,17 @@ public class APIController
     public String getShortUrl(@RequestBody String longUrl) throws Exception
     {
         return apiService.shortenUrl(longUrl);
+    }
+
+    @RequestMapping (value = "/contact", method = RequestMethod.GET)
+    public String getContact()
+    {
+        return "contact";
+    }
+
+    @RequestMapping (value = "/contact", method = RequestMethod.POST)
+    public void postEmail(@RequestBody EmailModel email) throws MessagingException
+    {
+        mailService.postEmail(email);
     }
 }
