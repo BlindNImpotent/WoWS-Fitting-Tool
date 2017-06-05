@@ -1,5 +1,7 @@
 package WoWSSSC.config;
 
+import WoWSSSC.model.email.EmailModel;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -20,7 +23,37 @@ public class DiscordWebhook
     private static final int MAX_STACK_LINE = 5;
     private static final String DiscordWebHookURL = "https://discordapp.com/api/webhooks/321093994824073217/-Lq1pkgooEZMHctMTWO4wo0OHLci5r-vsoAJS0U0tEd9ng9J80RmdPk95NSlu-IhvvP2";
 
-    public void sendDiscordWebHook(Exception e, HttpServletRequest request) throws Exception
+    public void sendDiscordWebHookError(Exception e, HttpServletRequest request) throws Exception
+    {
+        JSONObject object = new JSONObject();
+        String message =
+                "```" +
+                "URL: " +  request.getRequestURL().toString() + (StringUtils.isNotEmpty(request.getQueryString()) ? "?" + request.getQueryString() : "") + "\n\n" +
+                "Referrer: " + request.getHeader("Referer") + "\n\n" +
+                "Client IP Address : " + getClientIPAddress(request) + " / " + request.getRemoteAddr() + "\n\n" +
+                "Method: " + request.getMethod() + "\n\n" +
+                "Error: " + e.getMessage() + "\n" + printStackTraceToString(e) +
+                "```";
+        object.put("content", message);
+
+        sendDiscordWebHook(object);
+    }
+
+    public void sendDiscordWebhookEmail(EmailModel email) throws Exception
+    {
+        JSONObject object = new JSONObject();
+        String message =
+                "```" +
+                "From: " + email.getEmail() + "\n" +
+                "Subject: " + email.getSubject() + "\n" +
+                "Context: \n" + email.getDescription() + "\n" +
+                "```";
+        object.put("content", message);
+
+        sendDiscordWebHook(object);
+    }
+
+    private void sendDiscordWebHook(JSONObject object) throws Exception
     {
         URL url = new URL(DiscordWebHookURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -31,19 +64,6 @@ public class DiscordWebhook
         connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("charset", "UTF-8");
-
-        JSONObject object = new JSONObject();
-
-        String message =
-                "```" +
-                "URL: " +  request.getRequestURL().toString() + "?" + request.getQueryString() + "\n\n" +
-                "Referrer: " + request.getHeader("Referer") + "\n\n" +
-                "Client IP Address : " + getClientIPAddress(request) + " / " + request.getRemoteAddr() + "\n\n" +
-                "Method: " + request.getMethod() + "\n\n" +
-                "Error: " + e.getMessage() + "\n" + printStackTraceToString(e) +
-                "```";
-
-        object.put("content", message);
 
         OutputStream os = connection.getOutputStream();
         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");

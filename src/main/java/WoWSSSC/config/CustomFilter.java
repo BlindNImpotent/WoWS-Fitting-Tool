@@ -68,7 +68,7 @@ public class CustomFilter implements Filter
         catch (Exception exception)
         {
             try {
-                discordWebhook.sendDiscordWebHook(exception, request);
+                discordWebhook.sendDiscordWebHookError(exception, request);
             } catch (Exception e) {
                 e.printStackTrace();
             }

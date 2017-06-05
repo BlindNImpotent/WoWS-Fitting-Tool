@@ -1,5 +1,6 @@
 package WoWSSSC.controller;
 
+import WoWSSSC.config.DiscordWebhook;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.email.EmailModel;
 import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
@@ -62,6 +63,9 @@ public class APIController
     @Autowired
     @Qualifier (value = "global")
     private HashMap<String, Object> global;
+
+    @Autowired
+    private DiscordWebhook discordWebhook;
 
     private static final Logger logger = LoggerFactory.getLogger(APIController.class);
 
@@ -615,8 +619,17 @@ public class APIController
     }
 
     @RequestMapping (value = "/contact", method = RequestMethod.POST)
-    public void postEmail(@RequestBody EmailModel email) throws MessagingException
+    public void postEmail(@RequestBody EmailModel email, HttpServletRequest request) throws Exception
     {
-        mailService.postEmail(email);
+        try
+        {
+            mailService.postEmail(email);
+            discordWebhook.sendDiscordWebhookEmail(email);
+        }
+        catch (Exception e)
+        {
+            discordWebhook.sendDiscordWebHookError(e, request);
+        }
+
     }
 }
