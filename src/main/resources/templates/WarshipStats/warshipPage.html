@@ -29,7 +29,7 @@
             <div id="name">
                 <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship.defaultType}">
                     <h1>
-                        <img th:src="${warship.type != 'Premium' and warship.type != 'Arpeggio' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
+                        <img th:src="${warship.type != 'Premium' and warship.type != 'Arpeggio' and warship.type != 'HSF' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
                         <span th:text="${warship.name}"/>
                     </h1>
                 </th:block>

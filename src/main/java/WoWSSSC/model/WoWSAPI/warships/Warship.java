@@ -65,7 +65,7 @@ public class Warship
     {
         this.type = type;
 
-        if (!type.equalsIgnoreCase("Premium") && !type.equalsIgnoreCase("Arpeggio"))
+        if (!type.equalsIgnoreCase("Premium") && !type.equalsIgnoreCase("Arpeggio") && !type.equalsIgnoreCase("HSF"))
         {
             this.defaultType = type;
         }

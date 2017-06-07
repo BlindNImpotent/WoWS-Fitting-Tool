@@ -21,7 +21,7 @@
             <button id="shipAPI1Button" class="button_ship_comparison" style="margin: 0 15px;">
                 <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship1.defaultType}">
                     <h3>
-                        <img th:src="${warship1.type != 'Premium' and warship1.type != 'Arpeggio' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
+                        <img th:src="${warship1.type != 'Premium' and warship1.type != 'Arpeggio' and warship1.type != 'HSF' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
                         <span th:text="${warship1.name}"/>
                     </h3>
                 </th:block>
@@ -30,7 +30,7 @@
             <button id="shipAPI2Button" class="button_ship_comparison" style="margin: 0 15px;">
                 <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship2.defaultType}">
                     <h3>
-                        <img th:src="${warship2.type != 'Premium' and warship2.type != 'Arpeggio' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
+                        <img th:src="${warship2.type != 'Premium' and warship2.type != 'Arpeggio' and warship2.type != 'HSF' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
                         <span th:text="${warship2.name}"/>
                     </h3>
                 </th:block>

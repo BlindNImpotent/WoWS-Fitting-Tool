@@ -323,22 +323,64 @@ public class AsyncHashMap implements CommandLineRunner
             {
                 temp.put(String.valueOf(i), null);
 
-                for (Warship premium1 : ((LinkedHashMap<String, Warship>) nation.getValue().get("Premium")).values())
+                LinkedHashMap<String, Warship> tempTier = new LinkedHashMap<>();
+                if (nation.getValue().get("Premium") != null)
                 {
-                    if (i == premium1.getTier())
+                    for (Warship premium1 : ((LinkedHashMap<String, Warship>) nation.getValue().get("Premium")).values())
                     {
-                        LinkedHashMap<String, Warship> tempTier = new LinkedHashMap<>();
-
-                        for (Warship premium2 : ((LinkedHashMap<String, Warship>) nation.getValue().get("Premium")).values())
+                        if (i == premium1.getTier())
                         {
-                            if (premium2.getTier() == i)
+                            for (Warship premium2 : ((LinkedHashMap<String, Warship>) nation.getValue().get("Premium")).values())
                             {
-                                tempTier.put(premium2.getName(), premium2);
+                                if (premium2.getTier() == i)
+                                {
+                                    tempTier.put(premium2.getName(), premium2);
 //                                tempTier.put(premium2.getName().replace("'", ""), premium2);
+                                }
                             }
                         }
-                        temp.put(String.valueOf(i), tempTier);
                     }
+                }
+
+                if (nation.getValue().get("Arpeggio") != null)
+                {
+                    for (Warship premium1 : ((LinkedHashMap<String, Warship>) nation.getValue().get("Arpeggio")).values())
+                    {
+                        if (i == premium1.getTier())
+                        {
+                            for (Warship premium2 : ((LinkedHashMap<String, Warship>) nation.getValue().get("Arpeggio")).values())
+                            {
+                                if (premium2.getTier() == i)
+                                {
+                                    tempTier.put(premium2.getName(), premium2);
+//                                tempTier.put(premium2.getName().replace("'", ""), premium2);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (nation.getValue().get("HSF") != null)
+                {
+                    for (Warship premium1 : ((LinkedHashMap<String, Warship>) nation.getValue().get("HSF")).values())
+                    {
+                        if (i == premium1.getTier())
+                        {
+                            for (Warship premium2 : ((LinkedHashMap<String, Warship>) nation.getValue().get("HSF")).values())
+                            {
+                                if (premium2.getTier() == i)
+                                {
+                                    tempTier.put(premium2.getName(), premium2);
+//                                tempTier.put(premium2.getName().replace("'", ""), premium2);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (tempTier.size() > 0)
+                {
+                    temp.put(String.valueOf(i), tempTier);
                 }
             }
             tempPremiumTable.put(nation.getKey(), temp);
@@ -366,6 +408,7 @@ public class AsyncHashMap implements CommandLineRunner
         LinkedHashMap<String, LinkedHashMap> tempNation = new LinkedHashMap<>();
         LinkedHashMap<String, Warship> tempPremium = new LinkedHashMap<>();
         LinkedHashMap<String, Warship> tempARP = new LinkedHashMap<>();
+        LinkedHashMap<String, Warship> tempHSF = new LinkedHashMap<>();
 
         nation.entrySet().forEach(shipType ->
         {
@@ -381,6 +424,11 @@ public class AsyncHashMap implements CommandLineRunner
                     {
                         temp.getValue().setType("Arpeggio");
                         tempARP.put(temp.getKey(), temp.getValue());
+                    }
+                    else if (temp.getValue().getName().contains("HSF "))
+                    {
+                        temp.getValue().setType("HSF");
+                        tempHSF.put(temp.getKey(), temp.getValue());
                     }
                     else
                     {
@@ -410,6 +458,12 @@ public class AsyncHashMap implements CommandLineRunner
         {
             LinkedHashMap<String, Warship> tempSortedARP = sorter.sortShips(tempARP);
             tempNation.put("Arpeggio", tempSortedARP);
+        }
+
+        if (tempHSF.size() != 0)
+        {
+            LinkedHashMap<String, Warship> tempSortedHSF = sorter.sortShips(tempHSF);
+            tempNation.put("HSF", tempSortedHSF);
         }
 
         return tempNation;
