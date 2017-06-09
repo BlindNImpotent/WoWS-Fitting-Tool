@@ -192,13 +192,10 @@ public class APIService
 
         Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(shipName);
 
-        String gameVersion = mapper.convertValue(data.get("encyclopedia"), Encyclopedia.class).getGame_version().replace(".", "");
-        int version = Integer.parseInt(gameVersion);
-
         ShipComponents shipComponents = gpService.setShipGP(nation, shipType, shipName, ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id, modules);
         if (shipComponents.getArtillery() != null)
         {
-            shipComponents.getArtillery().setPenetrationHEWithNation(warship.getNation(), warship.getDefaultType(), warship.getName(), version);
+            shipComponents.getArtillery().setPenetrationHEWithNation(warship.getNation(), warship.getDefaultType(), warship.getName());
         }
         ship.setShipComponents(shipComponents);
 
