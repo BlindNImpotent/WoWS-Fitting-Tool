@@ -1,5 +1,6 @@
 package WoWSSSC.service;
 
+import WoWSSSC.model.WoWSAPI.APIAddress;
 import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
 import WoWSSSC.model.bitly.Bitly;
 import WoWSSSC.model.bitly.BitlyData;
@@ -11,8 +12,6 @@ import WoWSSSC.model.WoWSAPI.shipprofile.profile.artillery.Artillery_Slots;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.model.gameparams.Consumables.Consumable;
-import WoWSSSC.model.gameparams.Temporary;
-import WoWSSSC.model.gameparams.test.Values.ShipModernization.Modernization;
 import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,11 +28,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -44,7 +39,12 @@ import java.util.concurrent.ExecutionException;
 public class APIService
 {
     @Autowired
+    @Qualifier (value = "APP_ID")
     private String APP_ID;
+
+    @Autowired
+    @Qualifier (value = "APIAddress")
+    private APIAddress apiAddress;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -92,7 +92,7 @@ public class APIService
     {
         if (!ship_id.equals(""))
         {
-            String url = "https://api.worldofwarships.com/wows/encyclopedia/shipprofile/?application_id=" + APP_ID + "&ship_id=" + ship_id + "&artillery_id=" + artillery_id + "&dive_bomber_id=" + dive_bomber_id + "&engine_id=" + engine_id
+            String url = apiAddress.getAPI_Starter() + "/shipprofile/?application_id=" + APP_ID + "&ship_id=" + ship_id + "&artillery_id=" + artillery_id + "&dive_bomber_id=" + dive_bomber_id + "&engine_id=" + engine_id
                     + "&fighter_id=" + fighter_id + "&fire_control_id=" + fire_control_id + "&flight_control_id=" + flight_control_id + "&hull_id=" + hull_id + "&torpedo_bomber_id=" + torpedo_bomber_id + "&torpedoes_id=" + torpedoes_id + "&language=en";
 
             String key = "&ship_id=" + ship_id + "&artillery_id=" + artillery_id + "&dive_bomber_id=" + dive_bomber_id + "&engine_id=" + engine_id

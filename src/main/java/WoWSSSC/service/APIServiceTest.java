@@ -21,6 +21,7 @@ import java.util.*;
 public class APIServiceTest
 {
     @Autowired
+    @Qualifier (value = "APP_ID")
     private String APP_ID;
 
     @Autowired

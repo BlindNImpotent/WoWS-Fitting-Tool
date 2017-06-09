@@ -1,19 +1,16 @@
 package WoWSSSC.parser;
 
+import WoWSSSC.model.WoWSAPI.APIAddress;
 import WoWSSSC.model.WoWSAPI.consumables.Consumables;
 import WoWSSSC.model.WoWSAPI.consumables.ConsumablesData;
 import WoWSSSC.model.WoWSAPI.exterior.Exterior;
-import WoWSSSC.model.WoWSAPI.exterior.ExteriorData;
 import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkillsData;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipData;
-import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
-import WoWSSSC.model.WoWSAPI.upgrade.UpgradeData;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
-import WoWSSSC.model.gameparams.Consumables.Consumable;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.Modernization;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.ShipModernization;
 import WoWSSSC.utils.Sorter;
@@ -34,6 +31,10 @@ import java.util.stream.Collectors;
 @Component
 public class AsyncHashMap implements CommandLineRunner
 {
+    @Autowired
+    @Qualifier (value = "APIAddress")
+    private APIAddress apiAddress;
+
     @Autowired
     private APIJsonParser apiJsonParser;
 
@@ -85,6 +86,24 @@ public class AsyncHashMap implements CommandLineRunner
 
         apiJsonParser.setGlobal();
 
+        Encyclopedia encyclopediaNA = apiJsonParser.getEncyclopedia_NA().get().getData();
+        Encyclopedia encyclopediaRU = apiJsonParser.getEncyclopedia_RU().get().getData();
+
+        Encyclopedia encyclopedia;
+
+        if (encyclopediaRU.getVersion() > encyclopediaNA.getVersion())
+        {
+            encyclopedia = encyclopediaRU;
+            encyclopedia.setRegion("RU");
+            apiAddress.setAddress("RU");
+        }
+        else
+        {
+            encyclopedia = encyclopediaNA;
+            encyclopedia.setRegion("NA");
+            apiAddress.setAddress("NA");
+        }
+
         HashMap<String, Warship> tempWarships = apiJsonParser.getTotalWarships();
         tempWarships.values().forEach(warship ->
         {
@@ -97,8 +116,6 @@ public class AsyncHashMap implements CommandLineRunner
                 });
             }
         });
-
-        Encyclopedia encyclopedia = apiJsonParser.getEncyclopedia().getData();
 
         nationsString.addAll(encyclopedia.getShip_nations().keySet());
         shipTypeString.addAll(encyclopedia.getShip_types().keySet());

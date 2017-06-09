@@ -21,6 +21,8 @@ public class Encyclopedia
     private ShipTypeImages ship_type_images;
     private LinkedHashMap<String, String> ship_nations = new LinkedHashMap<>();
     private String game_version;
+    private int version;
+    private String region;
 
     private String shipUpdatedDate;
 
@@ -30,6 +32,12 @@ public class Encyclopedia
         shipKey.sort(Comparator.naturalOrder());
 
         shipKey.forEach(nation -> this.ship_nations.put(nation, ship_nations.get(nation)));
+    }
+
+    public void setGame_version(String game_version)
+    {
+        this.game_version = game_version;
+        this.version = Integer.parseInt(game_version.replaceAll("\\.", ""));
     }
 
     public String getShipUpdatedDate()

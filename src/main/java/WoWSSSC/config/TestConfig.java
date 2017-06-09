@@ -1,11 +1,10 @@
 package WoWSSSC.config;
 
-import WoWSSSC.model.gameparams.test.GameParamsValues;
+import WoWSSSC.model.WoWSAPI.APIAddress;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.parser.AsyncHashMap;
 import WoWSSSC.utils.Sorter;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -45,10 +44,18 @@ public class TestConfig
 
     private HashMap<String, Object> global = new HashMap<>();
 
-    @Bean
+    private APIAddress apiAddress = new APIAddress();
+
+    @Bean (value = "APP_ID")
     public String app_id()
     {
         return "137f0721e1b1baf30d6dcd1968fc260c";
+    }
+
+    @Bean (value = "APIAddress")
+    public APIAddress getApiAddress()
+    {
+        return apiAddress;
     }
 
     @Bean (value = "nameToId")
