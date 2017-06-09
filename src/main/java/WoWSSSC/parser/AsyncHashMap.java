@@ -62,12 +62,12 @@ public class AsyncHashMap implements CommandLineRunner
 
     private LinkedHashMap<String, Warship> rawShipData = new LinkedHashMap<>();
 
-    LinkedHashMap<String, Consumables> k125 = new LinkedHashMap<>();
-    LinkedHashMap<String, Consumables> k250 = new LinkedHashMap<>();
-    LinkedHashMap<String, Consumables> k500 = new LinkedHashMap<>();
-    LinkedHashMap<String, Consumables> k1000 = new LinkedHashMap<>();
-    LinkedHashMap<String, Consumables> k2000 = new LinkedHashMap<>();
-    LinkedHashMap<String, Consumables> k3000 = new LinkedHashMap<>();
+    private LinkedHashMap<String, Consumables> k125 = new LinkedHashMap<>();
+    private LinkedHashMap<String, Consumables> k250 = new LinkedHashMap<>();
+    private LinkedHashMap<String, Consumables> k500 = new LinkedHashMap<>();
+    private LinkedHashMap<String, Consumables> k1000 = new LinkedHashMap<>();
+    private LinkedHashMap<String, Consumables> k2000 = new LinkedHashMap<>();
+    private LinkedHashMap<String, Consumables> k3000 = new LinkedHashMap<>();
 
     @Override
     public void run(String... strings) throws Exception
