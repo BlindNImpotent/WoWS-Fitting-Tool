@@ -313,6 +313,7 @@ public class GPService
                                         }
                                     }
                                     secondary.setCount(count);
+//                                    System.out.println(secondary.getName());
                                     secondary.setRealName((String) global.get("IDS_" + secondary.getName().toUpperCase()));
                                     String id = nameToId.get(secondary.getAmmoList().get(0));
                                     Shell shell = mapper.convertValue(gameParamsCHM.get(id), Shell.class);
