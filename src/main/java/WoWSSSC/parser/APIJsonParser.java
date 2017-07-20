@@ -1,6 +1,7 @@
 package WoWSSSC.parser;
 
 import WoWSSSC.model.WoWSAPI.APIAddress;
+import WoWSSSC.model.WoWSAPI.commanders.CommandersData;
 import WoWSSSC.model.WoWSAPI.consumables.ConsumablesData;
 import WoWSSSC.model.WoWSAPI.info.EncyclopediaData;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
@@ -256,6 +257,16 @@ public class APIJsonParser
             }
         }
         logger.info("Looked up " + result.getData().size() + " consumables");
+
+        return CompletableFuture.completedFuture(result);
+    }
+
+    @Async
+    public CompletableFuture<CommandersData> getCommanders() throws IOException
+    {
+        logger.info("Looking up all commanders");
+        String url = apiAddress.getAPI_Starter() + "/crews/?application_id=" + APP_ID + "&language=en";
+        CommandersData result = restTemplate.getForObject(url, CommandersData.class);
 
         return CompletableFuture.completedFuture(result);
     }

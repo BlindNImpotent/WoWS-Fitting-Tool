@@ -1,6 +1,8 @@
 package WoWSSSC.parser;
 
 import WoWSSSC.model.WoWSAPI.APIAddress;
+import WoWSSSC.model.WoWSAPI.commanders.Commanders;
+import WoWSSSC.model.WoWSAPI.commanders.CommandersData;
 import WoWSSSC.model.WoWSAPI.consumables.Consumables;
 import WoWSSSC.model.WoWSAPI.consumables.ConsumablesData;
 import WoWSSSC.model.WoWSAPI.exterior.Exterior;
@@ -11,6 +13,7 @@ import WoWSSSC.model.WoWSAPI.skills.CrewSkillsData;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipData;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
+import WoWSSSC.model.gameparams.commanders.GPCommander;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.Modernization;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.ShipModernization;
 import WoWSSSC.utils.Sorter;
@@ -135,6 +138,17 @@ public class AsyncHashMap implements CommandLineRunner
         }
 
         CompletableFuture<CrewSkillsData> crewsSkillsData = apiJsonParser.getCrewSkills();
+
+        CompletableFuture<CommandersData> commandersData = apiJsonParser.getCommanders();
+        LinkedHashMap<String, Commanders> tempCommanders = new LinkedHashMap<>();
+        commandersData.get().getData().entrySet().forEach(entry ->
+        {
+            if (entry.getValue().isIs_retrainable())
+            {
+                tempCommanders.put(entry.getKey(), entry.getValue());
+            }
+        });
+        LinkedHashMap<String, LinkedHashMap> allCommanders = getCommanders(tempCommanders);
 
         CompletableFuture<ConsumablesData> consumablesData = apiJsonParser.getConsumables();
 
@@ -412,6 +426,7 @@ public class AsyncHashMap implements CommandLineRunner
         data.put("upgrades", tempUpgrades);
         data.put("upgradesSpecial", upgradesSpecial);
         data.put("skills", setCrewSkills(crewsSkillsData.get().getData()));
+        data.put("commanders", allCommanders);
         data.put("exteriors", tempExteriors);
 //        data.put("exteriors", setExteriors(exteriorData.get().getData()));
 
@@ -867,5 +882,47 @@ public class AsyncHashMap implements CommandLineRunner
         });
 
         return temp;
+    }
+
+    private LinkedHashMap<String, LinkedHashMap> getCommanders(LinkedHashMap<String, Commanders> commanders)
+    {
+        LinkedHashMap<String, LinkedHashMap> allCommanders = new LinkedHashMap<>();
+
+        LinkedHashMap<String, GPCommander> defaultCommanders = new LinkedHashMap<>();
+
+        commanders.entrySet().forEach(entry ->
+        {
+            if (entry.getValue().getFirst_names().size() > 1 && entry.getValue().getLast_names().size() > 0)
+            {
+                GPCommander gpCommander = mapper.convertValue(gameParamsCHM.get(entry.getKey()), GPCommander.class);
+                defaultCommanders.put(entry.getValue().getNation(), gpCommander);
+            }
+        });
+
+        defaultCommanders.entrySet().forEach(entry ->
+        {
+            LinkedHashMap<String, GPCommander> nationCommanders = new LinkedHashMap<>();
+            nationCommanders.put("default", entry.getValue());
+
+            commanders.entrySet().forEach(cEntry ->
+            {
+                if (cEntry.getValue().getNation().equalsIgnoreCase(entry.getKey()))
+                {
+                    String temp1 = entry.getValue().getSkills().toString();
+
+                    GPCommander gpCommander = mapper.convertValue(gameParamsCHM.get(cEntry.getKey()), GPCommander.class);
+                    String temp2 = gpCommander.getSkills().toString();
+
+                    if (!temp1.equalsIgnoreCase(temp2))
+                    {
+                        String name = cEntry.getValue().getFirst_names().size() > 0 ? cEntry.getValue().getFirst_names().get(0) : gpCommander.getName();
+                        nationCommanders.put(name, gpCommander);
+                    }
+                }
+            });
+
+            allCommanders.put(entry.getKey(), nationCommanders);
+        });
+        return allCommanders;
     }
 }
