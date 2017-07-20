@@ -39,6 +39,9 @@
                 <button th:if="${warship.prevWarship != null}" th:onclick="'fragments(\'' + ${warship.prevWarship.nation} + '\', \'' + ${warship.prevWarship.type} + '\', \'' + ${warship.prevWarship.name} + '\')'" th:text="${'Prev Ship (' + warship.prevWarship.name} + ')'"/>
                 <span style="padding: 1em;"></span>
                 <button id="showCrewSkills">Commander Skills</button>
+                <select id="commanderSelect" th:if="${commanders.size() > 1}">
+                    <option th:selected="${sCommander == commander}" th:each="commander : ${commanders}" th:value="${commander}" th:text="${commander}"/>
+                </select>
                 <button id="showFlags">Flags</button>
                 <!--<button id="showConsumables" class="ui-button">Consumables</button>-->
                 <!--<button id="showCamouflage" class="ui-button">Camo</button>-->

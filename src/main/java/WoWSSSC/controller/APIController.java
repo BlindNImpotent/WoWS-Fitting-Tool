@@ -133,7 +133,8 @@ public class APIController
                     @RequestParam(required = false) String skills,
                     @RequestParam(required = false, defaultValue = "100") int adrenalineValue,
                     @RequestParam(required = false) boolean camo,
-                    @RequestParam(required = false, defaultValue = "false") boolean mobile
+                    @RequestParam(required = false, defaultValue = "false") boolean mobile,
+                    @RequestParam(required = false, defaultValue = "default") String commander
             ) throws IOException
     {
         model.addAttribute("notification", notification);
@@ -141,11 +142,14 @@ public class APIController
         if (nation != null && shipType != null && ship != null)
         {
             ship = URLDecoder.decode(ship, "UTF-8");
+            commander = URLDecoder.decode(commander, "UTF-8");
 
             if (request.getMethod().equalsIgnoreCase("post"))
             {
                 logger.info("Loading " + nation + " " + shipType + " " + ship);
                 model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
+                model.addAttribute("commanders", ((LinkedHashMap<String, LinkedHashMap>) data.get("commanders").get(nation)).keySet());
+                model.addAttribute("sCommander", commander);
 
                 return "WarshipStats/warshipPage :: warshipStats";
             }
@@ -172,6 +176,8 @@ public class APIController
                 redirectAttributes.addFlashAttribute("mobile", mobile);
                 redirectAttributes.addFlashAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
                 redirectAttributes.addFlashAttribute("nation", nation).addFlashAttribute("shipType", shipType).addFlashAttribute("ship", ship);
+                redirectAttributes.addFlashAttribute("commanders", ((LinkedHashMap<String, LinkedHashMap>) data.get("commanders").get(nation)).keySet());
+                redirectAttributes.addFlashAttribute("sCommander", commander);
             }
         }
         return "redirect:/WarshipStats?mobile=" + mobile;

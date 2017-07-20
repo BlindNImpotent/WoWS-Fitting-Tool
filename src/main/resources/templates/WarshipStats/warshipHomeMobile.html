@@ -164,6 +164,8 @@
 
     var adrenalineValue = 100;
 
+    var commander = [[${sCommander}]] !== null ? [[${sCommander}]] : 'default';
+
     $().ready(function () {
         $( function() {
             $('#shipList').menu();
@@ -313,7 +315,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text());
+        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander));
     }
 
     $(document).on('click', '.button_skill, .button_skill_selected', function () {
@@ -489,7 +491,8 @@
                 skills: skills,
                 camouflage: camouflage,
                 flags: flags,
-                consumables: consumables
+                consumables: consumables,
+                commander: [commander]
             };
 
             url = url + '&adrenalineValue=' + adrenalineValue;
@@ -531,7 +534,7 @@
                             nation: nation,
                             shipType: shipType,
                             ship: ship
-                        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text());
+                        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander));
                     }
                     else
                     {
@@ -572,6 +575,9 @@
                 $('.button_consumable_selected').attr('class', 'button_consumable');
 
                 $('.warshipData').replaceWith(data);
+
+                commander = 'default';
+                $('#commanderSelect').val(commander);
 
                 callAPI();
             }
@@ -652,7 +658,23 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text());
+        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander));
+    });
+
+    $(document).on('change', '#commanderSelect', function ()
+    {
+        commander = $('#commanderSelect').val();
+
+        history.replaceState({
+            nation: nation,
+            shipType: shipType,
+            ship: ship
+        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander));
+
+        if ($('.button_skill_selected').length > 0)
+        {
+            callAPI();
+        }
     });
 
     //    ]]>
