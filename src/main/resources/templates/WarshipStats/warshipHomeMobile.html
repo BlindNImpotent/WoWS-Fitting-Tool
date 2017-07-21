@@ -532,6 +532,8 @@
 
             url = url + '&upgradeCompare=' + $('#upgradeCompareCheckBox').is(':checked');
 
+            url = url + '&stockCompare=' + $('#stockCompareCheckBox').is(':checked');
+
             url = url + '&mobile=true';
 
             $.ajax({
@@ -641,6 +643,20 @@
 
     $(document).on('click', '#stockCompareCheckBox, #upgradeCompareCheckBox', function ()
     {
+        var clickedId = $(this).attr('id');
+        var clicked = $(this).is(':checked');
+        var comparisonList = $('[name=comparison]');
+
+        for (var i = 0; i < comparisonList.length; i++)
+        {
+            var current = comparisonList.eq(i);
+
+            if (current.attr('id') !== clickedId && clicked)
+            {
+                current.prop('checked', !clicked)
+            }
+        }
+
         callAPI();
     });
 
