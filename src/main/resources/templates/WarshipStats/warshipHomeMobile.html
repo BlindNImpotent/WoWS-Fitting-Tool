@@ -177,6 +177,7 @@
             callAPI();
             setCaptainSkillPoints();
             setFlags();
+            changeSkillDescription();
         }
     });
 
@@ -610,6 +611,7 @@
 
                 commander = 'default';
                 $('#commanderSelect').val(commander);
+                changeSkillDescription();
 
                 callAPI();
             }
@@ -697,6 +699,8 @@
     {
         commander = $('#commanderSelect').val();
 
+        changeSkillDescription();
+
         history.replaceState({
             nation: nation,
             shipType: shipType,
@@ -708,6 +712,28 @@
             callAPI();
         }
     });
+
+    function changeSkillDescription()
+    {
+        if (commander === 'Steven Seagal')
+        {
+            $('#1_2').attr('title', '-75% to reload time when the shell type is switched');
+            $('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+        }
+        else if (commander === 'Jack Dunkirk')
+        {
+            $('#2_1').attr('title', '-10% to reload time of all mounted consumables');
+            $('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+            $('#2_4').attr('title', '+30% to the radius of the smoke screen');
+        }
+        else if (commander === 'default')
+        {
+            $('#1_2').attr('title', '-50% to reload time when the shell type is switched');
+            $('#2_1').attr('title', '-5% to reload time of all mounted consumables');
+            $('#2_2').attr('title', '+2.5deg/s to traverse speed of guns with a caliber up to 139 mm\n+0.7deg/s to traverse speed of guns with a caliber above 139 mm');
+            $('#2_4').attr('title', '+20% to the radius of the smoke screen');
+        }
+    }
 
     //    ]]>
 </script>
