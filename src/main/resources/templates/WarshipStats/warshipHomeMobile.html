@@ -311,6 +311,38 @@
             $('#' + current).removeAttr('style');
         }
 
+        if ($('.button_consumable_selected').length == 0)
+        {
+            var abil0List = $('.abil0');
+            var abil1List = $('.abil1');
+            var abil2List = $('.abil2');
+            var abil3List = $('.abil3');
+
+            if (abil0List.length !== 0)
+            {
+                abil0List.eq(0).attr('class', 'button_consumable_selected abil0');
+                $('#' + abil0List.eq(0).attr('name')).removeAttr('style');
+            }
+
+            if (abil1List.length !== 0)
+            {
+                abil1List.eq(0).attr('class', 'button_consumable_selected abil1');
+                $('#' + abil1List.eq(0).attr('name')).removeAttr('style');
+            }
+
+            if (abil2List.length !== 0)
+            {
+                abil2List.eq(0).attr('class', 'button_consumable_selected abil2');
+                $('#' + abil2List.eq(0).attr('name')).removeAttr('style');
+            }
+
+            if (abil3List.length !== 0)
+            {
+                abil3List.eq(0).attr('class', 'button_consumable_selected abil3');
+                $('#' + abil3List.eq(0).attr('name')).removeAttr('style');
+            }
+        }
+
         history.replaceState({
             nation: nation,
             shipType: shipType,

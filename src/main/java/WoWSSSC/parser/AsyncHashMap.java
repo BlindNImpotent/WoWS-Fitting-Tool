@@ -908,10 +908,10 @@ public class AsyncHashMap implements CommandLineRunner
             {
                 if (cEntry.getValue().getNation().equalsIgnoreCase(entry.getKey()))
                 {
-                    String temp1 = entry.getValue().getSkills().toString();
+                    String temp1 = entry.getValue().getSkills().getModifiers().toString();
 
                     GPCommander gpCommander = mapper.convertValue(gameParamsCHM.get(cEntry.getKey()), GPCommander.class);
-                    String temp2 = gpCommander.getSkills().toString();
+                    String temp2 = gpCommander.getSkills().getModifiers().toString();
 
                     if (!temp1.equalsIgnoreCase(temp2))
                     {

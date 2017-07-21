@@ -12,6 +12,9 @@ import WoWSSSC.model.WoWSAPI.shipprofile.profile.artillery.Artillery_Slots;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.model.gameparams.Consumables.Consumable;
+import WoWSSSC.model.gameparams.commanders.GPCommander;
+import WoWSSSC.model.gameparams.commanders.SkillModifier;
+import WoWSSSC.model.gameparams.commanders.Skills;
 import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -256,439 +259,387 @@ public class APIService
         }
 
         List<HashMap> skills = upgradesSkills.get("skills");
+        String commander = upgradesSkills.get("commander") != null ? (String) upgradesSkills.get("commander").get(0) : "default";
+        Skills commanderSkill = ((LinkedHashMap<String, GPCommander>) data.get("commanders").get(nation)).get(commander).getSkills();
+
         if (skills != null)
         {
             skills.forEach(skill ->
             {
-                if (skill.get("tier").equals("1"))
+                String skillType = skill.get("tier") + "_" + skill.get("type_id");
+                SkillModifier modifier = commanderSkill.getModifiers().get(skillType);
+
+                if (modifier.getVitalityCoefficient() != 0 && modifier.getDiveBombersPrepareCoefficient() != 0 && modifier.getFightersPrepareCoefficient() != 0 && modifier.getTorpedoBombersPrepareCoefficient() != 0) // 1_3
                 {
-                    if (skill.get("type_id").equals("0"))
+                    if (ship.getDive_bomber() != null)
                     {
-
+                        ship.getDive_bomber().setMax_health(ship.getDive_bomber().getMax_health() * modifier.getVitalityCoefficient());
+                        ship.getDive_bomber().setPrepare_time(ship.getDive_bomber().getPrepare_time() * modifier.getDiveBombersPrepareCoefficient());
                     }
-                    else if (skill.get("type_id").equals("1"))
+                    if (ship.getFighters() != null)
                     {
-
+                        ship.getFighters().setMax_health(ship.getFighters().getMax_health() * modifier.getVitalityCoefficient());
+                        ship.getFighters().setPrepare_time(ship.getFighters().getPrepare_time() * modifier.getFightersPrepareCoefficient());
                     }
-                    else if (skill.get("type_id").equals("2"))
+                    if (ship.getTorpedo_bomber() != null)
                     {
-
-                    }
-                    else if (skill.get("type_id").equals("3"))
-                    {
-                        float hp_coef = 1.05f;
-                        float prep_coef = 0.9f;
-
-                        if (ship.getDive_bomber() != null)
-                        {
-                            ship.getDive_bomber().setMax_health(ship.getDive_bomber().getMax_health() * hp_coef);
-                            ship.getDive_bomber().setPrepare_time(ship.getDive_bomber().getPrepare_time() * prep_coef);
-                        }
-                        if (ship.getFighters() != null)
-                        {
-                            ship.getFighters().setMax_health(ship.getFighters().getMax_health() * hp_coef);
-                            ship.getFighters().setPrepare_time(ship.getFighters().getPrepare_time() * prep_coef);
-                        }
-                        if (ship.getTorpedo_bomber() != null)
-                        {
-                            ship.getTorpedo_bomber().setMax_health(ship.getTorpedo_bomber().getMax_health() * hp_coef);
-                            ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * prep_coef);
-                        }
-                    }
-                    else if (skill.get("type_id").equals("4"))
-                    {
-
-                    }
-                    else if (skill.get("type_id").equals("5"))
-                    {
-
-                    }
-                    else if (skill.get("type_id").equals("6"))
-                    {
-
-                    }
-                    else if (skill.get("type_id").equals("7"))
-                    {
-
+                        ship.getTorpedo_bomber().setMax_health(ship.getTorpedo_bomber().getMax_health() * modifier.getVitalityCoefficient());
+                        ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * modifier.getTorpedoBombersPrepareCoefficient());
                     }
                 }
-                else if (skill.get("tier").equals("2"))
+                else if (modifier.getReloadCoefficient() != 0) // 2_0, 2_1
                 {
-                    if (skill.get("type_id").equals("0"))
+                    ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                     {
+                        Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
 
-                        ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                        if (skillType.equals("2_0"))
                         {
-                            Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
-
                             if (tempConsumable.getName().contains("CrashCrew"))
                             {
-                                tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * 0.90f));
+                                tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * modifier.getReloadCoefficient()));
                             }
-                            ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
-                        });
-                    }
-                    else if (skill.get("type_id").equals("1"))
-                    {
-                        ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                        }
+                        else if (skillType.equals("2_1"))
                         {
-                            Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+                            tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * modifier.getReloadCoefficient()));
+                        }
 
-                            tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * 0.95f));
-
-                            ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
-                        });
-                    }
-                    else if (skill.get("type_id").equals("2"))
+                        ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
+                    });
+                }
+                else if (modifier.getBigGunBonus() != 0 && modifier.getSmallGunBonus() != 0) // 2_2
+                {
+                    if (ship.getArtillery() != null)
                     {
-                        if (ship.getArtillery() != null)
-                        {
 //                            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
 //                            int caliber = Integer.parseInt(splitName[0].trim());
-                            int caliber = shipComponents.getArtillery().getBarrelDiameter();
-                            float timeToDeg = 180 / ship.getArtillery().getRotation_time();
+                        int caliber = shipComponents.getArtillery().getBarrelDiameter();
+                        float timeToDeg = 180 / ship.getArtillery().getRotation_time();
 
-                            if (caliber <= 139)
-                            {
-                                timeToDeg = timeToDeg + 2.5f;
-                            }
-                            else
-                            {
-                                timeToDeg = timeToDeg + 0.7f;
-                            }
-                            ship.getArtillery().setRotation_time(180 / timeToDeg);
-                        }
-                    }
-                    else if (skill.get("type_id").equals("3"))
-                    {
-                        if (ship.getTorpedoes() != null)
+                        if (caliber <= 139)
                         {
-                            ship.getTorpedoes().setTorpedo_speed(ship.getTorpedoes().getTorpedo_speed() + 5);
-                            ship.getTorpedoes().setDistance(ship.getTorpedoes().getDistance() * 0.8f);
+                            timeToDeg = timeToDeg + modifier.getSmallGunBonus();
                         }
-
-                        if (ship.getTorpedo_bomber() != null)
+                        else
                         {
-                            ship.getTorpedo_bomber().setTorpedo_max_speed(ship.getTorpedo_bomber().getTorpedo_max_speed() + 5);
-                            ship.getTorpedo_bomber().setTorpedo_distance(ship.getTorpedo_bomber().getTorpedo_distance() * 0.8f);
+                            timeToDeg = timeToDeg + modifier.getBigGunBonus();
                         }
-                    }
-                    else if (skill.get("type_id").equals("4"))
-                    {
-
-                    }
-                    else if (skill.get("type_id").equals("5"))
-                    {
-                        if (ship.getDive_bomber() != null)
-                        {
-                            ship.getDive_bomber().setGunner_damage(ship.getDive_bomber().getGunner_damage() * 1.1f);
-                        }
-
-                        if (ship.getTorpedo_bomber() != null)
-                        {
-                            ship.getTorpedo_bomber().setGunner_damage(ship.getTorpedo_bomber().getGunner_damage() * 1.1f);
-                        }
-                    }
-                    else if (skill.get("type_id").equals("6"))
-                    {
-                        float coef = 1 - ((100 - adrenalineValue) * 0.2f / 100);
-
-                        if (ship.getArtillery() != null)
-                        {
-                            ship.getArtillery().setGun_rate(ship.getArtillery().getGun_rate() / coef);
-                        }
-
-                        if (ship.getTorpedoes() != null)
-                        {
-                            ship.getTorpedoes().setReload_time(ship.getTorpedoes().getReload_time() * coef);
-                        }
-
-                        if (ship.getAtbas() != null)
-                        {
-                            ship.getAtbas().getSlots().values().forEach(slot -> slot.setShot_delay(slot.getShot_delay() * coef));
-                        }
-
-                        if (ship.getShipComponents().getAtba() != null)
-                        {
-                            ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary -> secondary.setShotDelay(secondary.getShotDelay() * coef));
-                        }
-                    }
-                    else if (skill.get("type_id").equals("7"))
-                    {
-
+                        ship.getArtillery().setRotation_time(180 / timeToDeg);
                     }
                 }
-                else if (skill.get("tier").equals("3"))
+                else if (modifier.getTorpedoRangeCoefficient() != 0 && modifier.getTorpedoSpeedBonus() != 0) // 2_3
                 {
-                    if (skill.get("type_id").equals("0"))
+                    if (ship.getTorpedoes() != null)
                     {
-                        if (ship.getBurn() > 0)
+                        ship.getTorpedoes().setTorpedo_speed(ship.getTorpedoes().getTorpedo_speed() + modifier.getTorpedoSpeedBonus());
+                        ship.getTorpedoes().setDistance(ship.getTorpedoes().getDistance() * modifier.getTorpedoRangeCoefficient());
+                    }
+
+                    if (ship.getTorpedo_bomber() != null)
+                    {
+                        ship.getTorpedo_bomber().setTorpedo_max_speed(ship.getTorpedo_bomber().getTorpedo_max_speed() + modifier.getTorpedoSpeedBonus());
+                        ship.getTorpedo_bomber().setTorpedo_distance(ship.getTorpedo_bomber().getTorpedo_distance() * modifier.getTorpedoRangeCoefficient());
+                    }
+                }
+                else if (modifier.getFightersPassiveEfficiencyCoefficient() != 0) // 2_5
+                {
+                    if (ship.getDive_bomber() != null)
+                    {
+                        ship.getDive_bomber().setGunner_damage(ship.getDive_bomber().getGunner_damage() * modifier.getFightersPassiveEfficiencyCoefficient());
+                    }
+
+                    if (ship.getTorpedo_bomber() != null)
+                    {
+                        ship.getTorpedo_bomber().setGunner_damage(ship.getTorpedo_bomber().getGunner_damage() * modifier.getFightersPassiveEfficiencyCoefficient());
+                    }
+                }
+                else if (modifier.getTimeStep() != 0) // 2_6
+                {
+                    float coef = 1 - ((100 - adrenalineValue) * modifier.getTimeStep() / 100);
+
+                    if (ship.getArtillery() != null)
+                    {
+                        ship.getArtillery().setGun_rate(ship.getArtillery().getGun_rate() / coef);
+                    }
+
+                    if (ship.getTorpedoes() != null)
+                    {
+                        ship.getTorpedoes().setReload_time(ship.getTorpedoes().getReload_time() * coef);
+                    }
+
+                    if (ship.getAtbas() != null)
+                    {
+                        ship.getAtbas().getSlots().values().forEach(slot -> slot.setShot_delay(slot.getShot_delay() * coef));
+                    }
+
+                    if (ship.getShipComponents().getAtba() != null)
+                    {
+                        ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary -> secondary.setShotDelay(secondary.getShotDelay() * coef));
+                    }
+                }
+                else if (modifier.getCritTimeCoefficient() != 0) // 3_0
+                {
+                    if (ship.getBurn() > 0)
+                    {
+                        ship.setBurn(ship.getBurn() * modifier.getCritTimeCoefficient());
+                    }
+                    if (ship.getFlood() > 0)
+                    {
+                        ship.setFlood(ship.getFlood() * modifier.getCritTimeCoefficient());
+                    }
+
+                    ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                    {
+                        Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+
+                        if (tempConsumable.getName().contains("CrashCrew"))
                         {
-                            ship.setBurn(ship.getBurn() * 0.85f);
-                        }
-                        if (ship.getFlood() > 0)
-                        {
-                            ship.setFlood(ship.getFlood() * 0.85f);
+                            tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * modifier.getCritTimeCoefficient()));
                         }
 
-                        ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
-                        {
-                            Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+                        ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
+                    });
+                }
+                else if (modifier.getHealthPerLevel() != 0) // 3_1
+                {
+                    if (ship.getHull() != null)
+                    {
+                        ship.getHull().setHealth(ship.getHull().getHealth() + warship.getTier() * modifier.getHealthPerLevel());
+                    }
+                }
+                else if (modifier.getLauncherCoefficient() != 0 && modifier.getBomberCoefficient() != 0) // 3_2
+                {
+                    if (ship.getTorpedoes() != null)
+                    {
+                        ship.getTorpedoes().setReload_time(ship.getTorpedoes().getReload_time() * modifier.getLauncherCoefficient());
+                    }
+                    if (ship.getTorpedo_bomber() != null)
+                    {
+                        ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * modifier.getBomberCoefficient());
+                    }
+                }
+                else if (modifier.getAirDefenceEfficiencyCoefficient() != 0 && modifier.getSmallGunReloadCoefficient() != 0) // 3_4
+                {
+                    float gunRateBonus = 1.0f + (1.0f - modifier.getSmallGunReloadCoefficient());
 
-                            if (tempConsumable.getName().contains("CrashCrew"))
-                            {
-                                tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * 0.85f));
-                            }
-
-                            ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
-                        });
-                    }
-                    else if (skill.get("type_id").equals("1"))
+                    if (ship.getArtillery() != null)
                     {
-                        if (ship.getHull() != null)
-                        {
-                            ship.getHull().setHealth(ship.getHull().getHealth() + warship.getTier() * 350);
-                        }
-                    }
-                    else if (skill.get("type_id").equals("2"))
-                    {
-                        if (ship.getTorpedoes() != null)
-                        {
-                            ship.getTorpedoes().setReload_time(ship.getTorpedoes().getReload_time() * 0.9f);
-                        }
-                        if (ship.getTorpedo_bomber() != null)
-                        {
-                            ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * 0.8f);
-                        }
-                    }
-                    else if (skill.get("type_id").equals("3"))
-                    {
-
-                    }
-                    else if (skill.get("type_id").equals("4"))
-                    {
-                        if (ship.getArtillery() != null)
-                        {
 //                            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
 //                            int caliber = Integer.parseInt(splitName[0].trim());
-                            int caliber = shipComponents.getArtillery().getBarrelDiameter();
+                        int caliber = shipComponents.getArtillery().getBarrelDiameter();
 
-                            if (caliber <= 139)
-                            {
-                                ship.getArtillery().setGun_rate(ship.getArtillery().getGun_rate() * 1.1f);
-                            }
-                        }
-                        if (ship.getAnti_aircraft() != null)
+                        if (caliber <= 139)
                         {
-                            ship.getAnti_aircraft().getSlots().values().forEach(value -> value.setAvg_damage(value.getAvg_damage() * 1.2f));
-                        }
-                        if (ship.getAtbas() != null)
-                        {
-                            ship.getAtbas().getSlots().entrySet().forEach(entry -> entry.getValue().setShot_delayWithoutDefault(entry.getValue().getShot_delay() * 0.9f));
-                        }
-
-                        if (ship.getShipComponents().getAtba() != null)
-                        {
-                            ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary -> secondary.setShotDelay(secondary.getShotDelay() * 0.9f));
+                            ship.getArtillery().setGun_rate(ship.getArtillery().getGun_rate() * gunRateBonus);
                         }
                     }
-                    else if (skill.get("type_id").equals("5"))
+                    if (ship.getAnti_aircraft() != null)
                     {
-                        ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                        ship.getAnti_aircraft().getSlots().values().forEach(value -> value.setAvg_damage(value.getAvg_damage() * modifier.getAirDefenceEfficiencyCoefficient()));
+                    }
+                    if (ship.getAtbas() != null)
+                    {
+                        ship.getAtbas().getSlots().entrySet().forEach(entry -> entry.getValue().setShot_delayWithoutDefault(entry.getValue().getShot_delay() * modifier.getSmallGunReloadCoefficient()));
+                    }
+
+                    if (ship.getShipComponents().getAtba() != null)
+                    {
+                        ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary -> secondary.setShotDelay(secondary.getShotDelay() * modifier.getSmallGunReloadCoefficient()));
+                    }
+                }
+                else if (modifier.getAdditionalConsumables() != 0) // 3_5
+                {
+                    ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                    {
+                        Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+
+                        tempConsumable.getTypes().values().forEach(cType -> cType.setNumConsumables(cType.getNumConsumables() + modifier.getAdditionalConsumables()));
+
+                        ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
+                    });
+                }
+                else if (modifier.getProbabilityBonus() != 0) // 3_6
+                {
+                    float burnHundred = modifier.getProbabilityBonus() * 100;
+
+                    if (ship.getArtillery() != null)
+                    {
+                        ship.getArtillery().getShells().values().forEach(value ->
                         {
-                            Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
-
-                            tempConsumable.getTypes().values().forEach(cType -> cType.setNumConsumables(cType.getNumConsumables() + 1));
-
-                            ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
+                            if (value != null && "HE".equalsIgnoreCase(value.getType()))
+                            {
+                                value.setBurn_probability(value.getBurn_probability() + burnHundred);
+                            }
                         });
                     }
-                    else if (skill.get("type_id").equals("6"))
+
+                    if (ship.getAtbas() != null)
                     {
-                        if (ship.getArtillery() != null)
-                        {
-                            ship.getArtillery().getShells().values().forEach(value ->
-                            {
-                                if (value != null && "HE".equalsIgnoreCase(value.getType()))
-                                {
-                                    value.setBurn_probability(value.getBurn_probability() + 2);
-                                }
-                            });
-                        }
-
-                        if (ship.getAtbas() != null)
-                        {
-                            ship.getAtbas().getSlots().values().forEach(slot -> slot.setBurn_probability(slot.getBurn_probability() + 2));
-                        }
-
-                        if (ship.getDive_bomber() != null)
-                        {
-                            ship.getDive_bomber().setBomb_burn_probability(ship.getDive_bomber().getBomb_burn_probability() + 2);
-                        }
-
-                        if (ship.getShipComponents().getAtba() != null)
-                        {
-                            ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary ->
-                            {
-                                if ("HE".equalsIgnoreCase(secondary.getShell().getAmmoType()))
-                                {
-                                    secondary.getShell().setBurnProb(secondary.getShell().getBurnProb() + 0.02f);
-                                }
-                            });
-                        }
+                        ship.getAtbas().getSlots().values().forEach(slot -> slot.setBurn_probability(slot.getBurn_probability() + burnHundred));
                     }
-                    else if (skill.get("type_id").equals("7"))
+
+                    if (ship.getDive_bomber() != null)
                     {
-                        ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                        ship.getDive_bomber().setBomb_burn_probability(ship.getDive_bomber().getBomb_burn_probability() + burnHundred);
+                    }
+
+                    if (ship.getShipComponents().getAtba() != null)
+                    {
+                        ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary ->
                         {
-                            Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
-
-                            if (tempConsumable.getName().contains("SonarSearch"))
+                            if ("HE".equalsIgnoreCase(secondary.getShell().getAmmoType()))
                             {
-                                tempConsumable.getTypes().values().forEach(cType -> cType.setDistTorpedo(cType.getDistTorpedo() * 1.25f));
+                                secondary.getShell().setBurnProb(secondary.getShell().getBurnProb() + modifier.getProbabilityBonus());
                             }
-
-                            ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                         });
                     }
                 }
-                else if (skill.get("tier").equals("4"))
+                else if (modifier.getRangeCoefficient() != 0) // 3_7
                 {
-                    if (skill.get("type_id").equals("0"))
+                    ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                     {
+                        Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
 
-                    }
-                    else if (skill.get("type_id").equals("1"))
-                    {
-                        if (ship.getShipComponents() != null)
+                        if (tempConsumable.getName().contains("SonarSearch"))
                         {
-                            ship.getShipComponents().getHull().setBurnChanceReduction(ship.getShipComponents().getHull().getBurnChanceReduction() / 0.9);
-                            ship.getShipComponents().getHull().setBurnNodesSize(ship.getShipComponents().getHull().getBurnNodesSize() - 1);
+                            tempConsumable.getTypes().values().forEach(cType -> cType.setDistTorpedo(cType.getDistTorpedo() * modifier.getRangeCoefficient()));
                         }
 
-                    }
-                    else if (skill.get("type_id").equals("2"))
+                        ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
+                    });
+                }
+                else if (modifier.getProbabilityCoefficient() != 0) // 4_1
+                {
+                    if (ship.getShipComponents() != null)
                     {
-                        if (ship.getArtillery() != null)
+                        ship.getShipComponents().getHull().setBurnChanceReduction(ship.getShipComponents().getHull().getBurnChanceReduction() / modifier.getProbabilityCoefficient());
+                        ship.getShipComponents().getHull().setBurnNodesSize(ship.getShipComponents().getHull().getBurnNodesSize() - 1);
+                    }
+                }
+                else if (modifier.getChanceToSetOnFireBonus() != 0 && modifier.getThresholdPenetrationCoefficient() != 0) // 4_2
+                {
+                    float burnHundred = modifier.getChanceToSetOnFireBonus() * 100;
+
+                    if (ship.getArtillery() != null)
+                    {
+                        ship.getArtillery().getShells().values().forEach(value ->
                         {
-                            ship.getArtillery().getShells().values().forEach(value ->
+                            if (value != null && "HE".equalsIgnoreCase(value.getType()))
                             {
-                                if (value != null && "HE".equalsIgnoreCase(value.getType()))
-                                {
-                                    value.setBurn_probability(value.getBurn_probability() - 3 > 0 ? value.getBurn_probability() - 3 : 0);
-                                }
-                            });
-                        }
-
-                        if (ship.getAtbas() != null)
-                        {
-                            ship.getAtbas().getSlots().values().forEach(slot ->
-                            {
-                                if (slot.getBurn_probability() > 0)
-                                {
-                                    slot.setBurn_probability(slot.getBurn_probability() - 3);
-                                }
-                            });
-                        }
-
-                        if (ship.getShipComponents().getArtillery() != null)
-                        {
-                            ship.getShipComponents().getArtillery().setPenetrationHE(Math.round(ship.getShipComponents().getArtillery().getPenetrationHEFloat() * 1.3));
-                        }
-
-                        if (ship.getShipComponents().getAtba() != null)
-                        {
-                            ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary ->
-                            {
-                                if ("HE".equalsIgnoreCase(secondary.getShell().getAmmoType()))
-                                {
-                                    secondary.getShell().setBurnProb(secondary.getShell().getBurnProb() - 0.03f);
-                                }
-                            });
-                        }
+                                value.setBurn_probability(value.getBurn_probability() + burnHundred > 0 ? value.getBurn_probability() + burnHundred : 0);
+                            }
+                        });
                     }
-                    else if (skill.get("type_id").equals("3"))
+
+                    if (ship.getAtbas() != null)
                     {
-                        if (ship.getDive_bomber() != null)
+                        ship.getAtbas().getSlots().values().forEach(slot ->
                         {
-                            ship.getDive_bomber().getCount_in_squadron().setMax(ship.getDive_bomber().getCount_in_squadron().getMax() + 1);
-                        }
-                        if (ship.getFighters() != null)
-                        {
-                            ship.getFighters().getCount_in_squadron().setMax(ship.getFighters().getCount_in_squadron().getMax() + 1);
-                        }
+                            if (slot.getBurn_probability() > 0)
+                            {
+                                slot.setBurn_probability(slot.getBurn_probability() + burnHundred);
+                            }
+                        });
                     }
-                    else if (skill.get("type_id").equals("4"))
+
+                    if (ship.getShipComponents().getArtillery() != null)
                     {
-                        if (ship.getArtillery() != null)
+                        ship.getShipComponents().getArtillery().setPenetrationHE(Math.round(ship.getShipComponents().getArtillery().getPenetrationHEFloat() * modifier.getThresholdPenetrationCoefficient()));
+                    }
+
+                    if (ship.getShipComponents().getAtba() != null)
+                    {
+                        ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary ->
                         {
+                            if ("HE".equalsIgnoreCase(secondary.getShell().getAmmoType()))
+                            {
+                                secondary.getShell().setBurnProb(secondary.getShell().getBurnProb() + modifier.getChanceToSetOnFireBonus());
+                            }
+                        });
+                    }
+                }
+                else if (modifier.getDiveBomber() != 0 || modifier.getFighter() != 0 || modifier.getTorpedoBomber() != 0) // 4_3
+                {
+                    if (ship.getDive_bomber() != null)
+                    {
+                        ship.getDive_bomber().getCount_in_squadron().setMax(ship.getDive_bomber().getCount_in_squadron().getMax() + modifier.getDiveBomber());
+                    }
+                    if (ship.getFighters() != null)
+                    {
+                        ship.getFighters().getCount_in_squadron().setMax(ship.getFighters().getCount_in_squadron().getMax() + modifier.getFighter());
+                    }
+                    if (ship.getTorpedo_bomber() != null)
+                    {
+                        ship.getTorpedo_bomber().getCount_in_squadron().setMax(ship.getTorpedo_bomber().getCount_in_squadron().getMax() + modifier.getTorpedoBomber());
+                    }
+                }
+                else if (modifier.getAirDefenceRangeCoefficient() != 0 && modifier.getSmallGunRangeCoefficient() != 0) // 4_4
+                {
+                    if (ship.getArtillery() != null)
+                    {
 //                            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
 //                            int caliber = Integer.parseInt(splitName[0].trim());
-                            int caliber = shipComponents.getArtillery().getBarrelDiameter();
-                            if (caliber <= 139)
-                            {
-                                float tempRatio = ship.getArtillery().getDistance() / ship.getArtillery().getMax_dispersion();
-                                ship.getArtillery().setDistance(ship.getArtillery().getDistance() * 1.2f);
-                                ship.getArtillery().setMax_dispersion(ship.getArtillery().getDistance() / tempRatio);
-                            }
-                        }
-                        if (ship.getAtbas() != null)
+                        int caliber = shipComponents.getArtillery().getBarrelDiameter();
+                        if (caliber <= 139)
                         {
-                            ship.getAtbas().setDistance(ship.getAtbas().getDistance() * 1.2f);
-                        }
-                        if (ship.getAnti_aircraft() != null)
-                        {
-                            ship.getAnti_aircraft().getSlots().values().forEach(value -> value.setDistance(value.getDistance() * 1.2f));
-                        }
-
-                        if (ship.getShipComponents().getAtba() != null)
-                        {
-                            ship.getShipComponents().getAtba().setMaxDist(ship.getShipComponents().getAtba().getMaxDist() * 1.2f);
+                            float tempRatio = ship.getArtillery().getDistance() / ship.getArtillery().getMax_dispersion();
+                            ship.getArtillery().setDistance(ship.getArtillery().getDistance() * modifier.getSmallGunRangeCoefficient());
+                            ship.getArtillery().setMax_dispersion(ship.getArtillery().getDistance() / tempRatio);
                         }
                     }
-                    else if (skill.get("type_id").equals("5"))
+                    if (ship.getAtbas() != null)
                     {
-                        if (ship.getAnti_aircraft() != null)
-                        {
-                            ship.getAnti_aircraft().getSlots().values().forEach(value ->
-                            {
-                                if (value.getCaliber() > 85)
-                                {
-                                    value.setAvg_damage(value.getAvg_damage() * 2);
-                                }
-                            });
-                        }
+                        ship.getAtbas().setDistance(ship.getAtbas().getDistance() * modifier.getSmallGunRangeCoefficient());
                     }
-                    else if (skill.get("type_id").equals("6"))
+                    if (ship.getAnti_aircraft() != null)
                     {
-
+                        ship.getAnti_aircraft().getSlots().values().forEach(value -> value.setDistance(value.getDistance() * modifier.getAirDefenceRangeCoefficient()));
                     }
-                    else if (skill.get("type_id").equals("7"))
+
+                    if (ship.getShipComponents().getAtba() != null)
                     {
-                        if (ship.getConcealment() != null)
+                        ship.getShipComponents().getAtba().setMaxDist(ship.getShipComponents().getAtba().getMaxDist() * modifier.getSmallGunRangeCoefficient());
+                    }
+                }
+                else if (modifier.getAirDefenceSelectedTargetCoefficient() != 0) // 4_5
+                {
+                    if (ship.getAnti_aircraft() != null)
+                    {
+                        ship.getAnti_aircraft().getSlots().values().forEach(value ->
                         {
-                            float detect_coef = 0;
+                            if (value.getCaliber() > 85)
+                            {
+                                value.setAvg_damage(value.getAvg_damage() * modifier.getAirDefenceSelectedTargetCoefficient());
+                            }
+                        });
+                    }
+                }
+                else if (modifier.getAircraftCarrierCoefficient() != 0 && modifier.getBattleshipCoefficient() != 0 && modifier.getCruiserCoefficient() != 0 && modifier.getDestroyerCoefficient() != 0) // 4_7
+                {
+                    if (ship.getConcealment() != null)
+                    {
+                        float detect_coef = 0;
 
-                            if (warship.getDefaultType().equals("AirCarrier"))
-                            {
-                                detect_coef = 0.84f;
-                            }
-                            else if (warship.getDefaultType().equals("Battleship"))
-                            {
-                                detect_coef = 0.86f;
-                            }
-                            else if (warship.getDefaultType().equals("Cruiser"))
-                            {
-                                detect_coef = 0.88f;
-                            }
-                            else if (warship.getDefaultType().equals("Destroyer"))
-                            {
-                                detect_coef = 0.90f;
-                            }
-
-                            ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * detect_coef);
-                            ship.getConcealment().setDetect_distance_by_plane(ship.getConcealment().getDetect_distance_by_plane() * detect_coef);
+                        if (warship.getDefaultType().equals("AirCarrier"))
+                        {
+                            detect_coef = modifier.getAircraftCarrierCoefficient();
                         }
+                        else if (warship.getDefaultType().equals("Battleship"))
+                        {
+                            detect_coef = modifier.getBattleshipCoefficient();
+                        }
+                        else if (warship.getDefaultType().equals("Cruiser"))
+                        {
+                            detect_coef = modifier.getCruiserCoefficient();
+                        }
+                        else if (warship.getDefaultType().equals("Destroyer"))
+                        {
+                            detect_coef = modifier.getDestroyerCoefficient();
+                        }
+
+                        ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * detect_coef);
+                        ship.getConcealment().setDetect_distance_by_plane(ship.getConcealment().getDetect_distance_by_plane() * detect_coef);
                     }
                 }
             });

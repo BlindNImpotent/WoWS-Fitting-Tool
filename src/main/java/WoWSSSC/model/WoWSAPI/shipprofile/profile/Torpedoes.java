@@ -16,7 +16,7 @@ public class Torpedoes
     private float reload_time;
     private float rotation_time;
     private String torpedo_name;
-    private long torpedo_speed;
+    private float torpedo_speed;
     private long torpedoes_id;
     private String torpedoes_id_str;
     private float visibility_dist;

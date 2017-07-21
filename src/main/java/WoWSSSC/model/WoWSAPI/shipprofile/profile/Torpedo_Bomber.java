@@ -21,7 +21,7 @@ public class Torpedo_Bomber
     private String torpedo_bomber_id_str;
     private int torpedo_damage;
     private float torpedo_distance;
-    private int torpedo_max_speed;
+    private float torpedo_max_speed;
     private String torpedo_name;
     private Torpedo_Bomber_Count_In_Squadron count_in_squadron;
 }
