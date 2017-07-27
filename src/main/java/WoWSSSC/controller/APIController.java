@@ -1,6 +1,7 @@
 package WoWSSSC.controller;
 
 import WoWSSSC.config.DiscordWebhook;
+import WoWSSSC.model.WoWSAPI.ModuleId;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.email.EmailModel;
 import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
@@ -157,7 +158,7 @@ public class APIController
             {
                 logger.info("Loading " + nation + " " + shipType + " " + ship + " from /warship?" + request.getQueryString());
 
-                if (!skills.contains("tier") && !skills.contains("type_id") && !skills.contains("[]"))
+                if (StringUtils.isNotEmpty(skills) && !skills.contains("tier") && !skills.contains("type_id") && !skills.contains("[]"))
                 {
                     skills = new String(Base64.getDecoder().decode(skills));
                     skills = URLDecoder.decode(skills, "UTF-8");
@@ -253,8 +254,10 @@ public class APIController
             model.addAttribute("stockCompare", stockCompare);
             if (stockCompare)
             {
+                ModuleId moduleId = new ModuleId();
                 String stockKey = apiService.setShipAPI(nation, shipType, ship, ship_id, "", "", "", "", "", "", "", "", "", new ArrayList<>());
-                model.addAttribute("configurationAPI", apiService.getUpgradeSkillStats(stockKey, nation, shipType, ship, ship_id, "", "", "", "", "", "", "", "", "", new ArrayList<>(), new HashMap<>(), 100, true));
+                apiService.setModuleIds(shipHashMap.get(stockKey), moduleId);
+                model.addAttribute("configurationAPI", apiService.getUpgradeSkillStats(stockKey, nation, shipType, ship, ship_id, moduleId.getArtillery_id(), moduleId.getDive_bomber_id(), moduleId.getEngine_id(), moduleId.getFighter_id(), moduleId.getFire_control_id(), moduleId.getFlight_control_id(), moduleId.getHull_id(), moduleId.getTorpedo_bomber_id(), moduleId.getTorpedoes_id(), new ArrayList<>(), new HashMap<>(), 100, true));
             }
         }
 
@@ -636,6 +639,5 @@ public class APIController
         {
             discordWebhook.sendDiscordWebHookError(e, request);
         }
-
     }
 }

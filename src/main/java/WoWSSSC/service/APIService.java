@@ -1,6 +1,7 @@
 package WoWSSSC.service;
 
 import WoWSSSC.model.WoWSAPI.APIAddress;
+import WoWSSSC.model.WoWSAPI.ModuleId;
 import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
 import WoWSSSC.model.bitly.Bitly;
 import WoWSSSC.model.bitly.BitlyData;
@@ -120,6 +121,12 @@ public class APIService
                         shipData.getData().get(ship_id).getAnti_aircraft().setSlots(sorter.sortAARange(shipData.getData().get(ship_id).getAnti_aircraft().getSlots()));
                     }
 
+//                    ModuleId moduleId = new ModuleId();
+//                    setModuleIds(shipData.getData().get(ship_id), moduleId);
+//
+//                    key = "&ship_id=" + ship_id + "&artillery_id=" + moduleId.getArtillery_id() + "&dive_bomber_id=" + moduleId.getDive_bomber_id() + "&engine_id=" + moduleId.getEngine_id()
+//                            + "&fighter_id=" + moduleId.getFighter_id() + "&fire_control_id=" + moduleId.getFire_control_id() + "&flight_control_id=" + moduleId.getFlight_control_id() + "&hull_id=" + moduleId.getHull_id() + "&torpedo_bomber_id=" + moduleId.getTorpedo_bomber_id() + "&torpedoes_id=" + moduleId.getTorpedoes_id();
+
                     shipHashMap.put(key, shipData.getData().get(ship_id));
                 }
                 else
@@ -145,6 +152,46 @@ public class APIService
             return key;
         }
         return null;
+    }
+    
+    public void setModuleIds(Ship ship, ModuleId moduleId)
+    {
+        if (StringUtils.isEmpty(moduleId.getArtillery_id()) && ship.getArtillery() != null)
+        {
+            moduleId.setArtillery_id(String.valueOf(ship.getArtillery().getArtillery_id()));
+        }
+        if (StringUtils.isEmpty(moduleId.getDive_bomber_id()) && ship.getDive_bomber() != null)
+        {
+            moduleId.setDive_bomber_id(String.valueOf(ship.getDive_bomber().getDive_bomber_id()));
+        }
+        if (StringUtils.isEmpty(moduleId.getEngine_id()) && ship.getEngine() != null)
+        {
+            moduleId.setEngine_id(String.valueOf(ship.getEngine().getEngine_id()));
+        }
+        if (StringUtils.isEmpty(moduleId.getFighter_id()) && ship.getFighters() != null)
+        {
+            moduleId.setFighter_id(String.valueOf(ship.getFighters().getFighters_id()));
+        }
+        if (StringUtils.isEmpty(moduleId.getFire_control_id()) && ship.getFire_control() != null)
+        {
+            moduleId.setFire_control_id(String.valueOf(ship.getFire_control().getFire_control_id()));
+        }
+        if (StringUtils.isEmpty(moduleId.getFlight_control_id()) && ship.getFlight_control() != null)
+        {
+            moduleId.setFlight_control_id(String.valueOf(ship.getFlight_control().getFlight_control_id()));
+        }
+        if (StringUtils.isEmpty(moduleId.getHull_id()) && ship.getHull() != null)
+        {
+            moduleId.setHull_id(String.valueOf(ship.getHull().getHull_id()));
+        }
+        if (StringUtils.isEmpty(moduleId.getTorpedo_bomber_id()) && ship.getTorpedo_bomber() != null)
+        {
+            moduleId.setTorpedo_bomber_id(String.valueOf(ship.getTorpedo_bomber().getTorpedo_bomber_id()));
+        }
+        if (StringUtils.isEmpty(moduleId.getTorpedoes_id()) && ship.getTorpedoes() != null)
+        {
+            moduleId.setTorpedoes_id(String.valueOf(ship.getTorpedoes().getTorpedoes_id()));
+        }
     }
 
     @CacheEvict(value = "shipAPI", allEntries = true)
