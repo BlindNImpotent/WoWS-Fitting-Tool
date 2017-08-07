@@ -54,72 +54,70 @@
     <div style="text-align: center;">
         <div th:each="nation : ${nations}" th:id="${nation.key}" th:name="nations" hidden="hidden">
             <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'AirCarrier'}">
-                <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
-                    <button th:class="button_ship_tree_empty" disabled="disabled"></button>
-                </li>
-                <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
-                        <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
-                        <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
-                    </button>
-                </li>
+                <th:block th:if="${shipType.value.?[value.first == true and value.prevWarship != null].size() > 0}">
+                    <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                        <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                    </li>
+                    <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                        <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                            <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                            <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                        </button>
+                    </li>
+                </th:block>
             </div>
             <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Battleship'}">
-                <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
-                    <button th:class="button_ship_tree_empty" disabled="disabled"></button>
-                </li>
-                <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
-                        <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
-                        <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
-                    </button>
-                </li>
+                <th:block th:if="${shipType.value.?[value.first == true and value.prevWarship != null].size() > 0}">
+                    <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                        <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                    </li>
+                    <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                        <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                            <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                            <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                        </button>
+                    </li>
+                </th:block>
             </div>
             <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Cruiser'}">
-                <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
-                    <button th:class="button_ship_tree_empty" disabled="disabled"></button>
-                </li>
-                <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
-                        <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
-                        <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
-                    </button>
-                </li>
+                <th:block th:if="${shipType.value.?[value.first == true and value.prevWarship != null].size() > 0}">
+                    <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                        <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                    </li>
+                    <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                        <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                            <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                            <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                        </button>
+                    </li>
+                </th:block>
             </div>
             <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Destroyer'}">
-                <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
-                    <button th:class="button_ship_tree_empty" disabled="disabled"></button>
-                </li>
-                <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
-                        <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
-                        <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
-                    </button>
-                </li>
+                <th:block th:if="${shipType.value.?[value.first == true and value.prevWarship != null].size() > 0}">
+                    <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == true].size() &lt; ship.value.maxTier}">
+                        <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                    </li>
+                    <li th:each="ship : ${shipType.value}" th:if="${ship.value.first}">
+                        <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                            <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                            <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                        </button>
+                    </li>
+                </th:block>
             </div>
             <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Destroyer' and shipType.value.?[value.first == false].size() > 0}">
-                <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == false].size() &lt; ship.value.maxTier}">
-                    <button th:class="button_ship_tree_empty" disabled="disabled"></button>
-                </li>
-                <li th:each="ship : ${shipType.value}" th:if="${!ship.value.first}">
-                    <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
-                        <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
-                        <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
-                    </button>
-                </li>
+                <th:block th:if="${shipType.value.?[value.first == false and value.prevWarship != null].size() > 0}">
+                    <li th:each="ship : ${shipType.value}" th:if="${shipStat.index + shipType.value.?[value.first == false].size() &lt; ship.value.maxTier}">
+                        <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                    </li>
+                    <li th:each="ship : ${shipType.value}" th:if="${!ship.value.first}">
+                        <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                            <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                            <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                        </button>
+                    </li>
+                </th:block>
             </div>
-            <!--<table th:each="pNation : ${premiumTable}" th:if="${pNation.key == nation.key}">-->
-                <!--<tr th:each="tier : ${pNation.value}">-->
-                    <!--<td th:if="${tier.value == null}">-->
-                        <!--<button th:class="button_ship_tree_empty" disabled="disabled"></button>-->
-                    <!--</td>-->
-                    <!--<td th:each="ship : ${tier.value}" th:if="${tier.value != null}">-->
-                        <!--<button th:class="button_ship_tree">-->
-                            <!--<img th:src="${ship.value.images.small}"/>-->
-                        <!--</button>-->
-                    <!--</td>-->
-                <!--</tr>-->
-            <!--</table>-->
         </div>
     </div>
 </main>
@@ -188,7 +186,7 @@
                     data != -1 ? $('#xpRequired').text(data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' xp required') : $('#xpRequired').text('Error - Research properly or contact EdibleBug on Reddit');
                 },
                 error: function (data) {
-                    alert('Error - Research properly or contact EdibleBug on Reddit')
+                    $('#xpRequired').text('Error - Research properly or contact EdibleBug on Reddit');
                 }
             });
         }

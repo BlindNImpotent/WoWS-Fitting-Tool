@@ -33,7 +33,7 @@ import java.util.*;
  * Created by Aesis on 2016-10-15.
  */
 @Controller
-public class APIController
+public class APIController extends ExceptionController
 {
     @Autowired
     private APIService apiService;

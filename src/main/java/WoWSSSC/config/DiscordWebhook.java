@@ -95,7 +95,7 @@ public class DiscordWebhook
         return sb.toString();
     }
 
-    private String getClientIPAddress(HttpServletRequest request) {
+    public String getClientIPAddress(HttpServletRequest request) {
         String ipAddress = request.getHeader("X-FORWARDED-FOR");
         if (ipAddress == null) {
             ipAddress = request.getRemoteAddr();
