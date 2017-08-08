@@ -36,7 +36,7 @@
                 <img th:title="${warship.description}" th:src="${warship.images.medium}"/>
             </div>
             <div>
-                <button th:if="${warship.prevWarship != null}" th:onclick="'fragments(\'' + ${warship.prevWarship.nation} + '\', \'' + ${warship.prevWarship.type} + '\', \'' + ${warship.prevWarship.name} + '\')'" th:text="${'Prev Ship (' + warship.prevWarship.name} + ')'"/>
+                <button th:if="${warship.prevWarship != null}" th:with='cleaned=${#strings.replace(warship.prevWarship.name, "&apos;", "&#92;&apos;")}' th:onclick="'fragments(\'' + ${warship.prevWarship.nation} + '\', \'' + ${warship.prevWarship.type} + '\', \'' + ${warship.prevWarship.name} + '\')'" th:text="${'Prev Ship (' + cleaned + ')'}"/>
                 <span style="padding: 1em;"></span>
                 <button id="showCrewSkills">Commander Skills</button>
                 <select id="commanderSelect" th:if="${commanders.size() > 1}">
@@ -63,7 +63,7 @@
                             </tr>
                             <tr th:if="${warship.nextWarship != null}">
                                 <td th:each="nextShip : ${warship.nextWarship}">
-                                    <button th:if="${nextShip != null}" th:class="button_ship" th:onclick="'fragments(\'' + ${nextShip.nation} + '\', \'' + ${nextShip.type} + '\', \'' + ${nextShip.name} + '\')'">
+                                    <button th:if="${nextShip != null}" th:with='cleaned=${#strings.replace(nextShip.name, "&apos;", "&#92;&apos;")}' th:class="button_ship" th:onclick="'fragments(\'' + ${nextShip.nation} + '\', \'' + ${nextShip.type} + '\', \'' + ${cleaned} + '\')'">
                                         <img th:src="${nextShip.images.small}" th:title="${nextShip.fromPreviousShipXp + ' xp'}"/><br />
                                         <span th:text="${nextShip.name}"/>
                                     </button>
