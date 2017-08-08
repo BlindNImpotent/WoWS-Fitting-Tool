@@ -58,7 +58,7 @@
 <header>
     <div th:include="top :: top" id="top">
     </div>
-    <div id="header">
+    <div id="shipsList">
         <nav>
             <ul>
                 <li th:each="nation : ${data.nations}">
@@ -134,7 +134,7 @@
 <!--</tbody>-->
 <!--</table>-->
 <!--</div>-->
-<main>
+<main id="main">
     <div class="container">
         <div class="warshipData" th:include="WarshipStats/warshipPage :: warshipStats">
         </div>
@@ -144,6 +144,8 @@
 </main>
 <script th:inline="javascript">
     //    <![CDATA[
+    var height1 = document.getElementById('top').clientHeight;
+    var height2 = document.getElementById('shipsList').clientHeight;
 
     var nation = '';
     var shipType = '';
@@ -750,6 +752,29 @@
             $('#2_4').attr('title', '+20% to the radius of the smoke screen');
         }
     }
+
+//    $(window).scroll(function () {
+//        var position = document.getElementById('main').getBoundingClientRect().top;
+//
+//        if (position < height2)
+//        {
+//            $('#top').hide();
+//            if ($('#shipsList').attr('style') === undefined)
+//            {
+//                $('#shipsList').attr('style', 'top: 0; position: fixed; width: 100%;');
+//                $('#main').attr('style', 'margin-top: ' + height1 + 'px;')
+//            }
+//        }
+//        else if (position === height1 && $('#shipsList').attr('style') !== undefined)
+//        {
+//            $('#top').show();
+//            if ($('#shipsList').attr('style') !== undefined)
+//            {
+//                $('#shipsList').removeAttr('style');
+//                $('#main').removeAttr('style');
+//            }
+//        }
+//    });
 
     //    ]]>
 </script>
