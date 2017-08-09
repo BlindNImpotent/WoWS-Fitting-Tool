@@ -10,6 +10,8 @@ public class GPCommander
 {
     private CrewPersonality CrewPersonality;
     private Skills Skills;
+    private UniqueSkills UniqueSkills;
+    private Vanity Vanity;
     private int baseTrainingLevel;
     private int goldTrainingLevel;
     private long id;

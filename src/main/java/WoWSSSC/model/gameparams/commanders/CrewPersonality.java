@@ -7,10 +7,18 @@ import java.util.List;
 @Data
 public class CrewPersonality
 {
+    private long photoId;
+    private long photoPose;
+    private boolean dismissable;
+    private boolean hasManyNations;
+    private boolean hasOverlay;
+    private boolean hasRank;
     private boolean isIsPerson;
     private boolean isIsRetrainable;
+    private boolean isIsUnique;
     private String peculiarity;
     private String personName;
+    private Ships ships;
     private List<String> shipsOtherNation;
     private List<String> shipsOwnNation;
 }

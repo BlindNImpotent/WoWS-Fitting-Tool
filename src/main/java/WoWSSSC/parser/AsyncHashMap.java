@@ -94,7 +94,19 @@ public class AsyncHashMap implements CommandLineRunner
 
         Encyclopedia encyclopedia;
 
-        if (encyclopediaRU.getVersion() > encyclopediaNA.getVersion())
+        if (encyclopediaNA == null)
+        {
+            encyclopedia = encyclopediaRU;
+            encyclopedia.setRegion("RU");
+            apiAddress.setAddress("RU");
+        }
+        else if (encyclopediaRU == null)
+        {
+            encyclopedia = encyclopediaNA;
+            encyclopedia.setRegion("NA");
+            apiAddress.setAddress("NA");
+        }
+        else if (encyclopediaRU.getVersion() > encyclopediaNA.getVersion())
         {
             encyclopedia = encyclopediaRU;
             encyclopedia.setRegion("RU");
@@ -322,9 +334,15 @@ public class AsyncHashMap implements CommandLineRunner
                                 e.printStackTrace();
                             }
 
-                            setUpgradesPerShipGameParams(encyclopedia, value, String.valueOf(value.getShip_id()), tempUpgrades, upgradesSpecial);
+                            if (gameParamsCHM.containsKey(String.valueOf(value.getShip_id())))
+                            {
+                                setUpgradesPerShipGameParams(encyclopedia, value, String.valueOf(value.getShip_id()), tempUpgrades, upgradesSpecial);
+                            }
                         }
-                        wsd.getData().put(key, value);
+                        if (gameParamsCHM.containsKey(String.valueOf(value.getShip_id())))
+                        {
+                            wsd.getData().put(key, value);
+                        }
                     });
                 }
                 catch (InterruptedException | ExecutionException e)
@@ -904,22 +922,25 @@ public class AsyncHashMap implements CommandLineRunner
             LinkedHashMap<String, GPCommander> nationCommanders = new LinkedHashMap<>();
             nationCommanders.put("default", entry.getValue());
 
-            commanders.entrySet().forEach(cEntry ->
+            for (Map.Entry<String, Commanders> cEntry : commanders.entrySet())
             {
                 if (cEntry.getValue().getNation().equalsIgnoreCase(entry.getKey()))
                 {
                     String temp1 = entry.getValue().getSkills().getModifiers().toString();
 
                     GPCommander gpCommander = mapper.convertValue(gameParamsCHM.get(cEntry.getKey()), GPCommander.class);
-                    String temp2 = gpCommander.getSkills().getModifiers().toString();
-
-                    if (!temp1.equalsIgnoreCase(temp2))
+                    if (gpCommander != null)
                     {
-                        String name = cEntry.getValue().getFirst_names().size() > 0 ? cEntry.getValue().getFirst_names().get(0) : gpCommander.getName();
-                        nationCommanders.put(name, gpCommander);
+                        String temp2 = gpCommander.getSkills().getModifiers().toString();
+
+                        if (!temp1.equalsIgnoreCase(temp2))
+                        {
+                            String name = cEntry.getValue().getFirst_names().size() > 0 ? cEntry.getValue().getFirst_names().get(0) : gpCommander.getName();
+                            nationCommanders.put(name, gpCommander);
+                        }
                     }
                 }
-            });
+            }
 
             allCommanders.put(entry.getKey(), nationCommanders);
         });

@@ -78,6 +78,11 @@ public class Warship
 
     public void setModules_tree(HashMap<String, WarshipModulesTree> modules_tree)
     {
+        if (modules_tree.containsKey("3349131216"))
+        {
+            modules_tree.get("3349131216").setName("419 mm/45 Mk II");
+        }
+
         this.modules_tree = modules_tree;
 
         this.modules_tree.entrySet().forEach(mt ->
