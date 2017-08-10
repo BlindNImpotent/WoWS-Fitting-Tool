@@ -132,6 +132,7 @@ public class APIController extends ExceptionController
                     @RequestParam(required = false) HashSet<String> flags,
                     @RequestParam(required = false) HashSet<String> consumables,
                     @RequestParam(required = false) String skills,
+                    @RequestParam(required = false) String uSkills,
                     @RequestParam(required = false, defaultValue = "100") int adrenalineValue,
                     @RequestParam(required = false) boolean camo,
                     @RequestParam(required = false, defaultValue = "false") boolean mobile,
@@ -164,7 +165,14 @@ public class APIController extends ExceptionController
                     skills = URLDecoder.decode(skills, "UTF-8");
                 }
 
+                if (StringUtils.isNotEmpty(uSkills))
+                {
+                    uSkills = new String(Base64.getDecoder().decode(uSkills));
+                    uSkills = URLDecoder.decode(uSkills, "UTF-8");
+                }
+
                 HashSet<CrewSkills> crewSkills = skills != null ? mapper.readValue(skills, HashSet.class) : new HashSet<>();
+                HashSet<String> crewUSkills = uSkills != null ? mapper.readValue(uSkills, HashSet.class) : new HashSet<>();
 
                 redirectAttributes.addFlashAttribute("url", "/warship?" + request.getQueryString());
                 redirectAttributes.addFlashAttribute("modules", modules);
@@ -173,6 +181,7 @@ public class APIController extends ExceptionController
                 redirectAttributes.addFlashAttribute("flags", flags);
                 redirectAttributes.addFlashAttribute("consumables", consumables);
                 redirectAttributes.addFlashAttribute("crewSkills", crewSkills);
+                redirectAttributes.addFlashAttribute("crewUSkills", crewUSkills);
                 redirectAttributes.addFlashAttribute("camo", camo);
                 redirectAttributes.addFlashAttribute("mobile", mobile);
                 redirectAttributes.addFlashAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));

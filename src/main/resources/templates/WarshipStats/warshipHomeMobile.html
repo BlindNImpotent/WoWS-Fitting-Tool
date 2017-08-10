@@ -32,7 +32,7 @@
             $('#crewSkills').dialog({
                 autoOpen: false,
 //                modal: true,
-                width: 860
+                width: 'auto'
             }).css("font-size", "8px");
 
             $('#flags').dialog({
@@ -78,14 +78,26 @@
                 </li>
                 <li>
                     <input type="text" id="shortenUrlAddress"/><button id="shortenURL">Shorten URL</button>
-                    <button id="changeDevice">Go PC</button>
+                    <button id="changeDevice">Go Mobile</button>
                 </li>
             </ul>
         </nav>
     </div>
 </header>
 <div id="crewSkills" class="ui-widget-content" title="Skill Points 0 / 19">
-    <table id="skillsTable" align="center">
+    <table id="uniqueSkillsTable" align="center" th:style="'float: left; height: 418px; ' + ${#sets.contains(data.uniqueSkills.keySet(), sCommander) ? '' : 'display: none'}">
+        <tbody>
+        <tr th:each="commander : ${data.uniqueSkills}" th:id="${commander.key.replace(' ', '')}" th:style="${commander.key != sCommander ? 'display: none;' : ''}">
+            <td th:each="uniqueSkill : ${commander.value}">
+                <button th:title="${uniqueSkill.value.description}" th:class="${crewUSkills != null and #sets.contains(crewUSkills, uniqueSkill.key) ? 'button_uSkill_selected' : 'button_uSkill'}" th:id="${uniqueSkill.key}">
+                    <img th:src="${'/images/Talents/' + uniqueSkill.key + '.png'}"/><br />
+                    <span th:text="${uniqueSkill.value.name}"/>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table id="skillsTable" align="center" style="height: 418px;">
         <tbody>
         <tr th:each="skillTier : ${data.skills}">
             <td th:each="skill : ${skillTier.value}" th:id="${'td_' + skill.value.tier + '_' + skill.value.type_id}">
@@ -144,6 +156,8 @@
 </main>
 <script th:inline="javascript">
     //    <![CDATA[
+    var height1 = document.getElementById('top').clientHeight;
+    var height2 = document.getElementById('shipsList').clientHeight;
 
     var nation = '';
     var shipType = '';
@@ -153,6 +167,7 @@
     var modules = [];
     var upgrades = [];
     var skills = [];
+    var uSkills = [];
     var flags = [];
     var consumables = [[${consumables}]];
 
@@ -348,7 +363,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander));
+        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
     }
 
     $(document).on('click', '.button_skill, .button_skill_selected', function () {
@@ -391,6 +406,21 @@
         }
 
         $('[aria-describedby=crewSkills]').find('.ui-dialog-title').text('Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString());
+
+        callAPI();
+    });
+
+    $(document).on('click', '.button_uSkill, .button_uSkill_selected', function () {
+        var clickedId = $(this).attr('id');
+
+        if (document.getElementById(clickedId).className == 'button_uSkill')
+        {
+            document.getElementById(clickedId).className = 'button_uSkill_selected';
+        }
+        else
+        {
+            document.getElementById(clickedId).className = 'button_uSkill';
+        }
 
         callAPI();
     });
@@ -465,12 +495,14 @@
             var selectedModules = $('.button_module_selected');
             var selectedUpgrades = $('.button_upgrade_selected');
             var selectedSkills = $('.button_skill_selected');
+            var selectedUSkills = $('.button_uSkill_selected');
             var selectedFlags = $('.button_flag_selected');
             var selectedConsumables = $('.button_consumable_selected');
 
             modules = [];
             upgrades = [];
             skills = [];
+            uSkills = [];
             flags = [];
             consumables = [];
 
@@ -506,6 +538,13 @@
                 skills.push(current);
             }
 
+            for (var i = 0; i < selectedUSkills.length; i++)
+            {
+                var id = selectedUSkills[i].getAttribute('id');
+
+                uSkills.push(id);
+            }
+
             for (var i = 0; i < selectedFlags.length; i++)
             {
                 var flagId = selectedFlags[i].getAttribute('id');
@@ -522,6 +561,7 @@
             var upgradesSkills = {
                 upgrades: upgrades,
                 skills: skills,
+                uSkills: uSkills,
                 camouflage: camouflage,
                 flags: flags,
                 consumables: consumables,
@@ -569,7 +609,7 @@
                             nation: nation,
                             shipType: shipType,
                             ship: ship
-                        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander));
+                        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
                     }
                     else
                     {
@@ -606,10 +646,15 @@
             type: 'post',
             success: function (data) {
                 $('.button_skill_selected').attr('class', 'button_skill');
+                $('.button_uSkill_selected').attr('class', 'button_uSkill');
                 $('.button_flag_selected').attr('class', 'button_flag');
                 $('.button_consumable_selected').attr('class', 'button_consumable');
 
                 $('.warshipData').replaceWith(data);
+
+                $('.button_uSkill_selected').attr('class', 'button_uSkill');
+                $('#uniqueSkillsTable').find('tr').hide();
+                $('#uniqueSkillsTable').hide();
 
                 commander = 'default';
                 $('#commanderSelect').val(commander);
@@ -708,12 +753,29 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander));
+        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
     });
 
     $(document).on('change', '#commanderSelect', function ()
     {
         commander = $('#commanderSelect').val();
+        var tempCommander = commander.replace(' ', '');
+        uSkills = [];
+
+        $('.button_uSkill_selected').attr('class', 'button_uSkill');
+        $('#uniqueSkillsTable').find('tr').hide();
+        $('#uniqueSkillsTable').hide();
+        var commanderUSkills = $('#uniqueSkillsTable').find('tr');
+        for (var i = 0; i < commanderUSkills.length; i++)
+        {
+            var currentId = commanderUSkills.eq(i).attr('id');
+            if (tempCommander === currentId)
+            {
+                $('#' + tempCommander).show();
+                $('#uniqueSkillsTable').show();
+                break;
+            }
+        }
 
         changeSkillDescription();
 
@@ -721,12 +783,12 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander));
+        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
 
-        if ($('.button_skill_selected').length > 0)
-        {
-            callAPI();
-        }
+//        if ($('.button_skill_selected').length > 0)
+//        {
+        callAPI();
+//        }
     });
 
     function changeSkillDescription()
@@ -750,6 +812,29 @@
             $('#2_4').attr('title', '+20% to the radius of the smoke screen');
         }
     }
+
+    //    $(window).scroll(function () {
+    //        var position = document.getElementById('main').getBoundingClientRect().top;
+    //
+    //        if (position < height2)
+    //        {
+    //            $('#top').hide();
+    //            if ($('#shipsList').attr('style') === undefined)
+    //            {
+    //                $('#shipsList').attr('style', 'top: 0; position: fixed; width: 100%;');
+    //                $('#main').attr('style', 'margin-top: ' + height1 + 'px;')
+    //            }
+    //        }
+    //        else if (position === height1 && $('#shipsList').attr('style') !== undefined)
+    //        {
+    //            $('#top').show();
+    //            if ($('#shipsList').attr('style') !== undefined)
+    //            {
+    //                $('#shipsList').removeAttr('style');
+    //                $('#main').removeAttr('style');
+    //            }
+    //        }
+    //    });
 
     //    ]]>
 </script>

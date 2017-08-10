@@ -13,9 +13,7 @@ import WoWSSSC.model.WoWSAPI.shipprofile.profile.artillery.Artillery_Slots;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.model.gameparams.Consumables.Consumable;
-import WoWSSSC.model.gameparams.commanders.GPCommander;
-import WoWSSSC.model.gameparams.commanders.SkillModifier;
-import WoWSSSC.model.gameparams.commanders.Skills;
+import WoWSSSC.model.gameparams.commanders.*;
 import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -317,8 +315,58 @@ public class APIService
         }
 
         List<HashMap> skills = upgradesSkills.get("skills");
+        List<String> uSkills = upgradesSkills.get("uSkills");
         String commander = upgradesSkills.get("commander") != null ? (String) upgradesSkills.get("commander").get(0) : "default";
         Skills commanderSkill = ((LinkedHashMap<String, GPCommander>) data.get("commanders").get(nation)).get(commander).getSkills();
+        LinkedHashMap<String, UniqueTemp> uSkillModifier = ((LinkedHashMap<String, GPCommander>) data.get("commanders").get(nation)).get(commander).getUniqueSkills().getModifier();
+
+        if (uSkills != null && uSkills.size() > 0)
+        {
+            uSkills.forEach(uSkill ->
+            {
+                uSkillModifier.get(uSkill).getTemp().values().forEach(value ->
+                {
+                    if (value.getNumConsumables() > 0)
+                    {
+                        ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                        {
+                            Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+                            tempConsumable.getTypes().values().forEach(cType -> cType.setNumConsumables(cType.getNumConsumables() + value.getNumConsumables()));
+
+                            ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
+                        });
+                    }
+
+                    if (value.getReloadCoeff() > 0)
+                    {
+                        if (ship.getArtillery() != null)
+                        {
+                            ship.getArtillery().setGun_rate(ship.getArtillery().getGun_rate() / value.getReloadCoeff());
+                        }
+
+                        if (ship.getTorpedoes() != null)
+                        {
+                            ship.getTorpedoes().setReload_time(ship.getTorpedoes().getReload_time() * 0.84f);
+                        }
+
+                        if (ship.getDive_bomber() != null)
+                        {
+                            ship.getDive_bomber().setPrepare_time(ship.getDive_bomber().getPrepare_time() * 0.84f);
+                        }
+
+                        if (ship.getFighters() != null)
+                        {
+                            ship.getFighters().setPrepare_time(ship.getFighters().getPrepare_time() * 0.84f);
+                        }
+
+                        if (ship.getTorpedo_bomber() != null)
+                        {
+                            ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * 0.84f);
+                        }
+                    }
+                });
+            });
+        }
 
         if (skills != null)
         {

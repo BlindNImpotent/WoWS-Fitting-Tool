@@ -14,6 +14,8 @@ import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipData;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.model.gameparams.commanders.GPCommander;
+import WoWSSSC.model.gameparams.commanders.UniqueSkillModifier;
+import WoWSSSC.model.gameparams.commanders.UniqueTemp;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.Modernization;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.ShipModernization;
 import WoWSSSC.utils.Sorter;
@@ -160,7 +162,8 @@ public class AsyncHashMap implements CommandLineRunner
                 tempCommanders.put(entry.getKey(), entry.getValue());
             }
         });
-        LinkedHashMap<String, LinkedHashMap> allCommanders = getCommanders(tempCommanders);
+        LinkedHashMap<String, LinkedHashMap<String, UniqueTemp>> uniqueSkills = new LinkedHashMap<>();
+        LinkedHashMap<String, LinkedHashMap> allCommanders = getCommanders(tempCommanders, uniqueSkills);
 
         CompletableFuture<ConsumablesData> consumablesData = apiJsonParser.getConsumables();
 
@@ -444,6 +447,7 @@ public class AsyncHashMap implements CommandLineRunner
         data.put("upgrades", tempUpgrades);
         data.put("upgradesSpecial", upgradesSpecial);
         data.put("skills", setCrewSkills(crewsSkillsData.get().getData()));
+        data.put("uniqueSkills", uniqueSkills);
         data.put("commanders", allCommanders);
         data.put("exteriors", tempExteriors);
 //        data.put("exteriors", setExteriors(exteriorData.get().getData()));
@@ -902,7 +906,7 @@ public class AsyncHashMap implements CommandLineRunner
         return temp;
     }
 
-    private LinkedHashMap<String, LinkedHashMap> getCommanders(LinkedHashMap<String, Commanders> commanders)
+    private LinkedHashMap<String, LinkedHashMap> getCommanders(LinkedHashMap<String, Commanders> commanders, LinkedHashMap<String, LinkedHashMap<String, UniqueTemp>> uniqueSkills)
     {
         LinkedHashMap<String, LinkedHashMap> allCommanders = new LinkedHashMap<>();
 
@@ -933,10 +937,15 @@ public class AsyncHashMap implements CommandLineRunner
                     {
                         String temp2 = gpCommander.getSkills().getModifiers().toString();
 
-                        if (!temp1.equalsIgnoreCase(temp2))
+                        if (!temp1.equalsIgnoreCase(temp2) || gpCommander.getUniqueSkills().getModifier().size() > 0)
                         {
                             String name = cEntry.getValue().getFirst_names().size() > 0 ? cEntry.getValue().getFirst_names().get(0) : gpCommander.getName();
                             nationCommanders.put(name, gpCommander);
+
+                            if (gpCommander.getUniqueSkills().getModifier().size() > 0)
+                            {
+                                uniqueSkills.put(name, gpCommander.getUniqueSkills().getModifier());
+                            }
                         }
                     }
                 }

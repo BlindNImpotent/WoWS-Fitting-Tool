@@ -356,6 +356,54 @@ nav ul ul ul li {
     margin-bottom: 0px;
 }
 
+.button_uSkill
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_uSkill img
+{
+    width: 25px;
+    margin-bottom: 0px;
+}
+
+.button_uSkill_selected
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_uSkill_selected img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
 .button_flag
 {
     background-color:#fff;
