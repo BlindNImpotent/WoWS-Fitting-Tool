@@ -128,6 +128,8 @@
                     <span style="float: right;" th:text="${#numbers.formatInteger(shell.value.bullet_mass, 1, 'COMMA')} + ' kg'"/><br />
                     <th:block th:if="${shell.value.type == 'AP'}">
                         <span style="float: left;" th:text="'Penetration'"/><br />
+                        <span style="float: left;" th:if="${shipAPI.shipComponents.artillery.APShell != null}" th:text="'- Fuse Time'"/>
+                        <span style="float: right;" th:if="${shipAPI.shipComponents.artillery.APShell != null}" th:text="${shipAPI.shipComponents.artillery.APShell.bulletDetonator + ' s'}"/><br />
                         <span style="float: left;" th:if="${shipAPI.shipComponents.artillery.APShell != null}" th:text="'- Overmatch'"/>
                         <span style="float: right;" th:if="${shipAPI.shipComponents.artillery.APShell != null}" th:text="${shipAPI.shipComponents.artillery.overmatch + ' mm'}"/><br />
                         <span style="float: left;" th:if="${shipAPI.artillery.distance >= 5 and shipAPI.shipComponents.artillery.APShell.penetrationAtFive > 0}" th:text="'- 5 km'"/>
