@@ -1,7 +1,7 @@
 package WoWSSSC.model.gameparams.test;
 
 import WoWSSSC.model.gameparams.TypeInfo;
-import WoWSSSC.model.gameparams.test.Values.BattleLevel;
+import WoWSSSC.model.gameparams.test.Values.BattleLevels;
 import WoWSSSC.model.gameparams.test.Values.GroupCustom;
 import WoWSSSC.model.gameparams.test.Values.HitLocation;
 import WoWSSSC.model.gameparams.test.Values.PlanesReserveAssignment;
@@ -418,7 +418,7 @@ public class GameParamsValues
     private ShipModernization ShipModernization;
     @JsonProperty(value = "ShipUpgradeInfo")
     private ShipUpgradeInfo ShipUpgradeInfo;
-    private BattleLevel battleLevel;
+    private BattleLevels battleLevels;
     private boolean canEquipCamouflage;
     private String defaultCrew;
     private float flagsScale;
