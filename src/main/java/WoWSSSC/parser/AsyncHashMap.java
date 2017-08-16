@@ -13,9 +13,14 @@ import WoWSSSC.model.WoWSAPI.skills.CrewSkillsData;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipData;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
+import WoWSSSC.model.gameparams.ShipComponents.Torpedoes.Torpedoes;
+import WoWSSSC.model.gameparams.ShipUpgradeInfo.Module.Module;
+import WoWSSSC.model.gameparams.ShipUpgradeInfo.ShipUpgradeInfo;
+import WoWSSSC.model.gameparams.TypeInfo;
 import WoWSSSC.model.gameparams.commanders.GPCommander;
 import WoWSSSC.model.gameparams.commanders.UniqueSkillModifier;
 import WoWSSSC.model.gameparams.commanders.UniqueTemp;
+import WoWSSSC.model.gameparams.test.TorpedoVisibility;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.Modernization;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.ShipModernization;
 import WoWSSSC.utils.Sorter;
@@ -450,6 +455,7 @@ public class AsyncHashMap implements CommandLineRunner
         data.put("uniqueSkills", uniqueSkills);
         data.put("commanders", allCommanders);
         data.put("exteriors", tempExteriors);
+        data.put("torpedoVisibility", torpedoVisibility());
 //        data.put("exteriors", setExteriors(exteriorData.get().getData()));
 
 //        data.put("test", tempTree);
@@ -954,5 +960,65 @@ public class AsyncHashMap implements CommandLineRunner
             allCommanders.put(entry.getKey(), nationCommanders);
         });
         return allCommanders;
+    }
+
+    private LinkedHashMap<String, LinkedHashMap> torpedoVisibility()
+    {
+        LinkedHashMap<String, TorpedoVisibility> temp1 = new LinkedHashMap<>();
+
+        gameParamsCHM.values().forEach(value ->
+        {
+            TypeInfo typeInfo = mapper.convertValue(value.get("typeinfo"), TypeInfo.class);
+            if ("Ship".equalsIgnoreCase(typeInfo.getType()) && !"Events".equalsIgnoreCase(typeInfo.getNation()) && !"unavailable".equalsIgnoreCase((String) value.get("group")) && !"disabled".equalsIgnoreCase((String) value.get("group")) && !"preserved".equalsIgnoreCase((String) value.get("group")) && !"demoWithoutStats".equalsIgnoreCase((String) value.get("group")))
+            {
+                int tier = (int) value.get("level");
+//                String shipName = (String) global.get("IDS_" + ((String) value.get("index")).toUpperCase() + "_FULL");
+                String shipName = "";
+                for (Warship warship : rawShipData.values())
+                {
+                    if (((String) value.get("index")).equalsIgnoreCase(warship.getShip_id_str()))
+                    {
+                        shipName = warship.getName();
+                        break;
+                    }
+                }
+
+                for (Map.Entry<String, Module> module : mapper.convertValue(value.get("ShipUpgradeInfo"), ShipUpgradeInfo.class).getModules().entrySet())
+                {
+                    {
+                        if ("_Torpedoes".equalsIgnoreCase(module.getValue().getUcType()))
+                        {
+                            if (module.getValue().getComponents().getTorpedoes() != null)
+                            {
+                                String name = shipName + " " + global.get("IDS_" + module.getKey().toUpperCase());
+
+                                module.getValue().getComponents().getTorpedoes().forEach(torpedo ->
+                                {
+                                    mapper.convertValue(value.get(torpedo), Torpedoes.class).getLaunchers().values().forEach(launcher ->
+                                    {
+                                        launcher.getAmmoList().forEach(ammo ->
+                                        {
+                                            temp1.put(name, new TorpedoVisibility(tier, name, (double) gameParamsCHM.get(nameToId.get(ammo)).get("visibilityFactor")));
+                                        });
+                                    });
+                                });
+                            }
+                        }
+                    }
+                }
+
+            }
+        });
+
+        LinkedHashMap<String, LinkedHashMap> temp2 = new LinkedHashMap<>();
+        for (int i = 1; i <= 10; i++)
+        {
+            int x = i;
+            LinkedHashMap<String, TorpedoVisibility> temp3 = new LinkedHashMap<>();
+            temp1.entrySet().stream().filter(t -> t.getValue().getTier() == x).forEach(t -> temp3.put(t.getKey(), t.getValue()));
+            temp2.put(String.valueOf(x), temp3);
+        }
+
+        return temp2;
     }
 }
