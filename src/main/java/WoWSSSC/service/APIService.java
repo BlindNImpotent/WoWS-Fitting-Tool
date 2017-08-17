@@ -13,6 +13,7 @@ import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.model.gameparams.Consumables.Consumable;
 import WoWSSSC.model.gameparams.commanders.*;
+import WoWSSSC.model.gameparams.test.TorpedoShip;
 import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -228,7 +229,7 @@ public class APIService
 //        }
     }
 
-    public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, String ship_id, String artillery_id, String dive_bomber_id, String engine_id, String fighter_id, String fire_control_id, String flight_control_id, String hull_id, String torpedo_bomber_id, String torpedoes_id, List<String> modules, HashMap<String, List> upgradesSkills, int adrenalineValue, boolean isStock) throws Exception
+    public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, String ship_id, String artillery_id, String dive_bomber_id, String engine_id, String fighter_id, String fire_control_id, String flight_control_id, String hull_id, String torpedo_bomber_id, String torpedoes_id, List<String> modules, HashMap<String, List> upgradesSkills, int adrenalineValue, boolean isStock, boolean getTorpedoVisibilities) throws Exception
     {
         if (shipHashMap.get(key) == null)
         {
@@ -260,7 +261,7 @@ public class APIService
 
         setCustomValues(ship_id, ship);
 
-        if (warship.getTier() > 1)
+        if (getTorpedoVisibilities && warship.getTier() > 1)
         {
             setTorpedoVisibility(ship, warship.getTier());
         }
@@ -619,6 +620,8 @@ public class APIService
 
                         ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                     });
+
+                    ship.getTorpedoVisibilities().values().forEach(v1 -> v1.values().forEach(v2 -> v2.values().forEach(v3 -> v3.forEach(ts -> ts.getTorpedoes().forEach(tv -> tv.setVisibility(tv.getVisibility() * modifier.getRangeCoefficient()))))));
                 }
                 else if (modifier.getProbabilityCoefficient() != 0) // 4_1
                 {
@@ -761,6 +764,14 @@ public class APIService
 
     private void setFlagsModernization(Ship ship, ShipComponents shipComponents, Consumables consumables)
     {
+        if (ship.getTorpedoVisibilities().size() > 0)
+        {
+            if (consumables.getProfile().getVisionTorpedoCoeff() != null)
+            {
+                ship.getTorpedoVisibilities().values().forEach(v1 -> v1.values().forEach(v2 -> v2.values().forEach(v3 -> v3.forEach(ts -> ts.getTorpedoes().forEach(tv -> tv.setVisibility(tv.getVisibility() * consumables.getProfile().getVisionTorpedoCoeff().getValue()))))));
+            }
+        }
+
         if (ship.getAnti_aircraft() != null)
         {
             if (consumables.getProfile().getAAAura() != null)
@@ -1328,7 +1339,6 @@ public class APIService
 //        1-1, 2-3, 2-4, 3-5, 4-7, 5-8, 5-9, 6-10, 7-10, 8-10
         int minTier;
         int maxTier;
-//        LinkedHashMap<String, LinkedHashMap<String, TorpedoVisibility>> returner = new LinkedHashMap<>();
 
         if (tier == 2)
         {
@@ -1363,7 +1373,8 @@ public class APIService
 
         for (int i = minTier; i <= maxTier; i++)
         {
-
+            LinkedHashMap<String, LinkedHashMap<String, List< TorpedoShip>>> temp = mapper.convertValue(data.get("torpedoVisibility").get(String.valueOf(i)), new TypeReference<LinkedHashMap<String, LinkedHashMap<String, List< TorpedoShip>>>>(){});
+            ship.getTorpedoVisibilities().put("Tier " + i, temp);
         }
     }
 }

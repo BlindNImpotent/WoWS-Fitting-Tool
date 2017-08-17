@@ -2,7 +2,11 @@ package WoWSSSC.model.WoWSAPI.shipprofile;
 
 import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.profile.*;
+import WoWSSSC.model.gameparams.test.TorpedoShip;
 import lombok.Data;
+
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Created by Aesis on 2016-11-18.
@@ -33,4 +37,6 @@ public class Ship
     private float flood = 90f;
 
     private ShipComponents shipComponents;
+
+    private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, List< TorpedoShip>>>> torpedoVisibilities = new LinkedHashMap<>();
 }
