@@ -13,6 +13,7 @@ import WoWSSSC.model.WoWSAPI.skills.CrewSkillsData;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipData;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
+import WoWSSSC.model.gameparams.ShipComponents.Torpedoes.Launcher;
 import WoWSSSC.model.gameparams.ShipComponents.Torpedoes.Torpedoes;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.Module.Module;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.ShipUpgradeInfo;
@@ -20,6 +21,8 @@ import WoWSSSC.model.gameparams.TypeInfo;
 import WoWSSSC.model.gameparams.commanders.GPCommander;
 import WoWSSSC.model.gameparams.commanders.UniqueSkillModifier;
 import WoWSSSC.model.gameparams.commanders.UniqueTemp;
+import WoWSSSC.model.gameparams.test.GameParamsValues;
+import WoWSSSC.model.gameparams.test.TorpedoShip;
 import WoWSSSC.model.gameparams.test.TorpedoVisibility;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.Modernization;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.ShipModernization;
@@ -455,7 +458,7 @@ public class AsyncHashMap implements CommandLineRunner
         data.put("uniqueSkills", uniqueSkills);
         data.put("commanders", allCommanders);
         data.put("exteriors", tempExteriors);
-        data.put("torpedoVisibility", torpedoVisibility());
+        data.put("torpedoVisibility", torpedoVisibility(encyclopedia, nationsString, shipTypeString));
 //        data.put("exteriors", setExteriors(exteriorData.get().getData()));
 
 //        data.put("test", tempTree);
@@ -962,26 +965,38 @@ public class AsyncHashMap implements CommandLineRunner
         return allCommanders;
     }
 
-    private LinkedHashMap<String, LinkedHashMap> torpedoVisibility()
+    private LinkedHashMap<String, LinkedHashMap> torpedoVisibility(Encyclopedia encyclopedia, List<String> nationsString, List<String> shipTypeString)
     {
-        LinkedHashMap<String, TorpedoVisibility> temp1 = new LinkedHashMap<>();
+        List<TorpedoShip> torpedoShips = new ArrayList<>();
+        float x = 33f + (1f / 3f);
 
         gameParamsCHM.values().forEach(value ->
         {
             TypeInfo typeInfo = mapper.convertValue(value.get("typeinfo"), TypeInfo.class);
-            if ("Ship".equalsIgnoreCase(typeInfo.getType()) && !"Events".equalsIgnoreCase(typeInfo.getNation()) && !"unavailable".equalsIgnoreCase((String) value.get("group")) && !"disabled".equalsIgnoreCase((String) value.get("group")) && !"preserved".equalsIgnoreCase((String) value.get("group")) && !"demoWithoutStats".equalsIgnoreCase((String) value.get("group")))
+
+            if ("Ship".equalsIgnoreCase(typeInfo.getType()) && !"Events".equalsIgnoreCase(typeInfo.getNation())
+                    && !"unavailable".equalsIgnoreCase((String) value.get("group")) && !"disabled".equalsIgnoreCase((String) value.get("group"))
+                    && !"preserved".equalsIgnoreCase((String) value.get("group")) && !"demoWithoutStats".equalsIgnoreCase((String) value.get("group")))
             {
                 int tier = (int) value.get("level");
-//                String shipName = (String) global.get("IDS_" + ((String) value.get("index")).toUpperCase() + "_FULL");
+
                 String shipName = "";
+                String shipNation = "";
+                String shipType = "";
+                String shipDefaultType = "";
                 for (Warship warship : rawShipData.values())
                 {
                     if (((String) value.get("index")).equalsIgnoreCase(warship.getShip_id_str()))
                     {
                         shipName = warship.getName();
+                        shipNation = encyclopedia.getShip_nations().get(warship.getNation());
+                        shipType = warship.getType();
+                        shipDefaultType = warship.getDefaultType();
                         break;
                     }
                 }
+                TorpedoShip torpedoShip = new TorpedoShip(tier, shipName, shipNation, shipType, shipDefaultType);
+                HashSet<TorpedoVisibility> tempTorpVisibilities = new HashSet<>();
 
                 for (Map.Entry<String, Module> module : mapper.convertValue(value.get("ShipUpgradeInfo"), ShipUpgradeInfo.class).getModules().entrySet())
                 {
@@ -990,35 +1005,62 @@ public class AsyncHashMap implements CommandLineRunner
                         {
                             if (module.getValue().getComponents().getTorpedoes() != null)
                             {
-                                String name = shipName + " " + global.get("IDS_" + module.getKey().toUpperCase());
+                                String name = (String) global.get("IDS_" + module.getKey().toUpperCase());
 
-                                module.getValue().getComponents().getTorpedoes().forEach(torpedo ->
+                                for (String torpedo : module.getValue().getComponents().getTorpedoes())
                                 {
-                                    mapper.convertValue(value.get(torpedo), Torpedoes.class).getLaunchers().values().forEach(launcher ->
+                                    for (Launcher launcher : mapper.convertValue(value.get(torpedo), Torpedoes.class).getLaunchers().values())
                                     {
-                                        launcher.getAmmoList().forEach(ammo ->
+                                        for (String ammo : launcher.getAmmoList())
                                         {
-                                            temp1.put(name, new TorpedoVisibility(tier, name, (double) gameParamsCHM.get(nameToId.get(ammo)).get("visibilityFactor")));
-                                        });
-                                    });
-                                });
+                                            GameParamsValues gpv = mapper.convertValue(gameParamsCHM.get(nameToId.get(ammo)), GameParamsValues.class);
+                                            tempTorpVisibilities.add(new TorpedoVisibility(name, gpv.getMaxDist() / x, gpv.getVisibilityFactor()));
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
-
+                if (tempTorpVisibilities.size() > 0)
+                {
+                    List<TorpedoVisibility> torpedoVisibilities = tempTorpVisibilities.stream().sorted(((o1, o2) -> o1.getName().compareTo(o2.getName()))).collect(Collectors.toList());
+                    torpedoShip.setTorpedoes(torpedoVisibilities);
+                    torpedoShips.add(torpedoShip);
+                }
             }
         });
 
-        LinkedHashMap<String, LinkedHashMap> temp2 = new LinkedHashMap<>();
+        shipTypeString.add("Premium");
+
+        LinkedHashMap<String, LinkedHashMap> returner = new LinkedHashMap<>();
         for (int i = 1; i <= 10; i++)
         {
-            int x = i;
-            LinkedHashMap<String, TorpedoVisibility> temp3 = new LinkedHashMap<>();
-            temp1.entrySet().stream().filter(t -> t.getValue().getTier() == x).forEach(t -> temp3.put(t.getKey(), t.getValue()));
-            temp2.put(String.valueOf(x), temp3);
+            int y = i;
+            LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>> lhtsTemp = new LinkedHashMap<>();
+            for (String nation : nationsString)
+            {
+                LinkedHashMap<String, List<TorpedoShip>> shipTypeLHM = new LinkedHashMap<>();
+                for (String shipType : shipTypeString)
+                {
+                    List<TorpedoShip> tsTemp = torpedoShips.stream().filter(ts -> ts.getTier() == y).collect(Collectors.toList()).stream().filter(ts -> ts.getNation().equalsIgnoreCase(encyclopedia.getShip_nations().get(nation)) && ts.getType().equalsIgnoreCase(shipType)).collect(Collectors.toList());
+                    tsTemp.sort(((o1, o2) -> o1.getName().compareTo(o2.getName())));
+                    tsTemp.sort(((o1, o2) -> o1.getDefaultType().compareTo(o2.getDefaultType())));
+                    if (tsTemp.size() > 0)
+                    {
+                        shipTypeLHM.put(shipType, tsTemp);
+                    }
+                }
+                if (shipTypeLHM.size() > 0)
+                {
+                    lhtsTemp.put(encyclopedia.getShip_nations().get(nation), shipTypeLHM);
+                }
+            }
+            if (lhtsTemp.size() > 0)
+            {
+                returner.put(String.valueOf(y), lhtsTemp);
+            }
         }
-
-        return temp2;
+        return returner;
     }
 }

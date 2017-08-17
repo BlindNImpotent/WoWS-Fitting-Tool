@@ -2,7 +2,6 @@ package WoWSSSC.service;
 
 import WoWSSSC.model.WoWSAPI.APIAddress;
 import WoWSSSC.model.WoWSAPI.ModuleId;
-import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
 import WoWSSSC.model.bitly.Bitly;
 import WoWSSSC.model.bitly.BitlyData;
 import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
@@ -16,6 +15,7 @@ import WoWSSSC.model.gameparams.Consumables.Consumable;
 import WoWSSSC.model.gameparams.commanders.*;
 import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.utils.Sorter;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rits.cloning.Cloner;
 import org.slf4j.Logger;
@@ -74,7 +74,7 @@ public class APIService
 
     private static final Logger logger = LoggerFactory.getLogger(APIService.class);
 
-    @Cacheable(value = "shipAPI", key = "#nation#shipType#ship#ship_id#artillery_id#dive_bomber_id#engine_id#fighter_id#fire_control_id#flight_control_id#hull_id#torpedo_bomber_id#torpedoes_id")
+    @Cacheable(value = "shipAPI", key = "(#nation).concat(#shipType).concat(#ship).concat(#ship_id).concat(#artillery_id).concat(#dive_bomber_id).concat(#engine_id).concat(#fighter_id).concat(#fire_control_id).concat(#flight_control_id).concat(#hull_id).concat(#torpedo_bomber_id).concat(#torpedoes_id)")
     public String setShipAPI(
             String nation,
             String shipType,
@@ -259,6 +259,11 @@ public class APIService
         ship.setShipComponents(shipComponents);
 
         setCustomValues(ship_id, ship);
+
+        if (warship.getTier() > 1)
+        {
+            setTorpedoVisibility(ship, warship.getTier());
+        }
 
 //        LinkedHashMap<String, LinkedHashMap> nationLHM = (LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation);
 //        Warship warship = (Warship) nationLHM.get(shipType).get(shipName);
@@ -1315,5 +1320,50 @@ public class APIService
             return bitlyClass.getUrl();
         }
         return "";
+    }
+
+    private void setTorpedoVisibility(Ship ship, long tier)
+    {
+//        1-1, 2-3, 3-4, 4-5, 5-7, 6-8, 7-9, 8-10, 9-10, 10-10
+//        1-1, 2-3, 2-4, 3-5, 4-7, 5-8, 5-9, 6-10, 7-10, 8-10
+        int minTier;
+        int maxTier;
+//        LinkedHashMap<String, LinkedHashMap<String, TorpedoVisibility>> returner = new LinkedHashMap<>();
+
+        if (tier == 2)
+        {
+            minTier = 2;
+            maxTier = 3;
+        }
+        else if (tier == 3)
+        {
+            minTier = 2;
+            maxTier = 4;
+        }
+        else if (tier == 4)
+        {
+            minTier = 3;
+            maxTier = 5;
+        }
+        else if (tier == 5)
+        {
+            minTier = 4;
+            maxTier = 7;
+        }
+        else if (tier == 6)
+        {
+            minTier = 5;
+            maxTier = 8;
+        }
+        else
+        {
+            minTier = (int) tier - 2;
+            maxTier = (int) tier + 2 <= 10 ? (int) tier + 2 : 10;
+        }
+
+        for (int i = minTier; i <= maxTier; i++)
+        {
+
+        }
     }
 }
