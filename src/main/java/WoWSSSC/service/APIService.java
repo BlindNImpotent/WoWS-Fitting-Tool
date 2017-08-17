@@ -1373,7 +1373,7 @@ public class APIService
 
         for (int i = minTier; i <= maxTier; i++)
         {
-            LinkedHashMap<String, LinkedHashMap<String, List< TorpedoShip>>> temp = mapper.convertValue(data.get("torpedoVisibility").get(String.valueOf(i)), new TypeReference<LinkedHashMap<String, LinkedHashMap<String, List< TorpedoShip>>>>(){});
+            LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>> temp = mapper.convertValue(data.get("torpedoVisibility").get(String.valueOf(i)), new TypeReference<LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>>>(){});
             ship.getTorpedoVisibilities().put("Tier " + i, temp);
         }
     }

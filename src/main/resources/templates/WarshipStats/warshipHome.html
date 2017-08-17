@@ -461,6 +461,10 @@
         $('#consumablesData').dialog('open');
     });
 
+    $(document).on('click', '#showTorpVisibilityDialog', function () {
+        $('#torpVisibilityDialog').dialog('open');
+    });
+
     //    $(document).on('click', '#showCamouflage', function () {
     //        $('#camouflage').dialog('open');
     //    });
@@ -471,6 +475,8 @@
 
     function callAPI()
     {
+        $('[aria-describedby=torpVisibilityDialog]').remove();
+
         if ($('#ship').attr('name') != null)
         {
             if (nation == '' || shipType == '' || ship == '')

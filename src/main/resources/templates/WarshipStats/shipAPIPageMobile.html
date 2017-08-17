@@ -370,6 +370,49 @@
                 </li>
             </div>
         </div>
+        <th:block>
+            <script>
+                $(function() {
+                    $('#torpVisibilityTab').tabs();
+                    $("#torpVisibilityDialog").dialog({
+                        autoOpen: false,
+                        width: 'auto',
+                        height: 'auto'
+                    });
+                });
+            </script>
+            <div id="torpVisibilityDialog" title="Torpedo Visibility">
+                <div id="torpVisibilityTab">
+                    <ul>
+                        <li th:each="tier : ${shipAPI.torpedoVisibilities}">
+                            <a th:href="'#tabs-' + ${#strings.replace(tier.key, ' ', '')}" th:text="${tier.key}"/>
+                        </li>
+                    </ul>
+                    <div th:each="tier : ${shipAPI.torpedoVisibilities}" th:id="'tabs-' + ${#strings.replace(tier.key, ' ', '')}">
+                        <table th:each="nation : ${tier.value}" style="border: thin solid black; border-spacing: 0; border-collapse: collapse; display: inline-block; vertical-align: top;">
+                            <th:block th:each="shipType : ${nation.value}" th:if="${shipType.value.size() > 0}">
+                                <th:block th:each="ship : ${shipType.value}">
+                                    <thead style="border: thin solid black;">
+                                        <tr>
+                                            <td colspan="3" style="text-align: center;">
+                                                <strong th:text="${ship.name}"/>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="torpedo : ${ship.torpedoes}" style="border: thin solid black;">
+                                            <td th:text="${torpedo.name}" style="border: thin solid black;"/>
+                                            <td th:text="${#numbers.formatDecimal(torpedo.maxDist, 1, 1)} + ' km'" style="border: thin solid black;"/>
+                                            <td th:text="${#numbers.formatDecimal(torpedo.visibility, 1, 1)} + ' km'" style="border: thin solid black;"/>
+                                        </tr>
+                                    </tbody>
+                                </th:block>
+                            </th:block>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </th:block>
     </div>
 </main>
 <script th:inline="javascript">

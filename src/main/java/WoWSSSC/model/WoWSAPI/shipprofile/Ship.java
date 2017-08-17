@@ -38,5 +38,5 @@ public class Ship
 
     private ShipComponents shipComponents;
 
-    private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, List< TorpedoShip>>>> torpedoVisibilities = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>>> torpedoVisibilities = new LinkedHashMap<>();
 }
