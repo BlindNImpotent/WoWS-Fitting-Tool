@@ -1032,6 +1032,8 @@ public class AsyncHashMap implements CommandLineRunner
         });
 
         shipTypeString.add("Premium");
+        shipTypeString.add("Arpeggio");
+        shipTypeString.add("HSF");
 
         LinkedHashMap<String, LinkedHashMap> returner = new LinkedHashMap<>();
         for (int i = 1; i <= 10; i++)

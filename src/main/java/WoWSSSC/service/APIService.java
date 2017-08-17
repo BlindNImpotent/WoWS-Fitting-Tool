@@ -1337,41 +1337,47 @@ public class APIService
     {
 //        1-1, 2-3, 3-4, 4-5, 5-7, 6-8, 7-9, 8-10, 9-10, 10-10
 //        1-1, 2-3, 2-4, 3-5, 4-7, 5-8, 5-9, 6-10, 7-10, 8-10
-        int minTier;
-        int maxTier;
+//        int minTier;
+//        int maxTier;
+//
+//        if (tier == 2)
+//        {
+//            minTier = 2;
+//            maxTier = 3;
+//        }
+//        else if (tier == 3)
+//        {
+//            minTier = 2;
+//            maxTier = 4;
+//        }
+//        else if (tier == 4)
+//        {
+//            minTier = 3;
+//            maxTier = 5;
+//        }
+//        else if (tier == 5)
+//        {
+//            minTier = 4;
+//            maxTier = 7;
+//        }
+//        else if (tier == 6)
+//        {
+//            minTier = 5;
+//            maxTier = 8;
+//        }
+//        else
+//        {
+//            minTier = (int) tier - 2;
+//            maxTier = (int) tier + 2 <= 10 ? (int) tier + 2 : 10;
+//        }
 
-        if (tier == 2)
-        {
-            minTier = 2;
-            maxTier = 3;
-        }
-        else if (tier == 3)
-        {
-            minTier = 2;
-            maxTier = 4;
-        }
-        else if (tier == 4)
-        {
-            minTier = 3;
-            maxTier = 5;
-        }
-        else if (tier == 5)
-        {
-            minTier = 4;
-            maxTier = 7;
-        }
-        else if (tier == 6)
-        {
-            minTier = 5;
-            maxTier = 8;
-        }
-        else
-        {
-            minTier = (int) tier - 2;
-            maxTier = (int) tier + 2 <= 10 ? (int) tier + 2 : 10;
-        }
+//        for (int i = minTier; i <= maxTier; i++)
+//        {
+//            LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>> temp = mapper.convertValue(data.get("torpedoVisibility").get(String.valueOf(i)), new TypeReference<LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>>>(){});
+//            ship.getTorpedoVisibilities().put("Tier " + i, temp);
+//        }
 
-        for (int i = minTier; i <= maxTier; i++)
+        for (int i = 2; i <= 10; i++)
         {
             LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>> temp = mapper.convertValue(data.get("torpedoVisibility").get(String.valueOf(i)), new TypeReference<LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>>>(){});
             ship.getTorpedoVisibilities().put("Tier " + i, temp);
