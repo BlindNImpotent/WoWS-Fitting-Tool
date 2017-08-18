@@ -1,5 +1,6 @@
 package WoWSSSC.schedule;
 
+import WoWSSSC.config.DiscordWebhook;
 import WoWSSSC.parser.AsyncHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,14 +17,25 @@ public class Scheduler
     @Autowired
     private AsyncHashMap asyncHashMap;
 
+    @Autowired
+    private DiscordWebhook discordWebhook;
+
     private final static Logger logger = LoggerFactory.getLogger(Scheduler.class);
 
 //    @Scheduled(fixedRate = 24 * 60 * 60 * 1000, initialDelay = 24 * 60 * 60 * 1000)
     @Scheduled(cron = "0 0 12 * * ?")
     public void run() throws Exception
     {
-        logger.info("Getting API data");
-        asyncHashMap.run();
-        logger.info("Finished getting API data");
+        try
+        {
+            logger.info("Getting API data");
+            asyncHashMap.run();
+            logger.info("Finished getting API data");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            discordWebhook.sendDiscordWebHookRunError(e);
+        }
     }
 }

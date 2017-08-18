@@ -39,6 +39,20 @@ public class DiscordWebhook
         sendDiscordWebHook(object);
     }
 
+    public void sendDiscordWebHookRunError(Exception e) throws Exception
+    {
+        JSONObject object = new JSONObject();
+
+        String message =
+                "```" +
+                "Run Error\n\n" +
+                "Error: " + e.getMessage() + "\n" + printStackTraceToString(e) +
+                "```";
+        object.put("content", message);
+
+        sendDiscordWebHook(object);
+    }
+
     public void sendDiscordWebhookEmail(EmailModel email) throws Exception
     {
         JSONObject object = new JSONObject();
