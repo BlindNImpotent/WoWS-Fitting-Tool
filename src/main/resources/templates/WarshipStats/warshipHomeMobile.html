@@ -591,25 +591,29 @@
                     if (data != '')
                     {
                         $('.shipAPIData').replaceWith(data);
+                        $('#consumablesData').html($('#consumablesDataFragment').html());
+                        $('#consumablesDataFragment').remove();
 
-                        $.ajax({
-                            url: url.replace('shipAPI', 'shipComponents'),
-                            type: 'post',
-                            contentType: "application/json",
-                            data: JSON.stringify(upgradesSkills),
-                            success: function (data) {
-                                if (data != '')
-                                {
-                                    $('#consumablesData').replaceWith(data);
+                        setConsumables();
 
-                                    setConsumables();
-                                }
-                                else
-                                {
-//                                    alert('Consumable Error');
-                                }
-                            }
-                        });
+//                        $.ajax({
+//                            url: url.replace('shipAPI', 'shipComponents'),
+//                            type: 'post',
+//                            contentType: "application/json",
+//                            data: JSON.stringify(upgradesSkills),
+//                            success: function (data) {
+//                                if (data != '')
+//                                {
+//                                    $('#consumablesData').replaceWith(data);
+//
+//                                    setConsumables();
+//                                }
+//                                else
+//                                {
+////                                    alert('Consumable Error');
+//                                }
+//                            }
+//                        });
 
                         history.replaceState({
                             nation: nation,
