@@ -16,7 +16,7 @@ public class ExceptionController
     @ExceptionHandler(Exception.class)
     public void sendError(Throwable t, HttpServletRequest request) throws Exception
     {
-        log.error(t.getLocalizedMessage(), t);
+//        log.error(t.getLocalizedMessage(), t);
 
         if (!discordWebhook.getClientIPAddress(request).equalsIgnoreCase("localhost"))
         {

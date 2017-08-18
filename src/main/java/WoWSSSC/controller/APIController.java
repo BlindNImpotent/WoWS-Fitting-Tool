@@ -23,7 +23,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -639,16 +638,9 @@ public class APIController extends ExceptionController
     }
 
     @RequestMapping (value = "/contact", method = RequestMethod.POST)
-    public void postEmail(@RequestBody EmailModel email, HttpServletRequest request) throws Exception
+    public void postEmail(@RequestBody EmailModel email) throws Exception
     {
-        try
-        {
-            mailService.postEmail(email);
-            discordWebhook.sendDiscordWebhookEmail(email);
-        }
-        catch (Exception e)
-        {
-            discordWebhook.sendDiscordWebHookError(e, request);
-        }
+        mailService.postEmail(email);
+        discordWebhook.sendDiscordWebhookEmail(email);
     }
 }

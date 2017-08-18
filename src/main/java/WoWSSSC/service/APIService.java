@@ -95,11 +95,10 @@ public class APIService
     {
         if (!ship_id.equals(""))
         {
-            String url = apiAddress.getAPI_Starter() + "/shipprofile/?application_id=" + APP_ID + "&ship_id=" + ship_id + "&artillery_id=" + artillery_id + "&dive_bomber_id=" + dive_bomber_id + "&engine_id=" + engine_id
-                    + "&fighter_id=" + fighter_id + "&fire_control_id=" + fire_control_id + "&flight_control_id=" + flight_control_id + "&hull_id=" + hull_id + "&torpedo_bomber_id=" + torpedo_bomber_id + "&torpedoes_id=" + torpedoes_id + "&language=en";
-
             String key = "&ship_id=" + ship_id + "&artillery_id=" + artillery_id + "&dive_bomber_id=" + dive_bomber_id + "&engine_id=" + engine_id
                     + "&fighter_id=" + fighter_id + "&fire_control_id=" + fire_control_id + "&flight_control_id=" + flight_control_id + "&hull_id=" + hull_id + "&torpedo_bomber_id=" + torpedo_bomber_id + "&torpedoes_id=" + torpedoes_id;
+
+            String url = apiAddress.getAPI_Starter() + "/shipprofile/?application_id=" + APP_ID + key + "&language=en";
 
             if (!shipHashMap.containsKey(key))
             {
@@ -113,6 +112,8 @@ public class APIService
                     {
                         shipData.getData().get(ship_id).getFighters().getCount_in_squadron().setMin(3);
                         shipData.getData().get(ship_id).getFighters().getCount_in_squadron().setMax(3);
+                        shipData.getData().get(ship_id).getTorpedo_bomber().getCount_in_squadron().setMin(3);
+                        shipData.getData().get(ship_id).getTorpedo_bomber().getCount_in_squadron().setMax(3);
                     }
 
                     if (shipData.getData().get(ship_id).getAnti_aircraft() != null)
@@ -242,15 +243,14 @@ public class APIService
         Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(shipName);
 
         ShipComponents shipComponents;
-        if (isStock)
-        {
-
-
-        }
-        else
-        {
-
-        }
+//        if (isStock)
+//        {
+//
+//        }
+//        else
+//        {
+//
+//        }
         shipComponents = gpService.setShipGP(nation, shipType, shipName, ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id, modules);
 
         if (shipComponents.getArtillery() != null)
