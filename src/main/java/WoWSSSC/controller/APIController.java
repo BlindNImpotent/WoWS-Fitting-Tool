@@ -254,6 +254,8 @@ public class APIController extends ExceptionController
                 }
             }
 
+            model.addAttribute("consumables", upgradesSkills.get("consumables"));
+
             model.addAttribute("upgradeCompare", upgradeCompare);
             if (upgradeCompare)
             {
