@@ -102,22 +102,25 @@ public class APShell
 
         if (fiveOne != 0f && fiveTwo != 0f)
         {
-            penetrationAtFive = setPenetrationAtDistance(penetration.get(fiveOne), penetration.get(fiveTwo));
+            penetrationAtFive = setPenetrationAtDistance(fiveOne, penetration.get(fiveOne), fiveTwo, penetration.get(fiveTwo), 5000f);
         }
 
         if (tenOne != 0f && tenTwo != 0f)
         {
-            penetrationAtTen = setPenetrationAtDistance(penetration.get(tenOne), penetration.get(tenTwo));
+            penetrationAtTen = setPenetrationAtDistance(tenOne, penetration.get(tenOne), tenTwo, penetration.get(tenTwo), 10000f);
         }
 
         if (fifteenOne != 0f && fifteenTwo != 0f)
         {
-            penetrationAtFifteen = setPenetrationAtDistance(penetration.get(fifteenOne), penetration.get(fifteenTwo));
+            penetrationAtFifteen = setPenetrationAtDistance(fifteenOne, penetration.get(fifteenOne), fifteenTwo, penetration.get(fifteenTwo), 15000f);
         }
     }
 
-    private float setPenetrationAtDistance(float y1, float y2)
+    private float setPenetrationAtDistance(float x1, float y1, float x2, float y2, float mid)
     {
-        return (y1 + y2) / 2f;
+        float a = (y2 - y1) / (x2 - x1);
+        float c = y1 - (a * x1);
+
+        return a * mid + c;
     }
 }
