@@ -49,65 +49,75 @@ public class APShell
     {
         this.penetration = penetration;
 
-        float fiveOne = 1000;
-        float fiveTwo = -1000;
-        float tenOne = 1000;
-        float tenTwo = -1000;
-        float fifteenOne = 1000;
-        float fifteenTwo = -1000;
+        float fiveOne = 0f;
+        float fiveTwo = 0f;
+        float tenOne = 0f;
+        float tenTwo = 0f;
+        float fifteenOne = 0f;
+        float fifteenTwo = 0f;
 
-        for (Map.Entry<Float, Float> entry : penetration.entrySet())
+        for (Map.Entry<Float, Float> entry : this.penetration.entrySet())
         {
-            float diffFive = 5000 - entry.getKey();
-            if (diffFive >= 0 && diffFive < fiveOne)
-            {
-                fiveOne = entry.getKey();
-            }
-            else if (diffFive <= 0 && diffFive > fiveTwo)
-            {
-                fiveTwo = entry.getKey();
-            }
-            
-            float diffTen = 10000 - entry.getKey();
-            if (diffTen >= 0 && diffTen < tenOne)
-            {
-                tenOne = entry.getKey();
-            }
-            else if (diffTen <= 0 && diffTen > tenTwo)
-            {
-                tenTwo = entry.getKey();
-            }
+            float tempFloat = entry.getKey();
 
-            float diffFifteen = 15000 - entry.getKey();
-            if (diffFifteen >= 0 && diffFifteen < fifteenOne)
+            if (tempFloat < 5000f)
             {
-                fifteenOne = entry.getKey();
+                if (fiveOne < tempFloat)
+                {
+                    fiveOne = tempFloat;
+                }
             }
-            else if (diffFifteen <= 0 && diffFifteen > fifteenTwo)
+            else if (tempFloat >= 5000f && tempFloat < 10000f)
             {
-                fifteenTwo = entry.getKey();
+                if (fiveTwo == 0f)
+                {
+                    fiveTwo = tempFloat;
+                }
+
+                if (tenOne < tempFloat)
+                {
+                    tenOne = tempFloat;
+                }
+            }
+            else if (tempFloat >= 10000f && tempFloat < 15000f)
+            {
+                if (tenTwo == 0f)
+                {
+                    tenTwo = tempFloat;
+                }
+
+                if (fifteenOne < tempFloat)
+                {
+                    fifteenOne = tempFloat;
+                }
+            }
+            else if (tempFloat >= 15000f)
+            {
+                if (fifteenTwo == 0f)
+                {
+                    fifteenTwo = tempFloat;
+                }
             }
         }
 
-        if (penetration.get(fiveOne) != null && fiveOne > 4000 && penetration.get(fiveTwo) != null && fiveTwo < 6000)
+        if (fiveOne != 0f && fiveTwo != 0f)
         {
-            penetrationAtFive = setPenetrationAtDistance(fiveOne, penetration.get(fiveOne), fiveTwo, penetration.get(fiveTwo), 5000);
+            penetrationAtFive = setPenetrationAtDistance(penetration.get(fiveOne), penetration.get(fiveTwo));
         }
-        if (penetration.get(tenOne) != null && tenOne > 9000 && penetration.get(tenTwo) != null && tenTwo < 11000)
+
+        if (tenOne != 0f && tenTwo != 0f)
         {
-            penetrationAtTen = setPenetrationAtDistance(tenOne, penetration.get(tenOne), tenTwo, penetration.get(tenTwo), 5000);
+            penetrationAtTen = setPenetrationAtDistance(penetration.get(tenOne), penetration.get(tenTwo));
         }
-        if (penetration.get(fifteenOne) != null && fifteenOne > 14000 && penetration.get(fifteenTwo) != null && fifteenTwo < 16000)
+
+        if (fifteenOne != 0f && fifteenTwo != 0f)
         {
-            penetrationAtFifteen = setPenetrationAtDistance(fifteenOne, penetration.get(fifteenOne), fifteenTwo, penetration.get(fifteenTwo), 5000);
+            penetrationAtFifteen = setPenetrationAtDistance(penetration.get(fifteenOne), penetration.get(fifteenTwo));
         }
     }
 
-    private float setPenetrationAtDistance(float x1, float y1, float x2, float y2, float target)
+    private float setPenetrationAtDistance(float y1, float y2)
     {
-        float m = (y2 - y1) / (x2 - x1);
-        float b = y1 - m * x1;
-
-        return m * target + b;
+        return (y1 + y2) / 2f;
     }
 }
