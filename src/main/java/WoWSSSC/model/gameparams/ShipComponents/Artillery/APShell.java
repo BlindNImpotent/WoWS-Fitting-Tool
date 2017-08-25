@@ -44,6 +44,7 @@ public class APShell
     private float penetrationAtFive;
     private float penetrationAtTen;
     private float penetrationAtFifteen;
+    private float penetrationAtTwenty;
 
     public void setPenetration(LinkedHashMap<Float, Float> penetration)
     {
@@ -55,6 +56,8 @@ public class APShell
         float tenTwo = 0f;
         float fifteenOne = 0f;
         float fifteenTwo = 0f;
+        float twentyOne = 0f;
+        float twentyTwo = 0f;
 
         for (Map.Entry<Float, Float> entry : this.penetration.entrySet())
         {
@@ -91,11 +94,23 @@ public class APShell
                     fifteenOne = tempFloat;
                 }
             }
-            else if (tempFloat >= 15000f)
+            else if (tempFloat >= 15000f && tempFloat < 20000f)
             {
                 if (fifteenTwo == 0f)
                 {
                     fifteenTwo = tempFloat;
+                }
+
+                if (twentyOne < tempFloat)
+                {
+                    twentyOne = tempFloat;
+                }
+            }
+            else if (tempFloat >= 20000f)
+            {
+                if (twentyTwo == 0f)
+                {
+                    twentyTwo = tempFloat;
                 }
             }
         }
@@ -113,6 +128,11 @@ public class APShell
         if (fifteenOne != 0f && fifteenTwo != 0f)
         {
             penetrationAtFifteen = setPenetrationAtDistance(fifteenOne, penetration.get(fifteenOne), fifteenTwo, penetration.get(fifteenTwo), 15000f);
+        }
+
+        if (twentyOne != 0f && twentyTwo != 0f)
+        {
+            penetrationAtTwenty = setPenetrationAtDistance(twentyOne, penetration.get(twentyOne), twentyTwo, penetration.get(twentyTwo), 20000f);
         }
     }
 

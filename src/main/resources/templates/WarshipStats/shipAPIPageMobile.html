@@ -142,6 +142,8 @@
                             <span style="float: right;" th:if="${shipAPI.artillery.distance >= 10 and shipAPI.shipComponents.artillery.APShell.penetrationAtTen > 0}" th:text="${#numbers.formatInteger(shipAPI.shipComponents.artillery.APShell.penetrationAtTen, 1, 'COMMA') + ' mm'}"/><br th:if="${shipAPI.artillery.distance >= 10}"/>
                             <span style="float: left;" th:if="${shipAPI.artillery.distance >= 15 and shipAPI.shipComponents.artillery.APShell.penetrationAtFifteen > 0}" th:text="'- 15 km'"/>
                             <span style="float: right;" th:if="${shipAPI.artillery.distance >= 15 and shipAPI.shipComponents.artillery.APShell.penetrationAtFifteen > 0}" th:text="${#numbers.formatInteger(shipAPI.shipComponents.artillery.APShell.penetrationAtFifteen, 1, 'COMMA') + ' mm'}"/><br th:if="${shipAPI.artillery.distance >= 15}"/>
+                            <span style="float: left;" th:if="${shipAPI.artillery.distance >= 20 and shipAPI.shipComponents.artillery.APShell.penetrationAtTwenty > 0}" th:text="'- 20 km'"/>
+                            <span style="float: right;" th:if="${shipAPI.artillery.distance >= 20 and shipAPI.shipComponents.artillery.APShell.penetrationAtTwenty > 0}" th:text="${#numbers.formatInteger(shipAPI.shipComponents.artillery.APShell.penetrationAtTwenty, 1, 'COMMA') + ' mm'}"/><br th:if="${shipAPI.artillery.distance >= 20}"/>
                         </th:block>
                         <th:block th:if="${shell.value.type == 'HE'}">
                             <span th:text="'Penetration'" style="float:left;"/>
