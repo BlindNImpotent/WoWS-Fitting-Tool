@@ -2,6 +2,7 @@ package WoWSSSC.parser;
 
 import WoWSSSC.model.WoWSAPI.APIAddress;
 import WoWSSSC.model.WoWSAPI.commanders.CommandersData;
+import WoWSSSC.model.WoWSAPI.commanders.CommandersRankData;
 import WoWSSSC.model.WoWSAPI.consumables.ConsumablesData;
 import WoWSSSC.model.WoWSAPI.info.EncyclopediaData;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
@@ -267,6 +268,16 @@ public class APIJsonParser
         logger.info("Looking up all commanders");
         String url = apiAddress.getAPI_Starter() + "/crews/?application_id=" + APP_ID + "&language=en";
         CommandersData result = restTemplate.getForObject(url, CommandersData.class);
+
+        return CompletableFuture.completedFuture(result);
+    }
+
+    @Async
+    public CompletableFuture<CommandersRankData> getCommandersRanks()
+    {
+        logger.info("Looking up all commanders' ranks");
+        String url = apiAddress.getAPI_Starter() + "/crewranks/?application_id=" + APP_ID + "&language=en";
+        CommandersRankData result = restTemplate.getForObject(url, CommandersRankData.class);
 
         return CompletableFuture.completedFuture(result);
     }

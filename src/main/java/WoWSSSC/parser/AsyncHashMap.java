@@ -3,6 +3,7 @@ package WoWSSSC.parser;
 import WoWSSSC.model.WoWSAPI.APIAddress;
 import WoWSSSC.model.WoWSAPI.commanders.Commanders;
 import WoWSSSC.model.WoWSAPI.commanders.CommandersData;
+import WoWSSSC.model.WoWSAPI.commanders.CommandersRankData;
 import WoWSSSC.model.WoWSAPI.consumables.Consumables;
 import WoWSSSC.model.WoWSAPI.consumables.ConsumablesData;
 import WoWSSSC.model.WoWSAPI.exterior.Exterior;
@@ -172,6 +173,8 @@ public class AsyncHashMap implements CommandLineRunner
         });
         LinkedHashMap<String, LinkedHashMap<String, UniqueTemp>> uniqueSkills = new LinkedHashMap<>();
         LinkedHashMap<String, LinkedHashMap> allCommanders = getCommanders(tempCommanders, uniqueSkills);
+
+        CompletableFuture<CommandersRankData> commandersRankData = apiJsonParser.getCommandersRanks();
 
         CompletableFuture<ConsumablesData> consumablesData = apiJsonParser.getConsumables();
 
@@ -457,6 +460,7 @@ public class AsyncHashMap implements CommandLineRunner
         data.put("skills", setCrewSkills(crewsSkillsData.get().getData()));
         data.put("uniqueSkills", uniqueSkills);
         data.put("commanders", allCommanders);
+        data.put("commandersRanks", commandersRankData.get().getData());
         data.put("exteriors", tempExteriors);
         data.put("torpedoVisibility", torpedoVisibility(encyclopedia, nationsString, shipTypeString));
 //        data.put("exteriors", setExteriors(exteriorData.get().getData()));

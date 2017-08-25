@@ -379,6 +379,16 @@ public class APIController extends ExceptionController
         return xp;
     }
 
+    @RequestMapping (value = "/commandersRanks", method = RequestMethod.GET)
+    public String commanderRanks(Model model)
+    {
+        model.addAttribute("nations", data.get("nations"));
+        model.addAttribute("encyclopedia", data.get("encyclopedia"));
+        model.addAttribute("commandersRanks", data.get("commandersRanks"));
+
+        return "CommandersRanks/commandersRanks";
+    }
+
     @RequestMapping (value = "/shipStatComparison", method = RequestMethod.GET)
     public String shipStatComparisonTree(Model model)
     {
