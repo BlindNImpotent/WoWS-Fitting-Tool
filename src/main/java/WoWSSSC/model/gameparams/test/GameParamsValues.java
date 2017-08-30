@@ -403,7 +403,8 @@ public class GameParamsValues
     private float deckHeight;
     private String defaultCamouflage;
     private float draft;
-
+    private float depth;
+    private boolean isIsDeepWater;
 
     private HashMap<String, GameParamsValues> shipModules = new HashMap<>();
     @JsonAnySetter

@@ -80,7 +80,9 @@ public class Artillery
 
     public void setPenetrationHEWithNation(String nation, String shipType, String shipName)
     {
-        if ("germany".equalsIgnoreCase(nation) && ("Battleship".equalsIgnoreCase(shipType) || "Cruiser".equalsIgnoreCase(shipType) || shipName.contains("Graf Spee")))
+        if (
+                ("germany".equalsIgnoreCase(nation) && ("Battleship".equalsIgnoreCase(shipType) || "Cruiser".equalsIgnoreCase(shipType) || shipName.contains("Graf Spee")))
+                || ("uk".equalsIgnoreCase(nation) && "Battleship".equalsIgnoreCase(shipType)))
         {
             penetrationHEBefore = Math.round((float) barrelDiameter / 4);
             penetrationHE = Math.round((float) barrelDiameter / 4) - 1;
