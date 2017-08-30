@@ -47,8 +47,13 @@ public class Warship
     private Warship prevWarship;
 
     private boolean isFirst = true;
-    private int maxTier;
+    private int maxTier = 10;
     private long nextShipXp;
+    private boolean hasSecondLine;
+    private int firstMinTier;
+    private int firstMaxTier;
+    private int secondMaxTier;
+    private int secondMinTier;
 
     private long fromPreviousShipXp;
 

@@ -854,13 +854,20 @@ public class AsyncHashMap implements CommandLineRunner
             LinkedHashMap<String, Warship> test = new LinkedHashMap<>();
 
             int isTrueMaxTier = 0;
+            int isTrueMinTier = 0;
             int isFalseMaxTier = 0;
+            int isFalseMinTier = 0;
 
             LinkedHashMap<String, LinkedHashMap<String, Warship>> wslhm = mapper.convertValue(shipType.getValue(), LinkedHashMap.class);
 
             for (Map.Entry<String, LinkedHashMap<String, Warship>> entry : wslhm.entrySet())
             {
                 Warship tempWarship = mapper.convertValue(entry.getValue(), Warship.class);
+
+                if (isTrueMinTier == 0)
+                {
+                    isTrueMinTier = (int) tempWarship.getTier();
+                }
 
                 test.put(tempWarship.getName(), tempWarship);
 //                test.put(tempWarship.getName().replace("'", ""), tempWarship);
@@ -877,6 +884,11 @@ public class AsyncHashMap implements CommandLineRunner
                         if ((i > 0 && tempNextWarships.get(0).getType().equals(tempNextWarships.get(i).getType())) || !test.get(tempWarship.getName()).isFirst())
                         {
                             isFirst = false;
+
+                            if (isFalseMinTier == 0)
+                            {
+                                isFalseMinTier = (int) tempWarship.getTier();
+                            }
                         }
 
                         nextWarship.setFirst(isFirst);
@@ -902,12 +914,19 @@ public class AsyncHashMap implements CommandLineRunner
             {
                 if (warship.isFirst())
                 {
-                    warship.setMaxTier(isTrueMaxTier);
+                    warship.setFirstMinTier(isTrueMinTier);
+                    warship.setFirstMaxTier(isTrueMaxTier);
+                    if (isFalseMaxTier != 0)
+                    {
+                        warship.setHasSecondLine(true);
+                        warship.setSecondMaxTier(isFalseMaxTier);
+                        warship.setSecondMinTier(isFalseMinTier);
+                    }
                 }
-                else
-                {
-                    warship.setMaxTier(isFalseMaxTier);
-                }
+//                else
+//                {
+//                    warship.setMaxTier(isFalseMaxTier);
+//                }
                 test.put(warship.getName(), warship);
 //                test.put(warship.getName().replace("'", ""), warship);
                 rawShipData.put(warship.getName(), warship);

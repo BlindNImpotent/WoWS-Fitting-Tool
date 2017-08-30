@@ -346,16 +346,12 @@ public class APIController extends ExceptionController
     }
 
     @RequestMapping (value = "/shipTree", method = RequestMethod.GET)
-    public String shipTree(Model model, @RequestParam(required = false, defaultValue = "false") boolean mobile)
+    public String shipTree(Model model)
     {
-        model.addAttribute("data", data);
+        model.addAttribute("encyclopedia", data.get("encyclopedia"));
         model.addAttribute("nations", data.get("nations"));
         model.addAttribute("premiumTable", data.get("premiumTable"));
 
-        if (mobile)
-        {
-            return "WarshipResearch/shipTreeMobile";
-        }
         return "WarshipResearch/shipTree";
     }
 
