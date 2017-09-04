@@ -553,8 +553,19 @@
         callAPI();
     });
 
+    $(document).on('click', '#showArtillerySector', function () {
+        $('#artilleryCanvasDiv').dialog('open');
+    });
+
+    $(document).on('click', '#showTorpedoSector', function () {
+        $('#torpedoesCanvasDiv').dialog('open');
+    });
+
     function callAPI()
     {
+        $('[aria-describedby=artilleryCanvasDiv]').remove();
+        $('[aria-describedby=torpedoesCanvas]').remove();
+
         var modifier = '&';
         var equals = '=';
 

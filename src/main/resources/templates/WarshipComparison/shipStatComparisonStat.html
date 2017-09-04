@@ -17,6 +17,7 @@
 </header>
 <main>
     <div class="shipAPIData" id="shipAPIData" th:fragment="shipAPIData" th:unless="${warship1 == null and warship2 == null}" style="margin: 0 auto;">
+        <th:block th:include="WarshipComparison/angleSectorPage :: angleSectorPage"></th:block>
         <div style="margin: 0 auto;">
             <button id="shipAPI1Button" class="button_ship_comparison" style="margin: 0 15px;">
                 <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship1.defaultType}">
@@ -150,7 +151,7 @@
             </div>
             <div id="mainWeaponStats" class="mainWeaponStats" style="display: inline-block; margin: 0 15px;" th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) or (shipAPI1.flight_control != null and shipAPI2.flight_control != null)}">
                 <div th:if="${shipAPI1.artillery != null and shipAPI2.artillery != null}" id="artillery" style="width: 500px; margin: 0 auto; text-align: center">
-                    <strong>Main Battery</strong><br />
+                    <button id="showArtillerySector"><strong>Main Battery</strong></button><br />
                     <div style="display: inline-block; width: 500px;">
                         <div style="width: 240px; text-align: left; float: left; display: inline-block;">
                             <li th:each="slot : ${shipAPI1.artillery.slots}" name="guns">
@@ -355,7 +356,7 @@
                 </div>
                 <br th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) and (shipAPI1.torpedoes != null or shipAPI2.torpedoes != null)}"/>
                 <div th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) and (shipAPI1.torpedoes != null or shipAPI2.torpedoes != null)}" id="torpedoes" style="width: 500px; margin: 0 auto; text-align: center">
-                    <strong>Torpedoes</strong><br />
+                    <button id="showTorpedoSector"><strong>Torpedoes</strong></button><br />
                     <div style="display: inline-block; width: 500px; margin: 0 auto;">
                         <th:block th:if="${shipAPI1.torpedoes != null}" >
                             <th:block th:each="slot : ${shipAPI1.torpedoes.slots}">

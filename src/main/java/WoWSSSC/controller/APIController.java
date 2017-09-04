@@ -110,10 +110,10 @@ public class APIController extends ExceptionController
         model.addAttribute("notification", notification);
         model.addAttribute("encyclopedia", data.get("encyclopedia"));
 
-        if (mobile)
-        {
-            return "WarshipStats/warshipHomeMobile";
-        }
+//        if (mobile)
+//        {
+//            return "WarshipStats/warshipHomeMobile";
+//        }
         return "WarshipStats/warshipHome";
     }
 
@@ -271,10 +271,10 @@ public class APIController extends ExceptionController
             }
         }
 
-        if (mobile)
-        {
-            return "WarshipStats/shipAPIPageMobile :: shipAPIData";
-        }
+//        if (mobile)
+//        {
+//            return "WarshipStats/shipAPIPageMobile :: shipAPIData";
+//        }
         return "WarshipStats/shipAPIPage :: shipAPIData";
     }
 

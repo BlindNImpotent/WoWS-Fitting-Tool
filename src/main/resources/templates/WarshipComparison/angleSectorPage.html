@@ -20,8 +20,10 @@
     //    <![CDATA[
 
         $(function () {
-            drawArtillery([[${shipAPI}]]['shipComponents']['artillery']);
-            drawTorpedoes([[${shipAPI}]]['shipComponents']['torpedoes']);
+            drawArtillery([[${shipAPI1}]]['shipComponents']['artillery'], 1);
+            drawTorpedoes([[${shipAPI1}]]['shipComponents']['torpedoes'], 1);
+            drawArtillery([[${shipAPI2}]]['shipComponents']['artillery'], 2);
+            drawTorpedoes([[${shipAPI2}]]['shipComponents']['torpedoes'], 2);
 
             $('#artilleryCanvasDiv').dialog({
                 autoOpen: false,
@@ -36,7 +38,7 @@
             }).css("font-size", "8px");
         });
 
-    function drawArtillery(artillery)
+    function drawArtillery(artillery, number)
     {
         if (artillery !== null)
         {
@@ -44,6 +46,16 @@
 
             var artilleryCanvas = document.getElementById('artilleryCanvas');
             var ctx = artilleryCanvas.getContext('2d');
+
+            var x = 0;
+            if (number === 1)
+            {
+                x = 125;
+            }
+            else if (number === 2)
+            {
+                x = 375;
+            }
 
             for (var i = 0; i < turrets.length; i++)
             {
@@ -55,20 +67,20 @@
                 var horizFactor = Math.PI / -2;
 
                 ctx.beginPath();
-                ctx.moveTo(125, 125);
+                ctx.moveTo(x, 125);
                 if (horizPosition === 2)
                 {
-                    ctx.arc(125, 125, 125, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.arc(x, 125, 125, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
                 }
                 else if (horizPosition === 1)
                 {
-                    ctx.arc(125, 125, 125, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
-                    ctx.moveTo(125, 125);
-                    ctx.arc(125, 125, 125, horizFactor - (maxAngle / 180 * Math.PI), horizFactor + (minAngle / 180 * Math.PI));
+                    ctx.arc(x, 125, 125, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.moveTo(x, 125);
+                    ctx.arc(x, 125, 125, horizFactor - (maxAngle / 180 * Math.PI), horizFactor + (minAngle / 180 * Math.PI));
                 }
                 else if (horizPosition === 0)
                 {
-                    ctx.arc(125, 125, 125, horizFactor, horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.arc(x, 125, 125, horizFactor, horizFactor + (maxAngle / 180 * Math.PI));
                 }
                 ctx.closePath();
                 ctx.fill();
@@ -76,7 +88,7 @@
         }
     }
 
-    function drawTorpedoes(torpedoes)
+    function drawTorpedoes(torpedoes, number)
     {
         if (torpedoes !== null)
         {
@@ -84,6 +96,16 @@
 
             var torpedoesCanvas = document.getElementById('torpedoesCanvas');
             var ctx = torpedoesCanvas.getContext('2d');
+
+            var x = 0;
+            if (number === 1)
+            {
+                x = 125;
+            }
+            else if (number === 2)
+            {
+                x = 375;
+            }
 
             for (var i = 0; i < launchers.length; i++)
             {
@@ -96,33 +118,33 @@
                 var horizFactor = Math.PI / -2;
 
                 ctx.beginPath();
-                ctx.moveTo(125, 125);
+                ctx.moveTo(x, 125);
                 if (horizPosition === 2)
                 {
                     if (deadZone1 >= 0)
                     {
-                        ctx.arc(125, 125, 125, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                        ctx.arc(x, 125, 125, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
                     }
                     else
                     {
-                        ctx.arc(125, 125, 125, horizFactor - (deadZone1 / 180 * Math.PI), horizFactor - (minAngle / 180 * Math.PI));
+                        ctx.arc(x, 125, 125, horizFactor - (deadZone1 / 180 * Math.PI), horizFactor - (minAngle / 180 * Math.PI));
                     }
                 }
                 else if (horizPosition === 1)
                 {
-                    ctx.arc(125, 125, 125, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
-                    ctx.moveTo(125, 125);
-                    ctx.arc(125, 125, 125, horizFactor - (maxAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                    ctx.arc(x, 125, 125, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.moveTo(x, 125);
+                    ctx.arc(x, 125, 125, horizFactor - (maxAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
                 }
                 else if (horizPosition === 0)
                 {
                     if (deadZone1 >= 0)
                     {
-                        ctx.arc(125, 125, 125, horizFactor - (maxAngle / 180 * Math.PI), horizFactor - (deadZone2 / 180 * Math.PI));
+                        ctx.arc(x, 125, 125, horizFactor - (maxAngle / 180 * Math.PI), horizFactor - (deadZone2 / 180 * Math.PI));
                     }
                     else
                     {
-                        ctx.arc(125, 125, 125, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                        ctx.arc(x, 125, 125, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
                     }
                 }
                 ctx.closePath();
@@ -134,11 +156,11 @@
     //    ]]>
     </script>
     <div id="artilleryCanvasDiv" class="ui-widget-content" title="Artillery Sector">
-        <canvas id="artilleryCanvas" width="250" height="250">
+        <canvas id="artilleryCanvas" width="500" height="250">
         </canvas>
     </div>
     <div id="torpedoesCanvasDiv" class="ui-widget-content" title="Torpedo Sector">
-        <canvas id="torpedoesCanvas" width="250" height="250">
+        <canvas id="torpedoesCanvas" width="500" height="250">
         </canvas>
     </div>
 </th:block>
