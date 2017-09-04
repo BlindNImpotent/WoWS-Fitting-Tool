@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Created by Aesis on 2017-05-15.
@@ -15,6 +17,7 @@ import java.util.LinkedHashMap;
 public class Torpedoes
 {
     private LinkedHashMap<String, Launcher> launchers = new LinkedHashMap<>();
+    private List<Launcher> launchersList = new ArrayList<>();
     private boolean useOneShot;
 
     private Torpedo torpedo;
@@ -29,6 +32,7 @@ public class Torpedoes
         {
             Launcher launcher = mapper.convertValue(value, Launcher.class);
             launchers.put(name, launcher);
+            launchersList.add(launcher);
         }
     }
 }

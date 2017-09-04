@@ -465,6 +465,14 @@
         $('#torpVisibilityDialog').dialog('open');
     });
 
+    $(document).on('click', '#showArtillerySector', function () {
+        $('#artilleryCanvasDiv').dialog('open');
+    });
+
+    $(document).on('click', '#showTorpedoSector', function () {
+        $('#torpedoesCanvasDiv').dialog('open');
+    });
+
     //    $(document).on('click', '#showCamouflage', function () {
     //        $('#camouflage').dialog('open');
     //    });
@@ -476,6 +484,8 @@
     function callAPI()
     {
         $('[aria-describedby=torpVisibilityDialog]').remove();
+        $('[aria-describedby=artilleryCanvasDiv]').remove();
+        $('[aria-describedby=torpedoesCanvas]').remove();
 
         if ($('#ship').attr('name') != null)
         {

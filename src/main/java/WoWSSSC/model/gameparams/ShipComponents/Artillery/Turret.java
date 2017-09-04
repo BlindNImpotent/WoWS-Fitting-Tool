@@ -14,4 +14,9 @@ public class Turret
 {
     private List<String> ammoList;
     private float barrelDiameter;
+
+    private List<List<Float>> deadZone;
+    private List<Float> horizSector;
+    private List<Float> mainSector;
+    private List<Float> position;
 }

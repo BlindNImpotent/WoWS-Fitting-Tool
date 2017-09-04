@@ -19,6 +19,7 @@
     <th:block th:fragment="shipAPIData" th:unless="${shipAPI == null}">
         <div id="consumablesDataFragment" th:include="WarshipStats/consumablesPage :: consumablesDataFragment"></div>
         <div class="shipAPIData" id="shipAPIData" style="">
+            <th:block th:include="WarshipStats/angleSectorPage :: angleSectorPage"></th:block>
             <div id="hullStats" class="hullStats" style="width: 300px;">
                 <div th:if="${shipAPI.hull != null}" id="hull">
                     <strong>Hull</strong><br />
@@ -89,7 +90,7 @@
             </div>
             <div id="mainWeaponStats" class="mainWeaponStats" style="width: 300px; text-align: left;">
                 <div th:if="${shipAPI.artillery != null}" id="artillery">
-                    <strong>Main Battery</strong><br />
+                    <button id="showArtillerySector"><strong>Main Battery</strong></button><br />
                     <li th:each="slot : ${shipAPI.artillery.slots}" name="guns">
                         <u th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/><br />
                     </li>
@@ -200,7 +201,7 @@
                     <br />
                 </div>
                 <div th:if="${shipAPI.torpedoes != null}" id="torpedoes">
-                    <strong>Torpedoes</strong><br />
+                    <button id="showTorpedoSector"><strong>Torpedoes</strong></button><br />
                     <li th:each="slot : ${shipAPI.torpedoes.slots}">
                         <u th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/><br />
                     </li>

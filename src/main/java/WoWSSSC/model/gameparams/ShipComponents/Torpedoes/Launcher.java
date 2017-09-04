@@ -13,4 +13,9 @@ import java.util.List;
 public class Launcher
 {
     private List<String> ammoList;
+
+    private List<List<Float>> deadZone;
+    private List<Float> horizSector;
+    private List<Float> mainSector;
+    private List<Float> position;
 }

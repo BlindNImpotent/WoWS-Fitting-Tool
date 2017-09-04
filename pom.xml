@@ -13,6 +13,8 @@
         <java.version>1.8</java.version>
         <project.http.version>1.18.0-rc</project.http.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <thymeleaf.version>3.0.2.RELEASE</thymeleaf.version>
+        <thymeleaf-layout-dialect.version>2.1.1</thymeleaf-layout-dialect.version>
     </properties>
 
     <parent>

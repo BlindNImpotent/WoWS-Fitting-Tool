@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import java.util.List;
 public class Artillery
 {
     private LinkedHashMap<String, Turret> turrets = new LinkedHashMap<>();
+    private List<Turret> turretsList = new ArrayList<>();
+
     private LinkedHashMap<String, LinkedHashMap> AuraFar;
     private LinkedHashMap<String, LinkedHashMap> AuraMedium;
     private LinkedHashMap<String, LinkedHashMap> AuraNear;
@@ -63,6 +66,7 @@ public class Artillery
         {
             Turret turret = mapper.convertValue(value, Turret.class);
             turrets.put(name, turret);
+            turretsList.add(turret);
 
             if (barrelDiameter < turret.getBarrelDiameter() * 1000)
             {

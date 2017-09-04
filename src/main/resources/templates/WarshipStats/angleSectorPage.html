@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="UTF-8" />
+    <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
+    <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
+    <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
+    <script th:src="@{/js/accounting/accounting.js}"></script>
+    <title>WoWS Fitting Tool by Aesis</title>
+</head>
+<body>
+<header>
+</header>
+<th:block th:fragment="angleSectorPage">
+    <script th:inline="javascript">
+    //    <![CDATA[
+
+        $(function () {
+            drawArtillery([[${shipAPI}]]['shipComponents']['artillery']);
+            drawTorpedoes([[${shipAPI}]]['shipComponents']['torpedoes']);
+
+            $('#artilleryCanvasDiv').dialog({
+                autoOpen: false,
+//                modal: true,
+                width: 'auto'
+            }).css("font-size", "8px");
+
+            $('#torpedoesCanvasDiv').dialog({
+                autoOpen: false,
+//                modal: true,
+                width: 'auto'
+            }).css("font-size", "8px");
+        });
+
+    function drawArtillery(artillery)
+    {
+        if (artillery !== null)
+        {
+            var turrets = artillery['turretsList'];
+
+            var artilleryCanvas = document.getElementById('artilleryCanvas');
+            var ctx = artilleryCanvas.getContext('2d');
+
+            for (var i = 0; i < turrets.length; i++)
+            {
+                var current = turrets[i];
+
+                var minAngle = current['horizSector'][0];
+                var maxAngle = current['horizSector'][1];
+                var horizPosition = current['position'][1];
+                var horizFactor = Math.PI / -2;
+
+                ctx.beginPath();
+                ctx.moveTo(125, 125);
+                if (horizPosition === 2)
+                {
+                    ctx.arc(125, 125, 125, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                }
+                else if (horizPosition === 1)
+                {
+                    ctx.arc(125, 125, 125, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.moveTo(125, 125);
+                    ctx.arc(125, 125, 125, horizFactor - (maxAngle / 180 * Math.PI), horizFactor + (minAngle / 180 * Math.PI));
+                }
+                else if (horizPosition === 0)
+                {
+                    ctx.arc(125, 125, 125, horizFactor, horizFactor + (maxAngle / 180 * Math.PI));
+                }
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
+    }
+
+        function drawTorpedoes(torpedoes)
+        {
+            if (torpedoes !== null)
+            {
+                var launchers = torpedoes['launchersList'];
+
+                var torpedoesCanvas = document.getElementById('torpedoesCanvas');
+                var ctx = torpedoesCanvas.getContext('2d');
+
+                for (var i = 0; i < launchers.length; i++)
+                {
+                    var current = launchers[i];
+                    var deadZone1 = current['deadZone'][0][0];
+                    var deadZone2 = current['deadZone'][0][1];
+                    var minAngle = current['horizSector'][0];
+                    var maxAngle = current['horizSector'][1];
+                    var horizPosition = current['position'][1];
+                    var horizFactor = Math.PI / -2;
+
+                    ctx.beginPath();
+                    ctx.moveTo(125, 125);
+                    if (horizPosition === 2)
+                    {
+                        if (deadZone1 >= 0)
+                        {
+                            ctx.arc(125, 125, 125, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                        }
+                        else
+                        {
+                            ctx.arc(125, 125, 125, horizFactor - (deadZone1 / 180 * Math.PI), horizFactor - (minAngle / 180 * Math.PI));
+                        }
+                    }
+                    else if (horizPosition === 1)
+                    {
+                        ctx.arc(125, 125, 125, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                        ctx.moveTo(125, 125);
+                        ctx.arc(125, 125, 125, horizFactor - (maxAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                    }
+                    else if (horizPosition === 0)
+                    {
+                        if (deadZone1 >= 0)
+                        {
+                            ctx.arc(125, 125, 125, horizFactor - (maxAngle / 180 * Math.PI), horizFactor - (deadZone2 / 180 * Math.PI));
+                        }
+                        else
+                        {
+                            ctx.arc(125, 125, 125, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                        }
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            }
+        }
+
+    //    ]]>
+    </script>
+    <div id="artilleryCanvasDiv" class="ui-widget-content" title="Artillery Sector">
+        <canvas id="artilleryCanvas" width="250" height="250">
+        </canvas>
+    </div>
+    <div id="torpedoesCanvasDiv" class="ui-widget-content" title="Torpedo Sector">
+        <canvas id="torpedoesCanvas" width="250" height="250">
+        </canvas>
+    </div>
+</th:block>
+</body>
+</html>
