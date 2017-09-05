@@ -90,8 +90,8 @@
             </div>
             <div id="mainWeaponStats" class="mainWeaponStats" style="width: 300px; text-align: left;">
                 <div th:if="${shipAPI.artillery != null}" id="artillery">
-                    <!--<button id="showArtillerySector"><strong>Main Battery</strong></button><br />-->
-                    <strong>Main Battery</strong><br />
+                    <button id="showArtillerySector"><strong>Main Battery</strong></button><br />
+                    <!--<strong>Main Battery</strong><br />-->
                     <li th:each="slot : ${shipAPI.artillery.slots}" name="guns">
                         <u th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/><br />
                     </li>
