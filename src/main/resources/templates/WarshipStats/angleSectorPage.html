@@ -51,25 +51,42 @@
 
                 var minAngle = current['horizSector'][0];
                 var maxAngle = current['horizSector'][1];
+                var vertiPosition = current['position'][0];
                 var horizPosition = current['position'][1];
                 var horizFactor = Math.PI / -2;
 
+                var test = (horizPosition - 1) * (Math.PI);
+
+                // -1 .. 7
+                var centerX = 125 + (horizPosition - 1) * (250 / 8);
+                var centerY = (vertiPosition + 1.25) * (250 / 8);
+
+                if (minAngle >= 180)
+                {
+                    minAngle = minAngle - 360;
+                }
+
+                if (vertiPosition >= 3)
+                {
+                    var temp = minAngle;
+                    minAngle = 180 - maxAngle;
+                    maxAngle = 360 - (180 + temp);
+
+                    minAngle = minAngle + 180 * (1 - horizPosition);
+                    maxAngle = maxAngle + 180 * (1 - horizPosition);
+                }
+
                 ctx.beginPath();
-                ctx.moveTo(125, 125);
-                if (horizPosition === 2)
-                {
-                    ctx.arc(125, 125, 125, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
-                }
-                else if (horizPosition === 1)
-                {
-                    ctx.arc(125, 125, 125, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
-                    ctx.moveTo(125, 125);
-                    ctx.arc(125, 125, 125, horizFactor - (maxAngle / 180 * Math.PI), horizFactor + (minAngle / 180 * Math.PI));
-                }
-                else if (horizPosition === 0)
-                {
-                    ctx.arc(125, 125, 125, horizFactor, horizFactor + (maxAngle / 180 * Math.PI));
-                }
+                ctx.moveTo(centerX, centerY);
+                ctx.globalAlpha = 0.1;
+                ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI) + test, horizFactor + (maxAngle / 180 * Math.PI) + test);
+                ctx.closePath();
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.globalAlpha = 0.1;
+                ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI) + test, horizFactor + (maxAngle / 180 * Math.PI) + test);
                 ctx.closePath();
                 ctx.fill();
             }
@@ -96,6 +113,7 @@
                 var horizFactor = Math.PI / -2;
 
                 ctx.beginPath();
+                ctx.globalAlpha = 0.1;
                 ctx.moveTo(125, 125);
                 if (horizPosition === 2)
                 {

@@ -44,17 +44,19 @@
         {
             var turrets = artillery['turretsList'];
 
-            var artilleryCanvas = document.getElementById('artilleryCanvas');
-            var ctx = artilleryCanvas.getContext('2d');
+            var artilleryCanvas;
+            var ctx;
 
-            var x = 0;
+            var x = 125;
             if (number === 1)
             {
-                x = 125;
+                artilleryCanvas = document.getElementById('artilleryCanvas1');
+                ctx = artilleryCanvas.getContext('2d');
             }
             else if (number === 2)
             {
-                x = 375;
+                artilleryCanvas = document.getElementById('artilleryCanvas2');
+                ctx = artilleryCanvas.getContext('2d');
             }
 
             for (var i = 0; i < turrets.length; i++)
@@ -63,25 +65,42 @@
 
                 var minAngle = current['horizSector'][0];
                 var maxAngle = current['horizSector'][1];
+                var vertiPosition = current['position'][0];
                 var horizPosition = current['position'][1];
                 var horizFactor = Math.PI / -2;
 
+                var test = (horizPosition - 1) * (Math.PI);
+
+                // -1 .. 7
+                var centerX = x + (horizPosition - 1) * (250 / 8);
+                var centerY = (vertiPosition + 1) * (250 / 8);
+
+                if (minAngle >= 180)
+                {
+                    minAngle = minAngle - 360;
+                }
+
+                if (vertiPosition >= 3)
+                {
+                    var temp = minAngle;
+                    minAngle = 180 - maxAngle;
+                    maxAngle = 360 - (180 + temp);
+
+                    minAngle = minAngle + 180 * (1 - horizPosition);
+                    maxAngle = maxAngle + 180 * (1 - horizPosition);
+                }
+
                 ctx.beginPath();
-                ctx.moveTo(x, 125);
-                if (horizPosition === 2)
-                {
-                    ctx.arc(x, 125, 125, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
-                }
-                else if (horizPosition === 1)
-                {
-                    ctx.arc(x, 125, 125, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
-                    ctx.moveTo(x, 125);
-                    ctx.arc(x, 125, 125, horizFactor - (maxAngle / 180 * Math.PI), horizFactor + (minAngle / 180 * Math.PI));
-                }
-                else if (horizPosition === 0)
-                {
-                    ctx.arc(x, 125, 125, horizFactor, horizFactor + (maxAngle / 180 * Math.PI));
-                }
+                ctx.moveTo(centerX, centerY);
+                ctx.globalAlpha = 0.1;
+                ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI) + test, horizFactor + (maxAngle / 180 * Math.PI) + test);
+                ctx.closePath();
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.globalAlpha = 0.1;
+                ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI) + test, horizFactor + (maxAngle / 180 * Math.PI) + test);
                 ctx.closePath();
                 ctx.fill();
             }
@@ -118,6 +137,7 @@
                 var horizFactor = Math.PI / -2;
 
                 ctx.beginPath();
+                ctx.globalAlpha = 0.1;
                 ctx.moveTo(x, 125);
                 if (horizPosition === 2)
                 {
@@ -156,7 +176,9 @@
     //    ]]>
     </script>
     <div id="artilleryCanvasDiv" class="ui-widget-content" title="Artillery Sector">
-        <canvas id="artilleryCanvas" width="500" height="250">
+        <canvas id="artilleryCanvas1" width="250" height="250">
+        </canvas>
+        <canvas id="artilleryCanvas2" width="250" height="250">
         </canvas>
     </div>
     <div id="torpedoesCanvasDiv" class="ui-widget-content" title="Torpedo Sector">

@@ -132,6 +132,7 @@ public class GPService
             Components torpedoesComponents = null;
             Components torpedoBomberComponents = null;
             Components diveBomberComponents = null;
+            Components hullComponents = null;
             List<String> disabledAbilities = new ArrayList<>();
 
             for (String name : moduleNames)
@@ -155,9 +156,10 @@ public class GPService
                     {
                         diveBomberComponents = shipUpgradeInfo.getModules().get(name).getComponents();
                     }
-                    else if (cField.get(shipUpgradeInfo.getModules().get(name).getComponents()) != null && CollectionUtils.isNotEmpty(shipUpgradeInfo.getModules().get(name).getDisabledAbilities()) && shipUpgradeInfo.getModules().get(name).getUcType().equalsIgnoreCase("_Hull"))
+                    else if (cField.get(shipUpgradeInfo.getModules().get(name).getComponents()) != null && CollectionUtils.isNotEmpty(shipUpgradeInfo.getModules().get(name).getComponents().getHull()) && shipUpgradeInfo.getModules().get(name).getUcType().equalsIgnoreCase("_Hull"))
                     {
                         disabledAbilities = shipUpgradeInfo.getModules().get(name).getDisabledAbilities();
+                        hullComponents = shipUpgradeInfo.getModules().get(name).getComponents();
                     }
                     cField.setAccessible(false);
                 }
@@ -194,7 +196,7 @@ public class GPService
 
                                 for (String s : tempList)
                                 {
-                                    if (artilleryComponents != null && artilleryComponents.getArtillery().contains(s))
+                                    if (artilleryComponents != null && artilleryComponents.getArtillery().contains(s) && hullComponents.getArtillery().contains(s))
                                     {
                                         tempArtillery = s;
                                     }
@@ -220,7 +222,7 @@ public class GPService
 
                                 for (String s : tempList)
                                 {
-                                    if (torpedoesComponents != null && torpedoesComponents.getTorpedoes().contains(s))
+                                    if (torpedoesComponents != null && torpedoesComponents.getTorpedoes().contains(s) && hullComponents.getTorpedoes().contains(s))
                                     {
                                         tempTorpedoes = s;
                                     }
