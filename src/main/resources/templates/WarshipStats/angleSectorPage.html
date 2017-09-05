@@ -23,11 +23,11 @@
             drawArtillery([[${shipAPI}]]['shipComponents']['artillery']);
             drawTorpedoes([[${shipAPI}]]['shipComponents']['torpedoes']);
 
-            $('#artilleryCanvasDiv').dialog({
-                autoOpen: false,
-//                modal: true,
-                width: 'auto'
-            }).css("font-size", "8px");
+//            $('#artilleryCanvasDiv').dialog({
+//                autoOpen: false,
+////                modal: true,
+//                width: 'auto'
+//            }).css("font-size", "8px");
 
             $('#torpedoesCanvasDiv').dialog({
                 autoOpen: false,
@@ -41,10 +41,12 @@
         if (artillery !== null)
         {
             var turrets = artillery['turretsList'];
+            console.log(turrets);
 
             var artilleryCanvas = document.getElementById('artilleryCanvas');
             var ctx = artilleryCanvas.getContext('2d');
 
+//            for (var i = 1; i < 2; i++)
             for (var i = 0; i < turrets.length; i++)
             {
                 var current = turrets[i];
@@ -55,7 +57,8 @@
                 var horizPosition = current['position'][1];
                 var horizFactor = Math.PI / -2;
 
-                var test = (horizPosition - 1) * (Math.PI);
+                var test = (horizPosition - 1) * Math.PI;
+                var mid = (maxAngle - minAngle) / 2;
 
                 // -1 .. 7
                 var centerX = 125 + (horizPosition - 1) * (250 / 8);
@@ -66,7 +69,13 @@
                     minAngle = minAngle - 360;
                 }
 
-                if (vertiPosition >= 3)
+                var isFlip = false;
+                if (i === 2 && vertiPosition <= 3 && horizPosition === 1)
+                {
+                    isFlip = true;
+                }
+
+                if ((vertiPosition >= 3 && !isFlip) || (vertiPosition < 3 && isFlip))
                 {
                     var temp = minAngle;
                     minAngle = 180 - maxAngle;
@@ -76,17 +85,34 @@
                     maxAngle = maxAngle + 180 * (1 - horizPosition);
                 }
 
+                minAngle = minAngle + (test * 180 / Math.PI);
+                maxAngle = maxAngle + (test * 180 / Math.PI);
+
+                if ((horizPosition - 1) % 1 === 0 && horizPosition !== 1)
+                {
+                    if (((minAngle > 0 && minAngle > 90) || (minAngle < 0 && (360 + minAngle) > 90)))
+                    {
+                        console.log(mid, minAngle, maxAngle);
+//                        if ((maxAngle < 0 && (minAngle + 180) + maxAngle < -180) || (maxAngle > 0 && maxAngle + (maxAngle - minAngle) > 360))
+//                        {
+//                            console.log(mid, minAngle, maxAngle);
+//                            minAngle = minAngle - (horizPosition - 1) * 90;
+//                            maxAngle = maxAngle - (horizPosition - 1) * 90;
+//                        }
+                    }
+                }
+
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI) + test, horizFactor + (maxAngle / 180 * Math.PI) + test);
+                ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
                 ctx.closePath();
                 ctx.stroke();
 
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI) + test, horizFactor + (maxAngle / 180 * Math.PI) + test);
+                ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
                 ctx.closePath();
                 ctx.fill();
             }
