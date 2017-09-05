@@ -152,8 +152,8 @@
             <div id="mainWeaponStats" class="mainWeaponStats" style="display: inline-block; margin: 0 15px;" th:if="${(shipAPI1.artillery != null and shipAPI2.artillery != null) or (shipAPI1.flight_control != null and shipAPI2.flight_control != null)}">
                 <div th:if="${shipAPI1.artillery != null and shipAPI2.artillery != null}" id="artillery" style="width: 500px; margin: 0 auto; text-align: center">
                     <button id="showArtillerySector"><strong>Main Battery</strong></button><br />
-                    <!--<strong>Main Battery</strong><br />-->
-                    <div style="display: inline-block; width: 500px;">
+                    <strong>Main Battery</strong><br />
+                    <!--<div style="display: inline-block; width: 500px;">-->
                         <div style="width: 240px; text-align: left; float: left; display: inline-block;">
                             <li th:each="slot : ${shipAPI1.artillery.slots}" name="guns">
                                 <u th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/>
