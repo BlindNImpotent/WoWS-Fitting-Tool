@@ -89,7 +89,7 @@
                 var centerY = (vertiPosition + 1.5) * (250 / 8);
 
                 var isFlip = false;
-                if ((i === 2 && vertiPosition < 3 && horizPosition === 1) || (i === 2 && horizPosition === 1 && vertiPosition === 3 && turrets.length === 3))
+                if ((i === 2 && (vertiPosition < 3 && vertiPosition >= 1.75 && (turrets[2]['position'][0] - turrets[1]['position'][0] > 1 || deadZone.length === 1)) && horizPosition === 1) || (i === 2 && horizPosition === 1 && vertiPosition === 3 && turrets.length === 3))
                 {
                     isFlip = true;
                 }
