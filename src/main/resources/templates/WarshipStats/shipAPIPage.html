@@ -17,9 +17,7 @@
 </header>
 <main>
     <th:block th:fragment="shipAPIData" th:unless="${shipAPI == null}">
-        <div id="consumablesDataFragment" th:include="WarshipStats/consumablesPage :: consumablesDataFragment"></div>
         <div class="shipAPIData" id="shipAPIData" style="">
-            <th:block th:include="WarshipStats/angleSectorPage :: angleSectorPage"></th:block>
             <div id="hullStats" class="hullStats" style="width: 300px;">
                 <div th:if="${shipAPI.hull != null}" id="hull">
                     <strong>Hull</strong><br />
@@ -95,16 +93,23 @@
                     <li th:each="slot : ${shipAPI.artillery.slots}" name="guns">
                         <u th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/><br />
                     </li>
+                    <span style="float:left;">Distance</span>
+                    <span style="float: right;" th:if="${configurationAPI != null and shipAPI.artillery.distance - configurationAPI.artillery.distance != 0}" th:text="${shipAPI.artillery.distance - configurationAPI.artillery.distance > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.artillery.distance - configurationAPI.artillery.distance, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.artillery.distance - configurationAPI.artillery.distance, 1, 1) + ')'}"/>
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.distance, 1, 1)} + ' km'"/><br />
                     <th:block th:if="${shipAPI.shipComponents.artillery != null}">
                         <span style="float:left;">Sigma</span>
                         <span style="float: right" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.sigmaCount, 1, 2)}"/><br />
                     </th:block>
-                    <span style="float:left;">Distance</span>
-                    <span style="float: right;" th:if="${configurationAPI != null and shipAPI.artillery.distance - configurationAPI.artillery.distance != 0}" th:text="${shipAPI.artillery.distance - configurationAPI.artillery.distance > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.artillery.distance - configurationAPI.artillery.distance, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.artillery.distance - configurationAPI.artillery.distance, 1, 1) + ')'}"/>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.distance, 1, 1)} + ' km'"/><br />
-                    <span style="float:left;">Dispersion</span>
+                    <span style="float:left;">Dispersion</span><br />
+                    <span style="float:left;">- Max Dispersion</span>
                     <span style="float: right;" th:if="${configurationAPI != null and shipAPI.artillery.max_dispersion - configurationAPI.artillery.max_dispersion != 0}" th:text="${shipAPI.artillery.max_dispersion - configurationAPI.artillery.max_dispersion > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.artillery.max_dispersion - configurationAPI.artillery.max_dispersion, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.artillery.max_dispersion - configurationAPI.artillery.max_dispersion, 1, 1) + ')'}"/>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.max_dispersion, 1, 1)} + ' m'"/><br />
+                    <th:block th:if="${shipAPI.shipComponents.artillery != null}">
+                        <span style="float:left;">- Min H Dispersion</span>
+                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.minDistH, 1, 0)} + ' m'"/><br />
+                        <span style="float:left;">- Min V Dispersion</span>
+                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.minDistV, 1, 0)} + ' m'"/><br />
+                    </th:block>
                     <span style="float:left;">Reload</span>
                     <span id="reloadDiff" style="float: right;" th:if="${configurationAPI != null and 60 / shipAPI.artillery.gun_rate - 60 / configurationAPI.artillery.gun_rate != 0}" th:text="${60 / shipAPI.artillery.gun_rate - 60 / configurationAPI.artillery.gun_rate > 0 ? ' (+' + #numbers.formatDecimal(60 / shipAPI.artillery.gun_rate - 60 / configurationAPI.artillery.gun_rate, 1, 1) + ')' : ' (' + #numbers.formatDecimal(60 / shipAPI.artillery.gun_rate - 60 / configurationAPI.artillery.gun_rate, 1, 1) + ')'}"/>
                     <span id="reload" style="float: right;" th:text="${#numbers.formatDecimal(60 / shipAPI.artillery.gun_rate, 1, 1)} + ' s'"/><br />
@@ -415,7 +420,9 @@
                     </div>
                 </div>
             </th:block>
+            <th:block th:include="WarshipStats/angleSectorPage :: angleSectorPage"></th:block>
         </div>
+        <div id="consumablesDataFragment" th:include="WarshipStats/consumablesPage :: consumablesDataFragment"></div>
     </th:block>
 </main>
 <script th:inline="javascript">

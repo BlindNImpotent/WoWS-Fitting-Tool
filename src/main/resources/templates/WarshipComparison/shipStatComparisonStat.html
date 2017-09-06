@@ -167,9 +167,11 @@
                     <br />
                     <div>
                         <li style="display: inline-block; float: left; width: 160px;">
-                            <span style="float: left" th:if="${shipAPI1.shipComponents.artillery != null}" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.artillery.sigmaCount, 0, 2)}"/><br />
                             <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.distance, 0, 1)} + ' km'"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.shipComponents.artillery != null}" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.artillery.sigmaCount, 0, 2)}"/><br /><br />
                             <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.max_dispersion, 0, 1)} + ' m'"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.shipComponents.artillery != null}" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.artillery.minDistH, 1, 0)} + ' m'"/><br />
+                            <span style="float: left;" th:if="${shipAPI1.shipComponents.artillery != null}" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.artillery.minDistV, 1, 0)} + ' m'"/><br />
                             <span id="reload1" style="float: left;" th:text="${#numbers.formatDecimal(60 / shipAPI1.artillery.gun_rate, 0, 1)} + ' s'"/><br />
                             <span id="rof1" style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.artillery.gun_rate, 0 ,2)} + ' RPM'"/><br />
                             <div id="slider1" style="width: 100px; float: left">
@@ -179,18 +181,23 @@
                             <span style="float: left;" th:text="${#numbers.formatDecimal(180 / shipAPI1.artillery.rotation_time, 0, 1)} + ' deg / s'"/><br />
                         </li>
                         <li style="display: inline-block; text-align: center; width: 160px;">
-                            <span>Sigma</span><br />
                             <span>Distance</span><br />
+                            <span>Sigma</span><br />
                             <span>Dispersion</span><br />
+                            <span>- Max Dispersion -</span><br />
+                            <span>- Min H Dispersion -</span><br />
+                            <span>- Min V Dispersion -</span><br />
                             <span>Reload</span><br />
                             <span>RoF</span><br /><br th:if="${adrenaline == true}" />
                             <span>Rotation</span><br />
                             <span>Rotation / 180 deg</span><br />
                         </li>
                         <li style="display: inline-block; float: right; width: 160px;">
-                            <span style="float: right" th:if="${shipAPI2.shipComponents.artillery != null}" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.artillery.sigmaCount, 0, 2)}"/><br />
                             <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.distance, 0, 1)} + ' km'"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.shipComponents.artillery != null}" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.artillery.sigmaCount, 0, 2)}"/><br /><br />
                             <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.max_dispersion, 0, 1)} + ' m'"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.shipComponents.artillery != null}" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.artillery.minDistH, 1, 0)} + ' m'"/><br />
+                            <span style="float: right;" th:if="${shipAPI2.shipComponents.artillery != null}" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.artillery.minDistV, 1, 0)} + ' m'"/><br />
                             <span id="reload2" style="float: right;" th:text="${#numbers.formatDecimal(60 / shipAPI2.artillery.gun_rate, 0, 1)} + ' s'"/><br />
                             <span id="rof2" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.artillery.gun_rate, 0 ,2)} + ' RPM'"/><br />
                             <div id="slider2" style="width: 100px; float: right;">
