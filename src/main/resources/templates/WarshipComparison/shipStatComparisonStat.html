@@ -17,7 +17,6 @@
 </header>
 <main>
     <div class="shipAPIData" id="shipAPIData" th:fragment="shipAPIData" th:unless="${warship1 == null and warship2 == null}" style="margin: 0 auto;">
-        <th:block th:include="WarshipComparison/angleSectorPage :: angleSectorPage"></th:block>
         <div style="margin: 0 auto;">
             <button id="shipAPI1Button" class="button_ship_comparison" style="margin: 0 15px;">
                 <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship1.defaultType}">
@@ -601,6 +600,7 @@
                 </div>
             </div>
         </div>
+        <th:block th:include="WarshipComparison/angleSectorPage :: angleSectorPage"></th:block>
     </div>
 </main>
 <script th:inline="javascript">
