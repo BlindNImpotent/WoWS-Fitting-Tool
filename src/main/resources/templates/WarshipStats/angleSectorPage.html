@@ -45,6 +45,17 @@
             var artilleryCanvas = document.getElementById('artilleryCanvas');
             var ctx = artilleryCanvas.getContext('2d');
 
+            var eccentricity = 3.25;
+            ctx.save();
+            ctx.scale(1 / eccentricity, 1);
+            ctx.beginPath();
+            ctx.globalAlpha = 0.5;
+            ctx.arc(125 * eccentricity, 125, 125, 0, 2 * Math.PI, false);
+            ctx.closePath();
+            ctx.fillStyle = '#64C8FF';
+            ctx.fill();
+            ctx.restore();
+
             for (var i = 0; i < turrets.length; i++)
             {
                 var current = turrets[i];
@@ -197,9 +208,21 @@
         if (torpedoes !== null)
         {
             var launchers = torpedoes['launchersList'];
+            console.log(launchers);
 
             var torpedoesCanvas = document.getElementById('torpedoesCanvas');
             var ctx = torpedoesCanvas.getContext('2d');
+
+            var eccentricity = 3.25;
+            ctx.save();
+            ctx.scale(1 / eccentricity, 1);
+            ctx.beginPath();
+            ctx.globalAlpha = 0.5;
+            ctx.arc(125 * eccentricity, 125, 125, 0, 2 * Math.PI, false);
+            ctx.closePath();
+            ctx.fillStyle = '#64C8FF';
+            ctx.fill();
+            ctx.restore();
 
             for (var i = 0; i < launchers.length; i++)
             {
