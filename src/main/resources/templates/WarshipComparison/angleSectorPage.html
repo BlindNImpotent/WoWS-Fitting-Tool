@@ -211,62 +211,129 @@
         {
             var launchers = torpedoes['launchersList'];
 
-            var torpedoesCanvas = document.getElementById('torpedoesCanvas');
-            var ctx = torpedoesCanvas.getContext('2d');
+            var torpedoesCanvas;
+            var ctx;
 
-            var x = 0;
             if (number === 1)
             {
-                x = 125;
+                torpedoesCanvas = document.getElementById('torpedoesCanvas1');
+                ctx = torpedoesCanvas.getContext('2d');
             }
             else if (number === 2)
             {
-                x = 375;
+                torpedoesCanvas = document.getElementById('torpedoesCanvas2');
+                ctx = torpedoesCanvas.getContext('2d');
             }
 
             for (var i = 0; i < launchers.length; i++)
             {
                 var current = launchers[i];
-                var deadZone1 = current['deadZone'][0][0];
-                var deadZone2 = current['deadZone'][0][1];
+
                 var minAngle = current['horizSector'][0];
                 var maxAngle = current['horizSector'][1];
+                var vertiPosition = current['position'][0];
                 var horizPosition = current['position'][1];
                 var horizFactor = Math.PI / -2;
 
-                ctx.beginPath();
-                ctx.globalAlpha = 0.1;
-                ctx.moveTo(x, 125);
-                if (horizPosition === 2)
+                var deadZone = current['deadZone'];
+                var deadZone1 = 0;
+                var deadZone2 = 0;
+                if (deadZone.length === 1)
                 {
-                    if (deadZone1 >= 0)
+                    deadZone1 = deadZone[0][0];
+                    deadZone2 = deadZone[0][1];
+                }
+
+                var isMerge = false;
+                if (deadZone.length === 1 && deadZone2 === maxAngle)
+                {
+                    isMerge = true;
+                    maxAngle = deadZone1;
+                }
+                else if (deadZone.length === 1 && deadZone1 === minAngle)
+                {
+                    isMerge = true;
+                    minAngle = deadZone2;
+                }
+                else if (deadZone.length === 1 && minAngle === maxAngle)
+                {
+                    isMerge = true;
+                    minAngle = deadZone2;
+                    maxAngle = deadZone1;
+                }
+
+                if (vertiPosition >= 3)
+                {
+                    var tempValue = minAngle;
+                    minAngle = -maxAngle;
+                    maxAngle = -tempValue;
+                }
+
+                if ((horizPosition - 1) * minAngle < 0 && (horizPosition - 1) * maxAngle < 0)
+                {
+                    if (vertiPosition >= 3)
                     {
-                        ctx.arc(x, 125, 125, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                        minAngle = minAngle + 180;
+                        maxAngle = maxAngle + 180;
                     }
                     else
                     {
-                        ctx.arc(x, 125, 125, horizFactor - (deadZone1 / 180 * Math.PI), horizFactor - (minAngle / 180 * Math.PI));
+                        var tempValue = minAngle;
+                        minAngle = -maxAngle;
+                        maxAngle = -tempValue;
                     }
                 }
-                else if (horizPosition === 1)
+
+                // -1 .. 7
+                var centerX = 125 + (horizPosition - 1) * (250 / 8);
+                var centerY = (vertiPosition + 1.5) * (250 / 8);
+
+                if (deadZone.length === 0 || isMerge)
                 {
-                    ctx.arc(x, 125, 125, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
-                    ctx.moveTo(x, 125);
-                    ctx.arc(x, 125, 125, horizFactor - (maxAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.fill();
                 }
-                else if (horizPosition === 0)
+                else if (deadZone.length === 1 && !isMerge)
                 {
-                    if (deadZone1 >= 0)
-                    {
-                        ctx.arc(x, 125, 125, horizFactor - (maxAngle / 180 * Math.PI), horizFactor - (deadZone2 / 180 * Math.PI));
-                    }
-                    else
-                    {
-                        ctx.arc(x, 125, 125, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
-                    }
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.fill();
+
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 500, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 25, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.fill();
                 }
-                ctx.closePath();
-                ctx.fill();
             }
         }
     }
@@ -280,7 +347,9 @@
         </canvas>
     </div>
     <div id="torpedoesCanvasDiv" class="ui-widget-content" title="Torpedo Sector">
-        <canvas id="torpedoesCanvas" width="500" height="250">
+        <canvas id="torpedoesCanvas1" width="250" height="250">
+        </canvas>
+        <canvas id="torpedoesCanvas2" width="250" height="250">
         </canvas>
     </div>
 </th:block>
