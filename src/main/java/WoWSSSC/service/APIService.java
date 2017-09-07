@@ -194,7 +194,7 @@ public class APIService
         }
     }
 
-    @CacheEvict(value = {"shipAPI", "shipAPI_GameParams"}, allEntries = true)
+    @CacheEvict(value = {"shipAPI", "shipAPI_GameParams", "gameParams"}, allEntries = true)
     public void cacheEvictShipHashMap()
     {
         logger.info("Evicting Ship API");
