@@ -194,7 +194,7 @@ public class APIService
         }
     }
 
-    @CacheEvict(value = "shipAPI", allEntries = true)
+    @CacheEvict(value = {"shipAPI", "shipAPI_GameParams"}, allEntries = true)
     public void cacheEvictShipHashMap()
     {
         logger.info("Evicting Ship API");
@@ -230,6 +230,7 @@ public class APIService
 //        }
     }
 
+    @Cacheable (value = "shipAPI_GameParams", key = "#key.concat(#upgradesSkills.toString()).concat(#adrenalineValue.toString).concat(#getTorpedoVisibilities.toString())")
     public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, String ship_id, String artillery_id, String dive_bomber_id, String engine_id, String fighter_id, String fire_control_id, String flight_control_id, String hull_id, String torpedo_bomber_id, String torpedoes_id, List<String> modules, HashMap<String, List> upgradesSkills, int adrenalineValue, boolean isStock, boolean getTorpedoVisibilities) throws Exception
     {
         if (shipHashMap.get(key) == null)
@@ -302,7 +303,7 @@ public class APIService
                 {
                     Consumables temp = (Consumables) data.get("upgrades").get(flag);
 
-                    setFlagsModernization(ship, shipComponents, temp);
+                    setFlagsModernization(ship, temp);
                 }
             });
         }
@@ -315,7 +316,7 @@ public class APIService
                 {
                     Consumables temp = (Consumables) data.get("upgrades").get(upgrade);
 
-                    setFlagsModernization(ship, shipComponents, temp);
+                    setFlagsModernization(ship, temp);
                 }
             });
         }
@@ -762,7 +763,7 @@ public class APIService
         return ship;
     }
 
-    private void setFlagsModernization(Ship ship, ShipComponents shipComponents, Consumables consumables)
+    private void setFlagsModernization(Ship ship, Consumables consumables)
     {
         if (ship.getTorpedoVisibilities().size() > 0)
         {
@@ -790,7 +791,7 @@ public class APIService
 
         if (ship.getArtillery() != null)
         {
-            int caliber = shipComponents.getArtillery().getBarrelDiameter();
+            int caliber = ship.getShipComponents().getArtillery().getBarrelDiameter();
             if (consumables.getProfile().getBurnChanceFactorBig() != null)
             {
                 if (caliber >= 160)
@@ -1177,20 +1178,20 @@ public class APIService
 
             if (consumables.getProfile().getBurnChanceFactorBig() != null)
             {
-                if (shipComponents.getDiveBomber() != null)
+                if (ship.getShipComponents().getDiveBomber() != null)
                 {
-                    shipComponents.getDiveBomber().getBomb().setBurnProb(shipComponents.getDiveBomber().getBomb().getBurnProb() + 0.01f);
+                    ship.getShipComponents().getDiveBomber().getBomb().setBurnProb(ship.getShipComponents().getDiveBomber().getBomb().getBurnProb() + 0.01f);
                 }
             }
 
             if (consumables.getProfile().getBurnProb() != null)
             {
-                shipComponents.getHull().setBurnChanceReduction(shipComponents.getHull().getBurnChanceReduction() + (1 - consumables.getProfile().getBurnProb().getValue()));
+                ship.getShipComponents().getHull().setBurnChanceReduction(ship.getShipComponents().getHull().getBurnChanceReduction() + (1 - consumables.getProfile().getBurnProb().getValue()));
             }
 
             if (consumables.getProfile().getEngineForwardUpTime() != null)
             {
-                shipComponents.getEngine().setForwardEngineUpTime(shipComponents.getEngine().getForwardEngineUpTime() * consumables.getProfile().getEngineForwardUpTime().getValue());
+                ship.getShipComponents().getEngine().setForwardEngineUpTime(ship.getShipComponents().getEngine().getForwardEngineUpTime() * consumables.getProfile().getEngineForwardUpTime().getValue());
             }
 
             if (consumables.getProfile().getFloodChanceFactor() != null)
@@ -1208,7 +1209,11 @@ public class APIService
 
             if (consumables.getProfile().getFloodProb() != null)
             {
-                shipComponents.getHull().setFloodChance(shipComponents.getHull().getFloodChance() - (1 - consumables.getProfile().getFloodProb().getValue()));
+                if (ship.getArmour().getFlood_prob() > 0)
+                {
+                    ship.getArmour().setFlood_prob((long) (100 - (100 - ship.getArmour().getFlood_prob()) * 0.97));
+                    ship.getShipComponents().getHull().setFloodChance(ship.getShipComponents().getHull().getFloodChance() - (1 - consumables.getProfile().getFloodProb().getValue()));
+                }
             }
         }
     }

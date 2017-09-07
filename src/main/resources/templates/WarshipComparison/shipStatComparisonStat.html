@@ -58,6 +58,7 @@
                         <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.hull.burnChanceReduction * 100, 1, 2) + ' %'}"/><br />
                         <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.burn, 1, 1)} + ' s'"/><br />
                         <br />
+                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.armour.flood_prob, 1, 0)} + ' %'"/><br />
                         <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.hull.floodChance * 100, 1, 'COMMA') + ' %'}"/><br />
                         <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.flood, 1, 1)} + ' s'"/><br />
                     </li>
@@ -71,6 +72,7 @@
                         <span>-  Reduction -</span><br />
                         <span>- Duration- </span><br />
                         <span>Flood</span><br />
+                        <span>- Protection -</span><br />
                         <span>- Probability -</span><br />
                         <span>- Duration -</span><br />
                     </li>
@@ -84,6 +86,7 @@
                         <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.hull.burnChanceReduction * 100, 1, 2) + ' %'}"/><br />
                         <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.burn, 1, 1)} + ' s'"/><br />
                         <br />
+                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.armour.flood_prob, 1, 0)} + ' %'"/><br />
                         <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.hull.floodChance * 100, 1, 'COMMA') + ' %'}"/><br />
                         <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.flood, 1, 1)} + ' s'"/><br />
                     </li>

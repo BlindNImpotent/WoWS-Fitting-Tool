@@ -205,16 +205,20 @@ public class GPService
                                 Artillery artillery = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempArtillery), Artillery.class);
                                 field.set(shipComponents, artillery);
 
-                                shipComponents.getArtillery().getTurrets().values().forEach(value -> value.getAmmoList().forEach(ammo ->
+                                shipComponents.getArtillery().getTurrets().values().forEach(value ->
                                 {
-                                    String id = nameToId.get(ammo);
-                                    APShell APShell = mapper.convertValue(gameParamsCHM.get(id), APShell.class);
-                                    if ("AP".equalsIgnoreCase(APShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
+                                    float maxVertAngle = value.getVertSector().get(1);
+                                    value.getAmmoList().forEach(ammo ->
                                     {
-                                        setAPPenetration(APShell);
-                                        shipComponents.getArtillery().setAPShell(APShell);
-                                    }
-                                }));
+                                        String id = nameToId.get(ammo);
+                                        APShell APShell = mapper.convertValue(gameParamsCHM.get(id), APShell.class);
+                                        if ("AP".equalsIgnoreCase(APShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
+                                        {
+                                            setAPPenetration(APShell, maxVertAngle);
+                                            shipComponents.getArtillery().setAPShell(APShell);
+                                        }
+                                    });
+                                });
                             }
                             else if (field.getName().equalsIgnoreCase("Torpedoes"))
                             {
@@ -390,7 +394,7 @@ public class GPService
         shipComponents.setAbilities(abilities);
     }
 
-    private void setAPPenetration(APShell APShell)
+    private void setAPPenetration(APShell APShell, float maxVertAngle)
     {
         // SHELL CONSTANTS
         float C = 0.5561613f; // PENETRATION
@@ -416,7 +420,7 @@ public class GPService
 
 //        float[] alpha = [0 : 0.001 : 15 / 360 * 2 * Math.PI]; // ELEV. ANGLES 0...15
 
-        Float[] alpha = linspace(0f, 0.001f, (float) Math.PI * 15 / 360 * 2);
+        Float[] alpha = linspace(0f, 0.001f, (float) Math.PI * maxVertAngle / 360 * 2);
 
         float dt = 0.1f; // TIME STEP
 

@@ -39,6 +39,8 @@
                     <span style="float: right;" th:if="${configurationAPI != null and shipAPI.burn - configurationAPI.burn != 0}" th:text="${shipAPI.burn - configurationAPI.burn > 0 ? '(' + #numbers.formatDecimal(shipAPI.burn - configurationAPI.burn, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.burn - configurationAPI.burn, 1, 1) + ')'}"/>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.burn, 1, 1)} + ' s'"/><br />
                     <span style="float: left;">Flood</span><br />
+                    <span style="float: left;">- Protection</span>
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.armour.flood_prob, 1, 0)} + ' %'"/><br />
                     <span style="float: left;">- Probability</span>
                     <span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.hull.floodChance - configurationAPI.shipComponents.hull.floodChance != 0}" th:text="${'(' + #numbers.formatDecimal((shipAPI.shipComponents.hull.floodChance - configurationAPI.shipComponents.hull.floodChance) * 100, 1, 1) +')'}"/>
                     <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.shipComponents.hull.floodChance * 100, 1, 'COMMA') + ' %'}"/><br />
