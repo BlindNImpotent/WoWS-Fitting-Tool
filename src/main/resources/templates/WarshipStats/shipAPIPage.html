@@ -56,7 +56,7 @@
                     <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed, 1, 1)} + ' kts'"/><br />
                     <span style="float: left;">Acceleration</span><br />
                     <span style="float: left;">- Engine Output</span>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.engine.histEnginePower / shipAPI.shipComponents.hull.weight, 1, 2) + ' HP / Ton'}"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.engine.histEnginePower / shipAPI.shipComponents.hull.tonnage, 1, 2) + ' HP / Ton'}"/><br />
                     <span style="float: left;">- Forward</span>
                     <span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.engine.forwardEngineUpTime - configurationAPI.shipComponents.engine.forwardEngineUpTime != 0}" th:text="${'(' + (shipAPI.shipComponents.engine.forwardEngineUpTime - configurationAPI.shipComponents.engine.forwardEngineUpTime) +')'}"/>
                     <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.shipComponents.engine.forwardEngineUpTime, 1, 'COMMA') + ' s'}"/><br />
@@ -72,20 +72,22 @@
                 <div th:if="${shipAPI.concealment != null}" id="concealment">
                     <strong>Concealment</strong><br />
                     <span style="float:left;">Surface</span>
-                    <span style="float: right;" th:if="${configurationAPI != null and shipAPI.concealment.detect_distance_by_ship - configurationAPI.concealment.detect_distance_by_ship != 0}" th:text="${shipAPI.concealment.detect_distance_by_ship - configurationAPI.concealment.detect_distance_by_ship > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.concealment.detect_distance_by_ship - configurationAPI.concealment.detect_distance_by_ship, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.concealment.detect_distance_by_ship - configurationAPI.concealment.detect_distance_by_ship, 1, 1) + ')'}"/>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.concealment.detect_distance_by_ship, 1, 1)} + ' km'"/><br />
+                    <span style="float: right;" th:if="${configurationAPI != null and shipAPI.concealment.detect_distance_by_ship - configurationAPI.concealment.detect_distance_by_ship != 0}" th:text="${shipAPI.concealment.detect_distance_by_ship - configurationAPI.concealment.detect_distance_by_ship > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.concealment.detect_distance_by_ship - configurationAPI.concealment.detect_distance_by_ship, 1, 2) + ')' : ' (' + #numbers.formatDecimal(shipAPI.concealment.detect_distance_by_ship - configurationAPI.concealment.detect_distance_by_ship, 1, 2) + ')'}"/>
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.concealment.detect_distance_by_ship, 1, 2)} + ' km'"/><br />
                     <span style="float: left;">- Burn</span>
-                    <span style="float: right;" th:text="${'+' + #numbers.formatDecimal(shipAPI.shipComponents.hull.visibilityCoefFire, 1, 1) + ' km'}"/><br />
+                    <span style="float: right;" th:text="${'+' + #numbers.formatDecimal(shipAPI.shipComponents.hull.visibilityCoefFire, 1, 2) + ' km'}"/><br />
                     <span style="float: left;">Air</span>
-                    <span style="float: right;" th:if="${configurationAPI != null and shipAPI.concealment.detect_distance_by_plane - configurationAPI.concealment.detect_distance_by_plane != 0}" th:text="${shipAPI.concealment.detect_distance_by_plane - configurationAPI.concealment.detect_distance_by_plane > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.concealment.detect_distance_by_plane - configurationAPI.concealment.detect_distance_by_plane, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.concealment.detect_distance_by_plane - configurationAPI.concealment.detect_distance_by_plane, 1, 1) + ')'}"/>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.concealment.detect_distance_by_plane, 1, 1)} + ' km'"/><br />
+                    <span style="float: right;" th:if="${configurationAPI != null and shipAPI.concealment.detect_distance_by_plane - configurationAPI.concealment.detect_distance_by_plane != 0}" th:text="${shipAPI.concealment.detect_distance_by_plane - configurationAPI.concealment.detect_distance_by_plane > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.concealment.detect_distance_by_plane - configurationAPI.concealment.detect_distance_by_plane, 1, 2) + ')' : ' (' + #numbers.formatDecimal(shipAPI.concealment.detect_distance_by_plane - configurationAPI.concealment.detect_distance_by_plane, 1, 2) + ')'}"/>
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.concealment.detect_distance_by_plane, 1, 2)} + ' km'"/><br />
                     <span style="float: left;">- Burn</span>
-                    <span style="float: right;" th:text="${'+' + #numbers.formatDecimal(shipAPI.shipComponents.hull.visibilityCoefFireByPlane, 1, 1) + ' km'}"/><br />
+                    <span style="float: right;" th:text="${'+' + #numbers.formatDecimal(shipAPI.shipComponents.hull.visibilityCoefFireByPlane, 1, 2) + ' km'}"/><br />
                     <span style="float: left;">- AA/Secondary</span>
-                    <span style="float: right;" th:text="${'+' + #numbers.formatDecimal(shipAPI.shipComponents.hull.visibilityCoefATBAByPlane, 1, 1) + ' km'}"/><br />
+                    <span style="float: right;" th:text="${'+' + #numbers.formatDecimal(shipAPI.shipComponents.hull.visibilityCoefATBAByPlane, 1, 2) + ' km'}"/><br />
                     <span th:text="'Stealth Fire'" th:if="${shipAPI.artillery != null}" style="float: left;"/>
-                    <span style="float: right;" th:if="${configurationAPI != null and configurationAPI.artillery != null and shipAPI.artillery.distance - configurationAPI.artillery.distance != 0}" th:text="${shipAPI.artillery.distance - configurationAPI.artillery.distance > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.artillery.distance - configurationAPI.artillery.distance, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.artillery.distance - configurationAPI.artillery.distance, 1, 1) + ')'}"/>
-                    <span th:if="${shipAPI.artillery != null}" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.distance, 1, 1)} + ' km'"/><br />
+                    <span style="float: right;" th:if="${configurationAPI != null and configurationAPI.artillery != null and shipAPI.artillery.distance - configurationAPI.artillery.distance != 0}" th:text="${shipAPI.artillery.distance - configurationAPI.artillery.distance > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.artillery.distance - configurationAPI.artillery.distance, 1, 2) + ')' : ' (' + #numbers.formatDecimal(shipAPI.artillery.distance - configurationAPI.artillery.distance, 1, 2) + ')'}"/>
+                    <span th:if="${shipAPI.artillery != null}" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.distance, 1, 2)} + ' km'"/><br />
+                    <span th:text="'Smoke Fire'" th:if="${shipAPI.artillery != null and shipAPI.shipComponents.hull.visibilityCoefGKInSmoke != 0}" style="float: left;"/>
+                    <span th:if="${shipAPI.artillery != null and shipAPI.shipComponents.hull.visibilityCoefGKInSmoke != 0}" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.hull.visibilityCoefGKInSmoke, 1, 2) + ' km'}"/><br />
                 </div>
             </div>
             <div id="mainWeaponStats" class="mainWeaponStats" style="width: 300px; text-align: left;">

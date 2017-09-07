@@ -371,6 +371,33 @@ public class APIService
                             ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * 0.84f);
                         }
                     }
+                    else if (value.getAirplaneReloadCoeff() != 0 && value.getArtilleryReloadCoeff() != 0 && value.getTorpedoReloadCoeff() != 0)
+                    {
+                        if (ship.getArtillery() != null)
+                        {
+                            ship.getArtillery().setGun_rate(ship.getArtillery().getGun_rate() / value.getArtilleryReloadCoeff());
+                        }
+
+                        if (ship.getTorpedoes() != null)
+                        {
+                            ship.getTorpedoes().setReload_time(ship.getTorpedoes().getReload_time() * value.getTorpedoReloadCoeff());
+                        }
+
+                        if (ship.getDive_bomber() != null)
+                        {
+                            ship.getDive_bomber().setPrepare_time(ship.getDive_bomber().getPrepare_time() * value.getAirplaneReloadCoeff());
+                        }
+
+                        if (ship.getFighters() != null)
+                        {
+                            ship.getFighters().setPrepare_time(ship.getFighters().getPrepare_time() * value.getAirplaneReloadCoeff());
+                        }
+
+                        if (ship.getTorpedo_bomber() != null)
+                        {
+                            ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * value.getAirplaneReloadCoeff());
+                        }
+                    }
                 });
             });
         }
@@ -632,9 +659,14 @@ public class APIService
                         ship.getShipComponents().getHull().setBurnNodesSize(ship.getShipComponents().getHull().getBurnNodesSize() - 1);
                     }
                 }
-                else if (modifier.getChanceToSetOnFireBonus() != 0 && modifier.getThresholdPenetrationCoefficient() != 0) // 4_2
+                else if ((modifier.getChanceToSetOnFireBonus() != 0 && modifier.getThresholdPenetrationCoefficient() != 0)
+                        || (modifier.getChanceToSetOnFireBonusBig() != 0 && modifier.getChanceToSetOnFireBonusSmall() != 0 && modifier.getThresholdPenetrationCoefficientBig() != 0 && modifier.getThresholdPenetrationCoefficientSmall() != 0)) // 4_2
                 {
+                    int caliber = shipComponents.getArtillery().getBarrelDiameter();
+
                     float burnHundred = modifier.getChanceToSetOnFireBonus() * 100;
+                    float burnHundredBig = modifier.getChanceToSetOnFireBonusBig() * 100;
+                    float burnHundredSmall = modifier.getChanceToSetOnFireBonusSmall() * 100;
 
                     if (ship.getArtillery() != null)
                     {
@@ -642,7 +674,18 @@ public class APIService
                         {
                             if (value != null && "HE".equalsIgnoreCase(value.getType()))
                             {
-                                value.setBurn_probability(value.getBurn_probability() + burnHundred > 0 ? value.getBurn_probability() + burnHundred : 0);
+                                if (caliber <= 139 && burnHundredSmall != 0)
+                                {
+                                    value.setBurn_probability(value.getBurn_probability() + burnHundredSmall > 0 ? value.getBurn_probability() + burnHundredSmall : 0);
+                                }
+                                else if (caliber > 139 && burnHundredBig != 0)
+                                {
+                                    value.setBurn_probability(value.getBurn_probability() + burnHundredBig > 0 ? value.getBurn_probability() + burnHundredBig : 0);
+                                }
+                                else
+                                {
+                                    value.setBurn_probability(value.getBurn_probability() + burnHundred > 0 ? value.getBurn_probability() + burnHundred : 0);
+                                }
                             }
                         });
                     }
@@ -653,14 +696,32 @@ public class APIService
                         {
                             if (slot.getBurn_probability() > 0)
                             {
-                                slot.setBurn_probability(slot.getBurn_probability() + burnHundred);
+                                if (burnHundred != 0)
+                                {
+                                    slot.setBurn_probability(slot.getBurn_probability() + burnHundred);
+                                }
+                                else if (burnHundredBig != 0 && burnHundredSmall != 0)
+                                {
+                                    slot.setBurn_probability(slot.getBurn_probability() + burnHundredSmall);
+                                }
                             }
                         });
                     }
 
                     if (ship.getShipComponents().getArtillery() != null)
                     {
-                        ship.getShipComponents().getArtillery().setPenetrationHE(Math.round(ship.getShipComponents().getArtillery().getPenetrationHEFloat() * modifier.getThresholdPenetrationCoefficient()));
+                        if (modifier.getThresholdPenetrationCoefficient() != 0)
+                        {
+                            ship.getShipComponents().getArtillery().setPenetrationHE(Math.round(ship.getShipComponents().getArtillery().getPenetrationHEFloat() * modifier.getThresholdPenetrationCoefficient()));
+                        }
+                        else if (modifier.getThresholdPenetrationCoefficientBig() != 0 && caliber > 139)
+                        {
+                            ship.getShipComponents().getArtillery().setPenetrationHE(Math.round(ship.getShipComponents().getArtillery().getPenetrationHEFloat() * modifier.getThresholdPenetrationCoefficientBig()));
+                        }
+                        else if (modifier.getThresholdPenetrationCoefficientSmall() != 0 && caliber <= 139)
+                        {
+                            ship.getShipComponents().getArtillery().setPenetrationHE(Math.round(ship.getShipComponents().getArtillery().getPenetrationHEFloat() * modifier.getThresholdPenetrationCoefficientSmall()));
+                        }
                     }
 
                     if (ship.getShipComponents().getAtba() != null)
@@ -669,7 +730,14 @@ public class APIService
                         {
                             if ("HE".equalsIgnoreCase(secondary.getShell().getAmmoType()))
                             {
-                                secondary.getShell().setBurnProb(secondary.getShell().getBurnProb() + modifier.getChanceToSetOnFireBonus());
+                                if (burnHundred != 0)
+                                {
+                                    secondary.getShell().setBurnProb(secondary.getShell().getBurnProb() + modifier.getChanceToSetOnFireBonus());
+                                }
+                                else if (burnHundredBig != 0 && burnHundredSmall != 0)
+                                {
+                                    secondary.getShell().setBurnProb(secondary.getShell().getBurnProb() + modifier.getChanceToSetOnFireBonusSmall());
+                                }
                             }
                         });
                     }
@@ -755,6 +823,11 @@ public class APIService
 
                         ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * detect_coef);
                         ship.getConcealment().setDetect_distance_by_plane(ship.getConcealment().getDetect_distance_by_plane() * detect_coef);
+
+                        if (ship.getShipComponents().getHull().getVisibilityCoefGKInSmoke() != 0)
+                        {
+                            ship.getShipComponents().getHull().setVisibilityCoefGKInSmoke(ship.getShipComponents().getHull().getVisibilityCoefGKInSmoke() * detect_coef);
+                        }
                     }
                 }
             });
@@ -897,6 +970,11 @@ public class APIService
             {
                 ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * consumables.getProfile().getVisibilityDistCoeff().getValue());
                 ship.getConcealment().setDetect_distance_by_plane(ship.getConcealment().getDetect_distance_by_plane() * consumables.getProfile().getVisibilityDistCoeff().getValue());
+
+                if (ship.getShipComponents().getHull().getVisibilityCoefGKInSmoke() != 0)
+                {
+                    ship.getShipComponents().getHull().setVisibilityCoefGKInSmoke(ship.getShipComponents().getHull().getVisibilityCoefGKInSmoke() * consumables.getProfile().getVisibilityDistCoeff().getValue());
+                }
             }
         }
 

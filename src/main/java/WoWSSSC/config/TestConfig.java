@@ -46,6 +46,14 @@ public class TestConfig
 
     private APIAddress apiAddress = new APIAddress();
 
+    private boolean isLive = true;
+
+    @Bean (value = "isLive")
+    public boolean isLive()
+    {
+        return isLive;
+    }
+
     @Bean (value = "APP_ID")
     public String app_id()
     {

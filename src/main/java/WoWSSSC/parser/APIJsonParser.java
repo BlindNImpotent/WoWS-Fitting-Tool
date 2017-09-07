@@ -71,6 +71,10 @@ public class APIJsonParser
     @Qualifier (value = "global")
     private HashMap<String, Object> global;
 
+    @Autowired
+    @Qualifier (value = "isLive")
+    private boolean isLive;
+
     private ObjectMapper mapper = new ObjectMapper();
 
     private static final Logger logger = LoggerFactory.getLogger(APIJsonParser.class);
@@ -136,7 +140,10 @@ public class APIJsonParser
 
         ObjectMapper mapper = new ObjectMapper();
 
-        Resource GameParamsFile = new ClassPathResource("static/json/GameParams.json");
+        String liveGameParams = "static/json/live/GameParams.json";
+        String testGameParams = "static/json/test/GameParams.json";
+
+        Resource GameParamsFile = new ClassPathResource(isLive ? liveGameParams : testGameParams);
         HashMap<String, LinkedHashMap> temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, LinkedHashMap>>(){});
 
         gameParamsCHM.clear();
@@ -287,7 +294,10 @@ public class APIJsonParser
     {
         logger.info("Setting up Global");
 
-        Resource GlobalFile = new ClassPathResource("static/json/global.json");
+        String liveGlobal = "static/json/live/global.json";
+        String testGlobal = "static/json/test/global.json";
+
+        Resource GlobalFile = new ClassPathResource(isLive ? liveGlobal : testGlobal);
 
         HashMap<String, Object> temp = mapper.readValue(GlobalFile.getFile(), new TypeReference<HashMap<String, Object>>(){});
 

@@ -27,6 +27,7 @@ public class Hull
     private double visibilityCoefATBAByPlane;
     private double visibilityCoefFire;
     private double visibilityCoefFireByPlane;
+    private double visibilityCoefGKInSmoke;
 
     private int weight;
 

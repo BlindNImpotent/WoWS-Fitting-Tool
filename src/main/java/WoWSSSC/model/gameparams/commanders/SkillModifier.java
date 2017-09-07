@@ -33,8 +33,14 @@ public class SkillModifier
     private float probabilityBonus;
     private float probabilityCoefficient;
     private float switchAmmoReloadCoef;
+
     private float chanceToSetOnFireBonus;
+    private float chanceToSetOnFireBonusBig;
+    private float chanceToSetOnFireBonusSmall;
     private float thresholdPenetrationCoefficient;
+    private float thresholdPenetrationCoefficientBig;
+    private float thresholdPenetrationCoefficientSmall;
+
     private int hpStep;
     private float timeStep;
     private float critRudderTimeCoefficient;

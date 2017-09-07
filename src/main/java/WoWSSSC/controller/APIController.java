@@ -67,6 +67,10 @@ public class APIController extends ExceptionController
     @Autowired
     private DiscordWebhook discordWebhook;
 
+    @Autowired
+    @Qualifier (value = "isLive")
+    private boolean isLive;
+
     private static final Logger logger = LoggerFactory.getLogger(APIController.class);
 
     private ObjectMapper mapper = new ObjectMapper();
@@ -99,6 +103,7 @@ public class APIController extends ExceptionController
     {
         model.addAttribute("notification", notification);
         model.addAttribute("encyclopedia", data.get("encyclopedia"));
+        model.addAttribute("isLive", isLive);
 
         return "home";
     }
