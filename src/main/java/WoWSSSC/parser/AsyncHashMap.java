@@ -218,6 +218,8 @@ public class AsyncHashMap implements CommandLineRunner {
                     futures.put(nationsString.get(i), temp);
                 }
 
+                Thread.sleep(10000);
+
                 while ((isFirstRun && "live".equalsIgnoreCase(serverParam)) || (!isFirstRun && "test".equalsIgnoreCase(serverParam))) {
                     CompletableFuture.runAsync(() -> futures.entrySet().forEach(futureEntry ->
                     {
