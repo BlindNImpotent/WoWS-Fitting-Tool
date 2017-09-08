@@ -155,16 +155,6 @@ public class AsyncHashMap implements CommandLineRunner {
                 Collections.sort(nationsString);
                 Collections.sort(shipTypeString);
 
-                LinkedHashMap<String, Commanders> tempCommanders = new LinkedHashMap<>();
-                commandersData.get().getData().entrySet().forEach(entry ->
-                {
-                    if (entry.getValue().isIs_retrainable()) {
-                        tempCommanders.put(entry.getKey(), entry.getValue());
-                    }
-                });
-                LinkedHashMap<String, LinkedHashMap<String, UniqueTemp>> uniqueSkills = new LinkedHashMap<>();
-                LinkedHashMap<String, LinkedHashMap> allCommanders = getCommanders(tempCommanders, uniqueSkills);
-
                 LinkedHashMap<String, Consumables> tempUpgrades = new LinkedHashMap<>();
                 consumablesData.get().getData().entrySet().forEach(entry ->
                 {
@@ -175,6 +165,18 @@ public class AsyncHashMap implements CommandLineRunner {
                 LinkedHashMap<String, Consumables> tempFlags = new LinkedHashMap<>();
                 LinkedHashMap<String, Consumables> tempPermoflage = new LinkedHashMap<>();
                 LinkedHashMap<String, Consumables> tempCamouflage = new LinkedHashMap<>();
+
+                Thread.sleep(10000);
+
+                LinkedHashMap<String, Commanders> tempCommanders = new LinkedHashMap<>();
+                commandersData.get().getData().entrySet().forEach(entry ->
+                {
+                    if (entry.getValue().isIs_retrainable()) {
+                        tempCommanders.put(entry.getKey(), entry.getValue());
+                    }
+                });
+                LinkedHashMap<String, LinkedHashMap<String, UniqueTemp>> uniqueSkills = new LinkedHashMap<>();
+                LinkedHashMap<String, LinkedHashMap> allCommanders = getCommanders(tempCommanders, uniqueSkills);
 
                 consumablesData.get().getData().entrySet().forEach(entry ->
                 {
