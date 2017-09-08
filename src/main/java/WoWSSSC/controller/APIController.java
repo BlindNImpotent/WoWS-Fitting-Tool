@@ -44,15 +44,11 @@ public class APIController extends ExceptionController
     private MailService mailService;
 
     @Autowired
-    private LinkedHashMap<String, LinkedHashMap> data;
+    private HashMap<String, LinkedHashMap<String, LinkedHashMap>> data;
 
     @Autowired
     @Qualifier (value = "gameParamsCHM")
-    private HashMap<String, LinkedHashMap> gameParamsCHM;
-
-    @Autowired
-    @Qualifier (value = "gameParamsPTCHM")
-    private HashMap<String, LinkedHashMap> gameParamsPTCHM;
+    private HashMap<String, HashMap<String, LinkedHashMap>> gameParamsCHM;
 
     @Autowired
     private LinkedHashMap<String, String> notification;
@@ -62,14 +58,10 @@ public class APIController extends ExceptionController
 
     @Autowired
     @Qualifier (value = "global")
-    private HashMap<String, Object> global;
+    private HashMap<String, HashMap<String, Object>> global;
 
     @Autowired
     private DiscordWebhook discordWebhook;
-
-    @Autowired
-    @Qualifier (value = "isLive")
-    private boolean isLive;
 
     private static final Logger logger = LoggerFactory.getLogger(APIController.class);
 
@@ -77,33 +69,32 @@ public class APIController extends ExceptionController
 
     private long cacheStart = System.currentTimeMillis();
 
-    @ResponseBody
-    @RequestMapping (value = "/data", method = RequestMethod.GET)
-    public LinkedHashMap<String, LinkedHashMap> getData()
-    {
-        return data;
-    }
+    private boolean isLive = true;
 
-    @ResponseBody
-    @RequestMapping (value = "/gameParams/{id}", method = RequestMethod.GET)
-    public HashMap<String, LinkedHashMap> getGameParamsCHM(@PathVariable("id") String id)
-    {
-        return gameParamsCHM.get(id);
-    }
+    private String serverParam = "live";
+    private String serverParamAddress = "";
 
-    @ResponseBody
-    @RequestMapping (value = "/gameParamsPT", method = RequestMethod.GET)
-    public HashMap<String, LinkedHashMap> getGameParamsPTCHM()
-    {
-        return gameParamsPTCHM;
-    }
+//    @ResponseBody
+//    @RequestMapping (value = "/data", method = RequestMethod.GET)
+//    public HashMap<String, LinkedHashMap<String, LinkedHashMap>> getData()
+//    {
+//        return data;
+//    }
 
-    @RequestMapping (value = "/", method = RequestMethod.GET)
+//    @ResponseBody
+//    @RequestMapping (value = "/gameParams/{id}", method = RequestMethod.GET)
+//    public HashMap<String, LinkedHashMap> getGameParamsCHM(@PathVariable("id") String id)
+//    {
+//        return gameParamsCHM.get(id);
+//    }
+
+    @RequestMapping (value = "", method = RequestMethod.GET)
     public String home(Model model)
     {
-        model.addAttribute("notification", notification);
-        model.addAttribute("encyclopedia", data.get("encyclopedia"));
         model.addAttribute("isLive", isLive);
+        model.addAttribute("serverParam", serverParamAddress);
+        model.addAttribute("notification", notification);
+        model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
 
         return "home";
     }
@@ -111,9 +102,10 @@ public class APIController extends ExceptionController
     @RequestMapping (value = "/WarshipStats", method = RequestMethod.GET)
     public String WarshipStats(Model model, @RequestParam(required = false, defaultValue="false") boolean mobile)
     {
-        model.addAttribute("data", data);
+        model.addAttribute("serverParam", serverParamAddress);
+        model.addAttribute("data", data.get(serverParam));
         model.addAttribute("notification", notification);
-        model.addAttribute("encyclopedia", data.get("encyclopedia"));
+        model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
 
 //        if (mobile)
 //        {
@@ -143,8 +135,9 @@ public class APIController extends ExceptionController
                     @RequestParam(required = false, defaultValue = "default") String commander
             ) throws IOException
     {
+        model.addAttribute("serverParam", serverParamAddress);
         model.addAttribute("notification", notification);
-        model.addAttribute("encyclopedia", data.get("encyclopedia"));
+        model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
         if (nation != null && shipType != null && ship != null)
         {
             ship = URLDecoder.decode(ship, "UTF-8");
@@ -153,8 +146,8 @@ public class APIController extends ExceptionController
             if (request.getMethod().equalsIgnoreCase("post"))
             {
                 logger.info("Loading " + nation + " " + shipType + " " + ship);
-                model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
-                model.addAttribute("commanders", ((LinkedHashMap<String, LinkedHashMap>) data.get("commanders").get(nation)).keySet());
+                model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(ship));
+                model.addAttribute("commanders", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("commanders").get(nation)).keySet());
                 model.addAttribute("sCommander", commander);
 
                 return "WarshipStats/warshipPage :: warshipStats";
@@ -188,9 +181,9 @@ public class APIController extends ExceptionController
                 redirectAttributes.addFlashAttribute("crewUSkills", crewUSkills);
                 redirectAttributes.addFlashAttribute("camo", camo);
                 redirectAttributes.addFlashAttribute("mobile", mobile);
-                redirectAttributes.addFlashAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(ship));
+                redirectAttributes.addFlashAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(ship));
                 redirectAttributes.addFlashAttribute("nation", nation).addFlashAttribute("shipType", shipType).addFlashAttribute("ship", ship);
-                redirectAttributes.addFlashAttribute("commanders", ((LinkedHashMap<String, LinkedHashMap>) data.get("commanders").get(nation)).keySet());
+                redirectAttributes.addFlashAttribute("commanders", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("commanders").get(nation)).keySet());
                 redirectAttributes.addFlashAttribute("sCommander", commander);
             }
         }
@@ -235,7 +228,7 @@ public class APIController extends ExceptionController
             }
 
             String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
-            Ship shipAPI = apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills, adrenalineValue, false, true);
+            Ship shipAPI = apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills, adrenalineValue, false, true, isLive);
             model.addAttribute("shipAPI", shipAPI);
 
             if (upgradesSkills != null)
@@ -263,7 +256,7 @@ public class APIController extends ExceptionController
             model.addAttribute("upgradeCompare", upgradeCompare);
             if (upgradeCompare)
             {
-                model.addAttribute("configurationAPI", apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, new HashMap<>(), 100, false, true));
+                model.addAttribute("configurationAPI", apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, new HashMap<>(), 100, false, true, isLive));
             }
 
             model.addAttribute("stockCompare", stockCompare);
@@ -272,7 +265,7 @@ public class APIController extends ExceptionController
                 ModuleId moduleId = new ModuleId();
                 String stockKey = apiService.setShipAPI(nation, shipType, ship, ship_id, "", "", "", "", "", "", "", "", "", new ArrayList<>());
                 apiService.setModuleIds(shipHashMap.get(stockKey), moduleId);
-                model.addAttribute("configurationAPI", apiService.getUpgradeSkillStats(stockKey, nation, shipType, ship, ship_id, moduleId.getArtillery_id(), moduleId.getDive_bomber_id(), moduleId.getEngine_id(), moduleId.getFighter_id(), moduleId.getFire_control_id(), moduleId.getFlight_control_id(), moduleId.getHull_id(), moduleId.getTorpedo_bomber_id(), moduleId.getTorpedoes_id(), new ArrayList<>(), new HashMap<>(), 100, true, true));
+                model.addAttribute("configurationAPI", apiService.getUpgradeSkillStats(stockKey, nation, shipType, ship, ship_id, moduleId.getArtillery_id(), moduleId.getDive_bomber_id(), moduleId.getEngine_id(), moduleId.getFighter_id(), moduleId.getFire_control_id(), moduleId.getFlight_control_id(), moduleId.getHull_id(), moduleId.getTorpedo_bomber_id(), moduleId.getTorpedoes_id(), new ArrayList<>(), new HashMap<>(), 100, true, true, isLive));
             }
         }
 
@@ -309,7 +302,7 @@ public class APIController extends ExceptionController
         String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
                 + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
 
-        return apiService.getUpgradeSkillStats(key, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills, 100, false, true).getShipComponents();
+        return apiService.getUpgradeSkillStats(key, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills, 100, false, true, isLive).getShipComponents();
     }
 
     @RequestMapping (value = "/shipComponents", method = RequestMethod.POST)
@@ -336,7 +329,7 @@ public class APIController extends ExceptionController
         String key = "&ship_id=" + ship_id + "&artillery_id=" + Artillery + "&dive_bomber_id=" + DiveBomber + "&engine_id=" + Engine
             + "&fighter_id=" + Fighter + "&fire_control_id=" + Suo + "&flight_control_id=" + FlightControl + "&hull_id=" + Hull + "&torpedo_bomber_id=" + TorpedoBomber + "&torpedoes_id=" + Torpedoes;
 
-        Ship shipAPI = apiService.getUpgradeSkillStats(key, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills, 100, false, false);
+        Ship shipAPI = apiService.getUpgradeSkillStats(key, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills, 100, false, false, isLive);
 
         model.addAttribute("shipAPI", shipAPI);
 
@@ -353,9 +346,10 @@ public class APIController extends ExceptionController
     @RequestMapping (value = "/shipTree", method = RequestMethod.GET)
     public String shipTree(Model model)
     {
-        model.addAttribute("encyclopedia", data.get("encyclopedia"));
-        model.addAttribute("nations", data.get("nations"));
-        model.addAttribute("premiumTable", data.get("premiumTable"));
+        model.addAttribute("serverParam", serverParamAddress);
+        model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
+        model.addAttribute("nations", data.get(serverParam).get("nations"));
+        model.addAttribute("premiumTable", data.get(serverParam).get("premiumTable"));
 
         return "WarshipResearch/shipTree";
     }
@@ -366,7 +360,7 @@ public class APIController extends ExceptionController
     {
         logger.info("Calculating xp between " + shipList.get(0) + " and " + shipList.get(1));
 
-        long xp = apiService.getXp(shipList);
+        long xp = apiService.getXp(shipList, isLive);
 
         if (xp >= 0)
         {
@@ -380,23 +374,24 @@ public class APIController extends ExceptionController
         return xp;
     }
 
-    @RequestMapping (value = "/commandersRanks", method = RequestMethod.GET)
-    public String commanderRanks(Model model)
-    {
-        model.addAttribute("nations", data.get("nations"));
-        model.addAttribute("encyclopedia", data.get("encyclopedia"));
-        model.addAttribute("commandersRanks", data.get("commandersRanks"));
-
-        return "CommandersRanks/commandersRanks";
-    }
+//    @RequestMapping (value = "/commandersRanks", method = RequestMethod.GET)
+//    public String commanderRanks(Model model)
+//    {
+//        model.addAttribute("nations", data.get(serverParam).get("nations"));
+//        model.addAttribute("encyclopedia", data.get("encyclopedia"));
+//        model.addAttribute("commandersRanks", data.get(serverParam).get("commandersRanks"));
+//
+//        return "CommandersRanks/commandersRanks";
+//    }
 
     @RequestMapping (value = "/shipStatComparison", method = RequestMethod.GET)
     public String shipStatComparisonTree(Model model)
     {
-        model.addAttribute("data", data);
-        model.addAttribute("nations", data.get("nations"));
-        model.addAttribute("premiumTable", data.get("premiumTable"));
-        model.addAttribute("rawShipData", data.get("rawShipData"));
+        model.addAttribute("serverParam", serverParamAddress);
+        model.addAttribute("data", data.get(serverParam));
+        model.addAttribute("nations", data.get(serverParam).get("nations"));
+        model.addAttribute("premiumTable", data.get(serverParam).get("premiumTable"));
+        model.addAttribute("rawShipData", data.get(serverParam).get("rawShipData"));
 
         return "WarshipComparison/shipStatComparisonTree";
     }
@@ -420,6 +415,7 @@ public class APIController extends ExceptionController
                                     @RequestParam(required = false, defaultValue = "100") int adrenalineValue1,
                                     @RequestParam(required = false, defaultValue = "100") int adrenalineValue2) throws IOException
     {
+        model.addAttribute("serverParam", serverParamAddress);
         if ((StringUtils.isNotEmpty(ship1) && StringUtils.isNotEmpty(ship2)) || !CollectionUtils.isEmpty(shipList))
         {
             if (StringUtils.isNotEmpty(ship1))
@@ -436,8 +432,8 @@ public class APIController extends ExceptionController
             {
                 logger.info("Loading " + shipList.get(0) + " and " + shipList.get(1));
 
-                model.addAttribute("warship1", data.get("rawShipData").get(shipList.get(0)));
-                model.addAttribute("warship2", data.get("rawShipData").get(shipList.get(1)));
+                model.addAttribute("warship1", data.get(serverParam).get("rawShipData").get(shipList.get(0)));
+                model.addAttribute("warship2", data.get(serverParam).get("rawShipData").get(shipList.get(1)));
 
                 return "WarshipComparison/shipStatSelection :: warshipSelection";
             }
@@ -483,8 +479,8 @@ public class APIController extends ExceptionController
 
                 List<HashMap> skillsConverted = (skills != null ) ? mapper.readValue(skills, typeRef1) : new ArrayList<>();
 
-                Warship warship1 = (Warship) data.get("rawShipData").get(ship1);
-                Warship warship2 = (Warship) data.get("rawShipData").get(ship2);
+                Warship warship1 = (Warship) data.get(serverParam).get("rawShipData").get(ship1);
+                Warship warship2 = (Warship) data.get(serverParam).get("rawShipData").get(ship2);
 
                 HashMap<String, List> upgradesSkills1 = new HashMap<>();
                 HashMap<String, List> upgradesSkills2 = new HashMap<>();
@@ -618,14 +614,14 @@ public class APIController extends ExceptionController
         }
 
         String returnedKey1 = apiService.setShipAPI(nation1, shipType1, ship1, ship_id1, Artillery1, DiveBomber1, Engine1, Fighter1, Suo1, FlightControl1, Hull1, TorpedoBomber1, Torpedoes1, new ArrayList<>());
-        Ship shipAPI1 = apiService.getUpgradeSkillStats(returnedKey1, nation1, shipType1, ship1, ship_id1, Artillery1, DiveBomber1, Engine1, Fighter1, Suo1, FlightControl1, Hull1, TorpedoBomber1, Torpedoes1, new ArrayList<>(), upgradesSkills1, adrenalineValue1, false, false);
+        Ship shipAPI1 = apiService.getUpgradeSkillStats(returnedKey1, nation1, shipType1, ship1, ship_id1, Artillery1, DiveBomber1, Engine1, Fighter1, Suo1, FlightControl1, Hull1, TorpedoBomber1, Torpedoes1, new ArrayList<>(), upgradesSkills1, adrenalineValue1, false, false, isLive);
 
         String returnedKey2 = apiService.setShipAPI(nation2, shipType2, ship2, ship_id2, Artillery2, DiveBomber2, Engine2, Fighter2, Suo2, FlightControl2, Hull2, TorpedoBomber2, Torpedoes2, new ArrayList<>());
-        Ship shipAPI2 = apiService.getUpgradeSkillStats(returnedKey2, nation2, shipType2, ship2, ship_id2, Artillery2, DiveBomber2, Engine2, Fighter2, Suo2, FlightControl2, Hull2, TorpedoBomber2, Torpedoes2, new ArrayList<>(), upgradesSkills2, adrenalineValue2, false, false);
+        Ship shipAPI2 = apiService.getUpgradeSkillStats(returnedKey2, nation2, shipType2, ship2, ship_id2, Artillery2, DiveBomber2, Engine2, Fighter2, Suo2, FlightControl2, Hull2, TorpedoBomber2, Torpedoes2, new ArrayList<>(), upgradesSkills2, adrenalineValue2, false, false, isLive);
 
-        model.addAttribute("warship1", data.get("rawShipData").get(ship1));
-        model.addAttribute("warship2", data.get("rawShipData").get(ship2));
-        model.addAttribute("encyclopedia", data.get("encyclopedia"));
+        model.addAttribute("warship1", data.get(serverParam).get("rawShipData").get(ship1));
+        model.addAttribute("warship2", data.get(serverParam).get("rawShipData").get(ship2));
+        model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
 
         if (shipAPI1 != null && shipAPI2 != null)
         {

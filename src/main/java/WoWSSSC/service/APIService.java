@@ -56,14 +56,14 @@ public class APIService
     private APIJsonParser apiJsonParser;
 
     @Autowired
-    private LinkedHashMap<String, LinkedHashMap> data;
+    private HashMap<String, LinkedHashMap<String, LinkedHashMap>> data;
 
     @Autowired
     private HashMap<String, Ship> shipHashMap;
 
     @Autowired
     @Qualifier (value = "gameParamsCHM")
-    private HashMap<String, LinkedHashMap> gameParamsCHM;
+    private HashMap<String, HashMap<String, LinkedHashMap>> gameParamsCHM;
 
     @Autowired
     private GPService gpService;
@@ -75,7 +75,7 @@ public class APIService
 
     private static final Logger logger = LoggerFactory.getLogger(APIService.class);
 
-    @Cacheable(value = "shipAPI", key = "(#nation).concat(#shipType).concat(#ship).concat(#ship_id).concat(#artillery_id).concat(#dive_bomber_id).concat(#engine_id).concat(#fighter_id).concat(#fire_control_id).concat(#flight_control_id).concat(#hull_id).concat(#torpedo_bomber_id).concat(#torpedoes_id)")
+    @Cacheable (value = "shipAPI", key = "(#nation).concat(#shipType).concat(#ship).concat(#ship_id).concat(#artillery_id).concat(#dive_bomber_id).concat(#engine_id).concat(#fighter_id).concat(#fire_control_id).concat(#flight_control_id).concat(#hull_id).concat(#torpedo_bomber_id).concat(#torpedoes_id)")
     public String setShipAPI(
             String nation,
             String shipType,
@@ -230,9 +230,11 @@ public class APIService
 //        }
     }
 
-    @Cacheable (value = "shipAPI_GameParams", key = "#key.concat(#upgradesSkills.toString()).concat(#adrenalineValue.toString).concat(#getTorpedoVisibilities.toString())")
-    public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, String ship_id, String artillery_id, String dive_bomber_id, String engine_id, String fighter_id, String fire_control_id, String flight_control_id, String hull_id, String torpedo_bomber_id, String torpedoes_id, List<String> modules, HashMap<String, List> upgradesSkills, int adrenalineValue, boolean isStock, boolean getTorpedoVisibilities) throws Exception
+    @Cacheable (value = "shipAPI_GameParams", key = "#key.concat(#upgradesSkills.toString()).concat(#adrenalineValue.toString).concat(#getTorpedoVisibilities.toString()).concat(#isLive.toString())")
+    public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, String ship_id, String artillery_id, String dive_bomber_id, String engine_id, String fighter_id, String fire_control_id, String flight_control_id, String hull_id, String torpedo_bomber_id, String torpedoes_id, List<String> modules, HashMap<String, List> upgradesSkills, int adrenalineValue, boolean isStock, boolean getTorpedoVisibilities, boolean isLive) throws Exception
     {
+        String serverParam = isLive ? "live" : "test";
+
         if (shipHashMap.get(key) == null)
         {
             return null;
@@ -241,7 +243,7 @@ public class APIService
         Cloner cloner = new Cloner();
         Ship ship = cloner.deepClone(shipHashMap.get(key));
 
-        Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation)).get(shipType).get(shipName);
+        Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(shipName);
 
         ShipComponents shipComponents;
 //        if (isStock)
@@ -252,7 +254,7 @@ public class APIService
 //        {
 //
 //        }
-        shipComponents = gpService.setShipGP(nation, shipType, shipName, ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id, modules);
+        shipComponents = gpService.setShipGP(nation, shipType, shipName, ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id, modules, isLive);
 
         if (shipComponents.getArtillery() != null)
         {
@@ -264,7 +266,7 @@ public class APIService
 
         if (getTorpedoVisibilities && warship.getTier() > 1)
         {
-            setTorpedoVisibility(ship, warship.getTier());
+            setTorpedoVisibility(ship, warship.getTier(), serverParam);
         }
 
 //        LinkedHashMap<String, LinkedHashMap> nationLHM = (LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation);
@@ -301,7 +303,7 @@ public class APIService
             {
                 if (!StringUtils.isEmpty(flag))
                 {
-                    Consumables temp = (Consumables) data.get("upgrades").get(flag);
+                    Consumables temp = (Consumables) data.get(serverParam).get("upgrades").get(flag);
 
                     setFlagsModernization(ship, temp);
                 }
@@ -314,7 +316,7 @@ public class APIService
             upgrades.forEach(upgrade -> {
                 if (!StringUtils.isEmpty(upgrade))
                 {
-                    Consumables temp = (Consumables) data.get("upgrades").get(upgrade);
+                    Consumables temp = (Consumables) data.get(serverParam).get("upgrades").get(upgrade);
 
                     setFlagsModernization(ship, temp);
                 }
@@ -324,8 +326,8 @@ public class APIService
         List<HashMap> skills = upgradesSkills.get("skills");
         List<String> uSkills = upgradesSkills.get("uSkills");
         String commander = upgradesSkills.get("commander") != null ? (String) upgradesSkills.get("commander").get(0) : "default";
-        Skills commanderSkill = ((LinkedHashMap<String, GPCommander>) data.get("commanders").get(nation)).get(commander).getSkills();
-        LinkedHashMap<String, UniqueTemp> uSkillModifier = ((LinkedHashMap<String, GPCommander>) data.get("commanders").get(nation)).get(commander).getUniqueSkills().getModifier();
+        Skills commanderSkill = ((LinkedHashMap<String, GPCommander>) data.get(serverParam).get("commanders").get(nation)).get(commander).getSkills();
+        LinkedHashMap<String, UniqueTemp> uSkillModifier = ((LinkedHashMap<String, GPCommander>) data.get(serverParam).get("commanders").get(nation)).get(commander).getUniqueSkills().getModifier();
 
         if (uSkills != null && uSkills.size() > 0)
         {
@@ -1296,8 +1298,10 @@ public class APIService
         }
     }
 
-    public long getXp(List<String> shipList)
+    public long getXp(List<String> shipList, boolean isLive)
     {
+        String serverParam = isLive ? "live" : "test";
+
         String tempString1 = shipList.get(0);
         String tempString2 = shipList.get(1);
 
@@ -1306,13 +1310,13 @@ public class APIService
 
         if (Integer.parseInt(tempString1.split("_")[0]) > Integer.parseInt(tempString2.split("_")[0]))
         {
-            top = (Warship) data.get("rawShipData").get(tempString1.split("_")[1]);
-            bottom = (Warship) data.get("rawShipData").get(tempString2.split("_")[1]);
+            top = (Warship) data.get(serverParam).get("rawShipData").get(tempString1.split("_")[1]);
+            bottom = (Warship) data.get(serverParam).get("rawShipData").get(tempString2.split("_")[1]);
         }
         else
         {
-            top = (Warship) data.get("rawShipData").get(tempString2.split("_")[1]);
-            bottom = (Warship) data.get("rawShipData").get(tempString1.split("_")[1]);
+            top = (Warship) data.get(serverParam).get("rawShipData").get(tempString2.split("_")[1]);
+            bottom = (Warship) data.get(serverParam).get("rawShipData").get(tempString1.split("_")[1]);
         }
 
         if (top.getTier() == bottom.getTier())
@@ -1339,7 +1343,7 @@ public class APIService
                 isMatch = true;
                 break;
             }
-            tempTop = (Warship) data.get("rawShipData").get(tempTop.getPrevWarship().getName());
+            tempTop = (Warship) data.get(serverParam).get("rawShipData").get(tempTop.getPrevWarship().getName());
 
             index1++;
             if (index1 > 50)
@@ -1363,7 +1367,7 @@ public class APIService
         {
             requiredShipXp = requiredShipXp + temp.getPrevWarship().getNextShipXp();
 
-            temp = (Warship) data.get("rawShipData").get(temp.getPrevWarship().getName());
+            temp = (Warship) data.get(serverParam).get("rawShipData").get(temp.getPrevWarship().getName());
 
             for (Map.Entry<String, WarshipModulesTree> entry : temp.getModules_tree().entrySet())
             {
@@ -1416,7 +1420,7 @@ public class APIService
         return "";
     }
 
-    private void setTorpedoVisibility(Ship ship, long tier)
+    private void setTorpedoVisibility(Ship ship, long tier, String serverParam)
     {
 //        1-1, 2-3, 3-4, 4-5, 5-7, 6-8, 7-9, 8-10, 9-10, 10-10
 //        1-1, 2-3, 2-4, 3-5, 4-7, 5-8, 5-9, 6-10, 7-10, 8-10
@@ -1462,7 +1466,7 @@ public class APIService
 
         for (int i = 2; i <= 10; i++)
         {
-            LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>> temp = mapper.convertValue(data.get("torpedoVisibility").get(String.valueOf(i)), new TypeReference<LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>>>(){});
+            LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>> temp = mapper.convertValue(data.get(serverParam).get("torpedoVisibility").get(String.valueOf(i)), new TypeReference<LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>>>(){});
             ship.getTorpedoVisibilities().put("Tier " + i, temp);
         }
     }

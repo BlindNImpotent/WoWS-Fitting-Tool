@@ -31,14 +31,14 @@ public class APIServiceTest
     private APIJsonParser apiJsonParser;
 
     @Autowired
-    private LinkedHashMap<String, LinkedHashMap> data;
+    private HashMap<String, LinkedHashMap<String, LinkedHashMap>> data;
 
     @Autowired
     private HashMap<String, Ship> shipHashMap;
 
     @Autowired
     @Qualifier (value = "gameParamsCHM")
-    private HashMap<String, LinkedHashMap> gameParamsCHM;
+    private HashMap<String, HashMap<String, LinkedHashMap>> gameParamsCHM;
 
     @Autowired
     private GPService gpService;

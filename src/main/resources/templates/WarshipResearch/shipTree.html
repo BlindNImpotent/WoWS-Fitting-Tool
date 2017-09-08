@@ -140,6 +140,8 @@
 
     var nation = '';
 
+    var live = [[${serverParam}]];
+
     $(document).on('click', '.button_nation', function () {
         var name = $(this).attr('name');
 
@@ -192,7 +194,7 @@
             }
 
             $.ajax({
-                url: '/shipTree',
+                url: live + '/shipTree',
                 type: 'post',
                 contentType: "application/json",
                 data: JSON.stringify(list),

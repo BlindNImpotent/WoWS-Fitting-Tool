@@ -181,6 +181,8 @@
 
     var commander = [[${sCommander}]] !== null ? [[${sCommander}]] : 'default';
 
+    var live = [[${serverParam}]];
+
     $().ready(function () {
         $( function() {
             $('#shipList').menu();
@@ -504,7 +506,7 @@
                 }
             }
 
-            var url = '/shipAPI?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&ship_id=' + $('#ship').attr('name');
+            var url = live + '/shipAPI?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&ship_id=' + $('#ship').attr('name');
             var modifier = '&';
             var equals = '=';
 
@@ -629,7 +631,7 @@
                             nation: nation,
                             shipType: shipType,
                             ship: ship
-                        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
+                        }, nation + shipType + ship, live + '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
                     }
                     else
                     {
@@ -659,7 +661,7 @@
             $('[aria-describedby=flags]').find('.ui-dialog-title').text('Flags 0 / ' + maxFlagPts);
         }
 
-        var url = '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship);
+        var url = live + '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship);
 
         $.ajax({
             url: url,
@@ -773,7 +775,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
+        }, nation + shipType + ship, live + '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
     });
 
     $(document).on('change', '#commanderSelect', function ()
@@ -803,7 +805,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
+        }, nation + shipType + ship, live + '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
 
 //        if ($('.button_skill_selected').length > 0)
 //        {

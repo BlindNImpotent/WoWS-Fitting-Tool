@@ -47,11 +47,11 @@ import java.util.*;
 public class GPService
 {
     @Autowired
-    private LinkedHashMap<String, LinkedHashMap> data;
+    private HashMap<String, LinkedHashMap<String, LinkedHashMap>> data;
 
     @Autowired
     @Qualifier (value = "gameParamsCHM")
-    private HashMap<String, LinkedHashMap> gameParamsCHM;
+    private HashMap<String, HashMap<String, LinkedHashMap>> gameParamsCHM;
 
     @Autowired
     @Qualifier(value = "nameToId")
@@ -63,7 +63,7 @@ public class GPService
 
     @Autowired
     @Qualifier (value = "global")
-    private HashMap<String, Object> global;
+    private HashMap<String, HashMap<String, Object>> global;
 
     @Autowired
     private HashMap<String, Ship> shipHashMap;
@@ -72,7 +72,7 @@ public class GPService
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    @Cacheable (value = "gameParams", key = "(#nation).concat(#shipType).concat(#ship).concat(#ship_id).concat(#artillery_id).concat(#dive_bomber_id).concat(#engine_id).concat(#fighter_id).concat(#fire_control_id).concat(#flight_control_id).concat(#hull_id).concat(#torpedo_bomber_id).concat(#torpedoes_id)")
+    @Cacheable (value = "gameParams", key = "(#nation).concat(#shipType).concat(#ship).concat(#ship_id).concat(#artillery_id).concat(#dive_bomber_id).concat(#engine_id).concat(#fighter_id).concat(#fire_control_id).concat(#flight_control_id).concat(#hull_id).concat(#torpedo_bomber_id).concat(#torpedoes_id).concat(#isLive.toString())")
     public ShipComponents setShipGP(
             String nation,
             String shipType,
@@ -87,9 +87,12 @@ public class GPService
             String hull_id,
             String torpedo_bomber_id,
             String torpedoes_id,
-            List<String> modules
+            List<String> modules,
+            boolean isLive
     ) throws IllegalAccessException
     {
+        String serverParam = isLive ? "live" : "test";
+
         if (StringUtils.isEmpty(ship_id))
         {
             ship_id = String.valueOf(((((LinkedHashMap<String, LinkedHashMap<String, Warship>>) data.get("nations").get(nation)).get(shipType)).get(ship)).getShip_id());
@@ -100,7 +103,7 @@ public class GPService
             ShipComponents shipComponents = new ShipComponents();
             Field[] fields = shipComponents.getClass().getDeclaredFields();
 
-            Temporary tempShip = mapper.convertValue(gameParamsCHM.get(ship_id), Temporary.class);
+            Temporary tempShip = mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id), Temporary.class);
             ShipUpgradeInfo shipUpgradeInfo;
             try
             {
@@ -204,7 +207,7 @@ public class GPService
                                     }
                                 }
 
-                                Artillery artillery = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempArtillery), Artillery.class);
+                                Artillery artillery = mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempArtillery), Artillery.class);
                                 field.set(shipComponents, artillery);
 
                                 shipComponents.getArtillery().getTurrets().values().forEach(value ->
@@ -213,7 +216,7 @@ public class GPService
                                     value.getAmmoList().forEach(ammo ->
                                     {
                                         String id = nameToId.get(ammo);
-                                        APShell APShell = mapper.convertValue(gameParamsCHM.get(id), APShell.class);
+                                        APShell APShell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), APShell.class);
                                         if ("AP".equalsIgnoreCase(APShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
                                         {
                                             setAPPenetration(APShell, maxVertAngle);
@@ -234,13 +237,13 @@ public class GPService
                                     }
                                 }
 
-                                Torpedoes torpedoes = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempTorpedoes), Torpedoes.class);
+                                Torpedoes torpedoes = mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempTorpedoes), Torpedoes.class);
                                 field.set(shipComponents, torpedoes);
 
                                 shipComponents.getTorpedoes().getLaunchers().values().forEach(value -> value.getAmmoList().forEach(ammo ->
                                 {
                                     String id = nameToId.get(ammo);
-                                    Torpedo torpedo = mapper.convertValue(gameParamsCHM.get(id), Torpedo.class);
+                                    Torpedo torpedo = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Torpedo.class);
                                     if (shipComponents.getTorpedoes().getTorpedo() == null)
                                     {
                                         shipComponents.getTorpedoes().setTorpedo(torpedo);
@@ -249,7 +252,7 @@ public class GPService
                             }
                             else if (field.getName().equalsIgnoreCase("AirArmament"))
                             {
-                                AirArmament airArmament = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), AirArmament.class);
+                                AirArmament airArmament = mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempList.get(0)), AirArmament.class);
                                 field.set(shipComponents, airArmament);
                             }
                             else if (field.getName().equalsIgnoreCase("DiveBomber"))
@@ -264,14 +267,14 @@ public class GPService
                                     }
                                 }
 
-                                DiveBomber diveBomber = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempDiveBomber), DiveBomber.class);
+                                DiveBomber diveBomber = mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempDiveBomber), DiveBomber.class);
                                 field.set(shipComponents, diveBomber);
 
                                 String id = nameToId.get(shipComponents.getDiveBomber().getPlaneType());
-                                DiveBomberPlane diveBomberPlane = mapper.convertValue(gameParamsCHM.get(id), DiveBomberPlane.class);
+                                DiveBomberPlane diveBomberPlane = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), DiveBomberPlane.class);
 
                                 String bombId = nameToId.get(diveBomberPlane.getBombName());
-                                DiveBomberBomb bomb = mapper.convertValue(gameParamsCHM.get(bombId), DiveBomberBomb.class);
+                                DiveBomberBomb bomb = mapper.convertValue(gameParamsCHM.get(serverParam).get(bombId), DiveBomberBomb.class);
 
                                 shipComponents.getDiveBomber().setBomb(bomb);
                             }
@@ -287,20 +290,20 @@ public class GPService
                                     }
                                 }
 
-                                TorpedoBomber torpedoBomber = mapper.convertValue(gameParamsCHM.get(ship_id).get(tempTorpedoBomber), TorpedoBomber.class);
+                                TorpedoBomber torpedoBomber = mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempTorpedoBomber), TorpedoBomber.class);
                                 field.set(shipComponents, torpedoBomber);
 
                                 String id = nameToId.get(shipComponents.getTorpedoBomber().getPlaneType());
-                                TorpedoBomberPlane torpedoBomberPlane = mapper.convertValue(gameParamsCHM.get(id), TorpedoBomberPlane.class);
+                                TorpedoBomberPlane torpedoBomberPlane = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), TorpedoBomberPlane.class);
 
                                 String torpedoId = nameToId.get(torpedoBomberPlane.getBombName());
-                                TorpedoBomberTorpedo torpedo = mapper.convertValue(gameParamsCHM.get(torpedoId), TorpedoBomberTorpedo.class);
+                                TorpedoBomberTorpedo torpedo = mapper.convertValue(gameParamsCHM.get(serverParam).get(torpedoId), TorpedoBomberTorpedo.class);
 
                                 shipComponents.getTorpedoBomber().setTorpedo(torpedo);
                             }
                             else if (field.getName().equalsIgnoreCase("ATBA"))
                             {
-                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), ATBA.class));
+                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempList.get(0)), ATBA.class));
 
                                 HashSet<String> indexNameList = new HashSet<>();
                                 shipComponents.getAtba().getSecondaries().values().forEach(value ->
@@ -322,9 +325,9 @@ public class GPService
                                     }
                                     secondary.setCount(count);
 //                                    System.out.println(secondary.getName());
-                                    secondary.setRealName((String) global.get("IDS_" + secondary.getName().toUpperCase()));
+                                    secondary.setRealName((String) global.get(serverParam).get("IDS_" + secondary.getName().toUpperCase()));
                                     String id = nameToId.get(secondary.getAmmoList().get(0));
-                                    Shell shell = mapper.convertValue(gameParamsCHM.get(id), Shell.class);
+                                    Shell shell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Shell.class);
                                     secondary.setShell(shell);
 
                                     shipComponents.getAtba().getSecondariesList().add(secondary);
@@ -333,22 +336,22 @@ public class GPService
                             }
                             else if (field.getName().equalsIgnoreCase("Engine"))
                             {
-                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Engine.class));
+                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempList.get(0)), Engine.class));
                             }
                             else if (field.getName().equalsIgnoreCase("Hull"))
                             {
-                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(ship_id).get(tempList.get(0)), Hull.class));
+                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempList.get(0)), Hull.class));
                             }
                             else
                             {
-                                field.set(shipComponents, gameParamsCHM.get(ship_id).get(tempList.get(0)));
+                                field.set(shipComponents, gameParamsCHM.get(serverParam).get(ship_id).get(tempList.get(0)));
                             }
                             field.setAccessible(false);
                         }
                     }
                 }
             }
-            setShipAbilities(shipComponents, ship_id, disabledAbilities);
+            setShipAbilities(shipComponents, ship_id, disabledAbilities, serverParam);
 
             shipComponents.getHull().setWeight(tempShip.getWeight());
 
@@ -357,9 +360,9 @@ public class GPService
         return null;
     }
 
-    private void setShipAbilities(ShipComponents shipComponents, String ship_id, List<String> disabledAbilities)
+    private void setShipAbilities(ShipComponents shipComponents, String ship_id, List<String> disabledAbilities, String serverParam)
     {
-        ShipAbilities shipAbilities = mapper.convertValue(gameParamsCHM.get(ship_id), Temporary.class).getShipAbilities();
+        ShipAbilities shipAbilities = mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id), Temporary.class).getShipAbilities();
 
         HashMap<String, Consumable> abilities = new HashMap<>();
 
@@ -367,28 +370,28 @@ public class GPService
         {
             if (CollectionUtils.isEmpty(disabledAbilities) || !disabledAbilities.contains(list.get(0)))
             {
-                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
+                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(serverParam).get(list.get(0)), Consumable.class));
             }
         });
         shipAbilities.getAbilitySlot1().getAbils().forEach(list ->
         {
             if (CollectionUtils.isEmpty(disabledAbilities) || !disabledAbilities.contains(list.get(0)))
             {
-                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
+                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(serverParam).get(list.get(0)), Consumable.class));
             }
         });
         shipAbilities.getAbilitySlot2().getAbils().forEach(list ->
         {
             if (CollectionUtils.isEmpty(disabledAbilities) || !disabledAbilities.contains(list.get(0)))
             {
-                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
+                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(serverParam).get(list.get(0)), Consumable.class));
             }
         });
         shipAbilities.getAbilitySlot3().getAbils().forEach(list ->
         {
             if (CollectionUtils.isEmpty(disabledAbilities) || !disabledAbilities.contains(list.get(0)))
             {
-                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(list.get(0)), Consumable.class));
+                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(serverParam).get(list.get(0)), Consumable.class));
             }
         });
 

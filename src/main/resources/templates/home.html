@@ -41,8 +41,11 @@
     <div class="container">
         <div id="notification">
             <img th:src="@{/images/Icon/WoWSFT_Icon.png}" style="height: 300px" th:title="'Image courtesy of ReptorPi from DCInside'"/>
-            <h2 th:text="${'API from ' + encyclopedia.game_version + ' updated at ' + encyclopedia.shipUpdatedDate + ' from ' + encyclopedia.region + ' server, client data from ' + (isLive ? 'live' : 'test') + ' server'}"/>
-            <span th:if="${!isLive}" th:text="'API and client data may cause error'"/>
+            <h2 th:text="${'API from ' + encyclopedia.game_version + ' updated at ' + encyclopedia.shipUpdatedDate + ' from ' + encyclopedia.region + ' server'}"/>
+            <strong>
+                <a th:href="${isLive ? '/test' : '/'}" th:text="${(isLive ? '0.6.11.0 Test ' : '0.6.10.0 Live ') + 'version link'}"/>
+            </strong>
+            <!--<span th:if="${!isLive}" th:text="'API and client data may cause error'"/>-->
             <li th:if="${noticeStat.index &lt; 3}" th:each="notice : ${notification}">
                 <strong th:text="${notice.key}"/><br />
                 <span th:utext="${notice.value}"/><br />

@@ -10,11 +10,14 @@ public class APIAddress
 {
     private final String API_RU = "https://api.worldofwarships.ru/wows/encyclopedia";
     private final String API_NA = "https://api.worldofwarships.com/wows/encyclopedia";
+    private String address;
 
     private String API_Starter;
 
     public void setAddress(String country)
     {
+        address = country;
+
         if ("ru".equalsIgnoreCase(country))
         {
             API_Starter = API_RU;

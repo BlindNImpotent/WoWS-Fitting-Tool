@@ -50,11 +50,7 @@ public class APIJsonParser
 
     @Autowired
     @Qualifier (value = "gameParamsCHM")
-    private HashMap<String, LinkedHashMap> gameParamsCHM;
-
-    @Autowired
-    @Qualifier (value = "gameParamsPTCHM")
-    private HashMap<String, LinkedHashMap> gameParamsPTCHM;
+    private HashMap<String, HashMap<String, LinkedHashMap>> gameParamsCHM;
 
     @Autowired
     private LinkedHashMap<String, String> notification;
@@ -69,11 +65,7 @@ public class APIJsonParser
 
     @Autowired
     @Qualifier (value = "global")
-    private HashMap<String, Object> global;
-
-    @Autowired
-    @Qualifier (value = "isLive")
-    private boolean isLive;
+    private HashMap<String, HashMap<String, Object>> global;
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -143,90 +135,71 @@ public class APIJsonParser
         String liveGameParams = "static/json/live/GameParams.json";
         String testGameParams = "static/json/test/GameParams.json";
 
-        Resource GameParamsFile = new ClassPathResource(isLive ? liveGameParams : testGameParams);
-        HashMap<String, LinkedHashMap> temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, LinkedHashMap>>(){});
-
         gameParamsCHM.clear();
-        temp.entrySet().forEach(value ->
+        for (int i = 0; i < 2; i++)
         {
-            if (value.getValue().get("ShipUpgradeInfo") != null)
+            String serverParams = i == 0 ? "live" : "test";
+
+            Resource GameParamsFile = new ClassPathResource(i == 0 ? liveGameParams : testGameParams);
+            HashMap<String, LinkedHashMap> temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, LinkedHashMap>>(){});
+            HashMap<String, LinkedHashMap> tempGameParamsCHM = new HashMap<>();
+
+            temp.entrySet().forEach(value ->
             {
-                ShipUpgradeInfo shipUpgradeInfo = mapper.convertValue(value.getValue().get("ShipUpgradeInfo"), ShipUpgradeInfo.class);
-
-                shipUpgradeInfo.getModules().entrySet().forEach(entry ->
+                if (value.getValue().get("ShipUpgradeInfo") != null)
                 {
-                    String key = entry.getKey();
-                    HashSet<String> next = new HashSet<>();
+                    ShipUpgradeInfo shipUpgradeInfo = mapper.convertValue(value.getValue().get("ShipUpgradeInfo"), ShipUpgradeInfo.class);
 
-                    shipUpgradeInfo.getModules().entrySet().forEach(mv ->
+                    shipUpgradeInfo.getModules().entrySet().forEach(entry ->
                     {
-                        if (mv.getValue().getPrev().equals(key))
+                        String key = entry.getKey();
+                        HashSet<String> next = new HashSet<>();
+
+                        shipUpgradeInfo.getModules().entrySet().forEach(mv ->
                         {
-                            next.add(mv.getKey());
-                        }
+                            if (mv.getValue().getPrev().equals(key))
+                            {
+                                next.add(mv.getKey());
+                            }
+                        });
+
+                        ((LinkedHashMap<String, LinkedHashMap>) value.getValue().get("ShipUpgradeInfo")).get(key).put("next", next);
                     });
 
-                    ((LinkedHashMap<String, LinkedHashMap>) value.getValue().get("ShipUpgradeInfo")).get(key).put("next", next);
-                });
+                    ShipAbilities shipAbilities = mapper.convertValue(value.getValue().get("ShipAbilities"), ShipAbilities.class);
 
-                ShipAbilities shipAbilities = mapper.convertValue(value.getValue().get("ShipAbilities"), ShipAbilities.class);
+                    shipAbilities.getAbilitySlot0().getAbils().forEach(list -> tempGameParamsCHM.put(list.get(0), temp.get(list.get(0))));
+                    shipAbilities.getAbilitySlot1().getAbils().forEach(list -> tempGameParamsCHM.put(list.get(0), temp.get(list.get(0))));
+                    shipAbilities.getAbilitySlot2().getAbils().forEach(list -> tempGameParamsCHM.put(list.get(0), temp.get(list.get(0))));
+                    shipAbilities.getAbilitySlot3().getAbils().forEach(list -> tempGameParamsCHM.put(list.get(0), temp.get(list.get(0))));
+                }
+                nameToId.put(value.getKey(), String.valueOf(value.getValue().get("id")));
+                idToName.put(String.valueOf(value.getValue().get("id")), value.getKey());
+                tempGameParamsCHM.put(String.valueOf(value.getValue().get("id")), value.getValue());
+            });
+            gameParamsCHM.put(serverParams, tempGameParamsCHM);
+            temp.clear();
+        }
+    }
 
-                shipAbilities.getAbilitySlot0().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), temp.get(list.get(0))));
-                shipAbilities.getAbilitySlot1().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), temp.get(list.get(0))));
-                shipAbilities.getAbilitySlot2().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), temp.get(list.get(0))));
-                shipAbilities.getAbilitySlot3().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), temp.get(list.get(0))));
-            }
-            nameToId.put(value.getKey(), String.valueOf(value.getValue().get("id")));
-            idToName.put(String.valueOf(value.getValue().get("id")), value.getKey());
-            gameParamsCHM.put(String.valueOf(value.getValue().get("id")), value.getValue());
-        });
-        temp.clear();
+    @Async
+    public void setGlobal() throws IOException
+    {
+        logger.info("Setting up Global");
 
-//        Resource GameParamsPTFile = new ClassPathResource("static/json/GameParams_PT.json");
-//        HashMap<String, LinkedHashMap> tempPT = mapper.readValue(GameParamsPTFile.getFile(), new TypeReference<HashMap<String, LinkedHashMap>>(){});
-//
-//        tempPT.entrySet().forEach(value ->
-//        {
-//            if (!idToName.containsKey(String.valueOf(value.getValue().get("id"))))
-//            {
-//                nameToId.put(value.getKey(), String.valueOf(value.getValue().get("id")));
-//                idToName.put(String.valueOf(value.getValue().get("id")), value.getKey());
-//
-//                if (value.getValue().get("ShipUpgradeInfo") == null)
-//                {
-//                    gameParamsCHM.put(String.valueOf(value.getValue().get("id")), value.getValue());
-//                }
-//                else if (!mapper.convertValue(value.getValue().get("typeinfo"), TypeInfo.class).getSpecies().equalsIgnoreCase("Auxiliary"))
-//                {
-//                    ShipUpgradeInfo shipUpgradeInfo = mapper.convertValue(value.getValue().get("ShipUpgradeInfo"), ShipUpgradeInfo.class);
-//
-//                    shipUpgradeInfo.getModules().entrySet().forEach(entry ->
-//                    {
-//                        String key = entry.getKey();
-//                        HashSet<String> next = new HashSet<>();
-//
-//                        shipUpgradeInfo.getModules().entrySet().forEach(mv ->
-//                        {
-//                            if (mv.getValue().getPrev().equals(key))
-//                            {
-//                                next.add(mv.getKey());
-//                            }
-//                        });
-//
-//                        ((LinkedHashMap<String, LinkedHashMap>) value.getValue().get("ShipUpgradeInfo")).get(key).put("next", next);
-//                    });
-//
-//                    ShipAbilities shipAbilities = mapper.convertValue(value.getValue().get("ShipAbilities"), ShipAbilities.class);
-//
-//                    shipAbilities.getAbilitySlot0().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), tempPT.get(list.get(0))));
-//                    shipAbilities.getAbilitySlot1().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), tempPT.get(list.get(0))));
-//                    shipAbilities.getAbilitySlot2().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), tempPT.get(list.get(0))));
-//                    shipAbilities.getAbilitySlot3().getAbils().forEach(list -> gameParamsCHM.put(list.get(0), tempPT.get(list.get(0))));
-//
-//                    gameParamsPTCHM.put(String.valueOf(value.getValue().get("id")), value.getValue());
-//                }
-//            }
-//        });
+        for (int i = 0; i < 2; i++)
+        {
+            String serverParams = i == 0 ? "live" : "test";
+
+            String liveGlobal = "static/json/live/global.json";
+            String testGlobal = "static/json/test/global.json";
+
+            Resource GlobalFile = new ClassPathResource(i == 0 ? liveGlobal : testGlobal);
+
+            HashMap<String, Object> temp = mapper.readValue(GlobalFile.getFile(), new TypeReference<HashMap<String, Object>>(){});
+
+            global.put(serverParams, temp);
+        }
     }
 
     @Async
@@ -287,25 +260,6 @@ public class APIJsonParser
         CommandersRankData result = restTemplate.getForObject(url, CommandersRankData.class);
 
         return CompletableFuture.completedFuture(result);
-    }
-
-    @Async
-    public void setGlobal() throws IOException
-    {
-        logger.info("Setting up Global");
-
-        String liveGlobal = "static/json/live/global.json";
-        String testGlobal = "static/json/test/global.json";
-
-        Resource GlobalFile = new ClassPathResource(isLive ? liveGlobal : testGlobal);
-
-        HashMap<String, Object> temp = mapper.readValue(GlobalFile.getFile(), new TypeReference<HashMap<String, Object>>(){});
-
-        temp.entrySet().forEach(entry ->
-        {
-            global.put(entry.getKey(), entry.getValue());
-        });
-        temp.clear();
     }
 
 //    @Async

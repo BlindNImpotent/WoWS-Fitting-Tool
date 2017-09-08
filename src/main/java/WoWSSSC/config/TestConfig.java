@@ -28,11 +28,9 @@ public class TestConfig
 
     private HashMap<String, Ship> shipHashMap = new HashMap<>();
 
-    private LinkedHashMap<String, LinkedHashMap> data = new LinkedHashMap<>();
+    private HashMap<String, LinkedHashMap<String, LinkedHashMap>> data = new HashMap<>();
 
-    private HashMap<String, LinkedHashMap> gameParamsCHM = new HashMap<>();
-
-    private HashMap<String, LinkedHashMap> gameParamsPTCHM = new HashMap<>();
+    private HashMap<String, HashMap<String, LinkedHashMap>> gameParamsCHM = new HashMap<>();
 
     private AsyncHashMap asyncHashMap = new AsyncHashMap();
 
@@ -42,17 +40,9 @@ public class TestConfig
 
     private HashMap<String, String> idToName = new HashMap<>();
 
-    private HashMap<String, Object> global = new HashMap<>();
+    private HashMap<String, HashMap<String, Object>> global = new HashMap<>();
 
     private APIAddress apiAddress = new APIAddress();
-
-    private boolean isLive = true;
-
-    @Bean (value = "isLive")
-    public boolean isLive()
-    {
-        return isLive;
-    }
 
     @Bean (value = "APP_ID")
     public String app_id()
@@ -103,21 +93,15 @@ public class TestConfig
     }
 
     @Bean
-    public LinkedHashMap<String, LinkedHashMap> data()
+    public HashMap<String, LinkedHashMap<String, LinkedHashMap>> data()
     {
         return data;
     }
 
     @Bean (value = "gameParamsCHM")
-    public HashMap<String, LinkedHashMap> gameParamsCHM()
+    public HashMap<String, HashMap<String, LinkedHashMap>> gameParamsCHM()
     {
         return gameParamsCHM;
-    }
-
-    @Bean (value = "gameParamsPTCHM")
-    public HashMap<String, LinkedHashMap> getGameParamsPTCHM()
-    {
-        return gameParamsPTCHM;
     }
 
     @Bean
@@ -132,7 +116,7 @@ public class TestConfig
     }
 
     @Bean (value = "global")
-    public HashMap<String, Object> global()
+    public HashMap<String, HashMap<String, Object>> global()
     {
         return global;
     }
