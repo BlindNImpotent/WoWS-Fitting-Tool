@@ -165,18 +165,15 @@ public class AsyncHashMap implements CommandLineRunner {
                 LinkedHashMap<String, Consumables> tempFlags = new LinkedHashMap<>();
                 LinkedHashMap<String, Consumables> tempPermoflage = new LinkedHashMap<>();
                 LinkedHashMap<String, Consumables> tempCamouflage = new LinkedHashMap<>();
-
-                Thread.sleep(10000);
-
                 LinkedHashMap<String, Commanders> tempCommanders = new LinkedHashMap<>();
+                LinkedHashMap<String, LinkedHashMap<String, UniqueTemp>> uniqueSkills = new LinkedHashMap<>();
+
                 commandersData.get().getData().entrySet().forEach(entry ->
                 {
                     if (entry.getValue().isIs_retrainable()) {
                         tempCommanders.put(entry.getKey(), entry.getValue());
                     }
                 });
-                LinkedHashMap<String, LinkedHashMap<String, UniqueTemp>> uniqueSkills = new LinkedHashMap<>();
-                LinkedHashMap<String, LinkedHashMap> allCommanders = getCommanders(tempCommanders, uniqueSkills);
 
                 consumablesData.get().getData().entrySet().forEach(entry ->
                 {
@@ -397,7 +394,7 @@ public class AsyncHashMap implements CommandLineRunner {
                     tempData.put("upgradesSpecial", upgradesSpecial);
                     tempData.put("skills", setCrewSkills(crewsSkillsData.get().getData()));
                     tempData.put("uniqueSkills", uniqueSkills);
-                    tempData.put("commanders", allCommanders);
+                    tempData.put("commanders", getCommanders(tempCommanders, uniqueSkills));
                     tempData.put("commandersRanks", commandersRankData.get().getData());
                     tempData.put("exteriors", tempExteriors);
                     tempData.put("torpedoVisibility", torpedoVisibility(encyclopedia, nationsString, shipTypeString));
