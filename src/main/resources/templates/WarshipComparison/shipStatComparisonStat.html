@@ -51,8 +51,8 @@
                     <li id="hull1" style="display: inline-block; float:left; width: 160px;">
                         <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.hull.health, 0, 'COMMA')}"/><br />
                         <span style="float: left;" th:text="${shipAPI1.hull.range.min} + ' ~ ' + ${shipAPI1.hull.range.max} + ' mm'"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.armour.extremities != null}" th:text="${shipAPI1.armour.extremities.min} + ' ~ ' + ${shipAPI1.armour.extremities.max} + ' mm'"/><br />
-                        <span style="float: left;" th:if="${shipAPI1.armour.citadel.max > 0}" th:text="${shipAPI1.armour.citadel.max} + ' mm'"/><br />
+                        <!--<span style="float: left;" th:if="${shipAPI1.armour.extremities != null}" th:text="${shipAPI1.armour.extremities.min} + ' ~ ' + ${shipAPI1.armour.extremities.max} + ' mm'"/><br />-->
+                        <!--<span style="float: left;" th:if="${shipAPI1.armour.citadel.max > 0}" th:text="${shipAPI1.armour.citadel.max} + ' mm'"/><br />-->
                         <br />
                         <span style="float: left;" th:text="${shipAPI1.shipComponents.hull.burnNodesSize}"/><br />
                         <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.hull.burnChanceReduction * 100, 1, 2) + ' %'}"/><br />
@@ -65,8 +65,8 @@
                     <li style="display: inline-block; text-align: center; width: 160px;">
                         <span>Health</span><br />
                         <span>Armour</span><br />
-                        <span>- Bow -</span><br />
-                        <span>- Citadel - </span><br />
+                        <!--<span>- Bow -</span><br />-->
+                        <!--<span>- Citadel - </span><br />-->
                         <span>Burn</span><br />
                         <span>- Nodes -</span><br />
                         <span>-  Reduction -</span><br />
@@ -79,8 +79,8 @@
                     <li id="hull2" style="display: inline-block; float:right; width: 160px;">
                         <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.hull.health, 0, 'COMMA')}"/><br />
                         <span style="float: right;" th:text="${shipAPI2.hull.range.min} + ' ~ ' + ${shipAPI2.hull.range.max} + ' mm'"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.armour.extremities != null}" th:text="${shipAPI2.armour.extremities.min} + ' ~ ' + ${shipAPI2.armour.extremities.max} + ' mm'"/><br />
-                        <span style="float: right;" th:if="${shipAPI2.armour.citadel.max > 0}" th:text="${shipAPI2.armour.citadel.max} + ' mm'"/><br />
+                        <!--<span style="float: right;" th:if="${shipAPI2.armour.extremities != null}" th:text="${shipAPI2.armour.extremities.min} + ' ~ ' + ${shipAPI2.armour.extremities.max} + ' mm'"/><br />-->
+                        <!--<span style="float: right;" th:if="${shipAPI2.armour.citadel.max > 0}" th:text="${shipAPI2.armour.citadel.max} + ' mm'"/><br />-->
                         <br />
                         <span style="float: right;" th:text="${shipAPI2.shipComponents.hull.burnNodesSize}"/><br />
                         <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.hull.burnChanceReduction * 100, 1, 2) + ' %'}"/><br />
