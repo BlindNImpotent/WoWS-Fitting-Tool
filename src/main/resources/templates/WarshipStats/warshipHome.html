@@ -61,8 +61,8 @@
     <div id="shipsList">
         <nav>
             <ul>
-                <li th:each="nation : ${data.nations}">
-                    <th:block th:each="eNation : ${data.encyclopedia.ship_nations}" th:if="${nation.key == eNation.key}">
+                <li th:each="nation : ${nations}">
+                    <th:block th:each="eNation : ${encyclopedia.ship_nations}" th:if="${nation.key == eNation.key}">
                         <span th:text="${eNation.value}" />
                     </th:block>
                     <ul>
@@ -85,9 +85,9 @@
     </div>
 </header>
 <div id="crewSkills" class="ui-widget-content" title="Skill Points 0 / 19">
-    <table id="uniqueSkillsTable" align="center" th:style="'float: left; height: 418px; ' + ${#sets.contains(data.uniqueSkills.keySet(), sCommander) ? '' : 'display: none'}">
+    <table id="uniqueSkillsTable" align="center" th:style="'float: left; height: 418px; ' + ${#sets.contains(uniqueSkills.keySet(), sCommander) ? '' : 'display: none'}">
         <tbody>
-            <tr th:each="commander : ${data.uniqueSkills}" th:id="${commander.key.replace(' ', '')}" th:style="${commander.key != sCommander ? 'display: none;' : ''}">
+            <tr th:each="commander : ${uniqueSkills}" th:id="${commander.key.replace(' ', '')}" th:style="${commander.key != sCommander ? 'display: none;' : ''}">
                 <td th:each="uniqueSkill : ${commander.value}">
                     <button th:title="${uniqueSkill.value.description}" th:class="${crewUSkills != null and #sets.contains(crewUSkills, uniqueSkill.key) ? 'button_uSkill_selected' : 'button_uSkill'}" th:id="${uniqueSkill.key}">
                         <img th:src="${'/images/Talents/' + uniqueSkill.key + '.png'}"/><br />
@@ -99,7 +99,7 @@
     </table>
     <table id="skillsTable" align="center" style="height: 418px;">
         <tbody>
-            <tr th:each="skillTier : ${data.skills}">
+            <tr th:each="skillTier : ${skills}">
                 <td th:each="skill : ${skillTier.value}" th:id="${'td_' + skill.value.tier + '_' + skill.value.type_id}">
                     <button th:if="${skill.value.tier != 0}" th:object="${skill.value}" th:title="${skill.value.description}" th:class="${crewSkills != null and crewSkills.size() != 0 and (crewSkills.?[tier == #strings.toString(__${skill.value.tier}__) and type_id == #strings.toString(__${skill.value.type_id}__)]).size() != 0} ? button_skill_selected : button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, type_id=${skill.value.type_id}">
                         <img th:src="${skill.value.icon}"/><br />
@@ -113,8 +113,8 @@
 <div id="flags" class="ui-widget-content" title="Flags 0 / 8">
     <table id="flagsTable" align="center">
         <tbody>
-            <tr th:each="index : ${#numbers.sequence(0, data.exteriors.Flags.size() - 1, 6)}" th:id="${index / 6}">
-                <td th:each="flag : ${data.exteriors.Flags}" th:if="${flagStat.index % 3} == ${index / 6}">
+            <tr th:each="index : ${#numbers.sequence(0, exteriors.Flags.size() - 1, 6)}" th:id="${index / 6}">
+                <td th:each="flag : ${exteriors.Flags}" th:if="${flagStat.index % 3} == ${index / 6}">
                     <button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.consumable_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.consumable_id}">
                         <img th:src="${flag.value.image}"/><br />
                         <span th:text="${flag.value.name}"/>
@@ -128,15 +128,15 @@
 <!--<table id="camouflageTable" align="center">-->
 <!--<tbody>-->
 <!--<tr>-->
-<!--<td th:each="camoflage : ${data.exteriors.Camouflage}">-->
+<!--<td th:each="camoflage : ${exteriors.Camouflage}">-->
 <!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
 <!--<img th:src="${camouflage.value.image.small}"/><br />-->
 <!--<span th:text="${camouflage.value.name}"/>-->
 <!--</button>-->
 <!--</td>-->
 <!--</tr>-->
-<!--<tr th:each="index : ${#numbers.sequence(0, data.exteriors.Camouflage.size() - 1, 6)}" th:id="${index / 6}">-->
-<!--<td th:each="camouflage : ${data.exteriors.Camouflage}" th:if="${camouflageStat.index % 3} == ${index / 6}">-->
+<!--<tr th:each="index : ${#numbers.sequence(0, exteriors.Camouflage.size() - 1, 6)}" th:id="${index / 6}">-->
+<!--<td th:each="camouflage : ${exteriors.Camouflage}" th:if="${camouflageStat.index % 3} == ${index / 6}">-->
 <!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
 <!--<img th:src="${camouflage.value.image.small}"/><br />-->
 <!--<span th:text="${camouflage.value.name}"/>-->

@@ -89,7 +89,10 @@ public class APIController extends ExceptionController
                                 @RequestParam(required = false, defaultValue = "default") String commander) throws IOException
     {
         model.addAttribute("serverParam", serverParamAddress);
-        model.addAttribute("data", data.get(serverParam));
+        model.addAttribute("nations", data.get(serverParam).get("nations"));
+        model.addAttribute("uniqueSkills", data.get(serverParam).get("uniqueSkills"));
+        model.addAttribute("skills", data.get(serverParam).get("skills"));
+        model.addAttribute("exteriors", data.get(serverParam).get("exteriors"));
         model.addAttribute("notification", notification);
         model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
         
@@ -413,10 +416,13 @@ public class APIController extends ExceptionController
                                          @RequestParam(required = false) HashSet<String> flags,
                                          @RequestParam(required = false) boolean camo,
                                          @RequestParam(required = false, defaultValue = "100") int adrenalineValue1,
-                                         @RequestParam(required = false, defaultValue = "100") int adrenalineValue2) throws IOException {
+                                         @RequestParam(required = false, defaultValue = "100") int adrenalineValue2) throws IOException
+    {
         model.addAttribute("serverParam", serverParamAddress);
-        model.addAttribute("data", data.get(serverParam));
         model.addAttribute("nations", data.get(serverParam).get("nations"));
+        model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
+        model.addAttribute("skills", data.get(serverParam).get("skills"));
+        model.addAttribute("exteriors", data.get(serverParam).get("exteriors"));
         model.addAttribute("premiumTable", data.get(serverParam).get("premiumTable"));
         model.addAttribute("rawShipData", data.get(serverParam).get("rawShipData"));
         
