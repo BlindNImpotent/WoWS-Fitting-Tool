@@ -399,7 +399,7 @@ public class AsyncHashMap implements CommandLineRunner {
                     tempData.put("commanders", getCommanders(tempCommanders, uniqueSkills));
                     tempData.put("commandersRanks", commandersRankData.get().getData());
                     tempData.put("exteriors", tempExteriors);
-                    tempData.put("torpedoVisibility", torpedoVisibility(encyclopedia, nationsString, shipTypeString));
+//                    tempData.put("torpedoVisibility", torpedoVisibility(encyclopedia, nationsString, shipTypeString));
                     data.put(serverParam, tempData);
 
                     isFirstRun = false;

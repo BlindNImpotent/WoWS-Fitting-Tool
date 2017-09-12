@@ -95,6 +95,8 @@ public class APIController extends ExceptionController
         
         if (StringUtils.isNotEmpty(nation) && StringUtils.isNotEmpty(shipType) && StringUtils.isNotEmpty(ship))
         {
+            ship = URLDecoder.decode(ship, "UTF-8");
+
             logger.info("Loading " + nation + " " + shipType + " " + ship + " from /WarshipStats?" + request.getQueryString());
 
             if (StringUtils.isNotEmpty(skills) && !skills.contains("tier") && !skills.contains("type_id") && !skills.contains("[]"))
@@ -420,6 +422,9 @@ public class APIController extends ExceptionController
         
         if (StringUtils.isNotEmpty(ship1) && StringUtils.isNotEmpty(ship2))
         {
+            ship1 = URLDecoder.decode(ship1, "UTF-8");
+            ship2 = URLDecoder.decode(ship2, "UTF-8");
+
             logger.info("Loading " + ship1 + " and " + ship2 + " from /shipStatComparison?" + request.getQueryString());
 
             if (upgradesSkills != null && !upgradesSkills.contains(ship1) && !upgradesSkills.contains(ship2))

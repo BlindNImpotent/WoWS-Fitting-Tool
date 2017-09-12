@@ -264,10 +264,10 @@ public class APIService
 
         setCustomValues(ship_id, ship);
 
-        if (getTorpedoVisibilities && warship.getTier() > 1)
-        {
-            setTorpedoVisibility(ship, warship.getTier(), serverParam);
-        }
+//        if (getTorpedoVisibilities && warship.getTier() > 1)
+//        {
+//            setTorpedoVisibility(ship, warship.getTier(), serverParam);
+//        }
 
 //        LinkedHashMap<String, LinkedHashMap> nationLHM = (LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation);
 //        Warship warship = (Warship) nationLHM.get(shipType).get(shipName);
@@ -1464,10 +1464,10 @@ public class APIService
 //            ship.getTorpedoVisibilities().put("Tier " + i, temp);
 //        }
 
-        for (int i = 2; i <= 10; i++)
-        {
-            LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>> temp = mapper.convertValue(data.get(serverParam).get("torpedoVisibility").get(String.valueOf(i)), new TypeReference<LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>>>(){});
-            ship.getTorpedoVisibilities().put("Tier " + i, temp);
-        }
+//        for (int i = 2; i <= 10; i++)
+//        {
+//            LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>> temp = mapper.convertValue(data.get(serverParam).get("torpedoVisibility").get(String.valueOf(i)), new TypeReference<LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>>>(){});
+//            ship.getTorpedoVisibilities().put("Tier " + i, temp);
+//        }
     }
 }

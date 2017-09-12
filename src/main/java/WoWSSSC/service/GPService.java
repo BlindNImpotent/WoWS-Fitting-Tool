@@ -5,7 +5,7 @@ import WoWSSSC.model.gameparams.ShipComponents.ATBA.Secondary;
 import WoWSSSC.model.gameparams.ShipComponents.ATBA.Shell;
 import WoWSSSC.model.gameparams.ShipComponents.AirArmament;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
-import WoWSSSC.model.gameparams.ShipComponents.Artillery.APShell;
+import WoWSSSC.model.gameparams.ShipComponents.Artillery.ArtyShell;
 import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomber;
 import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomberBomb;
 import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomberPlane;
@@ -216,11 +216,16 @@ public class GPService
                                     value.getAmmoList().forEach(ammo ->
                                     {
                                         String id = nameToId.get(ammo);
-                                        APShell APShell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), APShell.class);
-                                        if ("AP".equalsIgnoreCase(APShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
+                                        ArtyShell ArtyShell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), ArtyShell.class);
+                                        if ("AP".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
                                         {
-                                            setAPPenetration(APShell, maxVertAngle);
-                                            shipComponents.getArtillery().setAPShell(APShell);
+                                            setAPPenetration(ArtyShell, maxVertAngle);
+                                            shipComponents.getArtillery().setAPShell(ArtyShell);
+                                        }
+                                        else if ("HE".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getHEShell() == null)
+                                        {
+                                            setHEPenetration(ArtyShell, maxVertAngle);
+                                            shipComponents.getArtillery().setHEShell(ArtyShell);
                                         }
                                     });
                                 });
@@ -399,7 +404,7 @@ public class GPService
         shipComponents.setAbilities(abilities);
     }
 
-    private void setAPPenetration(APShell APShell, float maxVertAngle)
+    private void setAPPenetration(ArtyShell ArtyShell, float maxVertAngle)
     {
         // SHELL CONSTANTS
         float C = 0.5561613f; // PENETRATION
@@ -411,35 +416,36 @@ public class GPService
         float M = 0.0289644f; // MOLAR MASS OF AIR
 
         // SHELL CONSTANTS
-        float W = APShell.getBulletMass(); // SHELL WEIGHT
-        float D = APShell.getBulletDiametr(); // SHELL DIAMETER
-        float c_D = APShell.getBulletAirDrag();  // SHELL DRAG
-        float V_0 = APShell.getBulletSpeed(); // SHELL MUZZLE VELOCITY
-        float K = APShell.getBulletKrupp(); // SHELL KRUPP
+        float W = ArtyShell.getBulletMass(); // SHELL WEIGHT
+        float D = ArtyShell.getBulletDiametr(); // SHELL DIAMETER
+        float c_D = ArtyShell.getBulletAirDrag();  // SHELL DRAG
+        float V_0 = ArtyShell.getBulletSpeed(); // SHELL MUZZLE VELOCITY
+        float K = ArtyShell.getBulletKrupp(); // SHELL KRUPP
 
-        float cw_1 = 1; // QUADRATIC DRAG COEFFICIENT
-        float cw_2 = 100 + 1000 / 3 * D; // LINEAR DRAG COEFFICIENT
+        float cw_1 = 1f; // QUADRATIC DRAG COEFFICIENT
+        float cw_2 = 100f + (1000f / 3f) * D; // LINEAR DRAG COEFFICIENT
 
-        C = C * K / 2400; // KRUPP INCLUSION
-        float k = 0.5f * c_D * (float) Math.pow((D / 2), 2) * (float) Math.PI / W; // CONSTANTS TERMS OF DRAG
+        C = C * K / 2400f; // KRUPP INCLUSION
+        float k = 0.5f * c_D * (float) Math.pow((D / 2f), 2f) * (float) Math.PI / W; // CONSTANTS TERMS OF DRAG
 
 //        float[] alpha = [0 : 0.001 : 15 / 360 * 2 * Math.PI]; // ELEV. ANGLES 0...15
 
-        Float[] alpha = linspace(0f, 0.001f, (float) Math.PI * maxVertAngle / 360 * 2);
+        Float[] alpha = linspace(0f, 0.001f, (float) Math.PI * maxVertAngle / 180f);
 
         float dt = 0.1f; // TIME STEP
 
         LinkedHashMap<Float, Float> penetration = new LinkedHashMap<>();
+        LinkedHashMap<Float, Float> flightTime = new LinkedHashMap<>();
 
         for (int i = 0; i < alpha.length; i++) // for each alpha angle do:
         {
             float v_x = (float) Math.cos(alpha[i]) * V_0;
             float v_y = (float) Math.sin(alpha[i]) * V_0;
-            float y = 0;
-            float x = 0;
-            float t = 0;
+            float y = 0f;
+            float x = 0f;
+            float t = 0f;
 
-            while (y >= 0) // follow flight path until shell hits ground again
+            while (y >= 0f) // follow flight path until shell hits ground again
             {
                 x = x + dt * v_x;
                 y = y + dt * v_y;
@@ -454,13 +460,73 @@ public class GPService
                 t = t + dt;
             }
 
-            float v_total = (float) Math.pow((Math.pow(v_y, 2) + Math.pow(v_x, 2)), 0.5);
-            float p_athit = C * (float) Math.pow(v_total, 1.1) * (float) Math.pow(W, 0.55) / (float)Math.pow(D * 1000, 0.65); // PENETRATION FORMULA
+            float v_total = (float) Math.pow((Math.pow(v_y, 2f) + Math.pow(v_x, 2f)), 0.5f);
+            float p_athit = C * (float) Math.pow(v_total, 1.1f) * (float) Math.pow(W, 0.55f) / (float)Math.pow(D * 1000f, 0.65f); // PENETRATION FORMULA
             float IA = (float) Math.atan(Math.abs(v_y) / Math.abs(v_x)); // IMPACT ANGLE ON BELT ARMOR
 
             penetration.put(x, (float) Math.cos(IA) * p_athit);
+            flightTime.put(x, t / 3f);
         }
-        APShell.setPenetration(penetration);
+        ArtyShell.setAPShell(penetration, flightTime);
+    }
+
+    private void setHEPenetration(ArtyShell ArtyShell, float maxVertAngle)
+    {
+        // SHELL CONSTANTS
+        float C = 0.5561613f; // PENETRATION
+        float a = 9.80665f; // GRAVITY
+        float T_0 = 288f; // TEMPERATURE AT SEA LEVEL
+        float L = 0.0065f; // TEMPERATURE LAPSE RATE
+        float p_0 = 101325f; // PRESSURE AT SEA LEVEL
+        float R = 8.31447f; // UNIV GAS CONSTANT
+        float M = 0.0289644f; // MOLAR MASS OF AIR
+
+        // SHELL CONSTANTS
+        float W = ArtyShell.getBulletMass(); // SHELL WEIGHT
+        float D = ArtyShell.getBulletDiametr(); // SHELL DIAMETER
+        float c_D = ArtyShell.getBulletAirDrag();  // SHELL DRAG
+        float V_0 = ArtyShell.getBulletSpeed(); // SHELL MUZZLE VELOCITY
+        float K = ArtyShell.getBulletKrupp(); // SHELL KRUPP
+
+        float cw_1 = 1f; // QUADRATIC DRAG COEFFICIENT
+        float cw_2 = 100f + (1000f / 3f) * D; // LINEAR DRAG COEFFICIENT
+
+        C = C * K / 2400f; // KRUPP INCLUSION
+        float k = 0.5f * c_D * (float) Math.pow((D / 2f), 2f) * (float) Math.PI / W; // CONSTANTS TERMS OF DRAG
+
+//        float[] alpha = [0 : 0.001 : 15 / 360 * 2 * Math.PI]; // ELEV. ANGLES 0...15
+
+        Float[] alpha = linspace(0f, 0.001f, (float) Math.PI * maxVertAngle / 180f);
+
+        float dt = 0.1f; // TIME STEP
+
+        LinkedHashMap<Float, Float> flightTime = new LinkedHashMap<>();
+
+        for (int i = 0; i < alpha.length; i++) // for each alpha angle do:
+        {
+            float v_x = (float) Math.cos(alpha[i]) * V_0;
+            float v_y = (float) Math.sin(alpha[i]) * V_0;
+            float y = 0f;
+            float x = 0f;
+            float t = 0f;
+
+            while (y >= 0f) // follow flight path until shell hits ground again
+            {
+                x = x + dt * v_x;
+                y = y + dt * v_y;
+
+                float T = T_0 - L*y;
+                float p = p_0 * (float) Math.pow(1 - L * y / T_0, (a * M / (R * L)));
+                float rho = p * M / (R * T);
+
+                v_x = v_x - dt * k * rho * (cw_1 * (float) Math.pow(v_x, 2) + cw_2 * v_x);
+                v_y = v_y - dt * a - dt * k * rho * (cw_1 * (float) Math.pow(v_y, 2) + cw_2 * Math.abs(v_y)) * Math.signum(v_y);
+
+                t = t + dt;
+            }
+            flightTime.put(x, t / 3f);
+        }
+        ArtyShell.setHEShell(flightTime);
     }
 
     private Float[] linspace(float start, float incremental, float end)

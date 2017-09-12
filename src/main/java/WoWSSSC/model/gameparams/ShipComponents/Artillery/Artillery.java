@@ -54,7 +54,8 @@ public class Artillery
     private long penetraionIFHEAfter;
     private int overmatch;
 
-    private APShell APShell;
+    private ArtyShell APShell;
+    private ArtyShell HEShell;
 
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();
