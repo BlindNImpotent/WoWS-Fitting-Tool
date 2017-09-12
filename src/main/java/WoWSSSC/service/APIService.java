@@ -835,6 +835,15 @@ public class APIService
             });
         }
 
+        if (ship.getShipComponents().getArtillery().getAPShell() != null)
+        {
+            ship.getShipComponents().getArtillery().getAPShell().setMaxDist(ship.getArtillery().getDistance());
+        }
+        if (ship.getShipComponents().getArtillery().getHEShell() != null)
+        {
+            ship.getShipComponents().getArtillery().getHEShell().setMaxDist(ship.getArtillery().getDistance());
+        }
+
         return ship;
     }
 

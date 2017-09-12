@@ -46,10 +46,48 @@ public class ArtyShell
     private float penetrationAtTen;
     private float penetrationAtFifteen;
     private float penetrationAtTwenty;
+    private float penetrationAtMax;
     private float flightTimeAtFive;
     private float flightTimeAtTen;
     private float flightTimeAtFifteen;
     private float flightTimeAtTwenty;
+    private float flightTimeAtMax;
+
+    public void setMaxDist(float maxDist)
+    {
+        float maxOne = 0f;
+        float maxTwo = 0f;
+        maxDist = maxDist * 1000f;
+
+        for (Map.Entry<Float, Float> entry : this.flightTime.entrySet())
+        {
+            float tempFloat = entry.getKey();
+
+            if (tempFloat < maxDist)
+            {
+                if (maxOne < tempFloat)
+                {
+                    maxOne = tempFloat;
+                }
+            }
+            else if (tempFloat >= maxDist)
+            {
+                if (maxTwo == 0f)
+                {
+                    maxTwo = tempFloat;
+                }
+            }
+        }
+
+        if (maxOne != 0f && maxTwo != 0f)
+        {
+            if (penetration != null)
+            {
+                penetrationAtMax = setPenetrationAtDistance(maxOne, penetration.get(maxOne), maxTwo, penetration.get(maxTwo), maxDist);
+            }
+            flightTimeAtMax = setFlightTimeAtDistance(maxOne, flightTime.get(maxOne), maxTwo, flightTime.get(maxTwo), maxDist);
+        }
+    }
 
     public void setAPShell(LinkedHashMap<Float, Float> penetration, LinkedHashMap<Float, Float> flightTime)
     {
