@@ -56,12 +56,12 @@ public class APIJsonParser
     private LinkedHashMap<String, String> notification;
 
     @Autowired
-    @Qualifier(value = "nameToId")
-    private HashMap<String, String> nameToId;
+    @Qualifier (value = "nameToId")
+    private HashMap<String, HashMap<String, String>> nameToId;
 
     @Autowired
-    @Qualifier(value = "idToName")
-    private HashMap<String, String> idToName;
+    @Qualifier (value = "idToName")
+    private HashMap<String, HashMap<String, String>> idToName;
 
     @Autowired
     @Qualifier (value = "global")
@@ -143,6 +143,8 @@ public class APIJsonParser
             Resource GameParamsFile = new ClassPathResource(i == 0 ? liveGameParams : testGameParams);
             HashMap<String, LinkedHashMap> temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, LinkedHashMap>>(){});
             HashMap<String, LinkedHashMap> tempGameParamsCHM = new HashMap<>();
+            HashMap<String, String> tempNameToId = new HashMap<>();
+            HashMap<String, String> tempIdToName = new HashMap<>();
 
             temp.entrySet().forEach(value ->
             {
@@ -173,11 +175,13 @@ public class APIJsonParser
                     shipAbilities.getAbilitySlot2().getAbils().forEach(list -> tempGameParamsCHM.put(list.get(0), temp.get(list.get(0))));
                     shipAbilities.getAbilitySlot3().getAbils().forEach(list -> tempGameParamsCHM.put(list.get(0), temp.get(list.get(0))));
                 }
-                nameToId.put(value.getKey(), String.valueOf(value.getValue().get("id")));
-                idToName.put(String.valueOf(value.getValue().get("id")), value.getKey());
+                tempNameToId.put(value.getKey(), String.valueOf(value.getValue().get("id")));
+                tempIdToName.put(String.valueOf(value.getValue().get("id")), value.getKey());
                 tempGameParamsCHM.put(String.valueOf(value.getValue().get("id")), value.getValue());
             });
             gameParamsCHM.put(serverParams, tempGameParamsCHM);
+            nameToId.put(serverParams, tempNameToId);
+            idToName.put(serverParams, tempIdToName);
             temp.clear();
         }
     }

@@ -36,9 +36,9 @@ public class TestConfig
 
     private LinkedHashMap<String, String> notification = new LinkedHashMap<>();
 
-    private HashMap<String, String> nameToId = new HashMap<>();
+    private HashMap<String, HashMap<String, String>> nameToId = new HashMap<>();
 
-    private HashMap<String, String> idToName = new HashMap<>();
+    private HashMap<String, HashMap<String, String>> idToName = new HashMap<>();
 
     private HashMap<String, HashMap<String, Object>> global = new HashMap<>();
 
@@ -57,13 +57,13 @@ public class TestConfig
     }
 
     @Bean (value = "nameToId")
-    public HashMap<String, String> nameToId()
+    public HashMap<String, HashMap<String, String>> nameToId()
     {
         return nameToId;
     }
 
     @Bean (value = "idToName")
-    public HashMap<String, String> idToName()
+    public HashMap<String, HashMap<String, String>> idToName()
     {
         return idToName;
     }

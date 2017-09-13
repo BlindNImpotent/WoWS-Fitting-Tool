@@ -240,6 +240,17 @@ public class APIService
             return null;
         }
 
+        // Graf Zeppelin
+        if ("3543936816".equalsIgnoreCase(hull_id))
+        {
+            hull_id = "3554422576";
+        }
+
+        if ("3544035120".equalsIgnoreCase(engine_id))
+        {
+            engine_id = "3554520880";
+        }
+
         Cloner cloner = new Cloner();
         Ship ship = cloner.deepClone(shipHashMap.get(key));
 

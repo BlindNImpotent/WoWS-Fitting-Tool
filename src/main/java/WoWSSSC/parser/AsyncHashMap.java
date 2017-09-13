@@ -63,7 +63,7 @@ public class AsyncHashMap implements CommandLineRunner {
 
     @Autowired
     @Qualifier(value = "nameToId")
-    private HashMap<String, String> nameToId;
+    private HashMap<String, HashMap<String, String>> nameToId;
 
     @Autowired
     @Qualifier(value = "global")
@@ -511,7 +511,7 @@ public class AsyncHashMap implements CommandLineRunner {
         if (shipModernization.getModernizationSlot1() != null) {
             int credit = 0;
             for (String mod : shipModernization.getModernizationSlot1().getMods()) {
-                String id = nameToId.get(mod);
+                String id = nameToId.get(serverParam).get(mod);
                 modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
 
                 if (warship.getUpgrades().contains(Long.parseLong(id))) {
@@ -531,7 +531,7 @@ public class AsyncHashMap implements CommandLineRunner {
         if (shipModernization.getModernizationSlot2() != null) {
             int credit = 0;
             for (String mod : shipModernization.getModernizationSlot2().getMods()) {
-                String id = nameToId.get(mod);
+                String id = nameToId.get(serverParam).get(mod);
                 modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
 
                 if (warship.getUpgrades().contains(Long.parseLong(id))) {
@@ -551,7 +551,7 @@ public class AsyncHashMap implements CommandLineRunner {
         if (shipModernization.getModernizationSlot3() != null) {
             int credit = 0;
             for (String mod : shipModernization.getModernizationSlot3().getMods()) {
-                String id = nameToId.get(mod);
+                String id = nameToId.get(serverParam).get(mod);
                 modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
 
                 if (warship.getUpgrades().contains(Long.parseLong(id))) {
@@ -571,7 +571,7 @@ public class AsyncHashMap implements CommandLineRunner {
         if (shipModernization.getModernizationSlot4() != null) {
             int credit = 0;
             for (String mod : shipModernization.getModernizationSlot4().getMods()) {
-                String id = nameToId.get(mod);
+                String id = nameToId.get(serverParam).get(mod);
                 modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
 
                 if (warship.getUpgrades().contains(Long.parseLong(id))) {
@@ -591,7 +591,7 @@ public class AsyncHashMap implements CommandLineRunner {
         if (shipModernization.getModernizationSlot5() != null) {
             int credit = 0;
             for (String mod : shipModernization.getModernizationSlot5().getMods()) {
-                String id = nameToId.get(mod);
+                String id = nameToId.get(serverParam).get(mod);
                 modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
 
                 if (warship.getUpgrades().contains(Long.parseLong(id))) {
@@ -611,7 +611,7 @@ public class AsyncHashMap implements CommandLineRunner {
         if (shipModernization.getModernizationSlot6() != null) {
             int credit = 0;
             for (String mod : shipModernization.getModernizationSlot6().getMods()) {
-                String id = nameToId.get(mod);
+                String id = nameToId.get(serverParam).get(mod);
                 modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
 
                 if (warship.getUpgrades().contains(Long.parseLong(id))) {

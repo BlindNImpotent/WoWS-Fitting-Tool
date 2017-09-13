@@ -55,11 +55,11 @@ public class GPService
 
     @Autowired
     @Qualifier(value = "nameToId")
-    private HashMap<String, String> nameToId;
+    private HashMap<String, HashMap<String, String>> nameToId;
 
     @Autowired
     @Qualifier(value = "idToName")
-    private HashMap<String, String> idToName;
+    private HashMap<String, HashMap<String, String>> idToName;
 
     @Autowired
     @Qualifier (value = "global")
@@ -116,19 +116,19 @@ public class GPService
 
             HashSet<String> moduleNames = new HashSet<>();
 
-            moduleNames.add(idToName.get(artillery_id));
-            moduleNames.add(idToName.get(dive_bomber_id));
-            moduleNames.add(idToName.get(fighter_id));
-            moduleNames.add(idToName.get(torpedo_bomber_id));
-            moduleNames.add(idToName.get(torpedoes_id));
-            moduleNames.add(idToName.get(flight_control_id));
-            moduleNames.add(idToName.get(fire_control_id));
-            moduleNames.add(idToName.get(engine_id));
-            moduleNames.add(idToName.get(hull_id));
+            moduleNames.add(idToName.get(serverParam).get(artillery_id));
+            moduleNames.add(idToName.get(serverParam).get(dive_bomber_id));
+            moduleNames.add(idToName.get(serverParam).get(fighter_id));
+            moduleNames.add(idToName.get(serverParam).get(torpedo_bomber_id));
+            moduleNames.add(idToName.get(serverParam).get(torpedoes_id));
+            moduleNames.add(idToName.get(serverParam).get(flight_control_id));
+            moduleNames.add(idToName.get(serverParam).get(fire_control_id));
+            moduleNames.add(idToName.get(serverParam).get(engine_id));
+            moduleNames.add(idToName.get(serverParam).get(hull_id));
 
             if (CollectionUtils.isNotEmpty(modules))
             {
-                modules.forEach(module -> moduleNames.add(idToName.get(module)));
+                modules.forEach(module -> moduleNames.add(idToName.get(serverParam).get(module)));
             }
 
             moduleNames.remove(null);
@@ -215,7 +215,7 @@ public class GPService
                                     float maxVertAngle = value.getVertSector().get(1);
                                     value.getAmmoList().forEach(ammo ->
                                     {
-                                        String id = nameToId.get(ammo);
+                                        String id = nameToId.get(serverParam).get(ammo);
                                         ArtyShell ArtyShell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), ArtyShell.class);
                                         if ("AP".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
                                         {
@@ -247,7 +247,7 @@ public class GPService
 
                                 shipComponents.getTorpedoes().getLaunchers().values().forEach(value -> value.getAmmoList().forEach(ammo ->
                                 {
-                                    String id = nameToId.get(ammo);
+                                    String id = nameToId.get(serverParam).get(ammo);
                                     Torpedo torpedo = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Torpedo.class);
                                     if (shipComponents.getTorpedoes().getTorpedo() == null)
                                     {
@@ -275,10 +275,10 @@ public class GPService
                                 DiveBomber diveBomber = mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempDiveBomber), DiveBomber.class);
                                 field.set(shipComponents, diveBomber);
 
-                                String id = nameToId.get(shipComponents.getDiveBomber().getPlaneType());
+                                String id = nameToId.get(serverParam).get(shipComponents.getDiveBomber().getPlaneType());
                                 DiveBomberPlane diveBomberPlane = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), DiveBomberPlane.class);
 
-                                String bombId = nameToId.get(diveBomberPlane.getBombName());
+                                String bombId = nameToId.get(serverParam).get(diveBomberPlane.getBombName());
                                 DiveBomberBomb bomb = mapper.convertValue(gameParamsCHM.get(serverParam).get(bombId), DiveBomberBomb.class);
 
                                 shipComponents.getDiveBomber().setBomb(bomb);
@@ -298,10 +298,10 @@ public class GPService
                                 TorpedoBomber torpedoBomber = mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempTorpedoBomber), TorpedoBomber.class);
                                 field.set(shipComponents, torpedoBomber);
 
-                                String id = nameToId.get(shipComponents.getTorpedoBomber().getPlaneType());
+                                String id = nameToId.get(serverParam).get(shipComponents.getTorpedoBomber().getPlaneType());
                                 TorpedoBomberPlane torpedoBomberPlane = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), TorpedoBomberPlane.class);
 
-                                String torpedoId = nameToId.get(torpedoBomberPlane.getBombName());
+                                String torpedoId = nameToId.get(serverParam).get(torpedoBomberPlane.getBombName());
                                 TorpedoBomberTorpedo torpedo = mapper.convertValue(gameParamsCHM.get(serverParam).get(torpedoId), TorpedoBomberTorpedo.class);
 
                                 shipComponents.getTorpedoBomber().setTorpedo(torpedo);
@@ -331,7 +331,7 @@ public class GPService
                                     secondary.setCount(count);
 //                                    System.out.println(secondary.getName());
                                     secondary.setRealName((String) global.get(serverParam).get("IDS_" + secondary.getName().toUpperCase()));
-                                    String id = nameToId.get(secondary.getAmmoList().get(0));
+                                    String id = nameToId.get(serverParam).get(secondary.getAmmoList().get(0));
                                     Shell shell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Shell.class);
                                     secondary.setShell(shell);
 
