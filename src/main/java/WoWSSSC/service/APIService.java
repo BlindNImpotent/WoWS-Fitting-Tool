@@ -837,10 +837,10 @@ public class APIService
                         ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * detect_coef);
                         ship.getConcealment().setDetect_distance_by_plane(ship.getConcealment().getDetect_distance_by_plane() * detect_coef);
 
-                        if (ship.getShipComponents().getHull().getVisibilityCoefGKInSmoke() != 0)
-                        {
-                            ship.getShipComponents().getHull().setVisibilityCoefGKInSmoke(ship.getShipComponents().getHull().getVisibilityCoefGKInSmoke() * detect_coef);
-                        }
+//                        if (ship.getShipComponents().getHull().getVisibilityCoefGKInSmoke() != 0)
+//                        {
+//                            ship.getShipComponents().getHull().setVisibilityCoefGKInSmoke(ship.getShipComponents().getHull().getVisibilityCoefGKInSmoke() * detect_coef);
+//                        }
                     }
                 }
             });
@@ -996,10 +996,10 @@ public class APIService
                 ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * consumables.getProfile().getVisibilityDistCoeff().getValue());
                 ship.getConcealment().setDetect_distance_by_plane(ship.getConcealment().getDetect_distance_by_plane() * consumables.getProfile().getVisibilityDistCoeff().getValue());
 
-                if (ship.getShipComponents().getHull().getVisibilityCoefGKInSmoke() != 0)
-                {
-                    ship.getShipComponents().getHull().setVisibilityCoefGKInSmoke(ship.getShipComponents().getHull().getVisibilityCoefGKInSmoke() * consumables.getProfile().getVisibilityDistCoeff().getValue());
-                }
+//                if (ship.getShipComponents().getHull().getVisibilityCoefGKInSmoke() != 0)
+//                {
+//                    ship.getShipComponents().getHull().setVisibilityCoefGKInSmoke(ship.getShipComponents().getHull().getVisibilityCoefGKInSmoke() * consumables.getProfile().getVisibilityDistCoeff().getValue());
+//                }
             }
         }
 
