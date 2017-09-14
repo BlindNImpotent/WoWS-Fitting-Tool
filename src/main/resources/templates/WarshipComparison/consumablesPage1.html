@@ -31,6 +31,9 @@
                         <th:block th:if="${type.value.torpedoReloadTime != 0}">
                             <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.torpedoReloadTime, 0, 'COMMA') + ' s'}"/><br />
                         </th:block>
+                        <th:block th:if="${type.value.artilleryDistCoeff != 0}">
+                            <span style="float: left;">Range: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.artilleryDistCoeff * shipAPI1.artillery.distance, 1, 1) + ' km'}"/><br />
+                        </th:block>
                         <br />
                     </div>
                 </th:block>
@@ -64,6 +67,9 @@
                         </th:block>
                         <th:block th:if="${type.value.torpedoReloadTime != 0}">
                             <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.torpedoReloadTime, 0, 'COMMA') + ' s'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.artilleryDistCoeff != 0}">
+                            <span style="float: left;">Range: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.artilleryDistCoeff * shipAPI1.artillery.distance, 1, 1) + ' km'}"/><br />
                         </th:block>
                         <br />
                     </div>
@@ -99,6 +105,9 @@
                         <th:block th:if="${type.value.torpedoReloadTime != 0}">
                             <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.torpedoReloadTime, 0, 'COMMA') + ' s'}"/><br />
                         </th:block>
+                        <th:block th:if="${type.value.artilleryDistCoeff != 0}">
+                            <span style="float: left;">Range: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.artilleryDistCoeff * shipAPI1.artillery.distance, 1, 1) + ' km'}"/><br />
+                        </th:block>
                         <br />
                     </div>
                 </th:block>
@@ -132,6 +141,9 @@
                         </th:block>
                         <th:block th:if="${type.value.torpedoReloadTime != 0}">
                             <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.torpedoReloadTime, 0, 'COMMA') + ' s'}"/><br />
+                        </th:block>
+                        <th:block th:if="${type.value.artilleryDistCoeff != 0}">
+                            <span style="float: left;">Range: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.artilleryDistCoeff * shipAPI1.artillery.distance, 1, 1) + ' km'}"/><br />
                         </th:block>
                         <br />
                     </div>
