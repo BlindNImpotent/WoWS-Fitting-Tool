@@ -46,7 +46,7 @@
                 <a th:href="${isLive ? '/test' : '/'}" th:text="${(isLive ? '0.6.11.0 Test ' : '0.6.10.0 Live ') + 'version link'}"/><br />
                 <span th:if="${!isLive}" th:text="'Difference between API and client data version may cause error'"/>
             </strong><br />
-            <li th:if="${noticeStat.index &lt; 3}" th:each="notice : ${notification}">
+            <li th:if="${noticeStat.index &lt; 5}" th:each="notice : ${notification}">
                 <strong th:text="${notice.key}"/><br />
                 <span th:utext="${notice.value}"/><br />
             </li>

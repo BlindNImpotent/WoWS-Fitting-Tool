@@ -118,7 +118,7 @@ public class APIJsonParser
         logger.info("Setting up notification");
         ObjectMapper mapper = new ObjectMapper();
 
-        Resource notificationFile = new UrlResource("https://s3.amazonaws.com/wowsft/notification.json");
+        Resource notificationFile = new ClassPathResource("static/json/notification/notification.json");
         notification.clear();
         LinkedHashMap<String, String> temp = mapper.readValue(notificationFile.getURL(), new TypeReference<LinkedHashMap<String, String>>(){});
 
