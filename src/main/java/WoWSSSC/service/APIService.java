@@ -2,6 +2,7 @@ package WoWSSSC.service;
 
 import WoWSSSC.model.WoWSAPI.APIAddress;
 import WoWSSSC.model.WoWSAPI.ModuleId;
+import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
 import WoWSSSC.model.bitly.Bitly;
 import WoWSSSC.model.bitly.BitlyData;
 import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
@@ -241,14 +242,17 @@ public class APIService
         }
 
         // Graf Zeppelin
-        if ("3543936816".equalsIgnoreCase(hull_id))
+        if (isLive && mapper.convertValue(data.get(serverParam).get("encyclopedia"), Encyclopedia.class).getGame_version().equalsIgnoreCase("0.6.10.1"))
         {
-            hull_id = "3554422576";
-        }
+            if ("3543936816".equalsIgnoreCase(hull_id))
+            {
+                hull_id = "3554422576";
+            }
 
-        if ("3544035120".equalsIgnoreCase(engine_id))
-        {
-            engine_id = "3554520880";
+            if ("3544035120".equalsIgnoreCase(engine_id))
+            {
+                engine_id = "3554520880";
+            }
         }
 
         Cloner cloner = new Cloner();
@@ -359,9 +363,9 @@ public class APIService
 
                     if (value.getReloadCoeff() > 0)
                     {
-                        if (ship.getArtillery() != null)
+                        if (ship.getShipComponents().getArtillery() != null)
                         {
-                            ship.getArtillery().setGun_rate(ship.getArtillery().getGun_rate() / value.getReloadCoeff());
+                            ship.getShipComponents().getArtillery().setShotDelay(ship.getShipComponents().getArtillery().getShotDelay() * value.getReloadCoeff());
                         }
 
                         if (ship.getTorpedoes() != null)
@@ -386,9 +390,9 @@ public class APIService
                     }
                     else if (value.getAirplaneReloadCoeff() != 0 && value.getArtilleryReloadCoeff() != 0 && value.getTorpedoReloadCoeff() != 0)
                     {
-                        if (ship.getArtillery() != null)
+                        if (ship.getShipComponents().getArtillery() != null)
                         {
-                            ship.getArtillery().setGun_rate(ship.getArtillery().getGun_rate() / value.getArtilleryReloadCoeff());
+                            ship.getShipComponents().getArtillery().setShotDelay(ship.getShipComponents().getArtillery().getShotDelay() * value.getReloadCoeff());
                         }
 
                         if (ship.getTorpedoes() != null)
@@ -463,12 +467,10 @@ public class APIService
                 }
                 else if (modifier.getBigGunBonus() != 0 && modifier.getSmallGunBonus() != 0) // 2_2
                 {
-                    if (ship.getArtillery() != null)
+                    if (ship.getShipComponents().getArtillery() != null)
                     {
-//                            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
-//                            int caliber = Integer.parseInt(splitName[0].trim());
-                        int caliber = shipComponents.getArtillery().getBarrelDiameter();
-                        float timeToDeg = 180 / ship.getArtillery().getRotation_time();
+                        int caliber = ship.getShipComponents().getArtillery().getBarrelDiameter();
+                        float timeToDeg = 180 / ship.getShipComponents().getArtillery().getRotationDeg();
 
                         if (caliber <= 139)
                         {
@@ -478,7 +480,7 @@ public class APIService
                         {
                             timeToDeg = timeToDeg + modifier.getBigGunBonus();
                         }
-                        ship.getArtillery().setRotation_time(180 / timeToDeg);
+                        ship.getShipComponents().getArtillery().setRotationDeg(180f / timeToDeg);
                     }
                 }
                 else if (modifier.getTorpedoRangeCoefficient() != 0 && modifier.getTorpedoSpeedBonus() != 0) // 2_3
@@ -511,9 +513,9 @@ public class APIService
                 {
                     float coef = 1 - ((100 - adrenalineValue) * modifier.getTimeStep() / 100);
 
-                    if (ship.getArtillery() != null)
+                    if (ship.getShipComponents().getArtillery() != null)
                     {
-                        ship.getArtillery().setGun_rate(ship.getArtillery().getGun_rate() / coef);
+                        ship.getShipComponents().getArtillery().setShotDelay(ship.getShipComponents().getArtillery().getShotDelay() * coef);
                     }
 
                     if (ship.getTorpedoes() != null)
@@ -574,17 +576,13 @@ public class APIService
                 }
                 else if (modifier.getAirDefenceEfficiencyCoefficient() != 0 && modifier.getSmallGunReloadCoefficient() != 0) // 3_4
                 {
-                    float gunRateBonus = 1.0f + (1.0f - modifier.getSmallGunReloadCoefficient());
-
-                    if (ship.getArtillery() != null)
+                    if (ship.getShipComponents().getArtillery() != null)
                     {
-//                            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
-//                            int caliber = Integer.parseInt(splitName[0].trim());
-                        int caliber = shipComponents.getArtillery().getBarrelDiameter();
+                        int caliber = ship.getShipComponents().getArtillery().getBarrelDiameter();
 
                         if (caliber <= 139)
                         {
-                            ship.getArtillery().setGun_rate(ship.getArtillery().getGun_rate() * gunRateBonus);
+                            ship.getShipComponents().getArtillery().setShotDelay(ship.getShipComponents().getArtillery().getShotDelay() * modifier.getSmallGunReloadCoefficient());
                         }
                     }
                     if (ship.getAnti_aircraft() != null)
@@ -772,15 +770,13 @@ public class APIService
                 }
                 else if (modifier.getAirDefenceRangeCoefficient() != 0 && modifier.getSmallGunRangeCoefficient() != 0) // 4_4
                 {
-                    if (ship.getArtillery() != null)
+                    if (ship.getShipComponents().getArtillery() != null)
                     {
-//                            String[] splitName = ship.getArtillery().getSlots().get("0").getName().split("mm");
-//                            int caliber = Integer.parseInt(splitName[0].trim());
-                        int caliber = shipComponents.getArtillery().getBarrelDiameter();
+                        int caliber = ship.getShipComponents().getArtillery().getBarrelDiameter();
                         if (caliber <= 139)
                         {
-                            float tempRatio = ship.getArtillery().getDistance() / ship.getArtillery().getMax_dispersion();
-                            ship.getArtillery().setDistance(ship.getArtillery().getDistance() * modifier.getSmallGunRangeCoefficient());
+                            float tempRatio = ship.getShipComponents().getArtillery().getMaxDist() / 1000f /  ship.getArtillery().getMax_dispersion();
+                            ship.getShipComponents().getArtillery().setMaxDist(ship.getShipComponents().getArtillery().getMaxDist() * modifier.getSmallGunRangeCoefficient());
                             ship.getArtillery().setMax_dispersion(ship.getArtillery().getDistance() / tempRatio);
                         }
                     }
@@ -850,11 +846,11 @@ public class APIService
         {
             if (ship.getShipComponents().getArtillery().getAPShell() != null)
             {
-                ship.getShipComponents().getArtillery().getAPShell().setMaxDist(ship.getArtillery().getDistance());
+                ship.getShipComponents().getArtillery().getAPShell().setMaxDist(ship.getShipComponents().getArtillery().getMaxDist());
             }
             if (ship.getShipComponents().getArtillery().getHEShell() != null)
             {
-                ship.getShipComponents().getArtillery().getHEShell().setMaxDist(ship.getArtillery().getDistance());
+                ship.getShipComponents().getArtillery().getHEShell().setMaxDist(ship.getShipComponents().getArtillery().getMaxDist());
             }
         }
 
@@ -887,7 +883,7 @@ public class APIService
             }
         }
 
-        if (ship.getArtillery() != null)
+        if (ship.getShipComponents().getArtillery() != null)
         {
             int caliber = ship.getShipComponents().getArtillery().getBarrelDiameter();
             if (consumables.getProfile().getBurnChanceFactorBig() != null)
@@ -926,18 +922,18 @@ public class APIService
             if (consumables.getProfile().getGMMaxDist() != null)
             {
                 float tempRatio = ship.getArtillery().getDistance() / ship.getArtillery().getMax_dispersion();
-                ship.getArtillery().setDistance(ship.getArtillery().getDistance() * consumables.getProfile().getGMMaxDist().getValue());
-                ship.getArtillery().setMax_dispersion(ship.getArtillery().getDistance() / tempRatio);
+                ship.getShipComponents().getArtillery().setMaxDist(ship.getShipComponents().getArtillery().getMaxDist() * consumables.getProfile().getGMMaxDist().getValue());
+                ship.getArtillery().setMax_dispersion(ship.getShipComponents().getArtillery().getMaxDist() / 1000f / tempRatio);
             }
 
             if (consumables.getProfile().getGMRotationSpeed() != null)
             {
-                ship.getArtillery().setRotation_time(ship.getArtillery().getRotation_time() / consumables.getProfile().getGMRotationSpeed().getValue());
+                ship.getShipComponents().getArtillery().setRotationDeg(ship.getShipComponents().getArtillery().getRotationDeg() * consumables.getProfile().getGMRotationSpeed().getValue());
             }
 
             if (consumables.getProfile().getGMShotDelay() != null)
             {
-                ship.getArtillery().setGun_rate(ship.getArtillery().getGun_rate() / consumables.getProfile().getGMShotDelay().getValue());
+                ship.getShipComponents().getArtillery().setShotDelay(ship.getShipComponents().getArtillery().getShotDelay() * consumables.getProfile().getGMShotDelay().getValue());
             }
         }
 

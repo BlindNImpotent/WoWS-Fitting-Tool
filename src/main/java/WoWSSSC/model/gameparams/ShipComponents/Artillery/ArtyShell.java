@@ -57,7 +57,6 @@ public class ArtyShell
     {
         float maxOne = 0f;
         float maxTwo = 0f;
-        maxDist = maxDist * 1000f;
 
         for (Map.Entry<Float, Float> entry : this.flightTime.entrySet())
         {

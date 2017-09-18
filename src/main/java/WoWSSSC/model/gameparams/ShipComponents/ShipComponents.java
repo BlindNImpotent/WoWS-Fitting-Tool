@@ -5,6 +5,7 @@ import WoWSSSC.model.gameparams.ShipComponents.ATBA.ATBA;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
 import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomber;
 import WoWSSSC.model.gameparams.ShipComponents.Engine.Engine;
+import WoWSSSC.model.gameparams.ShipComponents.FireControl.FireControl;
 import WoWSSSC.model.gameparams.ShipComponents.Hull.Hull;
 import WoWSSSC.model.gameparams.ShipComponents.TorpedoBomber.TorpedoBomber;
 import WoWSSSC.model.gameparams.ShipComponents.Torpedoes.Torpedoes;
@@ -29,7 +30,7 @@ public class ShipComponents
     private Engine engine;
     private LinkedHashMap<String, LinkedHashMap> fighter;
     private LinkedHashMap<String, LinkedHashMap> finders;
-    private LinkedHashMap<String, LinkedHashMap> fireControl;
+    private FireControl fireControl;
     private LinkedHashMap<String, LinkedHashMap> flightControl;
     private Hull hull;
     private Torpedoes torpedoes;

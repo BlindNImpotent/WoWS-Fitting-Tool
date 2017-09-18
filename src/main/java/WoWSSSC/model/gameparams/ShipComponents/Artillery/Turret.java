@@ -20,4 +20,7 @@ public class Turret
     private List<Float> vertSector;
     private List<Float> mainSector;
     private List<Float> position;
+
+    private List<Float> rotationSpeed;
+    private float shotDelay;
 }

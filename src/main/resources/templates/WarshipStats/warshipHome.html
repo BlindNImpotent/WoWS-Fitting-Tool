@@ -626,12 +626,11 @@
 //                                }
 //                            }
 //                        });
-
                         history.replaceState({
                             nation: nation,
                             shipType: shipType,
                             ship: ship
-                        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
+                        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + adrenalineValue + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
                     }
                     else
                     {
@@ -775,7 +774,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
+        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + adrenalineValue + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
     });
 
     $(document).on('change', '#commanderSelect', function ()
@@ -805,7 +804,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
+        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + adrenalineValue + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
 
 //        if ($('.button_skill_selected').length > 0)
 //        {

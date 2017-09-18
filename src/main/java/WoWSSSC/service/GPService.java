@@ -10,6 +10,7 @@ import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomber;
 import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomberBomb;
 import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomberPlane;
 import WoWSSSC.model.gameparams.ShipComponents.Engine.Engine;
+import WoWSSSC.model.gameparams.ShipComponents.FireControl.FireControl;
 import WoWSSSC.model.gameparams.ShipComponents.Hull.Hull;
 import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
@@ -347,6 +348,10 @@ public class GPService
                             {
                                 field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempList.get(0)), Hull.class));
                             }
+                            else if (field.getName().equalsIgnoreCase("FireControl"))
+                            {
+                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempList.get(0)), FireControl.class));
+                            }
                             else
                             {
                                 field.set(shipComponents, gameParamsCHM.get(serverParam).get(ship_id).get(tempList.get(0)));
@@ -359,6 +364,11 @@ public class GPService
             setShipAbilities(shipComponents, ship_id, disabledAbilities, serverParam);
 
             shipComponents.getHull().setWeight(tempShip.getWeight());
+
+            if (shipComponents.getArtillery() != null && shipComponents.getFireControl() != null)
+            {
+                shipComponents.getArtillery().setMaxDist(shipComponents.getArtillery().getMaxDist() * shipComponents.getFireControl().getMaxDistCoef());
+            }
 
             return shipComponents;
         }

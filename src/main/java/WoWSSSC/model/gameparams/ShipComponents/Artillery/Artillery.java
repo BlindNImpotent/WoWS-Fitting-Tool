@@ -53,6 +53,8 @@ public class Artillery
     private long penetraionIFHEBefore;
     private long penetraionIFHEAfter;
     private int overmatch;
+    private float rotationDeg;
+    private float shotDelay;
 
     private ArtyShell APShell;
     private ArtyShell HEShell;
@@ -69,10 +71,12 @@ public class Artillery
             turrets.put(name, turret);
             turretsList.add(turret);
 
-            if (barrelDiameter < turret.getBarrelDiameter() * 1000)
+            if (barrelDiameter != (int) (turret.getBarrelDiameter() * 1000))
             {
                 barrelDiameter = (int) (turret.getBarrelDiameter() * 1000);
                 overmatch = (int) Math.floor(barrelDiameter / 14.3);
+                rotationDeg = turret.getRotationSpeed().get(0);
+                shotDelay = turret.getShotDelay();
             }
         }
     }
