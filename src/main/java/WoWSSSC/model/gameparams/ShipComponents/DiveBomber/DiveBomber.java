@@ -12,5 +12,6 @@ public class DiveBomber
 {
     private String planeType;
 
+    private DiveBomberPlane plane;
     private DiveBomberBomb bomb;
 }

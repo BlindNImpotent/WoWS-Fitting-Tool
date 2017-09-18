@@ -279,6 +279,8 @@ public class GPService
                                 String id = nameToId.get(serverParam).get(shipComponents.getDiveBomber().getPlaneType());
                                 DiveBomberPlane diveBomberPlane = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), DiveBomberPlane.class);
 
+                                shipComponents.getDiveBomber().setPlane(diveBomberPlane);
+
                                 String bombId = nameToId.get(serverParam).get(diveBomberPlane.getBombName());
                                 DiveBomberBomb bomb = mapper.convertValue(gameParamsCHM.get(serverParam).get(bombId), DiveBomberBomb.class);
 
