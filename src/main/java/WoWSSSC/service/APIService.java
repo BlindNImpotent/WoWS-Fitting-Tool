@@ -485,17 +485,17 @@ public class APIService
                     if (ship.getShipComponents().getArtillery() != null)
                     {
                         int caliber = ship.getShipComponents().getArtillery().getBarrelDiameter();
-                        float timeToDeg = 180 / ship.getShipComponents().getArtillery().getRotationDeg();
+                        float deg = ship.getShipComponents().getArtillery().getRotationDeg();
 
                         if (caliber <= 139)
                         {
-                            timeToDeg = timeToDeg + modifier.getSmallGunBonus();
+                            deg = deg + modifier.getSmallGunBonus();
                         }
                         else
                         {
-                            timeToDeg = timeToDeg + modifier.getBigGunBonus();
+                            deg = deg + modifier.getBigGunBonus();
                         }
-                        ship.getShipComponents().getArtillery().setRotationDeg(180f / timeToDeg);
+                        ship.getShipComponents().getArtillery().setRotationDeg(deg);
                     }
                 }
                 else if (modifier.getTorpedoRangeCoefficient() != 0 && modifier.getTorpedoSpeedBonus() != 0) // 2_3
