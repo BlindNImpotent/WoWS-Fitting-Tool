@@ -23,4 +23,9 @@ public class Turret
 
     private List<Float> rotationSpeed;
     private float shotDelay;
+
+    private String name;
+    private int numBarrels;
+    private float antiAirAuraDistance;
+    private float antiAirAuraStrength;
 }

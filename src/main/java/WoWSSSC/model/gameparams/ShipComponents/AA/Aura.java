@@ -7,9 +7,10 @@ import java.util.List;
 
 @Data
 @JsonIgnoreProperties (ignoreUnknown = true)
-public class AuraFar
+public class Aura
 {
     private List<String> guns;
     private float selectedTargetCoeff;
     private float shotDelay;
+    private String auraType;
 }

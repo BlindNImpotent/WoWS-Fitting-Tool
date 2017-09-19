@@ -1,6 +1,7 @@
 package WoWSSSC.model.gameparams.ShipComponents;
 
 import WoWSSSC.model.gameparams.Consumables.Consumable;
+import WoWSSSC.model.gameparams.ShipComponents.AA.AirDefense;
 import WoWSSSC.model.gameparams.ShipComponents.AA.AntiAir;
 import WoWSSSC.model.gameparams.ShipComponents.ATBA.ATBA;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
@@ -25,7 +26,7 @@ import java.util.List;
 public class ShipComponents
 {
     private AirArmament airArmament;
-    private LinkedHashMap<String, LinkedHashMap> airDefense;
+    private AirDefense airDefense;
     private Artillery artillery;
     private ATBA atba;
     private LinkedHashMap<String, LinkedHashMap> directors;
@@ -43,4 +44,6 @@ public class ShipComponents
     private HashMap<String, Consumable> abilities = new HashMap<>();
 
     private List<AntiAir> auraFarList = new ArrayList<>();
+    private List<AntiAir> auraMediumList = new ArrayList<>();
+    private List<AntiAir> auraNearList = new ArrayList<>();
 }

@@ -1,13 +1,15 @@
 package WoWSSSC.service;
 
+import WoWSSSC.model.gameparams.ShipComponents.AA.AirDefense;
 import WoWSSSC.model.gameparams.ShipComponents.AA.AntiAir;
+import WoWSSSC.model.gameparams.ShipComponents.AA.Aura;
 import WoWSSSC.model.gameparams.ShipComponents.ATBA.ATBA;
-import WoWSSSC.model.gameparams.ShipComponents.AA.AuraFar;
 import WoWSSSC.model.gameparams.ShipComponents.ATBA.Secondary;
 import WoWSSSC.model.gameparams.ShipComponents.ATBA.Shell;
 import WoWSSSC.model.gameparams.ShipComponents.AirArmament;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.ArtyShell;
+import WoWSSSC.model.gameparams.ShipComponents.Artillery.Turret;
 import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomber;
 import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomberBomb;
 import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomberPlane;
@@ -209,28 +211,69 @@ public class GPService
                                     }
                                 }
 
-                                Artillery artillery = mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempArtillery), Artillery.class);
-                                field.set(shipComponents, artillery);
-
-                                shipComponents.getArtillery().getTurrets().values().forEach(value ->
+                                if (shipComponents.getArtillery() == null)
                                 {
-                                    float maxVertAngle = value.getVertSector().get(1);
-                                    value.getAmmoList().forEach(ammo ->
+                                    Artillery artillery = mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempArtillery), Artillery.class);
+                                    field.set(shipComponents, artillery);
+
+                                    HashSet<String> auraFarList = new HashSet<>();
+                                    if (shipComponents.getArtillery().getAuraFar() != null)
                                     {
-                                        String id = nameToId.get(serverParam).get(ammo);
-                                        ArtyShell ArtyShell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), ArtyShell.class);
-                                        if ("AP".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
+                                        shipComponents.getArtillery().getAuraFar().getGuns().forEach(gun ->
                                         {
-                                            setAPPenetration(ArtyShell, maxVertAngle);
-                                            shipComponents.getArtillery().setAPShell(ArtyShell);
-                                        }
-                                        else if ("HE".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getHEShell() == null)
+                                            auraFarList.add(shipComponents.getArtillery().getTurrets().get(gun).getName());
+                                        });
+                                    }
+
+                                    for (String auraFarString : auraFarList)
+                                    {
+                                        int count = 0;
+                                        AntiAir auraFar = null;
+                                        for (String value : shipComponents.getArtillery().getAuraFar().getGuns())
                                         {
-                                            setHEPenetration(ArtyShell, maxVertAngle);
-                                            shipComponents.getArtillery().setHEShell(ArtyShell);
+                                            if (auraFarString.equalsIgnoreCase(shipComponents.getArtillery().getTurrets().get(value).getName()))
+                                            {
+                                                count = count + 1;
+
+                                                if (auraFar == null)
+                                                {
+                                                    Turret tempSecondary = shipComponents.getArtillery().getTurrets().get(value);
+
+                                                    auraFar = new AntiAir();
+                                                    auraFar.setAntiAirAuraDistance(tempSecondary.getAntiAirAuraDistance());
+                                                    auraFar.setAntiAirAuraStrength(tempSecondary.getAntiAirAuraStrength());
+                                                    auraFar.setBarrelDiameter(tempSecondary.getBarrelDiameter());
+                                                    auraFar.setNumBarrels(tempSecondary.getNumBarrels());
+                                                    auraFar.setShotDelay(shipComponents.getArtillery().getAuraFar().getShotDelay());
+                                                    auraFar.setName(tempSecondary.getName());
+                                                    auraFar.setRealName((String) global.get(serverParam).get("IDS_" + tempSecondary.getName().toUpperCase()));
+                                                }
+                                            }
                                         }
+                                        auraFar.setCount(count);
+                                        shipComponents.getAuraFarList().add(auraFar);
+                                    }
+
+                                    shipComponents.getArtillery().getTurrets().values().forEach(value ->
+                                    {
+                                        float maxVertAngle = value.getVertSector().get(1);
+                                        value.getAmmoList().forEach(ammo ->
+                                        {
+                                            String id = nameToId.get(serverParam).get(ammo);
+                                            ArtyShell ArtyShell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), ArtyShell.class);
+                                            if ("AP".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
+                                            {
+                                                setAPPenetration(ArtyShell, maxVertAngle);
+                                                shipComponents.getArtillery().setAPShell(ArtyShell);
+                                            }
+                                            else if ("HE".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getHEShell() == null)
+                                            {
+                                                setHEPenetration(ArtyShell, maxVertAngle);
+                                                shipComponents.getArtillery().setHEShell(ArtyShell);
+                                            }
+                                        });
                                     });
-                                });
+                                }
                             }
                             else if (field.getName().equalsIgnoreCase("Torpedoes"))
                             {
@@ -392,6 +435,154 @@ public class GPService
                             else if (field.getName().equalsIgnoreCase("FireControl"))
                             {
                                 field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempList.get(0)), FireControl.class));
+                            }
+                            else if (field.getName().equalsIgnoreCase("AirDefense"))
+                            {
+                                field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempList.get(0)), AirDefense.class));
+
+                                HashSet<String> auraFarList = new HashSet<>();
+                                shipComponents.getAirDefense().getAuraTypes().forEach(type ->
+                                {
+                                    if (type.contains("AuraFar"))
+                                    {
+                                        shipComponents.getAirDefense().getAuras().get(type).getGuns().forEach(gun ->
+                                        {
+                                            auraFarList.add(shipComponents.getAirDefense().getAntiAirGuns().get(gun).getName());
+                                        });
+                                    }
+                                });
+
+                                for (String auraFarString : auraFarList)
+                                {
+                                    int count = 0;
+                                    AntiAir auraFar = null;
+
+                                    for (Aura aura : shipComponents.getAirDefense().getAuras().values())
+                                    {
+                                        if (aura.getAuraType().contains("AuraFar"))
+                                        {
+                                            for (String value : shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getGuns())
+                                            {
+                                                if (auraFarString.equalsIgnoreCase(shipComponents.getAirDefense().getAntiAirGuns().get(value).getName()))
+                                                {
+                                                    count = count + 1;
+
+                                                    if (auraFar == null)
+                                                    {
+                                                        Secondary tempSecondary = shipComponents.getAirDefense().getAntiAirGuns().get(value);
+
+                                                        auraFar = new AntiAir();
+                                                        auraFar.setAntiAirAuraDistance(tempSecondary.getAntiAirAuraDistance());
+                                                        auraFar.setAntiAirAuraStrength(tempSecondary.getAntiAirAuraStrength());
+                                                        auraFar.setBarrelDiameter(tempSecondary.getBarrelDiameter());
+                                                        auraFar.setNumBarrels(tempSecondary.getNumBarrels());
+                                                        auraFar.setShotDelay(shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getShotDelay());
+                                                        auraFar.setName(tempSecondary.getName());
+                                                        auraFar.setRealName((String) global.get(serverParam).get("IDS_" + tempSecondary.getName().toUpperCase()));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    auraFar.setCount(count);
+                                    shipComponents.getAuraFarList().add(auraFar);
+                                }
+
+                                HashSet<String> auraMediumList = new HashSet<>();
+                                shipComponents.getAirDefense().getAuraTypes().forEach(type ->
+                                {
+                                    if (type.contains("AuraMedium"))
+                                    {
+                                        shipComponents.getAirDefense().getAuras().get(type).getGuns().forEach(gun ->
+                                        {
+                                            auraMediumList.add(shipComponents.getAirDefense().getAntiAirGuns().get(gun).getName());
+                                        });
+                                    }
+                                });
+
+                                for (String auraMediumString : auraMediumList)
+                                {
+                                    int count = 0;
+                                    AntiAir auraMedium = null;
+
+                                    for (Aura aura : shipComponents.getAirDefense().getAuras().values())
+                                    {
+                                        if (aura.getAuraType().contains("AuraMedium"))
+                                        {
+                                            for (String value : shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getGuns())
+                                            {
+                                                if (auraMediumString.equalsIgnoreCase(shipComponents.getAirDefense().getAntiAirGuns().get(value).getName()))
+                                                {
+                                                    count = count + 1;
+
+                                                    if (auraMedium == null)
+                                                    {
+                                                        Secondary tempSecondary = shipComponents.getAirDefense().getAntiAirGuns().get(value);
+
+                                                        auraMedium = new AntiAir();
+                                                        auraMedium.setAntiAirAuraDistance(tempSecondary.getAntiAirAuraDistance());
+                                                        auraMedium.setAntiAirAuraStrength(tempSecondary.getAntiAirAuraStrength());
+                                                        auraMedium.setBarrelDiameter(tempSecondary.getBarrelDiameter());
+                                                        auraMedium.setNumBarrels(tempSecondary.getNumBarrels());
+                                                        auraMedium.setShotDelay(shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getShotDelay());
+                                                        auraMedium.setName(tempSecondary.getName());
+                                                        auraMedium.setRealName((String) global.get(serverParam).get("IDS_" + tempSecondary.getName().toUpperCase()));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    auraMedium.setCount(count);
+                                    shipComponents.getAuraMediumList().add(auraMedium);
+                                }
+
+                                HashSet<String> auraNearList = new HashSet<>();
+                                shipComponents.getAirDefense().getAuraTypes().forEach(type ->
+                                {
+                                    if (type.contains("AuraNear"))
+                                    {
+                                        shipComponents.getAirDefense().getAuras().get(type).getGuns().forEach(gun ->
+                                        {
+                                            auraNearList.add(shipComponents.getAirDefense().getAntiAirGuns().get(gun).getName());
+                                        });
+                                    }
+                                });
+
+                                for (String auraNearString : auraNearList)
+                                {
+                                    int count = 0;
+                                    AntiAir auraNear = null;
+
+                                    for (Aura aura : shipComponents.getAirDefense().getAuras().values())
+                                    {
+                                        if (aura.getAuraType().contains("AuraNear"))
+                                        {
+                                            for (String value : shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getGuns())
+                                            {
+                                                if (auraNearString.equalsIgnoreCase(shipComponents.getAirDefense().getAntiAirGuns().get(value).getName()))
+                                                {
+                                                    count = count + 1;
+
+                                                    if (auraNear == null)
+                                                    {
+                                                        Secondary tempSecondary = shipComponents.getAirDefense().getAntiAirGuns().get(value);
+
+                                                        auraNear = new AntiAir();
+                                                        auraNear.setAntiAirAuraDistance(tempSecondary.getAntiAirAuraDistance());
+                                                        auraNear.setAntiAirAuraStrength(tempSecondary.getAntiAirAuraStrength());
+                                                        auraNear.setBarrelDiameter(tempSecondary.getBarrelDiameter());
+                                                        auraNear.setNumBarrels(tempSecondary.getNumBarrels());
+                                                        auraNear.setShotDelay(shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getShotDelay());
+                                                        auraNear.setName(tempSecondary.getName());
+                                                        auraNear.setRealName((String) global.get(serverParam).get("IDS_" + tempSecondary.getName().toUpperCase()));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    auraNear.setCount(count);
+                                    shipComponents.getAuraNearList().add(auraNear);
+                                }
                             }
                             else
                             {

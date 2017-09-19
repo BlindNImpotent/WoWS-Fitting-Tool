@@ -1,5 +1,6 @@
 package WoWSSSC.model.gameparams.ShipComponents.Artillery;
 
+import WoWSSSC.model.gameparams.ShipComponents.AA.Aura;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -20,9 +21,9 @@ public class Artillery
     private LinkedHashMap<String, Turret> turrets = new LinkedHashMap<>();
     private List<Turret> turretsList = new ArrayList<>();
 
-    private LinkedHashMap<String, LinkedHashMap> AuraFar;
-    private LinkedHashMap<String, LinkedHashMap> AuraMedium;
-    private LinkedHashMap<String, LinkedHashMap> AuraNear;
+//    private LinkedHashMap<String, LinkedHashMap> AuraFar;
+//    private LinkedHashMap<String, LinkedHashMap> AuraMedium;
+//    private LinkedHashMap<String, LinkedHashMap> AuraNear;
     private int aimLevel;
     private LinkedHashMap<String, Integer> ammoPool;
     private float maxDist;
@@ -59,6 +60,8 @@ public class Artillery
     private ArtyShell APShell;
     private ArtyShell HEShell;
 
+    private Aura auraFar;
+
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -78,6 +81,10 @@ public class Artillery
                 rotationDeg = turret.getRotationSpeed().get(0);
                 shotDelay = turret.getShotDelay();
             }
+        }
+        else if (mapper.convertValue(value, LinkedHashMap.class).get("guns") != null)
+        {
+            auraFar = mapper.convertValue(value, Aura.class);
         }
     }
 
