@@ -679,6 +679,8 @@ public class GPService
         LinkedHashMap<Float, Float> penetration = new LinkedHashMap<>();
         LinkedHashMap<Float, Float> flightTime = new LinkedHashMap<>();
 
+        float maxDistCalc = 0f;
+
         for (int i = 0; i < alpha.length; i++) // for each alpha angle do:
         {
             float v_x = (float) Math.cos(alpha[i]) * V_0;
@@ -706,8 +708,12 @@ public class GPService
             float p_athit = C * (float) Math.pow(v_total, 1.1f) * (float) Math.pow(W, 0.55f) / (float)Math.pow(D * 1000f, 0.65f); // PENETRATION FORMULA
             float IA = (float) Math.atan(Math.abs(v_y) / Math.abs(v_x)); // IMPACT ANGLE ON BELT ARMOR
 
-            penetration.put(x, (float) Math.cos(IA) * p_athit);
-            flightTime.put(x, t / 3f);
+            if (x > maxDistCalc)
+            {
+                maxDistCalc = x;
+                penetration.put(x, (float) Math.cos(IA) * p_athit);
+                flightTime.put(x, t / 3f);
+            }
         }
         ArtyShell.setAPShell(penetration, flightTime);
     }
@@ -744,6 +750,8 @@ public class GPService
 
         LinkedHashMap<Float, Float> flightTime = new LinkedHashMap<>();
 
+        float maxDistCalc = 0f;
+
         for (int i = 0; i < alpha.length; i++) // for each alpha angle do:
         {
             float v_x = (float) Math.cos(alpha[i]) * V_0;
@@ -766,7 +774,12 @@ public class GPService
 
                 t = t + dt;
             }
-            flightTime.put(x, t / 3f);
+
+            if (x > maxDistCalc)
+            {
+                maxDistCalc = x;
+                flightTime.put(x, t / 3f);
+            }
         }
         ArtyShell.setHEShell(flightTime);
     }
