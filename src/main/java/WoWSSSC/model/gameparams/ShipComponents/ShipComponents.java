@@ -1,6 +1,7 @@
 package WoWSSSC.model.gameparams.ShipComponents;
 
 import WoWSSSC.model.gameparams.Consumables.Consumable;
+import WoWSSSC.model.gameparams.ShipComponents.AA.AntiAir;
 import WoWSSSC.model.gameparams.ShipComponents.ATBA.ATBA;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
 import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomber;
@@ -12,8 +13,10 @@ import WoWSSSC.model.gameparams.ShipComponents.Torpedoes.Torpedoes;
 import WoWSSSC.model.gameparams.test.Values.ShipAbilities.ShipAbilities;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Created by Aesis on 2016. 12. 6..
@@ -38,4 +41,6 @@ public class ShipComponents
 
     private ShipAbilities shipAbilities;
     private HashMap<String, Consumable> abilities = new HashMap<>();
+
+    private List<AntiAir> auraFarList = new ArrayList<>();
 }

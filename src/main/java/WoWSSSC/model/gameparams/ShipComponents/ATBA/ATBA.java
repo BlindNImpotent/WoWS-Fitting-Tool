@@ -1,5 +1,6 @@
 package WoWSSSC.model.gameparams.ShipComponents.ATBA;
 
+import WoWSSSC.model.gameparams.ShipComponents.AA.AuraFar;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,7 +19,7 @@ import java.util.List;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)
 public class ATBA
 {
-//    private HashMap<String, HashMap> AuraFar;
+    private AuraFar auraFar;
     private float maxDist;
     private float minDistH;
     private float minDistV;
@@ -52,6 +53,10 @@ public class ATBA
         {
             Secondary secondary = mapper.convertValue(value, Secondary.class);
             secondaries.put(name, secondary);
+        }
+        else if (!(value instanceof String) && mapper.convertValue(value, LinkedHashMap.class).get("guns") != null)
+        {
+            auraFar = mapper.convertValue(value, AuraFar.class);
         }
     }
 }

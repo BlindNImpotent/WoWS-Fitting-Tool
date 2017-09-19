@@ -25,6 +25,9 @@ public class Secondary
     private String realName;
     private Shell shell;
 
+    private float antiAirAuraDistance;
+    private float antiAirAuraStrength;
+
     public int getBarrelDiameterReal()
     {
         return (int) (barrelDiameter * 100);

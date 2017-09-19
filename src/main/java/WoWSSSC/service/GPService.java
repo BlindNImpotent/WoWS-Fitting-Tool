@@ -1,6 +1,8 @@
 package WoWSSSC.service;
 
+import WoWSSSC.model.gameparams.ShipComponents.AA.AntiAir;
 import WoWSSSC.model.gameparams.ShipComponents.ATBA.ATBA;
+import WoWSSSC.model.gameparams.ShipComponents.AA.AuraFar;
 import WoWSSSC.model.gameparams.ShipComponents.ATBA.Secondary;
 import WoWSSSC.model.gameparams.ShipComponents.ATBA.Shell;
 import WoWSSSC.model.gameparams.ShipComponents.AirArmament;
@@ -22,7 +24,6 @@ import WoWSSSC.model.gameparams.ShipComponents.TorpedoBomber.TorpedoBomberTorped
 import WoWSSSC.model.gameparams.ShipComponents.Torpedoes.Torpedo;
 import WoWSSSC.model.gameparams.ShipComponents.Torpedoes.Torpedoes;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.Module.Components;
-import WoWSSSC.model.gameparams.ShipUpgradeInfo.Module.Module;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.ShipUpgradeInfo;
 import WoWSSSC.model.gameparams.Temporary;
 import WoWSSSC.model.gameparams.test.Values.ShipAbilities.ShipAbilities;
@@ -312,6 +313,44 @@ public class GPService
                             else if (field.getName().equalsIgnoreCase("ATBA"))
                             {
                                 field.set(shipComponents, mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempList.get(0)), ATBA.class));
+
+                                HashSet<String> auraFarList = new HashSet<>();
+                                if (shipComponents.getAtba().getAuraFar() != null)
+                                {
+                                    shipComponents.getAtba().getAuraFar().getGuns().forEach(gun ->
+                                    {
+                                        auraFarList.add(shipComponents.getAtba().getSecondaries().get(gun).getName());
+                                    });
+                                }
+
+                                for (String auraFarString : auraFarList)
+                                {
+                                    int count = 0;
+                                    AntiAir auraFar = null;
+                                    for (String value : shipComponents.getAtba().getAuraFar().getGuns())
+                                    {
+                                        if (auraFarString.equalsIgnoreCase(shipComponents.getAtba().getSecondaries().get(value).getName()))
+                                        {
+                                            count = count + 1;
+
+                                            if (auraFar == null)
+                                            {
+                                                Secondary tempSecondary = shipComponents.getAtba().getSecondaries().get(value);
+
+                                                auraFar = new AntiAir();
+                                                auraFar.setAntiAirAuraDistance(tempSecondary.getAntiAirAuraDistance());
+                                                auraFar.setAntiAirAuraStrength(tempSecondary.getAntiAirAuraStrength());
+                                                auraFar.setBarrelDiameter(tempSecondary.getBarrelDiameter());
+                                                auraFar.setNumBarrels(tempSecondary.getNumBarrels());
+                                                auraFar.setShotDelay(shipComponents.getAtba().getAuraFar().getShotDelay());
+                                                auraFar.setName(tempSecondary.getName());
+                                                auraFar.setRealName((String) global.get(serverParam).get("IDS_" + tempSecondary.getName().toUpperCase()));
+                                            }
+                                        }
+                                    }
+                                    auraFar.setCount(count);
+                                    shipComponents.getAuraFarList().add(auraFar);
+                                }
 
                                 HashSet<String> indexNameList = new HashSet<>();
                                 shipComponents.getAtba().getSecondaries().values().forEach(value ->
