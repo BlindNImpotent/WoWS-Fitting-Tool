@@ -294,6 +294,36 @@ public class APIService
 
         setCustomValues(ship_id, ship);
 
+        if (ship.getAnti_aircraft() != null)
+        {
+            ship.getAnti_aircraft().getSlots().values().forEach(aa ->
+            {
+                ship.getShipComponents().getAuraFarList().forEach(auraFar ->
+                {
+                    if (aa.getName().equalsIgnoreCase(auraFar.getRealName()))
+                    {
+                        aa.setName(String.valueOf(auraFar.getNumBarrels()) + " " + aa.getName());
+                    }
+                });
+
+                ship.getShipComponents().getAuraMediumList().forEach(auraMedium ->
+                {
+                    if (aa.getName().equalsIgnoreCase(auraMedium.getRealName()))
+                    {
+                        aa.setName(String.valueOf(auraMedium.getNumBarrels()) + " " + aa.getName());
+                    }
+                });
+
+                ship.getShipComponents().getAuraNearList().forEach(auraNear ->
+                {
+                    if (aa.getName().equalsIgnoreCase(auraNear.getRealName()))
+                    {
+                        aa.setName(String.valueOf(auraNear.getNumBarrels()) + " " + aa.getName());
+                    }
+                });
+            });
+        }
+
 //        if (getTorpedoVisibilities && warship.getTier() > 1)
 //        {
 //            setTorpedoVisibility(ship, warship.getTier(), serverParam);
