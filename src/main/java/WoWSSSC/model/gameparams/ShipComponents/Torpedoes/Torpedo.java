@@ -10,6 +10,7 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Torpedo
 {
+    private boolean isIsDeepWater;
     private boolean uwAbility;
     private float uwCritical;
 
