@@ -30,7 +30,7 @@ import java.util.*;
  */
 @Controller
 @RequestMapping (value = "/test")
-public class APIControllerTest extends ExceptionController
+public class APIControllerTest
 {
     @Autowired
     private APIService apiService;
