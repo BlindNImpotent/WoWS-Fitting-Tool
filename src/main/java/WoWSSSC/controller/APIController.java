@@ -60,6 +60,13 @@ public class APIController extends ExceptionController
     private String serverParam = "live";
     private String serverParamAddress = "";
 
+    @ResponseBody
+    @RequestMapping (value = "/data")
+    public LinkedHashMap getData()
+    {
+        return data.get(serverParam);
+    }
+
     @RequestMapping (value = "", method = RequestMethod.GET)
     public String home(Model model)
     {

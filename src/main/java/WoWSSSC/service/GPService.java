@@ -443,7 +443,7 @@ public class GPService
                                 HashSet<String> auraFarList = new HashSet<>();
                                 shipComponents.getAirDefense().getAuraTypes().forEach(type ->
                                 {
-                                    if (type.contains("AuraFar"))
+                                    if (type.contains("Far"))
                                     {
                                         shipComponents.getAirDefense().getAuras().get(type).getGuns().forEach(gun ->
                                         {
@@ -459,7 +459,7 @@ public class GPService
 
                                     for (Aura aura : shipComponents.getAirDefense().getAuras().values())
                                     {
-                                        if (aura.getAuraType().contains("AuraFar"))
+                                        if (aura.getAuraType().contains("Far"))
                                         {
                                             for (String value : shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getGuns())
                                             {
@@ -491,7 +491,7 @@ public class GPService
                                 HashSet<String> auraMediumList = new HashSet<>();
                                 shipComponents.getAirDefense().getAuraTypes().forEach(type ->
                                 {
-                                    if (type.contains("AuraMedium"))
+                                    if (type.contains("Medium"))
                                     {
                                         shipComponents.getAirDefense().getAuras().get(type).getGuns().forEach(gun ->
                                         {
@@ -507,7 +507,7 @@ public class GPService
 
                                     for (Aura aura : shipComponents.getAirDefense().getAuras().values())
                                     {
-                                        if (aura.getAuraType().contains("AuraMedium"))
+                                        if (aura.getAuraType().contains("Medium"))
                                         {
                                             for (String value : shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getGuns())
                                             {
@@ -539,7 +539,7 @@ public class GPService
                                 HashSet<String> auraNearList = new HashSet<>();
                                 shipComponents.getAirDefense().getAuraTypes().forEach(type ->
                                 {
-                                    if (type.contains("AuraNear"))
+                                    if (type.contains("Near"))
                                     {
                                         shipComponents.getAirDefense().getAuras().get(type).getGuns().forEach(gun ->
                                         {
@@ -555,7 +555,7 @@ public class GPService
 
                                     for (Aura aura : shipComponents.getAirDefense().getAuras().values())
                                     {
-                                        if (aura.getAuraType().contains("AuraNear"))
+                                        if (aura.getAuraType().contains("Near"))
                                         {
                                             for (String value : shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getGuns())
                                             {
