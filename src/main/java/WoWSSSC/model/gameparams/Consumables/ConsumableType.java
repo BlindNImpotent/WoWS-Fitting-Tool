@@ -38,12 +38,12 @@ public class ConsumableType
 
     public float getDistShipModified()
     {
-        return distShip / (33 + (1 / 3));
+        return distShip / (33f + (1f / 3f));
     }
 
     public float getDistTorpedoModified()
     {
-        return distTorpedo / (33 + (1 / 3));
+        return distTorpedo / (33f + (1f / 3f));
     }
 
 
