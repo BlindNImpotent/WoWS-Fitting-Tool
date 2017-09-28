@@ -241,35 +241,6 @@ public class APIService
             return null;
         }
 
-        // Graf Zeppelin
-        if ("3760174896".equalsIgnoreCase(ship_id) && isLive && "0.6.10.1".equalsIgnoreCase(mapper.convertValue(data.get(serverParam).get("encyclopedia"), Encyclopedia.class).getGame_version()))
-        {
-            if ("3543936816".equalsIgnoreCase(hull_id))
-            {
-                hull_id = "3554422576";
-            }
-
-            if ("3544035120".equalsIgnoreCase(engine_id))
-            {
-                engine_id = "3554520880";
-            }
-
-            if ("3548098352".equalsIgnoreCase(fighter_id))
-            {
-                fighter_id = "3558584112";
-            }
-
-            if ("3548196656".equalsIgnoreCase(flight_control_id))
-            {
-                flight_control_id = "3558682416";
-            }
-
-            if ("3547213616".equalsIgnoreCase(dive_bomber_id))
-            {
-                dive_bomber_id = "3557699376";
-            }
-        }
-
         Cloner cloner = new Cloner();
         Ship ship = cloner.deepClone(shipHashMap.get(key));
 
