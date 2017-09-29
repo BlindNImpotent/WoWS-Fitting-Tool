@@ -231,12 +231,6 @@ public class AsyncHashMap implements CommandLineRunner {
                             try {
                                 shipType.getValue().get().getData().entrySet().forEach(warship ->
                                 {
-                                    // GZ Test I
-                                    if ("3761223472".equalsIgnoreCase(warship.getKey()))
-                                    {
-                                        return;
-                                    }
-
                                     Warship tws = tempWarships.get(String.valueOf(warship.getValue().getShip_id()));
 
                                     Warship prevShip;
