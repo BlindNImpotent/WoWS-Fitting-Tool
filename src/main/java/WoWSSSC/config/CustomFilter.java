@@ -1,6 +1,7 @@
 package WoWSSSC.config;
 
 import WoWSSSC.model.BlockIp;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,6 +18,7 @@ import java.util.HashSet;
 /**
  * Created by Aesis on 2017. 5. 21..
  */
+@Slf4j
 @Configuration
 @ComponentScan(basePackages = {"WoWSSSC"})
 public class CustomFilter implements Filter
@@ -45,38 +47,53 @@ public class CustomFilter implements Filter
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
+        String ipAddress = discordWebhook.getClientIPAddress(request);
+
         if (request.getRequestURI().equalsIgnoreCase("/"))
         {
-            if (!ipMap.containsKey(discordWebhook.getClientIPAddress(request)))
+            if (!ipMap.containsKey(ipAddress))
             {
-                ipMap.put(discordWebhook.getClientIPAddress(request), new BlockIp(discordWebhook.getClientIPAddress(request)));
+                ipMap.put(ipAddress, new BlockIp(ipAddress));
             }
             else
             {
-                if (ipMap.get(discordWebhook.getClientIPAddress(request)).getCount() < 5)
+                if (ipMap.get(ipAddress).getBlockCount() < 3)
                 {
-                    ipMap.get(discordWebhook.getClientIPAddress(request)).doCount();
-                }
-                else
-                {
-                    if (System.currentTimeMillis() - ipMap.get(discordWebhook.getClientIPAddress(request)).getCreated().getTime() < 60000)
+                    if (ipMap.get(ipAddress).getCount() < 5)
                     {
-                        if (!blockIP.contains(discordWebhook.getClientIPAddress(request)))
-                        {
-                            ipMap.get(discordWebhook.getClientIPAddress(request)).setCreated(new Date());
-                            blockIP.add(discordWebhook.getClientIPAddress(request));
-                        }
+                        ipMap.get(ipAddress).doCount();
                     }
                     else
                     {
-                        blockIP.remove(discordWebhook.getClientIPAddress(request));
-                        ipMap.get(discordWebhook.getClientIPAddress(request)).reset();
+                        if (System.currentTimeMillis() - ipMap.get(ipAddress).getCreated().getTime() < 60 * 1000)
+                        {
+                            if (!blockIP.contains(ipAddress))
+                            {
+                                ipMap.get(ipAddress).setCreated(new Date()).setBlockCreated(new Date()).addBlockCount();
+                                blockIP.add(ipAddress);
+
+                                log.error("Blocked: " + ipAddress + ", count: " + ipMap.get(ipAddress).getBlockCount());
+                            }
+                        }
+                        else
+                        {
+                            blockIP.remove(ipAddress);
+                            ipMap.get(ipAddress).reset();
+                        }
+                    }
+                }
+                else
+                {
+                    if (System.currentTimeMillis() - ipMap.get(ipAddress).getBlockCreated().getTime() > 24 * 60 * 60 * 1000)
+                    {
+                        blockIP.remove(ipAddress);
+                        ipMap.get(ipAddress).resetBlock();
                     }
                 }
             }
         }
 
-        if (blockIP.contains(discordWebhook.getClientIPAddress(request)))
+        if (blockIP.contains(ipAddress))
         {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;

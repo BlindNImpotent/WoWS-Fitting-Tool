@@ -1,4 +1,5 @@
 {
+	"2017-10-20": "Modified server to block malicious bots",
 	"2017-09-18": "Added dive bomber accuracy",
 	"2017-09-04": "Added Artillery/Torpedo angle sector for testing",
 	"2017-08-25": "Fixed bug regarding AP shell penetration",
