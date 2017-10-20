@@ -1,5 +1,6 @@
 package WoWSSSC.config;
 
+import WoWSSSC.model.BlockIp;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,6 +10,8 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -22,6 +25,8 @@ public class CustomFilter implements Filter
     private DiscordWebhook discordWebhook;
 
     private static HashSet<String> blockIP = new HashSet<>();
+
+    private HashMap<String, BlockIp> ipMap = new HashMap<>();
 
     static
     {
@@ -39,6 +44,37 @@ public class CustomFilter implements Filter
     {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
+
+        if (request.getRequestURI().equalsIgnoreCase("/"))
+        {
+            if (!ipMap.containsKey(discordWebhook.getClientIPAddress(request)))
+            {
+                ipMap.put(discordWebhook.getClientIPAddress(request), new BlockIp(discordWebhook.getClientIPAddress(request)));
+            }
+            else
+            {
+                if (ipMap.get(discordWebhook.getClientIPAddress(request)).getCount() < 5)
+                {
+                    ipMap.get(discordWebhook.getClientIPAddress(request)).doCount();
+                }
+                else
+                {
+                    if (System.currentTimeMillis() - ipMap.get(discordWebhook.getClientIPAddress(request)).getCreated().getTime() < 60000)
+                    {
+                        if (!blockIP.contains(discordWebhook.getClientIPAddress(request)))
+                        {
+                            ipMap.get(discordWebhook.getClientIPAddress(request)).setCreated(new Date());
+                            blockIP.add(discordWebhook.getClientIPAddress(request));
+                        }
+                    }
+                    else
+                    {
+                        blockIP.remove(discordWebhook.getClientIPAddress(request));
+                        ipMap.get(discordWebhook.getClientIPAddress(request)).reset();
+                    }
+                }
+            }
+        }
 
         if (blockIP.contains(discordWebhook.getClientIPAddress(request)))
         {

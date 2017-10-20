@@ -25,6 +25,7 @@ public class ShipUpgradeInfo
     private long rentCostCR;
     private long rentCostGold;
     private long value;
+    private long costSaleGold;
 
     @JsonIgnore
     ObjectMapper mapper = new ObjectMapper();

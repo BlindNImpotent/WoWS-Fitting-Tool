@@ -2,6 +2,7 @@ package WoWSSSC.controller;
 
 import WoWSSSC.config.DiscordWebhook;
 import WoWSSSC.model.WoWSAPI.ModuleId;
+import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.email.EmailModel;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
@@ -60,6 +61,8 @@ public class APIController extends ExceptionController
     private String serverParam = "live";
     private String serverParamAddress = "";
 
+    private Encyclopedia encyclopedia;
+
     @ResponseBody
     @RequestMapping (value = "/data")
     public LinkedHashMap getData()
@@ -73,7 +76,12 @@ public class APIController extends ExceptionController
         model.addAttribute("isLive", isLive);
         model.addAttribute("serverParam", serverParamAddress);
         model.addAttribute("notification", notification);
-        model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
+
+        if (encyclopedia == null)
+        {
+            encyclopedia = mapper.convertValue(data.get(serverParam).get("encyclopedia"), Encyclopedia.class);
+        }
+        model.addAttribute("encyclopedia", encyclopedia);
 
         return "home";
     }

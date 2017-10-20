@@ -76,6 +76,13 @@ public class Modernization
     private float visionDistCoeff;
     private float visionTorpedoCoeff;
     private float visionXRayShipCoeff;
+    
+    private float trigger1SearchWorkTime;
+    private float trigger2SearchWorkTime;
+    private float trigger3SearchWorkTime;
+    private float trigger4SearchWorkTime;
+    private float trigger5SearchWorkTime;
+    private float trigger6SearchWorkTime;
 
     private String upgradeSlot;
     private int tempCR;
