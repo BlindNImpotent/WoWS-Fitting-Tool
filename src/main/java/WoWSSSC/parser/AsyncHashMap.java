@@ -220,7 +220,7 @@ public class AsyncHashMap implements CommandLineRunner {
 
                 Thread.sleep(10000);
 
-                while ((isFirstRun && "live".equalsIgnoreCase(serverParam)) || (!isFirstRun && "test".equalsIgnoreCase(serverParam))) {
+                while ((isFirstRun && "live".equalsIgnoreCase(serverParam)) || ((!isFirstRun && "test".equalsIgnoreCase(serverParam)) && gameParamsCHM.size() > 1)) {
                     CompletableFuture.runAsync(() -> futures.entrySet().forEach(futureEntry ->
                     {
                         LinkedHashMap<String, LinkedHashMap> wsdlhm = new LinkedHashMap<>();
