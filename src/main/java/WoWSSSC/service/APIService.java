@@ -560,17 +560,17 @@ public class APIService
                         ship.setFlood(ship.getFlood() * modifier.getCritTimeCoefficient());
                     }
 
-                    ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
-                    {
-                        Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
-
-                        if (tempConsumable.getName().contains("CrashCrew"))
-                        {
-                            tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * modifier.getCritTimeCoefficient()));
-                        }
-
-                        ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
-                    });
+//                    ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+//                    {
+//                        Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
+//
+//                        if (tempConsumable.getName().contains("CrashCrew"))
+//                        {
+//                            tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * modifier.getCritTimeCoefficient()));
+//                        }
+//
+//                        ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
+//                    });
                 }
                 else if (modifier.getHealthPerLevel() != 0) // 3_1
                 {

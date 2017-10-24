@@ -229,7 +229,7 @@ public class AsyncHashMap implements CommandLineRunner {
                         {
                             WarshipData wsd = new WarshipData();
                             try {
-                                shipType.getValue().get().getData().entrySet().forEach(warship ->
+                                shipType.getValue().get().getData().entrySet().stream().filter(oWarship -> !oWarship.getValue().getName().startsWith("[")).forEach(warship ->
                                 {
                                     Warship tws = tempWarships.get(String.valueOf(warship.getValue().getShip_id()));
 
