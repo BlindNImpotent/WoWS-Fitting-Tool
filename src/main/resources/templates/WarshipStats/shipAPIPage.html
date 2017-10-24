@@ -237,7 +237,7 @@
                     </th:block>
                     <strong style="float: left;" th:if="${shipAPI.fighters != null}" th:text="'Fighters'"/>
                     <span style="float: right;" th:if="${configurationAPI != null and configurationAPI.fighters != null and shipAPI.fighters.count_in_squadron.max - configurationAPI.fighters.count_in_squadron.max != 0}" th:text="${shipAPI.fighters.count_in_squadron.max - configurationAPI.fighters.count_in_squadron.max > 0 ? '(+' + #numbers.formatInteger(shipAPI.fighters.count_in_squadron.max - configurationAPI.fighters.count_in_squadron.max, 0) + ')' : '(' + #numbers.formatInteger(shipAPI.fighters.count_in_squadron.max - configurationAPI.fighters.count_in_squadron.max, 0) + ')'}"/>
-                    <span style="float: right;" th:text="${shipAPI.flight_control.fighter_squadrons} + ' X ' + ${shipAPI.fighters != null ? shipAPI.fighters.count_in_squadron.max : 0}"/><br th:if="${shipAPI.fighters != null}"/>
+                    <span style="float: right;" th:if="${shipAPI.fighters != null}" th:text="${shipAPI.flight_control.fighter_squadrons} + ' X ' + ${shipAPI.fighters != null ? shipAPI.fighters.count_in_squadron.max : 0}"/><br th:if="${shipAPI.fighters != null}"/>
                     <span style="float: left;" th:if="${shipAPI.fighters != null}" th:text="'Tier'"/>
                     <span style="float: right;" th:if="${shipAPI.fighters != null}" th:text="${shipAPI.fighters.plane_level}"/><br th:if="${shipAPI.fighters != null}"/>
                     <span style="float: left;" th:if="${shipAPI.fighters != null}" th:text="'Speed'"/>
