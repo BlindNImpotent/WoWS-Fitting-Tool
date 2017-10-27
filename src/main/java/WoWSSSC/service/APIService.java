@@ -551,13 +551,13 @@ public class APIService
                 }
                 else if (modifier.getCritTimeCoefficient() != 0) // 3_0
                 {
-                    if (ship.getBurn() > 0)
+                    if (ship.getShipComponents().getHull().getBurnDuration() > 0)
                     {
-                        ship.setBurn(ship.getBurn() * modifier.getCritTimeCoefficient());
+                        ship.getShipComponents().getHull().setBurnDuration(ship.getShipComponents().getHull().getBurnDuration() * modifier.getCritTimeCoefficient());
                     }
-                    if (ship.getFlood() > 0)
+                    if (ship.getShipComponents().getHull().getFloodDuration() > 0)
                     {
-                        ship.setFlood(ship.getFlood() * modifier.getCritTimeCoefficient());
+                        ship.getShipComponents().getHull().setFloodDuration(ship.getShipComponents().getHull().getFloodDuration() * modifier.getCritTimeCoefficient());
                     }
 
 //                    ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
@@ -1140,19 +1140,19 @@ public class APIService
             }
         }
 
-        if (ship.getBurn() > 0)
+        if (ship.getShipComponents().getHull().getBurnDuration() > 0)
         {
             if (consumables.getProfile().getBurnTime() != null)
             {
-                ship.setBurn(ship.getBurn() * consumables.getProfile().getBurnTime().getValue());
+                ship.getShipComponents().getHull().setBurnDuration(ship.getShipComponents().getHull().getBurnDuration() * consumables.getProfile().getBurnTime().getValue());
             }
         }
 
-        if (ship.getFlood() > 0)
+        if (ship.getShipComponents().getHull().getFloodDuration() > 0)
         {
             if (consumables.getProfile().getFloodTime() != null)
             {
-                ship.setFlood(ship.getFlood() * consumables.getProfile().getFloodTime().getValue());
+                ship.getShipComponents().getHull().setFloodDuration(ship.getShipComponents().getHull().getFloodDuration() * consumables.getProfile().getFloodTime().getValue());
             }
         }
 

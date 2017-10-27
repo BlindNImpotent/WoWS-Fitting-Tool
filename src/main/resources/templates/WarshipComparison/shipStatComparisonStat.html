@@ -56,11 +56,11 @@
                         <br />
                         <span style="float: left;" th:text="${shipAPI1.shipComponents.hull.burnNodesSize}"/><br />
                         <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.hull.burnChanceReduction * 100, 1, 2) + ' %'}"/><br />
-                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.burn, 1, 1)} + ' s'"/><br />
+                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.hull.burnDuration, 1, 1)} + ' s'"/><br />
                         <br />
                         <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.armour.flood_prob, 1, 0)} + ' %'"/><br />
                         <span style="float: left;" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.hull.floodChance * 100, 1, 'COMMA') + ' %'}"/><br />
-                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.flood, 1, 1)} + ' s'"/><br />
+                        <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.hull.floodDuration, 1, 1)} + ' s'"/><br />
                     </li>
                     <li style="display: inline-block; text-align: center; width: 160px;">
                         <span>Health</span><br />
@@ -84,11 +84,11 @@
                         <br />
                         <span style="float: right;" th:text="${shipAPI2.shipComponents.hull.burnNodesSize}"/><br />
                         <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.hull.burnChanceReduction * 100, 1, 2) + ' %'}"/><br />
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.burn, 1, 1)} + ' s'"/><br />
+                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.hull.burnDuration, 1, 1)} + ' s'"/><br />
                         <br />
                         <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.armour.flood_prob, 1, 0)} + ' %'"/><br />
                         <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.hull.floodChance * 100, 1, 'COMMA') + ' %'}"/><br />
-                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.flood, 1, 1)} + ' s'"/><br />
+                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.hull.floodDuration, 1, 1)} + ' s'"/><br />
                     </li>
                 </div>
                 <br />

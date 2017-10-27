@@ -36,8 +36,8 @@
                     <span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.hull.burnChanceReduction - configurationAPI.shipComponents.hull.burnChanceReduction != 0}" th:text="${'(+' + #numbers.formatDecimal((shipAPI.shipComponents.hull.burnChanceReduction - configurationAPI.shipComponents.hull.burnChanceReduction) * 100, 1, 1) +')'}"/>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.hull.burnChanceReduction * 100, 1, 2) + ' %'}"/><br />
                     <span style="float: left;">- Duration</span>
-                    <span style="float: right;" th:if="${configurationAPI != null and shipAPI.burn - configurationAPI.burn != 0}" th:text="${shipAPI.burn - configurationAPI.burn > 0 ? '(' + #numbers.formatDecimal(shipAPI.burn - configurationAPI.burn, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.burn - configurationAPI.burn, 1, 1) + ')'}"/>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.burn, 1, 1)} + ' s'"/><br />
+                    <span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.hull.burnDuration - configurationAPI.shipComponents.hull.burnDuration != 0}" th:text="${shipAPI.shipComponents.hull.burnDuration - configurationAPI.shipComponents.hull.burnDuration > 0 ? '(' + #numbers.formatDecimal(shipAPI.shipComponents.hull.burnDuration - configurationAPI.shipComponents.hull.burnDuration, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.shipComponents.hull.burnDuration - configurationAPI.shipComponents.hull.burnDuration, 1, 1) + ')'}"/>
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.hull.burnDuration, 1, 1)} + ' s'"/><br />
                     <span style="float: left;">Flood</span><br />
                     <span style="float: left;">- Protection</span>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.armour.flood_prob, 1, 0)} + ' %'"/><br />
@@ -45,8 +45,8 @@
                     <span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.hull.floodChance - configurationAPI.shipComponents.hull.floodChance != 0}" th:text="${'(' + #numbers.formatDecimal((shipAPI.shipComponents.hull.floodChance - configurationAPI.shipComponents.hull.floodChance) * 100, 1, 1) +')'}"/>
                     <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.shipComponents.hull.floodChance * 100, 1, 'COMMA') + ' %'}"/><br />
                     <span style="float: left;">- Duration</span>
-                    <span style="float: right;" th:if="${configurationAPI != null and shipAPI.flood - configurationAPI.flood != 0}" th:text="${shipAPI.flood - configurationAPI.flood > 0 ? ' (' + #numbers.formatDecimal(shipAPI.flood - configurationAPI.flood, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.flood - configurationAPI.flood, 1, 1) + ')'}"/>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.flood, 1, 1)} + ' s'"/><br />
+                    <span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.hull.floodDuration - configurationAPI.shipComponents.hull.floodDuration != 0}" th:text="${shipAPI.shipComponents.hull.floodDuration - configurationAPI.shipComponents.hull.floodDuration > 0 ? ' (' + #numbers.formatDecimal(shipAPI.shipComponents.hull.floodDuration - configurationAPI.shipComponents.hull.floodDuration, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.shipComponents.hull.floodDuration - configurationAPI.shipComponents.hull.floodDuration, 1, 1) + ')'}"/>
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.hull.floodDuration, 1, 1)} + ' s'"/><br />
                 </div>
                 <br />
                 <div th:if="${shipAPI.mobility != null}" id="mobility">

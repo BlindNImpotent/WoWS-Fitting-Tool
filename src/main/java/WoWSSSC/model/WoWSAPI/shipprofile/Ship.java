@@ -33,8 +33,8 @@ public class Ship
     private Torpedoes torpedoes;
     private Weaponry weaponry;
 
-    private float burn = 60f;
-    private float flood = 90f;
+//    private float burn = 60f;
+//    private float flood = 90f;
 
     private ShipComponents shipComponents;
 

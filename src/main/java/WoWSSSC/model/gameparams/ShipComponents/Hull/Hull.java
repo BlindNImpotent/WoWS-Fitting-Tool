@@ -14,20 +14,20 @@ public class Hull
 {
     private List<List> burnNodes;
     private int burnNodesSize;
-    private double burnChanceReduction = 1;
-    private double burnDuration = 0;
+    private float burnChanceReduction = 1;
+    private float burnDuration = 0;
 
-    private List<Double> floodParams;
-    private double floodChance;
-    private double floodDamage;
-    private double floodDuration;
+    private List<Float> floodParams;
+    private float floodChance;
+    private float floodDamage;
+    private float floodDuration;
 
-    private double tonnage;
+    private float tonnage;
 
-    private double visibilityCoefATBAByPlane;
-    private double visibilityCoefFire;
-    private double visibilityCoefFireByPlane;
-    private double visibilityCoefGKInSmoke;
+    private float visibilityCoefATBAByPlane;
+    private float visibilityCoefFire;
+    private float visibilityCoefFireByPlane;
+    private float visibilityCoefGKInSmoke;
 
     private int weight;
 
@@ -41,17 +41,17 @@ public class Hull
         {
             if (1 - (double) burnNode.get(1) < burnChanceReduction)
             {
-                burnChanceReduction = 1 - (double) burnNode.get(1);
+                burnChanceReduction = (float) (1 - (double) burnNode.get(1));
             }
 
             if ((double) burnNode.get(3) > burnDuration)
             {
-                burnDuration = (double) burnNode.get(3);
+                burnDuration = (float) ((double) burnNode.get(3));
             }
         }
     }
 
-    public void setFloodParams(List<Double> floodParams)
+    public void setFloodParams(List<Float> floodParams)
     {
         this.floodParams = floodParams;
 
