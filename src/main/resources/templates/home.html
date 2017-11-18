@@ -42,10 +42,10 @@
         <div id="notification">
             <img th:src="@{/images/Icon/WoWSFT_Icon.png}" style="height: 300px" th:title="'Image courtesy of ReptorPi from DCInside'"/>
             <h2 th:text="${'API from ' + encyclopedia.game_version + ' updated at ' + encyclopedia.shipUpdatedDate + ' from ' + encyclopedia.region + ' server'}"/>
-            <strong>
-                <a th:href="${isLive ? '/test' : '/'}" th:text="${(isLive ? '0.6.13.0 Test' : encyclopedia.game_version) + ' version link'}"/><br />
-                <span th:if="${!isLive}" th:text="'Difference between API and client data version may cause error'"/>
-            </strong><br />
+            <!--<strong>-->
+                <!--<a th:href="${isLive ? '/test' : '/'}" th:text="${(isLive ? '0.6.13.0 Test' : encyclopedia.game_version) + ' version link'}"/><br />-->
+                <!--<span th:if="${!isLive}" th:text="'Difference between API and client data version may cause error'"/>-->
+            <!--</strong><br />-->
             <li th:if="${noticeStat.index &lt; 5}" th:each="notice : ${notification}">
                 <strong th:text="${notice.key}"/><br />
                 <span th:utext="${notice.value}"/><br />
