@@ -136,7 +136,7 @@ public class APIJsonParser
         String testGameParams = "static/json/test/GameParams.json";
 
         gameParamsCHM.clear();
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 1; i++)
         {
             String serverParams = i == 0 ? "live" : "test";
 
@@ -191,7 +191,7 @@ public class APIJsonParser
     {
         logger.info("Setting up Global");
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 1; i++)
         {
             String serverParams = i == 0 ? "live" : "test";
 

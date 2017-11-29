@@ -4,6 +4,8 @@ import WoWSSSC.model.gameparams.TypeInfo;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * Created by Aesis on 2017-05-23.
  */
@@ -86,4 +88,12 @@ public class Modernization
 
     private String upgradeSlot;
     private int tempCR;
+
+    private List<String> excludes;
+    private List<String> group;
+    private List<String> nation;
+    private List<Integer> shiplevel;
+    private List<String> ships;
+    private List<String> shiptype;
+    private int slot;
 }

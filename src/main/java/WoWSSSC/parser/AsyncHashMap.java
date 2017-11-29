@@ -62,6 +62,10 @@ public class AsyncHashMap implements CommandLineRunner {
     private HashMap<String, HashMap<String, LinkedHashMap>> gameParamsCHM;
 
     @Autowired
+    @Qualifier (value = "idToName")
+    private HashMap<String, HashMap<String, String>> idToName;
+
+    @Autowired
     @Qualifier(value = "nameToId")
     private HashMap<String, HashMap<String, String>> nameToId;
 
@@ -96,7 +100,7 @@ public class AsyncHashMap implements CommandLineRunner {
 
         LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
 
-        LinkedHashMap<String, LinkedHashMap> upgradesSpecial = new LinkedHashMap<>();
+//        LinkedHashMap<String, LinkedHashMap> upgradesSpecial = new LinkedHashMap<>();
 
         if (isFirstRun) {
             apiJsonParser.setNotification();
@@ -310,9 +314,9 @@ public class AsyncHashMap implements CommandLineRunner {
                                             e.printStackTrace();
                                         }
 
-                                        if (gameParamsCHM.get(serverParam).containsKey(String.valueOf(value.getShip_id()))) {
-                                            setUpgradesPerShipGameParams(encyclopedia, value, String.valueOf(value.getShip_id()), tempUpgrades, upgradesSpecial);
-                                        }
+//                                        if (gameParamsCHM.get(serverParam).containsKey(String.valueOf(value.getShip_id()))) {
+//                                            setUpgradesPerShipGameParams(encyclopedia, value, String.valueOf(value.getShip_id()), tempUpgrades, upgradesSpecial);
+//                                        }
                                     }
                                     if (gameParamsCHM.get(serverParam).containsKey(String.valueOf(value.getShip_id()))) {
                                         wsd.getData().put(key, value);
@@ -393,7 +397,7 @@ public class AsyncHashMap implements CommandLineRunner {
                     tempData.put("premiumTable", tempPremiumTable);
                     tempData.put("rawShipData", rawShipData);
                     tempData.put("upgrades", tempUpgrades);
-                    tempData.put("upgradesSpecial", upgradesSpecial);
+//                    tempData.put("upgradesSpecial", upgradesSpecial);
                     tempData.put("skills", setCrewSkills(crewsSkillsData.get().getData()));
                     tempData.put("uniqueSkills", uniqueSkills);
                     tempData.put("commanders", getCommanders(tempCommanders, uniqueSkills));
@@ -468,6 +472,22 @@ public class AsyncHashMap implements CommandLineRunner {
     private void setUpgradesPerShip(Warship warship, LinkedHashMap<String, Consumables> consumables) {
         LinkedHashMap<String, Consumables> tempConsumablesHM = new LinkedHashMap<>();
 
+        consumables.values().forEach(c -> {
+            if (c.getType().equalsIgnoreCase("Modernization")) {
+                Modernization mdz = mapper.convertValue(gameParamsCHM.get(serverParam).get(String.valueOf(c.getConsumable_id())), Modernization.class);
+
+                if (mdz.getShips().size() > 0) {
+                    for (String s : mdz.getShips()) {
+                        if (s.equalsIgnoreCase(idToName.get(serverParam).get(String.valueOf(warship.getShip_id())))) {
+                            if (!warship.getUpgrades().contains(mdz.getId())) {
+                                warship.getUpgrades().add(mdz.getId());
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
         warship.getUpgrades().forEach(upgrade_id ->
         {
             Consumables tempConsumables = consumables.get(String.valueOf(upgrade_id));
@@ -484,6 +504,28 @@ public class AsyncHashMap implements CommandLineRunner {
                     tempConsumables.setUpgradeSlot("slot5");
                 } else if (tempConsumables.getPrice_credit() == 2000000) {
                     tempConsumables.setUpgradeSlot("slot6");
+                } else if (tempConsumables.getPrice_credit() == 1250000) {
+                    Modernization mod = mapper.convertValue(gameParamsCHM.get(serverParam).get(String.valueOf(tempConsumables.getConsumable_id())), Modernization.class);
+
+                    if (mod.getSlot() == 0) {
+                        tempConsumables.setPrice_credit(125000);
+                        tempConsumables.setUpgradeSlot("slot1");
+                    } else if (mod.getSlot() == 1) {
+                        tempConsumables.setPrice_credit(250000);
+                        tempConsumables.setUpgradeSlot("slot4");
+                    } else if (mod.getSlot() == 2) {
+                        tempConsumables.setPrice_credit(500000);
+                        tempConsumables.setUpgradeSlot("slot2");
+                    } else if (mod.getSlot() == 3) {
+                        tempConsumables.setPrice_credit(1000000);
+                        tempConsumables.setUpgradeSlot("slot5");
+                    } else if (mod.getSlot() == 4) {
+                        tempConsumables.setPrice_credit(2000000);
+                        tempConsumables.setUpgradeSlot("slot6");
+                    } else if (mod.getSlot() == 5) {
+                        tempConsumables.setPrice_credit(3000000);
+                        tempConsumables.setUpgradeSlot("slot3");
+                    }
                 }
 
                 tempConsumablesHM.put(tempConsumables.getName(), tempConsumables);
@@ -492,166 +534,169 @@ public class AsyncHashMap implements CommandLineRunner {
         warship.setUpgradesNew(tempConsumablesHM);
     }
 
-    private void setUpgradesPerShipGameParams(Encyclopedia encyclopedia, Warship warship, String shipId, LinkedHashMap<String, Consumables> upgrades, LinkedHashMap<String, LinkedHashMap> upgradesSpecial) {
-        LinkedHashMap<String, Consumables> k125 = new LinkedHashMap<>();
-        LinkedHashMap<String, Consumables> k250 = new LinkedHashMap<>();
-        LinkedHashMap<String, Consumables> k500 = new LinkedHashMap<>();
-        LinkedHashMap<String, Consumables> k1000 = new LinkedHashMap<>();
-        LinkedHashMap<String, Consumables> k2000 = new LinkedHashMap<>();
-        LinkedHashMap<String, Consumables> k3000 = new LinkedHashMap<>();
-
-        LinkedHashMap<String, LinkedHashMap> ship = gameParamsCHM.get(serverParam).get(shipId);
-        ShipModernization shipModernization = mapper.convertValue(ship.get("ShipModernization"), ShipModernization.class);
-
-        LinkedHashMap<String, Consumables> tempModernization = new LinkedHashMap<>();
-        LinkedHashMap<String, LinkedHashMap> tempSlot = new LinkedHashMap<>();
-
-        Modernization modernization;
-
-        if (shipModernization.getModernizationSlot1() != null) {
-            int credit = 0;
-            for (String mod : shipModernization.getModernizationSlot1().getMods()) {
-                String id = nameToId.get(serverParam).get(mod);
-                modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
-
-                if (warship.getUpgrades().contains(Long.parseLong(id))) {
-                    if (credit == 0 || credit == 1250000) {
-                        credit = modernization.getCostCR();
-                    }
-                } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
-                    Consumables tempConsumable = upgrades.get(id);
-                    warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
-
-                    tempConsumable.setTempCR(credit);
-                    tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
-                }
-            }
-        }
-
-        if (shipModernization.getModernizationSlot2() != null) {
-            int credit = 0;
-            for (String mod : shipModernization.getModernizationSlot2().getMods()) {
-                String id = nameToId.get(serverParam).get(mod);
-                modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
-
-                if (warship.getUpgrades().contains(Long.parseLong(id))) {
-                    if (credit == 0 || credit == 1250000) {
-                        credit = modernization.getCostCR();
-                    }
-                } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
-                    Consumables tempConsumable = upgrades.get(id);
-                    warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
-
-                    tempConsumable.setTempCR(credit);
-                    tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
-                }
-            }
-        }
-
-        if (shipModernization.getModernizationSlot3() != null) {
-            int credit = 0;
-            for (String mod : shipModernization.getModernizationSlot3().getMods()) {
-                String id = nameToId.get(serverParam).get(mod);
-                modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
-
-                if (warship.getUpgrades().contains(Long.parseLong(id))) {
-                    if (credit == 0 || credit == 1250000) {
-                        credit = modernization.getCostCR();
-                    }
-                } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
-                    Consumables tempConsumable = upgrades.get(id);
-                    warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
-
-                    tempConsumable.setTempCR(credit);
-                    tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
-                }
-            }
-        }
-
-        if (shipModernization.getModernizationSlot4() != null) {
-            int credit = 0;
-            for (String mod : shipModernization.getModernizationSlot4().getMods()) {
-                String id = nameToId.get(serverParam).get(mod);
-                modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
-
-                if (warship.getUpgrades().contains(Long.parseLong(id))) {
-                    if (credit == 0 || credit == 1250000) {
-                        credit = modernization.getCostCR();
-                    }
-                } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
-                    Consumables tempConsumable = upgrades.get(id);
-                    warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
-
-                    tempConsumable.setTempCR(credit);
-                    tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
-                }
-            }
-        }
-
-        if (shipModernization.getModernizationSlot5() != null) {
-            int credit = 0;
-            for (String mod : shipModernization.getModernizationSlot5().getMods()) {
-                String id = nameToId.get(serverParam).get(mod);
-                modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
-
-                if (warship.getUpgrades().contains(Long.parseLong(id))) {
-                    if (credit == 0 || credit == 1250000) {
-                        credit = modernization.getCostCR();
-                    }
-                } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
-                    Consumables tempConsumable = upgrades.get(id);
-                    warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
-
-                    tempConsumable.setTempCR(credit);
-                    tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
-                }
-            }
-        }
-
-        if (shipModernization.getModernizationSlot6() != null) {
-            int credit = 0;
-            for (String mod : shipModernization.getModernizationSlot6().getMods()) {
-                String id = nameToId.get(serverParam).get(mod);
-                modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
-
-                if (warship.getUpgrades().contains(Long.parseLong(id))) {
-                    if (credit == 0 || credit == 1250000) {
-                        credit = modernization.getCostCR();
-                    }
-                } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
-                    Consumables tempConsumable = upgrades.get(id);
-                    warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
-
-                    tempConsumable.setTempCR(credit);
-                    tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
-                }
-            }
-        }
-
-        tempModernization.entrySet().forEach(entry ->
-        {
-            if (entry.getValue().getTempCR() == 125000) {
-                k125.put(entry.getKey(), entry.getValue());
-            } else if (entry.getValue().getTempCR() == 250000) {
-                k250.put(entry.getKey(), entry.getValue());
-            } else if (entry.getValue().getTempCR() == 500000) {
-                k500.put(entry.getKey(), entry.getValue());
-            } else if (entry.getValue().getTempCR() == 1000000) {
-                k1000.put(entry.getKey(), entry.getValue());
-            } else if (entry.getValue().getTempCR() == 2000000) {
-                k2000.put(entry.getKey(), entry.getValue());
-            } else if (entry.getValue().getTempCR() == 3000000) {
-                k3000.put(entry.getKey(), entry.getValue());
-            }
-        });
-
-        upgradesSpecial.put("125000", k125);
-        upgradesSpecial.put("250000", k250);
-        upgradesSpecial.put("500000", k500);
-        upgradesSpecial.put("1000000", k1000);
-        upgradesSpecial.put("2000000", k2000);
-        upgradesSpecial.put("3000000", k3000);
-    }
+//    private void setUpgradesPerShipGameParams(Encyclopedia encyclopedia, Warship warship, String shipId, LinkedHashMap<String, Consumables> upgrades, LinkedHashMap<String, LinkedHashMap> upgradesSpecial) {
+//        LinkedHashMap<String, Consumables> k125 = new LinkedHashMap<>();
+//        LinkedHashMap<String, Consumables> k250 = new LinkedHashMap<>();
+//        LinkedHashMap<String, Consumables> k500 = new LinkedHashMap<>();
+//        LinkedHashMap<String, Consumables> k1000 = new LinkedHashMap<>();
+//        LinkedHashMap<String, Consumables> k2000 = new LinkedHashMap<>();
+//        LinkedHashMap<String, Consumables> k3000 = new LinkedHashMap<>();
+//
+//        LinkedHashMap<String, LinkedHashMap> ship = gameParamsCHM.get(serverParam).get(shipId);
+//        ShipModernization shipModernization = mapper.convertValue(ship.get("ShipModernization"), ShipModernization.class);
+//
+//        LinkedHashMap<String, Consumables> tempModernization = new LinkedHashMap<>();
+//        LinkedHashMap<String, LinkedHashMap> tempSlot = new LinkedHashMap<>();
+//
+//        Modernization modernization;
+//
+//        if (shipModernization != null)
+//        {
+//            if (shipModernization.getModernizationSlot1() != null) {
+//                int credit = 0;
+//                for (String mod : shipModernization.getModernizationSlot1().getMods()) {
+//                    String id = nameToId.get(serverParam).get(mod);
+//                    modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
+//
+//                    if (warship.getUpgrades().contains(Long.parseLong(id))) {
+//                        if (credit == 0 || credit == 1250000) {
+//                            credit = modernization.getCostCR();
+//                        }
+//                    } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
+//                        Consumables tempConsumable = upgrades.get(id);
+//                        warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+//
+//                        tempConsumable.setTempCR(credit);
+//                        tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
+//                    }
+//                }
+//            }
+//
+//            if (shipModernization.getModernizationSlot2() != null) {
+//                int credit = 0;
+//                for (String mod : shipModernization.getModernizationSlot2().getMods()) {
+//                    String id = nameToId.get(serverParam).get(mod);
+//                    modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
+//
+//                    if (warship.getUpgrades().contains(Long.parseLong(id))) {
+//                        if (credit == 0 || credit == 1250000) {
+//                            credit = modernization.getCostCR();
+//                        }
+//                    } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
+//                        Consumables tempConsumable = upgrades.get(id);
+//                        warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+//
+//                        tempConsumable.setTempCR(credit);
+//                        tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
+//                    }
+//                }
+//            }
+//
+//            if (shipModernization.getModernizationSlot3() != null) {
+//                int credit = 0;
+//                for (String mod : shipModernization.getModernizationSlot3().getMods()) {
+//                    String id = nameToId.get(serverParam).get(mod);
+//                    modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
+//
+//                    if (warship.getUpgrades().contains(Long.parseLong(id))) {
+//                        if (credit == 0 || credit == 1250000) {
+//                            credit = modernization.getCostCR();
+//                        }
+//                    } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
+//                        Consumables tempConsumable = upgrades.get(id);
+//                        warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+//
+//                        tempConsumable.setTempCR(credit);
+//                        tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
+//                    }
+//                }
+//            }
+//
+//            if (shipModernization.getModernizationSlot4() != null) {
+//                int credit = 0;
+//                for (String mod : shipModernization.getModernizationSlot4().getMods()) {
+//                    String id = nameToId.get(serverParam).get(mod);
+//                    modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
+//
+//                    if (warship.getUpgrades().contains(Long.parseLong(id))) {
+//                        if (credit == 0 || credit == 1250000) {
+//                            credit = modernization.getCostCR();
+//                        }
+//                    } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
+//                        Consumables tempConsumable = upgrades.get(id);
+//                        warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+//
+//                        tempConsumable.setTempCR(credit);
+//                        tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
+//                    }
+//                }
+//            }
+//
+//            if (shipModernization.getModernizationSlot5() != null) {
+//                int credit = 0;
+//                for (String mod : shipModernization.getModernizationSlot5().getMods()) {
+//                    String id = nameToId.get(serverParam).get(mod);
+//                    modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
+//
+//                    if (warship.getUpgrades().contains(Long.parseLong(id))) {
+//                        if (credit == 0 || credit == 1250000) {
+//                            credit = modernization.getCostCR();
+//                        }
+//                    } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
+//                        Consumables tempConsumable = upgrades.get(id);
+//                        warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+//
+//                        tempConsumable.setTempCR(credit);
+//                        tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
+//                    }
+//                }
+//            }
+//
+//            if (shipModernization.getModernizationSlot6() != null) {
+//                int credit = 0;
+//                for (String mod : shipModernization.getModernizationSlot6().getMods()) {
+//                    String id = nameToId.get(serverParam).get(mod);
+//                    modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
+//
+//                    if (warship.getUpgrades().contains(Long.parseLong(id))) {
+//                        if (credit == 0 || credit == 1250000) {
+//                            credit = modernization.getCostCR();
+//                        }
+//                    } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
+//                        Consumables tempConsumable = upgrades.get(id);
+//                        warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
+//
+//                        tempConsumable.setTempCR(credit);
+//                        tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
+//                    }
+//                }
+//            }
+//        }
+//
+//        tempModernization.entrySet().forEach(entry ->
+//        {
+//            if (entry.getValue().getTempCR() == 125000) {
+//                k125.put(entry.getKey(), entry.getValue());
+//            } else if (entry.getValue().getTempCR() == 250000) {
+//                k250.put(entry.getKey(), entry.getValue());
+//            } else if (entry.getValue().getTempCR() == 500000) {
+//                k500.put(entry.getKey(), entry.getValue());
+//            } else if (entry.getValue().getTempCR() == 1000000) {
+//                k1000.put(entry.getKey(), entry.getValue());
+//            } else if (entry.getValue().getTempCR() == 2000000) {
+//                k2000.put(entry.getKey(), entry.getValue());
+//            } else if (entry.getValue().getTempCR() == 3000000) {
+//                k3000.put(entry.getKey(), entry.getValue());
+//            }
+//        });
+//
+//        upgradesSpecial.put("125000", k125);
+//        upgradesSpecial.put("250000", k250);
+//        upgradesSpecial.put("500000", k500);
+//        upgradesSpecial.put("1000000", k1000);
+//        upgradesSpecial.put("2000000", k2000);
+//        upgradesSpecial.put("3000000", k3000);
+//    }
 
     private LinkedHashMap<String, LinkedHashMap> setCrewSkills(LinkedHashMap<String, CrewSkills> crewSkills) {
         LinkedHashMap<String, LinkedHashMap> temp = new LinkedHashMap<>();
