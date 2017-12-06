@@ -494,15 +494,15 @@ public class AsyncHashMap implements CommandLineRunner {
             if (tempConsumables != null) {
                 if (tempConsumables.getPrice_credit() == 125000) {
                     tempConsumables.setUpgradeSlot("slot1");
-                } else if (tempConsumables.getPrice_credit() == 500000) {
-                    tempConsumables.setUpgradeSlot("slot2");
-                } else if (tempConsumables.getPrice_credit() == 3000000) {
-                    tempConsumables.setUpgradeSlot("slot3");
                 } else if (tempConsumables.getPrice_credit() == 250000) {
-                    tempConsumables.setUpgradeSlot("slot4");
+                    tempConsumables.setUpgradeSlot("slot2");
+                } else if (tempConsumables.getPrice_credit() == 500000) {
+                    tempConsumables.setUpgradeSlot("slot3");
                 } else if (tempConsumables.getPrice_credit() == 1000000) {
-                    tempConsumables.setUpgradeSlot("slot5");
+                    tempConsumables.setUpgradeSlot("slot4");
                 } else if (tempConsumables.getPrice_credit() == 2000000) {
+                    tempConsumables.setUpgradeSlot("slot5");
+                } else if (tempConsumables.getPrice_credit() == 3000000) {
                     tempConsumables.setUpgradeSlot("slot6");
                 } else if (tempConsumables.getPrice_credit() == 1250000) {
                     Modernization mod = mapper.convertValue(gameParamsCHM.get(serverParam).get(String.valueOf(tempConsumables.getConsumable_id())), Modernization.class);
@@ -512,19 +512,19 @@ public class AsyncHashMap implements CommandLineRunner {
                         tempConsumables.setUpgradeSlot("slot1");
                     } else if (mod.getSlot() == 1) {
                         tempConsumables.setPrice_credit(250000);
-                        tempConsumables.setUpgradeSlot("slot4");
+                        tempConsumables.setUpgradeSlot("slot2");
                     } else if (mod.getSlot() == 2) {
                         tempConsumables.setPrice_credit(500000);
-                        tempConsumables.setUpgradeSlot("slot2");
+                        tempConsumables.setUpgradeSlot("slot3");
                     } else if (mod.getSlot() == 3) {
                         tempConsumables.setPrice_credit(1000000);
-                        tempConsumables.setUpgradeSlot("slot5");
+                        tempConsumables.setUpgradeSlot("slot4");
                     } else if (mod.getSlot() == 4) {
                         tempConsumables.setPrice_credit(2000000);
-                        tempConsumables.setUpgradeSlot("slot6");
+                        tempConsumables.setUpgradeSlot("slot5");
                     } else if (mod.getSlot() == 5) {
                         tempConsumables.setPrice_credit(3000000);
-                        tempConsumables.setUpgradeSlot("slot3");
+                        tempConsumables.setUpgradeSlot("slot6");
                     }
                 }
 

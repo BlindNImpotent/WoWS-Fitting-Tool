@@ -192,51 +192,54 @@ public class Sorter
             @Override
             public int compare(Map.Entry<String, LinkedHashMap> o1, Map.Entry<String, LinkedHashMap> o2)
             {
-                //125, 500, 3000, 250, 1000, 2000
-                if (o1.getKey().equals("125000"))
-                {
-                    return -1;
-                }
-                else if (o2.getKey().equals("125000"))
-                {
-                    return 1;
-                }
-                else if (o1.getKey().equals("500000"))
-                {
-                    if (o2.getKey().equals("125000"))
-                    {
-                        return 1;
-                    }
-                    return -1;
-                }
-                else if (o2.getKey().equals("500000"))
-                {
-                    if (o1.getKey().equals("125000"))
-                    {
-                        return -1;
-                    }
-                    return 1;
-                }
-                else if (o1.getKey().equals("3000000"))
-                {
-                    if (o2.getKey().equals("125000") || o2.getKey().equals("500000"))
-                    {
-                        return 1;
-                    }
-                    return -1;
-                }
-                else if (o2.getKey().equals("3000000"))
-                {
-                    if (o1.getKey().equals("125000") || o1.getKey().equals("500000"))
-                    {
-                        return -1;
-                    }
-                    return 1;
-                }
-                else
-                {
-                    return Integer.parseInt(o1.getKey()) - Integer.parseInt(o2.getKey());
-                }
+                // 125 250 500 1000 2000 3000
+                return Integer.parseInt(o1.getKey()) - Integer.parseInt(o2.getKey());
+
+//                // 125, 500, 3000, 250, 1000, 2000
+//                if (o1.getKey().equals("125000"))
+//                {
+//                    return -1;
+//                }
+//                else if (o2.getKey().equals("125000"))
+//                {
+//                    return 1;
+//                }
+//                else if (o1.getKey().equals("500000"))
+//                {
+//                    if (o2.getKey().equals("125000"))
+//                    {
+//                        return 1;
+//                    }
+//                    return -1;
+//                }
+//                else if (o2.getKey().equals("500000"))
+//                {
+//                    if (o1.getKey().equals("125000"))
+//                    {
+//                        return -1;
+//                    }
+//                    return 1;
+//                }
+//                else if (o1.getKey().equals("3000000"))
+//                {
+//                    if (o2.getKey().equals("125000") || o2.getKey().equals("500000"))
+//                    {
+//                        return 1;
+//                    }
+//                    return -1;
+//                }
+//                else if (o2.getKey().equals("3000000"))
+//                {
+//                    if (o1.getKey().equals("125000") || o1.getKey().equals("500000"))
+//                    {
+//                        return -1;
+//                    }
+//                    return 1;
+//                }
+//                else
+//                {
+//                    return Integer.parseInt(o1.getKey()) - Integer.parseInt(o2.getKey());
+//                }
             }
         });
 
