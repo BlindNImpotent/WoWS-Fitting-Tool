@@ -208,11 +208,28 @@ public class APIService
         {
             long totalGuns = 0;
 
+            int i = 0;
+            Artillery_Slots tempSlot = null;
+            HashMap<String, Artillery_Slots> tempSlots = new HashMap<>();
             for (Artillery_Slots slots : ship.getArtillery().getSlots().values())
             {
-                totalGuns = totalGuns + (slots.getBarrels() * slots.getGuns());
+                boolean isMatch = false;
+
+                if (tempSlot == null) {
+                    tempSlot = slots;
+                }
+                else if (tempSlot.getBarrels() == slots.getBarrels() && tempSlot.getGuns() == slots.getGuns() && tempSlot.getName().equalsIgnoreCase(slots.getName())) {
+                    isMatch = true;
+                }
+
+                if (!isMatch) {
+                    totalGuns = totalGuns + (slots.getBarrels() * slots.getGuns());
+                    tempSlots.put(String.valueOf(i), slots);
+                    i++;
+                }
             }
 
+            ship.getArtillery().setSlots(tempSlots);
             ship.getArtillery().setTotalGuns(totalGuns);
         }
 
