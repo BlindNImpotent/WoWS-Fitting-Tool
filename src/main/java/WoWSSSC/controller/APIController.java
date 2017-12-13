@@ -19,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -154,7 +153,6 @@ public class APIController extends ExceptionController
     @RequestMapping (value = "/warship", method = { RequestMethod.GET, RequestMethod.POST })
     public String getWarship(HttpServletRequest request,
                             Model model,
-                            RedirectAttributes redirectAttributes,
                             @RequestParam(required = false) String nation,
                             @RequestParam(required = false) String shipType,
                             @RequestParam(required = false) String ship,
@@ -538,7 +536,7 @@ public class APIController extends ExceptionController
     }
 
     @RequestMapping (value = "/shipStatSelection", method = { RequestMethod.GET, RequestMethod.POST })
-    public String shipStatSelection(Model model, RedirectAttributes redirectAttributes,
+    public String shipStatSelection(Model model,
                                     HttpServletRequest request,
                                     @RequestBody(required = false) List<String> shipList,
                                     @RequestParam(required = false) String ship1,

@@ -47,6 +47,12 @@ public class CustomFilter implements Filter
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
+        String queryString = request.getQueryString();
+        if (StringUtils.isNotEmpty(queryString) && request.getQueryString().contains("/images/Icon/WoWSFT_Icon.png")) {
+            response.sendRedirect(request.getRequestURI() + "?" + queryString.replace("/images/Icon/WoWSFT_Icon.png", ""));
+            return;
+        }
+
         String ipAddress = discordWebhook.getClientIPAddress(request);
 
         if (request.getRequestURI().equalsIgnoreCase("/"))
