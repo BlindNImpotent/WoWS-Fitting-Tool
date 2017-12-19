@@ -678,6 +678,7 @@ public class GPService
 
         LinkedHashMap<Float, Float> penetration = new LinkedHashMap<>();
         LinkedHashMap<Float, Float> flightTime = new LinkedHashMap<>();
+        LinkedHashMap<Float, Float> impactAngle = new LinkedHashMap<>();
 
         float maxDistCalc = 0f;
 
@@ -713,9 +714,10 @@ public class GPService
                 maxDistCalc = x;
                 penetration.put(x, (float) Math.cos(IA) * p_athit);
                 flightTime.put(x, t / 3f);
+                impactAngle.put(x, IA * 180f / ((float) Math.PI));
             }
         }
-        ArtyShell.setAPShell(penetration, flightTime);
+        ArtyShell.setAPShell(penetration, flightTime, impactAngle);
     }
 
     private void setHEPenetration(ArtyShell ArtyShell, float maxVertAngle)
