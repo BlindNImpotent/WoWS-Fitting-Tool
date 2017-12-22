@@ -132,8 +132,8 @@ public class APIJsonParser
 
         ObjectMapper mapper = new ObjectMapper();
 
-        String liveGameParams = "static/json/live/GameParams.json";
-        String testGameParams = "static/json/test/GameParams.json";
+        String liveGameParams = "/static/json/live/GameParams.json";
+        String testGameParams = "/static/json/test/GameParams.json";
 
         gameParamsCHM.clear();
         for (int i = 0; i < 1; i++)
@@ -141,7 +141,7 @@ public class APIJsonParser
             String serverParams = i == 0 ? "live" : "test";
 
             Resource GameParamsFile = new ClassPathResource(i == 0 ? liveGameParams : testGameParams);
-            HashMap<String, LinkedHashMap> temp = mapper.readValue(GameParamsFile.getFile(), new TypeReference<HashMap<String, LinkedHashMap>>(){});
+            HashMap<String, LinkedHashMap> temp = mapper.readValue(GameParamsFile.getInputStream(), new TypeReference<HashMap<String, LinkedHashMap>>(){});
             HashMap<String, LinkedHashMap> tempGameParamsCHM = new HashMap<>();
             HashMap<String, String> tempNameToId = new HashMap<>();
             HashMap<String, String> tempIdToName = new HashMap<>();
@@ -195,12 +195,12 @@ public class APIJsonParser
         {
             String serverParams = i == 0 ? "live" : "test";
 
-            String liveGlobal = "static/json/live/global.json";
-            String testGlobal = "static/json/test/global.json";
+            String liveGlobal = "/static/json/live/global.json";
+            String testGlobal = "/static/json/test/global.json";
 
             Resource GlobalFile = new ClassPathResource(i == 0 ? liveGlobal : testGlobal);
 
-            HashMap<String, Object> temp = mapper.readValue(GlobalFile.getFile(), new TypeReference<HashMap<String, Object>>(){});
+            HashMap<String, Object> temp = mapper.readValue(GlobalFile.getInputStream(), new TypeReference<HashMap<String, Object>>(){});
 
             global.put(serverParams, temp);
         }
