@@ -131,7 +131,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>WoWSSSC.MyClass</mainClass>
+                            <mainClass>WoWSSSC.Application</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
