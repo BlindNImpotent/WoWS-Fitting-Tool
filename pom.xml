@@ -127,6 +127,13 @@
                 <version>2.6</version>
                 <configuration>
                     <attachClasses>true</attachClasses>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>WoWSSSC.MyClass</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
