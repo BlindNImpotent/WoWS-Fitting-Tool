@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dserver.port=$PORT
+web: java -Dserver.port=$PORT
