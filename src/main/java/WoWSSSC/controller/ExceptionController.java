@@ -18,7 +18,7 @@ public class ExceptionController
     {
 //        log.error(t.getLocalizedMessage(), t);
 
-        if (!discordWebhook.getClientIPAddress(request).equalsIgnoreCase("localhost"))
+        if (!discordWebhook.getClientIPAddress(request).equalsIgnoreCase("localhost") && !request.getRequestURI().contains("shipTree"))
         {
             discordWebhook.sendDiscordWebHookError((Exception) t, request);
         }
