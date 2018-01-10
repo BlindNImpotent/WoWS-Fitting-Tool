@@ -476,7 +476,7 @@ public class AsyncHashMap implements CommandLineRunner {
             if (c.getType().equalsIgnoreCase("Modernization")) {
                 Modernization mdz = mapper.convertValue(gameParamsCHM.get(serverParam).get(String.valueOf(c.getConsumable_id())), Modernization.class);
 
-                if (mdz.getShiptype().contains(warship.getDefaultType()) && mdz.getShiplevel().contains((int) warship.getTier())) {
+                if (mdz.getShiptype().contains(warship.getDefaultType()) && mdz.getShiplevel().contains((int) warship.getTier()) && !mdz.getExcludes().contains(idToName.get(serverParam).get(String.valueOf(warship.getShip_id())))) {
                     if (!warship.getUpgrades().contains(mdz.getId())) {
                         warship.getUpgrades().add(mdz.getId());
                     }
