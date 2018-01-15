@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
@@ -64,6 +65,20 @@ public class Warship
         this.name = name;
         this.images = images;
         this.prevWarship = prevWarship;
+    }
+
+    public String getNationConvert()
+    {
+        if (StringUtils.isNotEmpty(nation)) {
+            if (nation.equalsIgnoreCase("uk")) {
+                return "United_Kingdom";
+            }
+            else if (nation.equalsIgnoreCase("ussr")) {
+                return "Russia";
+            }
+            return nation;
+        }
+        return null;
     }
 
     public void setType(String type)
