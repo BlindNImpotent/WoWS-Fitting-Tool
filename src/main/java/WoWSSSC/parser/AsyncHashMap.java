@@ -122,19 +122,36 @@ public class AsyncHashMap implements CommandLineRunner {
                 encyclopedia = encyclopediaNA;
                 encyclopedia.setRegion("NA");
                 apiAddress.setAddress("NA");
-            } else if (encyclopediaRU.getVersion() > encyclopediaNA.getVersion()) {
-                encyclopedia = encyclopediaRU;
-                encyclopedia.setRegion("RU");
-                apiAddress.setAddress("RU");
             } else {
-                encyclopedia = encyclopediaNA;
-                encyclopedia.setRegion("NA");
-                apiAddress.setAddress("NA");
+                String[] ruSplit = encyclopediaRU.getGame_version().split("\\.");
+                String[] naSplit = encyclopediaNA.getGame_version().split("\\.");
+
+                boolean ruHigher = false;
+                for (int i = 0; i < ruSplit.length && i < naSplit.length; i++) {
+                    if (Integer.parseInt(ruSplit[i]) > Integer.parseInt(naSplit[i])) {
+                        ruHigher = true;
+                        break;
+                    }
+                }
+
+                if (!ruHigher) {
+                    ruHigher = ruSplit.length > naSplit.length;
+                }
+
+                if (ruHigher) {
+                    encyclopedia = encyclopediaRU;
+                    encyclopedia.setRegion("RU");
+                    apiAddress.setAddress("RU");
+                } else {
+                    encyclopedia = encyclopediaNA;
+                    encyclopedia.setRegion("NA");
+                    apiAddress.setAddress("NA");
+                }
             }
 
             isFirstRun = true;
 
-            if (encyclopediaNA != null && encyclopediaRU != null) {
+            if (encyclopediaNA != null || encyclopediaRU != null) {
                 crewsSkillsData = apiJsonParser.getCrewSkills();
                 commandersData = apiJsonParser.getCommanders();
                 commandersRankData = apiJsonParser.getCommandersRanks();

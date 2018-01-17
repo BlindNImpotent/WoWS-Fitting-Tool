@@ -34,12 +34,6 @@ public class Encyclopedia
         shipKey.forEach(nation -> this.ship_nations.put(nation, ship_nations.get(nation)));
     }
 
-    public void setGame_version(String game_version)
-    {
-        this.game_version = game_version;
-        this.version = Integer.parseInt(game_version.replaceAll("\\.", ""));
-    }
-
     public String getShipUpdatedDate()
     {
         return new SimpleDateFormat("yyyy-MM-dd").format(new Date(ships_updated_at * 1000));
