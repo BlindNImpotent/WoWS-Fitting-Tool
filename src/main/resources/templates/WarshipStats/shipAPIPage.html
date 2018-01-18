@@ -176,6 +176,8 @@
                             <th:block th:if="${shell.value.type == 'AP'}">
                                 <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.APShell.bulletAlwaysRicochetAt, 1, 1) + ' + ' + #numbers.formatDecimal(shipAPI.shipComponents.artillery.APShell.bulletCapNormalizeMaxAngle, 1, 1)} + ' deg'"/><br />
                                 <span style="float: left;" th:text="'Penetration'"/><br />
+                                <span style="float: left;" th:if="${shipAPI.shipComponents.artillery.APShell != null}" th:text="'- Threshold'"/>
+                                <span style="float: right;" th:if="${shipAPI.shipComponents.artillery.APShell != null}" th:text="${#numbers.formatInteger(shipAPI.shipComponents.artillery.APShell.bulletDetonatorThreshold, 0, 'COMMA') + ' mm'}"/><br />
                                 <span style="float: left;" th:if="${shipAPI.shipComponents.artillery.APShell != null}" th:text="'- Fuse Time'"/>
                                 <span style="float: right;" th:if="${shipAPI.shipComponents.artillery.APShell != null}" th:text="${shipAPI.shipComponents.artillery.APShell.bulletDetonator + ' s'}"/><br />
                                 <span style="float: left;" th:if="${shipAPI.shipComponents.artillery.APShell != null}" th:text="'- Overmatch'"/>

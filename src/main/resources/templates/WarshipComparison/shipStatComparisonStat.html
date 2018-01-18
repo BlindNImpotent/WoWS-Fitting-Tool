@@ -294,6 +294,7 @@
                             <span style="float: left;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
                             <span style="float: left;" th:text="${#numbers.formatDecimal(shipAPI1.shipComponents.artillery.APShell.bulletAlwaysRicochetAt, 1, 1) + ' + ' + #numbers.formatDecimal(shipAPI1.shipComponents.artillery.APShell.bulletCapNormalizeMaxAngle, 1, 1)} + ' deg'"/><br />
                             <br />
+                            <span style="float: left;" th:if="${shipAPI1.shipComponents.artillery.APShell != null}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.bulletDetonatorThreshold, 0, 'COMMA') + ' mm'}"/><br />
                             <span style="float: left;" th:if="${shipAPI1.shipComponents.artillery.APShell != null}" th:text="${shipAPI1.shipComponents.artillery.APShell.bulletDetonator + ' s'}"/><br />
                             <span style="float: left;" th:text="${shipAPI1.shipComponents.artillery.overmatch + ' mm'}"/><br />
                             <span style="float: left;" th:if="${shipAPI1.shipComponents.artillery.maxDist / 1000 >= 5 and shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtFive > 0}" th:text="${#numbers.formatInteger(shipAPI1.shipComponents.artillery.APShell.penetrationAtFive, 1, 'COMMA') + ' mm (' + #numbers.formatDecimal(shipAPI1.shipComponents.artillery.APShell.flightTimeAtFive, 1, 2) + ' s)'}"/><br />
@@ -309,6 +310,7 @@
                             <span>Mass</span><br />
                             <span>Ricochet</span><br />
                             <span>Penetration</span><br />
+                            <span>- Threshold -</span><br />
                             <span>- Fuse Time -</span><br />
                             <span>- Overmatch -</span><br />
                             <span th:if="${(shipAPI1.shipComponents.artillery.maxDist / 1000 >= 5 or shipAPI2.shipComponents.artillery.maxDist / 1000 >= 5) and ((shipAPI1.shipComponents.artillery.APShell != null and shipAPI1.shipComponents.artillery.APShell.penetrationAtFive > 0) or (shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtFive > 0))}" th:text="'- 5 km -'"/><br />
@@ -326,6 +328,7 @@
                             <span style="float: right;" th:text="${shell.value.type == 'AP'} ? ${#numbers.formatInteger(shell.value.bullet_mass, 0, 'COMMA')} + ' kg' : ''"/><br />
                             <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.artillery.APShell.bulletAlwaysRicochetAt, 1, 1) + ' + ' + #numbers.formatDecimal(shipAPI2.shipComponents.artillery.APShell.bulletCapNormalizeMaxAngle, 1, 1)} + ' deg'"/><br />
                             <br />
+                            <span style="float: right;" th:if="${shipAPI2.shipComponents.artillery.APShell != null}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.bulletDetonatorThreshold, 0, 'COMMA') + ' mm'}"/><br />
                             <span style="float: right;" th:if="${shipAPI2.shipComponents.artillery.APShell != null}" th:text="${shipAPI2.shipComponents.artillery.APShell.bulletDetonator + ' s'}"/><br />
                             <span style="float: right;" th:text="${shipAPI2.shipComponents.artillery.overmatch + ' mm'}"/><br />
                             <span style="float: right;" th:if="${shipAPI2.shipComponents.artillery.maxDist / 1000 >= 5 and shipAPI2.shipComponents.artillery.APShell != null and shipAPI2.shipComponents.artillery.APShell.penetrationAtFive > 0}" th:text="${#numbers.formatInteger(shipAPI2.shipComponents.artillery.APShell.penetrationAtFive, 1, 'COMMA') + ' mm (' + #numbers.formatDecimal(shipAPI2.shipComponents.artillery.APShell.flightTimeAtFive, 1, 2) + ' s)'}"/><br />
