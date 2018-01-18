@@ -48,11 +48,6 @@ public class Artillery
     private float targetWeightYaw;
 
     private int barrelDiameter;
-    private long penetrationHE;
-    private long penetrationHEBefore;
-    private float penetrationHEFloat;
-    private long penetraionIFHEBefore;
-    private long penetraionIFHEAfter;
     private int overmatch;
     private float rotationDeg;
     private float shotDelay;
@@ -85,34 +80,6 @@ public class Artillery
         else if (mapper.convertValue(value, LinkedHashMap.class).get("guns") != null)
         {
             auraFar = mapper.convertValue(value, Aura.class);
-        }
-    }
-
-    public void setPenetrationHE(float penetrationHE)
-    {
-        this.penetrationHEBefore = Math.round(penetrationHE);
-        this.penetrationHE = Math.round(penetrationHE) - 1;
-    }
-
-    public void setPenetrationHEWithNation(String nation, String shipType, String shipName)
-    {
-        if (
-                ("germany".equalsIgnoreCase(nation) && ("Battleship".equalsIgnoreCase(shipType) || "Cruiser".equalsIgnoreCase(shipType) || shipName.contains("Graf Spee")))
-                || ("uk".equalsIgnoreCase(nation) && "Battleship".equalsIgnoreCase(shipType)))
-        {
-            penetrationHEBefore = Math.round((float) barrelDiameter / 4);
-            penetrationHE = Math.round((float) barrelDiameter / 4) - 1;
-            penetrationHEFloat = (float) barrelDiameter / 4 ;
-            penetraionIFHEBefore = Math.round((float) barrelDiameter / 4 * 1.3);
-            penetraionIFHEAfter = penetraionIFHEBefore - 1;
-        }
-        else
-        {
-            penetrationHEBefore = Math.round((float) barrelDiameter / 6);
-            penetrationHE = Math.round((float) barrelDiameter / 6) - 1;
-            penetrationHEFloat = (float) barrelDiameter / 6;
-            penetraionIFHEBefore = Math.round((float) barrelDiameter / 6 * 1.3);
-            penetraionIFHEAfter = penetraionIFHEBefore - 1;
         }
     }
 }

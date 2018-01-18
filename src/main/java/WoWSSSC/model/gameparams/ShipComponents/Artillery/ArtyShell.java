@@ -59,6 +59,8 @@ public class ArtyShell
     private float impactAtTwenty;
     private float impactAtMax;
 
+    private int penetrationIFHE;
+
     public void setMaxDist(float maxDist)
     {
         float maxOne = 0f;

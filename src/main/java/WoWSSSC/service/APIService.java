@@ -274,10 +274,6 @@ public class APIService
 //        }
         shipComponents = gpService.setShipGP(nation, shipType, shipName, ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id, modules, isLive);
 
-        if (shipComponents.getArtillery() != null)
-        {
-            shipComponents.getArtillery().setPenetrationHEWithNation(warship.getNation(), warship.getDefaultType(), warship.getName());
-        }
         ship.setShipComponents(shipComponents);
 
         setCustomValues(ship_id, ship);
@@ -756,15 +752,15 @@ public class APIService
                     {
                         if (modifier.getThresholdPenetrationCoefficient() != 0)
                         {
-                            ship.getShipComponents().getArtillery().setPenetrationHE(Math.round(ship.getShipComponents().getArtillery().getPenetrationHEFloat() * modifier.getThresholdPenetrationCoefficient()));
+                            ship.getShipComponents().getArtillery().getHEShell().setPenetrationIFHE(Math.round(ship.getShipComponents().getArtillery().getHEShell().getAlphaPiercingHE() * modifier.getThresholdPenetrationCoefficient()));
                         }
                         else if (modifier.getThresholdPenetrationCoefficientBig() != 0 && caliber > 139)
                         {
-                            ship.getShipComponents().getArtillery().setPenetrationHE(Math.round(ship.getShipComponents().getArtillery().getPenetrationHEFloat() * modifier.getThresholdPenetrationCoefficientBig()));
+                            ship.getShipComponents().getArtillery().getHEShell().setPenetrationIFHE(Math.round(ship.getShipComponents().getArtillery().getHEShell().getAlphaPiercingHE() * modifier.getThresholdPenetrationCoefficientBig()));
                         }
                         else if (modifier.getThresholdPenetrationCoefficientSmall() != 0 && caliber <= 139)
                         {
-                            ship.getShipComponents().getArtillery().setPenetrationHE(Math.round(ship.getShipComponents().getArtillery().getPenetrationHEFloat() * modifier.getThresholdPenetrationCoefficientSmall()));
+                            ship.getShipComponents().getArtillery().getHEShell().setPenetrationIFHE(Math.round(ship.getShipComponents().getArtillery().getHEShell().getAlphaPiercingHE() * modifier.getThresholdPenetrationCoefficientSmall()));
                         }
                     }
 
