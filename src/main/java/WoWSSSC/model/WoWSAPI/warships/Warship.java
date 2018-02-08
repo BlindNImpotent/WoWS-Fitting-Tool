@@ -1,7 +1,6 @@
 package WoWSSSC.model.WoWSAPI.warships;
 
 import WoWSSSC.model.WoWSAPI.consumables.Consumables;
-import WoWSSSC.model.WoWSAPI.upgrade.Upgrade;
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -11,6 +10,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Qualson-Lee on 2016-11-15.
@@ -123,19 +123,21 @@ public class Warship
 
             String type = mt.getValue().getType();
             LinkedHashMap<String, WarshipModulesTree> tempModulesTree = new LinkedHashMap<>();
+            AtomicInteger index = new AtomicInteger(1);
             this.modules_tree.entrySet().forEach(modTree ->
             {
                 if (modTree.getValue().getType().equals(type))
                 {
                     String tempName = "";
 
-                    if (modTree.getValue().isIs_default())
+                    if (modTree.getValue().getPrev_modules().size() == 0 && (modTree.getValue().getNext_modules() != null || modTree.getValue().getNext_ships() != null))
                     {
-                        tempName = modTree.getValue().getName() + "_Stock";
+                        tempName = modTree.getValue().getName() + "_0";
                     }
                     else
                     {
-                        tempName = modTree.getValue().getName();
+                        tempName = modTree.getValue().getName() + "_" + String.valueOf(index.get());
+                        index.getAndIncrement();
                     }
 
                     tempModulesTree.put(tempName, modTree.getValue());

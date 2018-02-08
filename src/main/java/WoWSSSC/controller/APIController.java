@@ -64,9 +64,9 @@ public class APIController extends ExceptionController
 
     @ResponseBody
     @RequestMapping (value = "/data")
-    public LinkedHashMap getData()
+    public Warship getData(@RequestParam String nation, @RequestParam String shipType, @RequestParam String ship)
     {
-        return data.get(serverParam);
+        return (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(ship);
     }
 
     @RequestMapping (value = "", method = RequestMethod.GET)
