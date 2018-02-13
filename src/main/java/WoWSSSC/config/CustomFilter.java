@@ -26,6 +26,9 @@ public class CustomFilter implements Filter
     @Autowired
     private DiscordWebhook discordWebhook;
 
+    @Autowired
+    private HashMap<String, Integer> loadFinish;
+
     private static HashSet<String> blockIP = new HashSet<>();
 
     private HashMap<String, BlockIp> ipMap = new HashMap<>();
@@ -46,6 +49,11 @@ public class CustomFilter implements Filter
     {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
+
+        if (loadFinish.get("loadFinish") == 0) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
 
         String queryString = request.getQueryString();
         if (StringUtils.isNotEmpty(queryString) && request.getQueryString().contains("/images/Icon/WoWSFT_Icon.png")) {

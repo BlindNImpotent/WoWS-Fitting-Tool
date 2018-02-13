@@ -44,6 +44,8 @@ public class TestConfig
 
     private APIAddress apiAddress = new APIAddress();
 
+    private HashMap<String, Integer> loadFinish = new HashMap<>();
+
     @Bean (value = "APP_ID")
     public String app_id()
     {
@@ -133,4 +135,10 @@ public class TestConfig
         return new Sorter();
     }
 
+    @Bean
+    public HashMap<String, Integer> loadFinish()
+    {
+        loadFinish.put("loadFinish", 0);
+        return loadFinish;
+    }
 }

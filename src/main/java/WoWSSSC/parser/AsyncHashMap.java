@@ -74,6 +74,9 @@ public class AsyncHashMap implements CommandLineRunner {
     private HashMap<String, HashMap<String, Object>> global;
 
     @Autowired
+    private HashMap<String, Integer> loadFinish;
+
+    @Autowired
     private Sorter sorter;
 
     private boolean isFirstRun = true;
@@ -111,6 +114,8 @@ public class AsyncHashMap implements CommandLineRunner {
         }
 
         if (!"na".equalsIgnoreCase(apiAddress.getAddress())) {
+            loadFinish.put("loadFinish", 0);
+
             Encyclopedia encyclopediaNA = apiJsonParser.getEncyclopedia_NA().get().getData();
             Encyclopedia encyclopediaRU = apiJsonParser.getEncyclopedia_RU().get().getData();
 
@@ -430,6 +435,7 @@ public class AsyncHashMap implements CommandLineRunner {
 //                rawShipData.clear();
                 tempWarships.clear();
             }
+            loadFinish.put("loadFinish", 1);
         }
     }
 
