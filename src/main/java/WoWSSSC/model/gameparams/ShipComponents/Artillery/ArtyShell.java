@@ -61,6 +61,11 @@ public class ArtyShell
 
     private int penetrationIFHE;
 
+    public void setAlphaPiercingHE(float alphaPiercingHE)
+    {
+        this.alphaPiercingHE = alphaPiercingHE - 1.0f;
+    }
+
     public void setMaxDist(float maxDist)
     {
         float maxOne = 0f;
