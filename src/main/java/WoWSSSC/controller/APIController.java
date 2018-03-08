@@ -281,9 +281,8 @@ public class APIController extends ExceptionController
                         }
                     });
                 }
+                model.addAttribute("consumables", upgradesSkills.get("consumables"));
             }
-
-            model.addAttribute("consumables", upgradesSkills.get("consumables"));
 
             model.addAttribute("upgradeCompare", upgradeCompare);
             if (upgradeCompare)
@@ -366,7 +365,9 @@ public class APIController extends ExceptionController
             model.addAttribute("shipComponents", shipAPI.getShipComponents());
         }
 
-        model.addAttribute("consumables", upgradesSkills.get("consumables"));
+        if (upgradesSkills != null) {
+            model.addAttribute("consumables", upgradesSkills.get("consumables"));
+        }
 
         return "WarshipStats/consumablesPage";
     }
