@@ -702,14 +702,14 @@ public class APIService
                 else if ((modifier.getChanceToSetOnFireBonus() != 0 && modifier.getThresholdPenetrationCoefficient() != 0)
                         || (modifier.getChanceToSetOnFireBonusBig() != 0 && modifier.getChanceToSetOnFireBonusSmall() != 0 && modifier.getThresholdPenetrationCoefficientBig() != 0 && modifier.getThresholdPenetrationCoefficientSmall() != 0)) // 4_2
                 {
-                    int caliber = shipComponents.getArtillery().getBarrelDiameter();
-
                     float burnHundred = modifier.getChanceToSetOnFireBonus() * 100;
                     float burnHundredBig = modifier.getChanceToSetOnFireBonusBig() * 100;
                     float burnHundredSmall = modifier.getChanceToSetOnFireBonusSmall() * 100;
 
                     if (ship.getArtillery() != null)
                     {
+                        int caliber = shipComponents.getArtillery().getBarrelDiameter();
+
                         ship.getArtillery().getShells().values().forEach(value ->
                         {
                             if (value != null && "HE".equalsIgnoreCase(value.getType()))
@@ -750,6 +750,8 @@ public class APIService
 
                     if (ship.getShipComponents().getArtillery() != null)
                     {
+                        int caliber = shipComponents.getArtillery().getBarrelDiameter();
+
                         if (modifier.getThresholdPenetrationCoefficient() != 0)
                         {
                             ship.getShipComponents().getArtillery().getHEShell().setPenetrationIFHE(Math.round((ship.getShipComponents().getArtillery().getHEShell().getAlphaPiercingHE() + 1.0f) * modifier.getThresholdPenetrationCoefficient() - 1.0f));
