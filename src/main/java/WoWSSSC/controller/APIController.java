@@ -144,6 +144,9 @@ public class APIController extends ExceptionController
             model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(ship));
             model.addAttribute("nation", nation).addAttribute("shipType", shipType).addAttribute("ship", ship);
             model.addAttribute("commanders", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("commanders").get(nation)).keySet());
+
+            commander = URLDecoder.decode(commander, "UTF-8");
+            commander = commander.equalsIgnoreCase("Steven Seagal") ? "John Doe" : commander;
             model.addAttribute("sCommander", commander);
         }
 
@@ -173,13 +176,15 @@ public class APIController extends ExceptionController
         if (nation != null && shipType != null && ship != null)
         {
             ship = URLDecoder.decode(ship, "UTF-8");
-            commander = URLDecoder.decode(commander, "UTF-8");
 
             if (request.getMethod().equalsIgnoreCase("post"))
             {
                 logger.info("Loading " + nation + " " + shipType + " " + ship);
                 model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(ship));
                 model.addAttribute("commanders", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("commanders").get(nation)).keySet());
+
+                commander = URLDecoder.decode(commander, "UTF-8");
+                commander = commander.equalsIgnoreCase("Steven Seagal") ? "John Doe" : commander;
                 model.addAttribute("sCommander", commander);
 
                 return "WarshipStats/warshipPage :: warshipStats";
