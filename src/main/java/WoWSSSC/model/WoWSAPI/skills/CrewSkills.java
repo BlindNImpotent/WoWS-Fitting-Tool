@@ -1,6 +1,7 @@
 package WoWSSSC.model.WoWSAPI.skills;
 
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -16,4 +17,28 @@ public class CrewSkills
     private int tier;
     private String icon;
     private String description;
+
+    public void setTier(int tier)
+    {
+        this.tier = tier;
+    }
+
+    public void setTier(String tierString)
+    {
+        if (StringUtils.isNotEmpty(tierString) && Character.isDigit(tierString.charAt(0))) {
+            this.tier = Integer.valueOf(tierString);
+        }
+    }
+
+    public void setType_id(int type_id)
+    {
+        this.type_id = type_id;
+    }
+
+    public void setType_id(String typeIdString)
+    {
+        if (StringUtils.isNotEmpty(typeIdString) && Character.isDigit(typeIdString.charAt(0))) {
+            this.tier = Integer.valueOf(typeIdString);
+        }
+    }
 }

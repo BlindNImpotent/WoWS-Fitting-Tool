@@ -96,7 +96,9 @@ public class APIController extends ExceptionController
                                 @RequestParam(required = false) HashSet<String> flags,
                                 @RequestParam(required = false) HashSet<String> consumables,
                                 @RequestParam(required = false) String skills,
+                                @RequestParam(required = false) HashSet<String> skillsH,
                                 @RequestParam(required = false) String uSkills,
+                                @RequestParam(required = false) HashSet<String> uSkillsH,
                                 @RequestParam(required = false, defaultValue = "100") int adrenalineValue,
                                 @RequestParam(required = false) boolean camo,
                                 @RequestParam(required = false, defaultValue = "false") boolean mobile,
@@ -128,8 +130,20 @@ public class APIController extends ExceptionController
                 uSkills = URLDecoder.decode(uSkills, "UTF-8");
             }
 
-            HashSet<CrewSkills> crewSkills = skills != null ? mapper.readValue(skills, HashSet.class) : new HashSet<>();
-            HashSet<String> crewUSkills = uSkills != null ? mapper.readValue(uSkills, HashSet.class) : new HashSet<>();
+            HashSet<CrewSkills> crewSkills = new HashSet<>();
+            if (CollectionUtils.isEmpty(skillsH)) {
+                crewSkills = skills != null ? mapper.readValue(skills, new TypeReference<HashSet<CrewSkills>>(){}) : new HashSet<>();
+            }
+            else {
+                for (String sh : skillsH) {
+                    String[] split = sh.split("_");
+                    CrewSkills cs = new CrewSkills();
+                    cs.setTier(Integer.parseInt(split[0]));
+                    cs.setType_id(Integer.parseInt(split[1]));
+                    crewSkills.add(cs);
+                }
+            }
+            HashSet<String> crewUSkills = CollectionUtils.isEmpty(uSkillsH) ? (uSkills != null ? mapper.readValue(uSkills, HashSet.class) : new HashSet<>()) : uSkillsH;
 
             model.addAttribute("url", "/warship?" + request.getQueryString());
             model.addAttribute("modules", modules);
@@ -189,40 +203,6 @@ public class APIController extends ExceptionController
 
                 return "WarshipStats/warshipPage :: warshipStats";
             }
-            else
-            {
-//                logger.info("Loading " + nation + " " + shipType + " " + ship + " from /warship?" + request.getQueryString());
-//
-//                if (StringUtils.isNotEmpty(skills) && !skills.contains("tier") && !skills.contains("type_id") && !skills.contains("[]"))
-//                {
-//                    skills = new String(Base64.getDecoder().decode(skills));
-//                    skills = URLDecoder.decode(skills, "UTF-8");
-//                }
-//
-//                if (StringUtils.isNotEmpty(uSkills))
-//                {
-//                    uSkills = new String(Base64.getDecoder().decode(uSkills));
-//                    uSkills = URLDecoder.decode(uSkills, "UTF-8");
-//                }
-//
-//                HashSet<CrewSkills> crewSkills = skills != null ? mapper.readValue(skills, HashSet.class) : new HashSet<>();
-//                HashSet<String> crewUSkills = uSkills != null ? mapper.readValue(uSkills, HashSet.class) : new HashSet<>();
-//
-//                redirectAttributes.addFlashAttribute("url", "/warship?" + request.getQueryString());
-//                redirectAttributes.addFlashAttribute("modules", modules);
-//                redirectAttributes.addFlashAttribute("upgrades", upgrades);
-//                redirectAttributes.addFlashAttribute("adrenalineValue", adrenalineValue);
-//                redirectAttributes.addFlashAttribute("flags", flags);
-//                redirectAttributes.addFlashAttribute("consumables", consumables);
-//                redirectAttributes.addFlashAttribute("crewSkills", crewSkills);
-//                redirectAttributes.addFlashAttribute("crewUSkills", crewUSkills);
-//                redirectAttributes.addFlashAttribute("camo", camo);
-//                redirectAttributes.addFlashAttribute("mobile", mobile);
-//                redirectAttributes.addFlashAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(ship));
-//                redirectAttributes.addFlashAttribute("nation", nation).addFlashAttribute("shipType", shipType).addFlashAttribute("ship", ship);
-//                redirectAttributes.addFlashAttribute("commanders", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("commanders").get(nation)).keySet());
-//                redirectAttributes.addFlashAttribute("sCommander", commander);
-            }
         }
         return "redirect:/WarshipStats?" + request.getQueryString();
     }
@@ -244,12 +224,11 @@ public class APIController extends ExceptionController
                     @RequestParam(required = false, defaultValue = "") String Hull,
                     @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
                     @RequestParam(required = false, defaultValue = "") String Torpedoes,
-                    @RequestBody(required = false) HashMap<String, List> upgradesSkills,
                     @RequestParam(required = false, defaultValue = "100") int adrenalineValue,
                     @RequestParam(required = false) List<String> modules,
                     @RequestParam(required = false, defaultValue = "false") boolean stockCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean upgradeCompare,
-                    @RequestParam(required = false, defaultValue = "false") boolean mobile
+                    @RequestBody(required = false) HashMap<String, List> upgradesSkills
             ) throws Exception
     {
         if (!ship_id.equals(""))

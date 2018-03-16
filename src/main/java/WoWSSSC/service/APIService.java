@@ -263,16 +263,7 @@ public class APIService
 
         Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(shipName);
 
-        ShipComponents shipComponents;
-//        if (isStock)
-//        {
-//
-//        }
-//        else
-//        {
-//
-//        }
-        shipComponents = gpService.setShipGP(nation, shipType, shipName, ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id, modules, isLive);
+        ShipComponents shipComponents = gpService.setShipGP(nation, shipType, shipName, ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id, modules, isLive);
 
         ship.setShipComponents(shipComponents);
 

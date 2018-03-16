@@ -101,7 +101,7 @@
         <tbody>
             <tr th:each="skillTier : ${skills}">
                 <td th:each="skill : ${skillTier.value}" th:id="${'td_' + skill.value.tier + '_' + skill.value.type_id}">
-                    <button th:if="${skill.value.tier != 0}" th:object="${skill.value}" th:title="${skill.value.description}" th:class="${crewSkills != null and crewSkills.size() != 0 and (crewSkills.?[tier == #strings.toString(__${skill.value.tier}__) and type_id == #strings.toString(__${skill.value.type_id}__)]).size() != 0} ? button_skill_selected : button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, type_id=${skill.value.type_id}">
+                    <button th:if="${skill.value.tier != 0}" th:object="${skill.value}" th:title="${skill.value.description}" th:class="${crewSkills != null and crewSkills.size() != 0 and (crewSkills.?[tier == __${skill.value.tier}__ and type_id == __${skill.value.type_id}__]).size() != 0} ? button_skill_selected : button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, type_id=${skill.value.type_id}">
                         <img th:src="${skill.value.icon}"/><br />
                         <span th:text="${skill.value.name}"/>
                     </button>
@@ -167,6 +167,7 @@
     var modules = [];
     var upgrades = [];
     var skills = [];
+    var oSkills = [];
     var uSkills = [];
     var flags = [];
     var consumables = [[${consumables}]];
@@ -365,7 +366,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
+        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + encodeURIComponent(modules) + '&upgrades=' + encodeURIComponent(upgrades) + '&flags=' + encodeURIComponent(flags) + '&skillsH=' + encodeURIComponent(skills) + '&camo=' + camouflage + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkillsH=' + encodeURIComponent(uSkills));
     }
 
     $(document).on('click', '.button_skill, .button_skill_selected', function () {
@@ -552,8 +553,8 @@
                     tier: tier,
                     type_id: type_id
                 };
-
-                skills.push(current);
+                oSkills.push(current);
+                skills.push(tier + '_' + type_id);
             }
 
             for (var i = 0; i < selectedUSkills.length; i++)
@@ -578,7 +579,7 @@
 
             var upgradesSkills = {
                 upgrades: upgrades,
-                skills: skills,
+                skills: oSkills,
                 uSkills: uSkills,
                 camouflage: camouflage,
                 flags: flags,
@@ -630,7 +631,7 @@
                             nation: nation,
                             shipType: shipType,
                             ship: ship
-                        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + adrenalineValue + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
+                        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + encodeURIComponent(modules) + '&upgrades=' + encodeURIComponent(upgrades) + '&flags=' + encodeURIComponent(flags) + '&skillsH=' + encodeURIComponent(skills) + '&camo=' + camouflage + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + adrenalineValue + '&commander=' + encodeURIComponent(commander) + '&uSkillsH=' + encodeURIComponent(uSkills));
                     }
                     else
                     {
@@ -774,7 +775,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + adrenalineValue + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
+        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + encodeURIComponent(modules) + '&upgrades=' + encodeURIComponent(upgrades) + '&flags=' + encodeURIComponent(flags) + '&skillsH=' + encodeURIComponent(skills) + '&camo=' + camouflage + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + adrenalineValue + '&commander=' + encodeURIComponent(commander) + '&uSkillsH=' + encodeURIComponent(uSkills));
     });
 
     $(document).on('change', '#commanderSelect', function ()
@@ -804,7 +805,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + modules + '&upgrades=' + upgrades + '&flags=' + flags + '&skills=' + btoa(encodeURIComponent(JSON.stringify(skills))) + '&camo=' + camouflage + '&mobile=' + mobile + '&consumables=' + consumables + '&adrenalineValue=' + adrenalineValue + '&commander=' + encodeURIComponent(commander) + '&uSkills=' + btoa(encodeURIComponent(JSON.stringify(uSkills))));
+        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&modules=' + encodeURIComponent(modules) + '&upgrades=' + encodeURIComponent(upgrades) + '&flags=' + encodeURIComponent(flags) + '&skillsH=' + encodeURIComponent(skills) + '&camo=' + camouflage + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + adrenalineValue + '&commander=' + encodeURIComponent(commander) + '&uSkillsH=' + encodeURIComponent(uSkills));
 
 //        if ($('.button_skill_selected').length > 0)
 //        {
