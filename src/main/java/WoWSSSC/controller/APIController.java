@@ -763,8 +763,9 @@ public class APIController extends ExceptionController
     }
 
     @RequestMapping (value = "/contact", method = RequestMethod.GET)
-    public String getContact()
+    public String getContact(Model model)
     {
+        model.addAttribute("serverParam", serverParamAddress);
         return "contact";
     }
 
