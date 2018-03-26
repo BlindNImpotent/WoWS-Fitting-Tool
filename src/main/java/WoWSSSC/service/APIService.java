@@ -739,7 +739,7 @@ public class APIService
                         });
                     }
 
-                    if (ship.getShipComponents().getArtillery() != null)
+                    if (ship.getShipComponents().getArtillery() != null && ship.getShipComponents().getArtillery().getHEShell() != null)
                     {
                         int caliber = shipComponents.getArtillery().getBarrelDiameter();
 
