@@ -1,5 +1,6 @@
 package WoWSSSC.service;
 
+import WoWSSSC.config.CustomProperties;
 import WoWSSSC.model.WoWSAPI.APIAddress;
 import WoWSSSC.model.WoWSAPI.ModuleId;
 import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
@@ -24,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -72,6 +74,9 @@ public class APIService
     @Autowired
     private Sorter sorter;
 
+    @Autowired
+    private CustomProperties customProperties;
+
     private ObjectMapper mapper = new ObjectMapper();
 
     private static final Logger logger = LoggerFactory.getLogger(APIService.class);
@@ -99,7 +104,7 @@ public class APIService
             String key = "&ship_id=" + ship_id + "&artillery_id=" + artillery_id + "&dive_bomber_id=" + dive_bomber_id + "&engine_id=" + engine_id
                     + "&fighter_id=" + fighter_id + "&fire_control_id=" + fire_control_id + "&flight_control_id=" + flight_control_id + "&hull_id=" + hull_id + "&torpedo_bomber_id=" + torpedo_bomber_id + "&torpedoes_id=" + torpedoes_id;
 
-            String url = apiAddress.getAPI_Starter() + "/shipprofile/?application_id=" + APP_ID + key + "&language=en";
+            String url = apiAddress.getAPI_Starter() + "/shipprofile/?application_id=" + APP_ID + key + "&language=" + customProperties.getLanguage();
 
             if (!shipHashMap.containsKey(key))
             {

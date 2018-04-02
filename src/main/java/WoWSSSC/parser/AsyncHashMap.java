@@ -1,5 +1,6 @@
 package WoWSSSC.parser;
 
+import WoWSSSC.config.CustomProperties;
 import WoWSSSC.model.WoWSAPI.APIAddress;
 import WoWSSSC.model.WoWSAPI.commanders.Commanders;
 import WoWSSSC.model.WoWSAPI.commanders.CommandersData;
@@ -20,13 +21,11 @@ import WoWSSSC.model.gameparams.ShipUpgradeInfo.Module.Module;
 import WoWSSSC.model.gameparams.ShipUpgradeInfo.ShipUpgradeInfo;
 import WoWSSSC.model.gameparams.TypeInfo;
 import WoWSSSC.model.gameparams.commanders.GPCommander;
-import WoWSSSC.model.gameparams.commanders.UniqueSkillModifier;
 import WoWSSSC.model.gameparams.commanders.UniqueTemp;
 import WoWSSSC.model.gameparams.test.GameParamsValues;
 import WoWSSSC.model.gameparams.test.TorpedoShip;
 import WoWSSSC.model.gameparams.test.TorpedoVisibility;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.Modernization;
-import WoWSSSC.model.gameparams.test.Values.ShipModernization.ShipModernization;
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +78,12 @@ public class AsyncHashMap implements CommandLineRunner {
     @Autowired
     private Sorter sorter;
 
+    @Autowired
+    private CustomProperties customProperties;
+
+    private static String language;
+    private static String server;
+
     private boolean isFirstRun = true;
 
     private ObjectMapper mapper = new ObjectMapper();
@@ -98,6 +103,9 @@ public class AsyncHashMap implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
+        language = customProperties.getLanguage();
+        server = customProperties.getServer();
+
         List<String> nationsString = new ArrayList<>();
         List<String> shipTypeString = new ArrayList<>();
 
@@ -113,21 +121,27 @@ public class AsyncHashMap implements CommandLineRunner {
             apiJsonParser.setGlobal();
         }
 
-        if (!"na".equalsIgnoreCase(apiAddress.getAddress())) {
+        if (!"na".equalsIgnoreCase(apiAddress.getAddress()) || !"asia".equalsIgnoreCase(apiAddress.getAddress())) {
             loadFinish.put("loadFinish", 0);
 
-            Encyclopedia encyclopediaNA = apiJsonParser.getEncyclopedia_NA().get().getData();
-            Encyclopedia encyclopediaRU = apiJsonParser.getEncyclopedia_RU().get().getData();
+            Encyclopedia encyclopediaNA = !"asia".equalsIgnoreCase(server) ? apiJsonParser.getEncyclopedia_NA().get().getData() : null;
+            Encyclopedia encyclopediaRU = !"asia".equalsIgnoreCase(server) ? apiJsonParser.getEncyclopedia_RU().get().getData() : null;
+            Encyclopedia encyclopediaASIA = "asia".equalsIgnoreCase(server) ? apiJsonParser.getEncyclopedia_ASIA().get().getData() : null;
 
-            if (encyclopediaNA == null) {
+            if (encyclopediaASIA != null) {
+                encyclopedia = encyclopediaASIA;
+                encyclopedia.setRegion("ASIA");
+                apiAddress.setAddress("ASIA");
+            }
+            if (encyclopediaNA == null && encyclopediaRU != null) {
                 encyclopedia = encyclopediaRU;
                 encyclopedia.setRegion("RU");
                 apiAddress.setAddress("RU");
-            } else if (encyclopediaRU == null) {
+            } else if (encyclopediaRU == null && encyclopediaNA != null) {
                 encyclopedia = encyclopediaNA;
                 encyclopedia.setRegion("NA");
                 apiAddress.setAddress("NA");
-            } else {
+            } else if (encyclopediaNA != null && encyclopediaRU != null){
                 String[] ruSplit = encyclopediaRU.getGame_version().split("\\.");
                 String[] naSplit = encyclopediaNA.getGame_version().split("\\.");
 
@@ -156,7 +170,7 @@ public class AsyncHashMap implements CommandLineRunner {
 
             isFirstRun = true;
 
-            if (encyclopediaNA != null || encyclopediaRU != null) {
+            if (encyclopediaNA != null || encyclopediaRU != null || encyclopediaASIA != null) {
                 crewsSkillsData = apiJsonParser.getCrewSkills();
                 commandersData = apiJsonParser.getCommanders();
                 commandersRankData = apiJsonParser.getCommandersRanks();

@@ -5,6 +5,7 @@ import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.parser.AsyncHashMap;
 import WoWSSSC.utils.Sorter;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -22,6 +23,7 @@ import java.util.LinkedHashMap;
 @Configuration
 @ComponentScan(basePackages = {"WoWSSSC"})
 @EnableAsync
+@EnableConfigurationProperties(CustomProperties.class)
 public class TestConfig
 {
     private APIJsonParser apiJsonParser = new APIJsonParser();

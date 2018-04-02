@@ -1,5 +1,6 @@
 package WoWSSSC.parser;
 
+import WoWSSSC.config.CustomProperties;
 import WoWSSSC.model.WoWSAPI.APIAddress;
 import WoWSSSC.model.WoWSAPI.commanders.CommandersData;
 import WoWSSSC.model.WoWSAPI.commanders.CommandersRankData;
@@ -17,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -67,6 +69,9 @@ public class APIJsonParser
     @Qualifier (value = "global")
     private HashMap<String, HashMap<String, Object>> global;
 
+    @Autowired
+    private CustomProperties customProperties;
+
     private ObjectMapper mapper = new ObjectMapper();
 
     private static final Logger logger = LoggerFactory.getLogger(APIJsonParser.class);
@@ -75,14 +80,14 @@ public class APIJsonParser
     {
         logger.info("Looking up all ships");
 
-        String url = apiAddress.getAPI_Starter() + "/ships/?application_id=" + APP_ID + "&page_no=1&language=en";
+        String url = apiAddress.getAPI_Starter() + "/ships/?application_id=" + APP_ID + "&page_no=1&language=" + customProperties.getLanguage();
 
         WarshipData result = restTemplate.getForObject(url, WarshipData.class);
         if (result.getMeta().getPage_total() > 1)
         {
             for (int i = 2; i <= result.getMeta().getPage_total(); i++)
             {
-                url = apiAddress.getAPI_Starter() + "/ships/?application_id=" + APP_ID + "&page_no=" + i + "&language=en";
+                url = apiAddress.getAPI_Starter() + "/ships/?application_id=" + APP_ID + "&page_no=" + i + "&language=" + customProperties.getLanguage();
                 WarshipData temp = restTemplate.getForObject(url, WarshipData.class);
                 result.getData().putAll(temp.getData());
             }
@@ -96,7 +101,7 @@ public class APIJsonParser
     public CompletableFuture<EncyclopediaData> getEncyclopedia_NA() throws IOException
     {
         logger.info("Looking up encyclopedia NA");
-        String url = apiAddress.getAPI_NA() + "/info/?application_id=" + APP_ID + "&language=en";
+        String url = apiAddress.getAPI_NA() + "/info/?application_id=" + APP_ID + "&language=" + customProperties.getLanguage();
 
         EncyclopediaData result = restTemplate.getForObject(url, EncyclopediaData.class);
         return CompletableFuture.completedFuture(result);
@@ -106,7 +111,17 @@ public class APIJsonParser
     public CompletableFuture<EncyclopediaData> getEncyclopedia_RU() throws IOException
     {
         logger.info("Looking up encyclopedia RU");
-        String url = apiAddress.getAPI_RU() + "/info/?application_id=" + APP_ID + "&language=en";
+        String url = apiAddress.getAPI_RU() + "/info/?application_id=" + APP_ID + "&language=" + customProperties.getLanguage();
+
+        EncyclopediaData result = restTemplate.getForObject(url, EncyclopediaData.class);
+        return CompletableFuture.completedFuture(result);
+    }
+
+    @Async
+    public CompletableFuture<EncyclopediaData> getEncyclopedia_ASIA() throws IOException
+    {
+        logger.info("Looking up encyclopedia ASIA");
+        String url = apiAddress.getAPI_ASIA() + "/info/?application_id=" + APP_ID + "&language=" + customProperties.getLanguage();
 
         EncyclopediaData result = restTemplate.getForObject(url, EncyclopediaData.class);
         return CompletableFuture.completedFuture(result);
@@ -210,7 +225,7 @@ public class APIJsonParser
     public CompletableFuture<WarshipData> getNationShip(String nation, String type) throws IOException
     {
         logger.info("Looking up " + nation + " " + type);
-        String url = apiAddress.getAPI_Starter() + "/ships/?application_id=" + APP_ID + "&nation=" + nation + "&type=" + type + "&fields=-default_profile&language=en";
+        String url = apiAddress.getAPI_Starter() + "/ships/?application_id=" + APP_ID + "&nation=" + nation + "&type=" + type + "&fields=-default_profile&language=" + customProperties.getLanguage();
         WarshipData result = restTemplate.getForObject(url, WarshipData.class);
 
         return CompletableFuture.completedFuture(result);
@@ -220,7 +235,7 @@ public class APIJsonParser
     public CompletableFuture<CrewSkillsData> getCrewSkills() throws IOException
     {
         logger.info("Looking up crew skills");
-        String url = apiAddress.getAPI_Starter() + "/crewskills/?application_id=" + APP_ID + "&language=en";
+        String url = apiAddress.getAPI_Starter() + "/crewskills/?application_id=" + APP_ID + "&language=" + customProperties.getLanguage();
         CrewSkillsData result = restTemplate.getForObject(url, CrewSkillsData.class);
 
         return CompletableFuture.completedFuture(result);
@@ -230,13 +245,13 @@ public class APIJsonParser
     public CompletableFuture<ConsumablesData> getConsumables() throws IOException
     {
         logger.info("Looking up all consumables");
-        String url = apiAddress.getAPI_Starter() + "/consumables/?application_id=" + APP_ID + "&page_no=1&language=en";
+        String url = apiAddress.getAPI_Starter() + "/consumables/?application_id=" + APP_ID + "&page_no=1&language=" + customProperties.getLanguage();
         ConsumablesData result = restTemplate.getForObject(url, ConsumablesData.class);
         if (result.getMeta().getPage_total() > 1)
         {
             for (int i = 2; i < result.getMeta().getPage_total(); i++)
             {
-                url = apiAddress.getAPI_Starter() + "/consumables/?application_id=" + APP_ID + "&page_no=" + i + "&language=en";
+                url = apiAddress.getAPI_Starter() + "/consumables/?application_id=" + APP_ID + "&page_no=" + i + "&language=" + customProperties.getLanguage();
                 ConsumablesData temp = restTemplate.getForObject(url, ConsumablesData.class);
                 result.getData().putAll(temp.getData());
             }
@@ -250,7 +265,7 @@ public class APIJsonParser
     public CompletableFuture<CommandersData> getCommanders() throws IOException
     {
         logger.info("Looking up all commanders");
-        String url = apiAddress.getAPI_Starter() + "/crews/?application_id=" + APP_ID + "&language=en";
+        String url = apiAddress.getAPI_Starter() + "/crews/?application_id=" + APP_ID + "&language=" + customProperties.getLanguage();
         CommandersData result = restTemplate.getForObject(url, CommandersData.class);
 
         return CompletableFuture.completedFuture(result);
@@ -260,7 +275,7 @@ public class APIJsonParser
     public CompletableFuture<CommandersRankData> getCommandersRanks()
     {
         logger.info("Looking up all commanders' ranks");
-        String url = apiAddress.getAPI_Starter() + "/crewranks/?application_id=" + APP_ID + "&language=en";
+        String url = apiAddress.getAPI_Starter() + "/crewranks/?application_id=" + APP_ID + "&language=" + customProperties.getLanguage();
         CommandersRankData result = restTemplate.getForObject(url, CommandersRankData.class);
 
         return CompletableFuture.completedFuture(result);
