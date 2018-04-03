@@ -28,6 +28,7 @@ import WoWSSSC.model.gameparams.test.TorpedoVisibility;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.Modernization;
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
@@ -242,6 +243,24 @@ public class AsyncHashMap implements CommandLineRunner {
                     } else if (entry.getValue().getType().equals("Permoflage")) {
                         tempPermoflage.put(entry.getKey(), entry.getValue());
                     } else if (entry.getValue().getType().equals("Modernization")) {
+                        List<String> stringsList = new ArrayList<>();
+                        stringsList.add(entry.getValue().getDescription());
+
+                        LinkedHashMap<String, HashMap> profileHashMap = mapper.convertValue(entry.getValue().getProfile(), LinkedHashMap.class);
+
+                        profileHashMap.values().forEach(value ->
+                        {
+                            if (value != null) {
+                                stringsList.add("\n" + value.get("description"));
+                            }
+                        });
+
+                        String finalString = "";
+                        for (String s : stringsList) {
+                            finalString = finalString + s;
+                        }
+                        entry.getValue().setDescription(finalString);
+
                         tempUpgrades.put(entry.getKey(), entry.getValue());
                     }
                 });
@@ -569,6 +588,8 @@ public class AsyncHashMap implements CommandLineRunner {
                         tempConsumables.setUpgradeSlot("slot6");
                     }
                 }
+//                String localizedName = (String) global.get(serverParam).get("IDS_TITLE_" + idToName.get(serverParam).get(String.valueOf(upgrade_id)).toUpperCase());
+//                tempConsumables.setName(StringUtils.isNotEmpty(localizedName) ? localizedName : tempConsumables.getName());
 
                 tempConsumablesHM.put(tempConsumables.getName(), tempConsumables);
             }

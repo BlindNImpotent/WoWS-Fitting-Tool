@@ -211,9 +211,11 @@ public class APIJsonParser
             String serverParams = i == 0 ? "live" : "test";
 
             String liveGlobal = "/static/json/live/global.json";
+            String krGlobal = "/static/json/live/global-kr.json";
             String testGlobal = "/static/json/test/global.json";
 
-            Resource GlobalFile = new ClassPathResource(i == 0 ? liveGlobal : testGlobal);
+            String finalGlobal = i == 0 ? ("kr".equalsIgnoreCase(customProperties.getGlobalLanguage()) ? krGlobal : liveGlobal) : testGlobal;
+            Resource GlobalFile = new ClassPathResource(finalGlobal);
 
             HashMap<String, Object> temp = mapper.readValue(GlobalFile.getInputStream(), new TypeReference<HashMap<String, Object>>(){});
 
