@@ -7,6 +7,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import javax.annotation.PostConstruct;
+import java.util.TimeZone;
+
 /**
  * Created by Qualson-Lee on 2016-08-04.
  */
@@ -16,6 +19,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 //@EnableCaching
 public class Application extends SpringBootServletInitializer
 {
+    @PostConstruct
+    void started()
+    {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
+
     public static void main(String[] args)
     {
         SpringApplication.run(Application.class, args);
