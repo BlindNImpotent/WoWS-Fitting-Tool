@@ -152,10 +152,10 @@
                             <div id="custom-handle" class="ui-slider-handle"></div>
                         </div>
                     </th:block>
-                    <span style="float:left;">Rotation</span>
+                    <span style="float:left;">Rotation / 180 deg</span>
                     <span style="float: right;" th:if="${configurationAPI != null and 180 / shipAPI.shipComponents.artillery.rotationDeg - 180 / configurationAPI.shipComponents.artillery.rotationDeg != 0}" th:text="${180 / shipAPI.shipComponents.artillery.rotationDeg - 180 / configurationAPI.shipComponents.artillery.rotationDeg > 0 ? ' (+' + #numbers.formatDecimal(180 / shipAPI.shipComponents.artillery.rotationDeg - 180 / configurationAPI.shipComponents.artillery.rotationDeg, 1, 2) + ')' : ' (' + #numbers.formatDecimal(180 / shipAPI.shipComponents.artillery.rotationDeg - 180 / configurationAPI.shipComponents.artillery.rotationDeg, 1, 2) + ')'}"/>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(180 / shipAPI.shipComponents.artillery.rotationDeg, 1, 2)} + ' s'"/><br />
-                    <span style="float:left;">Rotation / 180 deg</span>
+                    <span style="float:left;">Rotation</span>
                     <span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.artillery.rotationDeg - configurationAPI.shipComponents.artillery.rotationDeg != 0}" th:text="${shipAPI.shipComponents.artillery.rotationDeg - configurationAPI.shipComponents.artillery.rotationDeg > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.shipComponents.artillery.rotationDeg - configurationAPI.shipComponents.artillery.rotationDeg, 1, 2) + ')' : ' (' + #numbers.formatDecimal(shipAPI.shipComponents.artillery.rotationDeg - configurationAPI.shipComponents.artillery.rotationDeg, 1, 2) + ')'}"/>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.rotationDeg, 1, 2)} + ' deg / s'"/><br /><br />
                     <li th:if="${shell.value != null}" th:each="shell : ${shipAPI.artillery.shells}">

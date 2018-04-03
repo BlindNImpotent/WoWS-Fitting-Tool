@@ -195,8 +195,8 @@
                             <span>- Min V Dispersion -</span><br />
                             <span>Reload</span><br />
                             <span>RoF</span><br /><br th:if="${adrenaline == true}" />
-                            <span>Rotation</span><br />
                             <span>Rotation / 180 deg</span><br />
+                            <span>Rotation</span><br />
                         </li>
                         <li style="display: inline-block; float: right; width: 160px;">
                             <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI2.shipComponents.artillery.maxDist / 1000, 0, 2)} + ' km'"/><br />
