@@ -122,7 +122,7 @@ public class AsyncHashMap implements CommandLineRunner {
             apiJsonParser.setGlobal();
         }
 
-        if (!"na".equalsIgnoreCase(apiAddress.getAddress()) || !"asia".equalsIgnoreCase(apiAddress.getAddress())) {
+        if (!"na".equalsIgnoreCase(apiAddress.getAddress()) && !"asia".equalsIgnoreCase(apiAddress.getAddress())) {
             loadFinish.put("loadFinish", 0);
 
             Encyclopedia encyclopediaNA = !"asia".equalsIgnoreCase(server) ? apiJsonParser.getEncyclopedia_NA().get().getData() : null;
