@@ -103,6 +103,14 @@ public class Warship
             modules_tree.get("3349131216").setName("419 mm/45 Mk II");
         }
 
+        HashSet<String> shiftLeftHashSet = new HashSet<>();
+        HashSet<String> shiftRightHashSet = new HashSet<>();
+        shiftLeftHashSet.add("Artillery");
+        shiftLeftHashSet.add("FlightControl");
+        shiftRightHashSet.add("Suo");
+        shiftRightHashSet.add("Torpedoes");
+        shiftRightHashSet.add("Engine");
+
         this.modules_tree = modules_tree;
 
         this.modules_tree.entrySet().forEach(mt ->
@@ -120,7 +128,17 @@ public class Warship
                     modules_tree.get(String.valueOf(nm)).setPrev_module_class(modules_tree.get(String.valueOf(nm)).getPrev_module_class() + " " + "prev_module_" +  mt.getValue().getModule_id());
 
                     if (modules_tree.get(String.valueOf(nm)).getType().equalsIgnoreCase(mt.getValue().getType())) {
-                        mt.getValue().setShiftUp(true);
+                        mt.getValue().setShiftDown(true);
+                        modules_tree.get(String.valueOf(nm)).setFromUp(true);
+                    }
+
+                    if (mt.getValue().getType().equals("Hull") && shiftLeftHashSet.contains(modules_tree.get(String.valueOf(nm)).getType())) {
+                        mt.getValue().setShiftLeft(true);
+                        modules_tree.get(String.valueOf(nm)).setFromRight(true);
+                    }
+                    else if (mt.getValue().getType().equals("Hull") && shiftRightHashSet.contains(modules_tree.get(String.valueOf(nm)).getType())) {
+                        mt.getValue().setShiftRight(true);
+                        modules_tree.get(String.valueOf(nm)).setFromLeft(true);
                     }
                 });
             }
@@ -161,11 +179,10 @@ public class Warship
         int typeSizeColumn = warshipModulesTreeNew.size();
         int[] shift = new int[warshipModulesTreeNew.size()];
         int maxModuleSizeRow = 1;
+        int indexFirst = 0;
 
         for (LinkedHashMap<String, WarshipModulesTree> type : warshipModulesTreeNew.values())
         {
-            int i = 0;
-
             if (maxModuleSizeRow < type.values().size())
             {
                 maxModuleSizeRow = type.values().size();
@@ -193,7 +210,7 @@ public class Warship
 
                             maxModuleSizeRow = type.values().size() - module.getNext_modules().size() + 1;
 
-                            for (int j = i; j < shift.length; j++)
+                            for (int j = indexFirst; j < shift.length; j++)
                             {
                                 shift[j] = shift[j] + 1;
                             }
@@ -201,7 +218,7 @@ public class Warship
                     }
                 }
             }
-            i++;
+            indexFirst++;
         }
 
         List<LinkedHashMap> tempTypesList = new ArrayList<>(warshipModulesTreeNew.values());
@@ -218,7 +235,8 @@ public class Warship
 
                     if (i < tempWSMTList.size())
                     {
-                        tempRow[j + shift[j]] = tempWSMTList.get(i);
+                        int tempIndex = tempWSMTList.get(i).getNext_modules() != null ? tempWSMTList.get(i).getNext_modules().size() - 1 : 0;
+                        tempRow[j + shift[j] - tempIndex] = tempWSMTList.get(i);
 
                         if (tempWSMTList.get(i).getPrev_modules() != null)
                         {

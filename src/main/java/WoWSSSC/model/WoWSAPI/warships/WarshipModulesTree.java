@@ -24,9 +24,12 @@ public class WarshipModulesTree
     private String next_module_class = "";
     private String prev_module_class = "";
 
-    private boolean isShiftUp;
+    private boolean isShiftDown;
     private boolean isShiftLeft;
     private boolean isShiftRight;
+    private boolean isFromUp;
+    private boolean isFromLeft;
+    private boolean isFromRight;
 
     public boolean isIs_default()
     {
