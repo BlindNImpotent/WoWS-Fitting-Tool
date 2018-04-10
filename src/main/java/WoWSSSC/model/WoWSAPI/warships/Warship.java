@@ -118,6 +118,10 @@ public class Warship
                 {
                     modules_tree.get(String.valueOf(nm)).getPrev_modules().add(mt.getValue().getModule_id());
                     modules_tree.get(String.valueOf(nm)).setPrev_module_class(modules_tree.get(String.valueOf(nm)).getPrev_module_class() + " " + "prev_module_" +  mt.getValue().getModule_id());
+
+                    if (modules_tree.get(String.valueOf(nm)).getType().equalsIgnoreCase(mt.getValue().getType())) {
+                        mt.getValue().setShiftUp(true);
+                    }
                 });
             }
 

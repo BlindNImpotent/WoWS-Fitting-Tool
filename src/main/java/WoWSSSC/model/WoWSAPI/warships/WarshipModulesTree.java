@@ -29,6 +29,8 @@ public class WarshipModulesTree
         return is_default;
     }
 
+    private boolean isShiftUp;
+
     public void setNext_modules(List<Long> next_modules_list)
     {
         next_modules = next_modules_list;
