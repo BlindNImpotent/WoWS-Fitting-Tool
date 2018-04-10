@@ -41,6 +41,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -263,7 +265,7 @@ public class GPService
                                             ArtyShell ArtyShell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), ArtyShell.class);
                                             if ("AP".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
                                             {
-                                                setAPPenetration(ArtyShell, maxVertAngle);
+                                                setAPPenetration(ArtyShell, maxVertAngle, shipComponents.getArtillery().getMinDistV(), shipComponents.getArtillery().getMaxDist());
                                                 shipComponents.getArtillery().setAPShell(ArtyShell);
                                             }
                                             else if ("HE".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getHEShell() == null)
@@ -646,7 +648,7 @@ public class GPService
         shipComponents.setAbilities(abilities);
     }
 
-    private void setAPPenetration(ArtyShell ArtyShell, float maxVertAngle)
+    private void setAPPenetration(ArtyShell ArtyShell, float maxVertAngle, float minDistV, float maxDist)
     {
         // SHELL CONSTANTS
         float C = 0.5561613f; // PENETRATION
@@ -672,26 +674,44 @@ public class GPService
 
 //        float[] alpha = [0 : 0.001 : 15 / 360 * 2 * Math.PI]; // ELEV. ANGLES 0...15
 
-        Float[] alpha = linspace(0f, 0.001f, (float) Math.PI * maxVertAngle / 180f);
+        List<BigDecimal> alpha = linspace(0f, 0.001f, (float) Math.PI * maxVertAngle / 180f);
 
-        float dt = 0.1f; // TIME STEP
+        float dt = 0.05f; // TIME STEP
 
         LinkedHashMap<Float, Float> penetration = new LinkedHashMap<>();
         LinkedHashMap<Float, Float> flightTime = new LinkedHashMap<>();
         LinkedHashMap<Float, Float> impactAngle = new LinkedHashMap<>();
+        LinkedHashMap<Float, Float> vertPlus = new LinkedHashMap<>();
+        LinkedHashMap<Float, Float> vertMinus = new LinkedHashMap<>();
 
         float maxDistCalc = 0f;
 
-        for (int i = 0; i < alpha.length; i++) // for each alpha angle do:
+        for (int i = 0; i < alpha.size(); i++) // for each alpha angle do:
         {
-            float v_x = (float) Math.cos(alpha[i]) * V_0;
-            float v_y = (float) Math.sin(alpha[i]) * V_0;
+            float v_x = (float) Math.cos(alpha.get(i).floatValue()) * V_0;
+            float v_y = (float) Math.sin(alpha.get(i).floatValue()) * V_0;
             float y = 0f;
             float x = 0f;
             float t = 0f;
 
-            while (y >= 0f) // follow flight path until shell hits ground again
+            float tX_1 = 0f;
+            float tX_2 = 0f;
+            float tY_1 = 0f;
+            float tY_2 = 0f;
+            boolean tempNext = true;
+
+            while (tempNext) // follow flight path until shell hits ground again
             {
+                tempNext = y >= 0f;
+                if (tempNext) {
+                    tX_1 = x;
+                    tY_1 = y;
+                }
+                else {
+                    tX_2 = x;
+                    tY_2 = y;
+                }
+
                 x = x + dt * v_x;
                 y = y + dt * v_y;
 
@@ -711,13 +731,137 @@ public class GPService
 
             if (x > maxDistCalc)
             {
-                maxDistCalc = x;
-                penetration.put(x, (float) Math.cos(IA) * p_athit);
-                flightTime.put(x, t / 3f);
-                impactAngle.put(x, IA * 180f / ((float) Math.PI));
+                maxDistCalc = getMidAtY(tX_1, tY_1, tX_2, tY_2, 0f);
+                penetration.put(maxDistCalc, (float) Math.cos(IA) * p_athit);
+                flightTime.put(maxDistCalc, t / 3f);
+                impactAngle.put(maxDistCalc, IA * 180f / ((float) Math.PI));
+
+                float maxDistCalc_2 = 0f;
+                for (int j = i + 1; j < alpha.size(); j++)
+                {
+                    float y_high = minDistV / 2f / maxDist * maxDistCalc;
+                    float v_x_2 = (float) Math.cos(alpha.get(j).floatValue()) * V_0;
+                    float v_y_2 = (float) Math.sin(alpha.get(j).floatValue()) * V_0;
+                    float y_2 = 0f;
+                    float x_2 = 0f;
+                    float t_2 = 0f;
+
+                    float tX2_1 = 0f;
+                    float tX2_2 = 0f;
+                    float tY2_1 = 0f;
+                    float tY2_2 = 0f;
+                    boolean tempNext_2 = true;
+
+                    float x1 = 0f;
+                    float x2 = 0f;
+                    float y1 = 0f;
+                    float y2 = 0f;
+                    boolean first = true;
+
+                    while (tempNext_2) // follow flight path until shell hits ground again
+                    {
+                        tempNext_2 = y_2 >= 0f;
+                        if (tempNext_2) {
+                            tX2_1 = x_2;
+                            tY2_1 = y_2;
+                        }
+                        else {
+                            tX2_2 = x_2;
+                            tY2_2 = y_2;
+                        }
+
+                        if (x_2 > maxDistCalc) {
+                            if (y_2 >= y_high) {
+                                first = false;
+                                x2 = x_2;
+                                y2 = y_2;
+                            }
+                            else {
+                                if (!first && y1 == 0f) {
+                                    x1 = x_2;
+                                    y1 = y_2;
+                                }
+                            }
+                        }
+
+                        x_2 = x_2 + dt * v_x_2;
+                        y_2 = y_2 + dt * v_y_2;
+
+                        float T = T_0 - L * y_2;
+                        float p = p_0 * (float) Math.pow(1 - L * y_2 / T_0, (a * M / (R * L)));
+                        float rho = p * M / (R * T);
+
+                        v_x_2 = v_x_2 - dt * k * rho * (cw_1 * (float) Math.pow(v_x_2, 2) + cw_2 * v_x_2);
+                        v_y_2 = v_y_2 - dt * a - dt * k * rho * (cw_1 * (float) Math.pow(v_y_2, 2) + cw_2 * Math.abs(v_y_2)) * Math.signum(v_y_2);
+
+                        t_2 = t_2 + dt;
+                    }
+
+                    if (y1 != 0f && y2 != 0f) {
+                        if (x_2 > maxDistCalc_2) {
+                            maxDistCalc_2 = getMidAtY(tX2_1, tY2_1, tX2_2, tY2_2, 0f);
+                            vertPlus.put(maxDistCalc, (maxDistCalc_2 - maxDistCalc) / 3f);
+                            break;
+                        }
+                    }
+                }
+
+                float maxDistCalc_3 = 99999999f;
+                for (int j = i - 1; j >= 0; j--)
+                {
+                    float y_high = minDistV / 2f / maxDist * maxDistCalc;
+                    float v_x_2 = (float) Math.cos(alpha.get(j).floatValue()) * V_0;
+                    float v_y_2 = (float) Math.sin(alpha.get(j).floatValue()) * V_0;
+                    float y_2 = 0f;
+                    float x_2 = 0f;
+                    float t_2 = 0f;
+
+                    float x1 = 0f;
+                    float x2 = 0f;
+                    float y1 = 0f;
+                    float y2 = 0f;
+                    boolean first = true;
+
+                    while (y_2 >= (0f - y_high))
+                    {
+                        if (x_2 < maxDistCalc) {
+                            if (y_2 >= 0) {
+                                first = false;
+                                x2 = x_2;
+                                y2 = y_2;
+                            }
+                            else {
+                                if (!first && y1 == 0f) {
+                                    x1 = x_2;
+                                    y1 = y_2;
+                                }
+                            }
+                        }
+
+                        x_2 = x_2 + dt * v_x_2;
+                        y_2 = y_2 + dt * v_y_2;
+
+                        float T = T_0 - L * y_2;
+                        float p = p_0 * (float) Math.pow(1 - L * y_2 / T_0, (a * M / (R * L)));
+                        float rho = p * M / (R * T);
+
+                        v_x_2 = v_x_2 - dt * k * rho * (cw_1 * (float) Math.pow(v_x_2, 2) + cw_2 * v_x_2);
+                        v_y_2 = v_y_2 - dt * a - dt * k * rho * (cw_1 * (float) Math.pow(v_y_2, 2) + cw_2 * Math.abs(v_y_2)) * Math.signum(v_y_2);
+
+                        t_2 = t_2 + dt;
+                    }
+
+                    if (y1 != 0f && y2 != 0f) {
+                        if (x_2 < maxDistCalc && x_2 < maxDistCalc_3) {
+                            maxDistCalc_3 = getMidAtY(x2, y2, x1, y1, 0f);
+                            vertMinus.put(maxDistCalc, (maxDistCalc - maxDistCalc_3) / 3f);
+                            break;
+                        }
+                    }
+                }
             }
         }
-        ArtyShell.setAPShell(penetration, flightTime, impactAngle);
+        ArtyShell.setAPShell(penetration, flightTime, impactAngle, vertPlus, vertMinus);
     }
 
     private void setHEPenetration(ArtyShell ArtyShell, float maxVertAngle)
@@ -746,7 +890,7 @@ public class GPService
 
 //        float[] alpha = [0 : 0.001 : 15 / 360 * 2 * Math.PI]; // ELEV. ANGLES 0...15
 
-        Float[] alpha = linspace(0f, 0.001f, (float) Math.PI * maxVertAngle / 180f);
+        List<BigDecimal> alpha = linspace(0f, 0.001f, (float) Math.PI * maxVertAngle / 180f);
 
         float dt = 0.1f; // TIME STEP
 
@@ -754,10 +898,10 @@ public class GPService
 
         float maxDistCalc = 0f;
 
-        for (int i = 0; i < alpha.length; i++) // for each alpha angle do:
+        for (int i = 0; i < alpha.size(); i++) // for each alpha angle do:
         {
-            float v_x = (float) Math.cos(alpha[i]) * V_0;
-            float v_y = (float) Math.sin(alpha[i]) * V_0;
+            float v_x = (float) Math.cos(alpha.get(i).floatValue()) * V_0;
+            float v_y = (float) Math.sin(alpha.get(i).floatValue()) * V_0;
             float y = 0f;
             float x = 0f;
             float t = 0f;
@@ -786,20 +930,37 @@ public class GPService
         ArtyShell.setHEShell(flightTime);
     }
 
-    private Float[] linspace(float start, float incremental, float end)
+    private float setMiddleAtDistance(float x1, float y1, float x2, float y2, float mid)
     {
-        List<Float> alpha = new ArrayList<>();
+        float a = (y2 - y1) / (x2 - x1);
+        float c = y1 - (a * x1);
 
-        float begin = start;
-        while (begin <= end)
+        return a * mid + c;
+    }
+
+    private float getMidAtY(float x1, float y1, float x2, float y2, float yAxis)
+    {
+        float a = (y2 - y1) / (x2 - x1);
+        float c = y1 - (a * x1);
+
+        return (yAxis - c) / a;
+    }
+
+    private List<BigDecimal> linspace(float start, float incremental, float end)
+    {
+        List<BigDecimal> alpha = new ArrayList<>();
+        BigDecimal incrementalBig = new BigDecimal(incremental);
+        BigDecimal begin = new BigDecimal(start);
+        BigDecimal finish = new BigDecimal(end);
+        while (begin.compareTo(finish) <= 0)
         {
             alpha.add(begin);
-            begin = begin + incremental;
+            begin = begin.add(incrementalBig);
         }
 
-        Float[] temp = new Float[alpha.size()];
-        temp = alpha.toArray(temp);
-
-        return temp;
+//        Float[] temp = new Float[alpha.size()];
+//        temp = alpha.toArray(temp);
+//        return temp;
+        return alpha;
     }
 }

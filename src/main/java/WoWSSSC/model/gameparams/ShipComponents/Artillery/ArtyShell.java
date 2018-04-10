@@ -43,6 +43,8 @@ public class ArtyShell
     private LinkedHashMap<Float, Float> penetration;
     private LinkedHashMap<Float, Float> flightTime;
     private LinkedHashMap<Float, Float> impact;
+    private LinkedHashMap<Float, Float> vertPlus;
+    private LinkedHashMap<Float, Float> vertMinus;
     private float penetrationAtFive;
     private float penetrationAtTen;
     private float penetrationAtFifteen;
@@ -58,6 +60,16 @@ public class ArtyShell
     private float impactAtFifteen;
     private float impactAtTwenty;
     private float impactAtMax;
+    private float vertPlusAtFive;
+    private float vertPlusAtTen;
+    private float vertPlusAtFifteen;
+    private float vertPlusAtTwenty;
+    private float vertPlusAtMax;
+    private float vertMinusAtFive;
+    private float vertMinusAtTen;
+    private float vertMinusAtFifteen;
+    private float vertMinusAtTwenty;
+    private float vertMinusAtMax;
 
     private int penetrationIFHE;
 
@@ -99,14 +111,22 @@ public class ArtyShell
                 impactAtMax = setMiddleAtDistance(maxOne, impact.get(maxOne), maxTwo, impact.get(maxTwo), maxDist);
             }
             flightTimeAtMax = setMiddleAtDistance(maxOne, flightTime.get(maxOne), maxTwo, flightTime.get(maxTwo), maxDist);
+
+            if (vertPlus != null && vertMinus != null) {
+                vertPlusAtMax = setMiddleAtDistance(maxOne, vertPlus.get(maxOne), maxTwo, vertPlus.get(maxTwo), maxDist);
+                vertMinusAtMax = setMiddleAtDistance(maxOne, vertMinus.get(maxOne), maxTwo, vertMinus.get(maxTwo), maxDist);
+            }
         }
     }
 
-    public void setAPShell(LinkedHashMap<Float, Float> penetration, LinkedHashMap<Float, Float> flightTime, LinkedHashMap<Float, Float> impact)
+    public void setAPShell(LinkedHashMap<Float, Float> penetration, LinkedHashMap<Float, Float> flightTime, LinkedHashMap<Float, Float> impact,
+                           LinkedHashMap<Float, Float> vertPlus, LinkedHashMap<Float, Float> vertMinus)
     {
         this.penetration = penetration;
         this.flightTime = flightTime;
         this.impact = impact;
+        this.vertPlus = vertPlus;
+        this.vertMinus = vertMinus;
 
         float fiveOne = 0f;
         float fiveTwo = 0f;
@@ -178,6 +198,8 @@ public class ArtyShell
             penetrationAtFive = setMiddleAtDistance(fiveOne, penetration.get(fiveOne), fiveTwo, penetration.get(fiveTwo), 5000f);
             flightTimeAtFive = setMiddleAtDistance(fiveOne, flightTime.get(fiveOne), fiveTwo, flightTime.get(fiveTwo), 5000f);
             impactAtFive = setMiddleAtDistance(fiveOne, impact.get(fiveOne), fiveTwo, impact.get(fiveTwo), 5000f);
+            vertPlusAtFive = setMiddleAtDistance(fiveOne, vertPlus.get(fiveOne), fiveTwo, vertPlus.get(fiveTwo), 5000f);
+            vertMinusAtFive = setMiddleAtDistance(fiveOne, vertMinus.get(fiveOne), fiveTwo, vertMinus.get(fiveTwo), 5000f);
         }
 
         if (tenOne != 0f && tenTwo != 0f)
@@ -185,6 +207,8 @@ public class ArtyShell
             penetrationAtTen = setMiddleAtDistance(tenOne, penetration.get(tenOne), tenTwo, penetration.get(tenTwo), 10000f);
             flightTimeAtTen = setMiddleAtDistance(tenOne, flightTime.get(tenOne), tenTwo, flightTime.get(tenTwo), 10000f);
             impactAtTen = setMiddleAtDistance(tenOne, impact.get(tenOne), tenTwo, impact.get(tenTwo), 10000f);
+            vertPlusAtTen = setMiddleAtDistance(tenOne, vertPlus.get(tenOne), tenTwo, vertPlus.get(tenTwo), 10000f);
+            vertMinusAtTen = setMiddleAtDistance(tenOne, vertMinus.get(tenOne), tenTwo, vertMinus.get(tenTwo), 10000f);
         }
 
         if (fifteenOne != 0f && fifteenTwo != 0f)
@@ -192,6 +216,8 @@ public class ArtyShell
             penetrationAtFifteen = setMiddleAtDistance(fifteenOne, penetration.get(fifteenOne), fifteenTwo, penetration.get(fifteenTwo), 15000f);
             flightTimeAtFifteen = setMiddleAtDistance(fifteenOne, flightTime.get(fifteenOne), fifteenTwo, flightTime.get(fifteenTwo), 15000f);
             impactAtFifteen = setMiddleAtDistance(fifteenOne, impact.get(fifteenOne), fifteenTwo, impact.get(fifteenTwo), 15000f);
+            vertPlusAtFifteen = setMiddleAtDistance(fifteenOne, vertPlus.get(fifteenOne), fifteenTwo, vertPlus.get(fifteenTwo), 15000f);
+            vertMinusAtFifteen = setMiddleAtDistance(fifteenOne, vertMinus.get(fifteenOne), fifteenTwo, vertMinus.get(fifteenTwo), 15000f);
         }
 
         if (twentyOne != 0f && twentyTwo != 0f)
@@ -199,6 +225,8 @@ public class ArtyShell
             penetrationAtTwenty = setMiddleAtDistance(twentyOne, penetration.get(twentyOne), twentyTwo, penetration.get(twentyTwo), 20000f);
             flightTimeAtTwenty = setMiddleAtDistance(twentyOne, flightTime.get(twentyOne), twentyTwo, flightTime.get(twentyTwo), 20000f);
             impactAtTwenty = setMiddleAtDistance(twentyOne, impact.get(twentyOne), twentyTwo, impact.get(twentyTwo), 20000f);
+            vertPlusAtTwenty = setMiddleAtDistance(twentyOne, vertPlus.get(twentyOne), twentyTwo, vertPlus.get(twentyTwo), 20000f);
+            vertMinusAtTwenty = setMiddleAtDistance(twentyOne, vertMinus.get(twentyOne), twentyTwo, vertMinus.get(twentyTwo), 20000f);
         }
     }
 
