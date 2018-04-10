@@ -816,46 +816,10 @@ public class GPService
         float maxDistCalc_3 = 0f;
         for (int i = 0; i < alpha.size(); i++) // for each alpha angle do:
         {
-            float v_x = (float) Math.cos(alpha.get(i).floatValue()) * V_0;
-            float v_y = (float) Math.sin(alpha.get(i).floatValue()) * V_0;
-            float y = 0f;
-            float x = 0f;
-            float t = 0f;
-
-            float tX_1 = 0f;
-            float tX_2 = 0f;
-            float tY_1 = 0f;
-            float tY_2 = 0f;
-            boolean tempNext = true;
-
-            while (tempNext) // follow flight path until shell hits ground again
-            {
-                tempNext = y >= 0f;
-                if (tempNext) {
-                    tX_1 = x;
-                    tY_1 = y;
-                }
-                else {
-                    tX_2 = x;
-                    tY_2 = y;
-                }
-
-                x = x + dt * v_x;
-                y = y + dt * v_y;
-
-                float T = T_0 - L * y;
-                float p = p_0 * (float) Math.pow(1 - L * y / T_0, (a * M / (R * L)));
-                float rho = p * M / (R * T);
-
-                v_x = v_x - dt * k * rho * (cw_1 * (float) Math.pow(v_x, 2) + cw_2 * v_x);
-                v_y = v_y - dt * a - dt * k * rho * (cw_1 * (float) Math.pow(v_y, 2) + cw_2 * Math.abs(v_y)) * Math.signum(v_y);
-
-                t = t + dt;
-            }
-
+            float x = getDistanceAtAngle(alpha.get(i).floatValue(),  V_0,  dt,  T_0,  L,  p_0,  a,  M,  R,  k,  cw_1,  cw_2);
             if (x > maxDistCalc_3)
             {
-                maxDistCalc_3 = getMidAtY(tX_1, tY_1, tX_2, tY_2, 0f);
+                maxDistCalc_3 = x;
                 vertPlus.put(maxDistCalc_3, (getDistanceAtAngle(alpha.get(i).floatValue() + arcDef,  V_0,  dt,  T_0,  L,  p_0,  a,  M,  R,  k,  cw_1,  cw_2) - maxDistCalc_3));
                 vertMinus.put(maxDistCalc_3, (maxDistCalc_3 - getDistanceAtAngle(alpha.get(i).floatValue() - arcDef,  V_0,  dt,  T_0,  L,  p_0,  a,  M,  R,  k,  cw_1,  cw_2)));
             }
