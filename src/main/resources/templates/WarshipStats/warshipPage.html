@@ -55,16 +55,16 @@
                             <th:block th:each="row : ${warship.warshipModulesTreeTable}">
                                 <tr th:if="${rowStat.index > 0}">
                                     <th:block th:each="module : ${row.value}">
-                                        <td>
+                                        <td th:if="${moduleStat.index > 0}" width="7px;">
                                         </td>
-                                        <td>
+                                        <td width="7px;">
                                             <img th:if="${module != null and module.fromUp}" th:src="@{/images/Icon/down.png}"/>
                                         </td>
                                     </th:block>
                                 </tr>
                                 <tr>
                                     <th:block th:each="module : ${row.value}">
-                                        <td>
+                                        <td th:if="${moduleStat.index > 0}" width="7px;">
                                             <img th:if="${module != null and module.shiftLeft}" th:src="@{/images/Icon/left.png}"/>
                                             <img th:if="${module != null and module.fromLeft}" th:src="@{/images/Icon/right.png}"/>
                                         </td>
@@ -80,16 +80,16 @@
                             <th:block th:if="${warship.nextWarship != null and warship.next_ships.size() > 0}">
                                 <tr>
                                     <th:block th:each="nextShip : ${warship.nextWarship}">
-                                        <td>
+                                        <td th:if="${nextShipStat.index > 0}" width="7px;">
                                         </td>
-                                        <td>
+                                        <td width="7px;">
                                             <img th:if="${nextShip != null}" th:src="@{/images/Icon/down.png}"/>
                                         </td>
                                     </th:block>
                                 </tr>
                                 <tr>
                                     <th:block th:each="nextShip : ${warship.nextWarship}">
-                                        <td>
+                                        <td th:if="${nextShipStat.index > 0}" width="7px;">
                                         </td>
                                         <td>
                                             <button th:if="${nextShip != null}" th:with='cleaned=${#strings.replace(nextShip.name, "&apos;", "&#92;&apos;")}' th:class="button_ship" th:onclick="'fragments(\'' + ${nextShip.nation} + '\', \'' + ${nextShip.type} + '\', \'' + ${cleaned} + '\')'">
