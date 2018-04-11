@@ -320,8 +320,12 @@ public class ArtyShell
         }
     }
 
-    private float setMiddleAtDistance(float x1, float y1, float x2, float y2, float mid)
+    private float setMiddleAtDistance(Float x1, Float y1, Float x2, Float y2, Float mid)
     {
+        if (x1 == null || x2 == null || y1 == null || y2 == null) {
+            return 0f;
+        }
+
         float a = (y2 - y1) / (x2 - x1);
         float c = y1 - (a * x1);
 
