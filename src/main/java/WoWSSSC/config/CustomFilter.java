@@ -38,10 +38,12 @@ public class CustomFilter implements Filter
     static
     {
         blockIP.add("52.71.155.178");
+
         ignoreUri.add("/favicon");
         ignoreUri.add("/js");
         ignoreUri.add("/css");
         ignoreUri.add("/images");
+        ignoreUri.add("/json");
     }
 
     @Override
@@ -56,7 +58,7 @@ public class CustomFilter implements Filter
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
-        if (loadFinish.get("loadFinish") == 0 && !request.getRequestURI().equalsIgnoreCase("/")) {
+        if (loadFinish.get("loadFinish") == 0 && !request.getRequestURI().equalsIgnoreCase("/") && !isIgnore(request.getRequestURI())) {
             response.sendRedirect("/");
             return;
         }
@@ -168,5 +170,10 @@ public class CustomFilter implements Filter
     public void destroy()
     {
 
+    }
+
+    private boolean isIgnore(String address)
+    {
+        return ignoreUri.stream().anyMatch(ig -> address.toLowerCase().contains(ig));
     }
 }
