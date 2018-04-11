@@ -674,9 +674,9 @@ public class GPService
 
 //        float[] alpha = [0 : 0.001 : 15 / 360 * 2 * Math.PI]; // ELEV. ANGLES 0...15
 
-        List<BigDecimal> alpha = linspace(0f, 0.0005f, (float) Math.PI * maxVertAngle / 180f);
+        List<BigDecimal> alpha = linspace(0f, 0.001f, (float) Math.PI * maxVertAngle / 180f);
 
-        float dt = 0.05f; // TIME STEP
+        float dt = 0.1f; // TIME STEP
 
         LinkedHashMap<Float, Float> penetration = new LinkedHashMap<>();
         LinkedHashMap<Float, Float> flightTime = new LinkedHashMap<>();

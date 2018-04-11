@@ -81,7 +81,7 @@ public class APIService
 
     private static final Logger logger = LoggerFactory.getLogger(APIService.class);
 
-    @Cacheable (value = "shipAPI", key = "(#nation).concat(#shipType).concat(#ship).concat(#ship_id).concat(#artillery_id).concat(#dive_bomber_id).concat(#engine_id).concat(#fighter_id).concat(#fire_control_id).concat(#flight_control_id).concat(#hull_id).concat(#torpedo_bomber_id).concat(#torpedoes_id)")
+//    @Cacheable (value = "shipAPI", key = "(#nation).concat(#shipType).concat(#ship).concat(#ship_id).concat(#artillery_id).concat(#dive_bomber_id).concat(#engine_id).concat(#fighter_id).concat(#fire_control_id).concat(#flight_control_id).concat(#hull_id).concat(#torpedo_bomber_id).concat(#torpedoes_id)")
     public String setShipAPI(
             String nation,
             String shipType,
@@ -253,7 +253,7 @@ public class APIService
 //        }
     }
 
-    @Cacheable (value = "shipAPI_GameParams", key = "#key.concat(#upgradesSkills.toString()).concat(#adrenalineValue.toString).concat(#getTorpedoVisibilities.toString()).concat(#isLive.toString())")
+//    @Cacheable (value = "shipAPI_GameParams", key = "#key.concat(#upgradesSkills.toString()).concat(#adrenalineValue.toString()).concat(#getTorpedoVisibilities.toString()).concat(#isLive.toString())")
     public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, String ship_id, String artillery_id, String dive_bomber_id, String engine_id, String fighter_id, String fire_control_id, String flight_control_id, String hull_id, String torpedo_bomber_id, String torpedoes_id, List<String> modules, HashMap<String, List> upgradesSkills, int adrenalineValue, boolean isStock, boolean getTorpedoVisibilities, boolean isLive) throws Exception
     {
         String serverParam = isLive ? "live" : "test";
@@ -417,7 +417,7 @@ public class APIService
                     {
                         if (ship.getShipComponents().getArtillery() != null)
                         {
-                            ship.getShipComponents().getArtillery().setShotDelay(ship.getShipComponents().getArtillery().getShotDelay() * value.getReloadCoeff());
+                            ship.getShipComponents().getArtillery().setShotDelay(ship.getShipComponents().getArtillery().getShotDelay() * value.getArtilleryReloadCoeff());
                         }
 
                         if (ship.getTorpedoes() != null)
