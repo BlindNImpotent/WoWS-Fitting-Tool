@@ -111,6 +111,14 @@ public class Sorter
         Collections.sort(list, new Comparator<Map.Entry<String, LinkedHashMap>>() {
             @Override
             public int compare(Map.Entry<String, LinkedHashMap> o1, Map.Entry<String, LinkedHashMap> o2) {
+                if (o1.getKey().equals("Artillery") || o1.getKey().equals("FlightControl"))
+                {
+                    return -1;
+                }
+                else if (o2.getKey().equals("Artillery") || o2.getKey().equals("FlightControl"))
+                {
+                    return 1;
+                }
                 if (o1.getKey().equals("Hull"))
                 {
                     if (o2.getKey().equals("Artillery") || o2.getKey().equals("FlightControl"))
@@ -129,16 +137,44 @@ public class Sorter
                 }
                 else if (o1.getKey().equals("Engine"))
                 {
-                    if (o2.getKey().equals("Suo") || o2.getKey().equals("Torpedoes"))
-                    {
-                        return -1;
-                    }
+//                    if (o2.getKey().equals("Suo") || o2.getKey().equals("Torpedoes"))
+//                    {
+//                        return -1;
+//                    }
                     return 1;
                 }
                 else if (o2.getKey().equals("Engine"))
                 {
-                    if (o1.getKey().equals("Suo") || o1.getKey().equals("Torpedoes"))
-                    {
+//                    if (o1.getKey().equals("Suo") || o1.getKey().equals("Torpedoes"))
+//                    {
+//                        return 1;
+//                    }
+                    return -1;
+                }
+                else if (o1.getKey().equals("Suo"))
+                {
+                    if (((LinkedHashMap<String, WarshipModulesTree>) o1.getValue()).values().stream().anyMatch(WarshipModulesTree::isFromLeft)) {
+                        return -1;
+                    }
+                    return 1;
+                }
+                else if (o2.getKey().equals("Suo"))
+                {
+                    if (((LinkedHashMap<String, WarshipModulesTree>) o2.getValue()).values().stream().anyMatch(WarshipModulesTree::isFromLeft)) {
+                        return 1;
+                    }
+                    return -1;
+                }
+                else if (o1.getKey().equals("Torpedoes"))
+                {
+                    if (((LinkedHashMap<String, WarshipModulesTree>) o1.getValue()).values().stream().anyMatch(WarshipModulesTree::isFromLeft)) {
+                        return -1;
+                    }
+                    return 1;
+                }
+                else if (o2.getKey().equals("Torpedoes"))
+                {
+                    if (((LinkedHashMap<String, WarshipModulesTree>) o2.getValue()).values().stream().anyMatch(WarshipModulesTree::isFromLeft)) {
                         return 1;
                     }
                     return -1;

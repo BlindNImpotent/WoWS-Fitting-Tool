@@ -130,6 +130,7 @@ public class Warship
                     if (modules_tree.get(String.valueOf(nm)).getType().equalsIgnoreCase(mt.getValue().getType())) {
                         mt.getValue().setShiftDown(true);
                         modules_tree.get(String.valueOf(nm)).setFromUp(true);
+                        mt.getValue().setSameTypeCount(mt.getValue().getSameTypeCount() + 1);
                     }
 
                     if (mt.getValue().getType().equals("Hull") && shiftLeftHashSet.contains(modules_tree.get(String.valueOf(nm)).getType())) {
@@ -235,7 +236,8 @@ public class Warship
 
                     if (i < tempWSMTList.size())
                     {
-                        int tempIndex = tempWSMTList.get(i).getNext_modules() != null ? tempWSMTList.get(i).getNext_modules().size() - 1 : 0;
+                        int tempIndex = tempWSMTList.get(i).getSameTypeCount() - 1;
+                        tempIndex = tempIndex >= 0 ? tempIndex : 0;
                         tempRow[j + shift[j] - tempIndex] = tempWSMTList.get(i);
 
                         if (tempWSMTList.get(i).getPrev_modules() != null)
