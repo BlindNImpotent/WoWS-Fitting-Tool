@@ -68,7 +68,7 @@ public class Sorter
                 }
                 else
                 {
-                    return o1.getValue().getName().compareTo(o2.getValue().getName());
+                    return o1.getValue().getIndex() - o2.getValue().getIndex();
                 }
             }
         });

@@ -146,7 +146,7 @@ public class Warship
 
             String type = mt.getValue().getType();
             LinkedHashMap<String, WarshipModulesTree> tempModulesTree = new LinkedHashMap<>();
-            AtomicInteger index = new AtomicInteger(1);
+            AtomicInteger index = new AtomicInteger(3);
             this.modules_tree.entrySet().forEach(modTree ->
             {
                 if (modTree.getValue().getType().equals(type))
@@ -155,12 +155,24 @@ public class Warship
 
                     if (modTree.getValue().getPrev_modules().size() == 0 && (modTree.getValue().getNext_modules() != null || modTree.getValue().getNext_ships() != null))
                     {
-                        tempName = modTree.getValue().getName() + "_0";
+                        tempName = modTree.getValue().getName() + "_1";
+                        modTree.getValue().setIndex(0);
+                    }
+                    else if (modTree.getValue().getPrev_modules().size() > 0 && (modTree.getValue().getNext_modules() != null && modTree.getValue().getNext_ships() == null))
+                    {
+                        tempName = modTree.getValue().getName() + "_2";
+                        modTree.getValue().setIndex(2);
                     }
                     else
                     {
-                        tempName = modTree.getValue().getName() + "_" + String.valueOf(index.get());
-                        index.getAndIncrement();
+                        if (modTree.getValue().getIndex() == 0) {
+                            tempName = modTree.getValue().getName() + "_" + String.valueOf(index.get());
+                            modTree.getValue().setIndex(index.get());
+                            index.getAndIncrement();
+                        }
+                        else {
+                            tempName = modTree.getValue().getName() + "_" + String.valueOf(modTree.getValue().getIndex());
+                        }
                     }
 
                     tempModulesTree.put(tempName, modTree.getValue());

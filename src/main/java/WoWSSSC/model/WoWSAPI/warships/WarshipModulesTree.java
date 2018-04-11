@@ -31,6 +31,7 @@ public class WarshipModulesTree
     private boolean isFromLeft;
     private boolean isFromRight;
     private int sameTypeCount;
+    private int index;
 
     public boolean isIs_default()
     {

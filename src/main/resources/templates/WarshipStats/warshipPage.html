@@ -52,22 +52,45 @@
                 <div id="modules">
                     <table>
                         <tbody>
-                            <tr th:each="row : ${warship.warshipModulesTreeTable}">
-                                <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
-                                    <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}">
-                                        <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
-                                        <span th:text="${module.name}"/>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr th:if="${warship.nextWarship != null}">
-                                <td th:each="nextShip : ${warship.nextWarship}">
-                                    <button th:if="${nextShip != null}" th:with='cleaned=${#strings.replace(nextShip.name, "&apos;", "&#92;&apos;")}' th:class="button_ship" th:onclick="'fragments(\'' + ${nextShip.nation} + '\', \'' + ${nextShip.type} + '\', \'' + ${cleaned} + '\')'">
-                                        <img th:src="${nextShip.images.small}" th:title="${nextShip.fromPreviousShipXp + ' xp'}"/><br />
-                                        <span th:text="${nextShip.name}"/>
-                                    </button>
-                                </td>
-                            </tr>
+                            <th:block th:each="row : ${warship.warshipModulesTreeTable}">
+                                <tr>
+                                    <th:block th:each="module : ${row.value}">
+                                        <td>
+                                            <img th:if="${module != null and module.shiftLeft}" th:src="@{/images/Icon/left.png}"/>
+                                            <img th:if="${module != null and module.fromLeft}" th:src="@{/images/Icon/right.png}"/>
+                                        </td>
+                                        <td th:id="${module != null ? 'li_' + module.module_id : null}">
+                                            <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}">
+                                                <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
+                                                <span th:text="${module.name}"/>
+                                            </button>
+                                        </td>
+                                    </th:block>
+                                </tr>
+                                <tr>
+                                    <th:block th:each="module : ${row.value}">
+                                        <td>
+                                        </td>
+                                        <td>
+                                            <img th:if="${module != null and module.shiftDown}" th:src="@{/images/Icon/down.png}"/>
+                                        </td>
+                                    </th:block>
+                                </tr>
+                            </th:block>
+                            <th:block th:if="${warship.nextWarship != null and warship.next_ships.size() > 0}">
+                                <tr>
+                                    <th:block th:each="nextShip : ${warship.nextWarship}">
+                                        <td>
+                                        </td>
+                                        <td>
+                                            <button th:if="${nextShip != null}" th:with='cleaned=${#strings.replace(nextShip.name, "&apos;", "&#92;&apos;")}' th:class="button_ship" th:onclick="'fragments(\'' + ${nextShip.nation} + '\', \'' + ${nextShip.type} + '\', \'' + ${cleaned} + '\')'">
+                                                <img th:src="${nextShip.images.small}" th:title="${nextShip.fromPreviousShipXp + ' xp'}"/><br />
+                                                <span th:text="${nextShip.name}"/>
+                                            </button>
+                                        </td>
+                                    </th:block>
+                                </tr>
+                            </th:block>
                         </tbody>
                     </table>
                 </div>
