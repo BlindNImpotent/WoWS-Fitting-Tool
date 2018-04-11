@@ -49,6 +49,9 @@ public class APIController extends ExceptionController
     @Autowired
     private DiscordWebhook discordWebhook;
 
+    @Autowired
+    private HashMap<String, Integer> loadFinish;
+
     private static final Logger logger = LoggerFactory.getLogger(APIController.class);
 
     private ObjectMapper mapper = new ObjectMapper();
@@ -72,6 +75,10 @@ public class APIController extends ExceptionController
     @RequestMapping (value = "", method = RequestMethod.GET)
     public String home(Model model)
     {
+        if (loadFinish.get("loadFinish") == 0) {
+            return "loadPage";
+        }
+
         model.addAttribute("isLive", isLive);
         model.addAttribute("serverParam", serverParamAddress);
         model.addAttribute("notification", notification);

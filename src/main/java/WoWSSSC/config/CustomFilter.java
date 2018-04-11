@@ -33,9 +33,15 @@ public class CustomFilter implements Filter
 
     private HashMap<String, BlockIp> ipMap = new HashMap<>();
 
+    private static HashSet<String> ignoreUri = new HashSet<>();
+
     static
     {
         blockIP.add("52.71.155.178");
+        ignoreUri.add("/favicon");
+        ignoreUri.add("/js");
+        ignoreUri.add("/css");
+        ignoreUri.add("/images");
     }
 
     @Override
@@ -50,8 +56,8 @@ public class CustomFilter implements Filter
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
-        if (loadFinish.get("loadFinish") == 0) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        if (loadFinish.get("loadFinish") == 0 && !request.getRequestURI().equalsIgnoreCase("/")) {
+            response.sendRedirect("/");
             return;
         }
 
@@ -63,7 +69,7 @@ public class CustomFilter implements Filter
 
         String ipAddress = discordWebhook.getClientIPAddress(request);
 
-        if (request.getRequestURI().equalsIgnoreCase("/"))
+        if (request.getRequestURI().equalsIgnoreCase("/") && loadFinish.get("loadFinish") != 0)
         {
             if (!ipMap.containsKey(ipAddress))
             {
