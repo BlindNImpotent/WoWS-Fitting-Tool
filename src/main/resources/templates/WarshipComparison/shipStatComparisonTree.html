@@ -217,6 +217,9 @@
     var adrenalineValue1 = 100;
     var adrenalineValue2 = 100;
 
+    var waitTime = 1000;
+    var timer;
+
     $().ready(function () {
         if ([[${url}]] != null)
         {
@@ -353,7 +356,7 @@
                 data: JSON.stringify(list),
                 success: function (data) {
                     $('#modulesUpgradesConsumables').replaceWith(data);
-                    callAPI();
+                    delayCall();
                 },
                 error: function (data) {
                     console.log(data);
@@ -412,7 +415,7 @@
         }
         document.getElementById(clickedId).className = 'button_module_selected_1';
 
-        callAPI();
+        delayCall();
     });
 
     $(document).on('click', '.button_upgrade_1, .button_upgrade_selected_1', function () {
@@ -435,7 +438,7 @@
             document.getElementById(clickedId).className = 'button_upgrade_1';
         }
 
-        callAPI();
+        delayCall();
     });
 
     $(document).on('click', '.button_module_2', function(){
@@ -449,7 +452,7 @@
         }
         document.getElementById(clickedId).className = 'button_module_selected_2';
 
-        callAPI();
+        delayCall();
     });
 
     $(document).on('click', '.button_upgrade_2, .button_upgrade_selected_2', function () {
@@ -472,7 +475,7 @@
             document.getElementById(clickedId).className = 'button_upgrade_2';
         }
 
-        callAPI();
+        delayCall();
     });
 
     $(document).on('click', '.button_skill, .button_skill_selected', function () {
@@ -516,7 +519,7 @@
 
         document.getElementById('ui-id-1').innerText = 'Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString();
 
-        callAPI();
+        delayCall();
     });
 
     $(document).on('click', '.button_flag, .button_flag_selected', function () {
@@ -540,7 +543,7 @@
 
         document.getElementById('ui-id-2').innerText = 'Flags ' + selected.length.toString() + ' / ' + maxFlags;
 
-        callAPI();
+        delayCall();
     });
 
     $(document).on('click', '#showCrewSkills', function () {
@@ -552,7 +555,7 @@
     });
 
     $(document).on('click', '#camouflageCheckbox', function () {
-        callAPI();
+        delayCall();
     });
 
     $(document).on('click', '#showArtillerySector', function () {
@@ -562,6 +565,14 @@
     $(document).on('click', '#showTorpedoSector', function () {
         $('#torpedoesCanvasDiv').dialog('open');
     });
+
+    function delayCall()
+    {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(function() {
+            callAPI();
+        }, waitTime);
+    }
 
     function callAPI()
     {

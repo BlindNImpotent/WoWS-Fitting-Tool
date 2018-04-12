@@ -423,109 +423,108 @@ public class APIController extends ExceptionController
                                          @RequestParam(required = false, defaultValue = "100") int adrenalineValue1,
                                          @RequestParam(required = false, defaultValue = "100") int adrenalineValue2) throws IOException
     {
-        return "redirect:/WarshipStats";
-//        model.addAttribute("serverParam", serverParamAddress);
-//        model.addAttribute("nations", data.get(serverParam).get("nations"));
-//        model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
-//        model.addAttribute("skills", data.get(serverParam).get("skills"));
-//        model.addAttribute("exteriors", data.get(serverParam).get("exteriors"));
-//        model.addAttribute("premiumTable", data.get(serverParam).get("premiumTable"));
-//        model.addAttribute("rawShipData", data.get(serverParam).get("rawShipData"));
-//
-//        if (StringUtils.isNotEmpty(ship1) && StringUtils.isNotEmpty(ship2))
-//        {
-//            ship1 = URLDecoder.decode(ship1, "UTF-8");
-//            ship2 = URLDecoder.decode(ship2, "UTF-8");
-//
-//            logger.info("Loading " + ship1 + " and " + ship2 + " from /shipStatComparison?" + request.getQueryString());
-//
-//            if (upgradesSkills != null && !upgradesSkills.contains(ship1) && !upgradesSkills.contains(ship2))
-//            {
-//                if (StringUtils.isNotEmpty(upgradesSkills))
-//                {
-//                    upgradesSkills = new String(Base64.getDecoder().decode(upgradesSkills));
-//                    upgradesSkills = URLDecoder.decode(upgradesSkills, "UTF-8");
-//                }
-//            }
-//            else
-//            {
-//                if (StringUtils.isNotEmpty(upgrades1))
-//                {
-//                    upgrades1 = new String(Base64.getDecoder().decode(upgrades1));
-//                    upgrades1 = URLDecoder.decode(upgrades1, "UTF-8");
-//                }
-//
-//                if (StringUtils.isNotEmpty(upgrades2))
-//                {
-//                    upgrades2 = new String(Base64.getDecoder().decode(upgrades2));
-//                    upgrades2 = URLDecoder.decode(upgrades2, "UTF-8");
-//                }
-//
-//                if (StringUtils.isNotEmpty(skills))
-//                {
-//                    skills = new String(Base64.getDecoder().decode(skills));
-//                    skills = URLDecoder.decode(skills, "UTF-8");
-//                }
-//            }
-//
-//            TypeReference<List<HashMap>> typeRef1 = new TypeReference<List<HashMap>>() {};
-//            List<HashMap> USs = (upgradesSkills != null) ? mapper.readValue(upgradesSkills, typeRef1) : new ArrayList<>();
-//
-//            TypeReference<HashMap> typeRef2 = new TypeReference<HashMap>() {};
-//            HashMap upgrades1Converted = (upgrades1 != null) ? mapper.readValue(upgrades1, typeRef2) : new HashMap();
-//            HashMap upgrades2Converted = (upgrades2 != null) ? mapper.readValue(upgrades2, typeRef2) : new HashMap();
-//
-//            List<HashMap> skillsConverted = (skills != null ) ? mapper.readValue(skills, typeRef1) : new ArrayList<>();
-//
-//            Warship warship1 = (Warship) data.get(serverParam).get("rawShipData").get(ship1);
-//            Warship warship2 = (Warship) data.get(serverParam).get("rawShipData").get(ship2);
-//
-//            HashMap<String, List> upgradesSkills1 = new HashMap<>();
-//            HashMap<String, List> upgradesSkills2 = new HashMap<>();
-//            for (HashMap US : USs) {
-//                if (US.get("shipName").equals(ship1))
-//                {
-//                    upgradesSkills1 = US;
-//                }
-//
-//                if (US.get("shipName").equals(ship2))
-//                {
-//                    upgradesSkills2 = US;
-//                }
-//            }
-//
-//            model.addAttribute("url", "/shipStatComparison?" + request.getQueryString());
-//            model.addAttribute("warship1", warship1);
-//            model.addAttribute("ship1", ship1);
-//            model.addAttribute("warship2", warship2);
-//            model.addAttribute("ship2", ship2);
-//            model.addAttribute("modules1", modules1);
-//            model.addAttribute("modules2", modules2);
-//
-//            if (upgradesSkills1.size() > 0 || upgradesSkills2.size() > 0)
-//            {
-//                model.addAttribute("upgrades1", upgradesSkills1.get("upgrades"));
-//                model.addAttribute("upgrades2", upgradesSkills2.get("upgrades"));
-//                model.addAttribute("flags", upgradesSkills1.get("flags"));
-//                model.addAttribute("camo", upgradesSkills1.get("camouflage").get(0));
-//                model.addAttribute("crewSkills", upgradesSkills1.get("skills"));
-//            }
-//            else
-//            {
-//                model.addAttribute("upgrades1", upgrades1Converted.get("upgrades"));
-//                model.addAttribute("upgrades2", upgrades2Converted.get("upgrades"));
-//                model.addAttribute("flags", flags);
-//                model.addAttribute("camo", camo);
-//                model.addAttribute("crewSkills", skillsConverted);
-//            }
-//
-//            model.addAttribute("consumables1", consumables1);
-//            model.addAttribute("consumables2", consumables2);
-//            model.addAttribute("adrenalineValue1", adrenalineValue1);
-//            model.addAttribute("adrenalineValue2", adrenalineValue2);
-//        }
-//
-//        return "WarshipComparison/shipStatComparisonTree";
+        model.addAttribute("serverParam", serverParamAddress);
+        model.addAttribute("nations", data.get(serverParam).get("nations"));
+        model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
+        model.addAttribute("skills", data.get(serverParam).get("skills"));
+        model.addAttribute("exteriors", data.get(serverParam).get("exteriors"));
+        model.addAttribute("premiumTable", data.get(serverParam).get("premiumTable"));
+        model.addAttribute("rawShipData", data.get(serverParam).get("rawShipData"));
+
+        if (StringUtils.isNotEmpty(ship1) && StringUtils.isNotEmpty(ship2))
+        {
+            ship1 = URLDecoder.decode(ship1, "UTF-8");
+            ship2 = URLDecoder.decode(ship2, "UTF-8");
+
+            logger.info("Loading " + ship1 + " and " + ship2 + " from /shipStatComparison?" + request.getQueryString());
+
+            if (upgradesSkills != null && !upgradesSkills.contains(ship1) && !upgradesSkills.contains(ship2))
+            {
+                if (StringUtils.isNotEmpty(upgradesSkills))
+                {
+                    upgradesSkills = new String(Base64.getDecoder().decode(upgradesSkills));
+                    upgradesSkills = URLDecoder.decode(upgradesSkills, "UTF-8");
+                }
+            }
+            else
+            {
+                if (StringUtils.isNotEmpty(upgrades1))
+                {
+                    upgrades1 = new String(Base64.getDecoder().decode(upgrades1));
+                    upgrades1 = URLDecoder.decode(upgrades1, "UTF-8");
+                }
+
+                if (StringUtils.isNotEmpty(upgrades2))
+                {
+                    upgrades2 = new String(Base64.getDecoder().decode(upgrades2));
+                    upgrades2 = URLDecoder.decode(upgrades2, "UTF-8");
+                }
+
+                if (StringUtils.isNotEmpty(skills))
+                {
+                    skills = new String(Base64.getDecoder().decode(skills));
+                    skills = URLDecoder.decode(skills, "UTF-8");
+                }
+            }
+
+            TypeReference<List<HashMap>> typeRef1 = new TypeReference<List<HashMap>>() {};
+            List<HashMap> USs = (upgradesSkills != null) ? mapper.readValue(upgradesSkills, typeRef1) : new ArrayList<>();
+
+            TypeReference<HashMap> typeRef2 = new TypeReference<HashMap>() {};
+            HashMap upgrades1Converted = (upgrades1 != null) ? mapper.readValue(upgrades1, typeRef2) : new HashMap();
+            HashMap upgrades2Converted = (upgrades2 != null) ? mapper.readValue(upgrades2, typeRef2) : new HashMap();
+
+            List<HashMap> skillsConverted = (skills != null ) ? mapper.readValue(skills, typeRef1) : new ArrayList<>();
+
+            Warship warship1 = (Warship) data.get(serverParam).get("rawShipData").get(ship1);
+            Warship warship2 = (Warship) data.get(serverParam).get("rawShipData").get(ship2);
+
+            HashMap<String, List> upgradesSkills1 = new HashMap<>();
+            HashMap<String, List> upgradesSkills2 = new HashMap<>();
+            for (HashMap US : USs) {
+                if (US.get("shipName").equals(ship1))
+                {
+                    upgradesSkills1 = US;
+                }
+
+                if (US.get("shipName").equals(ship2))
+                {
+                    upgradesSkills2 = US;
+                }
+            }
+
+            model.addAttribute("url", "/shipStatComparison?" + request.getQueryString());
+            model.addAttribute("warship1", warship1);
+            model.addAttribute("ship1", ship1);
+            model.addAttribute("warship2", warship2);
+            model.addAttribute("ship2", ship2);
+            model.addAttribute("modules1", modules1);
+            model.addAttribute("modules2", modules2);
+
+            if (upgradesSkills1.size() > 0 || upgradesSkills2.size() > 0)
+            {
+                model.addAttribute("upgrades1", upgradesSkills1.get("upgrades"));
+                model.addAttribute("upgrades2", upgradesSkills2.get("upgrades"));
+                model.addAttribute("flags", upgradesSkills1.get("flags"));
+                model.addAttribute("camo", upgradesSkills1.get("camouflage").get(0));
+                model.addAttribute("crewSkills", upgradesSkills1.get("skills"));
+            }
+            else
+            {
+                model.addAttribute("upgrades1", upgrades1Converted.get("upgrades"));
+                model.addAttribute("upgrades2", upgrades2Converted.get("upgrades"));
+                model.addAttribute("flags", flags);
+                model.addAttribute("camo", camo);
+                model.addAttribute("crewSkills", skillsConverted);
+            }
+
+            model.addAttribute("consumables1", consumables1);
+            model.addAttribute("consumables2", consumables2);
+            model.addAttribute("adrenalineValue1", adrenalineValue1);
+            model.addAttribute("adrenalineValue2", adrenalineValue2);
+        }
+
+        return "WarshipComparison/shipStatComparisonTree";
     }
 
     @RequestMapping (value = "/shipStatSelection", method = { RequestMethod.GET, RequestMethod.POST })
