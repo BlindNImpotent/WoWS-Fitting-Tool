@@ -184,6 +184,9 @@
 
     var live = [[${serverParam}]];
 
+    var waitTime = 1000;
+    var timer;
+
     $().ready(function () {
         $( function() {
             $('#shipList').menu();
@@ -210,7 +213,7 @@
         }
         document.getElementById(clickedId).className = 'button_module_selected';
 
-        callAPI();
+        delayCall();
     });
 
     $(document).on('click', '.button_upgrade, .button_upgrade_selected', function () {
@@ -233,7 +236,7 @@
             document.getElementById(clickedId).className = 'button_upgrade';
         }
 
-        callAPI();
+        delayCall();
     });
 
     function setCaptainSkillPoints()
@@ -410,7 +413,7 @@
 
         $('[aria-describedby=crewSkills]').find('.ui-dialog-title').text('Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString());
 
-        callAPI();
+        delayCall();
     });
 
     $(document).on('click', '.button_uSkill, .button_uSkill_selected', function () {
@@ -425,7 +428,7 @@
             document.getElementById(clickedId).className = 'button_uSkill';
         }
 
-        callAPI();
+        delayCall();
     });
 
     $(document).on('click', '.button_flag, .button_flag_selected', function () {
@@ -449,7 +452,7 @@
 
         $('[aria-describedby=flags]').find('.ui-dialog-title').text('Flags ' + selected.length.toString() + ' / ' + maxFlags.toString());
 
-        callAPI();
+        delayCall();
     });
 
     $(document).on('click', '#showCrewSkills', function () {
@@ -481,8 +484,16 @@
     //    });
 
     $(document).on('click', '#camouflageCheckbox', function () {
-        callAPI();
+        delayCall();
     });
+
+    function delayCall()
+    {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(function() {
+            callAPI();
+        }, waitTime);
+    }
 
     function callAPI()
     {
@@ -683,7 +694,7 @@
                 $('#commanderSelect').val(commander);
                 changeSkillDescription();
 
-                callAPI();
+                delayCall();
             }
         });
     }
@@ -725,7 +736,7 @@
             }
         }
 
-        callAPI();
+        delayCall();
     });
 
     $(document).on('click', '#changeDevice', function () {
@@ -810,7 +821,7 @@
 
 //        if ($('.button_skill_selected').length > 0)
 //        {
-            callAPI();
+            delayCall();
 //        }
     });
 
