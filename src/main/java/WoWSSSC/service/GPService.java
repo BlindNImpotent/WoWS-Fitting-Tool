@@ -619,28 +619,36 @@ public class GPService
         {
             if (CollectionUtils.isEmpty(disabledAbilities) || !disabledAbilities.contains(list.get(0)))
             {
-                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(serverParam).get(list.get(0)), Consumable.class));
+                Consumable tempC = mapper.convertValue(gameParamsCHM.get(serverParam).get(list.get(0)), Consumable.class);
+                tempC.setGlobalName((String) global.get(serverParam).get("IDS_DOCK_CONSUME_TITLE_" + tempC.getName().toUpperCase()));
+                abilities.put(list.get(0), tempC);
             }
         });
         shipAbilities.getAbilitySlot1().getAbils().forEach(list ->
         {
             if (CollectionUtils.isEmpty(disabledAbilities) || !disabledAbilities.contains(list.get(0)))
             {
-                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(serverParam).get(list.get(0)), Consumable.class));
+                Consumable tempC = mapper.convertValue(gameParamsCHM.get(serverParam).get(list.get(0)), Consumable.class);
+                tempC.setGlobalName((String) global.get(serverParam).get("IDS_DOCK_CONSUME_TITLE_" + tempC.getName().toUpperCase()));
+                abilities.put(list.get(0), tempC);
             }
         });
         shipAbilities.getAbilitySlot2().getAbils().forEach(list ->
         {
             if (CollectionUtils.isEmpty(disabledAbilities) || !disabledAbilities.contains(list.get(0)))
             {
-                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(serverParam).get(list.get(0)), Consumable.class));
+                Consumable tempC = mapper.convertValue(gameParamsCHM.get(serverParam).get(list.get(0)), Consumable.class);
+                tempC.setGlobalName((String) global.get(serverParam).get("IDS_DOCK_CONSUME_TITLE_" + tempC.getName().toUpperCase()));
+                abilities.put(list.get(0), tempC);
             }
         });
         shipAbilities.getAbilitySlot3().getAbils().forEach(list ->
         {
             if (CollectionUtils.isEmpty(disabledAbilities) || !disabledAbilities.contains(list.get(0)))
             {
-                abilities.put(list.get(0), mapper.convertValue(gameParamsCHM.get(serverParam).get(list.get(0)), Consumable.class));
+                Consumable tempC = mapper.convertValue(gameParamsCHM.get(serverParam).get(list.get(0)), Consumable.class);
+                tempC.setGlobalName((String) global.get(serverParam).get("IDS_DOCK_CONSUME_TITLE_" + tempC.getName().toUpperCase()));
+                abilities.put(list.get(0), tempC);
             }
         });
 

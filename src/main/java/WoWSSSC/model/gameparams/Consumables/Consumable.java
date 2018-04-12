@@ -23,6 +23,7 @@ public class Consumable
     private String index;
     private String name;
     private TypeInfo typeinfo;
+    private String globalName;
 
     @JsonIgnore
     ObjectMapper mapper = new ObjectMapper();

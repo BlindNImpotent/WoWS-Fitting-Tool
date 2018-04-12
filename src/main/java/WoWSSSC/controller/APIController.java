@@ -172,6 +172,7 @@ public class APIController extends ExceptionController
         }
 
         return "WarshipStats/warshipHome";
+//        return "FittingTool/ftHome";
     }
 
     @RequestMapping (value = "/warship", method = { RequestMethod.GET, RequestMethod.POST })
@@ -191,15 +192,20 @@ public class APIController extends ExceptionController
                             @RequestParam(required = false, defaultValue = "false") boolean mobile,
                             @RequestParam(required = false, defaultValue = "default") String commander) throws IOException
     {
-        model.addAttribute("serverParam", serverParamAddress);
-        model.addAttribute("notification", notification);
-        model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
         if (nation != null && shipType != null && ship != null)
         {
             ship = URLDecoder.decode(ship, "UTF-8");
 
             if (request.getMethod().equalsIgnoreCase("post"))
             {
+                model.addAttribute("serverParam", serverParamAddress);
+                model.addAttribute("nations", data.get(serverParam).get("nations"));
+                model.addAttribute("uniqueSkills", data.get(serverParam).get("uniqueSkills"));
+                model.addAttribute("skills", data.get(serverParam).get("skills"));
+                model.addAttribute("exteriors", data.get(serverParam).get("exteriors"));
+                model.addAttribute("notification", notification);
+                model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
+
                 logger.info("Loading " + nation + " " + shipType + " " + ship);
                 model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(ship));
                 model.addAttribute("commanders", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("commanders").get(nation)).keySet());
@@ -209,6 +215,7 @@ public class APIController extends ExceptionController
                 model.addAttribute("sCommander", commander);
 
                 return "WarshipStats/warshipPage :: warshipStats";
+//                return "FittingTool/ftShipSelect :: warshipStats";
             }
         }
         return "redirect:/WarshipStats?" + request.getQueryString();
@@ -292,6 +299,7 @@ public class APIController extends ExceptionController
         }
 
         return "WarshipStats/shipAPIPage :: shipAPIData";
+//        return "FittingTool/ftApiPage :: shipAPIData";
     }
 
 //    @ResponseBody

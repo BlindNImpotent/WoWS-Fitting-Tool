@@ -20,33 +20,11 @@
     <meta charset="UTF-8" />
     <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/FittingTool/FittingTool.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=0.4, user-scalable=yes" />
     <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
     <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
     <script th:src="@{/js/accounting/accounting.js}"></script>
-    <script>
-        $(function() {
-//            $(document).tooltip();
-
-            $('#crewSkills').dialog({
-                autoOpen: false,
-//                modal: true,
-                width: 'auto'
-            }).css("font-size", "8px");
-
-            $('#flags').dialog({
-                autoOpen: false,
-//                modal: true,
-                width: 650
-            }).css("font-size", "8px");
-
-//            $('#consumablesData').dialog({
-//                autoOpen: false,
-//                width: 320
-//            }).css("font-size", "8px");
-        });
-    </script>
     <title>WoWS Fitting Tool by Aesis</title>
 </head>
 <body>
@@ -78,80 +56,14 @@
                 </li>
                 <li>
                     <input type="text" id="shortenUrlAddress"/><button id="shortenURL">Shorten URL</button>
-                    <!--<button id="changeDevice">Go Mobile</button>-->
                 </li>
             </ul>
         </nav>
     </div>
 </header>
-<div id="crewSkills" class="ui-widget-content" title="Skill Points 0 / 19">
-    <table id="uniqueSkillsTable" align="center" th:style="'float: left; height: 418px; ' + ${#sets.contains(uniqueSkills.keySet(), sCommander) ? '' : 'display: none'}">
-        <tbody>
-            <tr th:each="commander : ${uniqueSkills}" th:id="${commander.key.replace(' ', '')}" th:style="${commander.key != sCommander ? 'display: none;' : ''}">
-                <td th:each="uniqueSkill : ${commander.value}">
-                    <button th:title="${uniqueSkill.value.description}" th:class="${crewUSkills != null and #sets.contains(crewUSkills, uniqueSkill.key) ? 'button_uSkill_selected' : 'button_uSkill'}" th:id="${uniqueSkill.key}">
-                        <img th:src="${'/images/Talents/' + uniqueSkill.key + '.png'}"/><br />
-                        <span th:text="${uniqueSkill.value.name}"/>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table id="skillsTable" align="center" style="height: 418px;">
-        <tbody>
-            <tr th:each="skillTier : ${skills}">
-                <td th:each="skill : ${skillTier.value}" th:id="${'td_' + skill.value.tier + '_' + skill.value.type_id}">
-                    <button th:if="${skill.value.tier != 0}" th:object="${skill.value}" th:title="${skill.value.description}" th:class="${crewSkills != null and crewSkills.size() != 0 and (crewSkills.?[tier == __${skill.value.tier}__ and type_id == __${skill.value.type_id}__]).size() != 0} ? button_skill_selected : button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, type_id=${skill.value.type_id}">
-                        <img th:src="${skill.value.icon}"/><br />
-                        <span th:text="${skill.value.name}"/>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div id="flags" class="ui-widget-content" title="Flags 0 / 8">
-    <table id="flagsTable" align="center">
-        <tbody>
-            <tr th:each="index : ${#numbers.sequence(0, exteriors.Flags.size() - 1, 6)}" th:id="${index / 6}">
-                <td th:each="flag : ${exteriors.Flags}" th:if="${flagStat.index % 3} == ${index / 6}">
-                    <button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.consumable_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.consumable_id}">
-                        <img th:src="${flag.value.image}"/><br />
-                        <span th:text="${flag.value.name}"/>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<!--<div id="camouflage" class="ui-widget-content" title="Camouflage">-->
-<!--<table id="camouflageTable" align="center">-->
-<!--<tbody>-->
-<!--<tr>-->
-<!--<td th:each="camoflage : ${exteriors.Camouflage}">-->
-<!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
-<!--<img th:src="${camouflage.value.image.small}"/><br />-->
-<!--<span th:text="${camouflage.value.name}"/>-->
-<!--</button>-->
-<!--</td>-->
-<!--</tr>-->
-<!--<tr th:each="index : ${#numbers.sequence(0, exteriors.Camouflage.size() - 1, 6)}" th:id="${index / 6}">-->
-<!--<td th:each="camouflage : ${exteriors.Camouflage}" th:if="${camouflageStat.index % 3} == ${index / 6}">-->
-<!--<button th:title="${camouflage.value.description}" th:class="button_camouflage" th:id="${camouflage.value.exterior_id}">-->
-<!--<img th:src="${camouflage.value.image.small}"/><br />-->
-<!--<span th:text="${camouflage.value.name}"/>-->
-<!--</button>-->
-<!--</td>-->
-<!--</tr>-->
-<!--</tbody>-->
-<!--</table>-->
-<!--</div>-->
 <main id="main">
-    <div class="container">
-        <div class="warshipData" th:include="WarshipStats/warshipPage :: warshipStats">
-        </div>
-        <div class="shipAPIData">
-        </div>
+    <div class="warshipData" th:include="FittingTool/ftShipSelect :: warshipStats"></div>
+    <div class="shipAPIData" style="display: none;">
     </div>
 </main>
 <script th:inline="javascript">
@@ -253,7 +165,7 @@
             totalSpts = totalSpts + parseInt(current.attr('tier'));
         }
 
-        $('[aria-describedby=crewSkills]').find('.ui-dialog-title').text('Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString());
+        $('#totalSkillPoints').text('Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString());
     }
 
     function setFlags()
@@ -267,7 +179,7 @@
 
         var totalPts = list.length;
 
-        $('[aria-describedby=flags]').find('.ui-dialog-title').text('Flags ' + totalPts.toString() + ' / ' + maxFlagPts.toString());
+        $('#totalFlagsCount').text('Flags ' + totalPts.toString() + ' / ' + maxFlagPts.toString());
     }
 
     function setConsumables()
@@ -411,7 +323,7 @@
             document.getElementById(clickedId).className = 'button_skill';
         }
 
-        $('[aria-describedby=crewSkills]').find('.ui-dialog-title').text('Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString());
+        $('#totalSkillPoints').text('Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString());
 
         delayCall();
     });
@@ -450,7 +362,7 @@
             document.getElementById(clickedId).className = 'button_flag';
         }
 
-        $('[aria-describedby=flags]').find('.ui-dialog-title').text('Flags ' + selected.length.toString() + ' / ' + maxFlags.toString());
+        $('#totalFlagsCount').text('Flags ' + selected.length.toString() + ' / ' + maxFlags.toString());
 
         delayCall();
     });
@@ -616,7 +528,7 @@
                     if (data != '')
                     {
                         $('.shipAPIData').replaceWith(data);
-                        $('#consumablesData').html($('#consumablesDataFragment').html());
+                        $('#consumables').html($('#consumablesDataFragment').html());
                         $('#consumablesDataFragment').remove();
 
                         setConsumables();
@@ -661,17 +573,6 @@
         nation = nationOriginal.replace(/ /g, '+');
         shipType = shipTypeOriginal.replace(/ /g, '+');
         ship = shipOriginal.replace(/ /g, '+');
-
-        if (shipType == 'AirCarrier')
-        {
-            maxFlagPts = 4;
-            $('[aria-describedby=flags]').find('.ui-dialog-title').text('Flags 0 / ' + maxFlagPts);
-        }
-        else
-        {
-            maxFlagPts = 8;
-            $('[aria-describedby=flags]').find('.ui-dialog-title').text('Flags 0 / ' + maxFlagPts);
-        }
 
         var url = live + '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship);
 
@@ -821,7 +722,7 @@
 
 //        if ($('.button_skill_selected').length > 0)
 //        {
-            delayCall();
+        delayCall();
 //        }
     });
 
@@ -852,43 +753,48 @@
         }
     }
 
-//    $(window).scroll(function () {
-//        var position = document.getElementById('main').getBoundingClientRect().top;
-//
-//        if (position < height2)
-//        {
-//            $('#top').hide();
-//            if ($('#shipsList').attr('style') === undefined)
-//            {
-//                $('#shipsList').attr('style', 'top: 0; position: fixed; width: 100%;');
-//                $('#main').attr('style', 'margin-top: ' + height1 + 'px;')
-//            }
-//        }
-//        else if (position === height1 && $('#shipsList').attr('style') !== undefined)
-//        {
-//            $('#top').show();
-//            if ($('#shipsList').attr('style') !== undefined)
-//            {
-//                $('#shipsList').removeAttr('style');
-//                $('#main').removeAttr('style');
-//            }
-//        }
-//    });
+    //    $(window).scroll(function () {
+    //        var position = document.getElementById('main').getBoundingClientRect().top;
+    //
+    //        if (position < height2)
+    //        {
+    //            $('#top').hide();
+    //            if ($('#shipsList').attr('style') === undefined)
+    //            {
+    //                $('#shipsList').attr('style', 'top: 0; position: fixed; width: 100%;');
+    //                $('#main').attr('style', 'margin-top: ' + height1 + 'px;')
+    //            }
+    //        }
+    //        else if (position === height1 && $('#shipsList').attr('style') !== undefined)
+    //        {
+    //            $('#top').show();
+    //            if ($('#shipsList').attr('style') !== undefined)
+    //            {
+    //                $('#shipsList').removeAttr('style');
+    //                $('#main').removeAttr('style');
+    //            }
+    //        }
+    //    });
+
+    function showPanelLeft(type) {
+        var tabs = $('.button_tab');
+        for (var i = 0; i < tabs.length; i++)
+        {
+            var current = tabs.eq(i);
+            current.removeClass('select');
+        }
+        $('#tab_left_' + type).addClass('select');
+
+        var panels = $('.panel_left');
+        for (var i = 0; i < panels.length; i++)
+        {
+            var current = panels.eq(i);
+            current.addClass('hide');
+        }
+        $('#' + type).removeClass('hide');
+    }
 
     //    ]]>
 </script>
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src='https://embed.tawk.to/5900f83364f23d19a89af69f/default';
-        s1.charset='UTF-8';
-        s1.setAttribute('crossorigin','*');
-        s0.parentNode.insertBefore(s1,s0);
-    })();
-</script>
-<!--End of Tawk.to Script-->
 </body>
 </html>

@@ -1,0 +1,516 @@
+body
+{
+    margin: 0px;
+    background: white;
+}
+
+li
+{
+    list-style-type: none;
+    margin: 4px 0;
+}
+
+a
+{
+    text-decoration: none;
+}
+
+#top
+{
+    /*text-align:center;*/
+    overflow: hidden;
+    position: relative;
+    background: lightblue;
+    top: 0;
+    /*height: 34px;*/
+    width: 100%;
+    z-index: 1;
+    /*padding: 8px;*/
+}
+
+#shipsList
+{
+    position: relative;
+    width: 100%;
+}
+
+nav {
+    margin: 0px 0px 0px;
+    background-color: lightblue;
+    cursor: pointer;
+}
+
+nav ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    position: relative;
+}
+
+nav ul li {
+    display:inline-block;
+    background-color: lightblue;
+    margin: 0px;
+}
+
+nav a {
+    display:block;
+    padding:0 10px;
+    color:black;
+    font-size:16px;
+    line-height: 32px;
+    text-decoration:none;
+}
+
+nav a:hover {
+    background-color: deepskyblue;
+    cursor: pointer;
+}
+
+nav span {
+    display:block;
+    padding:0 10px;
+    color:black;
+    font-size:16px;
+    line-height: 32px;
+    text-decoration:none;
+}
+
+nav span:hover {
+    background-color: deepskyblue;
+    cursor: pointer;
+}
+
+/* Hide Dropdowns by Default */
+nav ul ul {
+    display: none;
+    position: absolute;
+    top: 32px; /* the height of the main nav */
+}
+
+/* Display Dropdowns on Hover */
+nav ul li:hover > ul {
+    display:inherit;
+    cursor: pointer;
+}
+
+/* Fisrt Tier Dropdown */
+nav ul ul li {
+    width:100px;
+    float:none;
+    display:list-item;
+    position: relative;
+}
+
+/* Second, Third and more Tiers	*/
+nav ul ul ul li {
+    width:200px;
+    position: relative;
+    top:-32px;
+    left:100px;
+    margin: 0px;
+}
+
+#ship
+{
+    text-align: center;
+}
+
+.panel_left
+{
+    /*display: inline-block;*/
+    /*text-align: center;*/
+    vertical-align: top;
+}
+
+.hide
+{
+    display: none;
+}
+
+.upgrades div
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.info_box {
+    text-align: center;
+    display: table;
+    border-spacing: 4px;
+    white-space:normal;
+    margin: auto;
+    padding: 0;
+    border: 0;
+    vertical-align: top;
+}
+
+.left_tabs, .right_tabs {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.left_info_box, .right_info_box {
+    background-color:#fff;
+    margin:2px;
+    text-decoration:none;
+    color:inherit;
+    opacity:1;
+    text-align:center;
+    border-color:rgb(210,210,210);
+    border-width:1px;
+    border-style:solid;
+    border-radius:5px;
+    display: block;
+    padding: 5px 5px;
+    cursor: pointer;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.button_tab {
+    background-color:#fff;
+    margin:2px;
+    text-decoration:none;
+    color:inherit;
+    opacity:1;
+    text-align:center;
+    border-color:rgb(210,210,210);
+    border-width:1px;
+    border-style:solid;
+    border-radius:5px;
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+    display: block;
+    padding: 9px 15px;
+    cursor: pointer;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.select {
+    border-color: rgb(256,0,0);
+}
+
+.button_module
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 85px;
+    max-height: 85px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_module img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_module_selected
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 85px;
+    max-height: 85px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_module_selected img
+{
+    width: 40px;
+    margin-bottom: 0px;
+}
+
+.button_ship
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 85px;
+    max-height: 85px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_ship img
+{
+    width: 70px;
+    margin-bottom: 0px;
+}
+
+.button_upgrade
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 85px;
+    max-height: 85px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_upgrade img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_upgrade_selected
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 85px;
+    max-height: 85px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_upgrade_selected img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_skill
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 85px;
+    max-height: 85px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_skill img
+{
+    width: 25px;
+    margin-bottom: 0px;
+}
+
+.button_skill_selected
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 85px;
+    max-height: 85px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_skill_selected img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_uSkill
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 85px;
+    max-height: 85px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_uSkill img
+{
+    width: 25px;
+    margin-bottom: 0px;
+}
+
+.button_uSkill_selected
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 85px;
+    max-height: 85px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_uSkill_selected img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_flag
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 85px;
+    max-height: 85px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_flag img
+{
+    width: 25px;
+    margin-bottom: 0px;
+}
+
+.button_flag_selected
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 85px;
+    max-height: 85px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_flag_selected img
+{
+    width: 30px;
+    margin-bottom: 0px;
+}
+
+.button_consumable
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    /*font-size: 10px;*/
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 85px;
+    max-height: 85px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_consumable img
+{
+    width: 40px;
+    margin-bottom: 0px;
+}
+
+.button_consumable_selected
+{
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(256,0,0);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    /*font-size: 10px;*/
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 85px;
+    max-height: 85px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_consumable_selected img
+{
+    width: 40px;
+    margin-bottom: 0px;
+}
+
+.consumablesIcon
+{
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+    font-size: 12px;
+}
