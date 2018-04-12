@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
@@ -16,7 +17,7 @@ import java.util.TimeZone;
 @EnableAutoConfiguration
 @EnableScheduling
 @SpringBootApplication
-//@EnableCaching
+@EnableCaching
 public class Application extends SpringBootServletInitializer
 {
     @PostConstruct

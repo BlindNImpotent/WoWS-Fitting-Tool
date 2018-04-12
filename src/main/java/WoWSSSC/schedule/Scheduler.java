@@ -2,6 +2,7 @@ package WoWSSSC.schedule;
 
 import WoWSSSC.config.DiscordWebhook;
 import WoWSSSC.parser.AsyncHashMap;
+import WoWSSSC.service.APIService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class Scheduler
 {
     @Autowired
     private AsyncHashMap asyncHashMap;
+
+    @Autowired
+    private APIService apiService;
 
     @Autowired
     private DiscordWebhook discordWebhook;
@@ -37,5 +41,11 @@ public class Scheduler
             e.printStackTrace();
             discordWebhook.sendDiscordWebHookRunError(e);
         }
+    }
+
+    @Scheduled(cron = "0 0 * * * *")
+    public void cacheEvict()
+    {
+        apiService.cacheEvictShipHashMap();
     }
 }

@@ -246,7 +246,7 @@ public class APIController extends ExceptionController
 
             if (System.currentTimeMillis() - cacheStart >= 60 * 60 * 1000)
             {
-                apiService.cacheEvictShipHashMap();
+//                apiService.cacheEvictShipHashMap();
                 cacheStart = System.currentTimeMillis();
             }
 
@@ -740,7 +740,7 @@ public class APIController extends ExceptionController
 
         if (System.currentTimeMillis() - cacheStart >= 60 * 60 * 1000)
         {
-            apiService.cacheEvictShipHashMap();
+//            apiService.cacheEvictShipHashMap();
             cacheStart = System.currentTimeMillis();
         }
 

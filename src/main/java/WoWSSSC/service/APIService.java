@@ -200,7 +200,7 @@ public class APIService
         }
     }
 
-    @CacheEvict(value = {"shipAPI", "shipAPI_GameParams", "gameParams"}, allEntries = true)
+    @CacheEvict(value = {"shipAPI_GameParams", "gameParams"}, allEntries = true)
     public void cacheEvictShipHashMap()
     {
         logger.info("Evicting Ship API");
@@ -253,7 +253,7 @@ public class APIService
 //        }
     }
 
-//    @Cacheable (value = "shipAPI_GameParams", key = "#key.concat(#upgradesSkills.toString()).concat(#adrenalineValue.toString()).concat(#getTorpedoVisibilities.toString()).concat(#isLive.toString())")
+    @Cacheable (value = "shipAPI_GameParams", key = "#key.concat(#upgradesSkills.toString()).concat(#adrenalineValue.toString()).concat(#getTorpedoVisibilities.toString()).concat(#isLive.toString())")
     public Ship getUpgradeSkillStats(String key, String nation, String shipType, String shipName, String ship_id, String artillery_id, String dive_bomber_id, String engine_id, String fighter_id, String fire_control_id, String flight_control_id, String hull_id, String torpedo_bomber_id, String torpedoes_id, List<String> modules, HashMap<String, List> upgradesSkills, int adrenalineValue, boolean isStock, boolean getTorpedoVisibilities, boolean isLive) throws Exception
     {
         String serverParam = isLive ? "live" : "test";
@@ -269,8 +269,8 @@ public class APIService
         Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(shipName);
 
         ShipComponents shipComponents = gpService.setShipGP(nation, shipType, shipName, ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id, modules, isLive);
-
-        ship.setShipComponents(shipComponents);
+        ShipComponents shipComponentsCopy = cloner.deepClone(shipComponents);
+        ship.setShipComponents(shipComponentsCopy);
 
         setCustomValues(ship_id, ship);
 
