@@ -17,15 +17,12 @@ a
 
 #top
 {
-    /*text-align:center;*/
     overflow: hidden;
     position: relative;
     background: lightblue;
     top: 0;
-    /*height: 34px;*/
     width: 100%;
     z-index: 1;
-    /*padding: 8px;*/
 }
 
 #shipsList
@@ -114,13 +111,11 @@ nav ul ul ul li {
 #ship
 {
     text-align: center;
-    padding: 0px 0px 20px;
+    padding: 0px 0px 5px;
 }
 
 .panel_left, .panel_right
 {
-    /*display: inline-block;*/
-    /*text-align: center;*/
     vertical-align: top;
 }
 
@@ -137,13 +132,10 @@ nav ul ul ul li {
 
 .info_box {
     text-align: center;
-    display: table;
-    border-spacing: 4px;
-    white-space:normal;
     margin: auto;
-    padding: 0;
     border: 0;
     vertical-align: top;
+    padding: 0 0 100px;
 }
 
 .left_tabs, .right_tabs {

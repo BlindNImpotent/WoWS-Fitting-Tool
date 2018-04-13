@@ -171,8 +171,8 @@ public class APIController extends ExceptionController
             model.addAttribute("sCommander", commander);
         }
 
-        return "WarshipStats/warshipHome";
-//        return "FittingTool/ftHome";
+//        return "WarshipStats/warshipHome";
+        return "FittingTool/ftHome";
     }
 
     @RequestMapping (value = "/warship", method = { RequestMethod.GET, RequestMethod.POST })
@@ -214,8 +214,8 @@ public class APIController extends ExceptionController
                 commander = commander.equalsIgnoreCase("Steven Seagal") ? "John Doe" : commander;
                 model.addAttribute("sCommander", commander);
 
-                return "WarshipStats/warshipPage :: warshipStats";
-//                return "FittingTool/ftShipSelect :: warshipStats";
+//                return "WarshipStats/warshipPage :: warshipStats";
+                return "FittingTool/ftShipSelect :: warshipStats";
             }
         }
         return "redirect:/WarshipStats?" + request.getQueryString();
@@ -298,8 +298,8 @@ public class APIController extends ExceptionController
             }
         }
 
-        return "WarshipStats/shipAPIPage :: shipAPIData";
-//        return "FittingTool/ftApiPage :: shipAPIData";
+//        return "WarshipStats/shipAPIPage :: shipAPIData";
+        return "FittingTool/ftApiPage :: shipAPIData";
     }
 
 //    @ResponseBody
