@@ -299,7 +299,7 @@ public class APIController extends ExceptionController
         }
 
 //        return "WarshipStats/shipAPIPage :: shipAPIData";
-        return "FittingTool/ftApiPage :: shipAPIData";
+        return "FittingTool/ftAPIPage :: shipAPIData";
     }
 
 //    @ResponseBody
