@@ -85,7 +85,8 @@
     var consumables = [[${consumables}]];
 
     var nthM = '';
-    var nthU = ''
+    var nthU = '';
+    var nthS = '';
 
     var camouflage = false;
 
@@ -449,7 +450,8 @@
             flags = [];
             consumables = [];
             nthM = '';
-            nthU = ''
+            nthU = '';
+            nthS = '';
 
             camouflage = [$('#camouflageCheckbox').is(':checked')];
 
@@ -490,6 +492,23 @@
 
                 upgrades.push(upgradeId);
             }
+
+            var tempSSArray = [];
+            for (var i = 0; i < selectedSkills.length; i++) {
+                var mIndex = selectedSkills.eq(i).attr('data-index');
+                var rowPos = selectedSkills.eq(i).attr('data-position');
+                var tempIndex = (mIndex - 1) + (rowPos * 8);
+                tempSSArray[tempIndex] = 1;
+            }
+            for (var i = 0; i < tempSSArray.length; i++) {
+                if (tempSSArray[i] !== undefined && tempSSArray !== null) {
+                    nthS = nthS + tempSSArray[i].toString();
+                }
+                else {
+                    nthS = nthS + String(0);
+                }
+            }
+            url = url + (nthS.length > 0 ? '&skillN=' + nthS : '');
 
             for (var i = 0; i < selectedSkills.length; i++)
             {

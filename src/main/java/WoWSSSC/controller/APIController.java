@@ -111,7 +111,8 @@ public class APIController extends ExceptionController
                                 @RequestParam(required = false, defaultValue = "false") boolean mobile,
                                 @RequestParam(required = false, defaultValue = "default") String commander,
                                 @RequestParam(required = false, defaultValue = "") String moduleN,
-                                @RequestParam(required = false, defaultValue = "") String upgradeN) throws IOException
+                                @RequestParam(required = false, defaultValue = "") String upgradeN,
+                                @RequestParam(required = false, defaultValue = "") String skillN) throws IOException
     {
         model.addAttribute("serverParam", serverParamAddress);
         model.addAttribute("nations", data.get(serverParam).get("nations"));
@@ -272,6 +273,7 @@ public class APIController extends ExceptionController
                     @RequestParam(required = false) List<String> modules,
                     @RequestParam(required = false, defaultValue = "") String moduleN,
                     @RequestParam(required = false, defaultValue = "") String upgradeN,
+                    @RequestParam(required = false, defaultValue = "") String skillN,
                     @RequestParam(required = false, defaultValue = "false") boolean stockCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean upgradeCompare,
                     @RequestBody(required = false) HashMap<String, List> upgradesSkills
@@ -343,6 +345,21 @@ public class APIController extends ExceptionController
                     }
                 }
                 upgradesSkills.put("upgrades", upgrades);
+            }
+
+            if (StringUtils.isNotEmpty(skillN)) {
+                int lengthT = skillN.length();
+                List<HashMap> skills = new ArrayList<>();
+                for (int i = 0; i < lengthT; i++) {
+                    int x = Integer.parseInt("" + skillN.charAt(i));
+                    if (x == 1) {
+                       HashMap tempHash = new HashMap();
+                       tempHash.put("tier", String.valueOf((i / 8) + 1));
+                       tempHash.put("type_id", String.valueOf(i % 8));
+                       skills.add(tempHash);
+                    }
+                }
+                upgradesSkills.put("skills", skills);
             }
 
             String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
