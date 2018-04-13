@@ -143,42 +143,45 @@ public class Warship
                     }
                 });
             }
+        });
 
+        this.modules_tree.entrySet().forEach(mt -> {
             String type = mt.getValue().getType();
             LinkedHashMap<String, WarshipModulesTree> tempModulesTree = new LinkedHashMap<>();
-            AtomicInteger index = new AtomicInteger(3);
-            this.modules_tree.entrySet().forEach(modTree ->
-            {
+            int typeCount = (int) modules_tree.values().stream().filter(tempMT -> tempMT.getType().equals(type)).count();
+            AtomicInteger index = new AtomicInteger(2);
+            int countCheck = 2;
+            boolean thirdPass = false;
+            for (Map.Entry<String, WarshipModulesTree> modTree : this.modules_tree.entrySet()) {
                 if (modTree.getValue().getType().equals(type))
                 {
                     String tempName = "";
 
-                    if (modTree.getValue().getPrev_modules().size() == 0 && (modTree.getValue().getNext_modules() != null || modTree.getValue().getNext_ships() != null))
+                    if (modTree.getValue().getPrev_modules().size() == 0)
                     {
                         tempName = modTree.getValue().getName() + "_1";
-                        modTree.getValue().setIndex(0);
+                        modTree.getValue().setIndex(1);
                     }
-                    else if (modTree.getValue().getPrev_modules().size() > 0 && (modTree.getValue().getNext_modules() != null && modTree.getValue().getNext_ships() == null))
+                    else if (modTree.getValue().getPrev_modules().size() > 0)
                     {
-                        tempName = modTree.getValue().getName() + "_2";
-                        modTree.getValue().setIndex(2);
-                    }
-                    else
-                    {
-                        if (modTree.getValue().getIndex() == 0) {
-                            tempName = modTree.getValue().getName() + "_" + String.valueOf(index.get());
-                            modTree.getValue().setIndex(index.get());
-                            index.getAndIncrement();
+                        if (modTree.getValue().getNext_modules() != null || typeCount == countCheck) {
+                            tempName = modTree.getValue().getName() + "_2";
+                            modTree.getValue().setIndex(2);
                         }
                         else {
-                            tempName = modTree.getValue().getName() + "_" + String.valueOf(modTree.getValue().getIndex());
+                            int tempCount = thirdPass ? 2 : 3;
+                            tempName = modTree.getValue().getName() + "_" + String.valueOf(tempCount);
+                            modTree.getValue().setIndex(tempCount);
+                            if (!thirdPass) {
+                                thirdPass = true;
+                            }
                         }
                     }
 
                     tempModulesTree.put(tempName, modTree.getValue());
 //                    tempModulesTree.put(modTree.getValue().getName(), modTree.getValue());
                 }
-            });
+            }
             LinkedHashMap<String, WarshipModulesTree> tmt = sorter.sortShipModules(tempModulesTree);
             warshipModulesTreeNew.put(type, tmt);
         });

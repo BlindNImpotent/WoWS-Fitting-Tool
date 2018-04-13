@@ -4,6 +4,7 @@ import WoWSSSC.config.DiscordWebhook;
 import WoWSSSC.model.WoWSAPI.ModuleId;
 import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
+import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.model.email.EmailModel;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
@@ -11,6 +12,7 @@ import WoWSSSC.service.APIService;
 import WoWSSSC.service.MailService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,7 +111,8 @@ public class APIController extends ExceptionController
                                 @RequestParam(required = false, defaultValue = "100") int adrenalineValue,
                                 @RequestParam(required = false) boolean camo,
                                 @RequestParam(required = false, defaultValue = "false") boolean mobile,
-                                @RequestParam(required = false, defaultValue = "default") String commander) throws IOException
+                                @RequestParam(required = false, defaultValue = "default") String commander,
+                                @RequestParam(required = false, defaultValue = "") String moduleN) throws IOException
     {
         model.addAttribute("serverParam", serverParamAddress);
         model.addAttribute("nations", data.get(serverParam).get("nations"));
@@ -124,6 +127,20 @@ public class APIController extends ExceptionController
             ship = URLDecoder.decode(ship, "UTF-8");
 
             logger.info("Loading " + nation + " " + shipType + " " + ship + " from /WarshipStats?" + request.getQueryString());
+
+            Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(ship);
+
+            if (StringUtils.isNotEmpty(moduleN)) {
+                int lengthT = moduleN.length();
+                modules = new HashSet<>();
+                Iterable<LinkedHashMap> tempT = warship.getWarshipModulesTreeNew().values();
+                for (int i = 0; i < lengthT; i++) {
+                    int moduleM = Integer.parseInt("" + moduleN.charAt(i)) - 1;
+                    LinkedHashMap<String, WarshipModulesTree> tempWMT = IterableUtils.get(tempT, i);
+                    Iterable<WarshipModulesTree> tempM = tempWMT.values();
+                    modules.add(String.valueOf(IterableUtils.get(tempM, moduleM).getModule_id()));
+                }
+            }
 
             if (StringUtils.isNotEmpty(skills) && !skills.contains("tier") && !skills.contains("type_id") && !skills.contains("[]"))
             {
@@ -162,7 +179,7 @@ public class APIController extends ExceptionController
             model.addAttribute("crewUSkills", crewUSkills);
             model.addAttribute("camo", camo);
             model.addAttribute("mobile", mobile);
-            model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(ship));
+            model.addAttribute("warship", warship);
             model.addAttribute("nation", nation).addAttribute("shipType", shipType).addAttribute("ship", ship);
             model.addAttribute("commanders", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("commanders").get(nation)).keySet());
 
@@ -240,6 +257,7 @@ public class APIController extends ExceptionController
                     @RequestParam(required = false, defaultValue = "") String Torpedoes,
                     @RequestParam(required = false, defaultValue = "100") int adrenalineValue,
                     @RequestParam(required = false) List<String> modules,
+                    @RequestParam(required = false, defaultValue = "") String moduleN,
                     @RequestParam(required = false, defaultValue = "false") boolean stockCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean upgradeCompare,
                     @RequestBody(required = false) HashMap<String, List> upgradesSkills
@@ -255,6 +273,49 @@ public class APIController extends ExceptionController
             {
 //                apiService.cacheEvictShipHashMap();
                 cacheStart = System.currentTimeMillis();
+            }
+
+            Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(ship);
+
+            if (StringUtils.isNotEmpty(moduleN)) {
+                int lengthT = moduleN.length();
+                modules = new ArrayList<>();
+                Iterable<LinkedHashMap> tempT = warship.getWarshipModulesTreeNew().values();
+                for (int i = 0; i < lengthT; i++) {
+                    int moduleM = Integer.parseInt("" + moduleN.charAt(i)) - 1;
+                    LinkedHashMap<String, WarshipModulesTree> tempWMT = IterableUtils.get(tempT, i);
+                    Iterable<WarshipModulesTree> tempM = tempWMT.values();
+                    WarshipModulesTree tempWMTClass = IterableUtils.get(tempM, moduleM);
+                    modules.add(String.valueOf(tempWMTClass.getModule_id()));
+
+                    if (tempWMTClass.getType().equals("Artillery")) {
+                        Artillery = String.valueOf(tempWMTClass.getModule_id());
+                    }
+                    else if (tempWMTClass.getType().equals("DiveBomber")) {
+                        DiveBomber = String.valueOf(tempWMTClass.getModule_id());
+                    }
+                    else if (tempWMTClass.getType().equals("Engine")) {
+                        Engine = String.valueOf(tempWMTClass.getModule_id());
+                    }
+                    else if (tempWMTClass.getType().equals("Fighter")) {
+                        Fighter = String.valueOf(tempWMTClass.getModule_id());
+                    }
+                    else if (tempWMTClass.getType().equals("Suo")) {
+                        Suo = String.valueOf(tempWMTClass.getModule_id());
+                    }
+                    else if (tempWMTClass.getType().equals("FlightControl")) {
+                        FlightControl = String.valueOf(tempWMTClass.getModule_id());
+                    }
+                    else if (tempWMTClass.getType().equals("Hull")) {
+                        Hull = String.valueOf(tempWMTClass.getModule_id());
+                    }
+                    else if (tempWMTClass.getType().equals("TorpedoBomber")) {
+                        TorpedoBomber = String.valueOf(tempWMTClass.getModule_id());
+                    }
+                    else if (tempWMTClass.getType().equals("Torpedoes")) {
+                        Torpedoes = String.valueOf(tempWMTClass.getModule_id());
+                    }
+                }
             }
 
             String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
