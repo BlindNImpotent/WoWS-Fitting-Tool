@@ -98,6 +98,7 @@
 
     var waitTime = 1000;
     var timer;
+    var rightPanelOpen = '';
 
     $().ready(function () {
         $( function() {
@@ -527,11 +528,12 @@
                 success: function (data) {
                     if (data != '')
                     {
-                        $('.shipAPIData').replaceWith(data);
+                        $('.right_side').html(data);
                         $('#consumables').html($('#consumablesDataFragment').html());
                         $('#consumablesDataFragment').remove();
 
                         setConsumables();
+                        showPanelRight(rightPanelOpen);
 
 //                        $.ajax({
 //                            url: url.replace('shipAPI', 'shipComponents'),
@@ -570,6 +572,7 @@
 
     function fragments(nationOriginal, shipTypeOriginal, shipOriginal)
     {
+        rightPanelOpen = '';
         nation = nationOriginal.replace(/ /g, '+');
         shipType = shipTypeOriginal.replace(/ /g, '+');
         ship = shipOriginal.replace(/ /g, '+');
@@ -777,7 +780,7 @@
     //    });
 
     function showPanelLeft(type) {
-        var tabs = $('.button_tab');
+        var tabs = $('.button_tab.left');
         for (var i = 0; i < tabs.length; i++)
         {
             var current = tabs.eq(i);
@@ -792,6 +795,30 @@
             current.addClass('hide');
         }
         $('#' + type).removeClass('hide');
+    }
+
+    function showPanelRight(type) {
+        if (type === '') {
+            return false;
+        }
+
+        var tabs = $('.button_tab.right');
+        for (var i = 0; i < tabs.length; i++)
+        {
+            var current = tabs.eq(i);
+            current.removeClass('select');
+        }
+        $('#tab_right_' + type).addClass('select');
+
+        var panels = $('.panel_right');
+        for (var i = 0; i < panels.length; i++)
+        {
+            var current = panels.eq(i);
+            current.addClass('hide');
+        }
+        $('#' + type + 'Stats').removeClass('hide');
+
+        rightPanelOpen = type;
     }
 
     //    ]]>

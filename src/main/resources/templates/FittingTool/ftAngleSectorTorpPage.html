@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="UTF-8" />
+    <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
+    <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
+    <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
+    <script th:src="@{/js/accounting/accounting.js}"></script>
+    <title>WoWS Fitting Tool by Aesis</title>
+</head>
+<body>
+<header>
+</header>
+<th:block th:fragment="angleSectorTorpPage">
+    <script th:inline="javascript">
+        //    <![CDATA[
+
+        $(function () {
+            drawTorpedoes([[${shipAPI}]]['shipComponents']['torpedoes']);
+        });
+
+        function drawTorpedoes(torpedoes)
+        {
+            if (torpedoes !== null)
+            {
+                var launchers = torpedoes['launchersList'];
+
+                var torpedoesCanvas = document.getElementById('torpedoesCanvas');
+                var ctx = torpedoesCanvas.getContext('2d');
+
+                var eccentricity = 3.25;
+                ctx.save();
+                ctx.scale(1 / eccentricity, 1);
+                ctx.beginPath();
+                ctx.globalAlpha = 0.5;
+                ctx.arc(125 * eccentricity, 125, 125, 0, 2 * Math.PI, false);
+                ctx.closePath();
+                ctx.fillStyle = '#64C8FF';
+                ctx.fill();
+                ctx.restore();
+
+                for (var i = 0; i < launchers.length; i++)
+                {
+                    var current = launchers[i];
+
+                    var minAngle = current['horizSector'][0];
+                    var maxAngle = current['horizSector'][1];
+                    var vertiPosition = current['position'][0];
+                    var horizPosition = current['position'][1];
+                    var horizFactor = Math.PI / -2;
+
+                    var deadZone = current['deadZone'];
+                    var deadZone1 = 0;
+                    var deadZone2 = 0;
+                    if (deadZone.length === 1)
+                    {
+                        deadZone1 = deadZone[0][0];
+                        deadZone2 = deadZone[0][1];
+                    }
+
+                    var isMerge = false;
+                    if (deadZone.length === 1 && deadZone2 === maxAngle)
+                    {
+                        isMerge = true;
+                        maxAngle = deadZone1;
+                    }
+                    else if (deadZone.length === 1 && deadZone1 === minAngle)
+                    {
+                        isMerge = true;
+                        minAngle = deadZone2;
+                    }
+                    else if (deadZone.length === 1 && minAngle === maxAngle)
+                    {
+                        isMerge = true;
+                        minAngle = deadZone2;
+                        maxAngle = deadZone1;
+                    }
+
+                    if (vertiPosition >= 2.75)
+                    {
+                        var tempValue = minAngle;
+                        minAngle = -maxAngle;
+                        maxAngle = -tempValue;
+                    }
+
+                    if ((horizPosition - 1) * minAngle < 0 && (horizPosition - 1) * maxAngle < 0)
+                    {
+                        if (vertiPosition >= 2.75)
+                        {
+                            minAngle = minAngle + 180;
+                            maxAngle = maxAngle + 180;
+                        }
+                        else
+                        {
+                            var tempValue = minAngle;
+                            minAngle = -maxAngle;
+                            maxAngle = -tempValue;
+                        }
+                    }
+
+                    // -1 .. 7
+                    var centerX = 125 + (horizPosition - 1) * (250 / 8);
+                    var centerY = (vertiPosition + 1.5) * (250 / 8);
+
+                    if (deadZone.length === 0 || isMerge)
+                    {
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, centerY);
+                        ctx.globalAlpha = 0.1;
+                        ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                        ctx.closePath();
+                        ctx.stroke();
+
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, centerY);
+                        ctx.globalAlpha = 0.1;
+                        ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                        ctx.closePath();
+                        ctx.fill();
+                    }
+                    else if (deadZone.length === 1 && !isMerge)
+                    {
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, centerY);
+                        ctx.globalAlpha = 0.1;
+                        ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                        ctx.closePath();
+                        ctx.stroke();
+
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, centerY);
+                        ctx.globalAlpha = 0.1;
+                        ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                        ctx.closePath();
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, centerY);
+                        ctx.globalAlpha = 0.1;
+                        ctx.arc(centerX, centerY, 500, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                        ctx.closePath();
+                        ctx.stroke();
+
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, centerY);
+                        ctx.globalAlpha = 0.1;
+                        ctx.arc(centerX, centerY, 25, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                        ctx.closePath();
+                        ctx.fill();
+                    }
+                }
+            }
+        }
+
+        //    ]]>
+    </script>
+    <div id="torpedoesCanvasDiv" class="ui-widget-content" title="Torpedo Sector">
+        <canvas id="torpedoesCanvas" width="250" height="250">
+        </canvas>
+    </div>
+</th:block>
+</body>
+</html>

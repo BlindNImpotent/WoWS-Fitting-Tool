@@ -114,9 +114,10 @@ nav ul ul ul li {
 #ship
 {
     text-align: center;
+    padding: 0px 0px 20px;
 }
 
-.panel_left
+.panel_left, .panel_right
 {
     /*display: inline-block;*/
     /*text-align: center;*/
@@ -171,24 +172,17 @@ nav ul ul ul li {
 
 .button_tab {
     background-color:#fff;
-    margin:2px;
-    text-decoration:none;
-    color:inherit;
-    opacity:1;
+    margin:1px;
     text-align:center;
     border-color:rgb(210,210,210);
     border-width:1px;
     border-style:solid;
     border-radius:5px;
-    width: 100px;
-    min-width: 100px;
-    max-width: 100px;
-    display: block;
+    width: 130px;
+    min-width: 130px;
+    max-width: 130px;
     padding: 9px 15px;
     cursor: pointer;
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .select {
@@ -467,7 +461,7 @@ nav ul ul ul li {
     border-width: 0px;
     border-style: solid;
     border-radius: 5px;
-    /*font-size: 10px;*/
+    font-size: 9px;
     min-width: 85px;
     max-width: 85px;
     min-height: 85px;
@@ -475,6 +469,7 @@ nav ul ul ul li {
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
+    padding: 2px 8px;
 }
 
 .button_consumable img
@@ -491,7 +486,7 @@ nav ul ul ul li {
     border-width: 1px;
     border-style: solid;
     border-radius: 5px;
-    /*font-size: 10px;*/
+    font-size: 9px;
     min-width: 85px;
     max-width: 85px;
     min-height: 85px;
@@ -499,6 +494,7 @@ nav ul ul ul li {
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
+    padding: 1px 6px;
 }
 
 .button_consumable_selected img

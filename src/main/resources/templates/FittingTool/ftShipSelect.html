@@ -5,7 +5,6 @@
     <meta charset="UTF-8" />
     <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipStyle.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/FittingTool/FittingTool.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
     <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
@@ -37,11 +36,11 @@
             <div class="info_box">
                 <div style="display: inline-table; vertical-align: top;">
                     <div id="left_tabs" class="left_tabs">
-                        <div id="tab_left_modules" class="button_tab select" onclick="showPanelLeft('modules')">Modules</div>
-                        <div id="tab_left_upgrades" class="button_tab" onclick="showPanelLeft('upgrades')">Upgrades</div>
-                        <div id="tab_left_crewSkills" class="button_tab" onclick="showPanelLeft('crewSkills')">Skills</div>
-                        <div id="tab_left_flags" class="button_tab" onclick="showPanelLeft('flags')">Flags</div>
-                        <div id="tab_left_consumables" class="button_tab" onclick="showPanelLeft('consumables')">Consumables</div>
+                        <div id="tab_left_modules" class="button_tab left select" onclick="showPanelLeft('modules')">Modules</div>
+                        <div id="tab_left_upgrades" class="button_tab left" onclick="showPanelLeft('upgrades')">Upgrades</div>
+                        <div id="tab_left_crewSkills" class="button_tab left" onclick="showPanelLeft('crewSkills')">Skills</div>
+                        <div id="tab_left_flags" class="button_tab left" onclick="showPanelLeft('flags')">Flags</div>
+                        <div id="tab_left_consumables" class="button_tab left" onclick="showPanelLeft('consumables')">Consumables</div>
                     </div>
                     <div class="left_info_box">
                         <div id="modules" class="panel_left modules">
@@ -175,17 +174,7 @@
                         </div>
                     </div>
                 </div>
-                <div style="display: inline-table; vertical-align: top;">
-                    <div class="right_info_box">
-                        <span>test</span>
-                    </div>
-                    <div id="right_tabs" class="right_tabs">
-                        <div id="tab_right_artillery" class="button_tab">Main Battery</div>
-                        <div id="tab_right_atba" class="button_tab">Secondary</div>
-                        <div id="tab_right_airdefense" class="button_tab">Anti Air</div>
-                        <div id="tab_right_hull" class="button_tab">Hull</div>
-                        <div id="tab_right_engine" class="button_tab">Engine</div>
-                    </div>
+                <div class="right_side" style="display: inline-table; vertical-align: top;">
                 </div>
             </div>
         </div>
