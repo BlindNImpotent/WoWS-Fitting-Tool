@@ -31,6 +31,7 @@ public class DiscordWebhook
                 "URL: " +  request.getRequestURL().toString() + (StringUtils.isNotEmpty(request.getQueryString()) ? "?" + request.getQueryString() : "") + "\n\n" +
                 "Referrer: " + request.getHeader("Referer") + "\n\n" +
                 "Client IP Address : " + getClientIPAddress(request) + " / " + request.getRemoteAddr() + "\n\n" +
+                "User Agent : " + request.getHeader("User-Agent") + "\n\n" +
                 "Method: " + request.getMethod() + "\n\n" +
                 "Error: " + e.getMessage() + "\n" + printStackTraceToString(e) +
                 "```";

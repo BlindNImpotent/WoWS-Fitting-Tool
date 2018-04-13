@@ -84,7 +84,8 @@
     var flags = [];
     var consumables = [[${consumables}]];
 
-    var nThM = '';
+    var nthM = '';
+    var nthU = ''
 
     var camouflage = false;
 
@@ -284,7 +285,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nThM + '&upgrades=' + encodeURIComponent(upgrades) + '&flags=' + encodeURIComponent(flags) + '&skillsH=' + encodeURIComponent(skills) + '&camo=' + camouflage + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkillsH=' + encodeURIComponent(uSkills));
+        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + '&flags=' + encodeURIComponent(flags) + '&skillsH=' + encodeURIComponent(skills) + '&camo=' + camouflage + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + $('#custom-handle').text() + '&commander=' + encodeURIComponent(commander) + '&uSkillsH=' + encodeURIComponent(uSkills));
     }
 
     $(document).on('click', '.button_skill, .button_skill_selected', function () {
@@ -447,7 +448,8 @@
             uSkills = [];
             flags = [];
             consumables = [];
-            nThM = '';
+            nthM = '';
+            nthU = ''
 
             camouflage = [$('#camouflageCheckbox').is(':checked')];
 
@@ -460,10 +462,27 @@
             }
             for (var i = 0; i < tempSMArray.length; i++) {
                 if (tempSMArray[i] !== undefined && tempSMArray !== null) {
-                    nThM = nThM + tempSMArray[i].toString();
+                    nthM = nthM + tempSMArray[i].toString();
                 }
             }
-            url = url + '&moduleN=' + nThM;
+            url = url + '&moduleN=' + nthM;
+            
+            var tempSUArray = [];
+            for (var i = 0; i < selectedUpgrades.length; i++)
+            {
+                var mIndex = selectedUpgrades.eq(i).attr('data-index');
+                var rowPos = selectedUpgrades.eq(i).attr('data-position');
+                tempSUArray[rowPos] = mIndex;
+            }
+            for (var i = 0; i < tempSUArray.length; i++) {
+                if (tempSUArray[i] !== undefined && tempSUArray !== null) {
+                    nthU = nthU + tempSUArray[i].toString();
+                }
+                else {
+                    nthU = nthU + String(0);
+                }
+            }
+            url = url + (nthU.length > 0 ? '&upgradeN=' + nthU : '');
 
             for (var i = 0; i < selectedUpgrades.length; i++)
             {
@@ -527,7 +546,7 @@
                 url: url,
                 type: 'post',
                 contentType: "application/json",
-                data: JSON.stringify(upgradesSkills),
+                // data: JSON.stringify(upgradesSkills),
                 success: function (data) {
                     if (data != '')
                     {
@@ -560,7 +579,7 @@
                             nation: nation,
                             shipType: shipType,
                             ship: ship
-                        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nThM + '&upgrades=' + encodeURIComponent(upgrades) + '&flags=' + encodeURIComponent(flags) + '&skillsH=' + encodeURIComponent(skills) + '&camo=' + camouflage + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + adrenalineValue + '&commander=' + encodeURIComponent(commander) + '&uSkillsH=' + encodeURIComponent(uSkills));
+                        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + '&flags=' + encodeURIComponent(flags) + '&skillsH=' + encodeURIComponent(skills) + '&camo=' + camouflage + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + adrenalineValue + '&commander=' + encodeURIComponent(commander) + '&uSkillsH=' + encodeURIComponent(uSkills));
                     }
                     else
                     {
@@ -694,7 +713,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nThM + '&upgrades=' + encodeURIComponent(upgrades) + '&flags=' + encodeURIComponent(flags) + '&skillsH=' + encodeURIComponent(skills) + '&camo=' + camouflage + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + adrenalineValue + '&commander=' + encodeURIComponent(commander) + '&uSkillsH=' + encodeURIComponent(uSkills));
+        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + '&flags=' + encodeURIComponent(flags) + '&skillsH=' + encodeURIComponent(skills) + '&camo=' + camouflage + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + adrenalineValue + '&commander=' + encodeURIComponent(commander) + '&uSkillsH=' + encodeURIComponent(uSkills));
     });
 
     $(document).on('change', '#commanderSelect', function ()
@@ -724,7 +743,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nThM + '&upgrades=' + encodeURIComponent(upgrades) + '&flags=' + encodeURIComponent(flags) + '&skillsH=' + encodeURIComponent(skills) + '&camo=' + camouflage + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + adrenalineValue + '&commander=' + encodeURIComponent(commander) + '&uSkillsH=' + encodeURIComponent(uSkills));
+        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + '&flags=' + encodeURIComponent(flags) + '&skillsH=' + encodeURIComponent(skills) + '&camo=' + camouflage + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + adrenalineValue + '&commander=' + encodeURIComponent(commander) + '&uSkillsH=' + encodeURIComponent(uSkills));
 
 //        if ($('.button_skill_selected').length > 0)
 //        {

@@ -2,6 +2,7 @@ package WoWSSSC.controller;
 
 import WoWSSSC.config.DiscordWebhook;
 import WoWSSSC.model.WoWSAPI.ModuleId;
+import WoWSSSC.model.WoWSAPI.consumables.Consumables;
 import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
@@ -58,10 +59,7 @@ public class APIController extends ExceptionController
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    private long cacheStart = System.currentTimeMillis();
-
     private boolean isLive = true;
-
     private String serverParam = "live";
     private String serverParamAddress = "";
 
@@ -112,7 +110,8 @@ public class APIController extends ExceptionController
                                 @RequestParam(required = false) boolean camo,
                                 @RequestParam(required = false, defaultValue = "false") boolean mobile,
                                 @RequestParam(required = false, defaultValue = "default") String commander,
-                                @RequestParam(required = false, defaultValue = "") String moduleN) throws IOException
+                                @RequestParam(required = false, defaultValue = "") String moduleN,
+                                @RequestParam(required = false, defaultValue = "") String upgradeN) throws IOException
     {
         model.addAttribute("serverParam", serverParamAddress);
         model.addAttribute("nations", data.get(serverParam).get("nations"));
@@ -139,6 +138,20 @@ public class APIController extends ExceptionController
                     LinkedHashMap<String, WarshipModulesTree> tempWMT = IterableUtils.get(tempT, i);
                     Iterable<WarshipModulesTree> tempM = tempWMT.values();
                     modules.add(String.valueOf(IterableUtils.get(tempM, moduleM).getModule_id()));
+                }
+            }
+
+            if (StringUtils.isNotEmpty(upgradeN)) {
+                int lengthT = upgradeN.length();
+                upgrades = new HashSet<>();
+                Iterable<LinkedHashMap> tempT = warship.getUpgradesNew().values();
+                for (int i = 0; i < lengthT; i++) {
+                    int upgradeM = Integer.parseInt("" + upgradeN.charAt(i)) - 1;
+                    if (upgradeM >= 0) {
+                        LinkedHashMap<String, Consumables> tempWMT = IterableUtils.get(tempT, i);
+                        Iterable<Consumables> tempM = tempWMT.values();
+                        upgrades.add(String.valueOf(IterableUtils.get(tempM, upgradeM).getConsumable_id()));
+                    }
                 }
             }
 
@@ -258,6 +271,7 @@ public class APIController extends ExceptionController
                     @RequestParam(required = false, defaultValue = "100") int adrenalineValue,
                     @RequestParam(required = false) List<String> modules,
                     @RequestParam(required = false, defaultValue = "") String moduleN,
+                    @RequestParam(required = false, defaultValue = "") String upgradeN,
                     @RequestParam(required = false, defaultValue = "false") boolean stockCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean upgradeCompare,
                     @RequestBody(required = false) HashMap<String, List> upgradesSkills
@@ -268,12 +282,6 @@ public class APIController extends ExceptionController
             ship = URLDecoder.decode(ship, "UTF-8");
 
             logger.info("Ship API - " + nation + " " + shipType + " " + ship);
-
-            if (System.currentTimeMillis() - cacheStart >= 60 * 60 * 1000)
-            {
-//                apiService.cacheEvictShipHashMap();
-                cacheStart = System.currentTimeMillis();
-            }
 
             Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(ship);
 
@@ -316,6 +324,25 @@ public class APIController extends ExceptionController
                         Torpedoes = String.valueOf(tempWMTClass.getModule_id());
                     }
                 }
+            }
+
+            if (upgradesSkills == null) {
+                upgradesSkills = new HashMap<>();
+            }
+
+            if (StringUtils.isNotEmpty(upgradeN)) {
+                int lengthT = upgradeN.length();
+                Iterable<LinkedHashMap> tempT = warship.getUpgradesNew().values();
+                List<String> upgrades = new ArrayList<>();
+                for (int i = 0; i < lengthT; i++) {
+                    int upgradeM = Integer.parseInt("" + upgradeN.charAt(i)) - 1;
+                    if (upgradeM >= 0) {
+                        LinkedHashMap<String, Consumables> tempWMT = IterableUtils.get(tempT, i);
+                        Iterable<Consumables> tempM = tempWMT.values();
+                        upgrades.add(String.valueOf(IterableUtils.get(tempM, upgradeM).getConsumable_id()));
+                    }
+                }
+                upgradesSkills.put("upgrades", upgrades);
             }
 
             String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
@@ -806,12 +833,6 @@ public class APIController extends ExceptionController
         upgradesSkills2.put("camouflage", (List<Boolean>) upgradesSkillsV2.get("camouflage").get("camouflage"));
 
         logger.info("Ship Comparison - " + ship1 + " and " + ship2);
-
-        if (System.currentTimeMillis() - cacheStart >= 60 * 60 * 1000)
-        {
-//            apiService.cacheEvictShipHashMap();
-            cacheStart = System.currentTimeMillis();
-        }
 
         String returnedKey1 = apiService.setShipAPI(nation1, shipType1, ship1, ship_id1, Artillery1, DiveBomber1, Engine1, Fighter1, Suo1, FlightControl1, Hull1, TorpedoBomber1, Torpedoes1, new ArrayList<>());
         Ship shipAPI1 = apiService.getUpgradeSkillStats(returnedKey1, nation1, shipType1, ship1, ship_id1, Artillery1, DiveBomber1, Engine1, Fighter1, Suo1, FlightControl1, Hull1, TorpedoBomber1, Torpedoes1, new ArrayList<>(), upgradesSkills1, adrenalineValue1, false, false, isLive);

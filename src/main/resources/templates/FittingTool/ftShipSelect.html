@@ -121,7 +121,7 @@
                         <div id="upgrades" class="panel_left upgrades hide">
                             <div th:each="upgradeType : ${warship.upgradesNew}" th:id="'id_' + ${upgradeType.key}">
                                 <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.consumable_id}">
-                                    <button th:title="${upgrade.value.description}" th:class="${upgrades != null and #sets.contains(upgrades, #strings.toString(upgrade.value.consumable_id))} ? button_upgrade_selected : button_upgrade" th:id="${upgrade.value.consumable_id}" th:name="'price_' + ${upgrade.value.price_credit}">
+                                    <button th:title="${upgrade.value.description}" th:class="${upgrades != null and #sets.contains(upgrades, #strings.toString(upgrade.value.consumable_id))} ? button_upgrade_selected : button_upgrade" th:id="${upgrade.value.consumable_id}" th:name="'price_' + ${upgrade.value.price_credit}" th:attr="data-index=${upgradeStat.index + 1}, data-position=${upgradeTypeStat.index}">
                                         <img th:src="${upgrade.value.image}"/><br />
                                         <span th:text="${upgrade.value.name}"/>
                                     </button>
