@@ -109,7 +109,7 @@ public class APIController extends ExceptionController
                                 @RequestParam(required = false) String uSkills,
                                 @RequestParam(required = false) HashSet<String> uSkillsH,
                                 @RequestParam(required = false, defaultValue = "100") int adrenalineValue,
-                                @RequestParam(required = false) boolean camo,
+                                @RequestParam(required = false, defaultValue = "false") boolean camo,
                                 @RequestParam(required = false, defaultValue = "false") boolean mobile,
                                 @RequestParam(required = false, defaultValue = "default") String commander,
                                 @RequestParam(required = false, defaultValue = "") String moduleN,
@@ -304,6 +304,7 @@ public class APIController extends ExceptionController
                     @RequestParam(required = false, defaultValue = "") String skillN,
                     @RequestParam(required = false, defaultValue = "") String uSkillN,
                     @RequestParam(required = false, defaultValue = "default") String commander,
+                    @RequestParam(required = false, defaultValue = "false") boolean camo,
                     @RequestParam(required = false, defaultValue = "false") boolean stockCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean upgradeCompare,
                     @RequestBody(required = false) HashMap<String, List> upgradesSkills
@@ -410,6 +411,10 @@ public class APIController extends ExceptionController
                 }
                 upgradesSkills.put("uSkills", uSkillList);
             }
+
+            List<Boolean> camouflage = new ArrayList<>();
+            camouflage.add(camo);
+            upgradesSkills.put("camouflage", camouflage);
 
             String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
             Ship shipAPI = apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills, adrenalineValue, false, true, isLive);
