@@ -1,5 +1,6 @@
 {
-	"2018-04-14": "Ship Comparison may be giving error on some occasions. I'm working on a fix.",
+	"2018-04-14": "URL Minify for Fitting Tool section is implemented",
+	"2018-04-13": "Ship Comparison may be giving error on some occasions. I'm working on a fix.",
 	"2018-02-08": "Fixed CV's AP Bombers not showing up",
 	"2017-10-20": "Modified server to block malicious bots",
 	"2017-09-18": "Added dive bomber accuracy",
