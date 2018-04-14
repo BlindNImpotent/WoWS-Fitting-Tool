@@ -9,6 +9,8 @@ import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.model.email.EmailModel;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
+import WoWSSSC.model.gameparams.commanders.GPCommander;
+import WoWSSSC.model.gameparams.commanders.UniqueTemp;
 import WoWSSSC.service.APIService;
 import WoWSSSC.service.MailService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -112,7 +114,8 @@ public class APIController extends ExceptionController
                                 @RequestParam(required = false, defaultValue = "default") String commander,
                                 @RequestParam(required = false, defaultValue = "") String moduleN,
                                 @RequestParam(required = false, defaultValue = "") String upgradeN,
-                                @RequestParam(required = false, defaultValue = "") String skillN) throws IOException
+                                @RequestParam(required = false, defaultValue = "") String skillN,
+                                @RequestParam(required = false, defaultValue = "") String uSkillN) throws IOException
     {
         model.addAttribute("serverParam", serverParamAddress);
         model.addAttribute("nations", data.get(serverParam).get("nations"));
@@ -169,7 +172,19 @@ public class APIController extends ExceptionController
             }
 
             HashSet<CrewSkills> crewSkills = new HashSet<>();
-            if (CollectionUtils.isEmpty(skillsH)) {
+            if (StringUtils.isNotEmpty(skillN)) {
+                int lengthT = skillN.length();
+                for (int i = 0; i < lengthT; i++) {
+                    int x = Integer.parseInt("" + skillN.charAt(i));
+                    if (x == 1) {
+                        CrewSkills cs = new CrewSkills();
+                        cs.setTier((i / 8) + 1);
+                        cs.setType_id(i % 8);
+                        crewSkills.add(cs);
+                    }
+                }
+            }
+            else if (CollectionUtils.isEmpty(skillsH)) {
                 crewSkills = skills != null ? mapper.readValue(skills, new TypeReference<HashSet<CrewSkills>>(){}) : new HashSet<>();
             }
             else {
@@ -181,7 +196,20 @@ public class APIController extends ExceptionController
                     crewSkills.add(cs);
                 }
             }
-            HashSet<String> crewUSkills = CollectionUtils.isEmpty(uSkillsH) ? (uSkills != null ? mapper.readValue(uSkills, HashSet.class) : new HashSet<>()) : uSkillsH;
+            HashSet<String> crewUSkills = new HashSet<>();
+            if (StringUtils.isNotEmpty(uSkillN)) {
+                int lengthT = uSkillN.length();
+                Iterable<UniqueTemp> tempUSkills = ((LinkedHashMap<String, GPCommander>) data.get(serverParam).get("commanders").get(nation)).get(commander).getUniqueSkills().getModifier().values();
+                for (int i = 0; i < lengthT; i++) {
+                    int uSkillM = Integer.parseInt("" + uSkillN.charAt(i));
+                    if (uSkillM == 1) {
+                        crewUSkills.add(IterableUtils.get(tempUSkills, i).getIdentifier());
+                    }
+                }
+            }
+            else {
+                crewUSkills = CollectionUtils.isEmpty(uSkillsH) ? (uSkills != null ? mapper.readValue(uSkills, HashSet.class) : new HashSet<>()) : uSkillsH;
+            }
 
             model.addAttribute("url", "/warship?" + request.getQueryString());
             model.addAttribute("modules", modules);
@@ -274,6 +302,8 @@ public class APIController extends ExceptionController
                     @RequestParam(required = false, defaultValue = "") String moduleN,
                     @RequestParam(required = false, defaultValue = "") String upgradeN,
                     @RequestParam(required = false, defaultValue = "") String skillN,
+                    @RequestParam(required = false, defaultValue = "") String uSkillN,
+                    @RequestParam(required = false, defaultValue = "default") String commander,
                     @RequestParam(required = false, defaultValue = "false") boolean stockCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean upgradeCompare,
                     @RequestBody(required = false) HashMap<String, List> upgradesSkills
@@ -347,6 +377,12 @@ public class APIController extends ExceptionController
                 upgradesSkills.put("upgrades", upgrades);
             }
 
+            commander = URLDecoder.decode(commander, "UTF-8");
+            commander = commander.equalsIgnoreCase("Steven Seagal") ? "John Doe" : commander;
+            List<String> commanderList = new ArrayList<>();
+            commanderList.add(commander);
+            upgradesSkills.put("commander", commanderList);
+
             if (StringUtils.isNotEmpty(skillN)) {
                 int lengthT = skillN.length();
                 List<HashMap> skills = new ArrayList<>();
@@ -360,6 +396,19 @@ public class APIController extends ExceptionController
                     }
                 }
                 upgradesSkills.put("skills", skills);
+            }
+
+            if (StringUtils.isNotEmpty(uSkillN)) {
+                int lengthT = uSkillN.length();
+                Iterable<UniqueTemp> tempUSkills = ((LinkedHashMap<String, GPCommander>) data.get(serverParam).get("commanders").get(nation)).get(commander).getUniqueSkills().getModifier().values();
+                List<String> uSkillList = new ArrayList<>();
+                for (int i = 0; i < lengthT; i++) {
+                    int uSkillM = Integer.parseInt("" + uSkillN.charAt(i));
+                    if (uSkillM == 1) {
+                        uSkillList.add(IterableUtils.get(tempUSkills, i).getIdentifier());
+                    }
+                }
+                upgradesSkills.put("uSkills", uSkillList);
             }
 
             String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);

@@ -130,11 +130,11 @@
                         </div>
                         <div id="crewSkills" class="panel_left crewSkills hide">
                             <strong id="totalSkillPoints">Skill Points 0 / 19</strong>
-                            <table id="uniqueSkillsTable" align="center" th:style="'float: left; height: 418px; ' + ${#sets.contains(uniqueSkills.keySet(), sCommander) ? '' : 'display: none'}">
+                            <table id="uniqueSkillsTable" align="center" th:style="${#sets.contains(uniqueSkills.keySet(), sCommander) ? '' : 'display: none'}">
                                 <tbody>
                                 <tr th:each="commander : ${uniqueSkills}" th:id="${commander.key.replace(' ', '')}" th:style="${commander.key != sCommander ? 'display: none;' : ''}">
                                     <td th:each="uniqueSkill : ${commander.value}">
-                                        <button th:title="${uniqueSkill.value.description}" th:class="${crewUSkills != null and #sets.contains(crewUSkills, uniqueSkill.key) ? 'button_uSkill_selected' : 'button_uSkill'}" th:id="${uniqueSkill.key}">
+                                        <button th:title="${uniqueSkill.value.description}" th:class="${crewUSkills != null and #sets.contains(crewUSkills, uniqueSkill.key) ? 'button_uSkill_selected' : 'button_uSkill'}" th:id="${uniqueSkill.key}" th:attr="data-index=${uniqueSkillStat.index}">
                                             <img th:src="${'/images/Talents/' + uniqueSkill.key + '.png'}"/><br />
                                             <span th:text="${uniqueSkill.value.name}"/>
                                         </button>

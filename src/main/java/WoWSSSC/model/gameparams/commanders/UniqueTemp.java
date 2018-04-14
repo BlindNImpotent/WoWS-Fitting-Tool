@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 public class UniqueTemp
 {
     private String name;
+    private String identifier;
     private String description;
     private LinkedHashMap<String, UniqueSkillModifier> temp;
 }
