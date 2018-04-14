@@ -115,7 +115,8 @@ public class APIController extends ExceptionController
                                 @RequestParam(required = false, defaultValue = "") String moduleN,
                                 @RequestParam(required = false, defaultValue = "") String upgradeN,
                                 @RequestParam(required = false, defaultValue = "") String skillN,
-                                @RequestParam(required = false, defaultValue = "") String uSkillN) throws IOException
+                                @RequestParam(required = false, defaultValue = "") String uSkillN,
+                                @RequestParam(required = false, defaultValue = "") String flagN) throws IOException
     {
         model.addAttribute("serverParam", serverParamAddress);
         model.addAttribute("nations", data.get(serverParam).get("nations"));
@@ -196,6 +197,7 @@ public class APIController extends ExceptionController
                     crewSkills.add(cs);
                 }
             }
+
             HashSet<String> crewUSkills = new HashSet<>();
             if (StringUtils.isNotEmpty(uSkillN)) {
                 int lengthT = uSkillN.length();
@@ -209,6 +211,17 @@ public class APIController extends ExceptionController
             }
             else {
                 crewUSkills = CollectionUtils.isEmpty(uSkillsH) ? (uSkills != null ? mapper.readValue(uSkills, HashSet.class) : new HashSet<>()) : uSkillsH;
+            }
+
+            if (StringUtils.isNotEmpty(flagN)) {
+                flags = new HashSet<>();
+                Iterable<Consumables> flagsIter = ((LinkedHashMap<String, Consumables>) data.get(serverParam).get("exteriors").get("Flags")).values();
+                for (int i = 0; i < flagN.length(); i++) {
+                    int flagM = Integer.parseInt("" + flagN.charAt(i));
+                    if (flagM == 1) {
+                        flags.add(String.valueOf(IterableUtils.get(flagsIter, i).getConsumable_id()));
+                    }
+                }
             }
 
             model.addAttribute("url", "/warship?" + request.getQueryString());
@@ -304,6 +317,7 @@ public class APIController extends ExceptionController
                     @RequestParam(required = false, defaultValue = "") String skillN,
                     @RequestParam(required = false, defaultValue = "") String uSkillN,
                     @RequestParam(required = false, defaultValue = "default") String commander,
+                    @RequestParam(required = false, defaultValue = "") String flagN,
                     @RequestParam(required = false, defaultValue = "false") boolean camo,
                     @RequestParam(required = false, defaultValue = "false") boolean stockCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean upgradeCompare,
@@ -415,6 +429,18 @@ public class APIController extends ExceptionController
             List<Boolean> camouflage = new ArrayList<>();
             camouflage.add(camo);
             upgradesSkills.put("camouflage", camouflage);
+
+            if (StringUtils.isNotEmpty(flagN)) {
+                List<String> tempFList = new ArrayList<>();
+                Iterable<Consumables> flagsIter = ((LinkedHashMap<String, Consumables>) data.get(serverParam).get("exteriors").get("Flags")).values();
+                for (int i = 0; i < flagN.length(); i++) {
+                    int flagM = Integer.parseInt("" + flagN.charAt(i));
+                    if (flagM == 1) {
+                        tempFList.add(String.valueOf(IterableUtils.get(flagsIter, i).getConsumable_id()));
+                    }
+                }
+                upgradesSkills.put("flags", tempFList);
+            }
 
             String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
             Ship shipAPI = apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills, adrenalineValue, false, true, isLive);

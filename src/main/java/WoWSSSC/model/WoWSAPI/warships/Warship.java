@@ -187,6 +187,14 @@ public class Warship
         });
 
         warshipModulesTreeNew = sorter.sortWarshipModulesTreeNew(warshipModulesTreeNew);
+
+        int i = 0;
+        for (LinkedHashMap<String, WarshipModulesTree> modSlot : warshipModulesTreeNew.values()) {
+            for (WarshipModulesTree wsmt : modSlot.values()) {
+                wsmt.setPos(i);
+            }
+            i++;
+        }
         setWarshipModulesTreeTable();
     }
 

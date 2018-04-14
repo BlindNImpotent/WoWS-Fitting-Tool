@@ -84,7 +84,7 @@
                                                 <img th:if="${module != null and module.fromLeft}" th:src="@{/images/Icon/right.png}"/>
                                             </td>
                                             <td th:id="${module != null ? 'li_' + module.module_id : null}">
-                                                <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}" th:attr="data-index=${module.index}, data-position=${moduleStat.index}">
+                                                <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}" th:attr="data-index=${module.index}, data-position=${module.pos}">
                                                     <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
                                                     <span th:text="${module.name}"/>
                                                 </button>
@@ -161,7 +161,7 @@
                                 <tbody>
                                 <tr th:each="index : ${#numbers.sequence(0, exteriors.Flags.size() - 1, 6)}" th:id="${index / 6}">
                                     <td th:each="flag : ${exteriors.Flags}" th:if="${flagStat.index % 3} == ${index / 6}">
-                                        <button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.consumable_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.consumable_id}">
+                                        <button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.consumable_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.consumable_id}" th:attr="data-index=${flagStat.index}">
                                             <img th:src="${flag.value.image}"/><br />
                                             <span th:text="${flag.value.name}"/>
                                         </button>

@@ -88,6 +88,7 @@
     var nthU = '';
     var nthS = '';
     var nthUS = '';
+    var nthF = '';
 
     var camouflage = false;
 
@@ -287,7 +288,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '') + '&commander=' + encodeURIComponent(commander) + '&flags=' + encodeURIComponent(flags) + (camouflage === true ? '&camo=' + camouflage : '') + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + $('#custom-handle').text());
+        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '') + '&commander=' + encodeURIComponent(commander) + (nthF.length > 0 ? '&flagN=' + nthF : '') + (camouflage === true ? '&camo=' + camouflage : '') +  '&adrenalineValue=' + $('#custom-handle').text());
     }
 
     $(document).on('click', '.button_skill, .button_skill_selected', function () {
@@ -454,6 +455,7 @@
             nthU = '';
             nthS = '';
             nthUS = '';
+            nthF = '';
 
             camouflage = $('#camouflageCheckbox').is(':checked');
 
@@ -467,6 +469,9 @@
             for (var i = 0; i < tempSMArray.length; i++) {
                 if (tempSMArray[i] !== undefined && tempSMArray !== null) {
                     nthM = nthM + tempSMArray[i].toString();
+                }
+                else {
+                    nthM = nthM + String(1);
                 }
             }
             url = url + '&moduleN=' + nthM;
@@ -489,9 +494,15 @@
             url = url + (nthU.length > 0 ? '&upgradeN=' + nthU : '');
 
             var tempSSArray = [];
+            var isAR = false;
             for (var i = 0; i < selectedSkills.length; i++) {
                 var mIndex = selectedSkills.eq(i).attr('data-index');
                 var rowPos = selectedSkills.eq(i).attr('data-position');
+
+                if (mIndex === 7 && rowPos === 1) {
+                    isAR = true;
+                }
+
                 var tempIndex = (mIndex - 1) + (rowPos * 8);
                 tempSSArray[tempIndex] = 1;
             }
@@ -525,12 +536,21 @@
                 url = url + '&camo=' + camouflage;
             }
 
+            var tempFArray = [];
             for (var i = 0; i < selectedFlags.length; i++)
             {
-                var flagId = selectedFlags[i].getAttribute('id');
-
-                flags.push(flagId);
+                var mIndex = selectedFlags.eq(i).attr('data-index');
+                tempFArray[mIndex] = 1;
             }
+            for (var i = 0; i < tempFArray.length; i++) {
+                if (tempFArray[i] !== undefined && tempFArray !== null) {
+                    nthF = nthF + tempFArray[i].toString();
+                }
+                else {
+                    nthF = nthF + String(0);
+                }
+            }
+            url = url + (nthF.length > 0 ? '&flagN=' + nthF : '');
 
             for (var i = 0; i < selectedConsumables.length; i++)
             {
@@ -539,11 +559,11 @@
             }
 
             var upgradesSkills = {
-                flags: flags,
-                consumables: consumables,
+                consumables: consumables
             };
 
-            url = url + '&adrenalineValue=' + adrenalineValue;
+            adrenalineValue = isAR ? adrenalineValue : 100;
+            url = url + (adrenalineValue === 100 ? '' : '&adrenalineValue=' + adrenalineValue);
 
             var uCompare = $('#upgradeCompareCheckBox').is(':checked');
             if (uCompare === true) {
@@ -591,7 +611,7 @@
                             nation: nation,
                             shipType: shipType,
                             ship: ship
-                        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '') + '&commander=' + encodeURIComponent(commander) + '&flags=' + encodeURIComponent(flags) + (camouflage === true ? '&camo=' + camouflage : '') + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + adrenalineValue);
+                        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '') + '&commander=' + encodeURIComponent(commander) + (nthF.length > 0 ? '&flagN=' + nthF : '') + (camouflage === true ? '&camo=' + camouflage : '')+  (adrenalineValue === 100 ? '' : '&adrenalineValue=' + adrenalineValue));
                     }
                     else
                     {
@@ -725,7 +745,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '') + '&commander=' + encodeURIComponent(commander) + '&flags=' + encodeURIComponent(flags) + (camouflage === true ? '&camo=' + camouflage : '') + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + adrenalineValue);
+        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '') + '&commander=' + encodeURIComponent(commander) + (nthF.length > 0 ? '&flagN=' + nthF : '') + (camouflage === true ? '&camo=' + camouflage : '')+  (adrenalineValue === 100 ? '' : '&adrenalineValue=' + adrenalineValue));
     });
 
     $(document).on('change', '#commanderSelect', function ()
@@ -733,6 +753,7 @@
         commander = $('#commanderSelect').val();
         var tempCommander = commander.replace(' ', '');
         uSkills = [];
+        nthUS = '';
 
         $('.button_uSkill_selected').attr('class', 'button_uSkill');
         $('#uniqueSkillsTable').find('tr').hide();
@@ -755,7 +776,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '') + '&commander=' + encodeURIComponent(commander) + '&flags=' + encodeURIComponent(flags) + (camouflage === true ? '&camo=' + camouflage : '') + '&consumables=' + encodeURIComponent(consumables) + '&adrenalineValue=' + adrenalineValue);
+        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '') + '&commander=' + encodeURIComponent(commander) + (nthF.length > 0 ? '&flagN=' + nthF : '') + (camouflage === true ? '&camo=' + camouflage : '')+  (adrenalineValue === 100 ? '' : '&adrenalineValue=' + adrenalineValue));
 
 //        if ($('.button_skill_selected').length > 0)
 //        {
