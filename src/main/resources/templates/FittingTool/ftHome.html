@@ -499,7 +499,7 @@
                 var mIndex = selectedSkills.eq(i).attr('data-index');
                 var rowPos = selectedSkills.eq(i).attr('data-position');
 
-                if (mIndex === 7 && rowPos === 1) {
+                if (mIndex === '7' && rowPos === '1') {
                     isAR = true;
                 }
 
@@ -562,7 +562,7 @@
                 consumables: consumables
             };
 
-            adrenalineValue = isAR ? adrenalineValue : 100;
+            adrenalineValue = isAR ? $('#custom-handle').text() : 100;
             url = url + (adrenalineValue === 100 ? '' : '&adrenalineValue=' + adrenalineValue);
 
             var uCompare = $('#upgradeCompareCheckBox').is(':checked');
