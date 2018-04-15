@@ -289,10 +289,10 @@
                 var currentId = selected.eq(i).attr('id');
                 document.getElementById(currentId).className = 'button_ship_tree';
             }
-            $('[aria-describedby=warship1]').remove();
-            $('[aria-describedby=warship2]').remove();
-            $('#modulesUpgradesConsumables').html('');
-            $('#shipAPIData').html('');
+            // $('[aria-describedby=warship1]').remove();
+            // $('[aria-describedby=warship2]').remove();
+            // $('#modulesUpgradesConsumables').html('');
+            // $('#shipAPIData').html('');
         }
 
         if ($('.button_ship_tree_selected').length < 2)
@@ -355,10 +355,11 @@
                 contentType: "application/json",
                 data: JSON.stringify(list),
                 success: function (data) {
+                    $('[aria-describedby=warship1]').remove();
+                    $('[aria-describedby=warship2]').remove();
+                    $('#shipAPIData').html('');
                     $('#modulesUpgradesConsumables').replaceWith(data);
-                    setTimeout(function () {
-                        callAPI();
-                    }, 500);
+                    callAPI()
                 },
                 error: function (data) {
                     console.log(data);
@@ -368,43 +369,43 @@
         }
     });
 
-    $(document).on('click', '.button_ship_tree_selected', function () {
-        var clickedId = $(this).attr('id');
+    // $(document).on('click', '.button_ship_tree_selected', function () {
+    //     var clickedId = $(this).attr('id');
+    //
+    //     document.getElementById(clickedId).className = 'button_ship_tree';
+    //
+    //     $('[aria-describedby=warship1]').remove();
+    //     $('[aria-describedby=warship2]').remove();
+    //     $('#modulesUpgradesConsumables').html('');
+    // });
 
-        document.getElementById(clickedId).className = 'button_ship_tree';
-
-        $('[aria-describedby=warship1]').remove();
-        $('[aria-describedby=warship2]').remove();
-        $('#modulesUpgradesConsumables').html('');
-    });
-
-    $(document).on('click', '#resetSelect', function () {
-        var clickedList = $('.button_ship_tree_selected');
-        for (var i = 0; i < clickedList.length; i++)
-        {
-            var clickedId = clickedList.eq(i).attr('id');
-            document.getElementById(clickedId).className = 'button_ship_tree';
-        }
-
-        var clickedSkillsList = $('.button_skill_selected');
-        for (var i = 0; i < clickedSkillsList.length; i++)
-        {
-            var clickedId = clickedSkillsList.eq(i).attr('id');
-            $('#' + clickedId).click();
-        }
-
-        var clickedFlagsList = $('.button_flag_selected');
-        for (var i = 0; i < clickedFlagsList.length; i++)
-        {
-            var clickedId = clickedFlagsList.eq(i).attr('id');
-            $('#' + clickedId).click();
-        }
-
-        $('[aria-describedby=warship1]').remove();
-        $('[aria-describedby=warship2]').remove();
-        $('#modulesUpgradesConsumables').html('');
-        $('#shipAPIData').html('');
-    });
+    // $(document).on('click', '#resetSelect', function () {
+    //     var clickedList = $('.button_ship_tree_selected');
+    //     for (var i = 0; i < clickedList.length; i++)
+    //     {
+    //         var clickedId = clickedList.eq(i).attr('id');
+    //         document.getElementById(clickedId).className = 'button_ship_tree';
+    //     }
+    //
+    //     var clickedSkillsList = $('.button_skill_selected');
+    //     for (var i = 0; i < clickedSkillsList.length; i++)
+    //     {
+    //         var clickedId = clickedSkillsList.eq(i).attr('id');
+    //         $('#' + clickedId).click();
+    //     }
+    //
+    //     var clickedFlagsList = $('.button_flag_selected');
+    //     for (var i = 0; i < clickedFlagsList.length; i++)
+    //     {
+    //         var clickedId = clickedFlagsList.eq(i).attr('id');
+    //         $('#' + clickedId).click();
+    //     }
+    //
+    //     $('[aria-describedby=warship1]').remove();
+    //     $('[aria-describedby=warship2]').remove();
+    //     $('#modulesUpgradesConsumables').html('');
+    //     $('#shipAPIData').html('');
+    // });
 
     $(document).on('click', '.button_module_1', function(){
         var clickedId = $(this).attr('id');
