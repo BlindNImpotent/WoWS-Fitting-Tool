@@ -357,6 +357,8 @@
                 success: function (data) {
                     $('[aria-describedby=warship1]').remove();
                     $('[aria-describedby=warship2]').remove();
+                    $('[aria-describedby=artilleryCanvasDiv]').remove();
+                    $('[aria-describedby=torpedoesCanvasDiv]').remove();
                     $('#shipAPIData').html('');
                     $('#modulesUpgradesConsumables').replaceWith(data);
                     callAPI()
