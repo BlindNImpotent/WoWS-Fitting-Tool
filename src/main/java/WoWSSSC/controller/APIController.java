@@ -109,6 +109,7 @@ public class APIController extends ExceptionController
                                 @RequestParam(required = false) String uSkills,
                                 @RequestParam(required = false) HashSet<String> uSkillsH,
                                 @RequestParam(required = false, defaultValue = "100") int adrenalineValue,
+                                @RequestParam(required = false, defaultValue = "100") int ar,
                                 @RequestParam(required = false, defaultValue = "false") boolean camo,
                                 @RequestParam(required = false, defaultValue = "false") boolean mobile,
                                 @RequestParam(required = false, defaultValue = "default") String commander,
@@ -116,7 +117,11 @@ public class APIController extends ExceptionController
                                 @RequestParam(required = false, defaultValue = "") String upgradeN,
                                 @RequestParam(required = false, defaultValue = "") String skillN,
                                 @RequestParam(required = false, defaultValue = "") String uSkillN,
-                                @RequestParam(required = false, defaultValue = "") String flagN) throws IOException
+                                @RequestParam(required = false, defaultValue = "") String flagN,
+                                @RequestParam(required = false, defaultValue = "") String s0,
+                                @RequestParam(required = false, defaultValue = "") String s1,
+                                @RequestParam(required = false, defaultValue = "") String s2,
+                                @RequestParam(required = false, defaultValue = "") String s3) throws IOException
     {
         model.addAttribute("serverParam", serverParamAddress);
         model.addAttribute("nations", data.get(serverParam).get("nations"));
@@ -224,10 +229,26 @@ public class APIController extends ExceptionController
                 }
             }
 
+            if (StringUtils.isNotEmpty(s0) || StringUtils.isNotEmpty(s1) || StringUtils.isNotEmpty(s2) || StringUtils.isNotEmpty(s3)) {
+                consumables = new HashSet<>();
+                if (StringUtils.isNotEmpty(s0)) {
+                    consumables.add(s0);
+                }
+                if (StringUtils.isNotEmpty(s1)) {
+                    consumables.add(s1);
+                }
+                if (StringUtils.isNotEmpty(s2)) {
+                    consumables.add(s2);
+                }
+                if (StringUtils.isNotEmpty(s3)) {
+                    consumables.add(s3);
+                }
+            }
+
             model.addAttribute("url", "/warship?" + request.getQueryString());
             model.addAttribute("modules", modules);
             model.addAttribute("upgrades", upgrades);
-            model.addAttribute("adrenalineValue", adrenalineValue);
+            model.addAttribute("adrenalineValue", ar != 100 ? ar : adrenalineValue);
             model.addAttribute("flags", flags);
             model.addAttribute("consumables", consumables);
             model.addAttribute("crewSkills", crewSkills);
@@ -311,6 +332,7 @@ public class APIController extends ExceptionController
                     @RequestParam(required = false, defaultValue = "") String TorpedoBomber,
                     @RequestParam(required = false, defaultValue = "") String Torpedoes,
                     @RequestParam(required = false, defaultValue = "100") int adrenalineValue,
+                    @RequestParam(required = false, defaultValue = "100") int ar,
                     @RequestParam(required = false) List<String> modules,
                     @RequestParam(required = false, defaultValue = "") String moduleN,
                     @RequestParam(required = false, defaultValue = "") String upgradeN,
@@ -321,7 +343,11 @@ public class APIController extends ExceptionController
                     @RequestParam(required = false, defaultValue = "false") boolean camo,
                     @RequestParam(required = false, defaultValue = "false") boolean stockCompare,
                     @RequestParam(required = false, defaultValue = "false") boolean upgradeCompare,
-                    @RequestBody(required = false) HashMap<String, List> upgradesSkills
+                    @RequestBody(required = false) HashMap<String, List> upgradesSkills,
+                    @RequestParam(required = false, defaultValue = "") String s0,
+                    @RequestParam(required = false, defaultValue = "") String s1,
+                    @RequestParam(required = false, defaultValue = "") String s2,
+                    @RequestParam(required = false, defaultValue = "") String s3
             ) throws Exception
     {
         if (!ship_id.equals(""))
@@ -442,16 +468,33 @@ public class APIController extends ExceptionController
                 upgradesSkills.put("flags", tempFList);
             }
 
+            adrenalineValue = ar != 100 ? ar : adrenalineValue;
             String returnedKey = apiService.setShipAPI(nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules);
             Ship shipAPI = apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, upgradesSkills, adrenalineValue, false, true, isLive);
             model.addAttribute("shipAPI", shipAPI);
+
+            if (StringUtils.isNotEmpty(s0) || StringUtils.isNotEmpty(s1) || StringUtils.isNotEmpty(s2) || StringUtils.isNotEmpty(s3)) {
+                List<String> tempConsumables = new ArrayList<>();
+                if (StringUtils.isNotEmpty(s0)) {
+                    tempConsumables.add(s0);
+                }
+                if (StringUtils.isNotEmpty(s1)) {
+                    tempConsumables.add(s1);
+                }
+                if (StringUtils.isNotEmpty(s2)) {
+                    tempConsumables.add(s2);
+                }
+                if (StringUtils.isNotEmpty(s3)) {
+                    tempConsumables.add(s3);
+                }
+                upgradesSkills.put("consumables", tempConsumables);
+            }
 
             if (upgradesSkills != null)
             {
                 if (upgradesSkills.get("skills") != null)
                 {
-                    ((List<HashMap>) upgradesSkills.get("skills")).forEach(skill ->
-                    {
+                    for (HashMap skill : ((List<HashMap>) upgradesSkills.get("skills"))) {
                         if (skill.get("tier").equals("2") && skill.get("type_id").equals("6"))
                         {
                             model.addAttribute("adrenaline", true);
@@ -462,7 +505,7 @@ public class APIController extends ExceptionController
                         {
                             model.addAttribute("IFHE", true);
                         }
-                    });
+                    }
                 }
                 model.addAttribute("consumables", upgradesSkills.get("consumables"));
             }

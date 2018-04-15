@@ -616,7 +616,7 @@
         {
             warship1Name = $('[aria-describedby=warship1]').find('.ui-dialog-title').text();
         }
-        var warship1 = $('#warship1').attr('name');
+        var warship1 = warship1Name;
         var selectedModules1 = $('.button_module_selected_1');
         var selectedUpgrades1 = $('.button_upgrade_selected_1');
 
@@ -652,7 +652,7 @@
         {
             warship2Name = $('[aria-describedby=warship2]').find('.ui-dialog-title').text();
         }
-        var warship2 = $('#warship2').attr('name');
+        var warship2 = warship2Name;
         var selectedModules2 = $('.button_module_selected_2');
         var selectedUpgrades2 = $('.button_upgrade_selected_2');
 
@@ -714,7 +714,7 @@
         };
 
         $.ajax({
-            url: live + '/shipStatComparison?' + encodeURI(warship1) + '&' + encodeURI(warship2),
+            url: live + '/shipStatComparison?' + encodeURIComponent(warship1) + '&' + encodeURIComponent(warship2),
             type: 'post',
             contentType: "application/json",
             data: JSON.stringify(upgradesSkillsV2),
