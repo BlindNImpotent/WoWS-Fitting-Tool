@@ -123,6 +123,10 @@ public class APIController extends ExceptionController
                                 @RequestParam(required = false, defaultValue = "") String s2,
                                 @RequestParam(required = false, defaultValue = "") String s3) throws IOException
     {
+        if (modules != null && modules.size() <= 1) {
+            return "redirect:/WarshipStats?nation=" + nation +"&shipType=" + shipType + "&ship=" + ship;
+        }
+
         model.addAttribute("serverParam", serverParamAddress);
         model.addAttribute("nations", data.get(serverParam).get("nations"));
         model.addAttribute("uniqueSkills", data.get(serverParam).get("uniqueSkills"));

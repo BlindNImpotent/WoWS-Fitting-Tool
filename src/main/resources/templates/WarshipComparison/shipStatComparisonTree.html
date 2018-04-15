@@ -356,7 +356,9 @@
                 data: JSON.stringify(list),
                 success: function (data) {
                     $('#modulesUpgradesConsumables').replaceWith(data);
-                    callAPI();
+                    setTimeout(function () {
+                        callAPI();
+                    }, 500);
                 },
                 error: function (data) {
                     console.log(data);
@@ -617,10 +619,6 @@
             warship1Name = $('[aria-describedby=warship1]').find('.ui-dialog-title').text();
         }
         var warship1 = $('#warship1').attr('name');
-        if (warship1 === undefined || warship1 === null || warship1 === '')
-        {
-            warship1 = $('[aria-describedby=warship1]').find('#warship1').attr('name');
-        }
         var selectedModules1 = $('.button_module_selected_1');
         var selectedUpgrades1 = $('.button_upgrade_selected_1');
 
@@ -657,10 +655,6 @@
             warship2Name = $('[aria-describedby=warship2]').find('.ui-dialog-title').text();
         }
         var warship2 = $('#warship2').attr('name');
-        if (warship2 === undefined || warship2 === null || warship2 === '')
-        {
-            warship2 = $('[aria-describedby=warship2]').find('#warship2').attr('name');
-        }
         var selectedModules2 = $('.button_module_selected_2');
         var selectedUpgrades2 = $('.button_upgrade_selected_2');
 
