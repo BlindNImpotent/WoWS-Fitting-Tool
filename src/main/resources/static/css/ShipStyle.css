@@ -123,14 +123,12 @@ nav ul ul ul li {
 
 #modulesUpgradesConsumables
 {
-    display: inline-block;
     text-align: center;
     vertical-align: top;
 }
 
 #modulesUpgradesConsumables div
 {
-    display: inline-block;
     text-align: center;
     vertical-align: top;
 }
@@ -623,7 +621,7 @@ nav ul ul ul li {
 .consumables
 {
     display: inline-block;
-    text-align: left;
+    /*text-align: left;*/
     vertical-align: top;
     font-size: 12px;
 }

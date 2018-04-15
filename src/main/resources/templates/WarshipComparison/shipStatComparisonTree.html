@@ -355,8 +355,8 @@
                 contentType: "application/json",
                 data: JSON.stringify(list),
                 success: function (data) {
-                    $('[aria-describedby=warship1]').remove();
-                    $('[aria-describedby=warship2]').remove();
+                    // $('[aria-describedby=warship1]').remove();
+                    // $('[aria-describedby=warship2]').remove();
                     $('[aria-describedby=artilleryCanvasDiv]').remove();
                     $('[aria-describedby=torpedoesCanvasDiv]').remove();
                     $('#shipAPIData').html('');
@@ -617,10 +617,6 @@
         camouflage = [$('#camouflageCheckbox').is(':checked')];
 
         warship1Name = $('#warship1').attr('title');
-        if (warship1Name === undefined || warship1Name === null || warship1Name === '')
-        {
-            warship1Name = $('[aria-describedby=warship1]').find('.ui-dialog-title').text();
-        }
         var warship1 = $('#warship1').attr('name');
         var selectedModules1 = $('.button_module_selected_1');
         var selectedUpgrades1 = $('.button_upgrade_selected_1');
@@ -653,10 +649,6 @@
         };
 
         warship2Name = $('#warship2').attr('title');
-        if (warship2Name === undefined || warship2Name === null || warship2Name === '')
-        {
-            warship2Name = $('[aria-describedby=warship2]').find('.ui-dialog-title').text();
-        }
         var warship2 = $('#warship2').attr('name');
         var selectedModules2 = $('.button_module_selected_2');
         var selectedUpgrades2 = $('.button_upgrade_selected_2');

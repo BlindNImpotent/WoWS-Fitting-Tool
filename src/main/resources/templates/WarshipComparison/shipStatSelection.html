@@ -17,9 +17,16 @@
 </header>
 <main>
     <div th:fragment="warshipSelection" id="modulesUpgradesConsumables">
-        <div id="warship1" th:if="${warship1 != null}" th:title="${warship1.name}" th:name="${'nation1=' + warship1.nation + '&amp;shipType1=' + warship1.type + '&amp;ship1=' + warship1.name + '&amp;ship_id1=' + warship1.ship_id}">
-            <div id="modules1" style="display: inline-block; vertical-align: top;">
-                <table>
+        <div style="display: inline-block; width: 500px;" id="warship1" th:if="${warship1 != null}" th:title="${warship1.name}" th:name="${'nation1=' + warship1.nation + '&amp;shipType1=' + warship1.type + '&amp;ship1=' + warship1.name + '&amp;ship_id1=' + warship1.ship_id}">
+            <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship1.defaultType}">
+                <h3>
+                    <img th:src="${warship1.type != 'Premium' and warship1.type != 'Arpeggio' and warship1.type != 'HSF' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
+                    <span th:text="${warship1.name}"/>
+                </h3>
+            </th:block>
+            <img th:src="${warship1.images.small}" th:title="${warship1.description}"/><br />
+            <div id="modules1" style="vertical-align: top;">
+                <table style="display: inline-block;">
                     <tbody>
                     <tr th:each="row : ${warship1.warshipModulesTreeTable}">
                         <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
@@ -32,7 +39,8 @@
                     </tbody>
                 </table>
             </div>
-            <div id="upgrades1" style="display: inline-block; vertical-align: top;">
+            <br />
+            <div id="upgrades1" style="vertical-align: top;">
                 <div th:each="upgradeType : ${warship1.upgradesNew}" th:id="'id_' + ${upgradeType.key}" style="display: inline-block; vertical-align: top;">
                     <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.consumable_id + '_1'}">
                         <button th:title="${upgrade.value.description}" th:class="${upgrades1 != null and #sets.contains(upgrades1, #strings.toString(upgrade.value.consumable_id))} ? button_upgrade_selected_1 : button_upgrade_1" th:id="${upgrade.value.consumable_id + '_1'}" th:name="'price_' + ${upgrade.value.price_credit + '_1'}">
@@ -43,9 +51,16 @@
                 </div>
             </div>
         </div>
-        <div id="warship2" th:if="${warship2 != null}" th:title="${warship2.name}" th:name="${'nation2=' + warship2.nation + '&amp;shipType2=' + warship2.type + '&amp;ship2=' + warship2.name + '&amp;ship_id2=' + warship2.ship_id}">
-            <div id="modules2" style="display: inline-block; vertical-align: top;">
-                <table>
+        <div style="display: inline-block; width: 500px;" id="warship2" th:if="${warship2 != null}" th:title="${warship2.name}" th:name="${'nation2=' + warship2.nation + '&amp;shipType2=' + warship2.type + '&amp;ship2=' + warship2.name + '&amp;ship_id2=' + warship2.ship_id}">
+            <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship2.defaultType}">
+                <h3>
+                    <img th:src="${warship2.type != 'Premium' and warship2.type != 'Arpeggio' and warship2.type != 'HSF' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
+                    <span th:text="${warship2.name}"/>
+                </h3>
+            </th:block>
+            <img th:src="${warship2.images.small}" th:title="${warship2.description}"/><br />
+            <div id="modules2" style="vertical-align: top;">
+                <table style="display: inline-block;">
                     <tbody>
                     <tr th:each="row : ${warship2.warshipModulesTreeTable}">
                         <td th:each="module : ${row.value}" th:id="${module != null ? 'li_' + module.module_id : null}">
@@ -58,7 +73,8 @@
                     </tbody>
                 </table>
             </div>
-            <div id="upgrades2" style="display: inline-block; vertical-align: top;">
+            <br />
+            <div id="upgrades2" style="vertical-align: top;">
                 <div th:each="upgradeType : ${warship2.upgradesNew}" th:id="'id_' + ${upgradeType.key}" style="display: inline-block; vertical-align: top;">
                     <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.consumable_id + '_2'}">
                         <button th:title="${upgrade.value.description}" th:class="${upgrades2 != null and #sets.contains(upgrades2, #strings.toString(upgrade.value.consumable_id))} ? button_upgrade_selected_2 : button_upgrade_2" th:id="${upgrade.value.consumable_id + '_2'}" th:name="'price_' + ${upgrade.value.price_credit + '_2'}">
@@ -69,28 +85,6 @@
                 </div>
             </div>
         </div>
-        <script>
-            $(function() {
-
-                $('#warship1').dialog({
-                    autoOpen: false,
-                    width: 610,
-                    resizable: false,
-                    position: {
-                        my: "right center"
-                    }
-                }).css("font-size", "8px");
-
-                $('#warship2').dialog({
-                    autoOpen: false,
-                    width: 610,
-                    resizable: false,
-                    position: {
-                        my: "left center"
-                    }
-                }).css("font-size", "8px");
-            });
-        </script>
     </div>
 </main>
 <script th:inline="javascript">
