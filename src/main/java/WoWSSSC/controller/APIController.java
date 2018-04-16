@@ -787,6 +787,7 @@ public class APIController extends ExceptionController
                                     @RequestParam(required = false, defaultValue = "100") int adrenalineValue2) throws IOException
     {
         model.addAttribute("serverParam", serverParamAddress);
+        model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
         if ((StringUtils.isNotEmpty(ship1) && StringUtils.isNotEmpty(ship2)) || !CollectionUtils.isEmpty(shipList))
         {
             if (StringUtils.isNotEmpty(ship1))
