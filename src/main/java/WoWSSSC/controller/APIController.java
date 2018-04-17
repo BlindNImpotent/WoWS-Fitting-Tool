@@ -318,6 +318,39 @@ public class APIController extends ExceptionController
         return "redirect:/WarshipStats?" + request.getQueryString();
     }
 
+    @RequestMapping (value = "/warshipSC", method = { RequestMethod.POST })
+    public String getWarshipShipComparison(HttpServletRequest request,
+                             Model model,
+                             @RequestParam(required = false) String nation,
+                             @RequestParam(required = false) String shipType,
+                             @RequestParam(required = false) String ship,
+                             @RequestParam(required = false, defaultValue = "default") String commander,
+                             @RequestParam(required = false, defaultValue = "false") boolean isFirstCall) throws IOException
+    {
+        if (nation != null && shipType != null && ship != null)
+        {
+            ship = URLDecoder.decode(ship, "UTF-8");
+
+            model.addAttribute("serverParam", serverParamAddress);
+            model.addAttribute("nations", data.get(serverParam).get("nations"));
+            model.addAttribute("uniqueSkills", data.get(serverParam).get("uniqueSkills"));
+            model.addAttribute("skills", data.get(serverParam).get("skills"));
+            model.addAttribute("exteriors", data.get(serverParam).get("exteriors"));
+            model.addAttribute("notification", notification);
+            model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
+            model.addAttribute("isFirstCall", isFirstCall);
+
+            logger.info("Loading " + nation + " " + shipType + " " + ship);
+            model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(ship));
+            model.addAttribute("commanders", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("commanders").get(nation)).keySet());
+
+            commander = URLDecoder.decode(commander, "UTF-8");
+            commander = commander.equalsIgnoreCase("Steven Seagal") ? "John Doe" : commander;
+            model.addAttribute("sCommander", commander);
+        }
+        return "ShipComparison/scShipSelect :: warshipStats";
+    }
+
     @RequestMapping (value = "/shipAPI", method = RequestMethod.POST)
     public String getShipAPI
             (
@@ -351,7 +384,8 @@ public class APIController extends ExceptionController
                     @RequestParam(required = false, defaultValue = "") String s0,
                     @RequestParam(required = false, defaultValue = "") String s1,
                     @RequestParam(required = false, defaultValue = "") String s2,
-                    @RequestParam(required = false, defaultValue = "") String s3
+                    @RequestParam(required = false, defaultValue = "") String s3,
+                    @RequestParam(required = false, defaultValue = "true") boolean isFT
             ) throws Exception
     {
         if (!ship_id.equals(""))
@@ -531,7 +565,7 @@ public class APIController extends ExceptionController
         }
 
 //        return "WarshipStats/shipAPIPage :: shipAPIData";
-        return "FittingTool/ftAPIPage :: shipAPIData";
+        return isFT ? "FittingTool/ftAPIPage :: shipAPIData" : "ShipComparison/scAPIPage :: shipAPIData";
     }
 
 //    @ResponseBody
@@ -764,7 +798,8 @@ public class APIController extends ExceptionController
             model.addAttribute("adrenalineValue2", adrenalineValue2);
         }
 
-        return "WarshipComparison/shipStatComparisonTree";
+//        return "WarshipComparison/shipStatComparisonTree";
+        return "ShipComparison/scHome";
     }
 
     @RequestMapping (value = "/shipStatSelection", method = { RequestMethod.GET, RequestMethod.POST })

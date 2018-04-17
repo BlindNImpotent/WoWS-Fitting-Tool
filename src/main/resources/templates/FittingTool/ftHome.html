@@ -478,7 +478,7 @@
                 }
             }
             url = url + '&moduleN=' + nthM;
-            
+
             var tempSUArray = [];
             for (var i = 0; i < selectedUpgrades.length; i++)
             {
@@ -651,8 +651,13 @@
                 $('#commanderSelect').val(commander);
                 changeSkillDescription();
 
-                setTimeout(function () {
-                    callAPI();
+                var tempInterval = setInterval(function () {
+                    var warshipCalled = $('#ship');
+
+                    if (warshipCalled !== null && warshipCalled !== undefined) {
+                        clearInterval(tempInterval);
+                        callAPI();
+                    }
                 }, 500);
             }
         });

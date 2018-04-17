@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ShipComparison/ShipComparison.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
+    <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
+    <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
+    <script th:src="@{/js/accounting/accounting.js}"></script>
+    <title>WoWS Fitting Tool by Aesis</title>
+</head>
+<body>
+<header>
+    <div id="top" th:include="top :: top">
+    </div>
+</header>
+<main>
+    <div id="shipSelector">
+        <select id="nationSelect">
+            <th:block th:each="nation : ${nations}">
+                <th:block th:each="eNation : ${encyclopedia.ship_nations}" th:if="${nation.key == eNation.key}">
+                    <option th:text="${eNation.value}" th:value="${nation.key}"></option>
+                </th:block>
+            </th:block>
+        </select>
+        <select th:each="nation : ${nations}" th:id="${nation.key}" th:class="${'nationShipType ' + (nationStat.index == 0 ? 'show' : 'hide')}">
+            <th:block th:each="shipType : ${nation.value}">
+                <option th:text="${shipType.key}"></option>
+            </th:block>
+        </select>
+        <th:block th:each="nation : ${nations}" th:id="${nation.key}">
+            <select th:each="shipType : ${nation.value}" th:class="${'shipList ' + nation.key + ' ' + shipType.key + ' ' + (nationStat.index == 0 and shipTypeStat.index == 0 ? 'show' : 'hide')}">
+                <th:block th:each="ship : ${shipType.value}">
+                    <option th:text="${ship.key}"></option>
+                </th:block>
+            </select>
+        </th:block>
+        <button id="addSelect">Add to Comparison</button>
+    </div>
+    <div id="compareList" style="white-space: nowrap;">
+    </div>
+    <div id="tempSpace" style="display: none;">
+    </div>
+</main>
+<script th:inline="javascript">
+//    <![CDATA[
+    var isFirstCall = true;
+    var shipIndex = 0;
+    var arty = undefined;
+    var waitTime = 1000;
+    var timer = [];
+    var maxFlagPts = 8;
+
+    $('#nationSelect').on('change', function () {
+        var selectedNation = $('#nationSelect option:selected').val();
+        var list1 = $('.nationShipType');
+        for (var i = 0; i < list1.length; i++) {
+            list1.eq(i).addClass('hide');
+        }
+        var $thisNation = $('#' + selectedNation);
+        $thisNation.removeClass('hide');
+        $thisNation.addClass('show');
+        changeShipType(selectedNation);
+    });
+
+    $('.nationShipType').on('change', function () {
+        var selectedNation = $('#nationSelect option:selected').val();
+        changeShipType(selectedNation);
+    });
+
+    function changeShipType(selectedNation) {
+        var selectedShipType = $('#' + selectedNation + ' option:selected').val();
+        var list1 = $('.shipList');
+        for (var i = 0; i < list1.length; i++) {
+            list1.eq(i).addClass('hide');
+        }
+        $('.' + selectedNation + '.' + selectedShipType).removeClass('hide');
+    }
+
+    $('#addSelect').on('click', function () {
+        var selectedNation = $('#nationSelect option:selected').val();
+        var nation = selectedNation.replace(/ /g, '+');
+        var selectedShipType = $('#' + selectedNation + ' option:selected').val();
+        var shipType = selectedShipType.replace(/ /g, '+');
+        var ship = $('.' + selectedNation + '.' + shipType).val().replace(/ /g, '+');
+
+        var url = '/warshipSC?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + (isFirstCall === true ? '&isFirstCall=true' : '');
+
+        $.ajax({
+            url: url,
+            type: 'post',
+            success: function (data) {
+                // $('.button_skill_selected').attr('class', 'button_skill');
+                // $('.button_uSkill_selected').attr('class', 'button_uSkill');
+                // $('.button_flag_selected').attr('class', 'button_flag');
+                // $('.button_consumable_selected').attr('class', 'button_consumable');
+
+                var tempSpace = $('#tempSpace');
+                tempSpace.append(data);
+                tempSpace.find('#ship').attr('data-ship-index', shipIndex);
+                isFirstCall = false;
+                $('#compareList').append(tempSpace.html());
+                tempSpace.html('');
+
+                callAPI(shipIndex, nation, shipType, ship, '');
+                shipIndex++;
+                // $('.button_uSkill_selected').attr('class', 'button_uSkill');
+                // $('#uniqueSkillsTable').find('tr').hide();
+                // $('#uniqueSkillsTable').hide();
+
+                // commander = 'default';
+                // $('#commanderSelect').val(commander);
+                // changeSkillDescription();
+            }
+        });
+    });
+
+    $(document).on('click', '.button_tab.left', function (e) {
+        var shipIndex = $(this).parents('#ship').attr('data-ship-index');
+        var currentIndex = $('[data-ship-index=' + shipIndex + ']');
+        var tabs = currentIndex.find('.button_tab.left');
+        var type = $(this).attr('class').replace('button_tab left ', '');
+
+        for (var i = 0; i < tabs.length; i++)
+        {
+            var current = tabs.eq(i);
+            current.removeClass('select');
+        }
+
+        var leftFind = currentIndex.find('.button_tab.left.' + type);
+        for (var i = 0; i < leftFind.length; i++) {
+            leftFind.eq(i).addClass('select');
+        }
+
+        var panels = currentIndex.find('.panel_left');
+        for (var i = 0; i < panels.length; i++)
+        {
+            var current = panels.eq(i);
+            current.addClass('hide');
+        }
+        var typeFind = currentIndex.find('.panel_left.' + type);
+        for (var i = 0; i < typeFind.length; i++) {
+            typeFind.eq(i).removeClass('hide');
+        }
+    });
+
+    $(document).on('click', '.button_tab.right', function (e) {
+        var shipIndex = $(this).parents('#ship').attr('data-ship-index');
+        var currentIndex = $('[data-ship-index=' + shipIndex + ']');
+        var tabs = currentIndex.find('.button_tab.right');
+        var type = $(this).attr('class').replace('button_tab right ', '');
+    
+        for (var i = 0; i < tabs.length; i++)
+        {
+            var current = tabs.eq(i);
+            current.removeClass('select');
+        }
+    
+        var rightFind = currentIndex.find('.button_tab.right.' + type);
+        for (var i = 0; i < rightFind.length; i++) {
+            rightFind.eq(i).addClass('select');
+        }
+    
+        var panels = currentIndex.find('.panel_right');
+        for (var i = 0; i < panels.length; i++)
+        {
+            var current = panels.eq(i);
+            current.addClass('hide');
+        }
+        var typeFind = currentIndex.find('.panel_right.' + type);
+        for (var i = 0; i < typeFind.length; i++) {
+            typeFind.eq(i).removeClass('hide');
+        }
+    });
+
+    $(document).on('click', '.button_module', function(){
+        var currentShip = $(this).parents('#ship');
+        var shipIndex = currentShip.attr('data-ship-index');
+        var currentIndex = $('[data-ship-index=' + shipIndex + ']');
+        var clickedId = $(this).attr('id');
+        var selectedModules = currentIndex.find('[name=' + $(this).attr('name') + ']');
+
+        for (var i = 0; i < selectedModules.length; i++)
+        {
+            var buttonId = selectedModules.eq(i).attr('id').replace('li_', '');
+            currentIndex.find('#' + buttonId).attr('class', 'button_module');
+        }
+        $(this).attr('class', 'button_module_selected');
+        delayCall(shipIndex, currentShip.attr('data-nation'), currentShip.attr('data-ship-type'), currentShip.attr('data-name'));
+    });
+
+    $(document).on('click', '.button_upgrade, .button_upgrade_selected', function () {
+        var currentShip = $(this).parents('#ship');
+        var shipIndex = currentShip.attr('data-ship-index');
+        var currentIndex = $('[data-ship-index=' + shipIndex + ']');
+        var clickedId = $(this).attr('id');
+
+        if ($(this).attr('class') === 'button_upgrade')
+        {
+            var gParentElem = $(this).parent().parent();
+            var parents = gParentElem.children();
+
+            for (var i = 0; i < parents.length; i++)
+            {
+                var buttonId = parents[i].getAttribute('id').replace('li_', '');
+                currentIndex.find('#' + buttonId).attr('class', 'button_upgrade');
+            }
+            currentIndex.find('#' + clickedId).attr('class', 'button_upgrade_selected');
+        }
+        else
+        {
+            currentIndex.find('#' + clickedId).attr('class', 'button_upgrade');
+        }
+
+        delayCall(shipIndex, currentShip.attr('data-nation'), currentShip.attr('data-ship-type'), currentShip.attr('data-name'));
+    });
+
+    $(document).on('click', '.button_skill, .button_skill_selected', function () {
+        var maxSpts = 19;
+        var currentSpts = 0;
+        var clickedSpts = 0;
+        var totalSpts = 0;
+
+        var currentShip = $(this).parents('#ship');
+        var shipIndex = currentShip.attr('data-ship-index');
+        var currentIndex = $('[data-ship-index=' + shipIndex + ']');
+        var clickedId = $(this).attr('id');
+
+        if ($(this).attr('class') === 'button_skill')
+        {
+            clickedSpts = clickedSpts + parseInt($(this).attr('tier'));
+        }
+        else
+        {
+            clickedSpts = clickedSpts - parseInt($(this).attr('tier'));
+        }
+
+        var selected = currentIndex.find('.button_skill_selected');
+        for (var i = 0; i < selected.length; i++)
+        {
+            currentSpts = currentSpts + parseInt(selected.eq(i).attr('tier'));
+        }
+
+        totalSpts = totalSpts + currentSpts + clickedSpts;
+
+        if (currentIndex.find('#' + clickedId).attr('class') === 'button_skill')
+        {
+            if (totalSpts > maxSpts)
+            {
+                return false;
+            }
+            currentIndex.find('#' + clickedId).attr('class', 'button_skill_selected');
+        }
+        else
+        {
+            currentIndex.find('#' + clickedId).attr('class', 'button_skill');
+        }
+
+        currentIndex.find('#totalSkillPoints').text('Skill Points ' + totalSpts.toString() + ' / ' + maxSpts.toString());
+
+        delayCall(shipIndex, currentShip.attr('data-nation'), currentShip.attr('data-ship-type'), currentShip.attr('data-name'));
+    });
+
+    $(document).on('click', '.button_uSkill, .button_uSkill_selected', function () {
+        var currentShip = $(this).parents('#ship');
+        var shipIndex = currentShip.attr('data-ship-index');
+
+        if ($(this).attr('class') === 'button_uSkill')
+        {
+            $(this).attr('class', 'button_uSkill_selected');
+        }
+        else
+        {
+            $(this).attr('class', 'button_uSkill');
+        }
+
+        delayCall(shipIndex, currentShip.attr('data-nation'), currentShip.attr('data-ship-type'), currentShip.attr('data-name'));
+    });
+
+    $(document).on('click', '.button_flag, .button_flag_selected', function () {
+        var maxFlags = maxFlagPts;
+        var currentShip = $(this).parents('#ship');
+        var shipIndex = currentShip.attr('data-ship-index');
+        var currentIndex = $('[data-ship-index=' + shipIndex + ']');
+        var clickedId = $(this).attr('id');
+        var selected = currentIndex.find('.button_flag_selected');
+
+        if ($(this).attr('class') === 'button_flag')
+        {
+            if (selected.length >= maxFlags)
+            {
+                return false;
+            }
+            $(this).attr('class', 'button_flag_selected');
+        }
+        else
+        {
+            $(this).attr('class', 'button_flag')
+        }
+
+        currentIndex.find('#totalFlagsCount').text('Flags ' + selected.length.toString() + ' / ' + maxFlags.toString());
+
+        delayCall(shipIndex, currentShip.attr('data-nation'), currentShip.attr('data-ship-type'), currentShip.attr('data-name'));
+    });
+
+    $(document).on('click', '.button_consumable', function () {
+        var currentShip = $(this).parents('#ship');
+        var shipIndex = currentShip.attr('data-ship-index');
+        var currentIndex = $('[data-ship-index=' + shipIndex + ']');
+        var clickedId = $(this).attr('id');
+        var id = $(this).attr('name');
+        var abil = $(this).attr('class').split(' ')[1];
+        var abilDot = '.' + abil;
+
+        currentIndex.find('.consumablesStats' + abilDot).attr('style', 'display: none;');
+        currentIndex.find('.button_consumable_selected' + abilDot).attr('class', 'button_consumable ' + abil);
+
+        currentIndex.find('#' + id).removeAttr('style');
+        currentIndex.find('[name=' + id + ']').attr('class', 'button_consumable_selected ' + abil);
+    });
+
+    function delayCall(shipIndex, nation, shipType, ship)
+    {
+        window.clearTimeout(timer[shipIndex]);
+        timer[shipIndex] = window.setTimeout(function() {
+            var currentIndex = $('[data-ship-index=' + shipIndex + ']');
+            var rightPanelOpen = currentIndex.find('.button_tab.right.select').attr('class').replace('button_tab', '').replace('right', '').replace('select', '').trim();
+            callAPI(shipIndex, nation, shipType, ship, rightPanelOpen);
+        }, waitTime);
+    }
+
+    function callAPI(shipIndex, nation, shipType, ship, rightPanelOpen)
+    {
+        var currentIndex = $('[data-ship-index=' + shipIndex + ']');
+        var url = '/shipAPI?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&ship_id=' + currentIndex.attr('name');
+        var modifier = '&';
+        var equals = '=';
+        arty = undefined;
+
+        var selectedModules = currentIndex.find('.button_module_selected');
+        var selectedUpgrades = currentIndex.find('.button_upgrade_selected');
+        var selectedSkills = currentIndex.find('.button_skill_selected');
+        var selectedUSkills = currentIndex.find('.button_uSkill_selected');
+        var selectedFlags = currentIndex.find('.button_flag_selected');
+        var selectedConsumables = currentIndex.find('.button_consumable_selected');
+        var commander = currentIndex.find('#commanderSelect').val();
+        commander = commander === null || commander === undefined ? 'default' : commander;
+
+        var nthM = '';
+        var nthU = '';
+        var nthS = '';
+        var nthUS = '';
+        var nthF = '';
+        var consumableN = '';
+        var adrenalineValue = 100;
+
+        var camouflage = currentIndex.find('#camouflageCheckbox').is(':checked');
+
+        var tempSMArray = [];
+        for (var i = 0; i < selectedModules.length; i++)
+        {
+            var mIndex = selectedModules.eq(i).attr('data-index');
+            var rowPos = selectedModules.eq(i).attr('data-position');
+            tempSMArray[rowPos] = mIndex;
+        }
+        for (var i = 0; i < tempSMArray.length; i++) {
+            if (tempSMArray[i] !== undefined && tempSMArray !== null) {
+                nthM = nthM + tempSMArray[i].toString();
+            }
+            else {
+                nthM = nthM + String(1);
+            }
+        }
+        url = url + '&moduleN=' + nthM;
+
+        var tempSUArray = [];
+        for (var i = 0; i < selectedUpgrades.length; i++)
+        {
+            var mIndex = selectedUpgrades.eq(i).attr('data-index');
+            var rowPos = selectedUpgrades.eq(i).attr('data-position');
+            tempSUArray[rowPos] = mIndex;
+        }
+        for (var i = 0; i < tempSUArray.length; i++) {
+            if (tempSUArray[i] !== undefined && tempSUArray !== null) {
+                nthU = nthU + tempSUArray[i].toString();
+            }
+            else {
+                nthU = nthU + String(0);
+            }
+        }
+        url = url + (nthU.length > 0 ? '&upgradeN=' + nthU : '');
+
+        var tempSSArray = [];
+        var isAR = false;
+        for (var i = 0; i < selectedSkills.length; i++) {
+            var mIndex = selectedSkills.eq(i).attr('data-index');
+            var rowPos = selectedSkills.eq(i).attr('data-position');
+
+            if (mIndex === '7' && rowPos === '1') {
+                isAR = true;
+            }
+
+            var tempIndex = (mIndex - 1) + (rowPos * 8);
+            tempSSArray[tempIndex] = 1;
+        }
+        for (var i = 0; i < tempSSArray.length; i++) {
+            if (tempSSArray[i] !== undefined && tempSSArray !== null) {
+                nthS = nthS + tempSSArray[i].toString();
+            }
+            else {
+                nthS = nthS + String(0);
+            }
+        }
+        url = url + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '');
+
+        var tempSUSArray = [];
+        for (var i = 0; i < selectedUSkills.length; i++) {
+            var mIndex = selectedUSkills.eq(i).attr('data-index');
+            tempSUSArray[mIndex] = 1;
+        }
+        for (var i = 0; i < tempSUSArray.length; i++) {
+            if (tempSUSArray[i] !== undefined && tempSUSArray !== null) {
+                nthUS = nthUS + tempSUSArray[i].toString();
+            }
+            else {
+                nthUS = nthUS + String(0);
+            }
+        }
+        url = url + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '');
+        url = url + '&commander=' + encodeURIComponent(commander);
+
+        if (camouflage === true) {
+            url = url + '&camo=' + camouflage;
+        }
+
+        var tempFArray = [];
+        for (var i = 0; i < selectedFlags.length; i++)
+        {
+            var mIndex = selectedFlags.eq(i).attr('data-index');
+            tempFArray[mIndex] = 1;
+        }
+        for (var i = 0; i < tempFArray.length; i++) {
+            if (tempFArray[i] !== undefined && tempFArray !== null) {
+                nthF = nthF + tempFArray[i].toString();
+            }
+            else {
+                nthF = nthF + String(0);
+            }
+        }
+        url = url + (nthF.length > 0 ? '&flagN=' + nthF : '');
+
+        url = url + (adrenalineValue === 100 ? '' : '&ar=' + adrenalineValue);
+
+        for (var i = 0; i < selectedConsumables.length; i++) {
+            var consumableId = selectedConsumables.eq(i).attr('name');
+            var rowPos = selectedConsumables.eq(i).attr('data-position');
+            consumableN = consumableN + '&s' + rowPos + '=' + consumableId;
+        }
+        url = url + consumableN;
+        url = url + '&isFT=false';
+
+        $.ajax({
+            url: url,
+            type: 'post',
+            contentType: "application/json",
+            success: function (data) {
+                if (data !== '')
+                {
+                    currentIndex.find('.right_side').html(data);
+                    currentIndex.find('#consumables').html(currentIndex.find('#consumablesDataFragment').html());
+                    currentIndex.find('#consumablesDataFragment').remove();
+
+                    setConsumables(currentIndex);
+                    var tempInterval = setInterval(function () {
+                        if (arty !== undefined) {
+                            clearInterval(tempInterval);
+                            drawArtillery(currentIndex, arty);
+                        }
+                    }, 500);
+                    showPanelRight(currentIndex, rightPanelOpen);
+                }
+                else
+                {
+                    var html = '<div class="shipAPIData" id="shipAPIData"><h2>Wrong path of research</h2></div>';
+
+                    currentIndex.find('.shipAPIData').replaceWith(html);
+                }
+            }
+        });
+    }
+
+    function setConsumables(currentIndex)
+    {
+        var list = [];
+        var notSelected = currentIndex.find('.button_consumable');
+        var selected = currentIndex.find('.button_consumable_selected');
+
+        if (selected.length > 0)
+        {
+            list = [];
+
+            for (var i = 0; i < selected.length; i++)
+            {
+                list.push(selected.eq(i).attr('name'));
+            }
+        }
+
+        var allConsumables = [];
+        for (var i = 0; i < notSelected.length; i++)
+        {
+            allConsumables.push(notSelected.eq(i).attr('name'));
+        }
+        for (var i = 0; i < selected.length; i++)
+        {
+            allConsumables.push(selected.eq(i).attr('name'));
+        }
+
+        for (var i = 0; i < list.length; i++)
+        {
+            var mismatch = true;
+
+            for (var j = 0; j < allConsumables.length; j++)
+            {
+                if (list[i] === allConsumables[j])
+                {
+                    mismatch = false;
+                    break;
+                }
+            }
+
+            if (mismatch)
+            {
+                list = [];
+                break;
+            }
+        }
+
+        for (var i = 0; i < list.length; i++)
+        {
+            var current = list[i];
+            var $this = currentIndex.find('[name=' + current + ']');
+            var abil = $this.attr('class').split(' ')[1];
+            var rowPos = $this.attr('data-position');
+
+            currentIndex.find('[name=' + current + ']').attr('class', 'button_consumable_selected ' + abil);
+            currentIndex.find('#' + current).removeAttr('style');
+        }
+
+        if (currentIndex.find('.button_consumable_selected').length === 0)
+        {
+            var abil0List = currentIndex.find('.abil0');
+            var abil1List = currentIndex.find('.abil1');
+            var abil2List = currentIndex.find('.abil2');
+            var abil3List = currentIndex.find('.abil3');
+
+            if (abil0List.length !== 0)
+            {
+                abil0List.eq(0).attr('class', 'button_consumable_selected abil0');
+                currentIndex.find('#' + abil0List.eq(0).attr('name')).removeAttr('style');
+            }
+
+            if (abil1List.length !== 0)
+            {
+                abil1List.eq(0).attr('class', 'button_consumable_selected abil1');
+                currentIndex.find('#' + abil1List.eq(0).attr('name')).removeAttr('style');
+            }
+
+            if (abil2List.length !== 0)
+            {
+                abil2List.eq(0).attr('class', 'button_consumable_selected abil2');
+                currentIndex.find('#' + abil2List.eq(0).attr('name')).removeAttr('style');
+            }
+
+            if (abil3List.length !== 0)
+            {
+                abil3List.eq(0).attr('class', 'button_consumable_selected abil3');
+                currentIndex.find('#' + abil3List.eq(0).attr('name')).removeAttr('style');
+            }
+        }
+    }
+
+    function drawArtillery(currentIndex, artillery)
+    {
+        if (artillery !== null)
+        {
+            var turrets = artillery['turretsList'];
+
+            var artilleryCanvas = currentIndex.find('#artilleryCanvas');
+            var ctx = artilleryCanvas[0].getContext('2d');
+
+            var eccentricity = 3.25;
+            ctx.save();
+            ctx.scale(1 / eccentricity, 1);
+            ctx.beginPath();
+            ctx.globalAlpha = 0.5;
+            ctx.arc(125 * eccentricity, 125, 125, 0, 2 * Math.PI, false);
+            ctx.closePath();
+            ctx.fillStyle = '#64C8FF';
+            ctx.fill();
+            ctx.restore();
+
+            for (var i = 0; i < turrets.length; i++)
+            {
+                var current = turrets[i];
+
+                var minAngle = current['horizSector'][0];
+                var maxAngle = current['horizSector'][1];
+                var vertiPosition = current['position'][0];
+                var horizPosition = current['position'][1];
+                var horizFactor = Math.PI / -2;
+
+                var deadZone = current['deadZone'];
+                var deadZone1 = 0;
+                var deadZone2 = 0;
+                if (deadZone.length === 1)
+                {
+                    deadZone1 = deadZone[0][0];
+                    deadZone2 = deadZone[0][1];
+                }
+
+                var isMerge = false;
+                if (deadZone.length === 1 && deadZone2 === maxAngle)
+                {
+                    isMerge = true;
+                    maxAngle = deadZone1;
+                }
+                else if (deadZone.length === 1 && deadZone1 === minAngle)
+                {
+                    isMerge = true;
+                    minAngle = deadZone2;
+                }
+                else if (deadZone.length === 1 && minAngle === maxAngle)
+                {
+                    isMerge = true;
+                    minAngle = deadZone2;
+                    maxAngle = deadZone1;
+                }
+
+                var test = (horizPosition - 1) * Math.PI;
+
+                // -1 .. 7
+                var centerX = 125 + (horizPosition - 1) * (250 / 8);
+                var centerY = (vertiPosition + 1.5) * (250 / 8);
+
+                var isFlip = false;
+                if ((i === 2 && (vertiPosition < 3 && vertiPosition >= 1.75 && (turrets[2]['position'][0] - turrets[1]['position'][0] > 1 || deadZone.length === 1)) && horizPosition === 1) || (i === 2 && horizPosition === 1 && vertiPosition === 3 && turrets.length === 3))
+                {
+                    isFlip = true;
+                }
+
+                if ((vertiPosition >= 3 && !isFlip) || (vertiPosition < 3 && isFlip))
+                {
+                    minAngle = minAngle + 180;
+                    maxAngle = maxAngle - 180;
+                    deadZone1 = deadZone1 + 180;
+                    deadZone2 = deadZone2 + 180;
+
+                    if (horizPosition !== 1 && (horizPosition - 1) % 1 === 0)
+                    {
+                        var tempValue = minAngle;
+                        minAngle = -maxAngle;
+                        maxAngle = -tempValue;
+                    }
+                    else
+                    {
+                        minAngle = minAngle - (test * 180 / Math.PI);
+                        maxAngle = maxAngle - (test * 180 / Math.PI);
+                    }
+                }
+                else
+                {
+                    if (horizPosition !== 1 && (horizPosition - 1) % 1 === 0)
+                    {
+                        var tv = minAngle;
+                        minAngle = -maxAngle;
+                        maxAngle = -tv;
+                    }
+                    else
+                    {
+                        minAngle = minAngle + (test * 180 / Math.PI);
+                        maxAngle = maxAngle + (test * 180 / Math.PI);
+                    }
+                }
+
+                if (horizPosition !== 1 && (horizPosition - 1) % 1 === 0)
+                {
+                    if ((Math.abs(minAngle) < 90 && Math.abs(maxAngle) < 90))
+                    {
+                        minAngle = minAngle + (horizPosition - 1) * 90;
+                        maxAngle = maxAngle + (horizPosition - 1) * 90;
+                    }
+                    else if ((180 - Math.abs(minAngle) < 90 && 180 - Math.abs(maxAngle) < 90))
+                    {
+                        minAngle = minAngle - (horizPosition - 1) * 90;
+                        maxAngle = maxAngle - (horizPosition - 1) * 90;
+                    }
+                }
+
+                if (deadZone.length === 0 || isMerge)
+                {
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.fill();
+                }
+                else if (deadZone.length === 1 && !isMerge)
+                {
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.fill();
+
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 500, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 25, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            }
+        }
+    }
+
+    function showPanelRight(currentIndex, type) {
+        if (type === '') {
+            return false;
+        }
+
+        var tabs = currentIndex.find('.button_tab.right');
+        for (var i = 0; i < tabs.length; i++)
+        {
+            var current = tabs.eq(i);
+            current.removeClass('select');
+        }
+        currentIndex.find('#tab_right_' + type).addClass('select');
+
+        var panels = currentIndex.find('.panel_right');
+        for (var i = 0; i < panels.length; i++)
+        {
+            var current = panels.eq(i);
+            current.addClass('hide');
+        }
+        currentIndex.find('#' + type + 'Stats').removeClass('hide');
+    }
+
+//    ]]>
+</script>
+</body>
+</html>

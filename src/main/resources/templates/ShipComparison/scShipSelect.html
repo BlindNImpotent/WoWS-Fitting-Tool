@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8"/>
+    <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/FittingTool/FittingTool.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
+    <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
+    <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
+    <script th:src="@{/js/accounting/accounting.js}"></script>
+    <title>WoWS Fitting Tool by Aesis</title>
+</head>
+<body>
+<div class="warshipData" th:fragment="warshipStats">
+    <div id="ship" th:name="${warship.ship_id}" th:if="${warship != null}" th:attr="data-nation=${warship.nation}, data-ship-type=${warship.type}, data-name=${warship.name}">
+        <div id="name">
+            <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship.defaultType}">
+                <img th:src="${warship.type != 'Premium' and warship.type != 'Arpeggio' and warship.type != 'HSF' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
+                <strong style="font-size: 2em;" th:text="${warship.name}"/><br />
+            </th:block>
+            <img th:title="${warship.description}" th:src="${warship.images.medium}"/>
+        </div>
+        <div>
+            <span style="padding: 1em;"></span>
+            <select id="commanderSelect" th:if="${commanders.size() > 1}">
+                <option th:selected="${sCommander == commander}" th:each="commander : ${commanders}" th:value="${commander}" th:text="${commander}"/>
+            </select>
+            <input type="checkbox" id="camouflageCheckbox" th:checked="${camo}" th:text="'Camouflage'" th:title="'Decreases the firing accuracy of the enemy and reduces ship detectability.'"/>
+        </div>
+        <div class="info_box">
+            <div style="display: inline-table; vertical-align: top;">
+                <div id="left_tabs" class="left_tabs">
+                    <div id="tab_left_modules" class="button_tab left modules select">Modules</div>
+                    <div id="tab_left_upgrades" class="button_tab left upgrades">Upgrades</div>
+                    <div id="tab_left_crewSkills" class="button_tab left crewSkills">Skills</div>
+                    <div id="tab_left_flags" class="button_tab left flags">Flags</div>
+                    <div id="tab_left_consumables" class="button_tab left consumables">Consumables</div>
+                    <!--<div id="tab_left_modules" class="button_tab left modules select" onclick="showPanelLeft('modules')">Modules</div>-->
+                    <!--<div id="tab_left_upgrades" class="button_tab left upgrades" onclick="showPanelLeft('upgrades')">Upgrades</div>-->
+                    <!--<div id="tab_left_crewSkills" class="button_tab left crewSkills" onclick="showPanelLeft('crewSkills')">Skills</div>-->
+                    <!--<div id="tab_left_flags" class="button_tab left flags" onclick="showPanelLeft('flags')">Flags</div>-->
+                    <!--<div id="tab_left_consumables" class="button_tab left consumables" onclick="showPanelLeft('consumables')">Consumables</div>-->
+                </div>
+                <div class="left_info_box">
+                    <div id="modules" class="panel_left modules">
+                        <table>
+                            <tbody>
+                            <th:block th:each="row : ${warship.warshipModulesTreeTable}">
+                                <tr th:if="${rowStat.index > 0}">
+                                    <th:block th:each="module : ${row.value}">
+                                        <td th:if="${moduleStat.index > 0}" width="7px;">
+                                        </td>
+                                        <td width="7px;">
+                                            <img th:if="${module != null and module.fromUp}" th:src="@{/images/Icon/down.png}"/>
+                                        </td>
+                                    </th:block>
+                                </tr>
+                                <tr>
+                                    <th:block th:each="module : ${row.value}">
+                                        <td th:if="${moduleStat.index > 0}" width="7px;">
+                                            <img th:if="${module != null and module.shiftLeft}" th:src="@{/images/Icon/left.png}"/>
+                                            <img th:if="${module != null and module.fromLeft}" th:src="@{/images/Icon/right.png}"/>
+                                        </td>
+                                        <td th:id="${module != null ? 'li_' + module.module_id : null}">
+                                            <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.first) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}" th:attr="data-index=${module.index}, data-position=${module.pos}">
+                                                <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
+                                                <span th:text="${module.name}"/>
+                                            </button>
+                                        </td>
+                                    </th:block>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="upgrades" class="panel_left upgrades hide">
+                        <div th:each="upgradeType : ${warship.upgradesNew}" th:id="'id_' + ${upgradeType.key}">
+                            <li th:each="upgrade : ${upgradeType.value}" th:id="'li_' + ${upgrade.value.consumable_id}">
+                                <button th:title="${upgrade.value.description}" th:class="${upgrades != null and #sets.contains(upgrades, #strings.toString(upgrade.value.consumable_id))} ? button_upgrade_selected : button_upgrade" th:id="${upgrade.value.consumable_id}" th:name="'price_' + ${upgrade.value.price_credit}" th:attr="data-index=${upgradeStat.index + 1}, data-position=${upgradeTypeStat.index}">
+                                    <img th:src="${upgrade.value.image}"/><br />
+                                    <span th:text="${upgrade.value.name}"/>
+                                </button>
+                            </li>
+                        </div>
+                    </div>
+                    <div id="crewSkills" class="panel_left crewSkills hide">
+                        <strong id="totalSkillPoints">Skill Points 0 / 19</strong>
+                        <table id="uniqueSkillsTable" align="center" th:style="${#sets.contains(uniqueSkills.keySet(), sCommander) ? '' : 'display: none'}">
+                            <tbody>
+                            <tr th:each="commander : ${uniqueSkills}" th:id="${commander.key.replace(' ', '')}" th:style="${commander.key != sCommander ? 'display: none;' : ''}">
+                                <td th:each="uniqueSkill : ${commander.value}">
+                                    <button th:title="${uniqueSkill.value.description}" th:class="${crewUSkills != null and #sets.contains(crewUSkills, uniqueSkill.key) ? 'button_uSkill_selected' : 'button_uSkill'}" th:id="${uniqueSkill.key}" th:attr="data-index=${uniqueSkillStat.index}">
+                                        <img th:src="${'/images/Talents/' + uniqueSkill.key + '.png'}"/><br />
+                                        <span th:text="${uniqueSkill.value.name}"/>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table id="skillsTable" align="center" style="height: 418px;">
+                            <tbody>
+                            <tr th:each="skillTier : ${skills}">
+                                <td th:each="skill : ${skillTier.value}" th:id="${'td_' + skill.value.tier + '_' + skill.value.type_id}">
+                                    <button th:if="${skill.value.tier != 0}" th:object="${skill.value}" th:title="${skill.value.description}" th:class="${crewSkills != null and crewSkills.size() != 0 and (crewSkills.?[tier == __${skill.value.tier}__ and type_id == __${skill.value.type_id}__]).size() != 0} ? button_skill_selected : button_skill" th:id="${skill.value.tier + '_' + skill.value.type_id}" th:attr="tier=${skill.value.tier}, type_id=${skill.value.type_id}, data-index=${skillStat.index + 1}, data-position=${skillTierStat.index}">
+                                        <img th:src="${skill.value.icon}"/><br />
+                                        <span th:text="${skill.value.name}"/>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="flags" class="panel_left flags hide">
+                        <strong id="totalFlagsCount">Flags 0 / 8</strong>
+                        <table id="flagsTable" align="center">
+                            <tbody>
+                            <tr th:each="index : ${#numbers.sequence(0, exteriors.Flags.size() - 1, 6)}" th:id="${index / 6}">
+                                <td th:each="flag : ${exteriors.Flags}" th:if="${flagStat.index % 3} == ${index / 6}">
+                                    <button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.consumable_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.consumable_id}" th:attr="data-index=${flagStat.index}">
+                                        <img th:src="${flag.value.image}"/><br />
+                                        <span th:text="${flag.value.name}"/>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="consumables" class="panel_left consumables hide">
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="right_side" style="display: inline-table; vertical-align: top;">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
