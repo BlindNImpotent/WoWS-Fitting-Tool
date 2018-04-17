@@ -17,7 +17,7 @@
 </header>
 <main>
     <div th:fragment="warshipSelection" id="modulesUpgradesConsumables">
-        <div style="display: inline-block; width: 500px;" id="warship1" th:if="${warship1 != null}" th:title="${warship1.name}" th:name="${('nation1=' + warship1.nation + '&shipType1=' + warship1.type + '&ship1=' + warship1.name + '&ship_id1=' + warship1.ship_id)}">
+        <div style="display: inline-block; width: 650px;" id="warship1" th:if="${warship1 != null}" th:title="${warship1.name}" th:name="${('nation1=' + warship1.nation + '&shipType1=' + warship1.type + '&ship1=' + warship1.name + '&ship_id1=' + warship1.ship_id)}">
             <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship1.defaultType}">
                 <h3>
                     <img th:src="${warship1.type != 'Premium' and warship1.type != 'Arpeggio' and warship1.type != 'HSF' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
@@ -51,7 +51,7 @@
                 </div>
             </div>
         </div>
-        <div style="display: inline-block; width: 500px;" id="warship2" th:if="${warship2 != null}" th:title="${warship2.name}" th:name="${'nation2=' + warship2.nation + '&amp;shipType2=' + warship2.type + '&amp;ship2=' + warship2.name + '&amp;ship_id2=' + warship2.ship_id}">
+        <div style="display: inline-block; width: 650px;" id="warship2" th:if="${warship2 != null}" th:title="${warship2.name}" th:name="${'nation2=' + warship2.nation + '&amp;shipType2=' + warship2.type + '&amp;ship2=' + warship2.name + '&amp;ship_id2=' + warship2.ship_id}">
             <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship2.defaultType}">
                 <h3>
                     <img th:src="${warship2.type != 'Premium' and warship2.type != 'Arpeggio' and warship2.type != 'HSF' ? eShipType.value.image : eShipType.value.image_premium}"/><br />

@@ -361,7 +361,16 @@
                     $('[aria-describedby=torpedoesCanvasDiv]').remove();
                     $('#shipAPIData').html('');
                     $('#modulesUpgradesConsumables').replaceWith(data);
-                    callAPI()
+
+                    var tempInterval = setInterval(function () {
+                        var warship1 = $('#warship1').attr('name');
+                        var warship2 = $('#warship2').attr('name');
+
+                        if (warship1 !== null && warship1 !== undefined && warship2 !== null && warship2 !== undefined) {
+                            clearInterval(tempInterval);
+                            callAPI();
+                        }
+                    }, 500);
                 },
                 error: function (data) {
                     console.log(data);
