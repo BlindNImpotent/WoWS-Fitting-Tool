@@ -111,11 +111,16 @@
                 tempSpace.find('#ship').attr('data-ship-index', shipIndex);
                 isFirstCall = false;
                 $('#compareList').append(tempSpace.html());
-                tempSpace.html('');
 
-                callAPI(shipIndex, nation, shipType, ship, '');
-                shipIndex++;
-                changeSkillDescription(shipIndex);
+                var tempInterval = setInterval(function () {
+                    if (tempSpace.html() !== '') {
+                        clearInterval(tempInterval);
+                        callAPI(shipIndex, nation, shipType, ship, '');
+                        tempSpace.html('');
+                        shipIndex++;
+                        changeSkillDescription(shipIndex);
+                    }
+                }, 500);
             }
         });
     });

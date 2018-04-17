@@ -12,6 +12,9 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Qualson-Lee on 2017-06-05.
@@ -26,8 +29,11 @@ public class DiscordWebhook
     public void sendDiscordWebHookError(Exception e, HttpServletRequest request) throws Exception
     {
         JSONObject object = new JSONObject();
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String message =
                 "```" +
+                "Date : " + df.format(date) + " UTC" + "\n\n" +
                 "URL: " +  request.getRequestURL().toString() + (StringUtils.isNotEmpty(request.getQueryString()) ? "?" + request.getQueryString() : "") + "\n\n" +
                 "Referrer: " + request.getHeader("Referer") + "\n\n" +
                 "Client IP Address : " + getClientIPAddress(request) + " / " + request.getRemoteAddr() + "\n\n" +
