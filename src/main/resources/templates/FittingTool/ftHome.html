@@ -581,12 +581,14 @@
                 success: function (data) {
                     if (data != '')
                     {
+                        $('#wrongPathAlert').attr('style', 'display: none;');
                         $('.right_side').html(data);
                         $('#consumables').html($('#consumablesDataFragment').html());
                         $('#consumablesDataFragment').remove();
 
                         setConsumables();
                         showPanelRight(rightPanelOpen);
+                        $('.shipAPIData').html('');
 
 //                        $.ajax({
 //                            url: url.replace('shipAPI', 'shipComponents'),
@@ -614,9 +616,7 @@
                     }
                     else
                     {
-                        var html = '<div class="shipAPIData" id="shipAPIData"><h2>Wrong path of research</h2></div>';
-
-                        $('.shipAPIData').replaceWith(html);
+                        $('#wrongPathAlert').attr('style', '');
                     }
                 }
             });
@@ -629,6 +629,7 @@
         nation = nationOriginal.replace(/ /g, '+');
         shipType = shipTypeOriginal.replace(/ /g, '+');
         ship = shipOriginal.replace(/ /g, '+');
+        $('#ship').html('');
 
         var url = live + '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship);
 

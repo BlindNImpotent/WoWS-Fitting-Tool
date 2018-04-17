@@ -147,7 +147,19 @@ nav ul ul ul li {
     padding: 0 0 100px;
 }
 
-.left_tabs, .right_tabs {
+.right_side {
+    width: 100%;
+}
+
+.left_tabs {
+    max-width: 150px;
+    display: table-cell;
+    vertical-align: top;
+}
+
+.right_tabs {
+    width: 80px;
+    max-width: 150px;
     display: table-cell;
     vertical-align: top;
 }
@@ -316,10 +328,10 @@ nav ul ul ul li {
     border-style: solid;
     border-radius: 5px;
     font-size: 9px;
-    min-width: 85px;
-    max-width: 85px;
-    min-height: 85px;
-    max-height: 85px;
+    min-width: 75px;
+    max-width: 75px;
+    min-height: 75px;
+    max-height: 75px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -327,7 +339,7 @@ nav ul ul ul li {
 
 .button_skill img
 {
-    width: 25px;
+    width: 20px;
     margin-bottom: 0px;
 }
 
@@ -340,10 +352,10 @@ nav ul ul ul li {
     border-style: solid;
     border-radius: 5px;
     font-size: 9px;
-    min-width: 85px;
-    max-width: 85px;
-    min-height: 85px;
-    max-height: 85px;
+    min-width: 75px;
+    max-width: 75px;
+    min-height: 75px;
+    max-height: 75px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -351,7 +363,7 @@ nav ul ul ul li {
 
 .button_skill_selected img
 {
-    width: 30px;
+    width: 25px;
     margin-bottom: 0px;
 }
 

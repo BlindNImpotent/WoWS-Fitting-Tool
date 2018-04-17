@@ -385,7 +385,8 @@ public class APIController extends ExceptionController
                     @RequestParam(required = false, defaultValue = "") String s1,
                     @RequestParam(required = false, defaultValue = "") String s2,
                     @RequestParam(required = false, defaultValue = "") String s3,
-                    @RequestParam(required = false, defaultValue = "true") boolean isFT
+                    @RequestParam(required = false, defaultValue = "true") boolean isFT,
+                    @RequestParam(required = false, defaultValue = "") String dataIndex
             ) throws Exception
     {
         if (!ship_id.equals(""))
@@ -562,6 +563,8 @@ public class APIController extends ExceptionController
                 apiService.setModuleIds(shipHashMap.get(stockKey), moduleId);
                 model.addAttribute("configurationAPI", apiService.getUpgradeSkillStats(stockKey, nation, shipType, ship, ship_id, moduleId.getArtillery_id(), moduleId.getDive_bomber_id(), moduleId.getEngine_id(), moduleId.getFighter_id(), moduleId.getFire_control_id(), moduleId.getFlight_control_id(), moduleId.getHull_id(), moduleId.getTorpedo_bomber_id(), moduleId.getTorpedoes_id(), new ArrayList<>(), new HashMap<>(), 100, true, true, isLive));
             }
+
+            model.addAttribute("dataIndex", dataIndex);
         }
 
 //        return "WarshipStats/shipAPIPage :: shipAPIData";

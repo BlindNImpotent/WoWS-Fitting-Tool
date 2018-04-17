@@ -28,6 +28,7 @@
                 <option th:selected="${sCommander == commander}" th:each="commander : ${commanders}" th:value="${commander}" th:text="${commander}"/>
             </select>
             <input type="checkbox" id="camouflageCheckbox" th:checked="${camo}" th:text="'Camouflage'" th:title="'Decreases the firing accuracy of the enemy and reduces ship detectability.'"/>
+            <button id="removeCompare">Remove Ship</button>
         </div>
         <div class="info_box">
             <div style="display: inline-table; vertical-align: top;">

@@ -39,6 +39,7 @@
             </select>
         </th:block>
         <button id="addSelect">Add to Comparison</button>
+        <strong id="maxAlert" class="hide" style="color: red;">Max 3 ships allowed</strong>
     </div>
     <div id="compareList" style="white-space: nowrap;">
     </div>
@@ -50,9 +51,12 @@
     var isFirstCall = true;
     var shipIndex = 0;
     var arty = undefined;
+    var artyArray = [];
+    var torpArray = [];
     var waitTime = 1000;
     var timer = [];
     var maxFlagPts = 8;
+    var maxList = 3;
 
     $('#nationSelect').on('change', function () {
         var selectedNation = $('#nationSelect option:selected').val();
@@ -81,6 +85,15 @@
     }
 
     $('#addSelect').on('click', function () {
+        var currentSize = $('.warshipData').length;
+        if (currentSize >= maxList) {
+            $('#maxAlert').removeClass('hide');
+            return;
+        }
+        else {
+            $('#maxAlert').addClass('hide');
+        }
+
         var selectedNation = $('#nationSelect option:selected').val();
         var nation = selectedNation.replace(/ /g, '+');
         var selectedShipType = $('#' + selectedNation + ' option:selected').val();
@@ -93,11 +106,6 @@
             url: url,
             type: 'post',
             success: function (data) {
-                // $('.button_skill_selected').attr('class', 'button_skill');
-                // $('.button_uSkill_selected').attr('class', 'button_uSkill');
-                // $('.button_flag_selected').attr('class', 'button_flag');
-                // $('.button_consumable_selected').attr('class', 'button_consumable');
-
                 var tempSpace = $('#tempSpace');
                 tempSpace.append(data);
                 tempSpace.find('#ship').attr('data-ship-index', shipIndex);
@@ -107,13 +115,7 @@
 
                 callAPI(shipIndex, nation, shipType, ship, '');
                 shipIndex++;
-                // $('.button_uSkill_selected').attr('class', 'button_uSkill');
-                // $('#uniqueSkillsTable').find('tr').hide();
-                // $('#uniqueSkillsTable').hide();
-
-                // commander = 'default';
-                // $('#commanderSelect').val(commander);
-                // changeSkillDescription();
+                changeSkillDescription(shipIndex);
             }
         });
     });
@@ -322,6 +324,44 @@
         currentIndex.find('[name=' + id + ']').attr('class', 'button_consumable_selected ' + abil);
     });
 
+    $(document).on('change', '#commanderSelect', function ()
+    {
+        var currentShip = $(this).parents('#ship');
+        var shipIndex = currentShip.attr('data-ship-index');
+        var currentIndex = $('[data-ship-index=' + shipIndex + ']');
+        var commander = currentIndex.find('#commanderSelect').val();
+        var tempCommander = commander.replace(' ', '');
+
+        currentIndex.find('.button_uSkill_selected').attr('class', 'button_uSkill');
+        currentIndex.find('#uniqueSkillsTable').find('tr').hide();
+        currentIndex.find('#uniqueSkillsTable').hide();
+        var commanderUSkills = currentIndex.find('#uniqueSkillsTable').find('tr');
+        for (var i = 0; i < commanderUSkills.length; i++)
+        {
+            var currentId = commanderUSkills.eq(i).attr('id');
+            if (tempCommander === currentId)
+            {
+                currentIndex.find('#' + tempCommander).show();
+                currentIndex.find('#uniqueSkillsTable').show();
+                break;
+            }
+        }
+
+        changeSkillDescription(shipIndex);
+        delayCall(shipIndex, currentShip.attr('data-nation'), currentShip.attr('data-ship-type'), currentShip.attr('data-name'));
+    });
+
+    $(document).on('click', '#camouflageCheckbox', function () {
+        var currentShip = $(this).parents('#ship');
+        var shipIndex = currentShip.attr('data-ship-index');
+        delayCall(shipIndex, currentShip.attr('data-nation'), currentShip.attr('data-ship-type'), currentShip.attr('data-name'));
+    });
+
+    $(document).on('click', '#removeCompare', function () {
+        var currentShip = $(this).parents('.warshipData');
+        currentShip.remove();
+    });
+
     function delayCall(shipIndex, nation, shipType, ship)
     {
         window.clearTimeout(timer[shipIndex]);
@@ -338,7 +378,8 @@
         var url = '/shipAPI?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&ship_id=' + currentIndex.attr('name');
         var modifier = '&';
         var equals = '=';
-        arty = undefined;
+        artyArray[shipIndex] = undefined;
+        torpArray[shipIndex] = undefined;
 
         var selectedModules = currentIndex.find('.button_module_selected');
         var selectedUpgrades = currentIndex.find('.button_upgrade_selected');
@@ -461,6 +502,7 @@
         }
         url = url + consumableN;
         url = url + '&isFT=false';
+        url = url + '&dataIndex=' + shipIndex;
 
         $.ajax({
             url: url,
@@ -474,12 +516,27 @@
                     currentIndex.find('#consumablesDataFragment').remove();
 
                     setConsumables(currentIndex);
-                    var tempInterval = setInterval(function () {
-                        if (arty !== undefined) {
-                            clearInterval(tempInterval);
-                            drawArtillery(currentIndex, arty);
-                        }
-                    }, 500);
+
+                    if (currentIndex.find('#tab_right_artillery').length === 1) {
+                        var tempInterval1 = setInterval(function () {
+                            if (artyArray[shipIndex] !== undefined) {
+                                clearInterval(tempInterval1);
+                                drawArtillery(currentIndex, artyArray[shipIndex]);
+                                artyArray[shipIndex] = undefined;
+                            }
+                        }, 500);
+                    }
+
+                    if (currentIndex.find('#tab_right_torpedoes').length === 1) {
+                        var tempInterval2 = setInterval(function () {
+                            if (torpArray[shipIndex] !== undefined) {
+                                clearInterval(tempInterval2);
+                                drawTorpedoes(currentIndex, torpArray[shipIndex]);
+                                torpArray[shipIndex] = undefined;
+                            }
+                        }, 500);
+                    }
+
                     showPanelRight(currentIndex, rightPanelOpen);
                 }
                 else
@@ -749,6 +806,139 @@
         }
     }
 
+    function drawTorpedoes(currentIndex, torpedoes)
+    {
+        if (torpedoes !== null)
+        {
+            var launchers = torpedoes['launchersList'];
+
+            var torpedoesCanvas = currentIndex.find('#torpedoesCanvas');
+            var ctx = torpedoesCanvas[0].getContext('2d');
+
+            var eccentricity = 3.25;
+            ctx.save();
+            ctx.scale(1 / eccentricity, 1);
+            ctx.beginPath();
+            ctx.globalAlpha = 0.5;
+            ctx.arc(125 * eccentricity, 125, 125, 0, 2 * Math.PI, false);
+            ctx.closePath();
+            ctx.fillStyle = '#64C8FF';
+            ctx.fill();
+            ctx.restore();
+
+            for (var i = 0; i < launchers.length; i++)
+            {
+                var current = launchers[i];
+
+                var minAngle = current['horizSector'][0];
+                var maxAngle = current['horizSector'][1];
+                var vertiPosition = current['position'][0];
+                var horizPosition = current['position'][1];
+                var horizFactor = Math.PI / -2;
+
+                var deadZone = current['deadZone'];
+                var deadZone1 = 0;
+                var deadZone2 = 0;
+                if (deadZone.length === 1)
+                {
+                    deadZone1 = deadZone[0][0];
+                    deadZone2 = deadZone[0][1];
+                }
+
+                var isMerge = false;
+                if (deadZone.length === 1 && deadZone2 === maxAngle)
+                {
+                    isMerge = true;
+                    maxAngle = deadZone1;
+                }
+                else if (deadZone.length === 1 && deadZone1 === minAngle)
+                {
+                    isMerge = true;
+                    minAngle = deadZone2;
+                }
+                else if (deadZone.length === 1 && minAngle === maxAngle)
+                {
+                    isMerge = true;
+                    minAngle = deadZone2;
+                    maxAngle = deadZone1;
+                }
+
+                if (vertiPosition >= 2.75)
+                {
+                    var tempValue = minAngle;
+                    minAngle = -maxAngle;
+                    maxAngle = -tempValue;
+                }
+
+                if ((horizPosition - 1) * minAngle < 0 && (horizPosition - 1) * maxAngle < 0)
+                {
+                    if (vertiPosition >= 2.75)
+                    {
+                        minAngle = minAngle + 180;
+                        maxAngle = maxAngle + 180;
+                    }
+                    else
+                    {
+                        var tempValue = minAngle;
+                        minAngle = -maxAngle;
+                        maxAngle = -tempValue;
+                    }
+                }
+
+                // -1 .. 7
+                var centerX = 125 + (horizPosition - 1) * (250 / 8);
+                var centerY = (vertiPosition + 1.5) * (250 / 8);
+
+                if (deadZone.length === 0 || isMerge)
+                {
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.fill();
+                }
+                else if (deadZone.length === 1 && !isMerge)
+                {
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.fill();
+
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 500, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.arc(centerX, centerY, 25, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            }
+        }
+    }
+
     function showPanelRight(currentIndex, type) {
         if (type === '') {
             return false;
@@ -769,6 +959,35 @@
             current.addClass('hide');
         }
         currentIndex.find('#' + type + 'Stats').removeClass('hide');
+    }
+
+    function changeSkillDescription(shipIndex)
+    {
+        var currentIndex = $('[data-ship-index=' + shipIndex + ']');
+        var commander = currentIndex.find('#commanderSelect');
+        if (commander === 'John Doe')
+        {
+            currentIndex.find('#1_2').attr('title', '-75% to reload time when the shell type is switched');
+            currentIndex.find('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+        }
+        else if (commander === 'Jack Dunkirk')
+        {
+            currentIndex.find('#2_1').attr('title', '-10% to reload time of all mounted consumables');
+            currentIndex.find('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+            currentIndex.find('#2_4').attr('title', '+30% to the radius of the smoke screen');
+        }
+        else if (commander === 'Jean-Jacques Honoré')
+        {
+            currentIndex.find('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+            currentIndex.find('#2_6').attr('title', '-0.25% to reload time of all types of armament for each 1% HP lost');
+        }
+        else if (commander === 'default')
+        {
+            currentIndex.find('#1_2').attr('title', '-50% to reload time when the shell type is switched');
+            currentIndex.find('#2_1').attr('title', '-5% to reload time of all mounted consumables');
+            currentIndex.find('#2_2').attr('title', '+2.5deg/s to traverse speed of guns with a caliber up to 139 mm\n+0.7deg/s to traverse speed of guns with a caliber above 139 mm');
+            currentIndex.find('#2_4').attr('title', '+20% to the radius of the smoke screen');
+        }
     }
 
 //    ]]>
