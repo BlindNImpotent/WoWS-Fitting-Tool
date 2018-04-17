@@ -59,7 +59,7 @@
                                             </td>
                                         </th:block>
                                     </tr>
-                                    <tr th:if="${rowStat.index == 0}">
+                                    <tr th:if="${rowStat.index == 0 and warship.prevWarship != null}">
                                         <th:block th:each="module : ${row.value}">
                                             <td th:if="${moduleStat.index > 0}" width="7px;">
                                             </td>
