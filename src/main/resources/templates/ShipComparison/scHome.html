@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <script>
+        //    <![CDATA[
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event:'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5KDG7W6');
+        //    ]]>
+    </script>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="utf-8" />
     <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/ShipComparison/ShipComparison.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
-    <script th:src="@{/js/jquery/jquery-3.2.1.js}"></script>
-    <script th:src="@{/js/jquery/jquery-ui-1.12.1/jquery-ui.js}"></script>
+    <script th:src="@{/js/jquery/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/accounting/accounting.js}"></script>
     <title>WoWS Fitting Tool by Aesis</title>
 </head>
 <body>
+<noscript>
+    //    <![CDATA[
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5KDG7W6" height="0" width="0" style="display:none; visibility:hidden;"></iframe>
+    //    ]]>
+</noscript>
 <header>
     <div id="top" th:include="top :: top">
     </div>
@@ -115,8 +133,8 @@
                 var tempInterval = setInterval(function () {
                     if (tempSpace.html() !== '') {
                         clearInterval(tempInterval);
-                        callAPI(shipIndex, nation, shipType, ship, '');
                         tempSpace.html('');
+                        callAPI(shipIndex, nation, shipType, ship, '');
                         shipIndex++;
                         changeSkillDescription(shipIndex);
                     }
@@ -522,6 +540,7 @@
 
                     setConsumables(currentIndex);
 
+                    console.log(currentIndex.find('#tab_right_artillery'));
                     if (currentIndex.find('#tab_right_artillery').length === 1) {
                         var tempInterval1 = setInterval(function () {
                             if (artyArray[shipIndex] !== undefined) {
@@ -997,5 +1016,18 @@
 
 //    ]]>
 </script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/5900f83364f23d19a89af69f/default';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+<!--End of Tawk.to Script-->
 </body>
 </html>
