@@ -66,7 +66,6 @@
 </main>
 <script th:inline="javascript">
 //    <![CDATA[
-    var isFirstCall = true;
     var shipIndex = 0;
     var arty = undefined;
     var artyArray = [];
@@ -118,7 +117,7 @@
         var shipType = selectedShipType.replace(/ /g, '+');
         var ship = $('.' + selectedNation + '.' + shipType).val().replace(/ /g, '+');
 
-        var url = '/warshipSC?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + (isFirstCall === true ? '&isFirstCall=true' : '');
+        var url = '/warshipSC?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship);
 
         $.ajax({
             url: url,
@@ -127,7 +126,6 @@
                 var tempSpace = $('#tempSpace');
                 tempSpace.append(data);
                 tempSpace.find('#ship').attr('data-ship-index', shipIndex);
-                isFirstCall = false;
                 $('#compareList').append(tempSpace.html());
 
                 var tempInterval = setInterval(function () {

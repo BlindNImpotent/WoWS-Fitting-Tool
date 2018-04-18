@@ -571,9 +571,8 @@
                 url: url,
                 type: 'post',
                 contentType: "application/json",
-                // data: JSON.stringify(upgradesSkills),
                 success: function (data) {
-                    if (data != '')
+                    if (data !== '')
                     {
                         $('#wrongPathAlert').attr('style', 'display: none;');
                         $('.right_side').html(data);
@@ -752,17 +751,7 @@
         }
 
         changeSkillDescription();
-
-        history.replaceState({
-            nation: nation,
-            shipType: shipType,
-            ship: ship
-        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '') + '&commander=' + encodeURIComponent(commander) + (nthF.length > 0 ? '&flagN=' + nthF : '') + (camouflage === true ? '&camo=' + camouflage : '') + (adrenalineValue === 100 ? '' : '&ar=' + adrenalineValue) + consumableN);
-
-//        if ($('.button_skill_selected').length > 0)
-//        {
         delayCall();
-//        }
     });
 
     function changeSkillDescription()
