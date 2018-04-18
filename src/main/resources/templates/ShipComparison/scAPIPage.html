@@ -197,12 +197,13 @@
                                     create: function(event, ui) {
                                         handle.text($(this).slider('value'));
                                     },
-                                    slide: function(eent, ui) {
+                                    slide: function(event, ui) {
                                         handle.text(ui.value);
                                     },
                                     change: function (event, ui) {
-                                        adrenalineValue = $('#custom-handle').text();
-                                        callAPI();
+                                        var currentShip = $(this).parents('#ship');
+                                        var shipIndex = currentShip.attr('data-ship-index');
+                                        delayCall(shipIndex, currentShip.attr('data-nation'), currentShip.attr('data-ship-type'), currentShip.attr('data-name'));
                                     }
                                 })
                             })
