@@ -420,6 +420,7 @@
         var nthF = '';
         var consumableN = '';
         var adrenalineValue = currentIndex.find('#custom-handle').text();
+        adrenalineValue = adrenalineValue === '' ? 100 : adrenalineValue;
 
         var camouflage = currentIndex.find('#camouflageCheckbox').is(':checked');
 
