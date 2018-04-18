@@ -156,7 +156,9 @@
             $('#maxAlert').addClass('hide');
         }
 
-        var url = $('#addUrl').val().replace('WarshipStats', 'warshipSC');
+        var addUrl = $('#addUrl');
+        var url = addUrl.val().replace('WarshipStats', 'warshipSC');
+        addUrl.val('');
 
         $.ajax({
             url: url,
