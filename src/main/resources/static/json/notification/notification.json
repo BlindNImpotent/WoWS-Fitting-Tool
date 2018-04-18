@@ -1,7 +1,7 @@
 {
 	"2018-04-18": "New UI is implemented for Fitting Tool and Ship Comparison.",
 	"2018-04-14": "URL Minify for Fitting Tool section is implemented",
-	"2018-04-13": "Ship Comparison may be giving error on some occasions. I'm working on a fix.\nUpdate: Fixed, monitoring for now.",
+	"2018-04-13": "Ship Comparison may be giving error on some occasions. I'm working on a fix.<br />Update: Fixed, monitoring for now.",
 	"2018-02-08": "Fixed CV's AP Bombers not showing up",
 	"2017-10-20": "Modified server to block malicious bots",
 	"2017-09-18": "Added dive bomber accuracy",
@@ -17,5 +17,5 @@
 	"2017-04-05": "WoWS API is finally working again!",
 	"2017-03-17": "WoWS API is still broken (blame Wargaming). Fixed server issue that was related to new update.",
 	"2016-12-08": "WoWS API is still not working properly with 0.5.15.1. I'm still in the process of talking with Wargaming CS but it'll take a while due to response time.",
-	"2016-12-01": "WoWS API has bug with 0.5.15.0 so only stock ship values are being returned at the moment.\nI notified Wargaming so hopefully it'll be fixed soon."
+	"2016-12-01": "WoWS API has bug with 0.5.15.0 so only stock ship values are being returned at the moment.<br />I notified Wargaming so hopefully it'll be fixed soon."
 }
