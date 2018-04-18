@@ -405,6 +405,12 @@
         delayCall();
     });
 
+    $(document).on('input', '#arSlider', function () {
+        $('#arValue').text($('#arSlider').val());
+        adrenalineValue = parseInt($('#arSlider').val());
+        delayCall();
+    });
+
     function delayCall()
     {
         window.clearTimeout(timer);

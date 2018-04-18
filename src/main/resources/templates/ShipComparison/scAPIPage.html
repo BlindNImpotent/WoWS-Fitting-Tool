@@ -182,36 +182,9 @@
                     <span id="rofDiff" style="float: right;" th:if="${configurationAPI != null and 60 / shipAPI.shipComponents.artillery.shotDelay - 60 / configurationAPI.shipComponents.artillery.shotDelay != 0}" th:text="${60 / shipAPI.shipComponents.artillery.shotDelay - 60 / configurationAPI.shipComponents.artillery.shotDelay > 0 ? ' (+' + #numbers.formatDecimal(60 / shipAPI.shipComponents.artillery.shotDelay - 60 / configurationAPI.shipComponents.artillery.shotDelay, 1, 2) + ')' : ' (' + #numbers.formatDecimal(60 / shipAPI.shipComponents.artillery.shotDelay - 60 / configurationAPI.shipComponents.artillery.shotDelay, 1, 2) + ')'}"/>
                     <span id="rof" style="float: right;" th:text="${#numbers.formatDecimal(60 / shipAPI.shipComponents.artillery.shotDelay, 1, 2)} + ' RPM'"/><br />
                     <th:block th:if="${adrenaline == true}">
-                        <script th:inline="javascript">
-                            // <![CDATA[
-
-                            $(function () {
-                                var handle = $('#custom-handle').css('width', '2em').css('text-align', 'center');
-
-                                $('#slider').slider({
-                                    orientation: 'horizontal',
-                                    range: 'min',
-                                    min: 0,
-                                    max: 100,
-                                    value: [[${adrenalineValue}]],
-                                    create: function(event, ui) {
-                                        handle.text($(this).slider('value'));
-                                    },
-                                    slide: function(event, ui) {
-                                        handle.text(ui.value);
-                                    },
-                                    change: function (event, ui) {
-                                        var currentShip = $(this).parents('#ship');
-                                        var shipIndex = currentShip.attr('data-ship-index');
-                                        delayCall(shipIndex, currentShip.attr('data-nation'), currentShip.attr('data-ship-type'), currentShip.attr('data-name'));
-                                    }
-                                })
-                            })
-
-                            // ]]>
-                        </script>
                         <div id="slider">
-                            <div id="custom-handle" class="ui-slider-handle"></div>
+                            <input type="range" min="1" max="100" th:value="${adrenalineValue}" class="slider" id="arSlider"/>
+                            <span id="arValue" th:text="${adrenalineValue}"></span>
                         </div>
                     </th:block>
                     <span style="float:left;">Rotation / 180 deg</span>

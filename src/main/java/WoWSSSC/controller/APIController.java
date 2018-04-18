@@ -567,10 +567,28 @@ public class APIController extends ExceptionController
                                            @RequestParam(required = false) String nation,
                                            @RequestParam(required = false) String shipType,
                                            @RequestParam(required = false) String ship,
-                                           @RequestParam(required = false, defaultValue = "default") String commander) throws IOException
+                                           @RequestParam(required = false) HashSet<String> modules,
+                                           @RequestParam(required = false) HashSet<String> upgrades,
+                                           @RequestParam(required = false) HashSet<String> flags,
+                                           @RequestParam(required = false) HashSet<String> consumables,
+                                           @RequestParam(required = false, defaultValue = "100") int adrenalineValue,
+                                           @RequestParam(required = false, defaultValue = "100") int ar,
+                                           @RequestParam(required = false, defaultValue = "false") boolean camo,
+                                           @RequestParam(required = false, defaultValue = "false") boolean mobile,
+                                           @RequestParam(required = false, defaultValue = "default") String commander,
+                                           @RequestParam(required = false, defaultValue = "") String moduleN,
+                                           @RequestParam(required = false, defaultValue = "") String upgradeN,
+                                           @RequestParam(required = false, defaultValue = "") String skillN,
+                                           @RequestParam(required = false, defaultValue = "") String uSkillN,
+                                           @RequestParam(required = false, defaultValue = "") String flagN,
+                                           @RequestParam(required = false, defaultValue = "") String s0,
+                                           @RequestParam(required = false, defaultValue = "") String s1,
+                                           @RequestParam(required = false, defaultValue = "") String s2,
+                                           @RequestParam(required = false, defaultValue = "") String s3) throws IOException
     {
         if (nation != null && shipType != null && ship != null) {
             ship = URLDecoder.decode(ship, "UTF-8");
+            logger.info("Loading " + nation + " " + shipType + " " + ship + " from Ship Comparison");
 
             model.addAttribute("serverParam", serverParamAddress);
             model.addAttribute("nations", data.get(serverParam).get("nations"));
@@ -580,8 +598,99 @@ public class APIController extends ExceptionController
             model.addAttribute("notification", notification);
             model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
 
-            logger.info("Loading " + nation + " " + shipType + " " + ship);
-            model.addAttribute("warship", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(ship));
+            Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(ship);
+
+            if (StringUtils.isNotEmpty(moduleN)) {
+                int lengthT = moduleN.length();
+                modules = new HashSet<>();
+                Iterable<LinkedHashMap> tempT = warship.getWarshipModulesTreeNew().values();
+                for (int i = 0; i < lengthT; i++) {
+                    int moduleM = Integer.parseInt("" + moduleN.charAt(i)) - 1;
+                    LinkedHashMap<String, WarshipModulesTree> tempWMT = IterableUtils.get(tempT, i);
+                    Iterable<WarshipModulesTree> tempM = tempWMT.values();
+                    modules.add(String.valueOf(IterableUtils.get(tempM, moduleM).getModule_id()));
+                }
+            }
+
+            if (StringUtils.isNotEmpty(upgradeN)) {
+                int lengthT = upgradeN.length();
+                upgrades = new HashSet<>();
+                Iterable<LinkedHashMap> tempT = warship.getUpgradesNew().values();
+                for (int i = 0; i < lengthT; i++) {
+                    int upgradeM = Integer.parseInt("" + upgradeN.charAt(i)) - 1;
+                    if (upgradeM >= 0) {
+                        LinkedHashMap<String, Consumables> tempWMT = IterableUtils.get(tempT, i);
+                        Iterable<Consumables> tempM = tempWMT.values();
+                        upgrades.add(String.valueOf(IterableUtils.get(tempM, upgradeM).getConsumable_id()));
+                    }
+                }
+            }
+
+            HashSet<CrewSkills> crewSkills = new HashSet<>();
+            if (StringUtils.isNotEmpty(skillN)) {
+                int lengthT = skillN.length();
+                for (int i = 0; i < lengthT; i++) {
+                    int x = Integer.parseInt("" + skillN.charAt(i));
+                    if (x == 1) {
+                        CrewSkills cs = new CrewSkills();
+                        cs.setTier((i / 8) + 1);
+                        cs.setType_id(i % 8);
+                        crewSkills.add(cs);
+                    }
+                }
+            }
+
+            HashSet<String> crewUSkills = new HashSet<>();
+            if (StringUtils.isNotEmpty(uSkillN)) {
+                int lengthT = uSkillN.length();
+                Iterable<UniqueTemp> tempUSkills = ((LinkedHashMap<String, GPCommander>) data.get(serverParam).get("commanders").get(nation)).get(commander).getUniqueSkills().getModifier().values();
+                for (int i = 0; i < lengthT; i++) {
+                    int uSkillM = Integer.parseInt("" + uSkillN.charAt(i));
+                    if (uSkillM == 1) {
+                        crewUSkills.add(IterableUtils.get(tempUSkills, i).getIdentifier());
+                    }
+                }
+            }
+
+            if (StringUtils.isNotEmpty(flagN)) {
+                flags = new HashSet<>();
+                Iterable<Consumables> flagsIter = ((LinkedHashMap<String, Consumables>) data.get(serverParam).get("exteriors").get("Flags")).values();
+                for (int i = 0; i < flagN.length(); i++) {
+                    int flagM = Integer.parseInt("" + flagN.charAt(i));
+                    if (flagM == 1) {
+                        flags.add(String.valueOf(IterableUtils.get(flagsIter, i).getConsumable_id()));
+                    }
+                }
+            }
+
+            if (StringUtils.isNotEmpty(s0) || StringUtils.isNotEmpty(s1) || StringUtils.isNotEmpty(s2) || StringUtils.isNotEmpty(s3)) {
+                consumables = new HashSet<>();
+                if (StringUtils.isNotEmpty(s0)) {
+                    consumables.add(s0);
+                }
+                if (StringUtils.isNotEmpty(s1)) {
+                    consumables.add(s1);
+                }
+                if (StringUtils.isNotEmpty(s2)) {
+                    consumables.add(s2);
+                }
+                if (StringUtils.isNotEmpty(s3)) {
+                    consumables.add(s3);
+                }
+            }
+
+            model.addAttribute("url", "/warship?" + request.getQueryString());
+            model.addAttribute("modules", modules);
+            model.addAttribute("upgrades", upgrades);
+            model.addAttribute("adrenalineValue", ar != 100 ? ar : adrenalineValue);
+            model.addAttribute("flags", flags);
+            model.addAttribute("consumables", consumables);
+            model.addAttribute("crewSkills", crewSkills);
+            model.addAttribute("crewUSkills", crewUSkills);
+            model.addAttribute("camo", camo);
+            model.addAttribute("mobile", mobile);
+            model.addAttribute("nation", nation).addAttribute("shipType", shipType).addAttribute("ship", ship);
+            model.addAttribute("warship", warship);
             model.addAttribute("commanders", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("commanders").get(nation)).keySet());
 
             commander = URLDecoder.decode(commander, "UTF-8");
