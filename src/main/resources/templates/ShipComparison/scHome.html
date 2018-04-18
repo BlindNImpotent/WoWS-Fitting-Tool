@@ -538,6 +538,7 @@
                     currentIndex.find('.right_side').html(data);
                     currentIndex.find('#consumables').html(currentIndex.find('#consumablesDataFragment').html());
                     currentIndex.find('#consumablesDataFragment').remove();
+                    currentIndex.find('#wrongPathAlert').attr('style', 'display: none;');
 
                     setConsumables(currentIndex);
 
@@ -565,9 +566,7 @@
                 }
                 else
                 {
-                    var html = '<div class="shipAPIData" id="shipAPIData"><h2>Wrong path of research</h2></div>';
-
-                    currentIndex.find('.shipAPIData').replaceWith(html);
+                    currentIndex.find('#wrongPathAlert').attr('style', '');
                 }
             }
         });
