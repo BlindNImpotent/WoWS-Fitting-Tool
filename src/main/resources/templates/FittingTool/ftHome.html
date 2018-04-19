@@ -635,7 +635,7 @@
 
                 var tempInterval = setInterval(function () {
                     var warshipCalled = $('#ship');
-                    if (warshipCalled !== null && warshipCalled !== undefined && warshipCalled.html() !== '') {
+                    if (warshipCalled !== null && warshipCalled !== undefined && warshipCalled.html() !== '' && $('.button_module_selected').length > 0) {
                         clearInterval(tempInterval);
                         callAPI();
                     }

@@ -128,12 +128,19 @@
                 var tempSpace = $('#tempSpace');
                 var index = shipIndex;
                 tempSpace.append(data);
-                tempSpace.find('#ship').attr('data-ship-index', index);
-                $('#compareList').append(tempSpace.html());
 
-                var tempInterval = setInterval(function () {
+                var tempInterval1 = setInterval(function () {
                     if (tempSpace.html() !== '') {
-                        clearInterval(tempInterval);
+                        clearInterval(tempInterval1);
+                        tempSpace.find('#ship').attr('data-ship-index', index);
+                        $('#compareList').append(tempSpace.html());
+                    }
+                }, 500);
+
+                var tempInterval2 = setInterval(function () {
+                    var currentIndex = $('[data-ship-index=' + index + ']');
+                    if (currentIndex.html() !== '' && currentIndex.find('.button_module_selected').length > 0) {
+                        clearInterval(tempInterval2);
                         tempSpace.html('');
                         callAPI(index, nation, shipType, ship, '');
                         changeSkillDescription(index);
@@ -163,18 +170,25 @@
             type: 'post',
             success: function (data) {
                 var tempSpace = $('#tempSpace');
-                tempSpace.append(data);
                 var index = shipIndex;
-                tempSpace.find('#ship').attr('data-ship-index', index);
-                $('#compareList').append(tempSpace.html());
+                tempSpace.append(data);
 
-                var tempInterval = setInterval(function () {
+                var tempInterval1 = setInterval(function () {
                     if (tempSpace.html() !== '') {
+                        clearInterval(tempInterval1);
+                        tempSpace.find('#ship').attr('data-ship-index', index);
+                        $('#compareList').append(tempSpace.html());
+                    }
+                }, 500);
+
+                var tempInterval2 = setInterval(function () {
+                    var currentIndex = $('[data-ship-index=' + index + ']');
+                    if (currentIndex.html() !== '' && currentIndex.find('.button_module_selected').length > 0) {
                         var shipDom = tempSpace.find('#ship');
                         var nation = shipDom.attr('data-nation');
                         var shipType = shipDom.attr('data-ship-type');
                         var ship = shipDom.attr('data-name');
-                        clearInterval(tempInterval);
+                        clearInterval(tempInterval2);
                         tempSpace.html('');
                         callAPI(index, nation, shipType, ship, '', url);
                         changeSkillDescription(index);
