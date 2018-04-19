@@ -110,7 +110,6 @@ public class APIController extends ExceptionController
                                 @RequestParam(required = false, defaultValue = "100") int adrenalineValue,
                                 @RequestParam(required = false, defaultValue = "100") int ar,
                                 @RequestParam(required = false, defaultValue = "false") boolean camo,
-                                @RequestParam(required = false, defaultValue = "false") boolean mobile,
                                 @RequestParam(required = false, defaultValue = "default") String commander,
                                 @RequestParam(required = false, defaultValue = "") String moduleN,
                                 @RequestParam(required = false, defaultValue = "") String upgradeN,
@@ -254,7 +253,6 @@ public class APIController extends ExceptionController
             model.addAttribute("crewSkills", crewSkills);
             model.addAttribute("crewUSkills", crewUSkills);
             model.addAttribute("camo", camo);
-            model.addAttribute("mobile", mobile);
             model.addAttribute("warship", warship);
             model.addAttribute("nation", nation).addAttribute("shipType", shipType).addAttribute("ship", ship);
             model.addAttribute("commanders", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("commanders").get(nation)).keySet());
@@ -574,7 +572,6 @@ public class APIController extends ExceptionController
                                            @RequestParam(required = false, defaultValue = "100") int adrenalineValue,
                                            @RequestParam(required = false, defaultValue = "100") int ar,
                                            @RequestParam(required = false, defaultValue = "false") boolean camo,
-                                           @RequestParam(required = false, defaultValue = "false") boolean mobile,
                                            @RequestParam(required = false, defaultValue = "default") String commander,
                                            @RequestParam(required = false, defaultValue = "") String moduleN,
                                            @RequestParam(required = false, defaultValue = "") String upgradeN,
@@ -689,7 +686,6 @@ public class APIController extends ExceptionController
             model.addAttribute("crewSkills", crewSkills);
             model.addAttribute("crewUSkills", crewUSkills);
             model.addAttribute("camo", camo);
-            model.addAttribute("mobile", mobile);
             model.addAttribute("nation", nation).addAttribute("shipType", shipType).addAttribute("ship", ship);
             model.addAttribute("warship", warship);
             model.addAttribute("commanders", ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("commanders").get(nation)).keySet());
