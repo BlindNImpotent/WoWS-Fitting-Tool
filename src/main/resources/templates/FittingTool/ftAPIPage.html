@@ -464,7 +464,7 @@
                                     <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distTorpedoModified, 0, 2) + ' km'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.regenerationHPSpeed != 0}">
-                                    <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' / s'}"/><br />
+                                    <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' hp / s'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.lifeTime != 0}">
                                     <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
@@ -479,7 +479,7 @@
                                     <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.torpedoReloadTime, 0, 'COMMA') + ' s'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.artilleryDistCoeff != 0}">
-                                    <span style="float: left;">Range: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.artilleryDistCoeff * shipAPI.artillery.distance, 1, 1) + ' km'}"/><br />
+                                    <span style="float: left;">Range: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.artilleryDistCoeff * shipAPI.shipComponents.artillery.maxDist / 1000, 1, 2) + ' km'}"/><br />
                                 </th:block>
                                 <br />
                             </div>
@@ -501,7 +501,7 @@
                                     <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distTorpedoModified, 0, 2) + ' km'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.regenerationHPSpeed != 0}">
-                                    <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' / s'}"/><br />
+                                    <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' hp / s'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.lifeTime != 0}">
                                     <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
@@ -516,7 +516,7 @@
                                     <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.torpedoReloadTime, 0, 'COMMA') + ' s'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.artilleryDistCoeff != 0}">
-                                    <span style="float: left;">Range: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.artilleryDistCoeff * shipAPI.artillery.distance, 1, 1) + ' km'}"/><br />
+                                    <span style="float: left;">Range: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.artilleryDistCoeff * shipAPI.shipComponents.artillery.maxDist / 1000, 1, 2) + ' km'}"/><br />
                                 </th:block>
                                 <br />
                             </div>
@@ -538,7 +538,7 @@
                                     <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distTorpedoModified, 0, 2) + ' km'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.regenerationHPSpeed != 0}">
-                                    <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' / s'}"/><br />
+                                    <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' hp / s'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.lifeTime != 0}">
                                     <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
@@ -553,7 +553,7 @@
                                     <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.torpedoReloadTime, 0, 'COMMA') + ' s'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.artilleryDistCoeff != 0}">
-                                    <span style="float: left;">Range: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.artilleryDistCoeff * shipAPI.artillery.distance, 1, 1) + ' km'}"/><br />
+                                    <span style="float: left;">Range: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.artilleryDistCoeff * shipAPI.shipComponents.artillery.maxDist / 1000, 1, 2) + ' km'}"/><br />
                                 </th:block>
                                 <br />
                             </div>
@@ -575,7 +575,7 @@
                                     <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distTorpedoModified, 0, 2) + ' km'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.regenerationHPSpeed != 0}">
-                                    <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' / s'}"/><br />
+                                    <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' hp / s'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.lifeTime != 0}">
                                     <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
@@ -590,7 +590,7 @@
                                     <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.torpedoReloadTime, 0, 'COMMA') + ' s'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.artilleryDistCoeff != 0}">
-                                    <span style="float: left;">Range: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.artilleryDistCoeff * shipAPI.artillery.distance, 1, 1) + ' km'}"/><br />
+                                    <span style="float: left;">Range: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.artilleryDistCoeff * shipAPI.shipComponents.artillery.maxDist / 1000, 1, 2) + ' km'}"/><br />
                                 </th:block>
                                 <br />
                             </div>
