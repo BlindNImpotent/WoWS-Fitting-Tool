@@ -618,20 +618,8 @@
             url: url,
             type: 'post',
             success: function (data) {
-                $('.button_skill_selected').attr('class', 'button_skill');
-                $('.button_uSkill_selected').attr('class', 'button_uSkill');
-                $('.button_flag_selected').attr('class', 'button_flag');
-                $('.button_consumable_selected').attr('class', 'button_consumable');
-
                 $('.warshipData').replaceWith(data);
-
-                $('.button_uSkill_selected').attr('class', 'button_uSkill');
-                $('#uniqueSkillsTable').find('tr').hide();
-                $('#uniqueSkillsTable').hide();
-
                 commander = 'default';
-                $('#commanderSelect').val(commander);
-                changeSkillDescription();
 
                 var tempInterval = setInterval(function () {
                     var warshipCalled = $('#ship');

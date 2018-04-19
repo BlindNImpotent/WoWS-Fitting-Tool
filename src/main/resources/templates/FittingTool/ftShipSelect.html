@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="warshipData" th:fragment="warshipStats">
-        <div id="notification" th:style="${warship != null} ? 'display: none' : 'text-align: center;'">
+        <div id="notification" th:if="${warship == null}" th:style="${warship != null} ? 'display: none' : 'text-align: center;'">
             <h2>Click on a ship for fitting.</h2>
         </div>
         <div id="ship" th:name="${warship.ship_id}" th:if="${warship != null}">
