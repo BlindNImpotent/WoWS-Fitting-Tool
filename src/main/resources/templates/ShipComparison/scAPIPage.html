@@ -183,7 +183,7 @@
                     <span id="rof" style="float: right;" th:text="${#numbers.formatDecimal(60 / shipAPI.shipComponents.artillery.shotDelay, 1, 2)} + ' RPM'"/><br />
                     <th:block th:if="${adrenaline == true}">
                         <div id="slider">
-                            <input style="width: 75%" type="range" min="1" max="100" th:value="${adrenalineValue}" class="slider" id="arSlider"/>
+                            <input style="width: 70%" type="range" min="1" max="100" th:value="${adrenalineValue}" class="slider" id="arSlider"/>
                             <span style="vertical-align: top;" id="arValue" th:text="${adrenalineValue}"></span><span style="vertical-align: top;"> % hp</span>
                         </div>
                     </th:block>
