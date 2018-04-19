@@ -63,22 +63,11 @@
     <div class="warshipData" th:include="FittingTool/ftShipSelect :: warshipStats"></div>
 </main>
 <script th:inline="javascript">
-    //    <![CDATA[
-    var height1 = document.getElementById('top').clientHeight;
-    var height2 = document.getElementById('shipsList').clientHeight;
+//    <![CDATA[
 
-    var nation = '';
-    var shipType = '';
-    var ship = '';
-    var mobile = false;
-
-    var modules = [];
-    var upgrades = [];
-    var skills = [];
-    var oSkills = [];
-    var uSkills = [];
-    var flags = [];
-    var consumables = [[${consumables}]];
+    var nation = /*[[${nation}]]*/ '';
+    var shipType = /*[[${shipType}]]*/ '';
+    var ship = /*[[${ship}]]*/ '';
 
     var nthM = '';
     var nthU = '';
@@ -89,24 +78,22 @@
 
     var camouflage = false;
 
-    var shipHP = 0;
-
     var maxFlagPts = 8;
 
-    var adrenalineValue = 100;
+    var adrenalineValue = /*[[${adrenalineValue}]]*/ 100;
+    adrenalineValue = adrenalineValue === null ? 100 : adrenalineValue;
 
-    var commander = [[${sCommander}]] !== null ? [[${sCommander}]] : 'default';
+    var commander = /*[[${sCommander}]]*/ 'default';
 
-    var live = [[${serverParam}]];
+    var live = /*[[${serverParam}]]*/ '';
 
     var waitTime = 1000;
     var timer;
     var rightPanelOpen = '';
 
     $().ready(function () {
-        if ([[${url}]] != null)
+        if ([[${url}]] !== null)
         {
-            adrenalineValue = [[${adrenalineValue}]];
             callAPI();
             setCaptainSkillPoints();
             setFlags();
@@ -172,7 +159,7 @@
     {
         var list = $('.button_flag_selected');
 
-        if ([[${shipType}]] != null && [[${shipType}]] == 'AirCarrier')
+        if (shipType === 'AirCarrier')
         {
             maxFlagPts = 4;
         }
@@ -184,12 +171,8 @@
 
     function setConsumables()
     {
-        var list = [[${consumables}]];
-
-        if (list == null || ([[${warship}]] != null && [[${warship}]].name != ship))
-        {
-            list = [];
-        }
+        var list = /*[[${consumables}]]*/ [];
+        list = list === null ? [] : list;
 
         var notSelected = $('.button_consumable');
         var selected = $('.button_consumable_selected');
@@ -283,7 +266,7 @@
             nation: nation,
             shipType: shipType,
             ship: ship
-        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '') + '&commander=' + encodeURIComponent(commander) + (nthF.length > 0 ? '&flagN=' + nthF : '') + (camouflage === true ? '&camo=' + camouflage : '') +  '&ar=' + $('#custom-handle').text());
+        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '') + '&commander=' + encodeURIComponent(commander) + (nthF.length > 0 ? '&flagN=' + nthF : '') + (camouflage === true ? '&camo=' + camouflage : '') +  '&ar=' + adrenalineValue);
     }
 
     $(document).on('click', '.button_skill, .button_skill_selected', function () {
@@ -419,21 +402,6 @@
     {
         if ($('#ship').attr('name') != null)
         {
-            if (nation == '' || shipType == '' || ship == '')
-            {
-                if ([[${warship}]] != null)
-                {
-                    nation = [[${warship}]]['nation'];
-                    shipType = [[${warship}]]['type'];
-                    ship = [[${warship}]]['name'];
-//                    ship = ship.replace("'", "");
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
             var url = live + '/shipAPI?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&ship_id=' + $('#ship').attr('name');
             var modifier = '&';
             var equals = '=';
@@ -445,12 +413,6 @@
             var selectedFlags = $('.button_flag_selected');
             var selectedConsumables = $('.button_consumable_selected');
 
-            modules = [];
-            upgrades = [];
-            oSkills = [];
-            skills = [];
-            uSkills = [];
-            flags = [];
             nthM = '';
             nthU = '';
             nthS = '';
@@ -629,6 +591,7 @@
                     var warshipCalled = $('#ship');
                     if (warshipCalled !== null && warshipCalled !== undefined && warshipCalled.html() !== '' && $('.button_module_selected').length > 0) {
                         clearInterval(tempInterval2);
+                        setFlags();
                         callAPI();
                     }
                 }, 500);
@@ -676,30 +639,6 @@
         delayCall();
     });
 
-    $(document).on('click', '#changeDevice', function () {
-        mobile = true;
-
-        var url = window.location.href;
-
-        if (url.includes('mobile'))
-        {
-            url = url.replace('mobile=false', 'mobile=' + mobile);
-        }
-        else
-        {
-            if (url.includes('warship'))
-            {
-                url = url + '&mobile=' + mobile;
-            }
-            else
-            {
-                url = url + '?mobile=' + mobile;
-            }
-        }
-
-        location.href = url;
-    });
-
     $(document).on('click', '.button_consumable', function () {
         var id = $(this).attr('name');
         var abil = $(this).attr('class').split(' ')[1];
@@ -730,7 +669,6 @@
     {
         commander = $('#commanderSelect').val();
         var tempCommander = commander.replace(' ', '');
-        uSkills = [];
         nthUS = '';
 
         $('.button_uSkill_selected').attr('class', 'button_uSkill');
@@ -844,7 +782,7 @@
         rightPanelOpen = type;
     }
 
-    //    ]]>
+//    ]]>
 </script>
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
