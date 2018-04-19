@@ -151,6 +151,11 @@
     });
 
     $('#addUrlSelect').on('click', function () {
+        var addUrl = $('#addUrl');
+        if (addUrl.val() === '') {
+            return;
+        }
+
         var currentSize = $('.warshipData').length;
         if (currentSize >= maxList) {
             $('#maxAlert').removeClass('hide');
@@ -160,7 +165,6 @@
             $('#maxAlert').addClass('hide');
         }
 
-        var addUrl = $('#addUrl');
         var index = shipIndex;
         var url = addUrl.val().replace('WarshipStats', 'warshipSC') + '&dataIndex=' + index;
         addUrl.val('');
