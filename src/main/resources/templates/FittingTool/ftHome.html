@@ -61,8 +61,6 @@
 </header>
 <main id="main">
     <div class="warshipData" th:include="FittingTool/ftShipSelect :: warshipStats"></div>
-    <div class="shipAPIData" style="display: none;">
-    </div>
 </main>
 <script th:inline="javascript">
     //    <![CDATA[
@@ -587,7 +585,6 @@
 
                         setConsumables();
                         showPanelRight(rightPanelOpen);
-                        $('.shipAPIData').html('');
 
                         history.replaceState({
                             nation: nation,
@@ -610,7 +607,14 @@
         nation = nationOriginal.replace(/ /g, '+');
         shipType = shipTypeOriginal.replace(/ /g, '+');
         ship = shipOriginal.replace(/ /g, '+');
-        $('#ship').html('');
+
+        var warshipDom = $('.warshipData');
+        warshipDom.html('');
+        var tempInterval1 = setInterval(function () {
+            if (warshipDom.html() === '') {
+                clearInterval(tempInterval1);
+            }
+        }, 100);
 
         var url = live + '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship);
 
@@ -621,10 +625,10 @@
                 $('.warshipData').replaceWith(data);
                 commander = 'default';
 
-                var tempInterval = setInterval(function () {
+                var tempInterval2 = setInterval(function () {
                     var warshipCalled = $('#ship');
                     if (warshipCalled !== null && warshipCalled !== undefined && warshipCalled.html() !== '' && $('.button_module_selected').length > 0) {
-                        clearInterval(tempInterval);
+                        clearInterval(tempInterval2);
                         callAPI();
                     }
                 }, 500);
