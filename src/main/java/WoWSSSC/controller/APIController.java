@@ -584,7 +584,8 @@ public class APIController extends ExceptionController
                                            @RequestParam(required = false, defaultValue = "") String s0,
                                            @RequestParam(required = false, defaultValue = "") String s1,
                                            @RequestParam(required = false, defaultValue = "") String s2,
-                                           @RequestParam(required = false, defaultValue = "") String s3) throws IOException
+                                           @RequestParam(required = false, defaultValue = "") String s3,
+                                           @RequestParam(required = false, defaultValue = "") String dataIndex) throws IOException
     {
         if (nation != null && shipType != null && ship != null) {
             ship = URLDecoder.decode(ship, "UTF-8");
@@ -696,6 +697,8 @@ public class APIController extends ExceptionController
             commander = URLDecoder.decode(commander, "UTF-8");
             commander = commander.equalsIgnoreCase("Steven Seagal") ? "John Doe" : commander;
             model.addAttribute("sCommander", commander);
+
+            model.addAttribute("dataIndex", dataIndex);
         }
         return "ShipComparison/scShipSelect :: warshipStats";
     }

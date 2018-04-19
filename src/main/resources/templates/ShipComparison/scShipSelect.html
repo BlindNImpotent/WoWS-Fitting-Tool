@@ -11,8 +11,8 @@
     <title>WoWS Fitting Tool by Aesis</title>
 </head>
 <body>
-<div class="warshipData" th:fragment="warshipStats">
-    <div id="ship" th:name="${warship.ship_id}" th:if="${warship != null}" th:attr="data-nation=${warship.nation}, data-ship-type=${warship.type}, data-name=${warship.name}">
+<div class="warshipData" th:fragment="warshipStats" th:attr="data-api-index=${dataIndex}">
+    <div id="ship" th:name="${warship.ship_id}" th:if="${warship != null}" th:attr="data-nation=${warship.nation}, data-ship-type=${warship.type}, data-name=${warship.name}, data-ship-index=${dataIndex}">
         <div id="name">
             <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship.defaultType}">
                 <img th:src="${warship.type != 'Premium' and warship.type != 'Arpeggio' and warship.type != 'HSF' ? eShipType.value.image : eShipType.value.image_premium}"/><br />

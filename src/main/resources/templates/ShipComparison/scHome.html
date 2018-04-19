@@ -119,29 +119,28 @@
         var shipType = selectedShipType.replace(/ /g, '+');
         var ship = $('.' + selectedNation + '.' + shipType).val().replace(/ /g, '+');
 
-        var url = '/warshipSC?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship);
+        var index = shipIndex;
+        var url = '/warshipSC?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&dataIndex=' + index;
 
         $.ajax({
             url: url,
             type: 'post',
             success: function (data) {
                 var tempSpace = $('#tempSpace');
-                var index = shipIndex;
                 tempSpace.append(data);
 
                 var tempInterval1 = setInterval(function () {
-                    if (tempSpace.html() !== '') {
+                    if (tempSpace.find('[data-ship-index=' + index + ']').html() !== '') {
                         clearInterval(tempInterval1);
-                        tempSpace.find('#ship').attr('data-ship-index', index);
-                        $('#compareList').append(tempSpace.html());
+                        $('#compareList').append(tempSpace.find('[data-api-index=' + index + ']'));
+                        tempSpace.html('');
                     }
                 }, 500);
 
                 var tempInterval2 = setInterval(function () {
-                    var currentIndex = $('[data-ship-index=' + index + ']');
+                    var currentIndex = $('#compareList').find('[data-ship-index=' + index + ']');
                     if (currentIndex.html() !== '' && currentIndex.find('.button_module_selected').length > 0) {
                         clearInterval(tempInterval2);
-                        tempSpace.html('');
                         callAPI(index, nation, shipType, ship, '');
                         changeSkillDescription(index);
                     }
@@ -162,7 +161,8 @@
         }
 
         var addUrl = $('#addUrl');
-        var url = addUrl.val().replace('WarshipStats', 'warshipSC');
+        var index = shipIndex;
+        var url = addUrl.val().replace('WarshipStats', 'warshipSC') + '&dataIndex=' + index;
         addUrl.val('');
 
         $.ajax({
@@ -170,26 +170,24 @@
             type: 'post',
             success: function (data) {
                 var tempSpace = $('#tempSpace');
-                var index = shipIndex;
                 tempSpace.append(data);
 
                 var tempInterval1 = setInterval(function () {
-                    if (tempSpace.html() !== '') {
+                    if (tempSpace.find('[data-ship-index=' + index + ']').html() !== '') {
                         clearInterval(tempInterval1);
-                        tempSpace.find('#ship').attr('data-ship-index', index);
-                        $('#compareList').append(tempSpace.html());
+                        $('#compareList').append(tempSpace.find('[data-api-index=' + index + ']'));
+                        tempSpace.html('');
                     }
                 }, 500);
 
                 var tempInterval2 = setInterval(function () {
-                    var currentIndex = $('[data-ship-index=' + index + ']');
+                    var currentIndex = $('#compareList').find('[data-ship-index=' + index + ']');
                     if (currentIndex.html() !== '' && currentIndex.find('.button_module_selected').length > 0) {
                         var shipDom = tempSpace.find('#ship');
                         var nation = shipDom.attr('data-nation');
                         var shipType = shipDom.attr('data-ship-type');
                         var ship = shipDom.attr('data-name');
                         clearInterval(tempInterval2);
-                        tempSpace.html('');
                         callAPI(index, nation, shipType, ship, '', url);
                         changeSkillDescription(index);
                     }
@@ -593,9 +591,9 @@
                 consumableN = consumableN + '&s' + rowPos + '=' + consumableId;
             }
             url = url + consumableN;
+            url = url + '&dataIndex=' + index;
         }
         url = url + '&isFT=false';
-        url = url + '&dataIndex=' + index;
 
         $.ajax({
             url: url,
