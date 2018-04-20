@@ -133,7 +133,7 @@ public class APIJsonParser
         logger.info("Setting up notification");
         ObjectMapper mapper = new ObjectMapper();
 
-        Resource notificationFile = new ClassPathResource("static/json/notification/notification.json");
+        Resource notificationFile = new ClassPathResource("/json/notification/notification.json");
         notification.clear();
         LinkedHashMap<String, String> temp = mapper.readValue(notificationFile.getURL(), new TypeReference<LinkedHashMap<String, String>>(){});
 
@@ -147,8 +147,8 @@ public class APIJsonParser
 
         ObjectMapper mapper = new ObjectMapper();
 
-        String liveGameParams = "/static/json/live/GameParams.json";
-        String testGameParams = "/static/json/test/GameParams.json";
+        String liveGameParams = "/json/live/GameParams.json";
+        String testGameParams = "/json/test/GameParams.json";
 
         gameParamsCHM.clear();
         for (int i = 0; i < 1; i++)
@@ -210,9 +210,9 @@ public class APIJsonParser
         {
             String serverParams = i == 0 ? "live" : "test";
 
-            String liveGlobal = "/static/json/live/global.json";
-            String krGlobal = "/static/json/live/global-kr.json";
-            String testGlobal = "/static/json/test/global.json";
+            String liveGlobal = "/json/live/global.json";
+            String krGlobal = "/json/live/global-kr.json";
+            String testGlobal = "/json/test/global.json";
 
             String finalGlobal = i == 0 ? ("kr".equalsIgnoreCase(customProperties.getGlobalLanguage()) ? krGlobal : liveGlobal) : testGlobal;
             Resource GlobalFile = new ClassPathResource(finalGlobal);
