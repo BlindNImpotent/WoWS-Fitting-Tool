@@ -148,14 +148,14 @@ public class APIJsonParser
         ObjectMapper mapper = new ObjectMapper();
 
         String liveGameParams = "/json/live/GameParams.json";
-        String testGameParams = "/json/test/GameParams.json";
+//        String testGameParams = "/json/test/GameParams.json";
 
         gameParamsCHM.clear();
         for (int i = 0; i < 1; i++)
         {
             String serverParams = i == 0 ? "live" : "test";
 
-            Resource GameParamsFile = new ClassPathResource(i == 0 ? liveGameParams : testGameParams);
+            Resource GameParamsFile = new ClassPathResource(liveGameParams);
             HashMap<String, LinkedHashMap> temp = mapper.readValue(GameParamsFile.getInputStream(), new TypeReference<HashMap<String, LinkedHashMap>>(){});
             HashMap<String, LinkedHashMap> tempGameParamsCHM = new HashMap<>();
             HashMap<String, String> tempNameToId = new HashMap<>();
@@ -212,9 +212,9 @@ public class APIJsonParser
 
             String liveGlobal = "/json/live/global.json";
             String krGlobal = "/json/live/global-kr.json";
-            String testGlobal = "/json/test/global.json";
+//            String testGlobal = "/json/test/global.json";
 
-            String finalGlobal = i == 0 ? ("kr".equalsIgnoreCase(customProperties.getGlobalLanguage()) ? krGlobal : liveGlobal) : testGlobal;
+            String finalGlobal = "kr".equalsIgnoreCase(customProperties.getGlobalLanguage()) ? krGlobal : liveGlobal;
             Resource GlobalFile = new ClassPathResource(finalGlobal);
 
             HashMap<String, Object> temp = mapper.readValue(GlobalFile.getInputStream(), new TypeReference<HashMap<String, Object>>(){});
