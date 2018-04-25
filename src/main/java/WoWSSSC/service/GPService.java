@@ -651,6 +651,15 @@ public class GPService
                 abilities.put(list.get(0), tempC);
             }
         });
+        shipAbilities.getAbilitySlot4().getAbils().forEach(list ->
+        {
+            if (CollectionUtils.isEmpty(disabledAbilities) || !disabledAbilities.contains(list.get(0)))
+            {
+                Consumable tempC = mapper.convertValue(gameParamsCHM.get(serverParam).get(list.get(0)), Consumable.class);
+                tempC.setGlobalName((String) global.get(serverParam).get("IDS_DOCK_CONSUME_TITLE_" + tempC.getName().toUpperCase()));
+                abilities.put(list.get(0), tempC);
+            }
+        });
 
         shipComponents.setShipAbilities(shipAbilities);
         shipComponents.setAbilities(abilities);

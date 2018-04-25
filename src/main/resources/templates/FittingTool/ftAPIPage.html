@@ -597,6 +597,43 @@
                         </th:block>
                     </th:block>
                 </th:block>
+                <th:block th:each="ability : ${shipAPI.shipComponents.shipAbilities}">
+                    <th:block th:each="consumable : ${ability.AbilitySlot4.abils}">
+                        <th:block th:each="abil : ${shipAPI.shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
+                            <div class="consumablesStats abil4" style="display: none;" th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:id="${consumable[0] + '_' + consumable[1]}">
+                                <strong th:text="${abil.value.globalName}">Slot 5</strong><br />
+                                <span style="float:left;">Count: </span><span style="float: right;" th:text="${type.value.numConsumables == -1 or type.value.numConsumables == 0 ? 'Infinite' : type.value.numConsumables}"/><br />
+                                <span style="float:left;">Duration: </span><span style="float: right; padding-left: 2em;" th:text="${#numbers.formatInteger(type.value.workTime, 1)} + ' s'"/><br />
+                                <span style="float:left;">Reload: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.reloadTime, 1)} + ' s'"/><br />
+                                <th:block th:if="${type.value.distShipModified != 0}">
+                                    <span style="float: left;">Ship: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distShipModified, 0, 2) + ' km'}"/><br />
+                                </th:block>
+                                <th:block th:if="${type.value.distTorpedoModified != 0}">
+                                    <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.distTorpedoModified, 0, 2) + ' km'}"/><br />
+                                </th:block>
+                                <th:block th:if="${type.value.regenerationHPSpeed != 0}">
+                                    <span style="float: left;">Repair: </span><span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.hull.health * type.value.regenerationHPSpeed, 0, 'COMMA') + ' hp / s'}"/><br />
+                                </th:block>
+                                <th:block th:if="${type.value.lifeTime != 0}">
+                                    <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
+                                </th:block>
+                                <th:block th:if="${type.value.boostCoeffModified != 1}">
+                                    <span style="float: left;">Speed: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed * type.value.boostCoeffModified, 0, 1) + ' kts'}"/><br />
+                                </th:block>
+                                <th:block th:if="${type.value.auraCoeff != 0}">
+                                    <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
+                                </th:block>
+                                <th:block th:if="${type.value.torpedoReloadTime != 0}">
+                                    <span style="float: left;">Torpedo: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.torpedoReloadTime, 0, 'COMMA') + ' s'}"/><br />
+                                </th:block>
+                                <th:block th:if="${type.value.artilleryDistCoeff != 0}">
+                                    <span style="float: left;">Range: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.artilleryDistCoeff * shipAPI.shipComponents.artillery.maxDist / 1000, 1, 2) + ' km'}"/><br />
+                                </th:block>
+                                <br />
+                            </div>
+                        </th:block>
+                    </th:block>
+                </th:block>
             </div>
         </div>
         <div id="right_tabs" class="right_tabs">

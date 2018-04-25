@@ -17,4 +17,6 @@ public class ShipAbilities
     private AbilitySlot2 abilitySlot2;
     @JsonProperty(value = "AbilitySlot3")
     private AbilitySlot3 abilitySlot3;
+    @JsonProperty(value = "AbilitySlot4")
+    private AbilitySlot4 abilitySlot4;
 }

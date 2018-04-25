@@ -189,6 +189,7 @@ public class APIJsonParser
                     shipAbilities.getAbilitySlot1().getAbils().forEach(list -> tempGameParamsCHM.put(list.get(0), temp.get(list.get(0))));
                     shipAbilities.getAbilitySlot2().getAbils().forEach(list -> tempGameParamsCHM.put(list.get(0), temp.get(list.get(0))));
                     shipAbilities.getAbilitySlot3().getAbils().forEach(list -> tempGameParamsCHM.put(list.get(0), temp.get(list.get(0))));
+                    shipAbilities.getAbilitySlot4().getAbils().forEach(list -> tempGameParamsCHM.put(list.get(0), temp.get(list.get(0))));
                 }
                 tempNameToId.put(value.getKey(), String.valueOf(value.getValue().get("id")));
                 tempIdToName.put(String.valueOf(value.getValue().get("id")), value.getKey());

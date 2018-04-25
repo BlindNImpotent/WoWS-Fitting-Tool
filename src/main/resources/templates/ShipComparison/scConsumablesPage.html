@@ -42,6 +42,16 @@
                 </li>
             </th:block>
         </div>
+        <div class="consumablesIcon" th:each="ability : ${shipAPI.shipComponents.shipAbilities}">
+            <th:block th:each="consumable : ${ability.AbilitySlot4.abils}">
+                <li th:each="abil : ${shipAPI.shipComponents.abilities}" th:if="${abil.key == consumable[0]}">
+                    <button th:each="type : ${abil.value.types}" th:if="${type.key == consumable[1]}" th:name="${consumable[0] + '_' + consumable[1]}" th:class="${consumables != null and #sets.contains(consumables, consumable[0] + '_' + consumable[1]) ? 'button_consumable_selected abil4' : 'button_consumable abil4'}" th:attr="data-position='4'">
+                        <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
+                        <span th:text="${abil.value.globalName}"></span>
+                    </button>
+                </li>
+            </th:block>
+        </div>
     </div>
 </div>
 </html>

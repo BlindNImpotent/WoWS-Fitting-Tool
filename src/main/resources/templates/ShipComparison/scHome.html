@@ -706,6 +706,7 @@
             var abil1List = currentIndex.find('.abil1');
             var abil2List = currentIndex.find('.abil2');
             var abil3List = currentIndex.find('.abil3');
+            var abil4List = currentIndex.find('.abil4');
 
             if (abil0List.length !== 0)
             {
@@ -729,6 +730,12 @@
             {
                 abil3List.eq(0).attr('class', 'button_consumable_selected abil3');
                 currentIndex.find('#' + abil3List.eq(0).attr('name')).removeAttr('style');
+            }
+
+            if (abil4List.length !== 0)
+            {
+                abil4List.eq(0).attr('class', 'button_consumable_selected abil4');
+                currentIndex.find('#' + abil4List.eq(0).attr('name')).removeAttr('style');
             }
         }
     }
