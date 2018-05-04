@@ -20,7 +20,7 @@
                 <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship.defaultType}">
                     <img th:src="${warship.type != 'Premium' and warship.type != 'Arpeggio' and warship.type != 'HSF' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
                     <span th:text="${'Tier ' + warship.tier}"/><br />
-                    <span th:text="${warship.type}"/><br />
+                    <span th:text="${warship.defaultType}"/><br />
                     <strong style="font-size: 2em;" th:text="${warship.name}"/><br />
                 </th:block>
                 <img th:title="${warship.description}" th:src="${warship.images.medium}"/>
