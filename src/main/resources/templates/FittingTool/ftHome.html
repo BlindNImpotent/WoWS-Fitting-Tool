@@ -69,23 +69,11 @@
     var shipType = /*[[${shipType}]]*/ '';
     var ship = /*[[${ship}]]*/ '';
 
-    var nthM = '';
-    var nthU = '';
-    var nthS = '';
-    var nthUS = '';
-    var nthF = '';
-    var consumableN = '';
-
-    var camouflage = false;
 
     var maxFlagPts = 8;
 
     var adrenalineValue = /*[[${adrenalineValue}]]*/ 100;
     adrenalineValue = adrenalineValue === null ? 100 : adrenalineValue;
-
-    var commander = /*[[${sCommander}]]*/ 'default';
-
-    var live = /*[[${serverParam}]]*/ '';
 
     var waitTime = 1000;
     var timer;
@@ -221,7 +209,7 @@
             }
         }
 
-        consumableN = '';
+        var consumableN = '';
         for (var i = 0; i < list.length; i++)
         {
             var current = list[i];
@@ -273,11 +261,7 @@
             }
         }
 
-        history.replaceState({
-            nation: nation,
-            shipType: shipType,
-            ship: ship
-        }, nation + shipType + ship, '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '') + '&commander=' + encodeURIComponent(commander) + (nthF.length > 0 ? '&flagN=' + nthF : '') + (camouflage === true ? '&camo=' + camouflage : '') +  '&ar=' + adrenalineValue);
+        doHistory();
     }
 
     $(document).on('click', '.button_skill, .button_skill_selected', function () {
@@ -363,41 +347,12 @@
         delayCall();
     });
 
-    $(document).on('click', '#showCrewSkills', function () {
-        $('#crewSkills').dialog('open');
-    });
-
-    $(document).on('click', '#showFlags', function () {
-        $('#flags').dialog('open');
-    });
-
-    $(document).on('click', '#showConsumables', function () {
-        $('#consumablesData').dialog('open');
-    });
-
-    $(document).on('click', '#showTorpVisibilityDialog', function () {
-        $('#torpVisibilityDialog').dialog('open');
-    });
-
-    $(document).on('click', '#showArtillerySector', function () {
-        $('#artilleryCanvasDiv').dialog('open');
-    });
-
-    $(document).on('click', '#showTorpedoSector', function () {
-        $('#torpedoesCanvasDiv').dialog('open');
-    });
-
-    //    $(document).on('click', '#showCamouflage', function () {
-    //        $('#camouflage').dialog('open');
-    //    });
-
     $(document).on('click', '#camouflageCheckbox', function () {
         delayCall();
     });
 
     $(document).on('input', '#arSlider', function () {
         $('#arValue').text($('#arSlider').val());
-        adrenalineValue = parseInt($('#arSlider').val());
         delayCall();
     });
 
@@ -413,9 +368,7 @@
     {
         if ($('#ship').attr('name') != null)
         {
-            var url = live + '/shipAPI?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&ship_id=' + $('#ship').attr('name');
-            var modifier = '&';
-            var equals = '=';
+            var url = '/shipAPI?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&ship_id=' + $('#ship').attr('name');
 
             var selectedModules = $('.button_module_selected');
             var selectedUpgrades = $('.button_upgrade_selected');
@@ -424,14 +377,14 @@
             var selectedFlags = $('.button_flag_selected');
             var selectedConsumables = $('.button_consumable_selected');
 
-            nthM = '';
-            nthU = '';
-            nthS = '';
-            nthUS = '';
-            nthF = '';
-            consumableN = '';
+            var nthM = '';
+            var nthU = '';
+            var nthS = '';
+            var nthUS = '';
+            var nthF = '';
+            var consumableN = '';
 
-            camouflage = $('#camouflageCheckbox').is(':checked');
+            var camouflage = $('#camouflageCheckbox').is(':checked');
 
             var tempSMArray = [];
             for (var i = 0; i < selectedModules.length; i++)
@@ -504,6 +457,9 @@
                 }
             }
             url = url + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '');
+
+            var commander = $('#commanderSelect').val();
+            commander = commander === undefined || commander === null ? 'default' : commander;
             url = url + '&commander=' + encodeURIComponent(commander);
 
             if (camouflage === true) {
@@ -526,7 +482,9 @@
             }
             url = url + (nthF.length > 0 ? '&flagN=' + nthF : '');
 
-            url = url + (adrenalineValue === 100 ? '' : '&ar=' + adrenalineValue);
+            var sliderValue = parseInt($('#arSlider').val());
+            adrenalineValue = sliderValue === null || sliderValue === undefined || isNaN(sliderValue) || sliderValue === 100 ? adrenalineValue : sliderValue;
+            url = url + (adrenalineValue === null || adrenalineValue === undefined || isNaN(adrenalineValue) || adrenalineValue === 100 ? '' : '&ar=' + adrenalineValue);
 
             for (var i = 0; i < selectedConsumables.length; i++) {
                 var consumableId = selectedConsumables.eq(i).attr('name');
@@ -559,11 +517,7 @@
                         setConsumables();
                         showPanelRight(rightPanelOpen);
 
-                        history.replaceState({
-                            nation: nation,
-                            shipType: shipType,
-                            ship: ship
-                        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '') + '&commander=' + encodeURIComponent(commander) + (nthF.length > 0 ? '&flagN=' + nthF : '') + (camouflage === true ? '&camo=' + camouflage : '') + (adrenalineValue === 100 ? '' : '&ar=' + adrenalineValue) + consumableN);
+                        doHistory();
                     }
                     else
                     {
@@ -589,14 +543,14 @@
             }
         }, 100);
 
-        var url = live + '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship);
+        adrenalineValue = 100;
+        var url = '/warship?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship);
 
         $.ajax({
             url: url,
             type: 'post',
             success: function (data) {
                 $('.warshipData').replaceWith(data);
-                commander = 'default';
 
                 var tempInterval2 = setInterval(function () {
                     var warshipCalled = $('#ship');
@@ -662,25 +616,20 @@
         $('[name=' + id + ']').attr('class', 'button_consumable_selected ' + abil);
 
         var selectedConsumables = $('.button_consumable_selected');
-        consumableN = '';
+        var consumableN = '';
         for (var i = 0; i < selectedConsumables.length; i++) {
             var consumableId = selectedConsumables.eq(i).attr('name');
             var rowPos = selectedConsumables.eq(i).attr('data-position');
             consumableN = consumableN + '&s' + rowPos + '=' + consumableId;
         }
 
-        history.replaceState({
-            nation: nation,
-            shipType: shipType,
-            ship: ship
-        }, nation + shipType + ship, live + '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '') + '&commander=' + encodeURIComponent(commander) + (nthF.length > 0 ? '&flagN=' + nthF : '') + (camouflage === true ? '&camo=' + camouflage : '') + (adrenalineValue === 100 ? '' : '&ar=' + adrenalineValue) + consumableN);
+        doHistory();
     });
 
     $(document).on('change', '#commanderSelect', function ()
     {
-        commander = $('#commanderSelect').val();
+        var commander = $('#commanderSelect').val();
         var tempCommander = commander.replace(' ', '');
-        nthUS = '';
 
         $('.button_uSkill_selected').attr('class', 'button_uSkill');
         $('#uniqueSkillsTable').find('tr').hide();
@@ -699,10 +648,14 @@
 
         changeSkillDescription();
         delayCall();
+        doHistory();
     });
 
     function changeSkillDescription()
     {
+        var commander = $('#commanderSelect').val();
+        commander = commander === undefined || commander === null ? 'default' : commander;
+
         if (commander === 'John Doe')
         {
             $('#1_2').attr('title', '-75% to reload time when the shell type is switched');
@@ -727,29 +680,6 @@
             $('#2_4').attr('title', '+20% to the radius of the smoke screen');
         }
     }
-
-    //    $(window).scroll(function () {
-    //        var position = document.getElementById('main').getBoundingClientRect().top;
-    //
-    //        if (position < height2)
-    //        {
-    //            $('#top').hide();
-    //            if ($('#shipsList').attr('style') === undefined)
-    //            {
-    //                $('#shipsList').attr('style', 'top: 0; position: fixed; width: 100%;');
-    //                $('#main').attr('style', 'margin-top: ' + height1 + 'px;')
-    //            }
-    //        }
-    //        else if (position === height1 && $('#shipsList').attr('style') !== undefined)
-    //        {
-    //            $('#top').show();
-    //            if ($('#shipsList').attr('style') !== undefined)
-    //            {
-    //                $('#shipsList').removeAttr('style');
-    //                $('#main').removeAttr('style');
-    //            }
-    //        }
-    //    });
 
     function showPanelLeft(type) {
         var tabs = $('.button_tab.left');
@@ -791,6 +721,123 @@
         $('#' + type + 'Stats').removeClass('hide');
 
         rightPanelOpen = type;
+    }
+
+    function doHistory() {
+        var selectedModules = $('.button_module_selected');
+        var selectedUpgrades = $('.button_upgrade_selected');
+        var selectedSkills = $('.button_skill_selected');
+        var selectedUSkills = $('.button_uSkill_selected');
+        var selectedFlags = $('.button_flag_selected');
+        var selectedConsumables = $('.button_consumable_selected');
+
+        var nthM = '';
+        var nthU = '';
+        var nthS = '';
+        var nthUS = '';
+        var nthF = '';
+        var consumableN = '';
+        var camouflage = $('#camouflageCheckbox').is(':checked');
+        var commander = $('#commanderSelect').val();
+        commander = commander === undefined || commander === null ? 'default' : commander;
+
+        var tempSMArray = [];
+        for (var i = 0; i < selectedModules.length; i++)
+        {
+            var mIndex = selectedModules.eq(i).attr('data-index');
+            var rowPos = selectedModules.eq(i).attr('data-position');
+            tempSMArray[rowPos] = mIndex;
+        }
+        for (var i = 0; i < tempSMArray.length; i++) {
+            if (tempSMArray[i] !== undefined && tempSMArray !== null) {
+                nthM = nthM + tempSMArray[i].toString();
+            }
+            else {
+                nthM = nthM + String(1);
+            }
+        }
+
+        var tempSUArray = [];
+        for (var i = 0; i < selectedUpgrades.length; i++)
+        {
+            var mIndex = selectedUpgrades.eq(i).attr('data-index');
+            var rowPos = selectedUpgrades.eq(i).attr('data-position');
+            tempSUArray[rowPos] = mIndex;
+        }
+        for (var i = 0; i < tempSUArray.length; i++) {
+            if (tempSUArray[i] !== undefined && tempSUArray !== null) {
+                nthU = nthU + tempSUArray[i].toString();
+            }
+            else {
+                nthU = nthU + String(0);
+            }
+        }
+
+        var tempSSArray = [];
+        var isAR = false;
+        for (var i = 0; i < selectedSkills.length; i++) {
+            var mIndex = selectedSkills.eq(i).attr('data-index');
+            var rowPos = selectedSkills.eq(i).attr('data-position');
+
+            if (mIndex === '7' && rowPos === '1') {
+                isAR = true;
+            }
+
+            var tempIndex = (mIndex - 1) + (rowPos * 8);
+            tempSSArray[tempIndex] = 1;
+        }
+        for (var i = 0; i < tempSSArray.length; i++) {
+            if (tempSSArray[i] !== undefined && tempSSArray !== null) {
+                nthS = nthS + tempSSArray[i].toString();
+            }
+            else {
+                nthS = nthS + String(0);
+            }
+        }
+
+        var tempSUSArray = [];
+        for (var i = 0; i < selectedUSkills.length; i++) {
+            var mIndex = selectedUSkills.eq(i).attr('data-index');
+            tempSUSArray[mIndex] = 1;
+        }
+        for (var i = 0; i < tempSUSArray.length; i++) {
+            if (tempSUSArray[i] !== undefined && tempSUSArray !== null) {
+                nthUS = nthUS + tempSUSArray[i].toString();
+            }
+            else {
+                nthUS = nthUS + String(0);
+            }
+        }
+
+        var tempFArray = [];
+        for (var i = 0; i < selectedFlags.length; i++)
+        {
+            var mIndex = selectedFlags.eq(i).attr('data-index');
+            tempFArray[mIndex] = 1;
+        }
+        for (var i = 0; i < tempFArray.length; i++) {
+            if (tempFArray[i] !== undefined && tempFArray !== null) {
+                nthF = nthF + tempFArray[i].toString();
+            }
+            else {
+                nthF = nthF + String(0);
+            }
+        }
+
+        for (var i = 0; i < selectedConsumables.length; i++) {
+            var consumableId = selectedConsumables.eq(i).attr('name');
+            var rowPos = selectedConsumables.eq(i).attr('data-position');
+            consumableN = consumableN + '&s' + rowPos + '=' + consumableId;
+        }
+
+        var adrenalineValue = parseInt($('#arSlider').val());
+        adrenalineValue = adrenalineValue === null || adrenalineValue === undefined || isNaN(adrenalineValue) || adrenalineValue === 100 ? 100 : adrenalineValue;
+
+        history.replaceState({
+            nation: nation,
+            shipType: shipType,
+            ship: ship
+        }, nation + shipType + ship, '/WarshipStats?nation=' + nation + '&shipType=' + shipType + '&ship=' + encodeURIComponent(ship) + '&moduleN=' + nthM + (nthU.length > 0 ? '&upgradeN=' + nthU : '') + (nthS.length > 0 ? '&skillN=' + nthS : '') + (nthUS.length > 0 ? '&uSkillN=' + nthUS : '') + '&commander=' + encodeURIComponent(commander) + (nthF.length > 0 ? '&flagN=' + nthF : '') + (camouflage === true ? '&camo=' + camouflage : '') + (adrenalineValue === 100 ? '' : '&ar=' + adrenalineValue) + consumableN);
     }
 
 //    ]]>
