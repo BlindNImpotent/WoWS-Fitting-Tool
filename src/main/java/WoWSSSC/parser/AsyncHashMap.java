@@ -219,6 +219,14 @@ public class AsyncHashMap implements CommandLineRunner {
                 consumablesData.get().getData().entrySet().forEach(entry ->
                 {
                     if (entry.getValue().getType().equals("Flags")) {
+                        // Remove flags with xp factor
+//                        if (entry.getValue().getProfile() != null &&
+//                                (entry.getValue().getProfile().getCrewExpFactor() != null && (entry.getValue().getProfile().getCrewExpFactor().getValue() > 0)
+//                                || (entry.getValue().getProfile().getFreeExpFactor() != null && entry.getValue().getProfile().getFreeExpFactor().getValue() > 0)
+//                                || (entry.getValue().getProfile().getExpFactor() != null && entry.getValue().getProfile().getExpFactor().getValue() > 0))) {
+//                            return;
+//                        }
+
                         List<String> stringsList = new ArrayList<>();
                         stringsList.add(entry.getValue().getDescription());
 
