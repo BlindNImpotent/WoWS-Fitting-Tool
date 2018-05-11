@@ -123,6 +123,7 @@ public class AsyncHashMap implements CommandLineRunner {
         }
 
         if (!"na".equalsIgnoreCase(apiAddress.getAddress()) && !"asia".equalsIgnoreCase(apiAddress.getAddress())) {
+            loadFinish.clear();
             loadFinish.put("loadFinish", 0);
 
             Encyclopedia encyclopediaNA = !"asia".equalsIgnoreCase(server) ? apiJsonParser.getEncyclopedia_NA().get().getData() : null;
@@ -228,8 +229,6 @@ public class AsyncHashMap implements CommandLineRunner {
 //                        }
 
                         List<String> stringsList = new ArrayList<>();
-                        stringsList.add(entry.getValue().getDescription());
-
                         LinkedHashMap<String, HashMap> profileHashMap = mapper.convertValue(entry.getValue().getProfile(), LinkedHashMap.class);
 
                         profileHashMap.values().forEach(value ->
@@ -243,7 +242,8 @@ public class AsyncHashMap implements CommandLineRunner {
                         for (String s : stringsList) {
                             finalString = finalString + s;
                         }
-                        entry.getValue().setDescription(finalString);
+                        entry.getValue().setDescription(entry.getValue().getDescription() + finalString);
+                        entry.getValue().setBonusDescription(finalString.replaceFirst("\n", ""));
 
                         tempFlags.put(entry.getKey(), entry.getValue());
                     } else if (entry.getValue().getType().equals("Camouflage")) {

@@ -59,7 +59,7 @@ public class CustomFilter implements Filter
         HttpServletResponse response = (HttpServletResponse) res;
 
         if (loadFinish.get("loadFinish") == 0 && !request.getRequestURI().equalsIgnoreCase("/") && !isIgnore(request.getRequestURI())) {
-            response.sendRedirect("/");
+            request.getRequestDispatcher("/").forward(request, response);
             return;
         }
 

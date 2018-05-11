@@ -20,9 +20,15 @@ public class Consumables
     private long price_credit;
     private String type;
     private String description;
+    private String bonusDescription;
 
     private String upgradeSlot;
 
     @JsonIgnore
     private int tempCR;
+
+    public String getBonusDescriptionHtml()
+    {
+        return bonusDescription.replace("\n", "<br />");
+    }
 }
