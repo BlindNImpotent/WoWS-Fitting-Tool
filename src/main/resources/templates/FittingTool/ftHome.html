@@ -661,7 +661,18 @@
             $('#1_2').attr('title', '-75% to reload time when the shell type is switched');
             $('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
         }
+        else if (commander === 'George Doe')
+        {
+            $('#1_2').attr('title', '-75% to reload time when the shell type is switched');
+            $('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+        }
         else if (commander === 'Jack Dunkirk')
+        {
+            $('#2_1').attr('title', '-10% to reload time of all mounted consumables');
+            $('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+            $('#2_4').attr('title', '+30% to the radius of the smoke screen');
+        }
+        else if (commander === 'Bert Dunkirk')
         {
             $('#2_1').attr('title', '-10% to reload time of all mounted consumables');
             $('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
@@ -672,12 +683,48 @@
             $('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
             $('#2_6').attr('title', '-0.25% to reload time of all types of armament for each 1% HP lost');
         }
+        else if (commander === 'Charles-Henri Honoré')
+        {
+            $('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+            $('#2_6').attr('title', '-0.25% to reload time of all types of armament for each 1% HP lost');
+        }
+        else if (commander === 'Viktor Znamensky')
+        {
+            $('#1_1').attr('title', '-45% to the risk of incapacitation of modules');
+            $('#2_0').attr('title', '-20% to reload time of the Damage Control Party consumable');
+            $('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+        }
+        else if (commander === 'Vasily Znamensky' || commander === 'Vasiliy Znamensky')
+        {
+            $('#1_1').attr('title', '-45% to the risk of incapacitation of modules');
+            $('#2_0').attr('title', '-20% to reload time of the Damage Control Party consumable');
+            $('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+        }
+        else if (commander === 'Franz von Jütland')
+        {
+            $('#2_1').attr('title', '-10% to reload time of all mounted consumables');
+            $('#3_7').attr('title', '+35% to acquisition range of torpedoes');
+        }
+        else if (commander === 'Reinhart von Jütland')
+        {
+            $('#2_1').attr('title', '-10% to reload time of all mounted consumables');
+            $('#3_7').attr('title', '+35% to acquisition range of torpedoes');
+        }
+        else if (commander === 'Yamamoto Isoroku')
+        {
+            $('#1_1').attr('title', '-45% to the risk of incapacitation of modules');
+            $('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+        }
         else if (commander === 'default')
         {
+            $('#1_1').attr('title', '-30% to the risk of incapacitation of modules');
             $('#1_2').attr('title', '-50% to reload time when the shell type is switched');
+            $('#2_0').attr('title', '-10% to reload time of the Damage Control Party consumable');
             $('#2_1').attr('title', '-5% to reload time of all mounted consumables');
             $('#2_2').attr('title', '+2.5deg/s to traverse speed of guns with a caliber up to 139 mm\n+0.7deg/s to traverse speed of guns with a caliber above 139 mm');
             $('#2_4').attr('title', '+20% to the radius of the smoke screen');
+            $('#2_6').attr('title', '-0.2% to reload time of all types of armament for each 1% HP lost');
+            $('#3_7').attr('title', '+25% to acquisition range of torpedoes');
         }
     }
 
