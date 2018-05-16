@@ -3,6 +3,7 @@ package WoWSSSC.model.WoWSAPI.consumables;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 
@@ -29,6 +30,6 @@ public class Consumables
 
     public String getBonusDescriptionHtml()
     {
-        return bonusDescription.replace("\n", "<br />");
+        return StringUtils.isNotEmpty(bonusDescription) ? bonusDescription.replace("\n", "<br />") : "";
     }
 }

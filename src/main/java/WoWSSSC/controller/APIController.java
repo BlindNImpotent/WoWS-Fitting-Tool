@@ -9,9 +9,11 @@ import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.model.email.EmailModel;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
+import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
 import WoWSSSC.model.gameparams.commanders.GPCommander;
 import WoWSSSC.model.gameparams.commanders.UniqueTemp;
 import WoWSSSC.service.APIService;
+import WoWSSSC.service.GPService;
 import WoWSSSC.service.MailService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,6 +40,9 @@ public class APIController extends ExceptionController
 {
     @Autowired
     private APIService apiService;
+
+    @Autowired
+    private GPService gpService;
 
     @Autowired
     private MailService mailService;
@@ -697,6 +702,27 @@ public class APIController extends ExceptionController
             model.addAttribute("dataIndex", dataIndex);
         }
         return "ShipComparison/scShipSelect :: warshipStats";
+    }
+
+    @RequestMapping (value = "/arty", method = RequestMethod.GET)
+    public String getArtyChart(Model model)
+    {
+        model.addAttribute("serverParam", serverParamAddress);
+        model.addAttribute("nations", data.get(serverParam).get("nations"));
+        model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
+
+        return "ArtyChart/acHome";
+    }
+
+    @ResponseBody
+    @RequestMapping (value = "/arty", method = RequestMethod.POST)
+    public Artillery test123(@RequestParam String nation,
+                             @RequestParam String shipType,
+                             @RequestParam String ship,
+                             @RequestParam String shipId,
+                             @RequestParam String artyId) throws Exception
+    {
+        return gpService.setShipArty(nation, shipType, ship, shipId, artyId, new ArrayList<>(), true).getArtillery();
     }
 
     @ResponseBody

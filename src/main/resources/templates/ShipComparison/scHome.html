@@ -1066,7 +1066,13 @@
     {
         var currentIndex = $('[data-ship-index=' + index + ']');
         var commander = currentIndex.find('#commanderSelect');
+
         if (commander === 'John Doe')
+        {
+            currentIndex.find('#1_2').attr('title', '-75% to reload time when the shell type is switched');
+            currentIndex.find('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+        }
+        else if (commander === 'George Doe')
         {
             currentIndex.find('#1_2').attr('title', '-75% to reload time when the shell type is switched');
             currentIndex.find('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
@@ -1077,17 +1083,59 @@
             currentIndex.find('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
             currentIndex.find('#2_4').attr('title', '+30% to the radius of the smoke screen');
         }
+        else if (commander === 'Bert Dunkirk')
+        {
+            currentIndex.find('#2_1').attr('title', '-10% to reload time of all mounted consumables');
+            currentIndex.find('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+            currentIndex.find('#2_4').attr('title', '+30% to the radius of the smoke screen');
+        }
         else if (commander === 'Jean-Jacques Honoré')
         {
             currentIndex.find('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
             currentIndex.find('#2_6').attr('title', '-0.25% to reload time of all types of armament for each 1% HP lost');
         }
+        else if (commander === 'Charles-Henri Honoré')
+        {
+            currentIndex.find('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+            currentIndex.find('#2_6').attr('title', '-0.25% to reload time of all types of armament for each 1% HP lost');
+        }
+        else if (commander === 'Viktor Znamensky')
+        {
+            currentIndex.find('#1_1').attr('title', '-45% to the risk of incapacitation of modules');
+            currentIndex.find('#2_0').attr('title', '-20% to reload time of the Damage Control Party consumable');
+            currentIndex.find('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+        }
+        else if (commander === 'Vasily Znamensky' || commander === 'Vasiliy Znamensky')
+        {
+            currentIndex.find('#1_1').attr('title', '-45% to the risk of incapacitation of modules');
+            currentIndex.find('#2_0').attr('title', '-20% to reload time of the Damage Control Party consumable');
+            currentIndex.find('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+        }
+        else if (commander === 'Franz von Jütland')
+        {
+            currentIndex.find('#2_1').attr('title', '-10% to reload time of all mounted consumables');
+            currentIndex.find('#3_7').attr('title', '+35% to acquisition range of torpedoes');
+        }
+        else if (commander === 'Reinhart von Jütland')
+        {
+            currentIndex.find('#2_1').attr('title', '-10% to reload time of all mounted consumables');
+            currentIndex.find('#3_7').attr('title', '+35% to acquisition range of torpedoes');
+        }
+        else if (commander === 'Yamamoto Isoroku')
+        {
+            currentIndex.find('#1_1').attr('title', '-45% to the risk of incapacitation of modules');
+            currentIndex.find('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+        }
         else if (commander === 'default')
         {
+            currentIndex.find('#1_1').attr('title', '-30% to the risk of incapacitation of modules');
             currentIndex.find('#1_2').attr('title', '-50% to reload time when the shell type is switched');
+            currentIndex.find('#2_0').attr('title', '-10% to reload time of the Damage Control Party consumable');
             currentIndex.find('#2_1').attr('title', '-5% to reload time of all mounted consumables');
             currentIndex.find('#2_2').attr('title', '+2.5deg/s to traverse speed of guns with a caliber up to 139 mm\n+0.7deg/s to traverse speed of guns with a caliber above 139 mm');
             currentIndex.find('#2_4').attr('title', '+20% to the radius of the smoke screen');
+            currentIndex.find('#2_6').attr('title', '-0.2% to reload time of all types of armament for each 1% HP lost');
+            currentIndex.find('#3_7').attr('title', '+25% to acquisition range of torpedoes');
         }
     }
 

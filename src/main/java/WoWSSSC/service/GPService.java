@@ -609,6 +609,139 @@ public class GPService
         return null;
     }
 
+    @Cacheable (value = "shipArty", key = "(#nation).concat(#shipType).concat(#ship).concat(#ship_id).concat(#artillery_id)")
+    public ShipComponents setShipArty(
+            String nation,
+            String shipType,
+            String ship,
+            String ship_id,
+            String artillery_id,
+            List<String> modules,
+            boolean isLive
+    ) throws IllegalAccessException
+    {
+        String serverParam = isLive ? "live" : "test";
+
+        if (StringUtils.isEmpty(ship_id))
+        {
+            ship_id = String.valueOf(((((LinkedHashMap<String, LinkedHashMap<String, Warship>>) data.get("nations").get(nation)).get(shipType)).get(ship)).getShip_id());
+        }
+
+        if (StringUtils.isNotEmpty(ship_id))
+        {
+            ShipComponents shipComponents = new ShipComponents();
+            Field[] fields = shipComponents.getClass().getDeclaredFields();
+
+            Temporary tempShip = mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id), Temporary.class);
+            ShipUpgradeInfo shipUpgradeInfo;
+            try
+            {
+                shipUpgradeInfo = tempShip.getShipUpgradeInfo();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+            HashSet<String> moduleNames = new HashSet<>();
+
+            moduleNames.add(idToName.get(serverParam).get(artillery_id));
+
+            if (CollectionUtils.isNotEmpty(modules))
+            {
+                modules.forEach(module -> moduleNames.add(idToName.get(serverParam).get(module)));
+            }
+
+            moduleNames.remove(null);
+
+            Components artilleryComponents = null;
+
+            for (String name : moduleNames)
+            {
+                for (Field cField : shipUpgradeInfo.getModules().get(name).getComponents().getClass().getDeclaredFields())
+                {
+                    cField.setAccessible(true);
+                    if (cField.get(shipUpgradeInfo.getModules().get(name).getComponents()) != null && CollectionUtils.isNotEmpty(shipUpgradeInfo.getModules().get(name).getComponents().getArtillery()) && shipUpgradeInfo.getModules().get(name).getUcType().equalsIgnoreCase("_Artillery"))
+                    {
+                        artilleryComponents = shipUpgradeInfo.getModules().get(name).getComponents();
+                    }
+                    cField.setAccessible(false);
+                }
+            }
+
+            for (String name : moduleNames)
+            {
+//                String prev = shipUpgradeInfo.getModules().get(name).getPrev();
+//
+//                if (!prev.equals(""))
+//                {
+//                    HashSet<String> prevNext = shipUpgradeInfo.getModules().get(prev).getNext();
+//
+//                    if (!moduleNames.contains(prev) && prevNext.stream().filter(nm -> moduleNames.contains(nm)).count() != prevNext.size())
+//                    {
+//                        return null;
+//                    }
+//                }
+
+                for (Field cField : shipUpgradeInfo.getModules().get(name).getComponents().getClass().getDeclaredFields())
+                {
+                    cField.setAccessible(true);
+                    List<String> tempList = (List<String>) cField.get(shipUpgradeInfo.getModules().get(name).getComponents());
+                    cField.setAccessible(false);
+
+                    for (Field field : fields)
+                    {
+                        if (tempList != null && tempList.size() > 0 && cField.getName().equals(field.getName()))
+                        {
+                            field.setAccessible(true);
+                            if (field.getName().equalsIgnoreCase("Artillery"))
+                            {
+                                String tempArtillery = "";
+
+                                for (String s : tempList)
+                                {
+                                    if (artilleryComponents != null && artilleryComponents.getArtillery().contains(s))
+                                    {
+                                        tempArtillery = s;
+                                    }
+                                }
+
+                                if (shipComponents.getArtillery() == null)
+                                {
+                                    Artillery artillery = mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id).get(tempArtillery), Artillery.class);
+                                    field.set(shipComponents, artillery);
+
+                                    shipComponents.getArtillery().getTurrets().values().forEach(value ->
+                                    {
+                                        float maxVertAngle = value.getVertSector().get(1);
+                                        value.getAmmoList().forEach(ammo ->
+                                        {
+                                            String id = nameToId.get(serverParam).get(ammo);
+                                            ArtyShell ArtyShell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), ArtyShell.class);
+                                            if ("AP".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
+                                            {
+                                                setAPPenetration(ArtyShell, maxVertAngle, shipComponents.getArtillery().getMinDistV(), shipComponents.getArtillery().getMaxDist());
+                                                shipComponents.getArtillery().setAPShell(ArtyShell);
+                                            }
+                                            else if ("HE".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getHEShell() == null)
+                                            {
+                                                setHEPenetration(ArtyShell, maxVertAngle);
+                                                shipComponents.getArtillery().setHEShell(ArtyShell);
+                                            }
+                                        });
+                                    });
+                                }
+                            }
+                            field.setAccessible(false);
+                        }
+                    }
+                }
+            }
+            return shipComponents;
+        }
+        return null;
+    }
+
     private void setShipAbilities(ShipComponents shipComponents, String ship_id, List<String> disabledAbilities, String serverParam)
     {
         ShipAbilities shipAbilities = mapper.convertValue(gameParamsCHM.get(serverParam).get(ship_id), Temporary.class).getShipAbilities();
@@ -700,6 +833,7 @@ public class GPService
         LinkedHashMap<Float, Float> impactAngle = new LinkedHashMap<>();
         LinkedHashMap<Float, Float> vertPlus = new LinkedHashMap<>();
         LinkedHashMap<Float, Float> vertMinus = new LinkedHashMap<>();
+        List<Float> distanceList = new ArrayList<>();
 
         float maxDistCalc = 0f;
         float maxDistTemp_1 = 0f;
@@ -760,6 +894,7 @@ public class GPService
                 penetration.put(maxDistCalc, (float) Math.cos(IA) * p_athit);
                 flightTime.put(maxDistCalc, t / 3f);
                 impactAngle.put(maxDistCalc, IA * 180f / ((float) Math.PI));
+                distanceList.add(maxDistCalc);
 
                 if (maxDistCalc <= maxDist) {
                     maxDistAngle_1 = alpha.get(i);
@@ -841,7 +976,7 @@ public class GPService
                 vertMinus.put(maxDistCalc_3, (maxDistCalc_3 - getDistanceAtAngle(alpha.get(i).floatValue() - arcDef,  V_0,  dt,  T_0,  L,  p_0,  a,  M,  R,  k,  cw_1,  cw_2)));
             }
         }
-        ArtyShell.setAPShell(penetration, flightTime, impactAngle, vertPlus, vertMinus);
+        ArtyShell.setAPShell(penetration, flightTime, impactAngle, vertPlus, vertMinus, distanceList);
     }
 
     private void setHEPenetration(ArtyShell ArtyShell, float maxVertAngle)

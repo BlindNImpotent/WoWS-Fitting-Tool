@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,6 +46,7 @@ public class ArtyShell
     private LinkedHashMap<Float, Float> impact;
     private LinkedHashMap<Float, Float> vertPlus;
     private LinkedHashMap<Float, Float> vertMinus;
+    private List<Float> distanceList;
     private float penetrationAtFive;
     private float penetrationAtTen;
     private float penetrationAtFifteen;
@@ -120,13 +122,15 @@ public class ArtyShell
     }
 
     public void setAPShell(LinkedHashMap<Float, Float> penetration, LinkedHashMap<Float, Float> flightTime, LinkedHashMap<Float, Float> impact,
-                           LinkedHashMap<Float, Float> vertPlus, LinkedHashMap<Float, Float> vertMinus)
+                           LinkedHashMap<Float, Float> vertPlus, LinkedHashMap<Float, Float> vertMinus,
+                           List<Float> distanceList)
     {
         this.penetration = penetration;
         this.flightTime = flightTime;
         this.impact = impact;
         this.vertPlus = vertPlus;
         this.vertMinus = vertMinus;
+        this.distanceList = distanceList;
 
         float fiveOne = 0f;
         float fiveTwo = 0f;
