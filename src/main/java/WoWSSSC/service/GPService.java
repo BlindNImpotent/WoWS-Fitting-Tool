@@ -845,6 +845,7 @@ public class GPService
         int index_2 = 0;
         int indexJ = -1;
         float arcDef = 0f;
+        float tempX = 0f;
         for (int i = 0; i < alpha.size(); i++) // for each alpha angle do:
         {
             float v_x = (float) Math.cos(alpha.get(i).floatValue()) * V_0;
@@ -888,8 +889,9 @@ public class GPService
             float p_athit = C * (float) Math.pow(v_total, 1.1f) * (float) Math.pow(W, 0.55f) / (float)Math.pow(D * 1000f, 0.65f); // PENETRATION FORMULA
             float IA = (float) Math.atan(Math.abs(v_y) / Math.abs(v_x)); // IMPACT ANGLE ON BELT ARMOR
 
-            if (x > maxDistCalc)
+            if (x > tempX && x > maxDistCalc)
             {
+                tempX = x;
                 maxDistCalc = getMidAtY(tX_1, tY_1, tX_2, tY_2, 0f);
                 penetration.put(maxDistCalc, (float) Math.cos(IA) * p_athit);
                 flightTime.put(maxDistCalc, t / 3f);
