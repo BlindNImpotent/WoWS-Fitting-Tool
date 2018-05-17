@@ -29,6 +29,9 @@ public class CustomFilter implements Filter
     @Autowired
     private HashMap<String, Integer> loadFinish;
 
+    @Autowired
+    private CustomProperties customProperties;
+
     private static HashSet<String> blockIP = new HashSet<>();
 
     private HashMap<String, BlockIp> ipMap = new HashMap<>();
@@ -62,7 +65,7 @@ public class CustomFilter implements Filter
         String uri = request.getRequestURI();
         String queryString = request.getQueryString();
 
-        if (url.contains("http://") && !url.contains("https://")) {
+        if ("https".equalsIgnoreCase(customProperties.getProtocol()) && url.contains("http://") && !url.contains("https://")) {
             url = url.replace("http", "https") + (StringUtils.isNotEmpty(queryString) ? "?" + queryString : "");
             response.setContentType("text/html");
             response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
