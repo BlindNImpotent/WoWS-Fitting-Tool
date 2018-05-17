@@ -3,6 +3,7 @@ package WoWSSSC.model.WoWSAPI.info;
 import WoWSSSC.model.WoWSAPI.info.ShipTypeImages.ShipTypeImages;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;

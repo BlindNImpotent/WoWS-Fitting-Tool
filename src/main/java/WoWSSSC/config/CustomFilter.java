@@ -58,12 +58,24 @@ public class CustomFilter implements Filter
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
+        String url = request.getRequestURL().toString();
+        String uri = request.getRequestURI();
+        String queryString = request.getQueryString();
+
+        if (url.contains("http://") && !url.contains("https://")) {
+            url = url.replace("http", "https") + (StringUtils.isNotEmpty(queryString) ? "?" + queryString : "");
+            response.setContentType("text/html");
+            response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+            response.setHeader("Location", url);
+            chain.doFilter(request, response);
+            return;
+        }
+
         if (loadFinish.get("loadFinish") == 0 && !request.getRequestURI().equalsIgnoreCase("/") && !isIgnore(request.getRequestURI())) {
             request.getRequestDispatcher("/").forward(request, response);
             return;
         }
 
-        String queryString = request.getQueryString();
         if (StringUtils.isNotEmpty(queryString) && request.getQueryString().contains("/images/Icon/WoWSFT_Icon.png")) {
             response.sendRedirect(request.getRequestURI() + "?" + queryString.replace("/images/Icon/WoWSFT_Icon.png", ""));
             return;

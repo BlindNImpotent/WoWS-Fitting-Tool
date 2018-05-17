@@ -11,6 +11,8 @@ public class CustomProperties
 
     private String globalLanguage;
 
+    private String protocol;
+
     public String getLanguage() {
         return language;
     }
@@ -23,6 +25,11 @@ public class CustomProperties
         return globalLanguage;
     }
 
+    public String getProtocol()
+    {
+        return protocol;
+    }
+
     public void setLanguage(String language) {
         this.language = language;
     }
@@ -33,5 +40,10 @@ public class CustomProperties
 
     public void setGlobalLanguage(String globalLanguage) {
         this.globalLanguage = globalLanguage;
+    }
+
+    public void setProtocol(String protocol)
+    {
+        this.protocol = protocol;
     }
 }

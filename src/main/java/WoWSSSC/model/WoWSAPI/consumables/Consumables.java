@@ -25,6 +25,14 @@ public class Consumables
 
     private String upgradeSlot;
 
+    public String getImage()
+    {
+        if (StringUtils.isNotEmpty(image)) {
+            return image.replace("http", "https");
+        }
+        return image;
+    }
+
     @JsonIgnore
     private int tempCR;
 

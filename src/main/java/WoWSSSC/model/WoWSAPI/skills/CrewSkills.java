@@ -18,6 +18,14 @@ public class CrewSkills
     private String icon;
     private String description;
 
+    public String getIcon()
+    {
+        if (StringUtils.isNotEmpty(icon)) {
+            return icon.replace("http", "https");
+        }
+        return icon;
+    }
+
     public void setTier(int tier)
     {
         this.tier = tier;
