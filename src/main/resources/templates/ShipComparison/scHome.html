@@ -411,7 +411,7 @@
         var index = currentShip.attr('data-ship-index');
         var currentIndex = $('[data-ship-index=' + index + ']');
         var commander = currentIndex.find('#commanderSelect').val();
-        var tempCommander = commander.replace(' ', '');
+        var tempCommander = commander.replace(/ /g, '');
 
         currentIndex.find('.button_uSkill_selected').attr('class', 'button_uSkill');
         currentIndex.find('#uniqueSkillsTable').find('tr').hide();
@@ -1125,6 +1125,11 @@
         {
             currentIndex.find('#1_1').attr('title', '-45% to the risk of incapacitation of modules');
             currentIndex.find('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+        }
+        else if (commander === 'William F Halsey Jr')
+        {
+            $('#1_2').attr('title', '-75% to reload time when the shell type is switched');
+            $('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
         }
         else if (commander === 'default')
         {

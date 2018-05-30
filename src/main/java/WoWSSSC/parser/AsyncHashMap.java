@@ -557,6 +557,14 @@ public class AsyncHashMap implements CommandLineRunner {
             }
         });
 
+        List<Integer> priceCredits = new ArrayList<>();
+        priceCredits.add(125000);
+        priceCredits.add(250000);
+        priceCredits.add(500000);
+        priceCredits.add(1000000);
+        priceCredits.add(2000000);
+        priceCredits.add(1250000);
+
         warship.getUpgrades().forEach(upgrade_id ->
         {
             Consumables tempConsumables = consumables.get(String.valueOf(upgrade_id));
@@ -573,7 +581,7 @@ public class AsyncHashMap implements CommandLineRunner {
                     tempConsumables.setUpgradeSlot("slot5");
                 } else if (tempConsumables.getPrice_credit() == 3000000) {
                     tempConsumables.setUpgradeSlot("slot6");
-                } else if (tempConsumables.getPrice_credit() == 1250000) {
+                } else if (tempConsumables.getPrice_credit() == 1250000 || !priceCredits.contains((int) tempConsumables.getPrice_credit())) {
                     Modernization mod = mapper.convertValue(gameParamsCHM.get(serverParam).get(String.valueOf(tempConsumables.getConsumable_id())), Modernization.class);
 
                     if (mod.getSlot() == 0) {
@@ -936,6 +944,7 @@ public class AsyncHashMap implements CommandLineRunner {
 
                         if (!temp1.equalsIgnoreCase(temp2) || gpCommander.getUniqueSkills().getModifier().size() > 0) {
                             String name = cEntry.getValue().getFirst_names().size() > 0 ? cEntry.getValue().getFirst_names().get(0) : gpCommander.getName();
+                            name = name.replace(".", "");
                             nationCommanders.put(name, gpCommander);
 
                             if (gpCommander.getUniqueSkills().getModifier().size() > 0) {

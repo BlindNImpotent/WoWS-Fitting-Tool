@@ -12,6 +12,8 @@ public class UniqueSkillModifier
     private float artilleryReloadCoeff;
     private float torpedoReloadCoeff;
     private float reloadCoeff;
+    private float visibilityFactor;
+    private float visibilityFactorByPlane;
 
     private int workTime;
 

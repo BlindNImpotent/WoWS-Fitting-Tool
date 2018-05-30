@@ -440,6 +440,11 @@ public class APIService
                             ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * value.getAirplaneReloadCoeff());
                         }
                     }
+                    else if (value.getVisibilityFactor() != 0 && value.getVisibilityFactorByPlane() != 0)
+                    {
+                        ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * value.getVisibilityFactor());
+                        ship.getConcealment().setDetect_distance_by_plane(ship.getConcealment().getDetect_distance_by_plane() * value.getVisibilityFactorByPlane());
+                    }
                 });
             });
         }
