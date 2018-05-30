@@ -252,7 +252,7 @@ public class APIJsonParser
         ConsumablesData result = restTemplate.getForObject(url, ConsumablesData.class);
         if (result.getMeta().getPage_total() > 1)
         {
-            for (int i = 2; i < result.getMeta().getPage_total(); i++)
+            for (int i = 2; i <= result.getMeta().getPage_total(); i++)
             {
                 url = apiAddress.getAPI_Starter() + "/consumables/?application_id=" + APP_ID + "&page_no=" + i + "&language=" + customProperties.getLanguage();
                 ConsumablesData temp = restTemplate.getForObject(url, ConsumablesData.class);
