@@ -525,7 +525,6 @@ public class APIController extends ExceptionController
         model.addAttribute("serverParam", serverParamAddress);
         model.addAttribute("encyclopedia", data.get(serverParam).get("encyclopedia"));
         model.addAttribute("nations", data.get(serverParam).get("nations"));
-        model.addAttribute("premiumTable", data.get(serverParam).get("premiumTable"));
 
         return "WarshipResearch/shipTree";
     }

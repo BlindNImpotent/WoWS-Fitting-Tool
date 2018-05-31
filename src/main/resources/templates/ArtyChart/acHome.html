@@ -41,7 +41,7 @@
     <div id="top" th:include="top :: top">
     </div>
 </header>
-<main>
+<main style="padding: 5px;">
     <div id="shipSelector">
         <select id="nationSelect">
             <th:block th:each="nation : ${nations}">
@@ -78,6 +78,7 @@
     </div>
     <br />
     <div id="chart_div"></div>
+    <th:block th:include="bottom"></th:block>
 </main>
 <script th:inline="javascript">
 //    <![CDATA[
@@ -162,7 +163,7 @@
                             list.push(tempList);
                         }
                     }
-                    drawMaterialChart(artyName, list);
+                    drawMaterialChart(selectedShip + ' ' + artyName, list);
                 }
             }
         });
@@ -173,8 +174,8 @@
     var chartDiv = document.getElementById('chart_div');
 
     function drawMaterialChart(artyName, list) {
-        data.addColumn('number', artyName + ' Penetration (mm)');
-        data.addColumn('number', artyName + ' Impact (deg)');
+        data.addColumn('number', artyName + '\nPenetration (mm)');
+        data.addColumn('number', artyName + '\nImpact (deg)');
         var tempSeries = {};
         for (var i = 0; i <= index; i++) {
             tempSeries[i * 2] = {

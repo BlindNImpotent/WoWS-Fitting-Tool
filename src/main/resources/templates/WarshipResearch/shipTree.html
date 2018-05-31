@@ -98,6 +98,22 @@
                     </th:block>
                 </th:block>
             </div>
+            <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Cruiser' and shipType.value.?[value.first == false].size() > 0}">
+                <th:block th:if="${shipType.value.?[value.first == false].size() > 0}">
+                    <th:block th:each="ship : ${shipType.value}" th:if="${ship.value.hasSecondLine and ship.value.secondMinTier >= ship.value.tier - (ship.value.firstMinTier - 1)}">
+                        <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                    </th:block>
+                    <th:block th:each="ship : ${shipType.value}" th:if="${!ship.value.first}">
+                        <button th:class="button_ship_tree" th:id="${#numbers.formatInteger(ship.value.tier, 2) + '_' + ship.value.name}">
+                            <img th:src="${ship.value.images.small}" th:title="${ship.value.name}"/><br />
+                            <span th:text="${ship.value.tier + ' - ' + ship.value.name}"/><br />
+                        </button>
+                    </th:block>
+                    <th:block th:each="ship : ${shipType.value}" th:if="${ship.value.hasSecondLine and ship.value.tier > ship.value.secondMaxTier}">
+                        <button th:class="button_ship_tree_empty" disabled="disabled"></button>
+                    </th:block>
+                </th:block>
+            </div>
             <div th:class="shipTree" th:each="shipType : ${nation.value}" th:if="${shipType.key == 'Destroyer'}">
                 <th:block th:if="${shipType.value.?[value.first == true].size() > 0}">
                     <th:block th:each="i : ${#numbers.sequence(1, 10)}" th:if="${shipType.value.?[value.firstMinTier > __${i}__].size() > 0}">
@@ -132,6 +148,7 @@
             </div>
         </div>
     </div>
+    <th:block th:include="bottom"></th:block>
 </main>
 <script th:inline="javascript">
     //    <![CDATA[
