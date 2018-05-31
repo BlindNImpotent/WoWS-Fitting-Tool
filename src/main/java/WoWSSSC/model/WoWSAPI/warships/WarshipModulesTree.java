@@ -1,6 +1,7 @@
 package WoWSSSC.model.WoWSAPI.warships;
 
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,5 +58,35 @@ public class WarshipModulesTree
     {
         prev_module_class = prev_module;
         prev_module_class = prev_module_class.trim();
+    }
+
+    public String getType2()
+    {
+        if (StringUtils.isNotEmpty(type)) {
+            if (type.equalsIgnoreCase("artillery")) {
+                return "maingun";
+            }
+            else if (type.equalsIgnoreCase("suo")) {
+                return "radar";
+            }
+            else if (type.equalsIgnoreCase("fighter")) {
+                return "avia_fighter";
+            }
+            else if (type.equalsIgnoreCase("torpedobomber")) {
+                return "avia_torpedo";
+            }
+            else if (type.equalsIgnoreCase("divebomber")) {
+                return "avia_bomber";
+            }
+        }
+        return type;
+    }
+
+    public String getImage()
+    {
+        if (StringUtils.isNotEmpty(type)) {
+            return "https://glossary-na-static.gcdn.co/icons/wows/current/module/icon_module_" + getType2().toLowerCase() + ".png";
+        }
+        return "";
     }
 }

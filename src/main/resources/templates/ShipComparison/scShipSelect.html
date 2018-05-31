@@ -62,7 +62,7 @@
                                         </td>
                                         <td th:id="${module != null ? 'li_' + module.module_id : null}">
                                             <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.index == 0) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}" th:attr="data-index=${module.index}, data-position=${module.pos}">
-                                                <img th:src="@{'/images/Upgrades/icon_module_' + ${#strings.toLowerCase(module.type)} + '.png'}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
+                                                <img th:src="${module.image}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
                                                 <span th:text="${module.name}"/>
                                             </button>
                                         </td>
