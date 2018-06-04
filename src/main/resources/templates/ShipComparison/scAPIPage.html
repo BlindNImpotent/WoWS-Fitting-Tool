@@ -340,6 +340,7 @@
                     <strong>Anti Air</strong><br />
                     <li th:each="slot : ${shipAPI.anti_aircraft.slots}" th:id="${slot.value.caliber}">
                         <u style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.name}"/><br />
+                        <span style="float: left;">Aura Type</span><span style="float: right;" th:text="${slot.value.auraType}"></span><br />
                         <span style="float: left;">DPS</span>
                         <th:block th:if="${configurationAPI != null}">
                             <th:block th:if="${configurationAPI.anti_aircraft != null and defaultSlot.value != null and defaultSlot.value.guns == slot.value.guns and defaultSlot.value.name == slot.value.name}" th:each="defaultSlot : ${configurationAPI.anti_aircraft.slots}">

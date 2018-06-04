@@ -13,4 +13,5 @@ public class Anti_Aircraft_Slot
     private float distance;
     private long guns;
     private String name;
+    private String auraType;
 }

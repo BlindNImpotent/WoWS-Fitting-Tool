@@ -242,6 +242,7 @@ public class GPService
                                                     Turret tempSecondary = shipComponents.getArtillery().getTurrets().get(value);
 
                                                     auraFar = new AntiAir();
+                                                    auraFar.setAuraType("AuraFar");
                                                     auraFar.setAntiAirAuraDistance(tempSecondary.getAntiAirAuraDistance());
                                                     auraFar.setAntiAirAuraStrength(tempSecondary.getAntiAirAuraStrength());
                                                     auraFar.setBarrelDiameter(tempSecondary.getBarrelDiameter());
@@ -383,6 +384,7 @@ public class GPService
                                                 Secondary tempSecondary = shipComponents.getAtba().getSecondaries().get(value);
 
                                                 auraFar = new AntiAir();
+                                                auraFar.setAuraType("AuraFar");
                                                 auraFar.setAntiAirAuraDistance(tempSecondary.getAntiAirAuraDistance());
                                                 auraFar.setAntiAirAuraStrength(tempSecondary.getAntiAirAuraStrength());
                                                 auraFar.setBarrelDiameter(tempSecondary.getBarrelDiameter());
@@ -474,6 +476,7 @@ public class GPService
                                                         Secondary tempSecondary = shipComponents.getAirDefense().getAntiAirGuns().get(value);
 
                                                         auraFar = new AntiAir();
+                                                        auraFar.setAuraType("AuraFar");
                                                         auraFar.setAntiAirAuraDistance(tempSecondary.getAntiAirAuraDistance());
                                                         auraFar.setAntiAirAuraStrength(tempSecondary.getAntiAirAuraStrength());
                                                         auraFar.setBarrelDiameter(tempSecondary.getBarrelDiameter());
@@ -522,6 +525,7 @@ public class GPService
                                                         Secondary tempSecondary = shipComponents.getAirDefense().getAntiAirGuns().get(value);
 
                                                         auraMedium = new AntiAir();
+                                                        auraMedium.setAuraType("AuraMedium");
                                                         auraMedium.setAntiAirAuraDistance(tempSecondary.getAntiAirAuraDistance());
                                                         auraMedium.setAntiAirAuraStrength(tempSecondary.getAntiAirAuraStrength());
                                                         auraMedium.setBarrelDiameter(tempSecondary.getBarrelDiameter());
@@ -570,6 +574,7 @@ public class GPService
                                                         Secondary tempSecondary = shipComponents.getAirDefense().getAntiAirGuns().get(value);
 
                                                         auraNear = new AntiAir();
+                                                        auraNear.setAuraType("AuraNear");
                                                         auraNear.setAntiAirAuraDistance(tempSecondary.getAntiAirAuraDistance());
                                                         auraNear.setAntiAirAuraStrength(tempSecondary.getAntiAirAuraStrength());
                                                         auraNear.setBarrelDiameter(tempSecondary.getBarrelDiameter());

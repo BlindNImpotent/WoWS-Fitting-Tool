@@ -283,6 +283,7 @@ public class APIService
                     if (aa.getName().equalsIgnoreCase(auraFar.getRealName()))
                     {
                         aa.setName(String.valueOf(auraFar.getNumBarrels()) + " " + aa.getName());
+                        aa.setAuraType(auraFar.getAuraType());
                     }
                 });
 
@@ -291,6 +292,7 @@ public class APIService
                     if (aa.getName().equalsIgnoreCase(auraMedium.getRealName()))
                     {
                         aa.setName(String.valueOf(auraMedium.getNumBarrels()) + " " + aa.getName());
+                        aa.setAuraType(auraMedium.getAuraType());
                     }
                 });
 
@@ -299,6 +301,7 @@ public class APIService
                     if (aa.getName().equalsIgnoreCase(auraNear.getRealName()))
                     {
                         aa.setName(String.valueOf(auraNear.getNumBarrels()) + " " + aa.getName());
+                        aa.setAuraType(auraNear.getAuraType());
                     }
                 });
             });

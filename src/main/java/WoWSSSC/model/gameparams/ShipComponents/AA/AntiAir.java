@@ -13,4 +13,5 @@ public class AntiAir
     private String name;
     private String realName;
     private int count;
+    private String auraType;
 }
