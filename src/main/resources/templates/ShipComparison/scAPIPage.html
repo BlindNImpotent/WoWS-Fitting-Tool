@@ -181,12 +181,6 @@
                     <span style="float:left;">RoF</span>
                     <span id="rofDiff" style="float: right;" th:if="${configurationAPI != null and 60 / shipAPI.shipComponents.artillery.shotDelay - 60 / configurationAPI.shipComponents.artillery.shotDelay != 0}" th:text="${60 / shipAPI.shipComponents.artillery.shotDelay - 60 / configurationAPI.shipComponents.artillery.shotDelay > 0 ? ' (+' + #numbers.formatDecimal(60 / shipAPI.shipComponents.artillery.shotDelay - 60 / configurationAPI.shipComponents.artillery.shotDelay, 1, 2) + ')' : ' (' + #numbers.formatDecimal(60 / shipAPI.shipComponents.artillery.shotDelay - 60 / configurationAPI.shipComponents.artillery.shotDelay, 1, 2) + ')'}"/>
                     <span id="rof" style="float: right;" th:text="${#numbers.formatDecimal(60 / shipAPI.shipComponents.artillery.shotDelay, 1, 2)} + ' RPM'"/><br />
-                    <th:block th:if="${adrenaline == true}">
-                        <div id="slider">
-                            <input style="width: 70%" type="range" min="1" max="100" th:value="${adrenalineValue}" class="slider" id="arSlider"/>
-                            <span style="vertical-align: top;" id="arValue" th:text="${adrenalineValue}"></span><span style="vertical-align: top;"> % hp</span>
-                        </div>
-                    </th:block>
                     <span style="float:left;">Rotation / 180 deg</span>
                     <span style="float: right;" th:if="${configurationAPI != null and 180 / shipAPI.shipComponents.artillery.rotationDeg - 180 / configurationAPI.shipComponents.artillery.rotationDeg != 0}" th:text="${180 / shipAPI.shipComponents.artillery.rotationDeg - 180 / configurationAPI.shipComponents.artillery.rotationDeg > 0 ? ' (+' + #numbers.formatDecimal(180 / shipAPI.shipComponents.artillery.rotationDeg - 180 / configurationAPI.shipComponents.artillery.rotationDeg, 1, 2) + ')' : ' (' + #numbers.formatDecimal(180 / shipAPI.shipComponents.artillery.rotationDeg - 180 / configurationAPI.shipComponents.artillery.rotationDeg, 1, 2) + ')'}"/>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(180 / shipAPI.shipComponents.artillery.rotationDeg, 1, 2)} + ' s'"/><br />
@@ -420,6 +414,12 @@
                     <span style="float: left;">- Duration</span>
                     <span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.hull.floodDuration - configurationAPI.shipComponents.hull.floodDuration != 0}" th:text="${shipAPI.shipComponents.hull.floodDuration - configurationAPI.shipComponents.hull.floodDuration > 0 ? ' (' + #numbers.formatDecimal(shipAPI.shipComponents.hull.floodDuration - configurationAPI.shipComponents.hull.floodDuration, 1, 1) + ')' : ' (' + #numbers.formatDecimal(shipAPI.shipComponents.hull.floodDuration - configurationAPI.shipComponents.hull.floodDuration, 1, 1) + ')'}"/>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.hull.floodDuration, 1, 1)} + ' s'"/><br />
+                    <th:block th:if="${adrenaline == true}">
+                        <div id="slider">
+                            <input style="width: 70%" type="range" min="1" max="100" th:value="${adrenalineValue}" class="slider" id="arSlider"/>
+                            <span style="vertical-align: top;" id="arValue" th:text="${adrenalineValue}"></span><span style="vertical-align: top;"> % hp</span>
+                        </div>
+                    </th:block>
                 </div>
             </div>
             <div th:if="${shipAPI.mobility != null}"  id="mobilityStats" class="panel_right mobility hide" style="min-width: 300px;">

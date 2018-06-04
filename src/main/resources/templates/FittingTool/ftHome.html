@@ -485,7 +485,7 @@
             url = url + (nthF.length > 0 ? '&flagN=' + nthF : '');
 
             var sliderValue = parseInt($('#arSlider').val());
-            adrenalineValue = sliderValue === null || sliderValue === undefined || isNaN(sliderValue) || sliderValue === 100 ? adrenalineValue : sliderValue;
+            adrenalineValue = sliderValue === null || sliderValue === undefined || isNaN(sliderValue) || sliderValue === 100 ? 100 : sliderValue;
             url = url + (adrenalineValue === null || adrenalineValue === undefined || isNaN(adrenalineValue) || adrenalineValue === 100 ? '' : '&ar=' + adrenalineValue);
 
             for (var i = 0; i < selectedConsumables.length; i++) {

@@ -565,6 +565,18 @@ public class APIService
                     {
                         ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary -> secondary.setShotDelay(secondary.getShotDelay() * coef));
                     }
+
+                    if (ship.getFighters() != null) {
+                        ship.getFighters().setPrepare_time(ship.getFighters().getPrepare_time() * coef);
+                    }
+
+                    if (ship.getDive_bomber() != null) {
+                        ship.getDive_bomber().setPrepare_time(ship.getDive_bomber().getPrepare_time() * coef);
+                    }
+
+                    if (ship.getTorpedo_bomber() != null) {
+                        ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * coef);
+                    }
                 }
                 else if (modifier.getCritTimeCoefficient() != 0) // 3_0
                 {
