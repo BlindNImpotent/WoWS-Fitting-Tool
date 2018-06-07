@@ -1019,7 +1019,7 @@ public class GPService
         LinkedHashMap<Float, Float> flightTime = new LinkedHashMap<>();
 
         float maxDistCalc = 0f;
-
+        float tempX = 0f;
         for (int i = 0; i < alpha.size(); i++) // for each alpha angle do:
         {
             float v_x = (float) Math.cos(alpha.get(i).floatValue()) * V_0;
@@ -1028,12 +1028,28 @@ public class GPService
             float x = 0f;
             float t = 0f;
 
-            while (y >= 0f) // follow flight path until shell hits ground again
+            float tX_1 = 0f;
+            float tX_2 = 0f;
+            float tY_1 = 0f;
+            float tY_2 = 0f;
+            boolean tempNext = true;
+
+            while (tempNext) // follow flight path until shell hits ground again
             {
+                tempNext = y >= 0f;
+                if (tempNext) {
+                    tX_1 = x;
+                    tY_1 = y;
+                }
+                else {
+                    tX_2 = x;
+                    tY_2 = y;
+                }
+
                 x = x + dt * v_x;
                 y = y + dt * v_y;
 
-                float T = T_0 - L*y;
+                float T = T_0 - L * y;
                 float p = p_0 * (float) Math.pow(1 - L * y / T_0, (a * M / (R * L)));
                 float rho = p * M / (R * T);
 
@@ -1043,10 +1059,11 @@ public class GPService
                 t = t + dt;
             }
 
-            if (x > maxDistCalc)
+            if (x > tempX && x > maxDistCalc)
             {
-                maxDistCalc = x;
-                flightTime.put(x, t / 3f);
+                tempX = x;
+                maxDistCalc = getMidAtY(tX_1, tY_1, tX_2, tY_2, 0f);
+                flightTime.put(maxDistCalc, t / 3f);
             }
         }
         ArtyShell.setHEShell(flightTime);
