@@ -78,25 +78,34 @@
                         maxAngle = deadZone1;
                     }
 
-                    if (vertiPosition >= 2.75)
-                    {
-                        var tempValue = minAngle;
-                        minAngle = -maxAngle;
-                        maxAngle = -tempValue;
+                    if (minAngle < 0 && maxAngle > 0) {
+                        var tempValue = -maxAngle;
+                        maxAngle = Math.abs(minAngle);
+                        minAngle = tempValue;
+                        minAngle = minAngle + (horizPosition - 1) * 90;
+                        maxAngle = maxAngle + (horizPosition - 1) * 90;
                     }
-
-                    if ((horizPosition - 1) * minAngle < 0 && (horizPosition - 1) * maxAngle < 0)
-                    {
+                    else {
                         if (vertiPosition >= 2.75)
-                        {
-                            minAngle = minAngle + 180;
-                            maxAngle = maxAngle + 180;
-                        }
-                        else
                         {
                             var tempValue = minAngle;
                             minAngle = -maxAngle;
                             maxAngle = -tempValue;
+                        }
+
+                        if ((horizPosition - 1) * minAngle < 0 && (horizPosition - 1) * maxAngle < 0)
+                        {
+                            if (vertiPosition >= 2.75)
+                            {
+                                minAngle = minAngle + 180;
+                                maxAngle = maxAngle + 180;
+                            }
+                            else
+                            {
+                                var tempValue = minAngle;
+                                minAngle = -maxAngle;
+                                maxAngle = -tempValue;
+                            }
                         }
                     }
 
