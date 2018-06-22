@@ -1,6 +1,5 @@
 package WoWSSSC.controller;
 
-import WoWSSSC.config.DiscordWebhook;
 import WoWSSSC.model.WoWSAPI.ModuleId;
 import WoWSSSC.model.WoWSAPI.consumables.Consumables;
 import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
@@ -55,9 +54,6 @@ public class APIController extends ExceptionController
 
     @Autowired
     private HashMap<String, Ship> shipHashMap;
-
-    @Autowired
-    private DiscordWebhook discordWebhook;
 
     @Autowired
     private HashMap<String, Integer> loadFinish;
@@ -742,6 +738,5 @@ public class APIController extends ExceptionController
     public void postEmail(@RequestBody EmailModel email) throws Exception
     {
         mailService.postEmail(email);
-        discordWebhook.sendDiscordWebhookEmail(email);
     }
 }

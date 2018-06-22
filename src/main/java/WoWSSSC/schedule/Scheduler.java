@@ -1,6 +1,5 @@
 package WoWSSSC.schedule;
 
-import WoWSSSC.config.DiscordWebhook;
 import WoWSSSC.parser.AsyncHashMap;
 import WoWSSSC.service.APIService;
 import org.slf4j.Logger;
@@ -21,9 +20,6 @@ public class Scheduler
     @Autowired
     private APIService apiService;
 
-    @Autowired
-    private DiscordWebhook discordWebhook;
-
     private final static Logger logger = LoggerFactory.getLogger(Scheduler.class);
 
 //    @Scheduled(fixedRate = 24 * 60 * 60 * 1000, initialDelay = 24 * 60 * 60 * 1000)
@@ -39,7 +35,6 @@ public class Scheduler
         catch (Exception e)
         {
             e.printStackTrace();
-            discordWebhook.sendDiscordWebHookRunError(e);
         }
     }
 

@@ -24,9 +24,6 @@ import java.util.HashSet;
 public class CustomFilter implements Filter
 {
     @Autowired
-    private DiscordWebhook discordWebhook;
-
-    @Autowired
     private HashMap<String, Integer> loadFinish;
 
     @Autowired
@@ -84,7 +81,7 @@ public class CustomFilter implements Filter
             return;
         }
 
-        String ipAddress = discordWebhook.getClientIPAddress(request);
+        String ipAddress = getClientIPAddress(request);
 
         if (request.getRequestURI().equalsIgnoreCase("/") && loadFinish.get("loadFinish") != 0)
         {
@@ -190,5 +187,19 @@ public class CustomFilter implements Filter
     private boolean isIgnore(String address)
     {
         return ignoreUri.stream().anyMatch(ig -> address.toLowerCase().contains(ig));
+    }
+
+    private String getClientIPAddress(HttpServletRequest request) {
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAddress == null) {
+            ipAddress = request.getRemoteAddr();
+        }
+
+        if (ipAddress.equalsIgnoreCase("0:0:0:0:0:0:0:1"))
+        {
+            return "localhost";
+        }
+
+        return ipAddress;
     }
 }
