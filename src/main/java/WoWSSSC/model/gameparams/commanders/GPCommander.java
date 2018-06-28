@@ -19,4 +19,5 @@ public class GPCommander
     private int moneyTrainingLevel;
     private String name;
     private TypeInfo typeinfo;
+    private boolean canCharge;
 }

@@ -867,26 +867,28 @@ public class AsyncHashMap implements CommandLineRunner {
                     if (tempNextWarships.get(i).getType().equals(tempWarship.getType())) {
                         Warship nextWarship = mapper.convertValue(wslhm.get(tempNextWarships.get(i).getName()), Warship.class);
 
-                        boolean isFirst = true;
-                        if ((i > 0 && tempNextWarships.get(0).getType().equals(tempNextWarships.get(i).getType())) || !test.get(tempWarship.getName()).isFirst()) {
-                            isFirst = false;
+                        if (nextWarship != null) {
+                            boolean isFirst = true;
+                            if ((i > 0 && tempNextWarships.get(0).getType().equals(tempNextWarships.get(i).getType())) || !test.get(tempWarship.getName()).isFirst()) {
+                                isFirst = false;
 
-                            if (isFalseMinTier == 0) {
-                                isFalseMinTier = (int) tempWarship.getTier();
+                                if (isFalseMinTier == 0) {
+                                    isFalseMinTier = (int) tempWarship.getTier();
+                                }
                             }
-                        }
 
-                        nextWarship.setFirst(isFirst);
+                            nextWarship.setFirst(isFirst);
 
-                        if (nextWarship.getNextWarship().stream().filter(nw -> nw != null).count() == 0) {
-                            if (nextWarship.isFirst()) {
-                                isTrueMaxTier = (int) nextWarship.getTier();
-                            } else {
-                                isFalseMaxTier = (int) nextWarship.getTier();
+                            if (nextWarship.getNextWarship().stream().filter(nw -> nw != null).count() == 0) {
+                                if (nextWarship.isFirst()) {
+                                    isTrueMaxTier = (int) nextWarship.getTier();
+                                } else {
+                                    isFalseMaxTier = (int) nextWarship.getTier();
+                                }
                             }
-                        }
 
-                        test.put(nextWarship.getName(), nextWarship);
+                            test.put(nextWarship.getName(), nextWarship);
+                        }
                     }
                 }
             }
