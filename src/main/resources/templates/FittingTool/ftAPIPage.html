@@ -470,8 +470,11 @@
                                 <th:block th:if="${type.value.lifeTime != 0}">
                                     <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
                                 </th:block>
-                                <th:block th:if="${type.value.boostCoeffModified != 1}">
+                                <th:block th:if="${type.value.boostCoeffModified != 1 and 'speedBoosters' == type.value.consumableType}">
                                     <span style="float: left;">Speed: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed * type.value.boostCoeffModified, 0, 1) + ' kts'}"/><br />
+                                </th:block>
+                                <th:block th:if="${type.value.boostCoeffModified != 1 and 'artilleryBoosters' == type.value.consumableType and shipAPI.shipComponents.artillery != null}">
+                                    <span style="float: left;">Arty Reload: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.shotDelay * type.value.boostCoeffModified, 0, 2) + ' s'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.auraCoeff != 0}">
                                     <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
@@ -507,8 +510,11 @@
                                 <th:block th:if="${type.value.lifeTime != 0}">
                                     <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
                                 </th:block>
-                                <th:block th:if="${type.value.boostCoeffModified != 1}">
+                                <th:block th:if="${type.value.boostCoeffModified != 1 and 'speedBoosters' == type.value.consumableType}">
                                     <span style="float: left;">Speed: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed * type.value.boostCoeffModified, 0, 1) + ' kts'}"/><br />
+                                </th:block>
+                                <th:block th:if="${type.value.boostCoeffModified != 1 and 'artilleryBoosters' == type.value.consumableType and shipAPI.shipComponents.artillery != null}">
+                                    <span style="float: left;">Arty Reload: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.shotDelay * type.value.boostCoeffModified, 0, 2) + ' s'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.auraCoeff != 0}">
                                     <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
@@ -544,8 +550,11 @@
                                 <th:block th:if="${type.value.lifeTime != 0}">
                                     <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
                                 </th:block>
-                                <th:block th:if="${type.value.boostCoeffModified != 1}">
+                                <th:block th:if="${type.value.boostCoeffModified != 1 and 'speedBoosters' == type.value.consumableType}">
                                     <span style="float: left;">Speed: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed * type.value.boostCoeffModified, 0, 1) + ' kts'}"/><br />
+                                </th:block>
+                                <th:block th:if="${type.value.boostCoeffModified != 1 and 'artilleryBoosters' == type.value.consumableType and shipAPI.shipComponents.artillery != null}">
+                                    <span style="float: left;">Arty Reload: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.shotDelay * type.value.boostCoeffModified, 0, 2) + ' s'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.auraCoeff != 0}">
                                     <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
@@ -581,8 +590,11 @@
                                 <th:block th:if="${type.value.lifeTime != 0}">
                                     <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
                                 </th:block>
-                                <th:block th:if="${type.value.boostCoeffModified != 1}">
+                                <th:block th:if="${type.value.boostCoeffModified != 1 and 'speedBoosters' == type.value.consumableType}">
                                     <span style="float: left;">Speed: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed * type.value.boostCoeffModified, 0, 1) + ' kts'}"/><br />
+                                </th:block>
+                                <th:block th:if="${type.value.boostCoeffModified != 1 and 'artilleryBoosters' == type.value.consumableType and shipAPI.shipComponents.artillery != null}">
+                                    <span style="float: left;">Arty Reload: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.shotDelay * type.value.boostCoeffModified, 0, 2) + ' s'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.auraCoeff != 0}">
                                     <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />
@@ -618,8 +630,11 @@
                                 <th:block th:if="${type.value.lifeTime != 0}">
                                     <span style="float: left;">Smoke: </span><span style="float: right;" th:text="${#numbers.formatInteger(type.value.lifeTime, 0, 'COMMA') + ' s'}"/><br />
                                 </th:block>
-                                <th:block th:if="${type.value.boostCoeffModified != 1}">
+                                <th:block th:if="${type.value.boostCoeffModified != 1 and 'speedBoosters' == type.value.consumableType}">
                                     <span style="float: left;">Speed: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.mobility.max_speed * type.value.boostCoeffModified, 0, 1) + ' kts'}"/><br />
+                                </th:block>
+                                <th:block th:if="${type.value.boostCoeffModified != 1 and 'artilleryBoosters' == type.value.consumableType and shipAPI.shipComponents.artillery != null}">
+                                    <span style="float: left;">Arty Reload: </span><span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.shotDelay * type.value.boostCoeffModified, 0, 2) + ' s'}"/><br />
                                 </th:block>
                                 <th:block th:if="${type.value.auraCoeff != 0}">
                                     <span style="float: left;">AA Boost: </span><span style="float: right;" th:text="${#numbers.formatDecimal(type.value.auraCoeff, 0, 2) + ' X'}"/><br />

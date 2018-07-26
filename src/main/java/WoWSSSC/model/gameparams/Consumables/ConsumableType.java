@@ -33,7 +33,10 @@ public class ConsumableType
 
     public float getBoostCoeffModified()
     {
-        return boostCoeff + 1;
+        if ("speedBoosters".equalsIgnoreCase(consumableType)) {
+            return boostCoeff + 1;
+        }
+        return boostCoeff;
     }
 
     public float getDistShipModified()
