@@ -5,7 +5,6 @@ import WoWSSSC.model.WoWSAPI.consumables.Consumables;
 import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
-import WoWSSSC.model.email.EmailModel;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
@@ -13,7 +12,6 @@ import WoWSSSC.model.gameparams.commanders.GPCommander;
 import WoWSSSC.model.gameparams.commanders.UniqueTemp;
 import WoWSSSC.service.APIService;
 import WoWSSSC.service.GPService;
-import WoWSSSC.service.MailService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections4.IterableUtils;
@@ -42,9 +40,6 @@ public class APIController extends ExceptionController
 
     @Autowired
     private GPService gpService;
-
-    @Autowired
-    private MailService mailService;
 
     @Autowired
     private HashMap<String, LinkedHashMap<String, LinkedHashMap>> data;
@@ -725,18 +720,5 @@ public class APIController extends ExceptionController
     public String getShortUrl(@RequestBody String longUrl) throws Exception
     {
         return apiService.shortenUrl(longUrl);
-    }
-
-    @RequestMapping (value = "/contact", method = RequestMethod.GET)
-    public String getContact(Model model)
-    {
-        model.addAttribute("serverParam", serverParamAddress);
-        return "contact";
-    }
-
-    @RequestMapping (value = "/contact", method = RequestMethod.POST)
-    public void postEmail(@RequestBody EmailModel email) throws Exception
-    {
-        mailService.postEmail(email);
     }
 }
