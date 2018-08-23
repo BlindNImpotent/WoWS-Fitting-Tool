@@ -21,4 +21,8 @@ public class CrewPersonality
     private Ships ships;
     private List<String> shipsOtherNation;
     private List<String> shipsOwnNation;
+    private int costCR;
+    private int costELXP;
+    private int costGold;
+    private int costXP;
 }
