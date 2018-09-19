@@ -63,6 +63,7 @@ public class Modernization
     private float floodProb;
     private float floodTime;
     private long id;
+    private float invulnerableWorkTime;
     private String index;
     private String name;
     private float rlsSearchWorkTime;
