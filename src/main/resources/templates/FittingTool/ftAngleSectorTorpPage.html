@@ -100,35 +100,24 @@
                         maxAngle = deadZone1;
                     }
 
-                    if (minAngle < 0 && maxAngle > 0) {
-                        var tempValue = -maxAngle;
-                        maxAngle = Math.abs(minAngle);
-                        minAngle = tempValue;
-                        minAngle = minAngle + (horizPosition - 1) * 90;
-                        maxAngle = maxAngle + (horizPosition - 1) * 90;
-                    }
-                    else {
-                        if (vertiPosition >= 2.75)
-                        {
-                            var tempValue = minAngle;
-                            minAngle = -maxAngle;
-                            maxAngle = -tempValue;
-                        }
+                    horizPosition = horizPosition + (1 - horizPosition) * 2;
 
-                        if ((horizPosition - 1) * minAngle < 0 && (horizPosition - 1) * maxAngle < 0)
-                        {
-                            if (vertiPosition >= 2.75)
-                            {
-                                minAngle = minAngle + 180;
-                                maxAngle = maxAngle + 180;
-                            }
-                            else
-                            {
-                                var tempValue = minAngle;
-                                minAngle = -maxAngle;
-                                maxAngle = -tempValue;
-                            }
-                        }
+                    if ((horizPosition < 1 && (minAngle > 0 && maxAngle > 0)) || (horizPosition > 1 && (minAngle < 0 && maxAngle < 0))) {
+                        var tempMin = -180 + minAngle;
+                        var tempMax = -180 + maxAngle;
+                        var tempDz1 = -180 + deadZone1;
+                        var tempDz2 = -180 + deadZone2;
+                        minAngle = tempMin;
+                        maxAngle = tempMax;
+                        deadZone1 = tempDz1;
+                        deadZone2 = tempDz2;
+                    }
+
+                    if (minAngle < 0 && maxAngle > 0) {
+                        minAngle = minAngle + 90 * (horizPosition - 1.0);
+                        maxAngle = maxAngle + 90 * (horizPosition - 1.0);
+                        deadZone1 = deadZone1 + 90 * (horizPosition - 1.0);
+                        deadZone2 = deadZone2 + 90 * (horizPosition - 1.0);
                     }
 
                     // -1 .. 7
