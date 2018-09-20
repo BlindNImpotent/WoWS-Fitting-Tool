@@ -19,6 +19,7 @@ import java.util.List;
 public class Artillery
 {
     private LinkedHashMap<String, Turret> turrets = new LinkedHashMap<>();
+    private LinkedHashMap<String, Integer> turretNames = new LinkedHashMap<>();
     private List<Turret> turretsList = new ArrayList<>();
 
 //    private LinkedHashMap<String, LinkedHashMap> AuraFar;

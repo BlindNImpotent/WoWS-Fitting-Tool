@@ -25,6 +25,7 @@ public class Turret
     private float shotDelay;
 
     private String name;
+    private String realName;
     private int numBarrels;
     private float antiAirAuraDistance;
     private float antiAirAuraStrength;

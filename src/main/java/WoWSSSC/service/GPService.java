@@ -259,6 +259,11 @@ public class GPService
 
                                     shipComponents.getArtillery().getTurrets().values().forEach(value ->
                                     {
+                                        value.setRealName((String) global.get(serverParam).get("IDS_" + value.getName().toUpperCase()));
+                                        Integer tempNumTurret = shipComponents.getArtillery().getTurretNames().get(String.valueOf(value.getNumBarrels()) + " " + value.getRealName());
+                                        tempNumTurret = tempNumTurret != null ? tempNumTurret : 0;
+                                        shipComponents.getArtillery().getTurretNames().put(String.valueOf(value.getNumBarrels()) + " " + value.getRealName(), tempNumTurret + 1);
+
                                         float maxVertAngle = value.getVertSector().get(1);
                                         value.getAmmoList().forEach(ammo ->
                                         {
