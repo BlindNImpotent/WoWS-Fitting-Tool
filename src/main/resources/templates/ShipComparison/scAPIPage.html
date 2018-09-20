@@ -155,8 +155,11 @@
             <div th:if="${shipAPI.artillery != null}" id="artilleryStats" class="panel_right artillery" style="min-width: 300px; text-align: center;">
                 <div id="artillery">
                     <strong>Main Battery</strong><br />
-                    <li th:if="${shipAPI.shipComponents.artillery != null}" th:each="turretName : ${shipAPI.shipComponents.artillery.turretNames}" name="guns">
+                    <li th:if="${shipAPI.shipComponents.artillery != null and !#lists.isEmpty(shipAPI.shipComponents.artillery.turretNames)}" th:each="turretName : ${shipAPI.shipComponents.artillery.turretNames}" name="guns">
                         <u style="float: left;" th:text="${turretName.value + ' X ' + turretName.key}"/><br />
+                    </li>
+                    <li th:if="${#lists.isEmpty(shipAPI.shipComponents.artillery.turretNames)}" th:each="slot : ${shipAPI.artillery.slots}" name="guns">
+                        <u style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.barrels} + ' ' + ${slot.value.name}"/><br />
                     </li>
                     <span style="float:left;">Distance</span>
                     <span style="float: right;" th:if="${configurationAPI != null and (shipAPI.shipComponents.artillery.maxDist - configurationAPI.shipComponents.artillery.maxDist) / 1000 != 0}" th:text="${(shipAPI.shipComponents.artillery.maxDist - configurationAPI.shipComponents.artillery.maxDist) / 1000 > 0 ? ' (+' + #numbers.formatDecimal((shipAPI.shipComponents.artillery.maxDist - configurationAPI.shipComponents.artillery.maxDist) / 1000, 1, 2) + ')' : ' (' + #numbers.formatDecimal((shipAPI.shipComponents.artillery.maxDist - configurationAPI.shipComponents.artillery.maxDist) / 1000, 1, 2) + ')'}"/>
