@@ -21,6 +21,11 @@ public class Torpedoes
     private boolean useOneShot;
 
     private Torpedo torpedo;
+    private List<String> groups;
+    private List<String> loaders;
+    private int numTorpsInSalvo;
+    private float oneShotWaitTime;
+    private boolean useGroups;
 
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();

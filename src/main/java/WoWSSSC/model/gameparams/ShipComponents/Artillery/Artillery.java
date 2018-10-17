@@ -27,6 +27,7 @@ public class Artillery
 //    private LinkedHashMap<String, LinkedHashMap> AuraNear;
     private int aimLevel;
     private LinkedHashMap<String, Integer> ammoPool;
+    private int artificialOffset;
     private float maxDist;
     private float minDistH;
     private float minDistV;

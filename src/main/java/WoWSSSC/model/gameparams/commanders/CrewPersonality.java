@@ -16,6 +16,7 @@ public class CrewPersonality
     private boolean isIsPerson;
     private boolean isIsRetrainable;
     private boolean isIsUnique;
+    private boolean canResetSkillsForFree;
     private String peculiarity;
     private String personName;
     private Ships ships;
@@ -25,4 +26,5 @@ public class CrewPersonality
     private int costELXP;
     private int costGold;
     private int costXP;
+    private String trailSmokeTexture;
 }

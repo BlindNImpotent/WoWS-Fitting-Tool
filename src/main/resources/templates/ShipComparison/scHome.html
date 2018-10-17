@@ -1172,8 +1172,13 @@
         }
         else if (commander === 'William F Halsey Jr')
         {
-            $('#1_2').attr('title', '-75% to reload time when the shell type is switched');
-            $('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+            currentIndex.find('#1_2').attr('title', '-75% to reload time when the shell type is switched');
+            currentIndex.find('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+        }
+        else if (commander === 'Alexander Ovechkin')
+        {
+            currentIndex.find('#2_2').attr('title', '+3.0deg/s to traverse speed of guns with a caliber up to 139 mm\n+1.0deg/s to traverse speed of guns with a caliber above 139 mm');
+            currentIndex.find('#3_1').attr('title', '+400 hit points for each tier of the ship');
         }
         else if (commander === 'default')
         {
@@ -1184,6 +1189,7 @@
             currentIndex.find('#2_2').attr('title', '+2.5deg/s to traverse speed of guns with a caliber up to 139 mm\n+0.7deg/s to traverse speed of guns with a caliber above 139 mm');
             currentIndex.find('#2_4').attr('title', '+20% to the radius of the smoke screen');
             currentIndex.find('#2_6').attr('title', '-0.2% to reload time of all types of armament for each 1% HP lost');
+            currentIndex.find('#3_1').attr('title', '+350 hit points for each tier of the ship');
             currentIndex.find('#3_7').attr('title', '+25% to acquisition range of torpedoes');
         }
     }

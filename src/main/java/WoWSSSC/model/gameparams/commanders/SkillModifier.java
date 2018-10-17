@@ -67,6 +67,7 @@ public class SkillModifier
     private float battleshipCoefficient;
     private float cruiserCoefficient;
     private float destroyerCoefficient;
+    private float submarineCoefficient;
 
     private boolean isEpic;
 }
