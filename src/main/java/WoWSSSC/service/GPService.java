@@ -265,6 +265,7 @@ public class GPService
                                             Integer tempNumTurret = shipComponents.getArtillery().getTurretNames().get(String.valueOf(value.getNumBarrels()) + " " + value.getRealName());
                                             tempNumTurret = tempNumTurret != null ? tempNumTurret : 0;
                                             shipComponents.getArtillery().getTurretNames().put(String.valueOf(value.getNumBarrels()) + " " + value.getRealName(), tempNumTurret + 1);
+                                            shipComponents.getArtillery().setNumBarrel(shipComponents.getArtillery().getNumBarrel() + value.getNumBarrels());
                                         }
 
                                         float maxVertAngle = value.getVertSector().get(1);

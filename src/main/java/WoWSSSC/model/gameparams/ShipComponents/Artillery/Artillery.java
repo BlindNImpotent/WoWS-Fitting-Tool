@@ -21,6 +21,7 @@ public class Artillery
     private LinkedHashMap<String, Turret> turrets = new LinkedHashMap<>();
     private LinkedHashMap<String, Integer> turretNames = new LinkedHashMap<>();
     private List<Turret> turretsList = new ArrayList<>();
+    private int numBarrel;
 
 //    private LinkedHashMap<String, LinkedHashMap> AuraFar;
 //    private LinkedHashMap<String, LinkedHashMap> AuraMedium;
