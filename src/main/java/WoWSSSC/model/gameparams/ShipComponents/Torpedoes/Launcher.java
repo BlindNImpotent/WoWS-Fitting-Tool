@@ -18,4 +18,5 @@ public class Launcher
     private List<Float> horizSector;
     private List<Float> mainSector;
     private List<Float> position;
+    private List<Float> rotationSpeed;
 }

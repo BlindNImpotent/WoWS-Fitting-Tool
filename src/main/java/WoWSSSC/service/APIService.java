@@ -3,9 +3,9 @@ package WoWSSSC.service;
 import WoWSSSC.config.CustomProperties;
 import WoWSSSC.model.WoWSAPI.APIAddress;
 import WoWSSSC.model.WoWSAPI.ModuleId;
-import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
 import WoWSSSC.model.bitly.Bitly;
 import WoWSSSC.model.bitly.BitlyData;
+import WoWSSSC.model.gameparams.ShipComponents.Artillery.ArtyShell;
 import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
 import WoWSSSC.model.WoWSAPI.consumables.Consumables;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
@@ -15,17 +15,14 @@ import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
 import WoWSSSC.model.gameparams.Consumables.Consumable;
 import WoWSSSC.model.gameparams.commanders.*;
-import WoWSSSC.model.gameparams.test.TorpedoShip;
 import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.utils.Sorter;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rits.cloning.Cloner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -67,6 +64,10 @@ public class APIService
     @Autowired
     @Qualifier (value = "gameParamsCHM")
     private HashMap<String, HashMap<String, LinkedHashMap>> gameParamsCHM;
+
+    @Autowired
+    @Qualifier(value = "nameToId")
+    private HashMap<String, HashMap<String, String>> nameToId;
 
     @Autowired
     private GPService gpService;
@@ -891,6 +892,26 @@ public class APIService
 
         if (ship.getShipComponents().getArtillery() != null)
         {
+            ship.getShipComponents().getArtillery().getTurrets().values().forEach(value ->
+            {
+                float maxVertAngle = value.getVertSector().get(1);
+                value.getAmmoList().forEach(ammo ->
+                {
+                    String id = nameToId.get(serverParam).get(ammo);
+                    ArtyShell ArtyShell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), ArtyShell.class);
+                    if ("AP".equalsIgnoreCase(ArtyShell.getAmmoType()) && ship.getShipComponents().getArtillery().getAPShell() == null)
+                    {
+                        gpService.setAPPenetration(ArtyShell, maxVertAngle, ship.getShipComponents().getArtillery().getMinDistV(), ship.getShipComponents().getArtillery().getMaxDist());
+                        ship.getShipComponents().getArtillery().setAPShell(ArtyShell);
+                    }
+                    else if ("HE".equalsIgnoreCase(ArtyShell.getAmmoType()) && ship.getShipComponents().getArtillery().getHEShell() == null)
+                    {
+                        gpService.setHEPenetration(ArtyShell, maxVertAngle);
+                        ship.getShipComponents().getArtillery().setHEShell(ArtyShell);
+                    }
+                });
+            });
+
             if (ship.getShipComponents().getArtillery().getAPShell() != null)
             {
                 ship.getShipComponents().getArtillery().getAPShell().setMaxDist(ship.getShipComponents().getArtillery().getMaxDist());
@@ -964,6 +985,8 @@ public class APIService
             if (consumables.getProfile().getGMIdealRadius() != null)
             {
                 ship.getArtillery().setMax_dispersion(ship.getArtillery().getMax_dispersion() * consumables.getProfile().getGMIdealRadius().getValue());
+                ship.getShipComponents().getArtillery().setMinDistH(ship.getShipComponents().getArtillery().getMinDistH() * consumables.getProfile().getGMIdealRadius().getValue());
+                ship.getShipComponents().getArtillery().setMinDistV(ship.getShipComponents().getArtillery().getMinDistV() * consumables.getProfile().getGMIdealRadius().getValue());
             }
 
             if (consumables.getProfile().getGMMaxDist() != null)
@@ -1168,6 +1191,11 @@ public class APIService
             if (consumables.getProfile().getGTShotDelay() != null)
             {
                 ship.getTorpedoes().setReload_time(ship.getTorpedoes().getReload_time() * consumables.getProfile().getGTShotDelay().getValue());
+            }
+
+            if (consumables.getProfile().getGTRotationSpeed() != null)
+            {
+                ship.getShipComponents().getTorpedoes().setRotationDeg(ship.getShipComponents().getTorpedoes().getRotationDeg() * consumables.getProfile().getGTRotationSpeed().getValue());
             }
         }
 

@@ -42,7 +42,6 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -268,22 +267,22 @@ public class GPService
                                             shipComponents.getArtillery().setNumBarrel(shipComponents.getArtillery().getNumBarrel() + value.getNumBarrels());
                                         }
 
-                                        float maxVertAngle = value.getVertSector().get(1);
-                                        value.getAmmoList().forEach(ammo ->
-                                        {
-                                            String id = nameToId.get(serverParam).get(ammo);
-                                            ArtyShell ArtyShell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), ArtyShell.class);
-                                            if ("AP".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
-                                            {
-                                                setAPPenetration(ArtyShell, maxVertAngle, shipComponents.getArtillery().getMinDistV(), shipComponents.getArtillery().getMaxDist());
-                                                shipComponents.getArtillery().setAPShell(ArtyShell);
-                                            }
-                                            else if ("HE".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getHEShell() == null)
-                                            {
-                                                setHEPenetration(ArtyShell, maxVertAngle);
-                                                shipComponents.getArtillery().setHEShell(ArtyShell);
-                                            }
-                                        });
+//                                        float maxVertAngle = value.getVertSector().get(1);
+//                                        value.getAmmoList().forEach(ammo ->
+//                                        {
+//                                            String id = nameToId.get(serverParam).get(ammo);
+//                                            ArtyShell ArtyShell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), ArtyShell.class);
+//                                            if ("AP".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
+//                                            {
+//                                                setAPPenetration(ArtyShell, maxVertAngle, shipComponents.getArtillery().getMinDistV(), shipComponents.getArtillery().getMaxDist());
+//                                                shipComponents.getArtillery().setAPShell(ArtyShell);
+//                                            }
+//                                            else if ("HE".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getHEShell() == null)
+//                                            {
+//                                                setHEPenetration(ArtyShell, maxVertAngle);
+//                                                shipComponents.getArtillery().setHEShell(ArtyShell);
+//                                            }
+//                                        });
                                     });
                                 }
                             }
@@ -812,7 +811,7 @@ public class GPService
         shipComponents.setAbilities(abilities);
     }
 
-    private void setAPPenetration(ArtyShell ArtyShell, float maxVertAngle, float minDistV, float maxDist)
+    void setAPPenetration(ArtyShell ArtyShell, float maxVertAngle, float minDistV, float maxDist)
     {
         // SHELL CONSTANTS
         float C = 0.5561613f; // PENETRATION
@@ -902,6 +901,10 @@ public class GPService
             float v_total = (float) Math.pow((Math.pow(v_y, 2f) + Math.pow(v_x, 2f)), 0.5f);
             float p_athit = C * (float) Math.pow(v_total, 1.1f) * (float) Math.pow(W, 0.55f) / (float)Math.pow(D * 1000f, 0.65f); // PENETRATION FORMULA
             float IA = (float) Math.atan(Math.abs(v_y) / Math.abs(v_x)); // IMPACT ANGLE ON BELT ARMOR
+
+            if (x > 40000) {
+                break;
+            }
 
             if (x > tempX && x > maxDistCalc)
             {
@@ -995,7 +998,7 @@ public class GPService
         ArtyShell.setAPShell(penetration, flightTime, impactAngle, vertPlus, vertMinus, distanceList);
     }
 
-    private void setHEPenetration(ArtyShell ArtyShell, float maxVertAngle)
+    void setHEPenetration(ArtyShell ArtyShell, float maxVertAngle)
     {
         // SHELL CONSTANTS
         float C = 0.5561613f; // PENETRATION
@@ -1066,6 +1069,10 @@ public class GPService
                 v_y = v_y - dt * a - dt * k * rho * (cw_1 * (float) Math.pow(v_y, 2) + cw_2 * Math.abs(v_y)) * Math.signum(v_y);
 
                 t = t + dt;
+            }
+
+            if (x > 40000) {
+                break;
             }
 
             if (x > tempX && x > maxDistCalc)

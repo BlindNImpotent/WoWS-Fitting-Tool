@@ -277,6 +277,10 @@
                     <span style="float:left;">Reaction</span>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.torpedoes.visibility_dist * 1000 / (shipAPI.torpedoes.torpedo_speed * 2.6), 1, 1)} + ' s'"/><br />
                     <th:block th:if="${shipAPI.shipComponents.torpedoes != null}">
+                        <span style="float:left;">Rotation</span>
+                        <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.torpedoes.rotationDeg, 1, 2)} + ' deg / s'"/><br />
+                        <span style="float:left;">Rotation / 180 deg</span>
+                        <span style="float: right;" th:text="${#numbers.formatDecimal(180 / shipAPI.shipComponents.torpedoes.rotationDeg, 1, 2)} + ' s'"/><br />
                         <span style="float: left;">Type</span>
                         <span style="float: right;" th:text="${shipAPI.shipComponents.torpedoes.torpedo.isDeepWater ? 'Deep Water' : 'Normal'}"/><br />
                         <span style="float: left;">Flood Probability</span>

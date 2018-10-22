@@ -26,6 +26,7 @@ public class Torpedoes
     private int numTorpsInSalvo;
     private float oneShotWaitTime;
     private boolean useGroups;
+    private float rotationDeg;
 
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();
@@ -38,6 +39,7 @@ public class Torpedoes
             Launcher launcher = mapper.convertValue(value, Launcher.class);
             launchers.put(name, launcher);
             launchersList.add(launcher);
+            rotationDeg = launcher.getRotationSpeed().get(0);
         }
     }
 }

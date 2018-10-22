@@ -497,13 +497,13 @@ public class APIController extends ExceptionController
                 model.addAttribute("configurationAPI", apiService.getUpgradeSkillStats(returnedKey, nation, shipType, ship, ship_id, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes, modules, new HashMap<>(), 100, false, true, isLive));
             }
 
-            model.addAttribute("stockCompare", stockCompare);
-            if (stockCompare) {
-                ModuleId moduleId = new ModuleId();
-                String stockKey = apiService.setShipAPI(nation, shipType, ship, ship_id, "", "", "", "", "", "", "", "", "", new ArrayList<>());
-                apiService.setModuleIds(shipHashMap.get(stockKey), moduleId);
-                model.addAttribute("configurationAPI", apiService.getUpgradeSkillStats(stockKey, nation, shipType, ship, ship_id, moduleId.getArtillery_id(), moduleId.getDive_bomber_id(), moduleId.getEngine_id(), moduleId.getFighter_id(), moduleId.getFire_control_id(), moduleId.getFlight_control_id(), moduleId.getHull_id(), moduleId.getTorpedo_bomber_id(), moduleId.getTorpedoes_id(), new ArrayList<>(), new HashMap<>(), 100, true, true, isLive));
-            }
+            model.addAttribute("stockCompare", false);
+//            if (stockCompare) {
+//                ModuleId moduleId = new ModuleId();
+//                String stockKey = apiService.setShipAPI(nation, shipType, ship, ship_id, "", "", "", "", "", "", "", "", "", new ArrayList<>());
+//                apiService.setModuleIds(shipHashMap.get(stockKey), moduleId);
+//                model.addAttribute("configurationAPI", apiService.getUpgradeSkillStats(stockKey, nation, shipType, ship, ship_id, moduleId.getArtillery_id(), moduleId.getDive_bomber_id(), moduleId.getEngine_id(), moduleId.getFighter_id(), moduleId.getFire_control_id(), moduleId.getFlight_control_id(), moduleId.getHull_id(), moduleId.getTorpedo_bomber_id(), moduleId.getTorpedoes_id(), new ArrayList<>(), new HashMap<>(), 100, true, true, isLive));
+//            }
             model.addAttribute("dataIndex", dataIndex);
         }
 
