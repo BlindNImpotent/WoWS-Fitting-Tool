@@ -4,7 +4,6 @@ import WoWSSSC.model.WoWSAPI.consumables.Consumables;
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,7 +16,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Data
 @Accessors(chain = true)
-@NoArgsConstructor
 public class Warship
 {
     @JsonIgnore

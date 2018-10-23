@@ -1,10 +1,8 @@
 package WoWSSSC.model.gameparams.test;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 public class TorpedoVisibility
 {
     private String name;

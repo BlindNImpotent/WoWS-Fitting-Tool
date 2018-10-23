@@ -53,7 +53,7 @@
                                             <td th:if="${moduleStat.index > 0}" width="7px;">
                                             </td>
                                             <td width="7px;">
-                                                <button th:if="${module != null and module.type == 'Hull' and warship.prevWarship != null}" th:with='cleaned=${#strings.replace(warship.prevWarship.name, "&apos;", "&#92;&apos;")}' th:class="button_ship" th:onclick="'fragments(\'' + ${warship.prevWarship.nation} + '\', \'' + ${warship.prevWarship.type} + '\', \'' + ${cleaned} + '\')'">
+                                                <button th:if="${module != null and module.type == 'Hull' and warship.prevWarship != null}" th:with='cleaned=${#strings.replace(warship.prevWarship.name, "&apos;", "&#92;&apos;")}' th:class="button_ship" name="fragments" th:attr="data-nation=${warship.prevWarship.nation}, data-shipType=${warship.prevWarship.type}, data-ship=${cleaned}">
                                                     <img th:src="${warship.prevWarship.images.small}"/><br />
                                                     <span th:text="${warship.prevWarship.name}"/>
                                                 </button>
@@ -108,7 +108,7 @@
                                             <td th:if="${nextShipStat.index > 0}" width="7px;">
                                             </td>
                                             <td>
-                                                <button th:if="${nextShip != null}" th:with='cleaned=${#strings.replace(nextShip.name, "&apos;", "&#92;&apos;")}' th:class="button_ship" th:onclick="'fragments(\'' + ${nextShip.nation} + '\', \'' + ${nextShip.type} + '\', \'' + ${cleaned} + '\')'">
+                                                <button th:if="${nextShip != null}" th:with='cleaned=${#strings.replace(nextShip.name, "&apos;", "&#92;&apos;")}' th:class="button_ship" name="fragments" th:attr="data-nation=${warship.prevWarship.nation}, data-shipType=${warship.prevWarship.type}, data-ship=${cleaned}">
                                                     <img th:src="${nextShip.images.small}" th:title="${nextShip.fromPreviousShipXp + ' xp'}"/><br />
                                                     <span th:text="${nextShip.name}"/>
                                                 </button>

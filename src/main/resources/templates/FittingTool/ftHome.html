@@ -46,7 +46,7 @@
                             <span th:text="${shipType.key}" />
                             <ul>
                                 <li th:each="ship : ${shipType.value}" th:if="${ship.key != 'Test Ship'}">
-                                    <span th:with='cleaned=${#strings.replace(ship.key, "&apos;", "&#92;&apos;")}' th:text="${ship.value.tier + ' - ' + ship.key}" th:onclick="'fragments(\'' + ${nation.key} + '\', \'' + ${shipType.key} + '\', \'' + ${cleaned} + '\')'"/>
+                                    <span th:with='cleaned=${#strings.replace(ship.key, "&apos;", "&#92;&apos;")}' th:text="${ship.value.tier + ' - ' + ship.key}" name="fragments" th:attr="data-nation=${nation.key}, data-shipType=${shipType.key}, data-ship=${cleaned}"/>
                                 </li>
                             </ul>
                         </li>
@@ -530,12 +530,11 @@
         }
     }
 
-    function fragments(nationOriginal, shipTypeOriginal, shipOriginal)
-    {
+    $(document).on('click', '[name=fragments]', function () {
         rightPanelOpen = '';
-        nation = nationOriginal.replace(/ /g, '+');
-        shipType = shipTypeOriginal.replace(/ /g, '+');
-        ship = shipOriginal.replace(/ /g, '+');
+        nation = $(this).attr('data-nation').replace(/ /g, '+');
+        shipType = $(this).attr('data-shipType').replace(/ /g, '+');
+        ship = $(this).attr('data-ship').replace(/ /g, '+');
 
         var warshipDom = $('.warshipData');
         warshipDom.html('');
@@ -564,7 +563,7 @@
                 }, 500);
             }
         });
-    }
+    });
 
     $(window).on('popstate', function () {
         history.go(document.location);
