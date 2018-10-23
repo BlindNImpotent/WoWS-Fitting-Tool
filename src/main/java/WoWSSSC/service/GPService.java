@@ -266,23 +266,20 @@ public class GPService
                                             shipComponents.getArtillery().getTurretNames().put(String.valueOf(value.getNumBarrels()) + " " + value.getRealName(), tempNumTurret + 1);
                                             shipComponents.getArtillery().setNumBarrel(shipComponents.getArtillery().getNumBarrel() + value.getNumBarrels());
                                         }
-
-//                                        float maxVertAngle = value.getVertSector().get(1);
-//                                        value.getAmmoList().forEach(ammo ->
-//                                        {
-//                                            String id = nameToId.get(serverParam).get(ammo);
-//                                            ArtyShell ArtyShell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), ArtyShell.class);
-//                                            if ("AP".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
-//                                            {
-//                                                setAPPenetration(ArtyShell, maxVertAngle, shipComponents.getArtillery().getMinDistV(), shipComponents.getArtillery().getMaxDist());
-//                                                shipComponents.getArtillery().setAPShell(ArtyShell);
-//                                            }
-//                                            else if ("HE".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getHEShell() == null)
-//                                            {
-//                                                setHEPenetration(ArtyShell, maxVertAngle);
-//                                                shipComponents.getArtillery().setHEShell(ArtyShell);
-//                                            }
-//                                        });
+                                        shipComponents.getArtillery().setMaxVertAngle(value.getVertSector().get(1));
+                                        value.getAmmoList().forEach(ammo ->
+                                        {
+                                            String id = nameToId.get(serverParam).get(ammo);
+                                            ArtyShell ArtyShell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), ArtyShell.class);
+                                            if ("AP".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getAPShell() == null)
+                                            {
+                                                shipComponents.getArtillery().setAPShell(ArtyShell);
+                                            }
+                                            else if ("HE".equalsIgnoreCase(ArtyShell.getAmmoType()) && shipComponents.getArtillery().getHEShell() == null)
+                                            {
+                                                shipComponents.getArtillery().setHEShell(ArtyShell);
+                                            }
+                                        });
                                     });
                                 }
                             }

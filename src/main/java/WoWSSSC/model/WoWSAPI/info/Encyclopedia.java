@@ -32,7 +32,7 @@ public class Encyclopedia
         List<String> shipKey = new ArrayList<>(ship_nations.keySet());
         shipKey.sort(Comparator.naturalOrder());
 
-        shipKey.forEach(nation -> this.ship_nations.put(nation, ship_nations.get(nation)));
+        shipKey.forEach(nation -> this.ship_nations.put(nation, ship_nations.get(nation).replace(".", "")));
     }
 
     public String getShipUpdatedDate()

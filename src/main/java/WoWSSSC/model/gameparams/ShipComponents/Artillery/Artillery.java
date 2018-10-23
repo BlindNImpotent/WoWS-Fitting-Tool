@@ -59,6 +59,7 @@ public class Artillery
     private ArtyShell HEShell;
 
     private Aura auraFar;
+    private float maxVertAngle;
 
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();

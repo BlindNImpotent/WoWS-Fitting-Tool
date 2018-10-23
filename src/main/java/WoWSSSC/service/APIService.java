@@ -892,32 +892,14 @@ public class APIService
 
         if (ship.getShipComponents().getArtillery() != null)
         {
-            ship.getShipComponents().getArtillery().getTurrets().values().forEach(value ->
-            {
-                float maxVertAngle = value.getVertSector().get(1);
-                value.getAmmoList().forEach(ammo ->
-                {
-                    String id = nameToId.get(serverParam).get(ammo);
-                    ArtyShell ArtyShell = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), ArtyShell.class);
-                    if ("AP".equalsIgnoreCase(ArtyShell.getAmmoType()) && ship.getShipComponents().getArtillery().getAPShell() == null)
-                    {
-                        gpService.setAPPenetration(ArtyShell, maxVertAngle, ship.getShipComponents().getArtillery().getMinDistV(), ship.getShipComponents().getArtillery().getMaxDist());
-                        ship.getShipComponents().getArtillery().setAPShell(ArtyShell);
-                    }
-                    else if ("HE".equalsIgnoreCase(ArtyShell.getAmmoType()) && ship.getShipComponents().getArtillery().getHEShell() == null)
-                    {
-                        gpService.setHEPenetration(ArtyShell, maxVertAngle);
-                        ship.getShipComponents().getArtillery().setHEShell(ArtyShell);
-                    }
-                });
-            });
-
             if (ship.getShipComponents().getArtillery().getAPShell() != null)
             {
+                gpService.setAPPenetration(ship.getShipComponents().getArtillery().getAPShell(), ship.getShipComponents().getArtillery().getMaxVertAngle(), ship.getShipComponents().getArtillery().getMinDistV(), ship.getShipComponents().getArtillery().getMaxDist());
                 ship.getShipComponents().getArtillery().getAPShell().setMaxDist(ship.getShipComponents().getArtillery().getMaxDist());
             }
             if (ship.getShipComponents().getArtillery().getHEShell() != null)
             {
+                gpService.setHEPenetration(ship.getShipComponents().getArtillery().getHEShell(), ship.getShipComponents().getArtillery().getMaxVertAngle());
                 ship.getShipComponents().getArtillery().getHEShell().setMaxDist(ship.getShipComponents().getArtillery().getMaxDist());
             }
         }
