@@ -1,4 +1,5 @@
 {
+	"2018-10-24": "Max dispersion calculation corrected",
 	"2018-10-22": "Vertical dispersion is now affected by accuracy bonus change.",
 	"2018-09-19": "Updated for 0.7.9.0. However research xp calculation for UK DD does not work.",
 	"2018-05-16": "Added Artillery Chart for testing",

@@ -23,4 +23,7 @@ public class Artillery
     private HashMap<String, Artillery_Slots> slots = new HashMap<>();
 
     private long totalGuns;
+    private float dConstant;
+    private float dModifier;
+    private float dispModifier = 1f;
 }

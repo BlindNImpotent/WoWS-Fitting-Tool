@@ -5,7 +5,6 @@ import WoWSSSC.model.WoWSAPI.APIAddress;
 import WoWSSSC.model.WoWSAPI.ModuleId;
 import WoWSSSC.model.bitly.Bitly;
 import WoWSSSC.model.bitly.BitlyData;
-import WoWSSSC.model.gameparams.ShipComponents.Artillery.ArtyShell;
 import WoWSSSC.model.gameparams.ShipComponents.ShipComponents;
 import WoWSSSC.model.WoWSAPI.consumables.Consumables;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
@@ -266,6 +265,10 @@ public class APIService
 
         Cloner cloner = new Cloner();
         Ship ship = cloner.deepClone(shipHashMap.get(key));
+        if (ship.getArtillery() != null) {
+            ship.getArtillery().setDModifier((ship.getArtillery().getMax_dispersion() - 100f) / (ship.getArtillery().getDistance() - 4f));
+            ship.getArtillery().setDConstant(100f - (4f * ship.getArtillery().getDModifier()));
+        }
 
         Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(shipName);
 
@@ -823,9 +826,8 @@ public class APIService
                         int caliber = ship.getShipComponents().getArtillery().getBarrelDiameter();
                         if (caliber <= 139)
                         {
-                            float tempRatio = ship.getShipComponents().getArtillery().getMaxDist() / 1000f /  ship.getArtillery().getMax_dispersion();
                             ship.getShipComponents().getArtillery().setMaxDist(ship.getShipComponents().getArtillery().getMaxDist() * modifier.getSmallGunRangeCoefficient());
-                            ship.getArtillery().setMax_dispersion(ship.getArtillery().getDistance() / tempRatio);
+                            ship.getArtillery().setDistance(ship.getArtillery().getDistance() * modifier.getSmallGunRangeCoefficient());
                         }
                     }
                     if (ship.getAtbas() != null)
@@ -966,16 +968,15 @@ public class APIService
 
             if (consumables.getProfile().getGMIdealRadius() != null)
             {
-                ship.getArtillery().setMax_dispersion(ship.getArtillery().getMax_dispersion() * consumables.getProfile().getGMIdealRadius().getValue());
                 ship.getShipComponents().getArtillery().setMinDistH(ship.getShipComponents().getArtillery().getMinDistH() * consumables.getProfile().getGMIdealRadius().getValue());
                 ship.getShipComponents().getArtillery().setMinDistV(ship.getShipComponents().getArtillery().getMinDistV() * consumables.getProfile().getGMIdealRadius().getValue());
+                ship.getArtillery().setDispModifier(consumables.getProfile().getGMIdealRadius().getValue());
             }
 
             if (consumables.getProfile().getGMMaxDist() != null)
             {
-                float tempRatio = ship.getArtillery().getDistance() / ship.getArtillery().getMax_dispersion();
                 ship.getShipComponents().getArtillery().setMaxDist(ship.getShipComponents().getArtillery().getMaxDist() * consumables.getProfile().getGMMaxDist().getValue());
-                ship.getArtillery().setMax_dispersion(ship.getShipComponents().getArtillery().getMaxDist() / 1000f / tempRatio);
+                ship.getArtillery().setDistance(ship.getArtillery().getDistance() * consumables.getProfile().getGMMaxDist().getValue());
             }
 
             if (consumables.getProfile().getGMRotationSpeed() != null)
