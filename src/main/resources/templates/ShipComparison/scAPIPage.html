@@ -150,6 +150,7 @@
                     <span style="float:left;">Dispersion</span><br />
                     <span style="float:left;">- Max Dispersion</span>
                     <span style="float: right;" th:text="${#numbers.formatDecimal((shipAPI.artillery.dConstant + shipAPI.artillery.dModifier * shipAPI.artillery.distance) * shipAPI.artillery.dispModifier, 1, 1)} + ' m'"/><br />
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.artillery.dConstant, 1, 1) + ' + ' + #numbers.formatDecimal(shipAPI.artillery.dModifier, 1, 1) + 'x'}"/><br />
                     <th:block th:if="${shipAPI.shipComponents.artillery != null}">
                         <span style="float:left;">- Min H Dispersion</span>
                         <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.minDistH, 1, 0)} + ' m'"/><br />
