@@ -17,7 +17,6 @@ import WoWSSSC.model.gameparams.commanders.*;
 import WoWSSSC.parser.APIJsonParser;
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rits.cloning.Cloner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -263,8 +262,7 @@ public class APIService
             return null;
         }
 
-        Cloner cloner = new Cloner();
-        Ship ship = cloner.deepClone(shipHashMap.get(key));
+        Ship ship = mapper.readValue(mapper.writeValueAsString(shipHashMap.get(key)), Ship.class);
         if (ship.getArtillery() != null) {
             ship.getArtillery().setDModifier((ship.getArtillery().getMax_dispersion() - 100f) / (ship.getArtillery().getDistance() - 4f));
             ship.getArtillery().setDConstant(100f - (4f * ship.getArtillery().getDModifier()));
@@ -273,7 +271,7 @@ public class APIService
         Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(shipName);
 
         ShipComponents shipComponents = gpService.setShipGP(nation, shipType, shipName, ship_id, artillery_id, dive_bomber_id, engine_id, fighter_id, fire_control_id, flight_control_id, hull_id, torpedo_bomber_id, torpedoes_id, modules, isLive);
-        ShipComponents shipComponentsCopy = cloner.deepClone(shipComponents);
+        ShipComponents shipComponentsCopy = mapper.readValue(mapper.writeValueAsString(shipComponents), ShipComponents.class);
         ship.setShipComponents(shipComponentsCopy);
 
         setCustomValues(ship_id, ship);
