@@ -772,15 +772,15 @@ public class APIService
 
                         if (modifier.getThresholdPenetrationCoefficient() != 0)
                         {
-                            ship.getShipComponents().getArtillery().getHEShell().setPenetrationIFHE((int) Math.ceil((ship.getShipComponents().getArtillery().getHEShell().getAlphaPiercingHE() + 1.0f) * modifier.getThresholdPenetrationCoefficient() - 1.0f));
+                            ship.getShipComponents().getArtillery().getHEShell().setPenetrationIFHE((int) Math.ceil((ship.getShipComponents().getArtillery().getHEShell().getAlphaPiercingHE()) * modifier.getThresholdPenetrationCoefficient() - 1.0f));
                         }
                         else if (modifier.getThresholdPenetrationCoefficientBig() != 0 && caliber > 139)
                         {
-                            ship.getShipComponents().getArtillery().getHEShell().setPenetrationIFHE((int) Math.ceil((ship.getShipComponents().getArtillery().getHEShell().getAlphaPiercingHE() + 1.0f) * modifier.getThresholdPenetrationCoefficientBig() - 1.0f));
+                            ship.getShipComponents().getArtillery().getHEShell().setPenetrationIFHE((int) Math.ceil((ship.getShipComponents().getArtillery().getHEShell().getAlphaPiercingHE()) * modifier.getThresholdPenetrationCoefficientBig() - 1.0f));
                         }
                         else if (modifier.getThresholdPenetrationCoefficientSmall() != 0 && caliber <= 139)
                         {
-                            ship.getShipComponents().getArtillery().getHEShell().setPenetrationIFHE((int) Math.ceil((ship.getShipComponents().getArtillery().getHEShell().getAlphaPiercingHE() + 1.0f) * modifier.getThresholdPenetrationCoefficientSmall() - 1.0f));
+                            ship.getShipComponents().getArtillery().getHEShell().setPenetrationIFHE((int) Math.ceil((ship.getShipComponents().getArtillery().getHEShell().getAlphaPiercingHE()) * modifier.getThresholdPenetrationCoefficientSmall() - 1.0f));
                         }
                     }
 

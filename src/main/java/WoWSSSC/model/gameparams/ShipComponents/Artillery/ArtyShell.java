@@ -16,6 +16,7 @@ public class ArtyShell
 {
     private float alphaDamage;
     private float alphaPiercingHE;
+    private float alphaPiercingHEReal;
     private String ammoType;
     private float bulletAirDrag;
     private float bulletAlwaysRicochetAt;
@@ -77,7 +78,8 @@ public class ArtyShell
 
     public void setAlphaPiercingHE(float alphaPiercingHE)
     {
-        this.alphaPiercingHE = alphaPiercingHE - 1.0f;
+        this.alphaPiercingHE = alphaPiercingHE;
+        this.alphaPiercingHEReal = alphaPiercingHE - 1f;
     }
 
     public void setMaxDist(float maxDist)
