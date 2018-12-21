@@ -21,9 +21,13 @@
                     <img th:src="${warship.type != 'Premium' and warship.type != 'Arpeggio' and warship.type != 'HSF' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
                     <span th:text="${'Tier ' + warship.tier}"/><br />
                     <span th:text="${warship.defaultType}"/><br />
+                    <span th:text="${warship.price_gold == 0 ? 'Researchable' : (!warship.is_premium and !warship.is_special ? 'Arsenal / ST' : 'Premium')}" th:if="${warship.premium}"/><br />
                     <strong style="font-size: 2em;" th:text="${warship.name}"/><br />
                 </th:block>
-                <img th:title="${warship.description}" th:src="${warship.images.medium}"/>
+                <img th:title="${warship.description}" th:src="${warship.images.medium}"/><br />
+                <span th:text="${#numbers.formatInteger(warship.prevWarship.nextShipXp, 1, 'COMMA') + ' xp'}" th:if="${warship.prevWarship != null}"></span><br />
+                <span th:text="${warship.price_credit > 0 ? #numbers.formatInteger(warship.price_credit, 1, 'COMMA') + ' credit' : (warship.price_gold > 0 ? #numbers.formatInteger(warship.price_gold, 1, 'COMMA') + ' doubloon' : '')}"></span><br />
+                <br />
             </div>
             <div>
                 <span style="padding: 1em;"></span>
@@ -54,7 +58,7 @@
                                             </td>
                                             <td width="7px;">
                                                 <button th:if="${module != null and module.type == 'Hull' and warship.prevWarship != null}" th:with='cleaned=${#strings.replace(warship.prevWarship.name, "&apos;", "&#92;&apos;")}' th:class="button_ship" name="fragments" th:attr="data-nation=${warship.prevWarship.nation}, data-shipType=${warship.prevWarship.type}, data-ship=${cleaned}">
-                                                    <img th:src="${warship.prevWarship.images.small}"/><br />
+                                                    <img th:src="${warship.prevWarship.images.small}" th:title="${#numbers.formatInteger(warship.prevWarship.price_credit, 0, 'COMMA') + ' credit'}"/><br />
                                                     <span th:text="${warship.prevWarship.name}"/>
                                                 </button>
                                             </td>
@@ -86,7 +90,7 @@
                                             </td>
                                             <td th:id="${module != null ? 'li_' + module.module_id : null}">
                                                 <button th:if="${module != null}" th:class="${(modules == null and module.is_default and rowStat.index == 0) or (modules != null and #sets.contains(modules, #strings.toString(module.module_id)))} ? button_module_selected : button_module" th:id="${module.module_id}" th:name="${module.type}" th:attr="data-index=${module.index}, data-position=${module.pos}">
-                                                    <img th:src="${module.image}" th:title="${!module.is_default ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : ''}"/><br />
+                                                    <img th:src="${module.image}" th:title="${(module.price_xp > 0 ? #numbers.formatInteger(module.price_xp, 0, 'COMMA') + ' xp' + T(java.lang.System).getProperty('line.separator') : '') + (module.price_credit > 0 ? #numbers.formatInteger(module.price_credit, 0, 'COMMA') + ' credit' : '')}"/><br />
                                                     <span th:text="${module.name}"/>
                                                 </button>
                                             </td>
@@ -109,7 +113,7 @@
                                             </td>
                                             <td>
                                                 <button th:if="${nextShip != null}" th:with='cleaned=${#strings.replace(nextShip.name, "&apos;", "&#92;&apos;")}' th:class="button_ship" name="fragments" th:attr="data-nation=${warship.prevWarship.nation}, data-shipType=${warship.prevWarship.type}, data-ship=${cleaned}">
-                                                    <img th:src="${nextShip.images.small}" th:title="${nextShip.fromPreviousShipXp + ' xp'}"/><br />
+                                                    <img th:src="${nextShip.images.small}" th:title="${#numbers.formatInteger(nextShip.fromPreviousShipXp, 1, 'COMMA') + ' xp'+ T(java.lang.System).getProperty('line.separator') + #numbers.formatInteger(nextShip.price_credit, 0, 'COMMA') + ' credit'}"/><br />
                                                     <span th:text="${nextShip.name}"/>
                                                 </button>
                                             </td>

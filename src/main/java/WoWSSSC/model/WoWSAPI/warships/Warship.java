@@ -32,7 +32,9 @@ public class Warship
     private long price_gold;
     private long price_credit;
     private long mod_slots;
+    private boolean premium;
     private boolean is_premium;
+    private boolean is_special;
     private WarshipImages images;
     private WarshipModules modules;
     private HashMap<String, WarshipModulesTree> modules_tree;
@@ -92,6 +94,11 @@ public class Warship
     public boolean isIs_premium()
     {
         return is_premium;
+    }
+
+    public boolean isIs_special()
+    {
+        return is_special;
     }
 
     public void setModules_tree(HashMap<String, WarshipModulesTree> modules_tree)

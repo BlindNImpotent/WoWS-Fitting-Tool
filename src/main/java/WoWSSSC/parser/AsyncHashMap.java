@@ -305,8 +305,11 @@ public class AsyncHashMap implements CommandLineRunner {
                                     if (tws.getPrevWarship() != null) {
                                         prevShip = tempWarships.get(String.valueOf(tws.getPrevWarship().getShip_id()));
 
-                                        if (prevShip.getNext_ships() != null) {
-                                            nextShipXp = prevShip.getNext_ships().get(String.valueOf(tws.getShip_id()));
+                                        if (prevShip != null) {
+                                            tws.getPrevWarship().setPrice_credit(prevShip.getPrice_credit());
+                                            if (prevShip.getNext_ships() != null) {
+                                                nextShipXp = prevShip.getNext_ships().get(String.valueOf(tws.getShip_id()));
+                                            }
                                         }
                                     }
 
@@ -339,6 +342,7 @@ public class AsyncHashMap implements CommandLineRunner {
                                                         for (int j = 0; j < tempWSMT.getNext_ships().size(); j++) {
                                                             Warship totalWarship = tempWarships.get(String.valueOf(tempWSMT.getNext_ships().get(j)));
                                                             Warship nextWarshipTemp = new Warship(totalWarship.getNation(), totalWarship.getType(), totalWarship.getName(), totalWarship.getImages(), null).setTier(totalWarship.getTier()).setShip_id(totalWarship.getShip_id());
+                                                            nextWarshipTemp.setPrice_credit(totalWarship.getPrice_credit());
 
                                                             if (value.getNext_ships() != null) {
                                                                 for (Map.Entry<String, Long> entry : value.getNext_ships().entrySet()) {
@@ -497,12 +501,15 @@ public class AsyncHashMap implements CommandLineRunner {
                 if (temp.getValue().isIs_premium() || temp.getValue().getPrice_gold() > 0 || temp.getValue().getPrice_credit() == 1 || (temp.getValue().getPrice_credit() == 0 && temp.getValue().getTier() != 1)) {
                     if (temp.getValue().getName().contains("ARP ")) {
                         temp.getValue().setType("Arpeggio");
+                        temp.getValue().setPremium(true);
                         tempARP.put(temp.getKey(), temp.getValue());
                     } else if (temp.getValue().getName().contains("HSF ")) {
                         temp.getValue().setType("HSF");
+                        temp.getValue().setPremium(true);
                         tempHSF.put(temp.getKey(), temp.getValue());
                     } else {
                         temp.getValue().setType("Premium");
+                        temp.getValue().setPremium(true);
                         tempPremium.put(temp.getKey(), temp.getValue());
                     }
                 } else {

@@ -26,7 +26,10 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <title>WoWS Fitting Tool by Aesis</title>
     <style>
-        #chart_div circle {
+        #chart_div1 circle {
+            r: 1.5;
+        }
+        #chart_div2 circle {
             r: 1.5;
         }
     </style>
@@ -77,12 +80,19 @@
         <button id="resetChart">Reset Chart</button>
     </div>
     <br />
-    <div id="chart_div"></div>
+    <div id="chart_div1"></div>
+    <div id="chart_div2"></div>
     <th:block th:include="bottom"></th:block>
 </main>
 <script th:inline="javascript">
 //    <![CDATA[
     var index = 0;
+    var data1;
+    var materialChart1;
+    var chartDiv1 = document.getElementById('chart_div1');
+    var data2;
+    var materialChart2;
+    var chartDiv2 = document.getElementById('chart_div2');
 
     $('#nationSelect').on('change', function () {
         var selectedNation = $('#nationSelect option:selected').val();
@@ -145,45 +155,54 @@
             type: 'post',
             success: function (serverData) {
                 if (serverData !== undefined && serverData !== null && serverData.apshell !== null) {
-                    var list = [];
+                    var list1 = [];
+                    var list2 = [];
                     for (var i = 0; i < serverData.apshell.distanceList.length; i++) {
                         var dist = serverData.apshell.distanceList[i];
 
+                        if (dist > 30000) {
+                            break;
+                        }
+
                         if (index === 0) {
-                            list.push([dist, serverData.apshell.penetration[dist], serverData.apshell.impact[dist]]);
+                            list1.push([dist, serverData.apshell.penetration[dist], serverData.apshell.impact[dist]]);
+                            list2.push([dist, serverData.apshell.penetration[dist], serverData.apshell.flightTime[dist]]);
                         }
                         else {
                             var curIndex = index * 2;
-                            var tempList = [dist];
+                            var tempList1 = [dist];
+                            var tempList2 = [dist];
                             for (var j = 1; j <= curIndex; j++) {
-                                tempList.push(null);
+                                tempList1.push(null);
+                                tempList2.push(null);
                             }
-                            tempList.push(serverData.apshell.penetration[dist]);
-                            tempList.push(serverData.apshell.impact[dist]);
-                            list.push(tempList);
+                            tempList1.push(serverData.apshell.penetration[dist]);
+                            tempList1.push(serverData.apshell.impact[dist]);
+                            tempList2.push(serverData.apshell.penetration[dist]);
+                            tempList2.push(serverData.apshell.flightTime[dist]);
+                            list1.push(tempList1);
+                            list2.push(tempList2);
                         }
                     }
-                    drawMaterialChart(selectedShip + ' ' + artyName, list);
+                    drawMaterialChart(data1, materialChart1, chartDiv1, selectedShip + ' ' + artyName, list1, 'Penetration (mm)', 'Impact Angle (deg)');
+                    drawMaterialChart(data2, materialChart2, chartDiv2, selectedShip + ' ' + artyName, list2, 'Penetration (mm)', 'Flight Time (s)');
+                    index++;
                 }
             }
         });
     });
 
-    var data;
-    var materialChart;
-    var chartDiv = document.getElementById('chart_div');
-
-    function drawMaterialChart(artyName, list) {
-        data.addColumn('number', artyName + '\nPenetration (mm)');
-        data.addColumn('number', artyName + '\nImpact (deg)');
+    function drawMaterialChart(data, materialChart, chartDiv, artyName, list, y1, y2) {
+        data.addColumn('number', artyName + '\n' + y1);
+        data.addColumn('number', artyName + '\n' + y2);
         var tempSeries = {};
         for (var i = 0; i <= index; i++) {
             tempSeries[i * 2] = {
-                axis: 'penetration',
+                axis: 'y1',
                 targetAxisIndex: 0
             };
             tempSeries[i * 2 + 1] = {
-                axis: 'penetration',
+                axis: 'y2',
                 targetAxisIndex: 1
             };
         }
@@ -193,18 +212,18 @@
 
         var materialOptions = {
             chart: {
-                title: 'Penetration per distance'
+                title: y1 + ' and ' + y2 + ' over distance'
             },
             // width: 800,
             height: 600,
             series: tempSeries,
             axes: {
                 y: {
-                    'penetration': {
-                        label: 'Penetration (mm)'
+                    'y1': {
+                        label: y1
                     },
-                    'impact angle': {
-                        label: 'Impact Angle (deg)'
+                    'y2': {
+                        label: y2
                     }
                 }
             },
@@ -219,13 +238,13 @@
             }
         };
         materialChart.draw(data, google.charts.Scatter.convertOptions(materialOptions));
-
-        index++;
     }
 
     function drawStuff() {
-        data = new google.visualization.DataTable();
-        data.addColumn('number', 'Distance (m)');
+        data1 = new google.visualization.DataTable();
+        data1.addColumn('number', 'Distance (m)');
+        data2 = new google.visualization.DataTable();
+        data2.addColumn('number', 'Distance (m)');
     }
 
     function doInit() {
@@ -238,7 +257,8 @@
     });
 
     $('#resetChart').on('click', function () {
-        $('#chart_div').html('');
+        $('#chart_div1').html('');
+        $('#chart_div2').html('');
         index = 0;
         doInit();
     });
