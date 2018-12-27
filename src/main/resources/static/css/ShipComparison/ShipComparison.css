@@ -51,12 +51,12 @@ nav ul li {
 }
 
 nav a {
-    display:block;
-    padding:0 10px;
-    color:black;
-    font-size:16px;
+    display: block;
+    padding: 0 10px;
+    color: black;
+    font-size: 16px;
     line-height: 32px;
-    text-decoration:none;
+    text-decoration: none;
 }
 
 nav a:hover {
@@ -65,12 +65,12 @@ nav a:hover {
 }
 
 nav span {
-    display:block;
-    padding:0 10px;
-    color:black;
-    font-size:16px;
+    display: block;
+    padding: 0 10px;
+    color: black;
+    font-size: 16px;
     line-height: 32px;
-    text-decoration:none;
+    text-decoration: none;
 }
 
 nav span:hover {
@@ -126,6 +126,7 @@ nav ul ul ul li {
 
 .warshipData {
     display: inline-block;
+    vertical-align: top;
 }
 
 .upgrades div
@@ -134,13 +135,8 @@ nav ul ul ul li {
     vertical-align: top;
 }
 
-.warshipData {
-    vertical-align: top;
-}
-
 .info_box {
-    /*text-align: center;*/
-    text-align: left;
+    text-align: center;
     margin: auto;
     border: 0;
     vertical-align: top;
@@ -151,15 +147,7 @@ nav ul ul ul li {
     width: 100%;
 }
 
-.left_tabs {
-    max-width: 150px;
-    display: table-cell;
-    vertical-align: top;
-}
-
-.right_tabs {
-    width: 80px;
-    max-width: 150px;
+.left_tabs, .right_tabs {
     display: table-cell;
     vertical-align: top;
 }
@@ -191,6 +179,7 @@ nav ul ul ul li {
     border-width:1px;
     border-style:solid;
     border-radius:5px;
+    max-width: 130px;
     padding: 9px 15px;
     cursor: pointer;
 }
@@ -328,10 +317,10 @@ nav ul ul ul li {
     border-style: solid;
     border-radius: 5px;
     font-size: 9px;
-    min-width: 75px;
-    max-width: 75px;
-    min-height: 75px;
-    max-height: 75px;
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 85px;
+    max-height: 85px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -352,10 +341,10 @@ nav ul ul ul li {
     border-style: solid;
     border-radius: 5px;
     font-size: 9px;
-    min-width: 75px;
-    max-width: 75px;
-    min-height: 75px;
-    max-height: 75px;
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 85px;
+    max-height: 85px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
@@ -518,5 +507,5 @@ nav ul ul ul li {
     display: inline-block;
     text-align: left;
     vertical-align: top;
-    font-size: 12px;
+    font-size: 9px;
 }

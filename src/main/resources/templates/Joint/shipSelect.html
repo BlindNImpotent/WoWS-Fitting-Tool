@@ -1,21 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta charset="utf-8"/>
-    <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/FittingTool/FittingTool.css}" />
-    <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
-    <script th:src="@{/js/jquery/jquery-3.3.1.min.js}"></script>
-    <script th:src="@{/js/accounting/accounting.js}"></script>
-    <title>WoWS Fitting Tool by Aesis</title>
-</head>
 <body>
-    <div class="warshipData" th:fragment="warshipStats">
-        <div id="notification" th:if="${warship == null}" th:style="${warship != null} ? 'display: none' : 'text-align: center;'">
+    <div class="warshipData" th:fragment="warshipStats" th:attr="data-api-index=${single ? '0' : dataIndex}">
+        <div id="notification" th:if="${single and warship == null}" th:style="${warship != null} ? 'display: none' : 'text-align: center;'">
             <h2>Click on a ship for fitting.</h2>
         </div>
-        <div id="ship" th:name="${warship.ship_id}" th:if="${warship != null}">
+        <div id="ship" th:name="${warship.ship_id}" th:if="${warship != null}" th:attr="data-nation=${warship.nation}, data-ship-type=${warship.type}, data-name=${warship.name}, data-ship-index=${single ? '0' : dataIndex}">
             <div id="name">
                 <th:block th:each="eShipType : ${encyclopedia.ship_type_images}" th:if="${eShipType.key == warship.defaultType}">
                     <img th:src="${warship.type != 'Premium' and warship.type != 'Arpeggio' and warship.type != 'HSF' ? eShipType.value.image : eShipType.value.image_premium}"/><br />
@@ -35,16 +25,17 @@
                     <option th:selected="${sCommander == commander}" th:each="commander : ${commanders}" th:value="${commander}" th:text="${commander}"/>
                 </select>
                 <input type="checkbox" id="camouflageCheckbox" th:checked="${camo}" th:text="'Camouflage'" th:title="'Decreases the firing accuracy of the enemy and reduces ship detectability.'"/>
-                <input type="checkbox" id="upgradeCompareCheckBox" name="comparison" th:text="'Upgrade Comparison'"/>
+                <input type="checkbox" id="upgradeCompareCheckBox" name="comparison" th:if="${single}" th:text="'Upgrade Comparison'"/>
+                <button id="removeCompare" th:if="${!single}">Remove Ship</button>
             </div>
             <div class="info_box">
                 <div style="display: inline-table; vertical-align: top;">
                     <div id="left_tabs" class="left_tabs">
-                        <div id="tab_left_modules" class="button_tab left select" onclick="showPanelLeft('modules')">Modules</div>
-                        <div id="tab_left_upgrades" class="button_tab left" onclick="showPanelLeft('upgrades')">Upgrades</div>
-                        <div id="tab_left_crewSkills" class="button_tab left" onclick="showPanelLeft('crewSkills')">Skills</div>
-                        <div id="tab_left_flags" class="button_tab left" onclick="showPanelLeft('flags')">Flags</div>
-                        <div id="tab_left_consumables" class="button_tab left" onclick="showPanelLeft('consumables')">Consumables</div>
+                        <div id="tab_left_modules" class="button_tab left modules select">Modules</div>
+                        <div id="tab_left_upgrades" class="button_tab left upgrades">Upgrades</div>
+                        <div id="tab_left_crewSkills" class="button_tab left crewSkills">Skills</div>
+                        <div id="tab_left_flags" class="button_tab left flags">Flags</div>
+                        <div id="tab_left_consumables" class="button_tab left consumables">Consumables</div>
                     </div>
                     <div class="left_info_box">
                         <div id="modules" class="panel_left modules">
@@ -52,7 +43,7 @@
                             <table>
                                 <tbody>
                                 <th:block th:each="row : ${warship.warshipModulesTreeTable}">
-                                    <tr th:if="${rowStat.index == 0}">
+                                    <tr th:if="${single and rowStat.index == 0}">
                                         <th:block th:each="module : ${row.value}">
                                             <td th:if="${moduleStat.index > 0}" width="7px;">
                                             </td>
@@ -64,7 +55,7 @@
                                             </td>
                                         </th:block>
                                     </tr>
-                                    <tr th:if="${rowStat.index == 0 and warship.prevWarship != null}">
+                                    <tr th:if="${single and rowStat.index == 0 and warship.prevWarship != null}">
                                         <th:block th:each="module : ${row.value}">
                                             <td th:if="${moduleStat.index > 0}" width="7px;">
                                             </td>
@@ -97,7 +88,7 @@
                                         </th:block>
                                     </tr>
                                 </th:block>
-                                <th:block th:if="${warship.nextWarship != null and warship.next_ships.size() > 0}">
+                                <th:block th:if="${single and warship.nextWarship != null and warship.next_ships.size() > 0}">
                                     <tr>
                                         <th:block th:each="nextShip : ${warship.nextWarship}">
                                             <td th:if="${nextShipStat.index > 0}" width="7px;">
@@ -179,6 +170,10 @@
                         </div>
                     </div>
                 </div>
+                <th:block th:if="${!single}">
+                    <br />
+                    <br />
+                </th:block>
                 <div class="right_side" style="display: inline-table; vertical-align: top;">
                 </div>
             </div>

@@ -22,7 +22,8 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/FittingTool/FittingTool.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
     <script th:src="@{/js/jquery/jquery-3.3.1.min.js}"></script>
-    <script th:src="@{/js/accounting/accounting.js}"></script>
+    <script th:src="@{/js/angle/arty.js}"></script>
+    <script th:src="@{/js/angle/torp.js}"></script>
     <title>WoWS Fitting Tool by Aesis</title>
 </head>
 <body>
@@ -97,7 +98,7 @@
     </div>
 </header>
 <main id="main">
-    <div class="warshipData" th:include="FittingTool/ftShipSelect :: warshipStats"></div>
+    <div class="warshipData" th:include="Joint/shipSelect :: warshipStats"></div>
     <th:block th:include="bottom"></th:block>
 </main>
 <script th:inline="javascript">
@@ -114,10 +115,13 @@
 
     var adrenalineValue = /*[[${adrenalineValue}]]*/ 100;
     adrenalineValue = adrenalineValue === null ? 100 : adrenalineValue;
-
+    var artyArray = [];
+    var torpArray = [];
     var waitTime = 1000;
     var timer;
     var rightPanelOpen = '';
+    var shipIndex = 0;
+    var maxList = 3;
 
     $().ready(function () {
         if ([[${url}]] !== null)
@@ -146,7 +150,7 @@
     $(document).on('click', '.button_upgrade, .button_upgrade_selected', function () {
         var clickedId = $(this).attr('id');
 
-        if (document.getElementById(clickedId).className == 'button_upgrade')
+        if (document.getElementById(clickedId).className === 'button_upgrade')
         {
             var gParentElem = $(this).parent().parent();
             var parents = gParentElem.children();
@@ -235,7 +239,7 @@
 
             for (var j = 0; j < allConsumables.length; j++)
             {
-                if (list[i] == allConsumables[j])
+                if (list[i] === allConsumables[j])
                 {
                     mismatch = false;
                     break;
@@ -262,7 +266,7 @@
             $('#' + current).removeAttr('style');
         }
 
-        if ($('.button_consumable_selected').length == 0)
+        if ($('.button_consumable_selected').length === 0)
         {
             var abil0List = $('.abil0');
             var abil1List = $('.abil1');
@@ -312,7 +316,7 @@
 
         var clickedId = $(this).attr('id');
 
-        if (document.getElementById(clickedId).className == 'button_skill')
+        if (document.getElementById(clickedId).className === 'button_skill')
         {
             clickedSpts = clickedSpts + parseInt($(this).attr('tier'));
         }
@@ -330,7 +334,7 @@
 
         totalSpts = totalSpts + currentSpts + clickedSpts;
 
-        if (document.getElementById(clickedId).className == 'button_skill')
+        if (document.getElementById(clickedId).className === 'button_skill')
         {
             if (totalSpts > maxSpts)
             {
@@ -351,7 +355,7 @@
     $(document).on('click', '.button_uSkill, .button_uSkill_selected', function () {
         var clickedId = $(this).attr('id');
 
-        if (document.getElementById(clickedId).className == 'button_uSkill')
+        if (document.getElementById(clickedId).className === 'button_uSkill')
         {
             document.getElementById(clickedId).className = 'button_uSkill_selected';
         }
@@ -369,7 +373,7 @@
         var clickedId = $(this).attr('id');
         var selected = document.getElementsByClassName('button_flag_selected');
 
-        if (document.getElementById(clickedId).className == 'button_flag')
+        if (document.getElementById(clickedId).className === 'button_flag')
         {
             if (selected.length >= maxFlags)
             {
@@ -555,6 +559,26 @@
                         $('#consumablesDataFragment').remove();
 
                         setConsumables();
+                        var currentIndex = $('.warshipData').find('[data-ship-index=0]');
+                        if (currentIndex.find('#tab_right_artillery').length === 1) {
+                            var tempInterval1 = setInterval(function () {
+                                if (artyArray[shipIndex] !== undefined) {
+                                    clearInterval(tempInterval1);
+                                    drawArtillery(currentIndex, artyArray[shipIndex]);
+                                    artyArray[shipIndex] = undefined;
+                                }
+                            }, 500);
+                        }
+
+                        if (currentIndex.find('#tab_right_torpedoes').length === 1) {
+                            var tempInterval2 = setInterval(function () {
+                                if (torpArray[shipIndex] !== undefined) {
+                                    clearInterval(tempInterval2);
+                                    drawTorpedoes(currentIndex, torpArray[shipIndex]);
+                                    torpArray[shipIndex] = undefined;
+                                }
+                            }, 500);
+                        }
                         showPanelRight(rightPanelOpen);
 
                         doHistory();
@@ -601,6 +625,35 @@
                 }, 500);
             }
         });
+    });
+
+    $(document).on('click', '.button_tab.left', function (e) {
+        var index = $(this).parents('#ship').attr('data-ship-index');
+        var currentIndex = $('[data-ship-index=' + index + ']');
+        var tabs = currentIndex.find('.button_tab.left');
+        var type = $(this).attr('class').replace('button_tab left ', '');
+
+        for (var i = 0; i < tabs.length; i++)
+        {
+            var current = tabs.eq(i);
+            current.removeClass('select');
+        }
+
+        var leftFind = currentIndex.find('.button_tab.left.' + type);
+        for (var i = 0; i < leftFind.length; i++) {
+            leftFind.eq(i).addClass('select');
+        }
+
+        var panels = currentIndex.find('.panel_left');
+        for (var i = 0; i < panels.length; i++)
+        {
+            var current = panels.eq(i);
+            current.addClass('hide');
+        }
+        var typeFind = currentIndex.find('.panel_left.' + type);
+        for (var i = 0; i < typeFind.length; i++) {
+            typeFind.eq(i).removeClass('hide');
+        }
     });
 
     $(window).on('popstate', function () {

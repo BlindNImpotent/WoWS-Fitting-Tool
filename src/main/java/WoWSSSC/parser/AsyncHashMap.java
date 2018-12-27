@@ -28,6 +28,7 @@ import WoWSSSC.model.gameparams.test.TorpedoVisibility;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.Modernization;
 import WoWSSSC.utils.Sorter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,6 +43,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Aesis on 2016-11-15.
  */
+@Slf4j
 @Component
 public class AsyncHashMap implements CommandLineRunner {
     @Autowired
@@ -481,6 +483,7 @@ public class AsyncHashMap implements CommandLineRunner {
                 tempWarships.clear();
             }
             loadFinish.put("loadFinish", 1);
+            log.info("Load finished");
         }
     }
 

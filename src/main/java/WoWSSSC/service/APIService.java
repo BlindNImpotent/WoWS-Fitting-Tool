@@ -28,10 +28,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Aesis on 2016-10-15.
@@ -51,21 +49,10 @@ public class APIService
     private RestTemplate restTemplate;
 
     @Autowired
-    private APIJsonParser apiJsonParser;
-
-    @Autowired
     private HashMap<String, LinkedHashMap<String, LinkedHashMap>> data;
 
     @Autowired
     private HashMap<String, Ship> shipHashMap;
-
-    @Autowired
-    @Qualifier (value = "gameParamsCHM")
-    private HashMap<String, HashMap<String, LinkedHashMap>> gameParamsCHM;
-
-    @Autowired
-    @Qualifier(value = "nameToId")
-    private HashMap<String, HashMap<String, String>> nameToId;
 
     @Autowired
     private GPService gpService;
@@ -80,76 +67,44 @@ public class APIService
 
     private static final Logger logger = LoggerFactory.getLogger(APIService.class);
 
-//    @Cacheable (value = "shipAPI", key = "(#nation).concat(#shipType).concat(#ship).concat(#ship_id).concat(#artillery_id).concat(#dive_bomber_id).concat(#engine_id).concat(#fighter_id).concat(#fire_control_id).concat(#flight_control_id).concat(#hull_id).concat(#torpedo_bomber_id).concat(#torpedoes_id)")
-    public String setShipAPI(
-            String nation,
-            String shipType,
-            String ship,
-            String ship_id,
-            String artillery_id,
-            String dive_bomber_id,
-            String engine_id,
-            String fighter_id,
-            String fire_control_id,
-            String flight_control_id,
-            String hull_id,
-            String torpedo_bomber_id,
-            String torpedoes_id,
-            List<String> modules
-    ) throws IOException, ExecutionException, InterruptedException, IllegalAccessException
+    public String setShipAPI(String nation, String shipType, String ship, String ship_id,
+                             String artillery_id, String dive_bomber_id, String engine_id, String fighter_id, String fire_control_id, String flight_control_id, String hull_id, String torpedo_bomber_id, String torpedoes_id)
     {
-        if (!ship_id.equals(""))
-        {
+        if (!ship_id.equals("")) {
             String key = "&ship_id=" + ship_id + "&artillery_id=" + artillery_id + "&dive_bomber_id=" + dive_bomber_id + "&engine_id=" + engine_id
                     + "&fighter_id=" + fighter_id + "&fire_control_id=" + fire_control_id + "&flight_control_id=" + flight_control_id + "&hull_id=" + hull_id + "&torpedo_bomber_id=" + torpedo_bomber_id + "&torpedoes_id=" + torpedoes_id;
 
             String url = apiAddress.getAPI_Starter() + "/shipprofile/?application_id=" + APP_ID + key + "&language=" + customProperties.getLanguage();
 
-            if (!shipHashMap.containsKey(key))
-            {
+            if (!shipHashMap.containsKey(key)) {
                 ShipData shipData = restTemplate.getForObject(url, ShipData.class);
 
-                if (shipData.getStatus().equals("ok"))
-                {
+                if (shipData != null && shipData.getStatus().equals("ok")) {
                     logger.info("Requested valid API for " + nation + " " + shipType + " " + ship + " - " + url);
 
-                    if ("Saipan".equalsIgnoreCase(ship))
-                    {
+                    if ("Saipan".equalsIgnoreCase(ship)) {
                         shipData.getData().get(ship_id).getFighters().getCount_in_squadron().setMin(3);
                         shipData.getData().get(ship_id).getFighters().getCount_in_squadron().setMax(3);
                         shipData.getData().get(ship_id).getTorpedo_bomber().getCount_in_squadron().setMin(3);
                         shipData.getData().get(ship_id).getTorpedo_bomber().getCount_in_squadron().setMax(3);
                     }
 
-                    if (shipData.getData().get(ship_id).getAnti_aircraft() != null)
-                    {
+                    if (shipData.getData().get(ship_id).getAnti_aircraft() != null) {
                         shipData.getData().get(ship_id).getAnti_aircraft().setSlots(sorter.sortAARange(shipData.getData().get(ship_id).getAnti_aircraft().getSlots()));
                     }
-
-//                    ModuleId moduleId = new ModuleId();
-//                    setModuleIds(shipData.getData().get(ship_id), moduleId);
-//
-//                    key = "&ship_id=" + ship_id + "&artillery_id=" + moduleId.getArtillery_id() + "&dive_bomber_id=" + moduleId.getDive_bomber_id() + "&engine_id=" + moduleId.getEngine_id()
-//                            + "&fighter_id=" + moduleId.getFighter_id() + "&fire_control_id=" + moduleId.getFire_control_id() + "&flight_control_id=" + moduleId.getFlight_control_id() + "&hull_id=" + moduleId.getHull_id() + "&torpedo_bomber_id=" + moduleId.getTorpedo_bomber_id() + "&torpedoes_id=" + moduleId.getTorpedoes_id();
-
                     shipHashMap.put(key, shipData.getData().get(ship_id));
                 }
-                else
-                {
+                else {
                     logger.info("Requested invalid API for " + nation + " " + shipType + " " + ship + " - " + url);
 
                     shipHashMap.put(key, null);
                 }
             }
-            else
-            {
-                if (shipHashMap.get(key) == null)
-                {
-//                    apiJsonParser.checkShipData(url, key, ship_id, nation, shipType, ship);
+            else {
+                if (shipHashMap.get(key) == null) {
                     logger.info("Requested invalid data for " + nation + " " + shipType + " " + ship + " - " + url);
                 }
-                else
-                {
+                else {
                     logger.info("Requested valid data for " + nation + " " + shipType + " " + ship + " - " + url);
                 }
 
@@ -157,46 +112,6 @@ public class APIService
             return key;
         }
         return null;
-    }
-    
-    public void setModuleIds(Ship ship, ModuleId moduleId)
-    {
-        if (StringUtils.isEmpty(moduleId.getArtillery_id()) && ship.getArtillery() != null)
-        {
-            moduleId.setArtillery_id(String.valueOf(ship.getArtillery().getArtillery_id()));
-        }
-        if (StringUtils.isEmpty(moduleId.getDive_bomber_id()) && ship.getDive_bomber() != null)
-        {
-            moduleId.setDive_bomber_id(String.valueOf(ship.getDive_bomber().getDive_bomber_id()));
-        }
-        if (StringUtils.isEmpty(moduleId.getEngine_id()) && ship.getEngine() != null)
-        {
-            moduleId.setEngine_id(String.valueOf(ship.getEngine().getEngine_id()));
-        }
-        if (StringUtils.isEmpty(moduleId.getFighter_id()) && ship.getFighters() != null)
-        {
-            moduleId.setFighter_id(String.valueOf(ship.getFighters().getFighters_id()));
-        }
-        if (StringUtils.isEmpty(moduleId.getFire_control_id()) && ship.getFire_control() != null)
-        {
-            moduleId.setFire_control_id(String.valueOf(ship.getFire_control().getFire_control_id()));
-        }
-        if (StringUtils.isEmpty(moduleId.getFlight_control_id()) && ship.getFlight_control() != null)
-        {
-            moduleId.setFlight_control_id(String.valueOf(ship.getFlight_control().getFlight_control_id()));
-        }
-        if (StringUtils.isEmpty(moduleId.getHull_id()) && ship.getHull() != null)
-        {
-            moduleId.setHull_id(String.valueOf(ship.getHull().getHull_id()));
-        }
-        if (StringUtils.isEmpty(moduleId.getTorpedo_bomber_id()) && ship.getTorpedo_bomber() != null)
-        {
-            moduleId.setTorpedo_bomber_id(String.valueOf(ship.getTorpedo_bomber().getTorpedo_bomber_id()));
-        }
-        if (StringUtils.isEmpty(moduleId.getTorpedoes_id()) && ship.getTorpedoes() != null)
-        {
-            moduleId.setTorpedoes_id(String.valueOf(ship.getTorpedoes().getTorpedoes_id()));
-        }
     }
 
     @CacheEvict(value = {"shipAPI_GameParams", "gameParams", "shipArty"}, allEntries = true)
@@ -208,15 +123,13 @@ public class APIService
 
     private void setCustomValues(String ship_id, Ship ship)
     {
-        if (ship.getArtillery() != null)
-        {
+        if (ship.getArtillery() != null) {
             long totalGuns = 0;
 
             int i = 0;
             Artillery_Slots tempSlot = null;
             HashMap<String, Artillery_Slots> tempSlots = new HashMap<>();
-            for (Artillery_Slots slots : ship.getArtillery().getSlots().values())
-            {
+            for (Artillery_Slots slots : ship.getArtillery().getSlots().values()) {
                 boolean isMatch = false;
 
                 if (tempSlot == null) {
@@ -236,20 +149,6 @@ public class APIService
             ship.getArtillery().setSlots(tempSlots);
             ship.getArtillery().setTotalGuns(totalGuns);
         }
-
-//        if (ship.getHull() != null && gameParamsCHM.get(String.valueOf(ship.getHull().getHull_id())) != null)
-//        {
-//            String tGPHullName = (String) gameParamsCHM.get(String.valueOf(ship.getHull().getHull_id())).get("name");
-//
-//            List<String> tGPShipHullNameList = mapper.convertValue(gameParamsCHM.get(ship_id), Temporary.class).getShipUpgradeInfo().getModules().get(tGPHullName).getComponents().getHull();
-////            List<String> tGPShipHullNameList = (List<String>) ((HashMap<String, HashMap>) ((HashMap<String, HashMap>) gameParamsCHM.get(ship_id).get("ShipUpgradeInfo")).get(tGPHullName).get("components")).get("hull");
-//            if (tGPShipHullNameList.size() == 1)
-//            {
-//                String tGPShipHullName = tGPShipHullNameList.get(0);
-//
-//                ship.getConcealment().setVisibilityCoefGK(Float.parseFloat(new DecimalFormat("#").format((double) ((HashMap) gameParamsCHM.get(ship_id).get(tGPShipHullName)).get("visibilityCoefGK"))));
-//            }
-//        }
     }
 
     @Cacheable (value = "shipAPI_GameParams", key = "#key.concat(#upgradesSkills.toString()).concat(#adrenalineValue.toString()).concat(#getTorpedoVisibilities.toString()).concat(#isLive.toString())")
@@ -257,8 +156,7 @@ public class APIService
     {
         String serverParam = isLive ? "live" : "test";
 
-        if (shipHashMap.get(key) == null)
-        {
+        if (shipHashMap.get(key) == null) {
             return null;
         }
 
@@ -276,78 +174,46 @@ public class APIService
 
         setCustomValues(ship_id, ship);
 
-        if (ship.getAnti_aircraft() != null)
-        {
-            ship.getAnti_aircraft().getSlots().values().forEach(aa ->
-            {
-                ship.getShipComponents().getAuraFarList().forEach(auraFar ->
-                {
-                    if (aa.getName().equalsIgnoreCase(auraFar.getRealName()))
-                    {
-                        aa.setName(String.valueOf(auraFar.getNumBarrels()) + " " + aa.getName());
+        if (ship.getAnti_aircraft() != null) {
+            ship.getAnti_aircraft().getSlots().values().forEach(aa -> {
+                ship.getShipComponents().getAuraFarList().forEach(auraFar -> {
+                    if (aa.getName().equalsIgnoreCase(auraFar.getRealName())) {
+                        aa.setName(auraFar.getNumBarrels() + " " + aa.getName());
                         aa.setAuraType(auraFar.getAuraType());
                     }
                 });
 
-                ship.getShipComponents().getAuraMediumList().forEach(auraMedium ->
-                {
-                    if (aa.getName().equalsIgnoreCase(auraMedium.getRealName()))
-                    {
-                        aa.setName(String.valueOf(auraMedium.getNumBarrels()) + " " + aa.getName());
+                ship.getShipComponents().getAuraMediumList().forEach(auraMedium -> {
+                    if (aa.getName().equalsIgnoreCase(auraMedium.getRealName())) {
+                        aa.setName(auraMedium.getNumBarrels() + " " + aa.getName());
                         aa.setAuraType(auraMedium.getAuraType());
                     }
                 });
 
-                ship.getShipComponents().getAuraNearList().forEach(auraNear ->
-                {
-                    if (aa.getName().equalsIgnoreCase(auraNear.getRealName()))
-                    {
-                        aa.setName(String.valueOf(auraNear.getNumBarrels()) + " " + aa.getName());
+                ship.getShipComponents().getAuraNearList().forEach(auraNear -> {
+                    if (aa.getName().equalsIgnoreCase(auraNear.getRealName())) {
+                        aa.setName(auraNear.getNumBarrels() + " " + aa.getName());
                         aa.setAuraType(auraNear.getAuraType());
                     }
                 });
             });
         }
 
-//        if (getTorpedoVisibilities && warship.getTier() > 1)
-//        {
-//            setTorpedoVisibility(ship, warship.getTier(), serverParam);
-//        }
-
-//        LinkedHashMap<String, LinkedHashMap> nationLHM = (LinkedHashMap<String, LinkedHashMap>) data.get("nations").get(nation);
-//        Warship warship = (Warship) nationLHM.get(shipType).get(shipName);
-
-        if (CollectionUtils.isEmpty(upgradesSkills))
-        {
+        if (CollectionUtils.isEmpty(upgradesSkills)) {
             return ship;
         }
 
-        if (upgradesSkills.get("camouflage") != null)
-        {
+        if (upgradesSkills.get("camouflage") != null) {
             boolean camouflage = (boolean) upgradesSkills.get("camouflage").get(0);
-            if (camouflage)
-            {
-//                if (ship.getConcealment() != null && !warship.isIs_premium())
-//                {
-                    ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * 0.97f);
-//                }
+            if (camouflage) {
+                ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * 0.97f);
             }
-//            else
-//            {
-//                if (ship.getConcealment() != null && warship.isIs_premium())
-//                {
-//                    ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() / 0.97f);
-//                }
-//            }
         }
 
         List<String> flags = upgradesSkills.get("flags");
-        if (flags != null)
-        {
-            flags.forEach(flag ->
-            {
-                if (!StringUtils.isEmpty(flag))
-                {
+        if (flags != null) {
+            flags.forEach(flag -> {
+                if (!StringUtils.isEmpty(flag)) {
                     Consumables temp = (Consumables) data.get(serverParam).get("upgrades").get(flag);
 
                     setFlagsModernization(ship, temp);
