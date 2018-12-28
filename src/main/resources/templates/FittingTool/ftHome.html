@@ -47,7 +47,7 @@
                             <span th:text="${shipType.key}" />
                             <ul>
                                 <li th:each="ship : ${shipType.value}" th:if="${ship.key != 'Test Ship'}">
-                                    <span th:with='cleaned=${#strings.replace(ship.key, "&apos;", "&#92;&apos;")}' th:text="${ship.value.tier + ' - ' + ship.key}" name="fragments" th:attr="data-nation=${nation.key}, data-shipType=${shipType.key}, data-ship=${cleaned}"/>
+                                    <span  th:text="${ship.value.tier + ' - ' + ship.key}" name="fragments" th:attr="data-nation=${nation.key}, data-shipType=${shipType.key}, data-ship=${ship.key}"/>
                                 </li>
                             </ul>
                         </li>
@@ -58,7 +58,7 @@
                                     <span>AirCarrier</span>
                                     <ul>
                                         <li th:each="ship : ${shipType.value}" th:if="${ship.key != 'Test Ship' and ship.value.defaultType == 'AirCarrier'}">
-                                            <span th:with='cleaned=${#strings.replace(ship.key, "&apos;", "&#92;&apos;")}' th:text="${ship.value.tier + ' - ' + ship.key}" name="fragments" th:attr="data-nation=${nation.key}, data-shipType=${shipType.key}, data-ship=${cleaned}"/>
+                                            <span  th:text="${ship.value.tier + ' - ' + ship.key}" name="fragments" th:attr="data-nation=${nation.key}, data-shipType=${shipType.key}, data-ship=${ship.key}"/>
                                         </li>
                                     </ul>
                                 </li>
@@ -66,7 +66,7 @@
                                     <span>Battleship</span>
                                     <ul>
                                         <li th:each="ship : ${shipType.value}" th:if="${ship.key != 'Test Ship' and ship.value.defaultType == 'Battleship'}">
-                                            <span th:with='cleaned=${#strings.replace(ship.key, "&apos;", "&#92;&apos;")}' th:text="${ship.value.tier + ' - ' + ship.key}" name="fragments" th:attr="data-nation=${nation.key}, data-shipType=${shipType.key}, data-ship=${cleaned}"/>
+                                            <span  th:text="${ship.value.tier + ' - ' + ship.key}" name="fragments" th:attr="data-nation=${nation.key}, data-shipType=${shipType.key}, data-ship=${ship.key}"/>
                                         </li>
                                     </ul>
                                 </li>
@@ -74,7 +74,7 @@
                                     <span>Cruiser</span>
                                     <ul>
                                         <li th:each="ship : ${shipType.value}" th:if="${ship.key != 'Test Ship' and ship.value.defaultType == 'Cruiser'}">
-                                            <span th:with='cleaned=${#strings.replace(ship.key, "&apos;", "&#92;&apos;")}' th:text="${ship.value.tier + ' - ' + ship.key}" name="fragments" th:attr="data-nation=${nation.key}, data-shipType=${shipType.key}, data-ship=${cleaned}"/>
+                                            <span  th:text="${ship.value.tier + ' - ' + ship.key}" name="fragments" th:attr="data-nation=${nation.key}, data-shipType=${shipType.key}, data-ship=${ship.key}"/>
                                         </li>
                                     </ul>
                                 </li>
@@ -82,7 +82,7 @@
                                     <span>Destroyer</span>
                                     <ul>
                                         <li th:each="ship : ${shipType.value}" th:if="${ship.key != 'Test Ship' and ship.value.defaultType == 'Destroyer'}">
-                                            <span th:with='cleaned=${#strings.replace(ship.key, "&apos;", "&#92;&apos;")}' th:text="${ship.value.tier + ' - ' + ship.key}" name="fragments" th:attr="data-nation=${nation.key}, data-shipType=${shipType.key}, data-ship=${cleaned}"/>
+                                            <span  th:text="${ship.value.tier + ' - ' + ship.key}" name="fragments" th:attr="data-nation=${nation.key}, data-shipType=${shipType.key}, data-ship=${ship.key}"/>
                                         </li>
                                     </ul>
                                 </li>
