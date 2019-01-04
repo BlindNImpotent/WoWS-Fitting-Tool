@@ -7,7 +7,6 @@ import WoWSSSC.model.WoWSAPI.commanders.CommandersData;
 import WoWSSSC.model.WoWSAPI.commanders.CommandersRankData;
 import WoWSSSC.model.WoWSAPI.consumables.Consumables;
 import WoWSSSC.model.WoWSAPI.consumables.ConsumablesData;
-import WoWSSSC.model.WoWSAPI.exterior.Exterior;
 import WoWSSSC.model.WoWSAPI.info.Encyclopedia;
 import WoWSSSC.model.WoWSAPI.shipprofile.Ship;
 import WoWSSSC.model.WoWSAPI.skills.CrewSkills;
@@ -15,21 +14,13 @@ import WoWSSSC.model.WoWSAPI.skills.CrewSkillsData;
 import WoWSSSC.model.WoWSAPI.warships.Warship;
 import WoWSSSC.model.WoWSAPI.warships.WarshipData;
 import WoWSSSC.model.WoWSAPI.warships.WarshipModulesTree;
-import WoWSSSC.model.gameparams.ShipComponents.Torpedoes.Launcher;
-import WoWSSSC.model.gameparams.ShipComponents.Torpedoes.Torpedoes;
-import WoWSSSC.model.gameparams.ShipUpgradeInfo.Module.Module;
-import WoWSSSC.model.gameparams.ShipUpgradeInfo.ShipUpgradeInfo;
-import WoWSSSC.model.gameparams.TypeInfo;
 import WoWSSSC.model.gameparams.commanders.GPCommander;
 import WoWSSSC.model.gameparams.commanders.UniqueTemp;
-import WoWSSSC.model.gameparams.test.GameParamsValues;
-import WoWSSSC.model.gameparams.test.TorpedoShip;
-import WoWSSSC.model.gameparams.test.TorpedoVisibility;
 import WoWSSSC.model.gameparams.test.Values.ShipModernization.Modernization;
 import WoWSSSC.utils.Sorter;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
@@ -68,14 +59,6 @@ public class AsyncHashMap implements CommandLineRunner {
     private HashMap<String, HashMap<String, String>> idToName;
 
     @Autowired
-    @Qualifier(value = "nameToId")
-    private HashMap<String, HashMap<String, String>> nameToId;
-
-    @Autowired
-    @Qualifier(value = "global")
-    private HashMap<String, HashMap<String, Object>> global;
-
-    @Autowired
     private HashMap<String, Integer> loadFinish;
 
     @Autowired
@@ -83,9 +66,6 @@ public class AsyncHashMap implements CommandLineRunner {
 
     @Autowired
     private CustomProperties customProperties;
-
-    private static String language;
-    private static String server;
 
     private boolean isFirstRun = true;
 
@@ -97,24 +77,20 @@ public class AsyncHashMap implements CommandLineRunner {
 
     private Encyclopedia encyclopedia;
 
-    private CompletableFuture<CrewSkillsData> crewsSkillsData;
-    private CompletableFuture<CommandersData> commandersData;
-    private CompletableFuture<CommandersRankData> commandersRankData;
-    private CompletableFuture<ConsumablesData> consumablesData;
-    private HashMap<String, Warship> tempWarships;
-    private LinkedHashMap<String, LinkedHashMap<String, CompletableFuture<WarshipData>>> futures = new LinkedHashMap<>();
-
     @Override
-    public void run(String... strings) throws Exception {
-        language = customProperties.getLanguage();
-        server = customProperties.getServer();
+    public void run(String... strings) throws Exception
+    {
+        CompletableFuture<CrewSkillsData> crewsSkillsData;
+        CompletableFuture<CommandersData> commandersData;
+        CompletableFuture<CommandersRankData> commandersRankData;
+        CompletableFuture<ConsumablesData> consumablesData;
+        HashMap<String, Warship> tempWarships;
+        LinkedHashMap<String, LinkedHashMap<String, CompletableFuture<WarshipData>>> futures = new LinkedHashMap<>();
 
-        List<String> nationsString = new ArrayList<>();
-        List<String> shipTypeString = new ArrayList<>();
+//        String language = customProperties.getLanguage();
+        String server = customProperties.getServer();
 
-        LinkedHashMap<String, LinkedHashMap> nations = new LinkedHashMap<>();
-
-//        LinkedHashMap<String, LinkedHashMap> upgradesSpecial = new LinkedHashMap<>();
+        LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, Warship>>> nations = new LinkedHashMap<>();
 
         if (isFirstRun) {
             apiJsonParser.setNotification();
@@ -145,7 +121,7 @@ public class AsyncHashMap implements CommandLineRunner {
                 encyclopedia = encyclopediaNA;
                 encyclopedia.setRegion("NA");
                 apiAddress.setAddress("NA");
-            } else if (encyclopediaNA != null && encyclopediaRU != null){
+            } else if (encyclopediaNA != null){
                 String[] ruSplit = encyclopediaRU.getGame_version().split("\\.");
                 String[] naSplit = encyclopediaNA.getGame_version().split("\\.");
 
@@ -183,58 +159,32 @@ public class AsyncHashMap implements CommandLineRunner {
 
                 data.clear();
 
-                tempWarships.values().forEach(warship ->
-                {
+                tempWarships.values().forEach(warship -> {
                     if (warship.getNext_ships().size() > 0) {
                         Warship tempWS = new Warship(warship.getNation(), warship.getType(), warship.getName(), warship.getImages(), null).setTier(warship.getTier()).setShip_id(warship.getShip_id());
-                        warship.getNext_ships().keySet().forEach(shipKey ->
-                        {
-                            tempWarships.get(shipKey).setPrevWarship(tempWS);
-                        });
+                        warship.getNext_ships().keySet().forEach(shipKey -> tempWarships.get(shipKey).setPrevWarship(tempWS));
                     }
                 });
 
-                nationsString.addAll(encyclopedia.getShip_nations().keySet());
-                shipTypeString.addAll(encyclopedia.getShip_types().keySet());
+                List<String> nationsString = new ArrayList<>(encyclopedia.getShip_nations().keySet());
+                List<String> shipTypeString = new ArrayList<>(encyclopedia.getShip_types().keySet());
                 Collections.sort(nationsString);
                 Collections.sort(shipTypeString);
 
-                LinkedHashMap<String, Consumables> tempUpgrades = new LinkedHashMap<>();
-                consumablesData.get().getData().entrySet().forEach(entry ->
-                {
-                    tempUpgrades.put(entry.getKey(), entry.getValue());
-                });
-
-                LinkedHashMap<String, LinkedHashMap> tempExteriors = new LinkedHashMap<>();
+                LinkedHashMap<String, Consumables> tempUpgrades = new LinkedHashMap<>(consumablesData.get().getData());
+                LinkedHashMap<String, LinkedHashMap<String, Consumables>> tempExteriors = new LinkedHashMap<>();
                 LinkedHashMap<String, Consumables> tempFlags = new LinkedHashMap<>();
                 LinkedHashMap<String, Consumables> tempPermoflage = new LinkedHashMap<>();
                 LinkedHashMap<String, Consumables> tempCamouflage = new LinkedHashMap<>();
-                LinkedHashMap<String, Commanders> tempCommanders = new LinkedHashMap<>();
+                LinkedHashMap<String, Commanders> tempCommanders = new LinkedHashMap<>(commandersData.get().getData());
                 LinkedHashMap<String, LinkedHashMap<String, UniqueTemp>> uniqueSkills = new LinkedHashMap<>();
 
-                commandersData.get().getData().entrySet().forEach(entry ->
-                {
-                    if (entry.getValue().isIs_retrainable()) {
-                        tempCommanders.put(entry.getKey(), entry.getValue());
-                    }
-                });
-
-                consumablesData.get().getData().entrySet().forEach(entry ->
-                {
-                    if (entry.getValue().getType().equals("Flags")) {
-                        // Remove flags with xp factor
-//                        if (entry.getValue().getProfile() != null &&
-//                                (entry.getValue().getProfile().getCrewExpFactor() != null && (entry.getValue().getProfile().getCrewExpFactor().getValue() > 0)
-//                                || (entry.getValue().getProfile().getFreeExpFactor() != null && entry.getValue().getProfile().getFreeExpFactor().getValue() > 0)
-//                                || (entry.getValue().getProfile().getExpFactor() != null && entry.getValue().getProfile().getExpFactor().getValue() > 0))) {
-//                            return;
-//                        }
-
+                consumablesData.get().getData().forEach((key, value1) -> {
+                    if (value1.getType().equals("Flags")) {
                         List<String> stringsList = new ArrayList<>();
-                        LinkedHashMap<String, HashMap> profileHashMap = mapper.convertValue(entry.getValue().getProfile(), LinkedHashMap.class);
+                        LinkedHashMap<String, HashMap<String, String>> profileHashMap = mapper.convertValue(value1.getProfile(), new TypeReference<LinkedHashMap<String, HashMap<String, String>>>(){});
 
-                        profileHashMap.values().forEach(value ->
-                        {
+                        profileHashMap.values().forEach(value -> {
                             if (value != null) {
                                 stringsList.add("\n" + value.get("description"));
                             }
@@ -242,24 +192,23 @@ public class AsyncHashMap implements CommandLineRunner {
 
                         String finalString = "";
                         for (String s : stringsList) {
-                            finalString = finalString + s;
+                            finalString = finalString.concat(s);
                         }
-                        entry.getValue().setDescription(entry.getValue().getDescription() + finalString);
-                        entry.getValue().setBonusDescription(finalString.replaceFirst("\n", ""));
+                        value1.setDescription(value1.getDescription() + finalString);
+                        value1.setBonusDescription(finalString.replaceFirst("\n", ""));
 
-                        tempFlags.put(entry.getKey(), entry.getValue());
-                    } else if (entry.getValue().getType().equals("Camouflage")) {
-                        tempCamouflage.put(entry.getKey(), entry.getValue());
-                    } else if (entry.getValue().getType().equals("Permoflage")) {
-                        tempPermoflage.put(entry.getKey(), entry.getValue());
-                    } else if (entry.getValue().getType().equals("Modernization")) {
+                        tempFlags.put(key, value1);
+                    } else if (value1.getType().equals("Camouflage")) {
+                        tempCamouflage.put(key, value1);
+                    } else if (value1.getType().equals("Permoflage")) {
+                        tempPermoflage.put(key, value1);
+                    } else if (value1.getType().equals("Modernization")) {
                         List<String> stringsList = new ArrayList<>();
-                        stringsList.add(entry.getValue().getDescription());
+                        stringsList.add(value1.getDescription());
 
-                        LinkedHashMap<String, HashMap> profileHashMap = mapper.convertValue(entry.getValue().getProfile(), LinkedHashMap.class);
+                        LinkedHashMap<String, HashMap<String, String>> profileHashMap = mapper.convertValue(value1.getProfile(), new TypeReference<LinkedHashMap<String, HashMap<String, String>>>(){});
 
-                        profileHashMap.values().forEach(value ->
-                        {
+                        profileHashMap.values().forEach(value -> {
                             if (value != null) {
                                 stringsList.add("\n" + value.get("description"));
                             }
@@ -267,11 +216,11 @@ public class AsyncHashMap implements CommandLineRunner {
 
                         String finalString = "";
                         for (String s : stringsList) {
-                            finalString = finalString + s;
+                            finalString = finalString.concat(s);
                         }
-                        entry.getValue().setDescription(finalString);
+                        value1.setDescription(finalString);
 
-                        tempUpgrades.put(entry.getKey(), entry.getValue());
+                        tempUpgrades.put(key, value1);
                     }
                 });
 
@@ -279,27 +228,24 @@ public class AsyncHashMap implements CommandLineRunner {
                 tempExteriors.put("Camouflage", tempCamouflage);
                 tempExteriors.put("Permoflage", tempPermoflage);
 
-                for (int i = 0; i < nationsString.size(); i++) {
+                for (String s : nationsString) {
                     LinkedHashMap<String, CompletableFuture<WarshipData>> temp = new LinkedHashMap<>();
-                    for (int j = 0; j < shipTypeString.size(); j++) {
-                        temp.put(shipTypeString.get(j), apiJsonParser.getNationShip(nationsString.get(i), shipTypeString.get(j)));
+                    for (String s1 : shipTypeString) {
+                        temp.put(s1, apiJsonParser.getNationShip(s, s1));
                     }
-                    futures.put(nationsString.get(i), temp);
+                    futures.put(s, temp);
                 }
 
                 Thread.sleep(10000);
 
                 while ((isFirstRun && "live".equalsIgnoreCase(serverParam)) || ((!isFirstRun && "test".equalsIgnoreCase(serverParam)) && gameParamsCHM.size() > 1)) {
-                    CompletableFuture.runAsync(() -> futures.entrySet().forEach(futureEntry ->
-                    {
-                        LinkedHashMap<String, LinkedHashMap> wsdlhm = new LinkedHashMap<>();
+                    CompletableFuture.runAsync(() -> futures.forEach((key1, value1) -> {
+                        LinkedHashMap<String, LinkedHashMap<String, Warship>> wsdlhm = new LinkedHashMap<>();
 
-                        futureEntry.getValue().entrySet().forEach(shipType ->
-                        {
+                        value1.forEach((key2, value2) -> {
                             WarshipData wsd = new WarshipData();
                             try {
-                                shipType.getValue().get().getData().entrySet().stream().filter(oWarship -> !oWarship.getValue().getName().startsWith("[")).forEach(warship ->
-                                {
+                                value2.get().getData().entrySet().stream().filter(oWarship -> !oWarship.getValue().getName().startsWith("[")).forEach(warship -> {
                                     Warship tws = tempWarships.get(String.valueOf(warship.getValue().getShip_id()));
 
                                     Warship prevShip;
@@ -325,8 +271,7 @@ public class AsyncHashMap implements CommandLineRunner {
                                     if (value.getNext_ships() != null) {
                                         List<Warship> nextWarshipRow = new ArrayList<>();
 
-                                        value.getWarshipModulesTreeTable().values().forEach(row ->
-                                        {
+                                        value.getWarshipModulesTreeTable().values().forEach(row -> {
                                             for (int i = 0; i < row.size(); i++) {
                                                 if (nextWarshipRow.size() < row.size()) {
                                                     nextWarshipRow.add(null);
@@ -334,8 +279,7 @@ public class AsyncHashMap implements CommandLineRunner {
                                             }
                                         });
 
-                                        value.getWarshipModulesTreeTable().values().forEach(row ->
-                                        {
+                                        value.getWarshipModulesTreeTable().values().forEach(row -> {
                                             for (int i = 0; i < row.size(); i++) {
                                                 if (row.get(i) != null) {
                                                     WarshipModulesTree tempWSMT = row.get(i);
@@ -370,7 +314,7 @@ public class AsyncHashMap implements CommandLineRunner {
                                                 }
                                             }
                                         });
-                                        long notNull = nextWarshipRow.stream().filter(module -> module != null).count();
+                                        long notNull = nextWarshipRow.stream().filter(Objects::nonNull).count();
 
                                         if (notNull == 0) {
                                             value.setNextWarship(null);
@@ -382,10 +326,6 @@ public class AsyncHashMap implements CommandLineRunner {
                                         } catch (InterruptedException | ExecutionException e) {
                                             e.printStackTrace();
                                         }
-
-//                                        if (gameParamsCHM.get(serverParam).containsKey(String.valueOf(value.getShip_id()))) {
-//                                            setUpgradesPerShipGameParams(encyclopedia, value, String.valueOf(value.getShip_id()), tempUpgrades, upgradesSpecial);
-//                                        }
                                     }
                                     if (gameParamsCHM.get(serverParam).containsKey(String.valueOf(value.getShip_id()))) {
                                         wsd.getData().put(key, value);
@@ -396,18 +336,17 @@ public class AsyncHashMap implements CommandLineRunner {
                             }
                             wsd.setData(sorter.sortShips(wsd.getData()));
 
-                            wsdlhm.put(shipType.getKey(), wsd.getData());
+                            wsdlhm.put(key2, wsd.getData());
                         });
-                        nations.put(futureEntry.getKey(), setPremium(wsdlhm));
-//            nations.put(futureEntry.getKey(), wsdlhm);
+                        nations.put(key1, setPremium(wsdlhm));
                     })).join();
 
-                    LinkedHashMap<String, LinkedHashMap> tempTree = new LinkedHashMap<>();
+                    LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, Warship>>> tempTree = new LinkedHashMap<>();
 
-                    nations.entrySet().forEach(entry -> tempTree.put(entry.getKey(), setShipTree(entry.getValue())));
+                    nations.forEach((key, value) -> tempTree.put(key, setShipTree(value)));
 
-                    LinkedHashMap<String, LinkedHashMap> tempPremiumTable = new LinkedHashMap<>();
-                    for (Map.Entry<String, LinkedHashMap> nation : tempTree.entrySet()) {
+                    LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, Warship>>> tempPremiumTable = new LinkedHashMap<>();
+                    for (Map.Entry<String, LinkedHashMap<String, LinkedHashMap<String, Warship>>> nation : tempTree.entrySet()) {
                         LinkedHashMap<String, LinkedHashMap<String, Warship>> temp = new LinkedHashMap<>();
 
                         for (int i = 1; i <= 10; i++) {
@@ -415,9 +354,9 @@ public class AsyncHashMap implements CommandLineRunner {
 
                             LinkedHashMap<String, Warship> tempTier = new LinkedHashMap<>();
                             if (nation.getValue().get("Premium") != null) {
-                                for (Warship premium1 : ((LinkedHashMap<String, Warship>) nation.getValue().get("Premium")).values()) {
+                                for (Warship premium1 : (nation.getValue().get("Premium")).values()) {
                                     if (i == premium1.getTier()) {
-                                        for (Warship premium2 : ((LinkedHashMap<String, Warship>) nation.getValue().get("Premium")).values()) {
+                                        for (Warship premium2 : nation.getValue().get("Premium").values()) {
                                             if (premium2.getTier() == i) {
                                                 tempTier.put(premium2.getName(), premium2);
 //                                tempTier.put(premium2.getName().replace("'", ""), premium2);
@@ -428,9 +367,9 @@ public class AsyncHashMap implements CommandLineRunner {
                             }
 
                             if (nation.getValue().get("Arpeggio") != null) {
-                                for (Warship premium1 : ((LinkedHashMap<String, Warship>) nation.getValue().get("Arpeggio")).values()) {
+                                for (Warship premium1 : nation.getValue().get("Arpeggio").values()) {
                                     if (i == premium1.getTier()) {
-                                        for (Warship premium2 : ((LinkedHashMap<String, Warship>) nation.getValue().get("Arpeggio")).values()) {
+                                        for (Warship premium2 : nation.getValue().get("Arpeggio").values()) {
                                             if (premium2.getTier() == i) {
                                                 tempTier.put(premium2.getName(), premium2);
 //                                tempTier.put(premium2.getName().replace("'", ""), premium2);
@@ -441,9 +380,9 @@ public class AsyncHashMap implements CommandLineRunner {
                             }
 
                             if (nation.getValue().get("HSF") != null) {
-                                for (Warship premium1 : ((LinkedHashMap<String, Warship>) nation.getValue().get("HSF")).values()) {
+                                for (Warship premium1 : nation.getValue().get("HSF").values()) {
                                     if (i == premium1.getTier()) {
-                                        for (Warship premium2 : ((LinkedHashMap<String, Warship>) nation.getValue().get("HSF")).values()) {
+                                        for (Warship premium2 : nation.getValue().get("HSF").values()) {
                                             if (premium2.getTier() == i) {
                                                 tempTier.put(premium2.getName(), premium2);
 //                                tempTier.put(premium2.getName().replace("'", ""), premium2);
@@ -466,20 +405,17 @@ public class AsyncHashMap implements CommandLineRunner {
                     tempData.put("premiumTable", tempPremiumTable);
                     tempData.put("rawShipData", rawShipData);
                     tempData.put("upgrades", tempUpgrades);
-//                    tempData.put("upgradesSpecial", upgradesSpecial);
                     tempData.put("skills", setCrewSkills(crewsSkillsData.get().getData()));
                     tempData.put("uniqueSkills", uniqueSkills);
                     tempData.put("commanders", getCommanders(tempCommanders, uniqueSkills));
                     tempData.put("commandersRanks", commandersRankData.get().getData());
                     tempData.put("exteriors", tempExteriors);
-//                    tempData.put("torpedoVisibility", torpedoVisibility(encyclopedia, nationsString, shipTypeString));
                     data.put(serverParam, tempData);
 
                     isFirstRun = false;
                     serverParam = "live".equalsIgnoreCase(serverParam) ? "test" : "live";
                 }
                 shipHashMap.clear();
-//                rawShipData.clear();
                 tempWarships.clear();
             }
             loadFinish.put("loadFinish", 1);
@@ -487,41 +423,38 @@ public class AsyncHashMap implements CommandLineRunner {
         }
     }
 
-    private LinkedHashMap<String, LinkedHashMap> setPremium(LinkedHashMap<String, LinkedHashMap> nation) {
-        LinkedHashMap<String, LinkedHashMap> tempNation = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap<String, Warship>> setPremium(LinkedHashMap<String, LinkedHashMap<String, Warship>> nation)
+    {
+        LinkedHashMap<String, LinkedHashMap<String, Warship>> tempNation = new LinkedHashMap<>();
         LinkedHashMap<String, Warship> tempPremium = new LinkedHashMap<>();
         LinkedHashMap<String, Warship> tempARP = new LinkedHashMap<>();
         LinkedHashMap<String, Warship> tempHSF = new LinkedHashMap<>();
 
-        nation.entrySet().forEach(shipType ->
-        {
+        nation.forEach((key, value) -> {
             LinkedHashMap<String, Warship> tempShips = new LinkedHashMap<>();
 
-            shipType.getValue().entrySet().forEach(ship ->
-            {
-                Map.Entry<String, Warship> temp = (Map.Entry<String, Warship>) ship;
-
-                if (temp.getValue().isIs_premium() || temp.getValue().getPrice_gold() > 0 || temp.getValue().getPrice_credit() == 1 || (temp.getValue().getPrice_credit() == 0 && temp.getValue().getTier() != 1)) {
-                    if (temp.getValue().getName().contains("ARP ")) {
-                        temp.getValue().setType("Arpeggio");
-                        temp.getValue().setPremium(true);
-                        tempARP.put(temp.getKey(), temp.getValue());
-                    } else if (temp.getValue().getName().contains("HSF ")) {
-                        temp.getValue().setType("HSF");
-                        temp.getValue().setPremium(true);
-                        tempHSF.put(temp.getKey(), temp.getValue());
+            value.forEach((key1, value1) -> {
+                if (value1.isIs_premium() || value1.getPrice_gold() > 0 || value1.getPrice_credit() == 1 || (value1.getPrice_credit() == 0 && value1.getTier() != 1)) {
+                    if (value1.getName().contains("ARP ")) {
+                        value1.setType("Arpeggio");
+                        value1.setPremium(true);
+                        tempARP.put(key1, value1);
+                    } else if (value1.getName().contains("HSF ")) {
+                        value1.setType("HSF");
+                        value1.setPremium(true);
+                        tempHSF.put(key1, value1);
                     } else {
-                        temp.getValue().setType("Premium");
-                        temp.getValue().setPremium(true);
-                        tempPremium.put(temp.getKey(), temp.getValue());
+                        value1.setType("Premium");
+                        value1.setPremium(true);
+                        tempPremium.put(key1, value1);
                     }
                 } else {
-                    tempShips.put(temp.getKey(), temp.getValue());
+                    tempShips.put(key1, value1);
                 }
             });
 
             if (tempShips.size() != 0) {
-                tempNation.put(shipType.getKey(), tempShips);
+                tempNation.put(key, tempShips);
             }
         });
 
@@ -543,7 +476,8 @@ public class AsyncHashMap implements CommandLineRunner {
         return tempNation;
     }
 
-    private void setUpgradesPerShip(Warship warship, LinkedHashMap<String, Consumables> consumables) {
+    private void setUpgradesPerShip(Warship warship, LinkedHashMap<String, Consumables> consumables)
+    {
         LinkedHashMap<String, Consumables> tempConsumablesHM = new LinkedHashMap<>();
 
         consumables.values().forEach(c -> {
@@ -623,176 +557,12 @@ public class AsyncHashMap implements CommandLineRunner {
         warship.setUpgradesNew(tempConsumablesHM);
     }
 
-//    private void setUpgradesPerShipGameParams(Encyclopedia encyclopedia, Warship warship, String shipId, LinkedHashMap<String, Consumables> upgrades, LinkedHashMap<String, LinkedHashMap> upgradesSpecial) {
-//        LinkedHashMap<String, Consumables> k125 = new LinkedHashMap<>();
-//        LinkedHashMap<String, Consumables> k250 = new LinkedHashMap<>();
-//        LinkedHashMap<String, Consumables> k500 = new LinkedHashMap<>();
-//        LinkedHashMap<String, Consumables> k1000 = new LinkedHashMap<>();
-//        LinkedHashMap<String, Consumables> k2000 = new LinkedHashMap<>();
-//        LinkedHashMap<String, Consumables> k3000 = new LinkedHashMap<>();
-//
-//        LinkedHashMap<String, LinkedHashMap> ship = gameParamsCHM.get(serverParam).get(shipId);
-//        ShipModernization shipModernization = mapper.convertValue(ship.get("ShipModernization"), ShipModernization.class);
-//
-//        LinkedHashMap<String, Consumables> tempModernization = new LinkedHashMap<>();
-//        LinkedHashMap<String, LinkedHashMap> tempSlot = new LinkedHashMap<>();
-//
-//        Modernization modernization;
-//
-//        if (shipModernization != null)
-//        {
-//            if (shipModernization.getModernizationSlot1() != null) {
-//                int credit = 0;
-//                for (String mod : shipModernization.getModernizationSlot1().getMods()) {
-//                    String id = nameToId.get(serverParam).get(mod);
-//                    modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
-//
-//                    if (warship.getUpgrades().contains(Long.parseLong(id))) {
-//                        if (credit == 0 || credit == 1250000) {
-//                            credit = modernization.getCostCR();
-//                        }
-//                    } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
-//                        Consumables tempConsumable = upgrades.get(id);
-//                        warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
-//
-//                        tempConsumable.setTempCR(credit);
-//                        tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
-//                    }
-//                }
-//            }
-//
-//            if (shipModernization.getModernizationSlot2() != null) {
-//                int credit = 0;
-//                for (String mod : shipModernization.getModernizationSlot2().getMods()) {
-//                    String id = nameToId.get(serverParam).get(mod);
-//                    modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
-//
-//                    if (warship.getUpgrades().contains(Long.parseLong(id))) {
-//                        if (credit == 0 || credit == 1250000) {
-//                            credit = modernization.getCostCR();
-//                        }
-//                    } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
-//                        Consumables tempConsumable = upgrades.get(id);
-//                        warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
-//
-//                        tempConsumable.setTempCR(credit);
-//                        tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
-//                    }
-//                }
-//            }
-//
-//            if (shipModernization.getModernizationSlot3() != null) {
-//                int credit = 0;
-//                for (String mod : shipModernization.getModernizationSlot3().getMods()) {
-//                    String id = nameToId.get(serverParam).get(mod);
-//                    modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
-//
-//                    if (warship.getUpgrades().contains(Long.parseLong(id))) {
-//                        if (credit == 0 || credit == 1250000) {
-//                            credit = modernization.getCostCR();
-//                        }
-//                    } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
-//                        Consumables tempConsumable = upgrades.get(id);
-//                        warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
-//
-//                        tempConsumable.setTempCR(credit);
-//                        tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
-//                    }
-//                }
-//            }
-//
-//            if (shipModernization.getModernizationSlot4() != null) {
-//                int credit = 0;
-//                for (String mod : shipModernization.getModernizationSlot4().getMods()) {
-//                    String id = nameToId.get(serverParam).get(mod);
-//                    modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
-//
-//                    if (warship.getUpgrades().contains(Long.parseLong(id))) {
-//                        if (credit == 0 || credit == 1250000) {
-//                            credit = modernization.getCostCR();
-//                        }
-//                    } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
-//                        Consumables tempConsumable = upgrades.get(id);
-//                        warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
-//
-//                        tempConsumable.setTempCR(credit);
-//                        tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
-//                    }
-//                }
-//            }
-//
-//            if (shipModernization.getModernizationSlot5() != null) {
-//                int credit = 0;
-//                for (String mod : shipModernization.getModernizationSlot5().getMods()) {
-//                    String id = nameToId.get(serverParam).get(mod);
-//                    modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
-//
-//                    if (warship.getUpgrades().contains(Long.parseLong(id))) {
-//                        if (credit == 0 || credit == 1250000) {
-//                            credit = modernization.getCostCR();
-//                        }
-//                    } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
-//                        Consumables tempConsumable = upgrades.get(id);
-//                        warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
-//
-//                        tempConsumable.setTempCR(credit);
-//                        tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
-//                    }
-//                }
-//            }
-//
-//            if (shipModernization.getModernizationSlot6() != null) {
-//                int credit = 0;
-//                for (String mod : shipModernization.getModernizationSlot6().getMods()) {
-//                    String id = nameToId.get(serverParam).get(mod);
-//                    modernization = mapper.convertValue(gameParamsCHM.get(serverParam).get(id), Modernization.class);
-//
-//                    if (warship.getUpgrades().contains(Long.parseLong(id))) {
-//                        if (credit == 0 || credit == 1250000) {
-//                            credit = modernization.getCostCR();
-//                        }
-//                    } else if (!warship.getUpgrades().contains(Long.parseLong(id))) {
-//                        Consumables tempConsumable = upgrades.get(id);
-//                        warship.getUpgradesNew().get(String.valueOf(credit)).put(tempConsumable.getName(), tempConsumable);
-//
-//                        tempConsumable.setTempCR(credit);
-//                        tempModernization.put(String.valueOf(tempConsumable.getConsumable_id()), tempConsumable);
-//                    }
-//                }
-//            }
-//        }
-//
-//        tempModernization.entrySet().forEach(entry ->
-//        {
-//            if (entry.getValue().getTempCR() == 125000) {
-//                k125.put(entry.getKey(), entry.getValue());
-//            } else if (entry.getValue().getTempCR() == 250000) {
-//                k250.put(entry.getKey(), entry.getValue());
-//            } else if (entry.getValue().getTempCR() == 500000) {
-//                k500.put(entry.getKey(), entry.getValue());
-//            } else if (entry.getValue().getTempCR() == 1000000) {
-//                k1000.put(entry.getKey(), entry.getValue());
-//            } else if (entry.getValue().getTempCR() == 2000000) {
-//                k2000.put(entry.getKey(), entry.getValue());
-//            } else if (entry.getValue().getTempCR() == 3000000) {
-//                k3000.put(entry.getKey(), entry.getValue());
-//            }
-//        });
-//
-//        upgradesSpecial.put("125000", k125);
-//        upgradesSpecial.put("250000", k250);
-//        upgradesSpecial.put("500000", k500);
-//        upgradesSpecial.put("1000000", k1000);
-//        upgradesSpecial.put("2000000", k2000);
-//        upgradesSpecial.put("3000000", k3000);
-//    }
+    private LinkedHashMap<String, LinkedHashMap<String, CrewSkills>> setCrewSkills(LinkedHashMap<String, CrewSkills> crewSkills)
+    {
+        LinkedHashMap<String, LinkedHashMap<String, CrewSkills>> temp = new LinkedHashMap<>();
 
-    private LinkedHashMap<String, LinkedHashMap> setCrewSkills(LinkedHashMap<String, CrewSkills> crewSkills) {
-        LinkedHashMap<String, LinkedHashMap> temp = new LinkedHashMap<>();
-
-        crewSkills.entrySet().forEach(entry ->
-        {
-            int tier = entry.getValue().getTier();
+        crewSkills.forEach((key, value1) -> {
+            int tier = value1.getTier();
             LinkedHashMap<String, CrewSkills> tempTier = new LinkedHashMap<>();
 
             for (int i = 0; i < 8; i++) {
@@ -801,8 +571,7 @@ public class AsyncHashMap implements CommandLineRunner {
                 tempTier.put(String.valueOf(i), tempCrewSkills);
             }
 
-            crewSkills.values().forEach(value ->
-            {
+            crewSkills.values().forEach(value -> {
                 if (value.getTier() == tier) {
                     List<String> tempPerkDescription = new ArrayList<>();
                     String tempDescription = "";
@@ -810,7 +579,7 @@ public class AsyncHashMap implements CommandLineRunner {
                     value.getPerks().forEach(perk -> tempPerkDescription.add(perk.getDescription()));
 
                     for (int i = 0; i < tempPerkDescription.size(); i++) {
-                        tempDescription = tempDescription + tempPerkDescription.get(i);
+                        tempDescription = tempDescription.concat(tempPerkDescription.get(i));
                         if (i < tempPerkDescription.size() - 1) {
                             tempDescription = tempDescription + "\n";
                         }
@@ -823,35 +592,17 @@ public class AsyncHashMap implements CommandLineRunner {
 
             temp.put(String.valueOf(tier), sorter.sortCrewSkills(tempTier));
         });
-        LinkedHashMap<String, LinkedHashMap> sorted = new LinkedHashMap<>();
+        LinkedHashMap<String, LinkedHashMap<String, CrewSkills>> sorted = new LinkedHashMap<>();
         temp.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> sorted.put(entry.getKey(), entry.getValue()));
 
         return sorted;
     }
 
-    private LinkedHashMap<String, LinkedHashMap> setExteriors(LinkedHashMap<String, Exterior> exteriorData) {
-        LinkedHashMap<String, LinkedHashMap> tempExteriors = new LinkedHashMap<>();
-        exteriorData.values().forEach(value -> {
-            String type = value.getType();
-            LinkedHashMap<String, Exterior> temp = new LinkedHashMap<>();
-
-            exteriorData.values().forEach(newVal ->
-            {
-                if (newVal.getType().equals(type)) {
-                    temp.put(String.valueOf(newVal.getExterior_id()), newVal);
-                }
-            });
-            tempExteriors.put(type, temp);
-        });
-
-        return tempExteriors;
-    }
-
-    private LinkedHashMap<String, LinkedHashMap<String, Warship>> setShipTree(LinkedHashMap<String, LinkedHashMap> nation) {
+    private LinkedHashMap<String, LinkedHashMap<String, Warship>> setShipTree(LinkedHashMap<String, LinkedHashMap<String, Warship>> nation)
+    {
         LinkedHashMap<String, LinkedHashMap<String, Warship>> temp = new LinkedHashMap<>();
 
-        nation.entrySet().forEach(shipType ->
-        {
+        nation.forEach((key, value) -> {
             LinkedHashMap<String, Warship> test = new LinkedHashMap<>();
 
             int isTrueMaxTier = 0;
@@ -859,9 +610,7 @@ public class AsyncHashMap implements CommandLineRunner {
             int isFalseMaxTier = 0;
             int isFalseMinTier = 0;
 
-            LinkedHashMap<String, LinkedHashMap<String, Warship>> wslhm = mapper.convertValue(shipType.getValue(), LinkedHashMap.class);
-
-            for (Map.Entry<String, LinkedHashMap<String, Warship>> entry : wslhm.entrySet()) {
+            for (Map.Entry<String, Warship> entry : value.entrySet()) {
                 Warship tempWarship = mapper.convertValue(entry.getValue(), Warship.class);
 
                 if (isTrueMinTier == 0) {
@@ -871,11 +620,11 @@ public class AsyncHashMap implements CommandLineRunner {
                 test.put(tempWarship.getName(), tempWarship);
 //                test.put(tempWarship.getName().replace("'", ""), tempWarship);
 
-                List<Warship> tempNextWarships = tempWarship.getNextWarship().stream().filter(nextWarship -> nextWarship != null).collect(Collectors.toList());
+                List<Warship> tempNextWarships = tempWarship.getNextWarship().stream().filter(Objects::nonNull).collect(Collectors.toList());
 
                 for (int i = 0; i < tempNextWarships.size(); i++) {
                     if (tempNextWarships.get(i).getType().equals(tempWarship.getType())) {
-                        Warship nextWarship = mapper.convertValue(wslhm.get(tempNextWarships.get(i).getName()), Warship.class);
+                        Warship nextWarship = mapper.convertValue(value.get(tempNextWarships.get(i).getName()), Warship.class);
 
                         if (nextWarship != null) {
                             boolean isFirst = true;
@@ -889,7 +638,7 @@ public class AsyncHashMap implements CommandLineRunner {
 
                             nextWarship.setFirst(isFirst);
 
-                            if (nextWarship.getNextWarship().stream().filter(nw -> nw != null).count() == 0) {
+                            if (nextWarship.getNextWarship().stream().noneMatch(Objects::nonNull)) {
                                 if (nextWarship.isFirst()) {
                                     isTrueMaxTier = (int) nextWarship.getTier();
                                 } else {
@@ -922,33 +671,32 @@ public class AsyncHashMap implements CommandLineRunner {
                 rawShipData.put(warship.getName(), warship);
 //                rawShipData.put(warship.getName().replace("'", ""), warship);
             }
-            temp.put(shipType.getKey(), test);
+            temp.put(key, test);
         });
 
         return temp;
     }
 
-    private LinkedHashMap<String, LinkedHashMap> getCommanders(LinkedHashMap<String, Commanders> commanders, LinkedHashMap<String, LinkedHashMap<String, UniqueTemp>> uniqueSkills) {
-        LinkedHashMap<String, LinkedHashMap> allCommanders = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap<String, GPCommander>> getCommanders(LinkedHashMap<String, Commanders> commanders, LinkedHashMap<String, LinkedHashMap<String, UniqueTemp>> uniqueSkills)
+    {
+        LinkedHashMap<String, LinkedHashMap<String, GPCommander>> allCommanders = new LinkedHashMap<>();
 
         LinkedHashMap<String, GPCommander> defaultCommanders = new LinkedHashMap<>();
 
-        commanders.entrySet().forEach(entry ->
-        {
-            if (entry.getValue().getFirst_names().size() > 1 && entry.getValue().getLast_names().size() > 0) {
-                GPCommander gpCommander = mapper.convertValue(gameParamsCHM.get(serverParam).get(entry.getKey()), GPCommander.class);
-                defaultCommanders.put(entry.getValue().getNation(), gpCommander);
+        commanders.forEach((key, value) -> {
+            if (value.getFirst_names().size() > 1 && value.getLast_names().size() > 0) {
+                GPCommander gpCommander = mapper.convertValue(gameParamsCHM.get(serverParam).get(key), GPCommander.class);
+                defaultCommanders.put(value.getNation(), gpCommander);
             }
         });
 
-        defaultCommanders.entrySet().forEach(entry ->
-        {
+        defaultCommanders.forEach((key, value) -> {
             LinkedHashMap<String, GPCommander> nationCommanders = new LinkedHashMap<>();
-            nationCommanders.put("default", entry.getValue());
+            nationCommanders.put("default", value);
 
             for (Map.Entry<String, Commanders> cEntry : commanders.entrySet()) {
-                if (cEntry.getValue().getNation().equalsIgnoreCase(entry.getKey())) {
-                    String temp1 = entry.getValue().getSkills().getModifiers().toString();
+                if (cEntry.getValue().getNation().equalsIgnoreCase(key)) {
+                    String temp1 = value.getSkills().getModifiers().toString();
 
                     GPCommander gpCommander = mapper.convertValue(gameParamsCHM.get(serverParam).get(cEntry.getKey()), GPCommander.class);
                     if (gpCommander != null) {
@@ -967,92 +715,8 @@ public class AsyncHashMap implements CommandLineRunner {
                 }
             }
 
-            allCommanders.put(entry.getKey(), nationCommanders);
+            allCommanders.put(key, nationCommanders);
         });
         return allCommanders;
-    }
-
-    private LinkedHashMap<String, LinkedHashMap> torpedoVisibility(Encyclopedia encyclopedia, List<String> nationsString, List<String> shipTypeString) {
-        List<TorpedoShip> torpedoShips = new ArrayList<>();
-        float x = 33f + (1f / 3f);
-
-        gameParamsCHM.get(serverParam).values().forEach(value ->
-        {
-            TypeInfo typeInfo = mapper.convertValue(value.get("typeinfo"), TypeInfo.class);
-
-            if ("Ship".equalsIgnoreCase(typeInfo.getType()) && !"Events".equalsIgnoreCase(typeInfo.getNation())
-                    && !"unavailable".equalsIgnoreCase((String) value.get("group")) && !"disabled".equalsIgnoreCase((String) value.get("group"))
-                    && !"preserved".equalsIgnoreCase((String) value.get("group")) && !"demoWithoutStats".equalsIgnoreCase((String) value.get("group"))) {
-                int tier = (int) value.get("level");
-
-                String shipName = "";
-                String shipNation = "";
-                String shipType = "";
-                String shipDefaultType = "";
-                for (Warship warship : rawShipData.values()) {
-                    if (((String) value.get("index")).equalsIgnoreCase(warship.getShip_id_str())) {
-                        shipName = warship.getName();
-                        shipNation = encyclopedia.getShip_nations().get(warship.getNation());
-                        shipType = warship.getType();
-                        shipDefaultType = warship.getDefaultType();
-                        break;
-                    }
-                }
-                TorpedoShip torpedoShip = new TorpedoShip(tier, shipName, shipNation, shipType, shipDefaultType);
-                HashSet<TorpedoVisibility> tempTorpVisibilities = new HashSet<>();
-
-                for (Map.Entry<String, Module> module : mapper.convertValue(value.get("ShipUpgradeInfo"), ShipUpgradeInfo.class).getModules().entrySet()) {
-                    {
-                        if ("_Torpedoes".equalsIgnoreCase(module.getValue().getUcType())) {
-                            if (module.getValue().getComponents().getTorpedoes() != null) {
-                                String name = (String) global.get(serverParam).get("IDS_" + module.getKey().toUpperCase());
-
-                                for (String torpedo : module.getValue().getComponents().getTorpedoes()) {
-                                    for (Launcher launcher : mapper.convertValue(value.get(torpedo), Torpedoes.class).getLaunchers().values()) {
-                                        for (String ammo : launcher.getAmmoList()) {
-                                            GameParamsValues gpv = mapper.convertValue(gameParamsCHM.get(serverParam).get(nameToId.get(ammo)), GameParamsValues.class);
-                                            tempTorpVisibilities.add(new TorpedoVisibility(name, gpv.getMaxDist() / x, gpv.getVisibilityFactor()));
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                if (tempTorpVisibilities.size() > 0) {
-                    List<TorpedoVisibility> torpedoVisibilities = tempTorpVisibilities.stream().sorted(((o1, o2) -> o1.getName().compareTo(o2.getName()))).collect(Collectors.toList());
-                    torpedoShip.setTorpedoes(torpedoVisibilities);
-                    torpedoShips.add(torpedoShip);
-                }
-            }
-        });
-
-        shipTypeString.add("Premium");
-        shipTypeString.add("Arpeggio");
-        shipTypeString.add("HSF");
-
-        LinkedHashMap<String, LinkedHashMap> returner = new LinkedHashMap<>();
-        for (int i = 1; i <= 10; i++) {
-            int y = i;
-            LinkedHashMap<String, LinkedHashMap<String, List<TorpedoShip>>> lhtsTemp = new LinkedHashMap<>();
-            for (String nation : nationsString) {
-                LinkedHashMap<String, List<TorpedoShip>> shipTypeLHM = new LinkedHashMap<>();
-                for (String shipType : shipTypeString) {
-                    List<TorpedoShip> tsTemp = torpedoShips.stream().filter(ts -> ts.getTier() == y).collect(Collectors.toList()).stream().filter(ts -> ts.getNation().equalsIgnoreCase(encyclopedia.getShip_nations().get(nation)) && ts.getType().equalsIgnoreCase(shipType)).collect(Collectors.toList());
-                    tsTemp.sort(((o1, o2) -> o1.getName().compareTo(o2.getName())));
-                    tsTemp.sort(((o1, o2) -> o1.getDefaultType().compareTo(o2.getDefaultType())));
-                    if (tsTemp.size() > 0) {
-                        shipTypeLHM.put(shipType, tsTemp);
-                    }
-                }
-                if (shipTypeLHM.size() > 0) {
-                    lhtsTemp.put(encyclopedia.getShip_nations().get(nation), shipTypeLHM);
-                }
-            }
-            if (lhtsTemp.size() > 0) {
-                returner.put(String.valueOf(y), lhtsTemp);
-            }
-        }
-        return returner;
     }
 }
