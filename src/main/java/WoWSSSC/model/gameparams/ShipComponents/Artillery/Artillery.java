@@ -60,6 +60,16 @@ public class Artillery
 
     private Aura auraFar;
     private float maxVertAngle;
+    private float idealDistance;
+    private float idealRadius;
+    private float minRadius;
+    private float GMIdealRadius = 1f;
+
+    @JsonIgnore
+    public float getMaxDispersion()
+    {
+        return ((idealRadius * GMIdealRadius - minRadius) / 1000f * (maxDist / 30f) + minRadius) * 30f;
+    }
 
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();
@@ -67,7 +77,11 @@ public class Artillery
     @JsonAnySetter
     public void setTurrets(String name, Object value)
     {
-        if (mapper.convertValue(value, LinkedHashMap.class).get("HitLocationArtillery") != null)
+        LinkedHashMap temp = mapper.convertValue(value, LinkedHashMap.class);
+        idealDistance = ((Double) temp.get("idealDistance")).floatValue();
+        idealRadius = ((Double) temp.get("idealRadius")).floatValue();
+        minRadius = ((Double) temp.get("minRadius")).floatValue();
+        if (temp.get("HitLocationArtillery") != null)
         {
             Turret turret = mapper.convertValue(value, Turret.class);
             turrets.put(name, turret);
@@ -81,7 +95,7 @@ public class Artillery
                 shotDelay = turret.getShotDelay();
             }
         }
-        else if (mapper.convertValue(value, LinkedHashMap.class).get("guns") != null)
+        else if (temp.get("guns") != null)
         {
             auraFar = mapper.convertValue(value, Aura.class);
         }

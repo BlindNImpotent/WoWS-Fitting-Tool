@@ -161,10 +161,6 @@ public class APIService
         }
 
         Ship ship = mapper.readValue(mapper.writeValueAsString(shipHashMap.get(key)), Ship.class);
-        if (ship.getArtillery() != null) {
-            ship.getArtillery().setDModifier((ship.getArtillery().getMax_dispersion() - 100f) / (ship.getArtillery().getDistance() - 4f));
-            ship.getArtillery().setDConstant(100f - (4f * ship.getArtillery().getDModifier()));
-        }
 
         Warship warship = (Warship) ((LinkedHashMap<String, LinkedHashMap>) data.get(serverParam).get("nations").get(nation)).get(shipType).get(shipName);
 
@@ -834,7 +830,7 @@ public class APIService
             {
                 ship.getShipComponents().getArtillery().setMinDistH(ship.getShipComponents().getArtillery().getMinDistH() * consumables.getProfile().getGMIdealRadius().getValue());
                 ship.getShipComponents().getArtillery().setMinDistV(ship.getShipComponents().getArtillery().getMinDistV() * consumables.getProfile().getGMIdealRadius().getValue());
-                ship.getArtillery().setDispModifier(consumables.getProfile().getGMIdealRadius().getValue());
+                ship.getShipComponents().getArtillery().setGMIdealRadius(consumables.getProfile().getGMIdealRadius().getValue());
             }
 
             if (consumables.getProfile().getGMMaxDist() != null)
