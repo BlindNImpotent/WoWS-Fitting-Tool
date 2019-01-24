@@ -79,14 +79,14 @@ public class Artillery
     {
         LinkedHashMap temp = mapper.convertValue(value, LinkedHashMap.class);
 
-        if ("idealDistance".equalsIgnoreCase(name)) {
-            idealDistance = ((Double) temp.get("idealDistance")).floatValue();
+        if (temp.get("idealDistance") != null) {
+            idealDistance = ((Number) temp.get("idealDistance")).floatValue();
         }
-        else if ("idealRadius".equalsIgnoreCase(name)) {
-            idealRadius = ((Double) temp.get("idealRadius")).floatValue();
+        if (temp.get("idealRadius") != null) {
+            idealRadius = ((Number) temp.get("idealRadius")).floatValue();
         }
-        else if ("minRadius".equalsIgnoreCase(name)) {
-            minRadius = ((Double) temp.get("minRadius")).floatValue();
+        if (temp.get("minRadius") != null) {
+            minRadius = ((Number) temp.get("minRadius")).floatValue();
         }
 
         if (temp.get("HitLocationArtillery") != null)

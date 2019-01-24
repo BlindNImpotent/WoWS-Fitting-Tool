@@ -29,13 +29,13 @@ public class ShipComponents
     private AirDefense airDefense;
     private Artillery artillery;
     private ATBA atba;
-    private LinkedHashMap<String, LinkedHashMap> directors;
+    private LinkedHashMap directors;
     private DiveBomber diveBomber;
     private Engine engine;
-    private LinkedHashMap<String, LinkedHashMap> fighter;
-    private LinkedHashMap<String, LinkedHashMap> finders;
+    private LinkedHashMap fighter;
+    private LinkedHashMap finders;
     private FireControl fireControl;
-    private LinkedHashMap<String, LinkedHashMap> flightControl;
+    private LinkedHashMap flightControl;
     private Hull hull;
     private Torpedoes torpedoes;
     private TorpedoBomber torpedoBomber;
