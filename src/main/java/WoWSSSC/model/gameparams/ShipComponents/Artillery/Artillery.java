@@ -78,9 +78,17 @@ public class Artillery
     public void setTurrets(String name, Object value)
     {
         LinkedHashMap temp = mapper.convertValue(value, LinkedHashMap.class);
-        idealDistance = ((Double) temp.get("idealDistance")).floatValue();
-        idealRadius = ((Double) temp.get("idealRadius")).floatValue();
-        minRadius = ((Double) temp.get("minRadius")).floatValue();
+
+        if ("idealDistance".equalsIgnoreCase(name)) {
+            idealDistance = ((Double) temp.get("idealDistance")).floatValue();
+        }
+        else if ("idealRadius".equalsIgnoreCase(name)) {
+            idealRadius = ((Double) temp.get("idealRadius")).floatValue();
+        }
+        else if ("minRadius".equalsIgnoreCase(name)) {
+            minRadius = ((Double) temp.get("minRadius")).floatValue();
+        }
+
         if (temp.get("HitLocationArtillery") != null)
         {
             Turret turret = mapper.convertValue(value, Turret.class);
