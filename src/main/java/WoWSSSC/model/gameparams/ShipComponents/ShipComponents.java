@@ -3,6 +3,7 @@ package WoWSSSC.model.gameparams.ShipComponents;
 import WoWSSSC.model.gameparams.Consumables.Consumable;
 import WoWSSSC.model.gameparams.ShipComponents.AA.AirDefense;
 import WoWSSSC.model.gameparams.ShipComponents.AA.AntiAir;
+import WoWSSSC.model.gameparams.ShipComponents.AA.Aura;
 import WoWSSSC.model.gameparams.ShipComponents.ATBA.ATBA;
 import WoWSSSC.model.gameparams.ShipComponents.Artillery.Artillery;
 import WoWSSSC.model.gameparams.ShipComponents.DiveBomber.DiveBomber;
@@ -43,7 +44,7 @@ public class ShipComponents
     private ShipAbilities shipAbilities;
     private HashMap<String, Consumable> abilities = new HashMap<>();
 
-    private List<AntiAir> auraFarList = new ArrayList<>();
-    private List<AntiAir> auraMediumList = new ArrayList<>();
-    private List<AntiAir> auraNearList = new ArrayList<>();
+    private List<Aura> auraFarList = new ArrayList<>();
+    private List<Aura> auraMediumList = new ArrayList<>();
+    private List<Aura> auraNearList = new ArrayList<>();
 }

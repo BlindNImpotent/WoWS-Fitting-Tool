@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Aesis on 2016-12-03.
  */
 @Data
-public class AbilitySlot1
+public class AbilitySlot
 {
     private LinkedHashSet<List<String>> abils = new LinkedHashSet<>();
     private int slot;

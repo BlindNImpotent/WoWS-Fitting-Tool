@@ -454,9 +454,9 @@ public class APIService
                     if (modifier.getNearAuraDamageCoefficient() != 0)
                     {
                         if (ship.getShipComponents().getAuraFarList().size() > 0 || ship.getShipComponents().getAuraMediumList().size() > 0 || ship.getShipComponents().getAuraNearList().size() > 0) {
-                            ship.getShipComponents().getAuraFarList().forEach(aura -> aura.setAntiAirAuraStrength(aura.getAntiAirAuraStrength() * modifier.getNearAuraDamageCoefficient()));
-                            ship.getShipComponents().getAuraMediumList().forEach(aura -> aura.setAntiAirAuraStrength(aura.getAntiAirAuraStrength() * modifier.getNearAuraDamageCoefficient()));
-                            ship.getShipComponents().getAuraNearList().forEach(aura -> aura.setAntiAirAuraStrength(aura.getAntiAirAuraStrength() * modifier.getNearAuraDamageCoefficient()));
+                            ship.getShipComponents().getAuraFarList().forEach(aura -> aura.setAreaDamage(aura.getAreaDamage() * modifier.getNearAuraDamageCoefficient()));
+                            ship.getShipComponents().getAuraMediumList().forEach(aura -> aura.setAreaDamage(aura.getAreaDamage() * modifier.getNearAuraDamageCoefficient()));
+                            ship.getShipComponents().getAuraNearList().forEach(aura -> aura.setAreaDamage(aura.getAreaDamage() * modifier.getNearAuraDamageCoefficient()));
                         }
                     }
                 }
@@ -673,7 +673,9 @@ public class APIService
 
                     if (modifier.getAdvancedOuterAuraDamageCoefficient() != 0)
                     {
-//
+                        if (ship.getShipComponents().getAuraFarList().size() > 0 || ship.getShipComponents().getAuraMediumList().size() > 0) {
+
+                        }
                     }
                 }
                 else if (modifier.getPrioritySectorStrengthCoefficient() != 0 || modifier.getSectorSwitchDelayCoefficient() != 0) // 4_5
@@ -733,7 +735,7 @@ public class APIService
     private void setFlagsModernization(Ship ship, Consumables consumables)
     {
         if (ship.getShipComponents().getAuraFarList().size() > 0 || ship.getShipComponents().getAuraMediumList().size() > 0 || ship.getShipComponents().getAuraNearList().size() > 0) {
-//
+
         }
 
         if (ship.getShipComponents().getArtillery() != null)
