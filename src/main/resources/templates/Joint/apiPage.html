@@ -11,7 +11,7 @@
         <div id="tab_right_heShells" class="button_tab right heShells" th:if="${shipAPI.artillery != null and shipAPI.artillery.shells != null and shipAPI.artillery.shells.?[value.type == 'HE'].size() > 0}">HE Shell</div>
         <div id="tab_right_apShells" class="button_tab right apShells" th:if="${shipAPI.artillery != null and shipAPI.artillery.shells != null and shipAPI.artillery.shells.?[value.type == 'AP'].size() > 0}">AP Shell</div>
         <div id="tab_right_torpedoes" class="button_tab right torpedoes" th:if="${shipAPI.torpedoes != null}">Torpedoes</div>
-        <div id="tab_right_AA" class="button_tab right AA" th:if="${shipAPI.anti_aircraft != null}">Anti Air</div>
+        <div id="tab_right_AA" class="button_tab right AA" th:if="${shipAPI.shipComponents.auraFarList.size() > 0 or shipAPI.shipComponents.auraMediumList.size() > 0 or shipAPI.shipComponents.auraNearList.size() > 0}">Anti Air</div>
         <div id="tab_right_secondary" class="button_tab right secondary" th:if="${shipAPI.shipComponents.atba != null}">Secondary</div>
         <div id="tab_right_hull" class="button_tab right hull" th:if="${shipAPI.hull != null}">Hull</div>
         <div id="tab_right_mobility" class="button_tab right mobility" th:if="${shipAPI.mobility != null}">Mobility</div>
@@ -321,28 +321,45 @@
                 <th:block th:include="Joint/angleSectorTorpPage :: angleSectorTorpPage"></th:block>
             </div>
         </div>
-        <div th:if="${shipAPI.anti_aircraft != null}" id="AAStats" class="panel_right AA hide" style="min-width: 300px;">
-            <div th:if="${shipAPI.anti_aircraft != null}" id="anti_aircraft">
+        <div th:if="${shipAPI.shipComponents.auraFarList.size() > 0 or shipAPI.shipComponents.auraMediumList.size() > 0 or shipAPI.shipComponents.auraNearList.size() > 0}" id="AAStats" class="panel_right AA hide" style="min-width: 300px;">
+            <div id="anti_aircraft">
                 <strong>Anti Air</strong><br />
-                <li th:each="slot : ${shipAPI.anti_aircraft.slots}" th:id="${slot.value.caliber}">
-                    <u style="float: left;" th:text="${slot.value.guns} + ' X ' + ${slot.value.name}"/><br />
-                    <span style="float: left;">Aura Type</span><span style="float: right;" th:text="${slot.value.auraType}"></span><br />
-                    <span style="float: left;">DPS</span>
-                    <th:block th:if="${configurationAPI != null}">
-                        <th:block th:if="${configurationAPI.anti_aircraft != null and defaultSlot.value != null and defaultSlot.value.guns == slot.value.guns and defaultSlot.value.name == slot.value.name}" th:each="defaultSlot : ${configurationAPI.anti_aircraft.slots}">
-                            <span style="float: right;" th:if="${slot.value.avg_damage - defaultSlot.value.avg_damage != 0}" th:text="${slot.value.avg_damage - defaultSlot.value.avg_damage > 0 ? ' (+' + #numbers.formatDecimal(slot.value.avg_damage - defaultSlot.value.avg_damage, 1, 1) + ')' : ' (' + #numbers.formatDecimal(slot.value.avg_damage - defaultSlot.value.avg_damage, 1, 1) + ')'}"/>
-                        </th:block>
-                    </th:block>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.avg_damage, 1, 1)} + ' dps'"/><br />
-                    <span style="float: left;">Distance</span>
-                    <th:block th:if="${configurationAPI != null}">
-                        <th:block th:if="${configurationAPI.anti_aircraft != null and defaultSlot.value != null and defaultSlot.value.guns == slot.value.guns and defaultSlot.value.name == slot.value.name}" th:each="defaultSlot : ${configurationAPI.anti_aircraft.slots}">
-                            <span style="float: right;" th:if="${slot.value.distance - defaultSlot.value.distance != 0}" th:text="${slot.value.distance - defaultSlot.value.distance > 0 ? ' (+' + #numbers.formatDecimal(slot.value.distance - defaultSlot.value.distance, 1, 1) + ')' : ' (' + #numbers.formatDecimal(slot.value.distance - defaultSlot.value.distance, 1, 1) + ')'}"/>
-                        </th:block>
-                    </th:block>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(slot.value.distance, 1, 1)} + ' km'"/><br />
+                <li th:each="aura : ${shipAPI.shipComponents.auraFarList}">
+                    <u style="float: left;" th:text="${aura.count + ' X ' + aura.numBarrels + ' ' + aura.realName}"/><br />
+                    <span style="float: left;">Aura</span><br />
+                    <span style="float: left;">- Type</span>
+                    <span style="float: right;" th:text="${aura.auraType}"></span><br />
+                    <span style="float: left;">- Strength</span>
+                    <span style="float: right;" th:text="${#numbers.formatInteger(aura.antiAirAuraStrength * aura.count * 100, 1, 'COMMA')}"/><br />
+                    <span style="float: left;">- Max Distance</span>
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(aura.maxDistance / 1000, 1, 2)} + ' km'"/><br />
+                    <span style="float: left;">- Min Distance</span>
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(aura.minDistance / 1000, 1, 2)} + ' km'"/><br />
                 </li>
-                <br />
+                <li th:each="aura : ${shipAPI.shipComponents.auraMediumList}">
+                    <u style="float: left;" th:text="${aura.count + ' X ' + aura.numBarrels + ' ' + aura.realName}"/><br />
+                    <span style="float: left;">Aura</span><br />
+                    <span style="float: left;">- Type</span>
+                    <span style="float: right;" th:text="${aura.auraType}"></span><br />
+                    <span style="float: left;">- Strength</span>
+                    <span style="float: right;" th:text="${#numbers.formatInteger(aura.antiAirAuraStrength * aura.count * 100, 1, 'COMMA')}"/><br />
+                    <span style="float: left;">- Max Distance</span>
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(aura.maxDistance / 1000, 1, 2)} + ' km'"/><br />
+                    <span style="float: left;">- Min Distance</span>
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(aura.minDistance / 1000, 1, 2)} + ' km'"/><br />
+                </li>
+                <li th:each="aura : ${shipAPI.shipComponents.auraNearList}">
+                    <u style="float: left;" th:text="${aura.count + ' X ' + aura.numBarrels + ' ' + aura.realName}"/><br />
+                    <span style="float: left;">Aura</span><br />
+                    <span style="float: left;">- Type</span>
+                    <span style="float: right;" th:text="${aura.auraType}"></span><br />
+                    <span style="float: left;">- Strength</span>
+                    <span style="float: right;" th:text="${#numbers.formatInteger(aura.antiAirAuraStrength * aura.count * 100, 1, 'COMMA')}"/><br />
+                    <span style="float: left;">- Max Distance</span>
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(aura.maxDistance / 1000, 1, 2)} + ' km'"/><br />
+                    <span style="float: left;">- Min Distance</span>
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(aura.minDistance / 1000, 1, 2)} + ' km'"/><br />
+                </li>
             </div>
         </div>
         <div th:if="${shipAPI.shipComponents.atba != null}" id="secondaryStats" class="panel_right secondary hide" style="min-width: 300px;">
@@ -669,7 +686,7 @@
         <div id="tab_right_heShells" class="button_tab right" th:if="${shipAPI.artillery != null and shipAPI.artillery.shells != null and shipAPI.artillery.shells.?[value.type == 'HE'].size() > 0}" onclick="showPanelRight('heShells')">HE Shell</div>
         <div id="tab_right_apShells" class="button_tab right" th:if="${shipAPI.artillery != null and shipAPI.artillery.shells != null and shipAPI.artillery.shells.?[value.type == 'AP'].size() > 0}" onclick="showPanelRight('apShells')">AP Shell</div>
         <div id="tab_right_torpedoes" class="button_tab right" th:if="${shipAPI.torpedoes != null}" onclick="showPanelRight('torpedoes')">Torpedoes</div>
-        <div id="tab_right_AA" class="button_tab right" th:if="${shipAPI.anti_aircraft != null}" onclick="showPanelRight('AA')">Anti Air</div>
+        <div id="tab_right_AA" class="button_tab right" th:if="${shipAPI.shipComponents.auraFarList.size() > 0 or shipAPI.shipComponents.auraMediumList.size() > 0 or shipAPI.shipComponents.auraNearList.size() > 0}" onclick="showPanelRight('AA')">Anti Air</div>
         <div id="tab_right_secondary" class="button_tab right" th:if="${shipAPI.shipComponents.atba != null}" onclick="showPanelRight('secondary')">Secondary</div>
         <div id="tab_right_hull" class="button_tab right" th:if="${shipAPI.hull != null}" onclick="showPanelRight('hull')">Hull</div>
         <div id="tab_right_mobility" class="button_tab right" th:if="${shipAPI.mobility != null}" onclick="showPanelRight('mobility')">Mobility</div>

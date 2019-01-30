@@ -13,4 +13,6 @@ public class Aura
     private float selectedTargetCoeff;
     private float shotDelay;
     private String auraType;
+    private float maxDistance;
+    private float minDistance;
 }

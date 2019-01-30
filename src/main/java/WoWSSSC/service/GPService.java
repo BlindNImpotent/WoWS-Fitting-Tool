@@ -249,6 +249,8 @@ public class GPService
                                                     auraFar.setShotDelay(shipComponents.getArtillery().getAuraFar().getShotDelay());
                                                     auraFar.setName(tempSecondary.getName());
                                                     auraFar.setRealName((String) global.get(serverParam).get("IDS_" + tempSecondary.getName().toUpperCase()));
+                                                    auraFar.setMaxDistance(shipComponents.getArtillery().getAuraFar().getMaxDistance());
+                                                    auraFar.setMinDistance(shipComponents.getArtillery().getAuraFar().getMinDistance());
                                                 }
                                             }
                                         }
@@ -397,6 +399,8 @@ public class GPService
                                                 auraFar.setShotDelay(shipComponents.getAtba().getAuraFar().getShotDelay());
                                                 auraFar.setName(tempSecondary.getName());
                                                 auraFar.setRealName((String) global.get(serverParam).get("IDS_" + tempSecondary.getName().toUpperCase()));
+                                                auraFar.setMaxDistance(shipComponents.getAtba().getAuraFar().getMaxDistance());
+                                                auraFar.setMinDistance(shipComponents.getAtba().getAuraFar().getMinDistance());
                                             }
                                         }
                                     }
@@ -489,6 +493,8 @@ public class GPService
                                                         auraFar.setShotDelay(shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getShotDelay());
                                                         auraFar.setName(tempSecondary.getName());
                                                         auraFar.setRealName((String) global.get(serverParam).get("IDS_" + tempSecondary.getName().toUpperCase()));
+                                                        auraFar.setMaxDistance(shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getMaxDistance());
+                                                        auraFar.setMinDistance(shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getMinDistance());
                                                     }
                                                 }
                                             }
@@ -538,6 +544,8 @@ public class GPService
                                                         auraMedium.setShotDelay(shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getShotDelay());
                                                         auraMedium.setName(tempSecondary.getName());
                                                         auraMedium.setRealName((String) global.get(serverParam).get("IDS_" + tempSecondary.getName().toUpperCase()));
+                                                        auraMedium.setMaxDistance(shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getMaxDistance());
+                                                        auraMedium.setMinDistance(shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getMinDistance());
                                                     }
                                                 }
                                             }
@@ -587,6 +595,8 @@ public class GPService
                                                         auraNear.setShotDelay(shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getShotDelay());
                                                         auraNear.setName(tempSecondary.getName());
                                                         auraNear.setRealName((String) global.get(serverParam).get("IDS_" + tempSecondary.getName().toUpperCase()));
+                                                        auraNear.setMaxDistance(shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getMaxDistance());
+                                                        auraNear.setMinDistance(shipComponents.getAirDefense().getAuras().get(aura.getAuraType()).getMinDistance());
                                                     }
                                                 }
                                             }

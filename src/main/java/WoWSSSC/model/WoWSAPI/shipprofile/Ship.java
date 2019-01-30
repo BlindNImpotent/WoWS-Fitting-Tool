@@ -16,7 +16,7 @@ public class Ship
 {
     private long battle_level_range_max;
     private long battle_level_range_min;
-    private Anti_Aircraft anti_aircraft;
+//    private Anti_Aircraft anti_aircraft;
     private Armour armour;
     private Artillery artillery;
     private ATBA atba;

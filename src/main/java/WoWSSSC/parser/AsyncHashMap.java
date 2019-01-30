@@ -228,12 +228,14 @@ public class AsyncHashMap implements CommandLineRunner {
                 tempExteriors.put("Camouflage", tempCamouflage);
                 tempExteriors.put("Permoflage", tempPermoflage);
 
-                for (String s : nationsString) {
+                for (String nation : nationsString) {
                     LinkedHashMap<String, CompletableFuture<WarshipData>> temp = new LinkedHashMap<>();
-                    for (String s1 : shipTypeString) {
-                        temp.put(s1, apiJsonParser.getNationShip(s, s1));
+                    for (String shipType : shipTypeString) {
+                        if (!"AirCarrier".equalsIgnoreCase(shipType)) {
+                            temp.put(shipType, apiJsonParser.getNationShip(nation, shipType));
+                        }
                     }
-                    futures.put(s, temp);
+                    futures.put(nation, temp);
                 }
 
                 Thread.sleep(10000);

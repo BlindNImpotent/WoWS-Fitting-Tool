@@ -16,16 +16,16 @@ public class SkillModifier
     private int fighter;
     private int torpedoBomber;
     private int radiusCoefficient;
-    private float airDefenceEfficiencyCoefficient;
+//    private float airDefenceEfficiencyCoefficient;
     private float smallGunReloadCoefficient;
-    private float airDefenceRangeCoefficient;
+//    private float airDefenceRangeCoefficient;
     private float smallGunRangeCoefficient;
     private int additionalConsumablePlane;
     private float consumablePlaneSpeedCoefficient;
     private float reloadCoefficient;
     private float alertMinDistance;
     private float critTimeCoefficient;
-    private float airDefenceSelectedTargetCoefficient;
+//    private float airDefenceSelectedTargetCoefficient;
     private float atbaIdealRadiusHi;
     private float atbaIdealRadiusLo;
     private float fightersAmmunitionCoefficient;
@@ -68,6 +68,26 @@ public class SkillModifier
     private float cruiserCoefficient;
     private float destroyerCoefficient;
     private float submarineCoefficient;
+    private float squadronCoefficient;
+    private float nearAuraDamageCoefficient;
+    private float advancedOuterAuraDamageCoefficient;
+    private float extraFighterCount;
+    private float fighterLifeTimeCoefficient;
+    private float hangarSizeBonus;
+    private float planeSpawnTimeCoefficient;
+    private float prioritySectorStrengthCoefficient;
+    private float sectorSwitchDelayCoefficient;
+    private float bombProbabilityBonus;
+    private float rocketProbabilityBonus;
+    private float flightSpeedCoefficient;
+    private float forsageDurationCoefficient;
+    private float squadronHealthStep;
+    private float squadronSpeedStep;
+    private float nearAuraDamageTakenCoefficient;
+    private float planeHealthPerLevel;
+    private float planeTorpedoRangeCoefficient;
+    private float planeTorpedoSpeedBonus;
+    private float planeRangeCoefficient;
 
     private boolean isEpic;
 }

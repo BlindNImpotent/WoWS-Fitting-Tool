@@ -26,12 +26,12 @@ public class AirDefense
     @JsonAnySetter
     public void setAA(String name, Object value)
     {
-        if (!(value instanceof String) && mapper.convertValue(value, LinkedHashMap.class).get("HitLocationAirDefense") != null)
+        if (value instanceof LinkedHashMap && mapper.convertValue(value, LinkedHashMap.class).get("HitLocationAirDefense") != null)
         {
             Secondary secondary = mapper.convertValue(value, Secondary.class);
             antiAirGuns.put(name, secondary);
         }
-        else if (!(value instanceof String) && mapper.convertValue(value, LinkedHashMap.class).get("guns") != null)
+        else if (value instanceof LinkedHashMap && mapper.convertValue(value, LinkedHashMap.class).get("guns") != null)
         {
             Aura tempAura = mapper.convertValue(value, Aura.class);
             tempAura.setAuraType(name);

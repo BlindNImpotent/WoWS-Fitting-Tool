@@ -13,8 +13,9 @@ import java.util.List;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)
 public class Modernization
 {
-    private float AAAura;
-    private float AAMaxDist;
+    private float AAExtraBubbles;
+    private float AANearDamage;
+    private float AAOuterDamage;
     private float ADMaxHP;
     private float GMCritProb;
     private float GMIdealRadius;
@@ -41,12 +42,17 @@ public class Modernization
     private float SGRepairTime;
     private float SGRudderTime;
     private float airDefenseDispWorkTime;
-    private float airplanesAmmoCount;
-    private float airplanesAntiAirAura;
-    private float airplanesBomberVitalityTime;
-    private float airplanesFighterVitalityTime;
-    private float airplanesPrepareTime;
+    private float airplanesDiveBombersHealth;
+    private float airplanesEmptyReturnSpeed;
+    private float airplanesExtraHangarSize;
+    private float airplanesFighterAimingTime;
+    private float airplanesFightersHealth;
+    private float airplanesForsageDuration;
+    private float airplanesHealth;
+    private float airplanesSpawnTime;
     private float airplanesSpeed;
+    private float airplanesTorpedoAimingTime;
+    private float airplanesTorpedoBombersHealth;
     private float burnProb;
     private float burnTime;
     private int costCR;
@@ -73,6 +79,7 @@ public class Modernization
     private float smokeGeneratorWorkTime;
     private float sonarSearchWorkTime;
     private float speedBoosterWorkTime;
+    private float squadronVisibilityDistCoeff;
     private float type;
     private TypeInfo typeinfo;
     private float visibilityDistCoeff;

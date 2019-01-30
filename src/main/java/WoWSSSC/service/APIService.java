@@ -88,10 +88,6 @@ public class APIService
                         shipData.getData().get(ship_id).getTorpedo_bomber().getCount_in_squadron().setMin(3);
                         shipData.getData().get(ship_id).getTorpedo_bomber().getCount_in_squadron().setMax(3);
                     }
-
-                    if (shipData.getData().get(ship_id).getAnti_aircraft() != null) {
-                        shipData.getData().get(ship_id).getAnti_aircraft().setSlots(sorter.sortAARange(shipData.getData().get(ship_id).getAnti_aircraft().getSlots()));
-                    }
                     shipHashMap.put(key, shipData.getData().get(ship_id));
                 }
                 else {
@@ -169,31 +165,6 @@ public class APIService
         ship.setShipComponents(shipComponentsCopy);
 
         setCustomValues(ship_id, ship);
-
-        if (ship.getAnti_aircraft() != null) {
-            ship.getAnti_aircraft().getSlots().values().forEach(aa -> {
-                ship.getShipComponents().getAuraFarList().forEach(auraFar -> {
-                    if (aa.getName().equalsIgnoreCase(auraFar.getRealName())) {
-                        aa.setName(auraFar.getNumBarrels() + " " + aa.getName());
-                        aa.setAuraType(auraFar.getAuraType());
-                    }
-                });
-
-                ship.getShipComponents().getAuraMediumList().forEach(auraMedium -> {
-                    if (aa.getName().equalsIgnoreCase(auraMedium.getRealName())) {
-                        aa.setName(auraMedium.getNumBarrels() + " " + aa.getName());
-                        aa.setAuraType(auraMedium.getAuraType());
-                    }
-                });
-
-                ship.getShipComponents().getAuraNearList().forEach(auraNear -> {
-                    if (aa.getName().equalsIgnoreCase(auraNear.getRealName())) {
-                        aa.setName(auraNear.getNumBarrels() + " " + aa.getName());
-                        aa.setAuraType(auraNear.getAuraType());
-                    }
-                });
-            });
-        }
 
         if (CollectionUtils.isEmpty(upgradesSkills)) {
             return ship;
@@ -323,23 +294,17 @@ public class APIService
                 String skillType = skill.get("tier") + "_" + skill.get("type_id");
                 SkillModifier modifier = commanderSkill.getModifiers().get(skillType);
 
-                if (modifier.getVitalityCoefficient() != 0 && modifier.getDiveBombersPrepareCoefficient() != 0 && modifier.getFightersPrepareCoefficient() != 0 && modifier.getTorpedoBombersPrepareCoefficient() != 0) // 1_3
+                if (modifier.getPlaneSpawnTimeCoefficient() != 0 || modifier.getHangarSizeBonus() != 0) // 1_3
                 {
-                    if (ship.getDive_bomber() != null)
-                    {
-                        ship.getDive_bomber().setMax_health(ship.getDive_bomber().getMax_health() * modifier.getVitalityCoefficient());
-                        ship.getDive_bomber().setPrepare_time(ship.getDive_bomber().getPrepare_time() * modifier.getDiveBombersPrepareCoefficient());
-                    }
-                    if (ship.getFighters() != null)
-                    {
-                        ship.getFighters().setMax_health(ship.getFighters().getMax_health() * modifier.getVitalityCoefficient());
-                        ship.getFighters().setPrepare_time(ship.getFighters().getPrepare_time() * modifier.getFightersPrepareCoefficient());
-                    }
-                    if (ship.getTorpedo_bomber() != null)
-                    {
-                        ship.getTorpedo_bomber().setMax_health(ship.getTorpedo_bomber().getMax_health() * modifier.getVitalityCoefficient());
-                        ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * modifier.getTorpedoBombersPrepareCoefficient());
-                    }
+//
+                }
+                else if (modifier.getExtraFighterCount() != 0 || modifier.getFighterLifeTimeCoefficient() != 0) // 1_4
+                {
+//
+                }
+                else if (modifier.getForsageDurationCoefficient() != 0) // 1_5
+                {
+//
                 }
                 else if (modifier.getReloadCoefficient() != 0) // 2_0, 2_1
                 {
@@ -388,88 +353,68 @@ public class APIService
                         ship.getTorpedoes().setDistance(ship.getTorpedoes().getDistance() * modifier.getTorpedoRangeCoefficient());
                     }
 
-                    if (ship.getTorpedo_bomber() != null)
-                    {
-                        ship.getTorpedo_bomber().setTorpedo_max_speed(ship.getTorpedo_bomber().getTorpedo_max_speed() + modifier.getTorpedoSpeedBonus());
-                        ship.getTorpedo_bomber().setTorpedo_distance(ship.getTorpedo_bomber().getTorpedo_distance() * modifier.getTorpedoRangeCoefficient());
-                    }
+//
                 }
-                else if (modifier.getFightersPassiveEfficiencyCoefficient() != 0) // 2_5
+                else if (modifier.getFlightSpeedCoefficient() != 0) // 2_5
                 {
-                    if (ship.getDive_bomber() != null)
-                    {
-                        ship.getDive_bomber().setGunner_damage(ship.getDive_bomber().getGunner_damage() * modifier.getFightersPassiveEfficiencyCoefficient());
-                    }
-
-                    if (ship.getTorpedo_bomber() != null)
-                    {
-                        ship.getTorpedo_bomber().setGunner_damage(ship.getTorpedo_bomber().getGunner_damage() * modifier.getFightersPassiveEfficiencyCoefficient());
-                    }
+//
                 }
-                else if (modifier.getTimeStep() != 0) // 2_6
+                else if (modifier.getTimeStep() != 0 || modifier.getSquadronHealthStep() != 0) // 2_6
                 {
-                    float coef = 1 - ((100 - adrenalineValue) * modifier.getTimeStep() / 100);
+                    if (modifier.getHpStep() != 0) {
+                        float coef = 1 - ((100 - adrenalineValue) * modifier.getTimeStep() / 100);
 
-                    if (ship.getShipComponents().getArtillery() != null)
+                        if (ship.getShipComponents().getArtillery() != null)
+                        {
+                            ship.getShipComponents().getArtillery().setShotDelay(ship.getShipComponents().getArtillery().getShotDelay() * coef);
+                        }
+
+                        if (ship.getTorpedoes() != null)
+                        {
+                            ship.getTorpedoes().setReload_time(ship.getTorpedoes().getReload_time() * coef);
+                        }
+
+                        if (ship.getAtbas() != null)
+                        {
+                            ship.getAtbas().getSlots().values().forEach(slot -> slot.setShot_delay(slot.getShot_delay() * coef));
+                        }
+
+                        if (ship.getShipComponents().getAtba() != null)
+                        {
+                            ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary -> secondary.setShotDelay(secondary.getShotDelay() * coef));
+                        }
+                    }
+
+                    if (modifier.getSquadronHealthStep() != 0)
                     {
-                        ship.getShipComponents().getArtillery().setShotDelay(ship.getShipComponents().getArtillery().getShotDelay() * coef);
-                    }
-
-                    if (ship.getTorpedoes() != null)
-                    {
-                        ship.getTorpedoes().setReload_time(ship.getTorpedoes().getReload_time() * coef);
-                    }
-
-                    if (ship.getAtbas() != null)
-                    {
-                        ship.getAtbas().getSlots().values().forEach(slot -> slot.setShot_delay(slot.getShot_delay() * coef));
-                    }
-
-                    if (ship.getShipComponents().getAtba() != null)
-                    {
-                        ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary -> secondary.setShotDelay(secondary.getShotDelay() * coef));
-                    }
-
-                    if (ship.getFighters() != null) {
-                        ship.getFighters().setPrepare_time(ship.getFighters().getPrepare_time() * coef);
-                    }
-
-                    if (ship.getDive_bomber() != null) {
-                        ship.getDive_bomber().setPrepare_time(ship.getDive_bomber().getPrepare_time() * coef);
-                    }
-
-                    if (ship.getTorpedo_bomber() != null) {
-                        ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * coef);
+//
                     }
                 }
                 else if (modifier.getCritTimeCoefficient() != 0) // 3_0
                 {
-                    if (ship.getShipComponents().getHull().getBurnDuration() > 0)
+                    if (ship.getShipComponents().getHull().getBurnDuration() != 0)
                     {
                         ship.getShipComponents().getHull().setBurnDuration(ship.getShipComponents().getHull().getBurnDuration() * modifier.getCritTimeCoefficient());
                     }
-                    if (ship.getShipComponents().getHull().getFloodDuration() > 0)
+
+                    if (ship.getShipComponents().getHull().getFloodDuration() != 0)
                     {
                         ship.getShipComponents().getHull().setFloodDuration(ship.getShipComponents().getHull().getFloodDuration() * modifier.getCritTimeCoefficient());
                     }
-
-//                    ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
-//                    {
-//                        Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
-//
-//                        if (tempConsumable.getName().contains("CrashCrew"))
-//                        {
-//                            tempConsumable.getTypes().values().forEach(cType -> cType.setReloadTime(cType.getReloadTime() * modifier.getCritTimeCoefficient()));
-//                        }
-//
-//                        ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
-//                    });
                 }
-                else if (modifier.getHealthPerLevel() != 0) // 3_1
+                else if (modifier.getHealthPerLevel() != 0 || modifier.getPlaneHealthPerLevel() != 0) // 3_1
                 {
-                    if (ship.getHull() != null)
+                    if (modifier.getHealthPerLevel() != 0)
                     {
-                        ship.getHull().setHealth(ship.getHull().getHealth() + warship.getTier() * modifier.getHealthPerLevel());
+                        if (ship.getHull() != null)
+                        {
+                            ship.getHull().setHealth(ship.getHull().getHealth() + warship.getTier() * modifier.getHealthPerLevel());
+                        }
+                    }
+
+                    if (modifier.getPlaneHealthPerLevel() != 0)
+                    {
+//
                     }
                 }
                 else if (modifier.getLauncherCoefficient() != 0 && modifier.getBomberCoefficient() != 0) // 3_2
@@ -478,34 +423,41 @@ public class APIService
                     {
                         ship.getTorpedoes().setReload_time(ship.getTorpedoes().getReload_time() * modifier.getLauncherCoefficient());
                     }
-                    if (ship.getTorpedo_bomber() != null)
-                    {
-                        ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * modifier.getBomberCoefficient());
-                    }
                 }
-                else if (modifier.getAirDefenceEfficiencyCoefficient() != 0 && modifier.getSmallGunReloadCoefficient() != 0) // 3_4
+                else if (modifier.getNearAuraDamageTakenCoefficient() != 0) // 3_3
                 {
-                    if (ship.getShipComponents().getArtillery() != null)
+//
+                }
+                else if (modifier.getNearAuraDamageCoefficient() != 0 || modifier.getSmallGunReloadCoefficient() != 0) // 3_4
+                {
+                    if (modifier.getSmallGunReloadCoefficient() != 0)
                     {
-                        int caliber = ship.getShipComponents().getArtillery().getBarrelDiameter();
-
-                        if (caliber <= 139)
+                        if (ship.getShipComponents().getArtillery() != null)
                         {
-                            ship.getShipComponents().getArtillery().setShotDelay(ship.getShipComponents().getArtillery().getShotDelay() * modifier.getSmallGunReloadCoefficient());
+                            int caliber = ship.getShipComponents().getArtillery().getBarrelDiameter();
+
+                            if (caliber <= 139)
+                            {
+                                ship.getShipComponents().getArtillery().setShotDelay(ship.getShipComponents().getArtillery().getShotDelay() * modifier.getSmallGunReloadCoefficient());
+                            }
+                        }
+                        if (ship.getAtbas() != null)
+                        {
+                            ship.getAtbas().getSlots().entrySet().forEach(entry -> entry.getValue().setShot_delayWithoutDefault(entry.getValue().getShot_delay() * modifier.getSmallGunReloadCoefficient()));
+                        }
+                        if (ship.getShipComponents().getAtba() != null)
+                        {
+                            ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary -> secondary.setShotDelay(secondary.getShotDelay() * modifier.getSmallGunReloadCoefficient()));
                         }
                     }
-                    if (ship.getAnti_aircraft() != null)
-                    {
-                        ship.getAnti_aircraft().getSlots().values().forEach(value -> value.setAvg_damage(value.getAvg_damage() * modifier.getAirDefenceEfficiencyCoefficient()));
-                    }
-                    if (ship.getAtbas() != null)
-                    {
-                        ship.getAtbas().getSlots().entrySet().forEach(entry -> entry.getValue().setShot_delayWithoutDefault(entry.getValue().getShot_delay() * modifier.getSmallGunReloadCoefficient()));
-                    }
 
-                    if (ship.getShipComponents().getAtba() != null)
+                    if (modifier.getNearAuraDamageCoefficient() != 0)
                     {
-                        ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary -> secondary.setShotDelay(secondary.getShotDelay() * modifier.getSmallGunReloadCoefficient()));
+                        if (ship.getShipComponents().getAuraFarList().size() > 0 || ship.getShipComponents().getAuraMediumList().size() > 0 || ship.getShipComponents().getAuraNearList().size() > 0) {
+                            ship.getShipComponents().getAuraFarList().forEach(aura -> aura.setAntiAirAuraStrength(aura.getAntiAirAuraStrength() * modifier.getNearAuraDamageCoefficient()));
+                            ship.getShipComponents().getAuraMediumList().forEach(aura -> aura.setAntiAirAuraStrength(aura.getAntiAirAuraStrength() * modifier.getNearAuraDamageCoefficient()));
+                            ship.getShipComponents().getAuraNearList().forEach(aura -> aura.setAntiAirAuraStrength(aura.getAntiAirAuraStrength() * modifier.getNearAuraDamageCoefficient()));
+                        }
                     }
                 }
                 else if (modifier.getAdditionalConsumables() != 0) // 3_5
@@ -519,57 +471,73 @@ public class APIService
                         ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
                     });
                 }
-                else if (modifier.getProbabilityBonus() != 0) // 3_6
+                else if (modifier.getProbabilityBonus() != 0 || modifier.getBombProbabilityBonus() != 0 || modifier.getRocketProbabilityBonus() != 0) // 3_6
                 {
-                    float burnHundred = modifier.getProbabilityBonus() * 100;
-
-                    if (ship.getArtillery() != null)
+                    if (modifier.getProbabilityBonus() != 0)
                     {
-                        ship.getArtillery().getShells().values().forEach(value ->
+                        float burnHundred = modifier.getProbabilityBonus() * 100;
+
+                        if (ship.getArtillery() != null)
                         {
-                            if (value != null && "HE".equalsIgnoreCase(value.getType()))
+                            ship.getArtillery().getShells().values().forEach(value ->
                             {
-                                value.setBurn_probability(value.getBurn_probability() + burnHundred);
-                            }
-                        });
-                    }
-
-                    if (ship.getAtbas() != null)
-                    {
-                        ship.getAtbas().getSlots().values().forEach(slot -> slot.setBurn_probability(slot.getBurn_probability() + burnHundred));
-                    }
-
-                    if (ship.getDive_bomber() != null)
-                    {
-                        ship.getDive_bomber().setBomb_burn_probability(ship.getDive_bomber().getBomb_burn_probability() + burnHundred);
-                    }
-
-                    if (ship.getShipComponents().getAtba() != null)
-                    {
-                        ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary ->
+                                if (value != null && "HE".equalsIgnoreCase(value.getType()))
+                                {
+                                    value.setBurn_probability(value.getBurn_probability() + burnHundred);
+                                }
+                            });
+                        }
+                        if (ship.getAtbas() != null)
                         {
-                            if ("HE".equalsIgnoreCase(secondary.getShell().getAmmoType()))
+                            ship.getAtbas().getSlots().values().forEach(slot -> slot.setBurn_probability(slot.getBurn_probability() + burnHundred));
+                        }
+                        if (ship.getShipComponents().getAtba() != null)
+                        {
+                            ship.getShipComponents().getAtba().getSecondariesList().forEach(secondary ->
                             {
-                                secondary.getShell().setBurnProb(secondary.getShell().getBurnProb() + modifier.getProbabilityBonus());
-                            }
-                        });
+                                if ("HE".equalsIgnoreCase(secondary.getShell().getAmmoType()))
+                                {
+                                    secondary.getShell().setBurnProb(secondary.getShell().getBurnProb() + modifier.getProbabilityBonus());
+                                }
+                            });
+                        }
+                    }
+
+                    if (modifier.getBombProbabilityBonus() != 0)
+                    {
+//
+                    }
+
+                    if (modifier.getRocketProbabilityBonus() != 0)
+                    {
+//
                     }
                 }
-                else if (modifier.getRangeCoefficient() != 0) // 3_7
+                else if (modifier.getRangeCoefficient() != 0 || modifier.getPlaneRangeCoefficient() != 0) // 3_7
                 {
-                    ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
+                    if (modifier.getRangeCoefficient() != 0)
                     {
-                        Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
-
-                        if (tempConsumable.getName().contains("SonarSearch"))
+                        ship.getShipComponents().getAbilities().entrySet().forEach(entry ->
                         {
-                            tempConsumable.getTypes().values().forEach(cType -> cType.setDistTorpedo(cType.getDistTorpedo() * modifier.getRangeCoefficient()));
-                        }
+                            Consumable tempConsumable = mapper.convertValue(entry.getValue(), Consumable.class);
 
-                        ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
-                    });
+                            if (tempConsumable.getName().contains("SonarSearch"))
+                            {
+                                tempConsumable.getTypes().values().forEach(cType -> cType.setDistTorpedo(cType.getDistTorpedo() * modifier.getRangeCoefficient()));
+                            }
 
-                    ship.getTorpedoVisibilities().values().forEach(v1 -> v1.values().forEach(v2 -> v2.values().forEach(v3 -> v3.forEach(ts -> ts.getTorpedoes().forEach(tv -> tv.setVisibility(tv.getVisibility() * modifier.getRangeCoefficient()))))));
+                            ship.getShipComponents().getAbilities().put(entry.getKey(), tempConsumable);
+                        });
+                    }
+
+                    if (modifier.getPlaneRangeCoefficient() != 0)
+                    {
+//
+                    }
+                }
+                else if (modifier.getAtbaIdealRadiusHi() != 0 && modifier.getAtbaIdealRadiusLo() != 0) // 4_0
+                {
+
                 }
                 else if (modifier.getProbabilityCoefficient() != 0) // 4_1
                 {
@@ -580,7 +548,8 @@ public class APIService
                     }
                 }
                 else if ((modifier.getChanceToSetOnFireBonus() != 0 && modifier.getThresholdPenetrationCoefficient() != 0)
-                        || (modifier.getChanceToSetOnFireBonusBig() != 0 && modifier.getChanceToSetOnFireBonusSmall() != 0 && modifier.getThresholdPenetrationCoefficientBig() != 0 && modifier.getThresholdPenetrationCoefficientSmall() != 0)) // 4_2
+                        || (modifier.getChanceToSetOnFireBonusBig() != 0 && modifier.getChanceToSetOnFireBonusSmall() != 0
+                        && modifier.getThresholdPenetrationCoefficientBig() != 0 && modifier.getThresholdPenetrationCoefficientSmall() != 0)) // 4_2
                 {
                     float burnHundred = modifier.getChanceToSetOnFireBonus() * 100;
                     float burnHundredBig = modifier.getChanceToSetOnFireBonusBig() * 100;
@@ -668,56 +637,51 @@ public class APIService
                 {
                     if (ship.getDive_bomber() != null)
                     {
-                        ship.getDive_bomber().getCount_in_squadron().setMax(ship.getDive_bomber().getCount_in_squadron().getMax() + modifier.getDiveBomber());
+//
                     }
                     if (ship.getFighters() != null)
                     {
-                        ship.getFighters().getCount_in_squadron().setMax(ship.getFighters().getCount_in_squadron().getMax() + modifier.getFighter());
+//
                     }
                     if (ship.getTorpedo_bomber() != null)
                     {
-                        ship.getTorpedo_bomber().getCount_in_squadron().setMax(ship.getTorpedo_bomber().getCount_in_squadron().getMax() + modifier.getTorpedoBomber());
+//
                     }
                 }
-                else if (modifier.getAirDefenceRangeCoefficient() != 0 && modifier.getSmallGunRangeCoefficient() != 0) // 4_4
+                else if (modifier.getAdvancedOuterAuraDamageCoefficient() != 0 || modifier.getSmallGunRangeCoefficient() != 0) // 4_4
                 {
-                    if (ship.getShipComponents().getArtillery() != null)
+                    if (modifier.getSmallGunRangeCoefficient() != 0)
                     {
-                        int caliber = ship.getShipComponents().getArtillery().getBarrelDiameter();
-                        if (caliber <= 139)
+                        if (ship.getShipComponents().getArtillery() != null)
                         {
-                            ship.getShipComponents().getArtillery().setMaxDist(ship.getShipComponents().getArtillery().getMaxDist() * modifier.getSmallGunRangeCoefficient());
-                            ship.getArtillery().setDistance(ship.getArtillery().getDistance() * modifier.getSmallGunRangeCoefficient());
+                            int caliber = ship.getShipComponents().getArtillery().getBarrelDiameter();
+                            if (caliber <= 139)
+                            {
+                                ship.getShipComponents().getArtillery().setMaxDist(ship.getShipComponents().getArtillery().getMaxDist() * modifier.getSmallGunRangeCoefficient());
+                                ship.getArtillery().setDistance(ship.getArtillery().getDistance() * modifier.getSmallGunRangeCoefficient());
+                            }
+                        }
+                        if (ship.getAtbas() != null)
+                        {
+                            ship.getAtbas().setDistance(ship.getAtbas().getDistance() * modifier.getSmallGunRangeCoefficient());
+                        }
+                        if (ship.getShipComponents().getAtba() != null)
+                        {
+                            ship.getShipComponents().getAtba().setMaxDist(ship.getShipComponents().getAtba().getMaxDist() * modifier.getSmallGunRangeCoefficient());
                         }
                     }
-                    if (ship.getAtbas() != null)
-                    {
-                        ship.getAtbas().setDistance(ship.getAtbas().getDistance() * modifier.getSmallGunRangeCoefficient());
-                    }
-                    if (ship.getAnti_aircraft() != null)
-                    {
-                        ship.getAnti_aircraft().getSlots().values().forEach(value -> value.setDistance(value.getDistance() * modifier.getAirDefenceRangeCoefficient()));
-                    }
 
-                    if (ship.getShipComponents().getAtba() != null)
+                    if (modifier.getAdvancedOuterAuraDamageCoefficient() != 0)
                     {
-                        ship.getShipComponents().getAtba().setMaxDist(ship.getShipComponents().getAtba().getMaxDist() * modifier.getSmallGunRangeCoefficient());
+//
                     }
                 }
-                else if (modifier.getAirDefenceSelectedTargetCoefficient() != 0) // 4_5
+                else if (modifier.getPrioritySectorStrengthCoefficient() != 0 || modifier.getSectorSwitchDelayCoefficient() != 0) // 4_5
                 {
-                    if (ship.getAnti_aircraft() != null)
-                    {
-                        ship.getAnti_aircraft().getSlots().values().forEach(value ->
-                        {
-                            if (value.getCaliber() > 85)
-                            {
-                                value.setAvg_damage(value.getAvg_damage() * modifier.getAirDefenceSelectedTargetCoefficient());
-                            }
-                        });
-                    }
+//
                 }
-                else if (modifier.getAircraftCarrierCoefficient() != 0 && modifier.getBattleshipCoefficient() != 0 && modifier.getCruiserCoefficient() != 0 && modifier.getDestroyerCoefficient() != 0) // 4_7
+                else if (modifier.getAircraftCarrierCoefficient() != 0 && modifier.getBattleshipCoefficient() != 0 && modifier.getCruiserCoefficient() != 0 && modifier.getDestroyerCoefficient() != 0
+                        && modifier.getSquadronCoefficient() != 0) // 4_7
                 {
                     if (ship.getConcealment() != null)
                     {
@@ -742,12 +706,9 @@ public class APIService
 
                         ship.getConcealment().setDetect_distance_by_ship(ship.getConcealment().getDetect_distance_by_ship() * detect_coef);
                         ship.getConcealment().setDetect_distance_by_plane(ship.getConcealment().getDetect_distance_by_plane() * detect_coef);
-
-//                        if (ship.getShipComponents().getHull().getVisibilityCoefGKInSmoke() != 0)
-//                        {
-//                            ship.getShipComponents().getHull().setVisibilityCoefGKInSmoke(ship.getShipComponents().getHull().getVisibilityCoefGKInSmoke() * detect_coef);
-//                        }
                     }
+
+//
                 }
             });
         }
@@ -771,28 +732,8 @@ public class APIService
 
     private void setFlagsModernization(Ship ship, Consumables consumables)
     {
-        if (ship.getTorpedoVisibilities().size() > 0)
-        {
-            if (consumables.getProfile().getVisionTorpedoCoeff() != null)
-            {
-                ship.getTorpedoVisibilities().values().forEach(v1 -> v1.values().forEach(v2 -> v2.values().forEach(v3 -> v3.forEach(ts -> ts.getTorpedoes().forEach(tv -> tv.setVisibility(tv.getVisibility() * consumables.getProfile().getVisionTorpedoCoeff().getValue()))))));
-            }
-        }
-
-        if (ship.getAnti_aircraft() != null)
-        {
-            if (consumables.getProfile().getAAAura() != null)
-            {
-                ship.getAnti_aircraft().getSlots().values().forEach(aa -> aa.setAvg_damage(aa.getAvg_damage() * consumables.getProfile().getAAAura().getValue()));
-            }
-            else if (consumables.getProfile().getAAMaxDist() != null)
-            {
-                ship.getAnti_aircraft().getSlots().values().forEach(aa -> aa.setDistance(aa.getDistance() * consumables.getProfile().getAAMaxDist().getValue()));
-            }
-            else if (consumables.getProfile().getADMaxHP() != null)
-            {
-
-            }
+        if (ship.getShipComponents().getAuraFarList().size() > 0 || ship.getShipComponents().getAuraMediumList().size() > 0 || ship.getShipComponents().getAuraNearList().size() > 0) {
+//
         }
 
         if (ship.getShipComponents().getArtillery() != null)
