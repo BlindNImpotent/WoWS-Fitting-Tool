@@ -1,4 +1,4 @@
-package WoWSSSC.parser;
+package WoWSFT.parser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 /**
  * Created by Aesis on 2016-11-15.
@@ -19,11 +18,12 @@ import java.util.LinkedHashMap;
 public class AsyncHashMap implements CommandLineRunner
 {
     @Autowired
-    private APIJsonParser apiJsonParser;
+    @Qualifier(value = "jsonParser")
+    private JsonParser jsonParser;
 
     @Autowired
-    @Qualifier(value = "gameParamsCHM")
-    private HashMap<String, LinkedHashMap> gameParamsCHM;
+    @Qualifier(value = "gameParamsHM")
+    private HashMap<String, Object> gameParamsHM;
 
     @Autowired
     @Qualifier (value = "idToName")
@@ -44,6 +44,6 @@ public class AsyncHashMap implements CommandLineRunner
     {
         log.info("test");
 
-        apiJsonParser.setGameParams();
+        jsonParser.setGameParams();
     }
 }

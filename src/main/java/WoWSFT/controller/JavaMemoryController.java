@@ -1,6 +1,6 @@
-package WoWSSSC.controller;
+package WoWSFT.controller;
 
-import WoWSSSC.service.JavaMemoryService;
+import WoWSFT.service.JavaMemoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

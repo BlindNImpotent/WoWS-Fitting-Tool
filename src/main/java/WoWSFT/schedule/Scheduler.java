@@ -1,4 +1,4 @@
-package WoWSSSC.schedule;
+package WoWSFT.schedule;
 
 import org.springframework.stereotype.Component;
 

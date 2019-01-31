@@ -1,4 +1,4 @@
-package WoWSSSC.model;
+package WoWSFT.model;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

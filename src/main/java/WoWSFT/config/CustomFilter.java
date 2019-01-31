@@ -1,9 +1,10 @@
-package WoWSSSC.config;
+package WoWSFT.config;
 
-import WoWSSSC.model.BlockIp;
+import WoWSFT.model.BlockIp;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -22,10 +23,11 @@ import java.util.HashSet;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties(CustomProperties.class)
-@ComponentScan(basePackages = {"WoWSSSC"})
+@ComponentScan(basePackages = {"WoWSFT"})
 public class CustomFilter implements Filter
 {
     @Autowired
+    @Qualifier(value = "loadFinish")
     private HashMap<String, Integer> loadFinish;
 
     @Autowired

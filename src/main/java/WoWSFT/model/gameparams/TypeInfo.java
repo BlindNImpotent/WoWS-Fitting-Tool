@@ -1,4 +1,4 @@
-package WoWSSSC.model.gameparams;
+package WoWSFT.model.gameparams;
 
 import lombok.Data;
 

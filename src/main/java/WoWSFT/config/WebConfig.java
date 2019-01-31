@@ -1,4 +1,4 @@
-package WoWSSSC.config;
+package WoWSFT.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan("WoWSSSC")
+@ComponentScan("WoWSFT")
 public class WebConfig implements WebMvcConfigurer
 {
     @Bean

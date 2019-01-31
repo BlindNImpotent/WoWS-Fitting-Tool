@@ -1,6 +1,6 @@
-package WoWSSSC.config;
+package WoWSFT.config;
 
-import WoWSSSC.parser.APIJsonParser;
+import WoWSFT.parser.JsonParser;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -13,9 +13,9 @@ import java.util.LinkedHashMap;
  */
 @Component
 @EnableConfigurationProperties(CustomProperties.class)
-public class TestConfig
+public class CustomComponent
 {
-    private APIJsonParser apiJsonParser = new APIJsonParser();
+    private JsonParser jsonParser = new JsonParser();
 
     private LinkedHashMap<String, String> notification = new LinkedHashMap<>();
 
@@ -25,14 +25,14 @@ public class TestConfig
 
     private HashMap<String, Object> global = new HashMap<>();
 
-    private HashMap<String, LinkedHashMap> gameParamsCHM = new HashMap<>();
+    private HashMap<String, Object> gameParamsHM = new HashMap<>();
 
     private HashMap<String, Integer> loadFinish = new HashMap<>();
 
-    @Bean
-    public APIJsonParser apiJsonParser()
+    @Bean (value = "jsonParser")
+    public JsonParser jsonParser()
     {
-        return apiJsonParser;
+        return jsonParser;
     }
 
     @Bean (value = "nameToId")
@@ -59,13 +59,13 @@ public class TestConfig
         return global;
     }
 
-    @Bean (value = "gameParamsCHM")
-    public HashMap<String, LinkedHashMap> gameParamsCHM()
+    @Bean (value = "gameParamsHM")
+    public HashMap<String, Object> gameParamsHM()
     {
-        return gameParamsCHM;
+        return gameParamsHM;
     }
 
-    @Bean
+    @Bean (name = "loadFinish")
     public HashMap<String, Integer> loadFinish()
     {
         loadFinish.put("loadFinish", 0);

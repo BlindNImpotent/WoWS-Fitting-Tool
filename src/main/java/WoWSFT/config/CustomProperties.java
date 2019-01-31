@@ -1,4 +1,4 @@
-package WoWSSSC.config;
+package WoWSFT.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
