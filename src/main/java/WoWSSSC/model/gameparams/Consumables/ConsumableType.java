@@ -30,6 +30,8 @@ public class ConsumableType
     private float distShip; //
     private float distTorpedo; //
     private float torpedoReloadTime;
+    private float areaDamageMultiplier;
+    private float bubbleDamageMultiplier;
 
     public float getBoostCoeffModified()
     {

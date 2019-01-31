@@ -11,19 +11,26 @@ import lombok.Data;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)
 public class ConsumablesProfile
 {
-    private Default AAAura; //
-    private Default AAMaxDist; //
-    private Default AAPassiveAura; //
+    private Default AAExtraBubbles;
+    private Default AANearDamage;
+    private Default AAOuterDamage;
+    private Default ADMaxHP;
     private Default abilReloadTimeFactor; //
-    private Default ADMaxHP; //
     private Default afterBattleRepair;
-    private Default airDefenseDispWorkTime; //
-    private Default airplanesAmmoCount;
-    private Default airplanesAntiAirAura;
-    private Default airplanesBomberVitalityTime;
-    private Default airplanesFighterVitalityTime;
-    private Default airplanesPrepareTime; //
-    private Default airplanesSpeed; //
+    private Default areaDamageMultiplier;
+    private Default bubbleDamageMultiplier;
+    private Default airDefenseDispWorkTime;
+//    private Default airplanesDiveBombersHealth;
+//    private Default airplanesEmptyReturnSpeed;
+//    private Default airplanesExtraHangarSize;
+//    private Default airplanesFighterAimingTime;
+//    private Default airplanesFightersHealth;
+//    private Default airplanesForsageDuration;
+//    private Default airplanesHealth;
+//    private Default airplanesSpawnTime;
+//    private Default airplanesSpeed;
+//    private Default airplanesTorpedoAimingTime;
+//    private Default airplanesTorpedoBombersHealth;
     private Default burnChanceFactorBig; //
     private Default burnChanceFactorSmall; //
     private Default burnProb;
@@ -71,6 +78,7 @@ public class ConsumablesProfile
     private Default sonarSearchWorkTime; //
     private Default speedBoosterWorkTime; //
     private Default speedCoef; //
+    private Default squadronVisibilityDistCoeff;
     private Default visibilityDistCoeff; //
     private Default visibilityFactor;
     private Default visionDistCoeff;

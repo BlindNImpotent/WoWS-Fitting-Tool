@@ -89,7 +89,7 @@ public class APIController extends ExceptionController
                                 @RequestParam(required = false) String ship,
                                 @RequestParam(required = false) HashSet<String> modules,
                                 @RequestParam(required = false) HashSet<String> upgrades,
-                                @RequestParam(required = false) HashSet<String> flags,
+//                                @RequestParam(required = false) HashSet<String> flags,
                                 @RequestParam(required = false) HashSet<String> consumables,
                                 @RequestParam(required = false) String skills,
                                 @RequestParam(required = false) HashSet<String> skillsH,
@@ -103,7 +103,7 @@ public class APIController extends ExceptionController
                                 @RequestParam(required = false, defaultValue = "") String upgradeN,
                                 @RequestParam(required = false, defaultValue = "") String skillN,
                                 @RequestParam(required = false, defaultValue = "") String uSkillN,
-                                @RequestParam(required = false, defaultValue = "") String flagN,
+//                                @RequestParam(required = false, defaultValue = "") String flagN,
                                 @RequestParam(required = false, defaultValue = "") String s0,
                                 @RequestParam(required = false, defaultValue = "") String s1,
                                 @RequestParam(required = false, defaultValue = "") String s2,
@@ -142,9 +142,9 @@ public class APIController extends ExceptionController
             HashSet<CrewSkills> crewSkills = parserService.getSkills(skills, skillN, skillsH);
             HashSet<String> crewUSkills = parserService.getUSkills(serverParam, nation, commander, uSkills, uSkillN, uSkillsH);
 
-            if (StringUtils.isNotEmpty(flagN)) {
-                flags = parserService.getFlags(serverParam, flagN);
-            }
+//            if (StringUtils.isNotEmpty(flagN)) {
+//                flags = parserService.getFlags(serverParam, flagN);
+//            }
 
             if (StringUtils.isNotEmpty(s0) || StringUtils.isNotEmpty(s1) || StringUtils.isNotEmpty(s2) || StringUtils.isNotEmpty(s3)) {
                 consumables = parserService.getConsumables(s0, s1, s2, s3);
@@ -154,7 +154,7 @@ public class APIController extends ExceptionController
             model.addAttribute("modules", modules);
             model.addAttribute("upgrades", upgrades);
             model.addAttribute("adrenalineValue", ar != 100 ? ar : adrenalineValue);
-            model.addAttribute("flags", flags);
+//            model.addAttribute("flags", flags);
             model.addAttribute("consumables", consumables);
             model.addAttribute("crewSkills", crewSkills);
             model.addAttribute("crewUSkills", crewUSkills);
@@ -234,7 +234,7 @@ public class APIController extends ExceptionController
                     @RequestParam(required = false, defaultValue = "") String skillN,
                     @RequestParam(required = false, defaultValue = "") String uSkillN,
                     @RequestParam(required = false, defaultValue = "default") String commander,
-                    @RequestParam(required = false, defaultValue = "") String flagN,
+//                    @RequestParam(required = false, defaultValue = "") String flagN,
                     @RequestParam(required = false, defaultValue = "false") boolean camo,
                     @RequestParam(required = false, defaultValue = "false") boolean upgradeCompare,
                     @RequestBody(required = false) HashMap<String, List> upgradesSkills,
@@ -257,7 +257,7 @@ public class APIController extends ExceptionController
                     serverParam,
                     nation, shipType, ship, ship_id, warship,
                     moduleN, modules, Artillery, DiveBomber, Engine, Fighter, Suo, FlightControl, Hull, TorpedoBomber, Torpedoes,
-                    upgradesSkills, upgradeN, commander, skillN, uSkillN, camo, flagN, adrenalineValue, ar, s0, s1, s2, s3, upgradeCompare, dataIndex, isLive);
+                    upgradesSkills, upgradeN, commander, skillN, uSkillN, camo, "", adrenalineValue, ar, s0, s1, s2, s3, upgradeCompare, dataIndex, isLive);
 
             model.addAttribute("single", single);
         }

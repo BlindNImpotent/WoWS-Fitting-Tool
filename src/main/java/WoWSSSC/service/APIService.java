@@ -177,16 +177,16 @@ public class APIService
             }
         }
 
-        List<String> flags = upgradesSkills.get("flags");
-        if (flags != null) {
-            flags.forEach(flag -> {
-                if (!StringUtils.isEmpty(flag)) {
-                    Consumables temp = (Consumables) data.get(serverParam).get("upgrades").get(flag);
-
-                    setFlagsModernization(ship, temp);
-                }
-            });
-        }
+//        List<String> flags = upgradesSkills.get("flags");
+//        if (flags != null) {
+//            flags.forEach(flag -> {
+//                if (!StringUtils.isEmpty(flag)) {
+//                    Consumables temp = (Consumables) data.get(serverParam).get("upgrades").get(flag);
+//
+//                    setFlagsModernization(ship, temp);
+//                }
+//            });
+//        }
 
         List<String> upgrades = upgradesSkills.get("upgrades");
         if (upgrades != null)
@@ -417,7 +417,7 @@ public class APIService
 //
                     }
                 }
-                else if (modifier.getLauncherCoefficient() != 0 && modifier.getBomberCoefficient() != 0) // 3_2
+                else if (modifier.getLauncherCoefficient() != 0) // 3_2
                 {
                     if (ship.getTorpedoes() != null)
                     {
@@ -674,13 +674,19 @@ public class APIService
                     if (modifier.getAdvancedOuterAuraDamageCoefficient() != 0)
                     {
                         if (ship.getShipComponents().getAuraFarList().size() > 0 || ship.getShipComponents().getAuraMediumList().size() > 0) {
-
+                            ship.getShipComponents().getAuraFarList().forEach(aura -> aura.setBubbleDamage(aura.getBubbleDamage() * modifier.getAdvancedOuterAuraDamageCoefficient()));
+                            ship.getShipComponents().getAuraMediumList().forEach(aura -> aura.setBubbleDamage(aura.getBubbleDamage() * modifier.getAdvancedOuterAuraDamageCoefficient()));
                         }
                     }
                 }
                 else if (modifier.getPrioritySectorStrengthCoefficient() != 0 || modifier.getSectorSwitchDelayCoefficient() != 0) // 4_5
                 {
-//
+                    if (ship.getShipComponents().getAirDefense() != null) {
+                        ship.getShipComponents().getAirDefense().setPrioritySectorChangeDelay(ship.getShipComponents().getAirDefense().getPrioritySectorChangeDelay() * modifier.getSectorSwitchDelayCoefficient());
+                        ship.getShipComponents().getAirDefense().setPrioritySectorDisableDelay(ship.getShipComponents().getAirDefense().getPrioritySectorDisableDelay() * modifier.getSectorSwitchDelayCoefficient());
+                        ship.getShipComponents().getAirDefense().setPrioritySectorEnableDelay(ship.getShipComponents().getAirDefense().getPrioritySectorEnableDelay() * modifier.getSectorSwitchDelayCoefficient());
+                        ship.getShipComponents().getAirDefense().setPrioritySectorStrength(ship.getShipComponents().getAirDefense().getPrioritySectorStrength() * modifier.getPrioritySectorStrengthCoefficient());
+                    }
                 }
                 else if (modifier.getAircraftCarrierCoefficient() != 0 && modifier.getBattleshipCoefficient() != 0 && modifier.getCruiserCoefficient() != 0 && modifier.getDestroyerCoefficient() != 0
                         && modifier.getSquadronCoefficient() != 0) // 4_7
@@ -735,7 +741,22 @@ public class APIService
     private void setFlagsModernization(Ship ship, Consumables consumables)
     {
         if (ship.getShipComponents().getAuraFarList().size() > 0 || ship.getShipComponents().getAuraMediumList().size() > 0 || ship.getShipComponents().getAuraNearList().size() > 0) {
+            if (consumables.getProfile().getAAExtraBubbles() != null) {
+                ship.getShipComponents().getAuraFarList().forEach(aura -> aura.setExtraBubbleCount(consumables.getProfile().getAAExtraBubbles().getValue()));
+                ship.getShipComponents().getAuraMediumList().forEach(aura -> aura.setExtraBubbleCount(consumables.getProfile().getAAExtraBubbles().getValue()));
+            }
 
+            if (consumables.getProfile().getAAOuterDamage() != null) {
+                ship.getShipComponents().getAuraFarList().forEach(aura -> aura.setBubbleDamage(aura.getBubbleDamage() * consumables.getProfile().getAAOuterDamage().getValue()));
+                ship.getShipComponents().getAuraMediumList().forEach(aura -> aura.setBubbleDamage(aura.getBubbleDamage() * consumables.getProfile().getAAOuterDamage().getValue()));
+                ship.getShipComponents().getAuraNearList().forEach(aura -> aura.setBubbleDamage(aura.getBubbleDamage() * consumables.getProfile().getAAOuterDamage().getValue()));
+            }
+
+            if (consumables.getProfile().getAANearDamage() != null) {
+                ship.getShipComponents().getAuraFarList().forEach(aura -> aura.setAreaDamage(aura.getAreaDamage() * consumables.getProfile().getAANearDamage().getValue()));
+                ship.getShipComponents().getAuraMediumList().forEach(aura -> aura.setAreaDamage(aura.getAreaDamage() * consumables.getProfile().getAANearDamage().getValue()));
+                ship.getShipComponents().getAuraNearList().forEach(aura -> aura.setAreaDamage(aura.getAreaDamage() * consumables.getProfile().getAANearDamage().getValue()));
+            }
         }
 
         if (ship.getShipComponents().getArtillery() != null)
@@ -857,30 +878,7 @@ public class APIService
 
         if (ship.getDive_bomber() != null)
         {
-            if (consumables.getProfile().getAAPassiveAura() != null)
-            {
-                ship.getDive_bomber().setGunner_damage(ship.getDive_bomber().getGunner_damage() * consumables.getProfile().getAAPassiveAura().getValue());
-            }
 
-            if (consumables.getProfile().getAirplanesAntiAirAura() != null)
-            {
-                ship.getDive_bomber().setGunner_damage(ship.getDive_bomber().getGunner_damage() * consumables.getProfile().getAirplanesAntiAirAura().getValue());
-            }
-
-            if (consumables.getProfile().getAirplanesPrepareTime() != null)
-            {
-                ship.getDive_bomber().setPrepare_time(ship.getDive_bomber().getPrepare_time() * consumables.getProfile().getAirplanesPrepareTime().getValue());
-            }
-
-            if (consumables.getProfile().getAirplanesSpeed() != null)
-            {
-                ship.getDive_bomber().setCruise_speed(ship.getDive_bomber().getCruise_speed() * consumables.getProfile().getAirplanesSpeed().getValue());
-            }
-
-            if (consumables.getProfile().getAirplanesBomberVitalityTime() != null)
-            {
-                ship.getDive_bomber().setMax_health((int) (ship.getDive_bomber().getMax_health() * consumables.getProfile().getAirplanesBomberVitalityTime().getValue()));
-            }
         }
 
         if (ship.getEngine() != null)
@@ -890,30 +888,7 @@ public class APIService
 
         if (ship.getFighters() != null)
         {
-            if (consumables.getProfile().getAirplanesAntiAirAura() != null)
-            {
-                ship.getFighters().setAvg_damage((int) (ship.getFighters().getAvg_damage() * consumables.getProfile().getAirplanesAntiAirAura().getValue()));
-            }
 
-            if (consumables.getProfile().getAirplanesPrepareTime() != null)
-            {
-                ship.getFighters().setPrepare_time(ship.getFighters().getPrepare_time() * consumables.getProfile().getAirplanesPrepareTime().getValue());
-            }
-
-            if (consumables.getProfile().getAirplanesSpeed() != null)
-            {
-                ship.getFighters().setCruise_speed(ship.getFighters().getCruise_speed() * consumables.getProfile().getAirplanesSpeed().getValue());
-            }
-
-            if (consumables.getProfile().getAirplanesFighterVitalityTime() != null)
-            {
-                ship.getFighters().setMax_health(ship.getFighters().getMax_health() * consumables.getProfile().getAirplanesFighterVitalityTime().getValue());
-            }
-
-            if (consumables.getProfile().getAirplanesAmmoCount() != null)
-            {
-                ship.getFighters().setMax_ammo((int) (ship.getFighters().getMax_ammo() * consumables.getProfile().getAirplanesAmmoCount().getValue()));
-            }
         }
 
         if (ship.getFire_control() != null)
@@ -946,30 +921,7 @@ public class APIService
 
         if (ship.getTorpedo_bomber() != null)
         {
-            if (consumables.getProfile().getAAPassiveAura() != null)
-            {
-                ship.getTorpedo_bomber().setGunner_damage(ship.getTorpedo_bomber().getGunner_damage() * consumables.getProfile().getAAPassiveAura().getValue());
-            }
 
-            if (consumables.getProfile().getAirplanesAntiAirAura() != null)
-            {
-                ship.getTorpedo_bomber().setGunner_damage(ship.getTorpedo_bomber().getGunner_damage() * consumables.getProfile().getAirplanesAntiAirAura().getValue());
-            }
-
-            if (consumables.getProfile().getAirplanesPrepareTime() != null)
-            {
-                ship.getTorpedo_bomber().setPrepare_time(ship.getTorpedo_bomber().getPrepare_time() * consumables.getProfile().getAirplanesPrepareTime().getValue());
-            }
-
-            if (consumables.getProfile().getAirplanesSpeed() != null)
-            {
-                ship.getTorpedo_bomber().setCruise_speed(ship.getTorpedo_bomber().getCruise_speed() * consumables.getProfile().getAirplanesSpeed().getValue());
-            }
-
-            if (consumables.getProfile().getAirplanesBomberVitalityTime() != null)
-            {
-                ship.getTorpedo_bomber().setMax_health((int) (ship.getTorpedo_bomber().getMax_health() * consumables.getProfile().getAirplanesBomberVitalityTime().getValue()));
-            }
         }
 
         if (ship.getTorpedoes() != null)

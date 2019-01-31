@@ -1,6 +1,5 @@
 package WoWSSSC.model.gameparams.commanders;
 
-import WoWSSSC.model.gameparams.commanders.skills.*;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;

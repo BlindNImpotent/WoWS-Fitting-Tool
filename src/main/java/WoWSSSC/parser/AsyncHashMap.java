@@ -173,32 +173,33 @@ public class AsyncHashMap implements CommandLineRunner {
 
                 LinkedHashMap<String, Consumables> tempUpgrades = new LinkedHashMap<>(consumablesData.get().getData());
                 LinkedHashMap<String, LinkedHashMap<String, Consumables>> tempExteriors = new LinkedHashMap<>();
-                LinkedHashMap<String, Consumables> tempFlags = new LinkedHashMap<>();
+//                LinkedHashMap<String, Consumables> tempFlags = new LinkedHashMap<>();
                 LinkedHashMap<String, Consumables> tempPermoflage = new LinkedHashMap<>();
                 LinkedHashMap<String, Consumables> tempCamouflage = new LinkedHashMap<>();
                 LinkedHashMap<String, Commanders> tempCommanders = new LinkedHashMap<>(commandersData.get().getData());
                 LinkedHashMap<String, LinkedHashMap<String, UniqueTemp>> uniqueSkills = new LinkedHashMap<>();
 
                 consumablesData.get().getData().forEach((key, value1) -> {
-                    if (value1.getType().equals("Flags")) {
-                        List<String> stringsList = new ArrayList<>();
-                        LinkedHashMap<String, HashMap<String, String>> profileHashMap = mapper.convertValue(value1.getProfile(), new TypeReference<LinkedHashMap<String, HashMap<String, String>>>(){});
-
-                        profileHashMap.values().forEach(value -> {
-                            if (value != null) {
-                                stringsList.add("\n" + value.get("description"));
-                            }
-                        });
-
-                        String finalString = "";
-                        for (String s : stringsList) {
-                            finalString = finalString.concat(s);
-                        }
-                        value1.setDescription(value1.getDescription() + finalString);
-                        value1.setBonusDescription(finalString.replaceFirst("\n", ""));
-
-                        tempFlags.put(key, value1);
-                    } else if (value1.getType().equals("Camouflage")) {
+//                    if (value1.getType().equals("Flags")) {
+//                        List<String> stringsList = new ArrayList<>();
+//                        LinkedHashMap<String, HashMap<String, String>> profileHashMap = mapper.convertValue(value1.getProfile(), new TypeReference<LinkedHashMap<String, HashMap<String, String>>>(){});
+//
+//                        profileHashMap.values().forEach(value -> {
+//                            if (value != null) {
+//                                stringsList.add("\n" + value.get("description"));
+//                            }
+//                        });
+//
+//                        String finalString = "";
+//                        for (String s : stringsList) {
+//                            finalString = finalString.concat(s);
+//                        }
+//                        value1.setDescription(value1.getDescription() + finalString);
+//                        value1.setBonusDescription(finalString.replaceFirst("\n", ""));
+//
+//                        tempFlags.put(key, value1);
+//                    } else
+                    if (value1.getType().equals("Camouflage")) {
                         tempCamouflage.put(key, value1);
                     } else if (value1.getType().equals("Permoflage")) {
                         tempPermoflage.put(key, value1);
@@ -224,7 +225,7 @@ public class AsyncHashMap implements CommandLineRunner {
                     }
                 });
 
-                tempExteriors.put("Flags", tempFlags);
+//                tempExteriors.put("Flags", tempFlags);
                 tempExteriors.put("Camouflage", tempCamouflage);
                 tempExteriors.put("Permoflage", tempPermoflage);
 

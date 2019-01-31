@@ -10,6 +10,7 @@ import lombok.Data;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 @Data
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)
@@ -19,6 +20,11 @@ public class AirDefense
     private HashMap<String, Aura> auras = new HashMap<>();
     private HashSet<String> auraTypes = new HashSet<>();
     private float auraCoeff;
+    private float prioritySectorChangeDelay;
+    private float prioritySectorDisableDelay;
+    private float prioritySectorEnableDelay;
+    private float prioritySectorStrength;
+    private List<List<Float>> sectors;
 
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();

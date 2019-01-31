@@ -34,7 +34,7 @@
                         <div id="tab_left_modules" class="button_tab left modules select">Modules</div>
                         <div id="tab_left_upgrades" class="button_tab left upgrades">Upgrades</div>
                         <div id="tab_left_crewSkills" class="button_tab left crewSkills">Skills</div>
-                        <div id="tab_left_flags" class="button_tab left flags">Flags</div>
+                        <!--<div id="tab_left_flags" class="button_tab left flags">Flags</div>-->
                         <div id="tab_left_consumables" class="button_tab left consumables">Consumables</div>
                     </div>
                     <div class="left_info_box">
@@ -151,21 +151,21 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div id="flags" class="panel_left flags hide">
-                            <strong id="totalFlagsCount">Flags 0 / 8</strong>
-                            <table id="flagsTable" align="center">
-                                <tbody>
-                                <tr th:each="index : ${#numbers.sequence(0, exteriors.Flags.size() - 1, 6)}" th:id="${index / 6}">
-                                    <td th:each="flag : ${exteriors.Flags}" th:if="${flagStat.index % 3} == ${index / 6}">
-                                        <button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.consumable_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.consumable_id}" th:attr="data-index=${flagStat.index}">
-                                            <img th:src="${flag.value.image}"/><br />
-                                            <span th:text="${flag.value.name}"/>
-                                        </button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <!--<div id="flags" class="panel_left flags hide">-->
+                            <!--<strong id="totalFlagsCount">Flags 0 / 8</strong>-->
+                            <!--<table id="flagsTable" align="center">-->
+                                <!--<tbody>-->
+                                <!--<tr th:each="index : ${#numbers.sequence(0, exteriors.Flags.size() - 1, 6)}" th:id="${index / 6}">-->
+                                    <!--<td th:each="flag : ${exteriors.Flags}" th:if="${flagStat.index % 3} == ${index / 6}">-->
+                                        <!--<button th:title="${flag.value.description}" th:class="${(flags != null and #sets.contains(flags, #strings.toString(flag.value.consumable_id)))} ? button_flag_selected : button_flag" th:id="${flag.value.consumable_id}" th:attr="data-index=${flagStat.index}">-->
+                                            <!--<img th:src="${flag.value.image}"/><br />-->
+                                            <!--<span th:text="${flag.value.name}"/>-->
+                                        <!--</button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--</tbody>-->
+                            <!--</table>-->
+                        <!--</div>-->
                         <div id="consumables" class="panel_left consumables hide">
                         </div>
                     </div>

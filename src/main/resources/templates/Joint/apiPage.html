@@ -324,43 +324,50 @@
         <div th:if="${shipAPI.shipComponents.auraFarList.size() > 0 or shipAPI.shipComponents.auraMediumList.size() > 0 or shipAPI.shipComponents.auraNearList.size() > 0}" id="AAStats" class="panel_right AA hide" style="min-width: 300px;">
             <div id="anti_aircraft">
                 <strong>Anti Air</strong><br />
+                <th:block th:if="${shipAPI.shipComponents.airDefense != null}">
+                    <u style="float: left;">Sector</u><br />
+                    <span style="float: left;">Time to Change</span>
+                    <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.shipComponents.airDefense.prioritySectorChangeDelay, 1, 'COMMA') + ' s'}"/><br />
+                    <span style="float: left;">Strength</span>
+                    <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.shipComponents.airDefense.prioritySectorStrength * 100 - 100, 1, 'COMMA') + ' %'}"/><br />
+                </th:block>
                 <li th:each="aura : ${shipAPI.shipComponents.auraFarList}">
-                    <u style="float: left;">Far</u><br />
-                    <span style="float: left;">- Explosions Per Salvo</span>
+                    <u style="float: left;">Aura Far</u><br />
+                    <span style="float: left;">Explosion</span>
+                    <span style="float: right;" th:text="${#numbers.formatInteger(aura.bubbleDps, 1, 'COMMA') + ' dps'}"/><br />
+                    <span style="float: left;">- Count</span>
                     <span style="float: right;" th:text="${#numbers.formatInteger(aura.innerBubbleCount + aura.outerBubbleCount + aura.extraBubbleCount, 1, 'COMMA')}"/><br />
-                    <span style="float: left;">- Explosions DPS</span>
-                    <span style="float: right;" th:text="${#numbers.formatInteger(aura.bubbleDps, 1, 'COMMA')}"/><br />
-                    <span style="float: left;">- Continuous DPS</span>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(aura.areaDamage / aura.areaDamageFrequency, 1, 1)}"/><br />
-                    <span style="float: left;">- Hit Probability</span>
+                    <span style="float: left;">Area</span>
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(aura.areaDamage / aura.areaDamageFrequency, 1, 1) + ' dps'}"/><br />
+                    <span style="float: left;">Hit Probability</span>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(aura.hitChance * 100, 1, 1) + ' %'}"/><br />
-                    <span style="float: left;">- Activation</span>
+                    <span style="float: left;">Activation</span>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(aura.minDistance / 1000, 1, 2) + ' - ' + #numbers.formatDecimal(aura.maxDistance / 1000, 1, 2) + ' km'}"/><br />
                 </li>
                 <li th:each="aura : ${shipAPI.shipComponents.auraMediumList}">
-                    <u style="float: left;">Medium</u><br />
-                    <span style="float: left;">- Explosions Per Salvo</span>
+                    <u style="float: left;">Aura Medium</u><br />
+                    <span style="float: left;">Explosion</span>
+                    <span style="float: right;" th:text="${#numbers.formatInteger(aura.bubbleDps, 1, 'COMMA') + ' dps'}"/><br />
+                    <span style="float: left;">- Count</span>
                     <span style="float: right;" th:text="${#numbers.formatInteger(aura.innerBubbleCount + aura.outerBubbleCount + aura.extraBubbleCount, 1, 'COMMA')}"/><br />
-                    <span style="float: left;">- Explosions DPS</span>
-                    <span style="float: right;" th:text="${#numbers.formatInteger(aura.bubbleDps, 1, 'COMMA')}"/><br />
-                    <span style="float: left;">- Continuous DPS</span>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(aura.areaDamage / aura.areaDamageFrequency, 1, 1)}"/><br />
-                    <span style="float: left;">- Hit Probability</span>
+                    <span style="float: left;">Area</span>
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(aura.areaDamage / aura.areaDamageFrequency, 1, 1) + ' dps'}"/><br />
+                    <span style="float: left;">Hit Probability</span>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(aura.hitChance * 100, 1, 1) + ' %'}"/><br />
-                    <span style="float: left;">- Activation</span>
+                    <span style="float: left;">Activation</span>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(aura.minDistance / 1000, 1, 2) + ' - ' + #numbers.formatDecimal(aura.maxDistance / 1000, 1, 2) + ' km'}"/><br />
                 </li>
                 <li th:each="aura : ${shipAPI.shipComponents.auraNearList}">
-                    <u style="float: left;">Near</u><br />
-                    <span style="float: left;">- Explosions Per Salvo</span>
+                    <u style="float: left;">Aura Near</u><br />
+                    <span style="float: left;">Explosion</span>
+                    <span style="float: right;" th:text="${#numbers.formatInteger(aura.bubbleDps, 1, 'COMMA') + ' dps'}"/><br />
+                    <span style="float: left;">- Count</span>
                     <span style="float: right;" th:text="${#numbers.formatInteger(aura.innerBubbleCount + aura.outerBubbleCount + aura.extraBubbleCount, 1, 'COMMA')}"/><br />
-                    <span style="float: left;">- Explosions DPS</span>
-                    <span style="float: right;" th:text="${#numbers.formatInteger(aura.bubbleDps, 1, 'COMMA')}"/><br />
-                    <span style="float: left;">- Continuous DPS</span>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(aura.areaDamage / aura.areaDamageFrequency, 1, 1)}"/><br />
-                    <span style="float: left;">- Hit Probability</span>
+                    <span style="float: left;">Area</span>
+                    <span style="float: right;" th:text="${#numbers.formatDecimal(aura.areaDamage / aura.areaDamageFrequency, 1, 1) + ' dps'}"/><br />
+                    <span style="float: left;">Hit Probability</span>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(aura.hitChance * 100, 1, 1) + ' %'}"/><br />
-                    <span style="float: left;">- Activation</span>
+                    <span style="float: left;">Activation</span>
                     <span style="float: right;" th:text="${#numbers.formatDecimal(aura.minDistance / 1000, 1, 2) + ' - ' + #numbers.formatDecimal(aura.maxDistance / 1000, 1, 2) + ' km'}"/><br />
                 </li>
             </div>

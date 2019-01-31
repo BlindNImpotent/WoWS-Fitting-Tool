@@ -1,5 +1,5 @@
 {
-	"2019-01-30": "Carriers removed until CV changes starting 0.8.0 are fully implemented to WG API first",
+	"2019-01-30": "AA changes implemented. Please report if there are any issues.<br /><br />Carriers removed until CV changes in 0.8.0 are fully implemented here.<br />Flags removed until WG API implements them properly.",
 	"2018-10-24": "Max dispersion calculation corrected",
 	"2018-10-22": "Vertical dispersion is now affected by accuracy bonus change.",
 	"2018-09-19": "Updated for 0.7.9.0. However research xp calculation for UK DD does not work.",
