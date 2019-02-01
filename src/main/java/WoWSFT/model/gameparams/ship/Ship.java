@@ -4,12 +4,15 @@ package WoWSFT.model.gameparams.ship;
 import WoWSFT.config.WoWSFT;
 import WoWSFT.model.gameparams.TypeInfo;
 import WoWSFT.model.gameparams.ship.abilities.ShipAbilities;
+import WoWSFT.model.gameparams.ship.component.airdefense.AirDefense;
+import WoWSFT.model.gameparams.ship.component.artillery.Artillery;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgradeInfo;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Data
@@ -19,21 +22,18 @@ public class Ship
 {
     private HashMap<String, Object> components = new HashMap<>();
 
-    private HashMap<String, Object> airArmament = new HashMap<>();
-    private HashMap<String, Object> airDefense = new HashMap<>();
-    private HashMap<String, Object> artillery = new HashMap<>();
-    private HashMap<String, Object> atba = new HashMap<>();
-    private HashMap<String, Object> directors = new HashMap<>();
-    private HashMap<String, Object> engine = new HashMap<>();
-    private HashMap<String, Object> finders = new HashMap<>();
-    private HashMap<String, Object> fireControl = new HashMap<>();
-    private HashMap<String, Object> hull = new HashMap<>();
-    private HashMap<String, Object> radars = new HashMap<>();
-    private HashMap<String, Object> torpedoes = new HashMap<>();
-    private HashMap<String, Object> flightControl = new HashMap<>();
-    private HashMap<String, Object> diveBomber = new HashMap<>();
-    private HashMap<String, Object> fighter = new HashMap<>();
-    private HashMap<String, Object> torpedoBomber = new HashMap<>();
+    private LinkedHashMap<String, Object> airArmament = new LinkedHashMap<>();
+    private LinkedHashMap<String, AirDefense> airDefense = new LinkedHashMap<>();
+    private LinkedHashMap<String, Artillery> artillery = new LinkedHashMap<>();
+    private LinkedHashMap<String, Object> atba = new LinkedHashMap<>();
+    private LinkedHashMap<String, Object> engine = new LinkedHashMap<>();
+    private LinkedHashMap<String, Object> fireControl = new LinkedHashMap<>();
+    private LinkedHashMap<String, Object> hull = new LinkedHashMap<>();
+    private LinkedHashMap<String, Object> torpedoes = new LinkedHashMap<>();
+    private LinkedHashMap<String, Object> flightControl = new LinkedHashMap<>();
+    private LinkedHashMap<String, Object> diveBomber = new LinkedHashMap<>();
+    private LinkedHashMap<String, Object> fighter = new LinkedHashMap<>();
+    private LinkedHashMap<String, Object> torpedoBomber = new LinkedHashMap<>();
 
     private ShipAbilities ShipAbilities;
     private ShipUpgradeInfo ShipUpgradeInfo;
@@ -55,6 +55,7 @@ public class Ship
     private String peculiarity;
     private List<Float> steerAngle;
     private TypeInfo typeinfo;
+    private String unpeculiarShip;
     private int weight;
 
     @JsonAnySetter
