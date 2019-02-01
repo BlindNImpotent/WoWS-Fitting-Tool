@@ -1,6 +1,7 @@
 package WoWSFT.model.gameparams.ship.component.airdefense;
 
 import WoWSFT.config.WoWSFT;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
@@ -25,7 +26,8 @@ public class Aura
     private float innerBubbleCount;
     private List<Float> innerBubbleSpawnTimeRange;
     private float innerBubbleZone;
-    private boolean isJoint;
+    @JsonAlias("isJoint")
+    private boolean joint;
     private float maxBubbleActivationDelay;
     private float maxDistance;
     private float maxDistanceStartWorkGap;

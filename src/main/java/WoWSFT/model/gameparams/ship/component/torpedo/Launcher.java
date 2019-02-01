@@ -21,8 +21,8 @@ public class Launcher
     private String index;
     private List<Float> mainSector;
     private String name;
-    private float numAmmos;
-    private float numBarrels;
+    private int numAmmos;
+    private int numBarrels;
     private List<Float> position;
     private List<Float> rotationSpeed;
     private List<Float> shootSector;

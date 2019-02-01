@@ -1,6 +1,9 @@
 package WoWSFT.parser;
 
 import WoWSFT.model.gameparams.TypeInfo;
+import WoWSFT.model.gameparams.consumable.Consumable;
+import WoWSFT.model.gameparams.modernization.Modernization;
+import WoWSFT.model.gameparams.modernization.Upgrades;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.component.airdefense.AirDefense;
 import WoWSFT.model.gameparams.ship.component.artillery.Artillery;
@@ -13,6 +16,7 @@ import WoWSFT.model.gameparams.ship.upgrades.ShipUpgrade;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -93,15 +97,25 @@ public class JsonParser
         HashMap<String, LinkedHashMap> temp = mapper.readValue(GameParamsFile.getInputStream(), new TypeReference<HashMap<String, LinkedHashMap>>(){});
 
         HashMap<String, HashMap<String, HashMap<String, Ship>>> tempShips = new HashMap<>();
+        HashMap<String, Consumable> tempConsumables = new HashMap<>();
+        Upgrades tempUpgrades = new Upgrades();
 
         temp.forEach((key, value) -> {
             TypeInfo typeInfo = mapper.convertValue(value.get("typeinfo"), TypeInfo.class);
-            if (typeInfo != null && typeInfo.getType().equalsIgnoreCase("Ship")
-                    && !excludeShipNations.contains(typeInfo.getNation()) && !excludeShipSpecies.contains(typeInfo.getSpecies())) {
+
+            if (typeInfo.getType().equalsIgnoreCase("Ship") && !excludeShipNations.contains(typeInfo.getNation()) && !excludeShipSpecies.contains(typeInfo.getSpecies())) {
                 Ship ship = mapper.convertValue(value, Ship.class);
                 if (!excludeShipGroups.contains(ship.getGroup()) && StringUtils.isEmpty(ship.getDefaultCrew())) {
                     addShips(ship, tempShips);
                 }
+            }
+            else if (typeInfo.getType().equalsIgnoreCase("Modernization")) {
+                Modernization modernization = mapper.convertValue(value, Modernization.class);
+                setUpgrades(tempUpgrades, modernization);
+            }
+            else if (typeInfo.getType().equalsIgnoreCase("Ability") && !excludeShipNations.contains(typeInfo.getNation()) && !key.contains("Super")) {
+                Consumable consumable = mapper.convertValue(value, Consumable.class);
+                tempConsumables.put(key, consumable);
             }
 
 //            nameToId.put(key, String.valueOf(value.get("id")));
@@ -110,6 +124,8 @@ public class JsonParser
         });
 
         gameParamsHM.put("ships", tempShips);
+        gameParamsHM.put("upgrades", tempUpgrades);
+        gameParamsHM.put("consumables", tempConsumables);
 
         temp.clear();
     }
@@ -119,6 +135,7 @@ public class JsonParser
         sortShipUpgradeInfo(ship);
         sortComponents(ship);
         setRealShipType(ship);
+        setAbilitySlots(ship);
 
         if (tempShips.get(ship.getNavalFlag()) == null) {
             tempShips.put(ship.getNavalFlag(), new HashMap<String, HashMap<String, Ship>>(){});
@@ -127,20 +144,20 @@ public class JsonParser
             tempShips.get(ship.getNavalFlag()).put(ship.getRealShipType(), new HashMap<String, Ship>(){});
         }
 
-        tempShips.get(ship.getNavalFlag()).get(ship.getRealShipType()).put(((String) global.get("IDS_" + ship.getIndex().toUpperCase())).replaceAll(regex, ""), ship);
+        tempShips.get(ship.getNavalFlag()).get(ship.getRealShipType()).put(global.get("IDS_" + ship.getIndex().toUpperCase() + "_FULL").toString(), ship);
     }
 
     private void sortShipUpgradeInfo(Ship ship)
     {
-        ship.getShipUpgradeInfo().getArtillery().sort(Comparator.comparing(ShipUpgrade::getName).thenComparingInt(ShipUpgrade::getPosition));
-        ship.getShipUpgradeInfo().getEngine().sort(Comparator.comparing(ShipUpgrade::getName).thenComparingInt(ShipUpgrade::getPosition));
-        ship.getShipUpgradeInfo().getHull().sort(Comparator.comparing(ShipUpgrade::getName).thenComparingInt(ShipUpgrade::getPosition));
-        ship.getShipUpgradeInfo().getSuo().sort(Comparator.comparing(ShipUpgrade::getName).thenComparingInt(ShipUpgrade::getPosition));
-        ship.getShipUpgradeInfo().getTorpedoes().sort(Comparator.comparing(ShipUpgrade::getName).thenComparingInt(ShipUpgrade::getPosition));
-        ship.getShipUpgradeInfo().getFlightControl().sort(Comparator.comparing(ShipUpgrade::getName).thenComparingInt(ShipUpgrade::getPosition));
-        ship.getShipUpgradeInfo().getDiveBomber().sort(Comparator.comparing(ShipUpgrade::getName).thenComparingInt(ShipUpgrade::getPosition));
-        ship.getShipUpgradeInfo().getFighter().sort(Comparator.comparing(ShipUpgrade::getName).thenComparingInt(ShipUpgrade::getPosition));
-        ship.getShipUpgradeInfo().getTorpedoBomber().sort(Comparator.comparing(ShipUpgrade::getName).thenComparingInt(ShipUpgrade::getPosition));
+        ship.getShipUpgradeInfo().getArtillery().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
+        ship.getShipUpgradeInfo().getEngine().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
+        ship.getShipUpgradeInfo().getHull().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
+        ship.getShipUpgradeInfo().getSuo().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
+        ship.getShipUpgradeInfo().getTorpedoes().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
+        ship.getShipUpgradeInfo().getFlightControl().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
+        ship.getShipUpgradeInfo().getDiveBomber().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
+        ship.getShipUpgradeInfo().getFighter().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
+        ship.getShipUpgradeInfo().getTorpedoBomber().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
     }
 
     private void sortComponents(Ship ship)
@@ -155,7 +172,7 @@ public class JsonParser
         ship.getShipUpgradeInfo().getFighter().forEach(upgrade -> addToShipComponents(ship, upgrade.getComponents()));
         ship.getShipUpgradeInfo().getTorpedoBomber().forEach(upgrade -> addToShipComponents(ship, upgrade.getComponents()));
 
-        ship.setComponents(null);
+        ship.setComponents(new HashMap<>());
     }
 
     private void addToShipComponents(Ship ship, ShipComponents shipComponents)
@@ -182,6 +199,37 @@ public class JsonParser
         }
         else {
             ship.setRealShipType("Premium");
+        }
+    }
+
+    private void setAbilitySlots(Ship ship)
+    {
+        if (CollectionUtils.isEmpty(ship.getShipAbilities().getAbilitySlot0().getAbils())) {
+            ship.getShipAbilities().setAbilitySlot0(null);
+        }
+        if (CollectionUtils.isEmpty(ship.getShipAbilities().getAbilitySlot1().getAbils())) {
+            ship.getShipAbilities().setAbilitySlot1(null);
+        }
+        if (CollectionUtils.isEmpty(ship.getShipAbilities().getAbilitySlot2().getAbils())) {
+            ship.getShipAbilities().setAbilitySlot2(null);
+        }
+        if (CollectionUtils.isEmpty(ship.getShipAbilities().getAbilitySlot3().getAbils())) {
+            ship.getShipAbilities().setAbilitySlot3(null);
+        }
+        if (CollectionUtils.isEmpty(ship.getShipAbilities().getAbilitySlot4().getAbils())) {
+            ship.getShipAbilities().setAbilitySlot4(null);
+        }
+    }
+
+    private void setUpgrades(Upgrades upgrades, Modernization modernization)
+    {
+        switch (modernization.getSlot()) {
+            case 0: upgrades.getSlot0().put(modernization.getName(), modernization); break;
+            case 1: upgrades.getSlot1().put(modernization.getName(), modernization); break;
+            case 2: upgrades.getSlot2().put(modernization.getName(), modernization); break;
+            case 3: upgrades.getSlot3().put(modernization.getName(), modernization); break;
+            case 4: upgrades.getSlot4().put(modernization.getName(), modernization); break;
+            case 5: upgrades.getSlot5().put(modernization.getName(), modernization); break;
         }
     }
 }

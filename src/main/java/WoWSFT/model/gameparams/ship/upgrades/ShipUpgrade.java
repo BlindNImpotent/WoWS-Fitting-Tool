@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -14,7 +15,7 @@ public class ShipUpgrade
 {
     private ShipComponents components;
     private List<String> disabledAbilities;
-    private List<String> nextShips;
+    private List<String> nextShips = new ArrayList<>();
     private String name;
     private String prev;
     private String ucType;

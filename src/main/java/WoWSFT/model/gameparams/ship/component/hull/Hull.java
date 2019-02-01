@@ -1,6 +1,7 @@
 package WoWSFT.model.gameparams.ship.component.hull;
 
 import WoWSFT.config.WoWSFT;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
@@ -23,13 +24,14 @@ public class Hull
     private float enginePower;
     private List<Float> floodParams;
     private float health;
-    private boolean isBlind;
+    @JsonAlias("isBlind")
+    private boolean blind;
     private float mass;
     private float maxBuoyancyLevel;
     private float maxBuoyancySpeed;
     private float maxRudderAngle;
     private float maxSpeed;
-    private float numOfParts;
+    private int numOfParts;
     private float pushingMaxRudderAngle;
     private float pushingMinRudderAngle;
     private float regenerationHPSpeed;

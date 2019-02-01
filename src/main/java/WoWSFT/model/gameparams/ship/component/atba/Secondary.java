@@ -25,7 +25,7 @@ public class Secondary
     private String index;
     private float minRadius;
     private String name;
-    private float numBarrels;
+    private int numBarrels;
     private float radiusOnDelim;
     private float radiusOnMax;
     private float radiusOnZero;

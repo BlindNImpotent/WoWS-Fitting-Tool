@@ -19,7 +19,7 @@ public class Torpedo
 {
     private List<Launcher> launchers = new ArrayList<>();
 
-    private float numTorpsInSalvo;
+    private int numTorpsInSalvo;
     private float oneShotWaitTime;
     private boolean useGroups;
     private boolean useOneShot;

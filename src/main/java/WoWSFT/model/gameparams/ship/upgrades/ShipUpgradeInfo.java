@@ -9,6 +9,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Data
@@ -24,6 +25,8 @@ public class ShipUpgradeInfo
     private List<ShipUpgrade> diveBomber = new ArrayList<>();
     private List<ShipUpgrade> fighter = new ArrayList<>();
     private List<ShipUpgrade> torpedoBomber = new ArrayList<>();
+
+    private HashMap<String, ShipUpgrade> upgrades = new HashMap<>();
 
     private int costCR;
     private int costGold;
@@ -48,6 +51,8 @@ public class ShipUpgradeInfo
         else {
             upgrade.setPosition(2);
         }
+
+        upgrades.put(upgrade.getName(), upgrade);
 
         switch (upgrade.getUcTypeShort()) {
             case "artillery": artillery.add(upgrade); break;

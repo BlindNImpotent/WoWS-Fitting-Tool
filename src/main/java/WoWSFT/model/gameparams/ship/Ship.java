@@ -40,12 +40,11 @@ public class Ship
     private float apDamageLimitCoeff;
     private BattleLevels battleLevels;
     private boolean canEquipCamouflage;
-    private float deathTimeFactor;
     private String defaultCrew;
     private String group;
     private long id;
     private String index;
-    @JsonSetter("isPaperShip")
+    @JsonAlias("isPaperShip")
     private boolean paperShip;
     private int level;
     private int maxEquippedFlags;
@@ -55,7 +54,6 @@ public class Ship
     private String peculiarity;
     private List<Float> steerAngle;
     private TypeInfo typeinfo;
-    private String unpeculiarShip;
     private int weight;
     private String realShipType;
 

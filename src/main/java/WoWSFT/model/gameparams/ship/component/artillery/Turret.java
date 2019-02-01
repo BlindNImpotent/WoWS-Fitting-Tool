@@ -31,7 +31,7 @@ public class Turret
     private float minEllipseRanging;
     private float minRadius;
     private String name;
-    private float numBarrels;
+    private int numBarrels;
     private float onMoveTarPosCoeffDelim;
     private float onMoveTarPosCoeffMaxDist;
     private float onMoveTarPosCoeffZero;
