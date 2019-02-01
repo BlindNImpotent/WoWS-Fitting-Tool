@@ -51,6 +51,8 @@ public class JsonParser
 
     private ObjectMapper mapper = new ObjectMapper();
 
+    private static final String regex = "[^\\p{L}\\p{N}]+";
+
     private static HashSet<String> excludeShipGroups = new HashSet<>(Arrays.asList("unavailable", "disabled", "preserved", "clan"));
     private static HashSet<String> excludeShipNations = new HashSet<>(Arrays.asList("Events", "disabled", "preserved", "clan"));
     private static HashSet<String> excludeShipSpecies = new HashSet<>(Arrays.asList("Auxiliary", "Submarine", "AirCarrier"));
@@ -68,7 +70,7 @@ public class JsonParser
         temp.clear();
     }
 
-    @Async
+//    @Async
     public void setGlobal() throws IOException
     {
         log.info("Setting up Global");
@@ -81,7 +83,7 @@ public class JsonParser
         temp.clear();
     }
 
-    @Async
+//    @Async
     public void setGameParams() throws IOException
     {
         log.info("Setting up GameParams");
@@ -90,18 +92,16 @@ public class JsonParser
 
         HashMap<String, LinkedHashMap> temp = mapper.readValue(GameParamsFile.getInputStream(), new TypeReference<HashMap<String, LinkedHashMap>>(){});
 
+        HashMap<String, HashMap<String, HashMap<String, Ship>>> tempShips = new HashMap<>();
+
         temp.forEach((key, value) -> {
             TypeInfo typeInfo = mapper.convertValue(value.get("typeinfo"), TypeInfo.class);
             if (typeInfo != null && typeInfo.getType().equalsIgnoreCase("Ship")
                     && !excludeShipNations.contains(typeInfo.getNation()) && !excludeShipSpecies.contains(typeInfo.getSpecies())) {
                 Ship ship = mapper.convertValue(value, Ship.class);
                 if (!excludeShipGroups.contains(ship.getGroup()) && StringUtils.isEmpty(ship.getDefaultCrew())) {
-                    addShips(ship);
+                    addShips(ship, tempShips);
                 }
-
-
-//                System.out.println(ship);
-//                addShips(mapper.convertValue(value, Ship.class));
             }
 
 //            nameToId.put(key, String.valueOf(value.get("id")));
@@ -109,17 +109,25 @@ public class JsonParser
 //            gameParamsHM.put(String.valueOf(value.get("id")), value);
         });
 
+        gameParamsHM.put("ships", tempShips);
+
         temp.clear();
     }
 
-    private void addShips(Ship ship)
+    private void addShips(Ship ship, HashMap<String, HashMap<String, HashMap<String, Ship>>> tempShips)
     {
-        if (ship.getIndex().equalsIgnoreCase("PASB018")) {
-            sortShipUpgradeInfo(ship);
-            sortComponents(ship);
-//            System.out.println(ship);
-            gameParamsHM.put(ship.getIndex(), ship);
+        sortShipUpgradeInfo(ship);
+        sortComponents(ship);
+        setRealShipType(ship);
+
+        if (tempShips.get(ship.getNavalFlag()) == null) {
+            tempShips.put(ship.getNavalFlag(), new HashMap<String, HashMap<String, Ship>>(){});
         }
+        if (tempShips.get(ship.getNavalFlag()).get(ship.getRealShipType()) == null) {
+            tempShips.get(ship.getNavalFlag()).put(ship.getRealShipType(), new HashMap<String, Ship>(){});
+        }
+
+        tempShips.get(ship.getNavalFlag()).get(ship.getRealShipType()).put(((String) global.get("IDS_" + ship.getIndex().toUpperCase())).replaceAll(regex, ""), ship);
     }
 
     private void sortShipUpgradeInfo(Ship ship)
@@ -165,5 +173,15 @@ public class JsonParser
         shipComponents.getDiveBomber().forEach(component -> ship.getDiveBomber().put(component, ship.getComponents().get(component)));
         shipComponents.getFighter().forEach(component -> ship.getFighter().put(component, ship.getComponents().get(component)));
         shipComponents.getTorpedoBomber().forEach(component -> ship.getTorpedoBomber().put(component, ship.getComponents().get(component)));
+    }
+
+    private void setRealShipType(Ship ship)
+    {
+        if ("upgradeable".equalsIgnoreCase(ship.getGroup())) {
+            ship.setRealShipType(ship.getTypeinfo().getSpecies());
+        }
+        else {
+            ship.setRealShipType("Premium");
+        }
     }
 }

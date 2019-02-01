@@ -7,8 +7,7 @@ import WoWSFT.model.gameparams.ship.abilities.ShipAbilities;
 import WoWSFT.model.gameparams.ship.component.airdefense.AirDefense;
 import WoWSFT.model.gameparams.ship.component.artillery.Artillery;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgradeInfo;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -46,7 +45,8 @@ public class Ship
     private String group;
     private long id;
     private String index;
-    private boolean isPaperShip;
+    @JsonSetter("isPaperShip")
+    private boolean paperShip;
     private int level;
     private int maxEquippedFlags;
     private String name;
@@ -57,6 +57,7 @@ public class Ship
     private TypeInfo typeinfo;
     private String unpeculiarShip;
     private int weight;
+    private String realShipType;
 
     @JsonAnySetter
     public void setUpComponents(String name, Object value)

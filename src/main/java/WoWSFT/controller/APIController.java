@@ -1,10 +1,10 @@
 package WoWSFT.controller;
 
+import WoWSFT.model.gameparams.ship.Ship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -19,9 +19,9 @@ public class APIController extends ExceptionController
     private HashMap<String, Object> gameParamsHM;
 
     @ResponseBody
-    @GetMapping(value = "/")
-    public Object tester()
+    @GetMapping(value = "/data")
+    public Object tester(@RequestParam String nation, @RequestParam String shipType, @RequestParam String ship)
     {
-        return gameParamsHM;
+        return ((HashMap<String, HashMap<String, HashMap<String, Ship>>>) gameParamsHM.get("ships")).get(nation).get(shipType).get(ship);
     }
 }

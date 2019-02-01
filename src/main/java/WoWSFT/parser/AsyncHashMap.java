@@ -37,6 +37,10 @@ public class AsyncHashMap implements CommandLineRunner
     @Qualifier(value = "loadFinish")
     private HashMap<String, Integer> loadFinish;
 
+    @Autowired
+    @Qualifier (value = "global")
+    private HashMap<String, Object> global;
+
     private ObjectMapper mapper = new ObjectMapper();
 
     @Override
@@ -44,6 +48,10 @@ public class AsyncHashMap implements CommandLineRunner
     {
         log.info("test");
 
+        jsonParser.setGlobal();
         jsonParser.setGameParams();
+
+        loadFinish.put("loadFinish", 1);
+        log.info("finish");
     }
 }
