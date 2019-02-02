@@ -55,7 +55,10 @@ public class Ship
     private List<Float> steerAngle;
     private TypeInfo typeinfo;
     private int weight;
+
     private String realShipType;
+    private String fullName;
+    private boolean research;
 
     @JsonAnySetter
     public void setUpComponents(String name, Object value)
