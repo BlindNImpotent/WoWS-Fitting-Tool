@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script>
+        //    <![CDATA[
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event:'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5KDG7W6');
+        //    ]]>
+    </script>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8"/>
+    <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/FittingTool/FittingTool.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
+    <script th:src="@{/js/jquery/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/angle/arty.js}"></script>
+    <script th:src="@{/js/angle/torp.js}"></script>
+    <title>WoWS Fitting Tool by Aesis</title>
+</head>
+<body>
+<noscript>
+    //    <![CDATA[
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5KDG7W6" height="0" width="0" style="display:none; visibility:hidden;"></iframe>
+    //    ]]>
+</noscript>
+<header>
+    <div th:include="top :: top" id="top">
+    </div>
+    <div id="shipsList">
+        <nav>
+            <ul>
+                <li th:each="nation : ${nations}">
+                    <span th:text="${nation.key}"></span>
+                    <ul>
+                        <li th:each="realShipType : ${nation.value}">
+                            <span th:text="${realShipType.key}"></span>
+                            <ul>
+                                <li th:each="shipType : ${realShipType.value}" th:style="${realShipType.key == shipType.key ? '' : 'width: 100px;'}">
+                                    <th:block th:if="${realShipType.key == shipType.key}">
+                                        <th:block th:each="tier : ${shipType.value}">
+                                            <th:block th:each="ship : ${tier.value}">
+                                                <span th:text="${tier.key + ' - ' + ship.name}" th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
+                                            </th:block>
+                                        </th:block>
+                                    </th:block>
+                                    <th:block th:unless="${realShipType.key == shipType.key}">
+                                        <span th:text="${shipType.key}"></span>
+                                        <ul>
+                                            <th:block th:each="tier : ${shipType.value}">
+                                                <li th:each="ship : ${tier.value}">
+                                                    <span th:text="${tier.key + ' - ' + ship.name}" th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
+                                                </li>
+                                            </th:block>
+                                        </ul>
+                                    </th:block>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<main id="main">
+    <th:block th:include="Joint/shipSelect :: warshipStats"></th:block>
+    <th:block th:include="bottom"></th:block>
+</main>
+<script th:inline="javascript">
+    // <![CDATA[
+
+    // ]]>
+</script>
+</body>
+</html>

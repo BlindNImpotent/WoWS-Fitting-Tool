@@ -28,6 +28,7 @@ import org.springframework.scheduling.annotation.Async;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import static WoWSFT.model.Constant.*;
 
@@ -98,12 +99,12 @@ public class JsonParser
 
         Resource GameParamsFile = new ClassPathResource("/json/live/GameParams.json");
 
-        HashMap<String, LinkedHashMap> temp = mapper.readValue(GameParamsFile.getInputStream(), new TypeReference<HashMap<String, LinkedHashMap>>(){});
+        LinkedHashMap<String, LinkedHashMap> temp = mapper.readValue(GameParamsFile.getInputStream(), new TypeReference<LinkedHashMap<String, LinkedHashMap>>(){});
 
         HashMap<String, Ship> tempShips = new HashMap<>();
         HashMap<String, Consumable> tempConsumables = new HashMap<>();
         //nation, realShipType, shipType, tier, shipList
-        HashMap<String, HashMap<String, HashMap<String, HashMap<Integer, List<ShipIndex>>>>> shipsList = new HashMap<>();
+        LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList = new LinkedHashMap<>();
         Upgrades tempUpgrades = new Upgrades();
 
         temp.forEach((key, value) -> {
@@ -129,8 +130,6 @@ public class JsonParser
 //            gameParamsHM.put(String.valueOf(value.get("id")), value);
         });
 
-
-
         gameParamsHM.put(TYPE_SHIP, tempShips);
         gameParamsHM.put(TYPE_SHIP_LIST, sortShipsList(tempShips, shipsList));
         gameParamsHM.put(TYPE_UPGRADE, sortUpgrades(tempUpgrades));
@@ -139,7 +138,7 @@ public class JsonParser
         temp.clear();
     }
 
-    private void addShips(Ship ship, HashMap<String, Ship> tempShips, HashMap<String, HashMap<String, HashMap<String, HashMap<Integer, List<ShipIndex>>>>> shipsList)
+    private void addShips(Ship ship, HashMap<String, Ship> tempShips, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList)
     {
         sortShipUpgradeInfo(ship);
         sortComponents(ship);
@@ -232,18 +231,18 @@ public class JsonParser
         }
     }
 
-    private void addToShipsList(Ship ship, HashMap<String, HashMap<String, HashMap<String, HashMap<Integer, List<ShipIndex>>>>> shipsList)
+    private void addToShipsList(Ship ship, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList)
     {
         if (!shipsList.containsKey(ship.getTypeinfo().getNation())) {
-            shipsList.put(ship.getTypeinfo().getNation(), new HashMap<>());
+            shipsList.put(ship.getTypeinfo().getNation(), new LinkedHashMap<>());
         }
 
         if (!shipsList.get(ship.getTypeinfo().getNation()).containsKey(ship.getRealShipType())) {
-            shipsList.get(ship.getTypeinfo().getNation()).put(ship.getRealShipType(), new HashMap<>());
+            shipsList.get(ship.getTypeinfo().getNation()).put(ship.getRealShipType(), new LinkedHashMap<>());
         }
 
         if (!shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipType()).containsKey(ship.getTypeinfo().getSpecies())) {
-            shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipType()).put(ship.getTypeinfo().getSpecies(), new HashMap<>());
+            shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipType()).put(ship.getTypeinfo().getSpecies(), new LinkedHashMap<>());
         }
 
         if (!shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipType()).get(ship.getTypeinfo().getSpecies()).containsKey(ship.getLevel())) {
@@ -265,39 +264,53 @@ public class JsonParser
         }
     }
 
-    private HashMap<String, HashMap<String, HashMap<String, HashMap<Integer, List<ShipIndex>>>>> sortShipsList(HashMap<String, Ship> tempShips, HashMap<String, HashMap<String, HashMap<String, HashMap<Integer, List<ShipIndex>>>>> shipsList)
+    private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> sortShipsList(
+            HashMap<String, Ship> tempShips, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList)
     {
-        shipsList.forEach((nation, realShipTypes) -> realShipTypes.forEach((realShipType, shipTypes) -> shipTypes.forEach((shipType, tiers) -> {
-            int tier = 10;
-            while (tier > 0) {
-                if (CollectionUtils.isNotEmpty(tiers.get(tier))) {
-                    tiers.get(tier).sort(Comparator.comparing(ShipIndex::getIndex));
-
-                    int cTier = tier;
-                    AtomicInteger pos = new AtomicInteger(1);
-                    tiers.get(tier).forEach(ship -> {
-                        if (ship.isResearch()) {
-                            if (ship.getPosition() == 0) {
-                                ship.setPosition(pos.getAndIncrement());
-                            }
-
-                            if (CollectionUtils.isNotEmpty(shipsList.get(nation).get(realShipType).get(shipType).get(cTier - 1))) {
-                                shipsList.get(nation).get(realShipType).get(shipType).get(cTier - 1).forEach(tShip -> {
-                                    if (tempShips.get(tShip.getIndex()).getTypeinfo().getSpecies().equalsIgnoreCase(shipType)) {
-                                        if (tempShips.get(tShip.getIndex()).getShipUpgradeInfo().getUpgrades().values().stream().anyMatch(u -> u.getNextShips().contains(ship.getIdentifier()))
-                                            && tempShips.get(tShip.getIndex()).getShipUpgradeInfo().getUpgrades().values().stream().filter(u -> CollectionUtils.isNotEmpty(u.getNextShips())).count() == 1) {
-                                            tShip.setPosition(ship.getPosition());
-                                        }
-                                    }
-                                });
-                            }
-                        }
+        shipsList.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(nation -> {
+            nation.getValue().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(realShipType -> {
+                realShipType.getValue().forEach((shipType, tiers) -> {
+                    tiers.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(tier -> {
+                        shipsList.get(nation.getKey()).get(realShipType.getKey()).get(shipType).remove(tier.getKey());
+                        shipsList.get(nation.getKey()).get(realShipType.getKey()).get(shipType).put(tier.getKey(), tier.getValue());
                     });
-                    tiers.get(tier).sort(Comparator.comparingInt(ShipIndex::getPosition));
-                }
-                tier--;
-            }
-        })));
+
+                    int tier = 10;
+                    while (tier > 0) {
+                        if (CollectionUtils.isNotEmpty(tiers.get(tier))) {
+                            tiers.get(tier).sort(Comparator.comparing(ShipIndex::getIndex));
+
+                            int cTier = tier;
+                            AtomicInteger pos = new AtomicInteger(1);
+                            tiers.get(tier).forEach(ship -> {
+                                if (ship.isResearch()) {
+                                    if (ship.getPosition() == 0) {
+                                        ship.setPosition(pos.getAndIncrement());
+                                    }
+
+                                    if (CollectionUtils.isNotEmpty(shipsList.get(nation.getKey()).get(realShipType.getKey()).get(shipType).get(cTier - 1))) {
+                                        shipsList.get(nation.getKey()).get(realShipType.getKey()).get(shipType).get(cTier - 1).forEach(tShip -> {
+                                            if (tempShips.get(tShip.getIndex()).getTypeinfo().getSpecies().equalsIgnoreCase(shipType)) {
+                                                if (tempShips.get(tShip.getIndex()).getShipUpgradeInfo().getUpgrades().values().stream().anyMatch(u -> u.getNextShips().contains(ship.getIdentifier()))
+                                                        && tempShips.get(tShip.getIndex()).getShipUpgradeInfo().getUpgrades().values().stream().filter(u -> CollectionUtils.isNotEmpty(u.getNextShips())).count() == 1) {
+                                                    tShip.setPosition(ship.getPosition());
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                            tiers.get(tier).sort(Comparator.comparingInt(ShipIndex::getPosition));
+                        }
+                        tier--;
+                    }
+                });
+                shipsList.get(nation.getKey()).remove(realShipType.getKey());
+                shipsList.get(nation.getKey()).put(realShipType.getKey(), realShipType.getValue());
+            });
+            shipsList.remove(nation.getKey());
+            shipsList.put(nation.getKey(), nation.getValue());
+        });
 
         return shipsList;
     }

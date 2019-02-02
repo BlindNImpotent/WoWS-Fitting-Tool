@@ -48,6 +48,7 @@ public class AsyncHashMap implements CommandLineRunner
     {
         log.info("test");
 
+        jsonParser.setNotification();
         jsonParser.setGlobal();
         jsonParser.setGameParams();
 

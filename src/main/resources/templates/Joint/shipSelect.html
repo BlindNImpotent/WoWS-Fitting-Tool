@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="warshipData" th:fragment="warshipStats" th:attr="data-api-index=${single ? '0' : dataIndex}">
+    <div id="notification" style="text-align: center;" th:if="${single and warship == null}">
+        <h2>Click on a ship for fitting.</h2>
+    </div>
+    <div class="ship" th:id="${warship.index}" th:attr="data-ship-index=${single ? '0' : dataIndex}" th:if="${warship != null}">
+        <div class="name">
+            <span th:text="${'Tier ' + warship.level}"></span><br />
+            <span th:text="${warship.typeinfo.species}"></span><br />
+            <strong style="font-size: 2em;" th:text="${warship.fullName}"></strong><br />
+            <br />
+        </div>
+        <div class="info_box">
+            <div style="display: inline-table; vertical-align: top;">
+                <div id="left_tabs" class="left_tabs">
+                    <div id="tab_left_modules" class="button_tab left modules select">Modules</div>
+                    <div id="tab_left_upgrades" class="button_tab left upgrades">Upgrades</div>
+                    <div id="tab_left_crewSkills" class="button_tab left crewSkills">Skills</div>
+                    <!--<div id="tab_left_flags" class="button_tab left flags">Flags</div>-->
+                    <div id="tab_left_consumables" class="button_tab left consumables">Consumables</div>
+                </div>
+                <div class="left_info_box">
+                    <div id="modules" class="panel_left modules">
+                    </div>
+                    <div id="upgrades" class="panel_left upgrades hide">
+                    </div>
+                    <div id="crewSkills" class="panel_left crewSkills hide">
+                    </div>
+                    <div id="consumables" class="panel_left consumables hide">
+                    </div>
+                </div>
+            </div>
+            <th:block th:if="${!single}">
+                <br />
+                <br />
+            </th:block>
+            <div class="right_side" style="display: inline-table; vertical-align: top;">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
