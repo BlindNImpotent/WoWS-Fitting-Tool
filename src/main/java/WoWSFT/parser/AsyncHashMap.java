@@ -18,11 +18,11 @@ import java.util.HashMap;
 public class AsyncHashMap implements CommandLineRunner
 {
     @Autowired
-    @Qualifier(value = "jsonParser")
+    @Qualifier (value = "jsonParser")
     private JsonParser jsonParser;
 
     @Autowired
-    @Qualifier(value = "gameParamsHM")
+    @Qualifier (value = "gameParamsHM")
     private HashMap<String, Object> gameParamsHM;
 
     @Autowired
@@ -34,7 +34,7 @@ public class AsyncHashMap implements CommandLineRunner
     private HashMap<String, String> nameToId;
 
     @Autowired
-    @Qualifier(value = "loadFinish")
+    @Qualifier (value = "loadFinish")
     private HashMap<String, Integer> loadFinish;
 
     @Autowired

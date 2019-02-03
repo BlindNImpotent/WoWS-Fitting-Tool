@@ -2,17 +2,20 @@ package WoWSFT.model.gameparams.modernization;
 
 import WoWSFT.config.WoWSFT;
 import WoWSFT.model.gameparams.TypeInfo;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Data
 @WoWSFT
 public class Modernization
 {
-    private int AAExtraBubbles;
+    private float AAExtraBubbles;
     private float AANearDamage = 1f;
     private float AAOuterDamage = 1f;
     private float ADMaxHP = 1f;
@@ -43,7 +46,7 @@ public class Modernization
     private float airDefenseDispWorkTime = 1f;
     private float airplanesDiveBombersHealth = 1f;
     private float airplanesEmptyReturnSpeed = 1f;
-    private int airplanesExtraHangarSize;
+    private float airplanesExtraHangarSize;
     private float airplanesFighterAimingTime;
     private float airplanesFightersHealth = 1f;
     private float airplanesForsageDuration = 1f;
@@ -93,10 +96,25 @@ public class Modernization
     private float trigger4SearchWorkTime = 1f;
     private float trigger5SearchWorkTime = 1f;
     private float trigger6SearchWorkTime = 1f;
-    private float type;
+    private int type;
     private TypeInfo typeinfo;
     private float visibilityDistCoeff = 1f;
     private float visionDistCoeff = 1f;
     private float visionTorpedoCoeff = 1f;
     private float visionXRayShipCoeff = 1f;
+
+    private String fullName;
+    private String image;
+
+    private LinkedHashMap<String, String> bonus = new LinkedHashMap<>();
+    private String description = "";
+
+    @JsonGetter
+    public String getImage()
+    {
+        if (StringUtils.isEmpty(image)) {
+            return "https://glossary-na-static.gcdn.co/icons/wows/current/modernization/icon_modernization_" + name + ".png";
+        }
+        return image;
+    }
 }

@@ -1,6 +1,7 @@
 package WoWSFT.model.gameparams.ship.upgrades;
 
 import WoWSFT.config.WoWSFT;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -12,6 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import static WoWSFT.model.Constant.*;
 
 @Data
 @WoWSFT
@@ -26,7 +29,9 @@ public class ShipUpgrade
     private String ucType;
     private String ucTypeShort;
     private int position;
+
     private LinkedHashMap<String, List<String>> components = new LinkedHashMap<>();
+    private String image;
 
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();
@@ -48,5 +53,31 @@ public class ShipUpgrade
     {
         components.putIfAbsent(name, new ArrayList<>());
         components.get(name).add(mapper.convertValue(value, new TypeReference<List<String>>(){}));
+    }
+
+    @JsonGetter
+    public String getImage()
+    {
+        if (StringUtils.isEmpty(image)) {
+            if (StringUtils.isNotEmpty(ucTypeShort)) {
+                String type;
+                if (ucTypeShort.equalsIgnoreCase(artillery)) {
+                    type = "maingun";
+                } else if (ucTypeShort.equalsIgnoreCase(suo)) {
+                    type = "radar";
+                } else if (ucTypeShort.equalsIgnoreCase(fighter)) {
+                    type = "avia_fighter";
+                } else if (ucTypeShort.equalsIgnoreCase(torpedoBomber)) {
+                    type = "avia_torpedo";
+                } else if (ucTypeShort.equalsIgnoreCase(diveBomber)) {
+                    type = "avia_bomber";
+                } else {
+                    type = ucTypeShort.toLowerCase();
+                }
+                return "https://glossary-na-static.gcdn.co/icons/wows/current/module/icon_module_" + type + ".png";
+            }
+            return "";
+        }
+        return image;
     }
 }

@@ -13,6 +13,7 @@ import WoWSFT.model.gameparams.ship.component.firecontrol.FireControl;
 import WoWSFT.model.gameparams.ship.component.hull.Hull;
 import WoWSFT.model.gameparams.ship.component.torpedo.Torpedo;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgrade;
+import WoWSFT.utils.CommonUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -101,9 +102,7 @@ public class JsonParser
 
         HashMap<String, Ship> tempShips = new HashMap<>();
         HashMap<String, Consumable> tempConsumables = new HashMap<>();
-        // nation, realShipType, shipType, tier, shipList
         LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList = new LinkedHashMap<>();
-        // slot, name, data
         LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> tempUpgrades = new LinkedHashMap<>();
 
         int uSlot = 0;
@@ -162,7 +161,6 @@ public class JsonParser
     {
         ship.getShipUpgradeInfo().getComponents().forEach((key, value) -> {
             value.forEach(upgrade -> {
-                upgrade.setFullName(global.get("IDS_" + upgrade.getName().toUpperCase()).toString());
                 if (upgrade.getPosition() == 3 && ship.getShipUpgradeInfo().getComponents().get(key).size() < 3) {
                     upgrade.setPosition(2);
                 }
@@ -233,7 +231,7 @@ public class JsonParser
                 maxRows++;
             }
         }
-        ship.getShipUpgradeInfo().setRows(colCount).setMaxRows(maxRows);
+        ship.getShipUpgradeInfo().setCols(colCount).setMaxRows(maxRows);
     }
 
     private void addToShipsList(Ship ship, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList)
@@ -273,10 +271,13 @@ public class JsonParser
                                     if (CollectionUtils.isNotEmpty(shipsList.get(nation.getKey()).get(realShipType.getKey()).get(shipType).get(cTier - 1))) {
                                         shipsList.get(nation.getKey()).get(realShipType.getKey()).get(shipType).get(cTier - 1).forEach(tShip -> {
                                             if (tempShips.get(tShip.getIndex()).getTypeinfo().getSpecies().equalsIgnoreCase(shipType)) {
-
                                                 tempShips.get(tShip.getIndex()).getShipUpgradeInfo().getComponents().forEach((comp, list) -> list.forEach(u1 -> {
-                                                    if (u1.getNextShips().contains(ship.getIdentifier()) && list.stream().filter(u2 -> CollectionUtils.isNotEmpty(u2.getNextShips())).count() == 1) {
-                                                        tShip.setPosition(ship.getPosition());
+                                                    if (u1.getNextShips().contains(ship.getIdentifier())) {
+                                                        tempShips.get(ship.getIndex()).setPrevShipIndex(tShip.getIndex());
+
+                                                        if (list.stream().filter(u2 -> CollectionUtils.isNotEmpty(u2.getNextShips())).count() == 1) {
+                                                            tShip.setPosition(ship.getPosition());
+                                                        }
                                                     }
                                                 }));
                                             }
@@ -302,6 +303,14 @@ public class JsonParser
     private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> sortUpgrades(LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades)
     {
         upgrades.forEach((slot, mod) -> mod.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(u -> {
+            LinkedHashMap<String, Object> tempCopy = mapper.convertValue(u.getValue(), new TypeReference<LinkedHashMap<String, Object>>(){});
+            tempCopy.forEach((key, val) -> {
+                if (val instanceof Float && ((float) val != 0)) {
+                    u.getValue().getBonus().put("IDS_PARAMS_MODIFIER_" + key.toUpperCase() + (key.contains("WorkTime") ? "_MODERNIZATION" : ""),
+                            (((float) val) >= 1 ? "+" : "") + (((float) val) % 1 == 0 ? String.valueOf((int) ((float) val)) : ((int) CommonUtils.getBonus((float) val)) + " %"));
+                }
+            });
+
             upgrades.get(slot).remove(u.getKey());
             upgrades.get(slot).put(u.getKey(), u.getValue());
         }));

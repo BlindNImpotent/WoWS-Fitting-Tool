@@ -11,6 +11,7 @@ public class Constant
 
     public static final String TYPE_SHIP = "ships";
     public static final String TYPE_SHIP_LIST = "shipsList";
+    public static final String TYPE_WARSHIP = "warship";
     public static final String TYPE_UPGRADE = "upgrades";
     public static final String TYPE_CONSUMABLE = "consumables";
 

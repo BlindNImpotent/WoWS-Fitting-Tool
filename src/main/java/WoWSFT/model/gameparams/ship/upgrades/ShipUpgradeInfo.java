@@ -21,7 +21,7 @@ import static WoWSFT.model.Constant.*;
 public class ShipUpgradeInfo
 {
     private LinkedHashMap<String, List<ShipUpgrade>> components = new LinkedHashMap<>();
-    private LinkedHashMap<String, Integer> rows = new LinkedHashMap<>();
+    private LinkedHashMap<String, Integer> cols = new LinkedHashMap<>();
     private int maxRows;
 
     private int costCR;

@@ -1,6 +1,7 @@
 package WoWSFT.controller;
 
 import WoWSFT.model.gameparams.ship.Ship;
+import WoWSFT.service.GPService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -19,15 +20,22 @@ import static WoWSFT.model.Constant.*;
  * Created by Aesis on 2016-10-15.
  */
 @Controller
-public class APIController extends ExceptionController
+public class GPController extends ExceptionController
 {
     @Autowired
-    @Qualifier(value = "gameParamsHM")
+    @Qualifier (value = "gameParamsHM")
     private HashMap<String, Object> gameParamsHM;
 
     @Autowired
     @Qualifier (value = "notification")
     private LinkedHashMap<String, String> notification;
+
+    @Autowired
+    @Qualifier (value = "global")
+    private HashMap<String, Object> global;
+
+    @Autowired
+    private GPService gpService;
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -61,14 +69,16 @@ public class APIController extends ExceptionController
         return "home";
     }
 
-    @GetMapping(value = "/WarshipStats")
-    public String getWarship(Model model, @RequestParam(required = false, defaultValue = "") String ship)
+    @GetMapping(value = "/ship")
+    public String getWarship(Model model, @RequestParam(required = false, defaultValue = "") String index) throws Exception
     {
         model.addAttribute("single", true);
+        model.addAttribute("global", global);
         model.addAttribute("nations", gameParamsHM.get(TYPE_SHIP_LIST));
 
-        if (StringUtils.isNotEmpty(ship)) {
-            model.addAttribute("warship", getShipFromIndex(ship));
+        if (StringUtils.isNotEmpty(index)) {
+            model.addAttribute(TYPE_WARSHIP, getShipFromIndex(index.toUpperCase()));
+            model.addAttribute(TYPE_UPGRADE, gpService.getUpgrades());
         }
 
         return "FittingTool/ftHome";

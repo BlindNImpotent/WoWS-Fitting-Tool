@@ -27,7 +27,7 @@ import java.util.HashSet;
 public class CustomFilter implements Filter
 {
     @Autowired
-    @Qualifier(value = "loadFinish")
+    @Qualifier (value = "loadFinish")
     private HashMap<String, Integer> loadFinish;
 
     @Autowired
