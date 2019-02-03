@@ -5,28 +5,24 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+
+import static WoWSFT.model.Constant.*;
 
 @Data
 @WoWSFT
+@Accessors(chain = true)
 public class ShipUpgradeInfo
 {
-    private List<ShipUpgrade> artillery = new ArrayList<>();
-    private List<ShipUpgrade> engine = new ArrayList<>();
-    private List<ShipUpgrade> hull = new ArrayList<>();
-    private List<ShipUpgrade> suo = new ArrayList<>();
-    private List<ShipUpgrade> torpedoes = new ArrayList<>();
-    private List<ShipUpgrade> flightControl = new ArrayList<>();
-    private List<ShipUpgrade> diveBomber = new ArrayList<>();
-    private List<ShipUpgrade> fighter = new ArrayList<>();
-    private List<ShipUpgrade> torpedoBomber = new ArrayList<>();
-
-    private HashMap<String, ShipUpgrade> upgrades = new HashMap<>();
+    private LinkedHashMap<String, List<ShipUpgrade>> components = new LinkedHashMap<>();
+    private LinkedHashMap<String, Integer> rows = new LinkedHashMap<>();
+    private int maxRows;
 
     private int costCR;
     private int costGold;
@@ -35,36 +31,27 @@ public class ShipUpgradeInfo
     private List<Object> lockedConfig;
     private int value;
 
+    {
+        componentsList.forEach(c -> components.put(c, new ArrayList<>()));
+    }
+
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();
 
     @JsonAnySetter
-    public void setShipUpgrades(String name, Object value) {
+    public void setShipUpgrades(String name, Object value)
+    {
         ShipUpgrade upgrade = mapper.convertValue(value, ShipUpgrade.class);
         upgrade.setName(name);
+
         if (StringUtils.isEmpty(upgrade.getPrev())) {
             upgrade.setPosition(1);
-        }
-        else if (CollectionUtils.isNotEmpty(upgrade.getNextShips())) {
+        } else if (CollectionUtils.isNotEmpty(upgrade.getNextShips())) {
             upgrade.setPosition(3);
-        }
-        else {
+        } else {
             upgrade.setPosition(2);
         }
 
-        upgrades.put(upgrade.getName(), upgrade);
-
-        switch (upgrade.getUcTypeShort()) {
-            case "artillery": artillery.add(upgrade); break;
-            case "engine": engine.add(upgrade); break;
-            case "hull": hull.add(upgrade); break;
-            case "suo": suo.add(upgrade); break;
-            case "torpedoes": torpedoes.add(upgrade); break;
-            case "flightControl": flightControl.add(upgrade); break;
-            case "diveBomber": diveBomber.add(upgrade); break;
-            case "fighter": fighter.add(upgrade); break;
-            case "torpedoBomber": torpedoBomber.add(upgrade); break;
-            default: break;
-        }
+        components.get(upgrade.getUcTypeShort()).add(upgrade);
     }
 }

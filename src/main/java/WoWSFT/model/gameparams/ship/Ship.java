@@ -1,16 +1,12 @@
 package WoWSFT.model.gameparams.ship;
 
-
 import WoWSFT.config.WoWSFT;
 import WoWSFT.model.gameparams.TypeInfo;
-import WoWSFT.model.gameparams.ship.abilities.ShipAbilities;
-import WoWSFT.model.gameparams.ship.component.airdefense.AirDefense;
-import WoWSFT.model.gameparams.ship.component.artillery.Artillery;
+import WoWSFT.model.gameparams.ship.abilities.AbilitySlot;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgradeInfo;
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -19,22 +15,10 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Ship
 {
-    private HashMap<String, Object> components = new HashMap<>();
+    private LinkedHashMap<String, Object> components = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap<String, Object>> compStats = new LinkedHashMap<>();
 
-    private LinkedHashMap<String, Object> airArmament = new LinkedHashMap<>();
-    private LinkedHashMap<String, AirDefense> airDefense = new LinkedHashMap<>();
-    private LinkedHashMap<String, Artillery> artillery = new LinkedHashMap<>();
-    private LinkedHashMap<String, Object> atba = new LinkedHashMap<>();
-    private LinkedHashMap<String, Object> engine = new LinkedHashMap<>();
-    private LinkedHashMap<String, Object> fireControl = new LinkedHashMap<>();
-    private LinkedHashMap<String, Object> hull = new LinkedHashMap<>();
-    private LinkedHashMap<String, Object> torpedoes = new LinkedHashMap<>();
-    private LinkedHashMap<String, Object> flightControl = new LinkedHashMap<>();
-    private LinkedHashMap<String, Object> diveBomber = new LinkedHashMap<>();
-    private LinkedHashMap<String, Object> fighter = new LinkedHashMap<>();
-    private LinkedHashMap<String, Object> torpedoBomber = new LinkedHashMap<>();
-
-    private ShipAbilities ShipAbilities;
+    private LinkedHashMap<String, AbilitySlot> ShipAbilities;
     private ShipUpgradeInfo ShipUpgradeInfo;
 
     private float apDamageLimitCoeff;

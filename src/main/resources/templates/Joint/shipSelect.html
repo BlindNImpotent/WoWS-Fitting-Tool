@@ -7,9 +7,11 @@
     </div>
     <div class="ship" th:id="${warship.index}" th:attr="data-ship-index=${single ? '0' : dataIndex}" th:if="${warship != null}">
         <div class="name">
+            <img th:src="${'https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/types/' + warship.typeinfo.species + (warship.realShipType != 'Premium' ? '/normal' : '/premium') + '.png'}"/><br />
             <span th:text="${'Tier ' + warship.level}"></span><br />
             <span th:text="${warship.typeinfo.species}"></span><br />
             <strong style="font-size: 2em;" th:text="${warship.fullName}"></strong><br />
+            <img th:src="${'https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/medium/' + warship.index + '.png'}" /><br />
             <br />
         </div>
         <div class="info_box">
@@ -23,10 +25,31 @@
                 </div>
                 <div class="left_info_box">
                     <div id="modules" class="panel_left modules">
+                        <div id="wrongPathAlert" style="display: none;"><h2>Wrong path of research,<br />or ship patched</h2></div>
+                        <table>
+                            <tbody>
+                                <tr th:each="i : ${#numbers.sequence(1, warship.ShipUpgradeInfo.maxRows)}">
+                                    <th:block th:each="row : ${warship.ShipUpgradeInfo.rows}" th:if="${row.value > 0}">
+                                        <th:block th:with="modules=${warship.ShipUpgradeInfo.components.get(row.key).?[position == __${i}__]}">
+                                            <td th:each="module : ${modules}">
+                                                <button th:class="'button_module'" th:attr="data-index=${moduleStat.index + 1}, data-position=${module.position}">
+                                                    <img th:src="${'https://glossary-na-static.gcdn.co/icons/wows/current/module/icon_module_' + module.ucTypeShort + '.png'}" />
+                                                    <span th:text="${module.fullName}"></span>
+                                                </button>
+                                            </td>
+                                            <td th:each="j : ${#numbers.sequence(1, row.value - modules.size())}" th:if="${row.value > modules.size()}">
+                                            </td>
+                                        </th:block>
+                                    </th:block>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div id="upgrades" class="panel_left upgrades hide">
                     </div>
                     <div id="crewSkills" class="panel_left crewSkills hide">
+                    </div>
+                    <div id="flags" class="panel_left flags hide">
                     </div>
                     <div id="consumables" class="panel_left consumables hide">
                     </div>

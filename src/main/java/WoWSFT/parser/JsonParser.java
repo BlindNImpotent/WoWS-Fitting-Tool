@@ -3,7 +3,6 @@ package WoWSFT.parser;
 import WoWSFT.model.gameparams.TypeInfo;
 import WoWSFT.model.gameparams.consumable.Consumable;
 import WoWSFT.model.gameparams.modernization.Modernization;
-import WoWSFT.model.gameparams.modernization.Upgrades;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
 import WoWSFT.model.gameparams.ship.component.airdefense.AirDefense;
@@ -12,7 +11,7 @@ import WoWSFT.model.gameparams.ship.component.atba.ATBA;
 import WoWSFT.model.gameparams.ship.component.engine.Engine;
 import WoWSFT.model.gameparams.ship.component.firecontrol.FireControl;
 import WoWSFT.model.gameparams.ship.component.hull.Hull;
-import WoWSFT.model.gameparams.ship.upgrades.ShipComponents;
+import WoWSFT.model.gameparams.ship.component.torpedo.Torpedo;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgrade;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,8 +26,8 @@ import org.springframework.scheduling.annotation.Async;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 import static WoWSFT.model.Constant.*;
 
@@ -60,11 +59,10 @@ public class JsonParser
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    private static final String regex = "[^\\p{L}\\p{N}]+";
-
     private static HashSet<String> excludeShipGroups = new HashSet<>(Arrays.asList("unavailable", "disabled", "preserved", "clan"));
     private static HashSet<String> excludeShipNations = new HashSet<>(Arrays.asList("Events", "disabled", "preserved", "clan"));
-    private static HashSet<String> excludeShipSpecies = new HashSet<>(Arrays.asList("Auxiliary", "Submarine", "AirCarrier"));
+    private static HashSet<String> excludeShipSpecies = new HashSet<>(Arrays.asList("Auxiliary", "Submarine"));
+    private static HashSet<String> excludeCompStats = new HashSet<>(Arrays.asList("directors", "finders", "radars"));
 
     @Async
     public void setNotification() throws IOException
@@ -103,9 +101,16 @@ public class JsonParser
 
         HashMap<String, Ship> tempShips = new HashMap<>();
         HashMap<String, Consumable> tempConsumables = new HashMap<>();
-        //nation, realShipType, shipType, tier, shipList
+        // nation, realShipType, shipType, tier, shipList
         LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList = new LinkedHashMap<>();
-        Upgrades tempUpgrades = new Upgrades();
+        // slot, name, data
+        LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> tempUpgrades = new LinkedHashMap<>();
+
+        int uSlot = 0;
+        while (uSlot < 6) {
+            tempUpgrades.put(uSlot, new LinkedHashMap<>());
+            uSlot++;
+        }
 
         temp.forEach((key, value) -> {
             TypeInfo typeInfo = mapper.convertValue(value.get("typeinfo"), TypeInfo.class);
@@ -118,7 +123,9 @@ public class JsonParser
             }
             else if (typeInfo.getType().equalsIgnoreCase("Modernization")) {
                 Modernization modernization = mapper.convertValue(value, Modernization.class);
-                setUpgrades(tempUpgrades, modernization);
+                if (modernization.getSlot() >= 0) {
+                    tempUpgrades.get(modernization.getSlot()).put(modernization.getName(), modernization);
+                }
             }
             else if (typeInfo.getType().equalsIgnoreCase("Ability") && !excludeShipNations.contains(typeInfo.getNation()) && !key.contains("Super")) {
                 Consumable consumable = mapper.convertValue(value, Consumable.class);
@@ -141,9 +148,8 @@ public class JsonParser
     private void addShips(Ship ship, HashMap<String, Ship> tempShips, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList)
     {
         sortShipUpgradeInfo(ship);
-        sortComponents(ship);
         setRealShipType(ship);
-        setAbilitySlots(ship);
+        setRows(ship);
 
         ship.setFullName(global.get("IDS_" + ship.getIndex().toUpperCase() + "_FULL").toString());
 
@@ -154,47 +160,41 @@ public class JsonParser
 
     private void sortShipUpgradeInfo(Ship ship)
     {
-        ship.getShipUpgradeInfo().getArtillery().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
-        ship.getShipUpgradeInfo().getEngine().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
-        ship.getShipUpgradeInfo().getHull().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
-        ship.getShipUpgradeInfo().getSuo().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
-        ship.getShipUpgradeInfo().getTorpedoes().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
-        ship.getShipUpgradeInfo().getFlightControl().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
-        ship.getShipUpgradeInfo().getDiveBomber().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
-        ship.getShipUpgradeInfo().getFighter().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
-        ship.getShipUpgradeInfo().getTorpedoBomber().sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
-    }
+        ship.getShipUpgradeInfo().getComponents().forEach((key, value) -> {
+            value.forEach(upgrade -> {
+                upgrade.setFullName(global.get("IDS_" + upgrade.getName().toUpperCase()).toString());
+                if (upgrade.getPosition() == 3 && ship.getShipUpgradeInfo().getComponents().get(key).size() < 3) {
+                    upgrade.setPosition(2);
+                }
 
-    private void sortComponents(Ship ship)
-    {
-        ship.getShipUpgradeInfo().getArtillery().forEach(upgrade -> addToShipComponents(ship, upgrade.getComponents()));
-        ship.getShipUpgradeInfo().getEngine().forEach(upgrade -> addToShipComponents(ship, upgrade.getComponents()));
-        ship.getShipUpgradeInfo().getHull().forEach(upgrade -> addToShipComponents(ship, upgrade.getComponents()));
-        ship.getShipUpgradeInfo().getSuo().forEach(upgrade -> addToShipComponents(ship, upgrade.getComponents()));
-        ship.getShipUpgradeInfo().getTorpedoes().forEach(upgrade -> addToShipComponents(ship, upgrade.getComponents()));
-        ship.getShipUpgradeInfo().getFlightControl().forEach(upgrade -> addToShipComponents(ship, upgrade.getComponents()));
-        ship.getShipUpgradeInfo().getDiveBomber().forEach(upgrade -> addToShipComponents(ship, upgrade.getComponents()));
-        ship.getShipUpgradeInfo().getFighter().forEach(upgrade -> addToShipComponents(ship, upgrade.getComponents()));
-        ship.getShipUpgradeInfo().getTorpedoBomber().forEach(upgrade -> addToShipComponents(ship, upgrade.getComponents()));
+                upgrade.getComponents().forEach((cKey, cValue) -> {
+                    if (!excludeCompStats.contains(cKey)) {
+                        ship.getCompStats().putIfAbsent(cKey, new LinkedHashMap<>());
 
-        ship.setComponents(new HashMap<>());
-    }
+                        if (cKey.equalsIgnoreCase(artillery)) {
+                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), Artillery.class)));
+                        } else if (cKey.equalsIgnoreCase(airDefense)) {
+                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), AirDefense.class)));
+                        } else if (cKey.equalsIgnoreCase(atba)) {
+                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), ATBA.class)));
+                        } else if (cKey.equalsIgnoreCase(engine)) {
+                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), Engine.class)));
+                        } else if (cKey.equalsIgnoreCase(fireControl)) {
+                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), FireControl.class)));
+                        } else if (cKey.equalsIgnoreCase(hull)) {
+                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), Hull.class)));
+                        } else if (cKey.equalsIgnoreCase(torpedoes)) {
+                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), Torpedo.class)));
+                        } else {
+                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, ship.getComponents().get(cVal)));
+                        }
+                    }
+                });
+            });
+            value.sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
+        });
 
-    private void addToShipComponents(Ship ship, ShipComponents shipComponents)
-    {
-        shipComponents.getAirArmament().forEach(component -> ship.getAirArmament().put(component, ship.getComponents().get(component)));
-        shipComponents.getAirDefense().forEach(component -> ship.getAirDefense().put(component, mapper.convertValue(ship.getComponents().get(component), AirDefense.class)));
-        shipComponents.getArtillery().forEach(component -> ship.getArtillery().put(component, mapper.convertValue(ship.getComponents().get(component), Artillery.class)));
-        shipComponents.getAtba().forEach(component -> ship.getAtba().put(component, mapper.convertValue(ship.getComponents().get(component), ATBA.class)));
-        shipComponents.getEngine().forEach(component -> ship.getEngine().put(component, mapper.convertValue(ship.getComponents().get(component), Engine.class)));
-        shipComponents.getFireControl().forEach(component -> ship.getFireControl().put(component, mapper.convertValue(ship.getComponents().get(component), FireControl.class)));
-        shipComponents.getHull().forEach(component -> ship.getHull().put(component, mapper.convertValue(ship.getComponents().get(component), Hull.class)));
-        shipComponents.getTorpedoes().forEach(component -> ship.getTorpedoes().put(component, ship.getComponents().get(component)));
-
-        shipComponents.getFlightControl().forEach(component -> ship.getFlightControl().put(component, ship.getComponents().get(component)));
-        shipComponents.getDiveBomber().forEach(component -> ship.getDiveBomber().put(component, ship.getComponents().get(component)));
-        shipComponents.getFighter().forEach(component -> ship.getFighter().put(component, ship.getComponents().get(component)));
-        shipComponents.getTorpedoBomber().forEach(component -> ship.getTorpedoBomber().put(component, ship.getComponents().get(component)));
+        ship.setComponents(new LinkedHashMap<>());
     }
 
     private void setRealShipType(Ship ship)
@@ -208,60 +208,42 @@ public class JsonParser
         }
     }
 
-    private void setAbilitySlots(Ship ship)
+    private void setRows(Ship ship)
     {
-        if (CollectionUtils.isEmpty(ship.getShipAbilities().getAbilitySlot0().getAbils())) {
-            ship.getShipAbilities().setAbilitySlot0(null);
-        }
+        LinkedHashMap<String, Integer> colCount = new LinkedHashMap<>();
 
-        if (CollectionUtils.isEmpty(ship.getShipAbilities().getAbilitySlot1().getAbils())) {
-            ship.getShipAbilities().setAbilitySlot1(null);
-        }
+        int maxRows = 0;
+        for (int i = 1; i <= 3; i++) {
+            int pos = i;
+            AtomicBoolean hasRow = new AtomicBoolean(false);
+            ship.getShipUpgradeInfo().getComponents().forEach((key, compList) -> {
+                colCount.putIfAbsent(key, 0);
+                int posCount = (int) compList.stream().filter(c -> c.getPosition() == pos).count();
 
-        if (CollectionUtils.isEmpty(ship.getShipAbilities().getAbilitySlot2().getAbils())) {
-            ship.getShipAbilities().setAbilitySlot2(null);
-        }
+                if (posCount > 0) {
+                    hasRow.set(true);
+                }
 
-        if (CollectionUtils.isEmpty(ship.getShipAbilities().getAbilitySlot3().getAbils())) {
-            ship.getShipAbilities().setAbilitySlot3(null);
-        }
+                if (colCount.get(key) < posCount) {
+                    colCount.put(key, posCount);
+                }
+            });
 
-        if (CollectionUtils.isEmpty(ship.getShipAbilities().getAbilitySlot4().getAbils())) {
-            ship.getShipAbilities().setAbilitySlot4(null);
+            if (hasRow.get()) {
+                maxRows++;
+            }
         }
+        ship.getShipUpgradeInfo().setRows(colCount).setMaxRows(maxRows);
     }
 
     private void addToShipsList(Ship ship, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList)
     {
-        if (!shipsList.containsKey(ship.getTypeinfo().getNation())) {
-            shipsList.put(ship.getTypeinfo().getNation(), new LinkedHashMap<>());
-        }
-
-        if (!shipsList.get(ship.getTypeinfo().getNation()).containsKey(ship.getRealShipType())) {
-            shipsList.get(ship.getTypeinfo().getNation()).put(ship.getRealShipType(), new LinkedHashMap<>());
-        }
-
-        if (!shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipType()).containsKey(ship.getTypeinfo().getSpecies())) {
-            shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipType()).put(ship.getTypeinfo().getSpecies(), new LinkedHashMap<>());
-        }
-
-        if (!shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipType()).get(ship.getTypeinfo().getSpecies()).containsKey(ship.getLevel())) {
-            shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipType()).get(ship.getTypeinfo().getSpecies()).put(ship.getLevel(), new ArrayList<>());
-        }
+        shipsList.putIfAbsent(ship.getTypeinfo().getNation(), new LinkedHashMap<>());
+        shipsList.get(ship.getTypeinfo().getNation()).putIfAbsent(ship.getRealShipType(), new LinkedHashMap<>());
+        shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipType()).putIfAbsent(ship.getTypeinfo().getSpecies(), new LinkedHashMap<>());
+        shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipType()).get(ship.getTypeinfo().getSpecies()).putIfAbsent(ship.getLevel(), new ArrayList<>());
 
         shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipType()).get(ship.getTypeinfo().getSpecies()).get(ship.getLevel()).add(new ShipIndex(ship.getName(), ship.getIndex(), ship.getFullName(), ship.isResearch()));
-    }
-
-    private void setUpgrades(Upgrades upgrades, Modernization modernization)
-    {
-        switch (modernization.getSlot()) {
-            case 0: upgrades.getSlot0().put(modernization.getName(), modernization); break;
-            case 1: upgrades.getSlot1().put(modernization.getName(), modernization); break;
-            case 2: upgrades.getSlot2().put(modernization.getName(), modernization); break;
-            case 3: upgrades.getSlot3().put(modernization.getName(), modernization); break;
-            case 4: upgrades.getSlot4().put(modernization.getName(), modernization); break;
-            case 5: upgrades.getSlot5().put(modernization.getName(), modernization); break;
-        }
     }
 
     private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> sortShipsList(
@@ -291,10 +273,12 @@ public class JsonParser
                                     if (CollectionUtils.isNotEmpty(shipsList.get(nation.getKey()).get(realShipType.getKey()).get(shipType).get(cTier - 1))) {
                                         shipsList.get(nation.getKey()).get(realShipType.getKey()).get(shipType).get(cTier - 1).forEach(tShip -> {
                                             if (tempShips.get(tShip.getIndex()).getTypeinfo().getSpecies().equalsIgnoreCase(shipType)) {
-                                                if (tempShips.get(tShip.getIndex()).getShipUpgradeInfo().getUpgrades().values().stream().anyMatch(u -> u.getNextShips().contains(ship.getIdentifier()))
-                                                        && tempShips.get(tShip.getIndex()).getShipUpgradeInfo().getUpgrades().values().stream().filter(u -> CollectionUtils.isNotEmpty(u.getNextShips())).count() == 1) {
-                                                    tShip.setPosition(ship.getPosition());
-                                                }
+
+                                                tempShips.get(tShip.getIndex()).getShipUpgradeInfo().getComponents().forEach((comp, list) -> list.forEach(u1 -> {
+                                                    if (u1.getNextShips().contains(ship.getIdentifier()) && list.stream().filter(u2 -> CollectionUtils.isNotEmpty(u2.getNextShips())).count() == 1) {
+                                                        tShip.setPosition(ship.getPosition());
+                                                    }
+                                                }));
                                             }
                                         });
                                     }
@@ -315,14 +299,12 @@ public class JsonParser
         return shipsList;
     }
 
-    private Upgrades sortUpgrades(Upgrades upgrades)
+    private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> sortUpgrades(LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades)
     {
-        upgrades.getSlot0().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(u -> {upgrades.getSlot0().remove(u.getKey());upgrades.getSlot0().put(u.getKey(), u.getValue());});
-        upgrades.getSlot1().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(u -> {upgrades.getSlot1().remove(u.getKey());upgrades.getSlot1().put(u.getKey(), u.getValue());});
-        upgrades.getSlot2().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(u -> {upgrades.getSlot2().remove(u.getKey());upgrades.getSlot2().put(u.getKey(), u.getValue());});
-        upgrades.getSlot3().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(u -> {upgrades.getSlot3().remove(u.getKey());upgrades.getSlot3().put(u.getKey(), u.getValue());});
-        upgrades.getSlot4().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(u -> {upgrades.getSlot4().remove(u.getKey());upgrades.getSlot4().put(u.getKey(), u.getValue());});
-        upgrades.getSlot5().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(u -> {upgrades.getSlot5().remove(u.getKey());upgrades.getSlot5().put(u.getKey(), u.getValue());});
+        upgrades.forEach((slot, mod) -> mod.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(u -> {
+            upgrades.get(slot).remove(u.getKey());
+            upgrades.get(slot).put(u.getKey(), u.getValue());
+        }));
 
         return upgrades;
     }

@@ -1,6 +1,7 @@
 package WoWSFT.model.gameparams.ship.abilities;
 
 import WoWSFT.config.WoWSFT;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.util.List;
@@ -10,5 +11,6 @@ import java.util.List;
 public class AbilitySlot
 {
     private List<List<String>> abils;
+    @JsonInclude
     private int slot;
 }
