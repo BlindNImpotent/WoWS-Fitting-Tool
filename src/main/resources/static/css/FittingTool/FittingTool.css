@@ -1,22 +1,18 @@
-body
-{
-    margin: 0px;
+body {
+    margin: 0;
     background: white;
 }
 
-li
-{
+li {
     list-style-type: none;
     margin: 4px 0;
 }
 
-a
-{
+a {
     text-decoration: none;
 }
 
-#top
-{
+#top {
     overflow: hidden;
     position: relative;
     background: lightblue;
@@ -25,14 +21,13 @@ a
     z-index: 1;
 }
 
-#shipsList
-{
+#shipsList {
     position: relative;
     width: 100%;
 }
 
 nav {
-    margin: 0px 0px 0px;
+    margin: 0 0 0;
     background-color: lightblue;
     cursor: pointer;
 }
@@ -47,7 +42,7 @@ nav ul {
 nav ul li {
     display:inline-block;
     background-color: lightblue;
-    margin: 0px;
+    margin: 0;
 }
 
 nav a {
@@ -60,6 +55,11 @@ nav a {
 }
 
 nav a:hover {
+    background-color: deepskyblue;
+    cursor: pointer;
+}
+
+nav a:active {
     background-color: deepskyblue;
     cursor: pointer;
 }
@@ -78,34 +78,76 @@ nav span:hover {
     cursor: pointer;
 }
 
-/* Hide Dropdowns by Default */
-nav ul ul {
-    display: none;
-    position: absolute;
-    top: 32px; /* the height of the main nav */
-}
-
-/* Display Dropdowns on Hover */
-nav ul li:hover > ul {
-    display:inherit;
+nav span:active {
+    background-color: deepskyblue;
     cursor: pointer;
 }
 
-/* Fisrt Tier Dropdown */
-nav ul ul li {
-    width:100px;
+.dropdown_main {
+    text-align: left;
+    display: none;
+    position: absolute;
+}
+
+.dropdown_main li {
+    width:130px;
     float:none;
     display:list-item;
     position: relative;
 }
 
-/* Second, Third and more Tiers	*/
-nav ul ul ul li {
-    width:200px;
-    position: relative;
+.dropdown_sub {
+    display: none;
+    position: absolute;
+    top: 32px; /* the height of the main nav */
+}
+
+nav ul li:hover > ul {
+    display: block;
+    cursor: pointer;
+}
+
+nav ul li:active > ul {
+    display: block;
+    cursor: pointer;
+}
+
+.dropdown_main li:hover > .dropdown_main {
+    display:inherit;
+    cursor: pointer;
+}
+
+.dropdown_main li:active > .dropdown_main {
+    display:inherit;
+    cursor: pointer;
+}
+
+.dropdown_main li:hover > .dropdown_sub {
+    display:inherit;
+    cursor: pointer;
+}
+
+.dropdown_main li:active > .dropdown_sub {
+    display:inherit;
+    cursor: pointer;
+}
+
+.dropdown_main .dropdown_main li {
+    left: 130px;
     top:-32px;
-    left:100px;
-    margin: 0px;
+    width:130px;
+    float:none;
+    display:list-item;
+    position: relative;
+}
+
+.dropdown_main .dropdown_sub li {
+    left: 130px;
+    top:-32px;
+    width:200px;
+    float:none;
+    display:list-item;
+    position: relative;
 }
 
 .ship
@@ -114,13 +156,12 @@ nav ul ul ul li {
     padding: 0px 0px 5px;
 }
 
-.panel_left, .panel_right
-{
+.panel_left div, .panel_right div {
     vertical-align: top;
+    display: inline-block;
 }
 
-.hide
-{
+.hide {
     display: none;
 }
 
@@ -203,7 +244,7 @@ nav ul ul ul li {
     margin-bottom: 0px;
 }
 
-.button_module_selected
+.button_module.select
 {
     background-color:#fff;
     text-align: center;
@@ -221,7 +262,7 @@ nav ul ul ul li {
     vertical-align: top;
 }
 
-.button_module_selected img
+.button_module.select img
 {
     width: 40px;
     margin-bottom: 0px;
@@ -275,7 +316,7 @@ nav ul ul ul li {
     margin-bottom: 0px;
 }
 
-.button_upgrade_selected
+.button_upgrade.select
 {
     background-color:#fff;
     text-align: center;
@@ -293,7 +334,7 @@ nav ul ul ul li {
     vertical-align: top;
 }
 
-.button_upgrade_selected img
+.button_upgrade.select img
 {
     width: 30px;
     margin-bottom: 0px;
@@ -499,4 +540,9 @@ nav ul ul ul li {
     text-align: left;
     vertical-align: top;
     font-size: 9px;
+}
+
+.inner_info {
+    display: inline-table;
+    vertical-align: top;
 }

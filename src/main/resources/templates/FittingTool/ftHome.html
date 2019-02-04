@@ -38,35 +38,37 @@
     <div id="shipsList">
         <nav>
             <ul>
-                <li th:each="nation : ${nations}">
-                    <span th:text="${nation.key}"></span>
-                    <ul>
-                        <li th:each="realShipType : ${nation.value}">
-                            <span th:text="${realShipType.key}"></span>
-                            <ul>
-                                <li th:each="shipType : ${realShipType.value}" th:style="${realShipType.key == shipType.key ? '' : 'width: 100px;'}">
-                                    <th:block th:if="${realShipType.key == shipType.key}">
-                                        <th:block th:each="tier : ${shipType.value}">
-                                            <th:block th:each="ship : ${tier.value}">
-                                                <span th:text="${tier.key + ' - ' + ship.name}" th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
-                                            </th:block>
+                <th:block th:each="nation : ${nations}">
+                    <li>
+                        <span th:text="${global.get(IDS + nation.key)}"></span>
+                        <ul class="dropdown_main">
+                            <li th:each="realShipType : ${nation.value}">
+                                <span th:text="${global.get(IDS + realShipType.key)}"></span>
+                                <ul class="dropdown_sub" th:if="${realShipType.value.get(realShipType.key) != null}">
+                                    <th:block th:each="shipType : ${realShipType.value.get(realShipType.key)}">
+                                        <th:block th:each="tier : ${shipType}">
+                                            <li th:each="ship : ${tier.value}">
+                                                <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}" th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
+                                            </li>
                                         </th:block>
                                     </th:block>
-                                    <th:block th:unless="${realShipType.key == shipType.key}">
-                                        <span th:text="${shipType.key}"></span>
-                                        <ul>
+                                </ul>
+                                <ul class="dropdown_main" th:unless="${realShipType.value.get(realShipType.key) != null}">
+                                    <li th:each="shipType : ${realShipType.value}">
+                                        <span th:text="${global.get(IDS + shipType.key)}"></span>
+                                        <ul class="dropdown_sub">
                                             <th:block th:each="tier : ${shipType.value}">
                                                 <li th:each="ship : ${tier.value}">
-                                                    <span th:text="${tier.key + ' - ' + ship.name}" th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
+                                                    <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}" th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
                                                 </li>
                                             </th:block>
                                         </ul>
-                                    </th:block>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </th:block>
             </ul>
         </nav>
     </div>

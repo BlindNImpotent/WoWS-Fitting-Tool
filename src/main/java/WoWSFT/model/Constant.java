@@ -9,6 +9,8 @@ public class Constant
 {
     public static BigDecimal distCoefWG = new BigDecimal(100f / 3f);
 
+    public static final String IDS = "IDS_";
+
     public static final String TYPE_SHIP = "ships";
     public static final String TYPE_SHIP_LIST = "shipsList";
     public static final String TYPE_WARSHIP = "warship";

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static WoWSFT.model.Constant.TYPE_UPGRADE;
+import static WoWSFT.model.Constant.*;
 
 /**
  * Created by Aesis on 2016-12-05.
@@ -34,9 +34,9 @@ public class GPService
     {
         LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgradesCopy = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(TYPE_UPGRADE)), new TypeReference<LinkedHashMap<Integer, LinkedHashMap<String, Modernization>>>(){});
         upgradesCopy.forEach((slot, upgrades) -> upgrades.forEach((key, upgrade) -> upgrade.getBonus().forEach((ids, val) -> {
-            Object desc = global.get(ids);
+            Object desc = global.get(IDS + ids);
             if (desc == null) {
-                desc = global.get(ids.replace("_MODERNIZATION", ""));
+                desc = global.get(IDS + ids.replace("_MODERNIZATION", ""));
             }
 
             if (desc != null) {

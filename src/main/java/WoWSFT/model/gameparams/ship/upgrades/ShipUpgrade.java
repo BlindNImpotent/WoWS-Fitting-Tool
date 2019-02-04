@@ -25,10 +25,13 @@ public class ShipUpgrade
     private List<String> nextShips = new ArrayList<>();
     private String fullName;
     private String name;
-    private String prev;
+    private String prev = "";
     private String ucType;
     private String ucTypeShort;
     private int position;
+
+    private String prevType;
+    private int prevPosition;
 
     private LinkedHashMap<String, List<String>> components = new LinkedHashMap<>();
     private String image;
@@ -53,6 +56,15 @@ public class ShipUpgrade
     {
         components.putIfAbsent(name, new ArrayList<>());
         components.get(name).add(mapper.convertValue(value, new TypeReference<List<String>>(){}));
+    }
+
+    @JsonGetter
+    public String getPrevType()
+    {
+        if (StringUtils.isEmpty(prevType)) {
+            return ucTypeShort;
+        }
+        return prevType;
     }
 
     @JsonGetter

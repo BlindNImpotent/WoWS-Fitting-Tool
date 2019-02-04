@@ -42,11 +42,24 @@ public class Ship
     private int weight;
 
     private String realShipType;
+    private String realShipTypeId;
     private String fullName;
     private boolean research;
     private String prevShipIndex;
     private String typeImage;
     private String imageMedium;
+
+    @JsonSetter
+    public void setRealShipType(String realShipType)
+    {
+        if (StringUtils.isNotEmpty(realShipType)) {
+            this.realShipType = realShipType;
+            this.realShipTypeId = realShipType.toUpperCase();
+            if ("Premium".equalsIgnoreCase(realShipType)) {
+                this.realShipTypeId = "FILTER_PREMIUM";
+            }
+        }
+    }
 
     @JsonAnySetter
     public void setUpComponents(String name, Object value)

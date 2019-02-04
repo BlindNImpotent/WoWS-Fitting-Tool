@@ -9,32 +9,32 @@
         <div class="name">
             <img th:src="${warship.typeImage}"/><br />
             <span th:text="${'Tier ' + warship.level}"></span><br />
-            <span th:text="${warship.typeinfo.species}"></span><br />
-            <strong style="font-size: 2em;" th:text="${warship.fullName}"></strong><br />
-            <img th:title="${global.get('IDS_' + warship.index +'_DESCR')}" th:src="${warship.imageMedium}" /><br />
+            <span th:text="${global.get(IDS + warship.typeinfo.species.toUpperCase())}"></span><br />
+            <strong style="font-size: 2em;" th:text="${global.get(IDS + warship.index.toUpperCase() + '_FULL')}"></strong><br />
+            <img th:title="${global.get(IDS + warship.index +'_DESCR')}" th:src="${warship.imageMedium}" /><br />
             <br />
         </div>
         <div class="info_box">
-            <div style="display: inline-table; vertical-align: top;">
-                <div id="left_tabs" class="left_tabs">
-                    <div id="tab_left_modules" class="button_tab left modules select">Modules</div>
-                    <div id="tab_left_upgrades" class="button_tab left upgrades">Upgrades</div>
-                    <div id="tab_left_crewSkills" class="button_tab left crewSkills">Skills</div>
-                    <!--<div id="tab_left_flags" class="button_tab left flags">Flags</div>-->
-                    <div id="tab_left_consumables" class="button_tab left consumables">Consumables</div>
+            <div class="inner_info">
+                <div class="left_tabs">
+                    <div class="button_tab left select" data-type="modules" th:text="${global.get(IDS + 'MODULES')}"></div>
+                    <div class="button_tab left" data-type="upgrades" th:text="${global.get(IDS + 'MODERNIZATION')}"></div>
+                    <div class="button_tab left" data-type="crewSkills" th:text="${global.get(IDS + 'CREW_PERKS')}"></div>
+                    <div class="button_tab left" data-type="flags" th:text="${global.get(IDS + 'FLAG')}"></div>
+                    <div class="button_tab left" data-type="consumables" th:text="${global.get(IDS + 'TITLE_CONSUMABLES')}"></div>
                 </div>
                 <div class="left_info_box">
-                    <div id="modules" class="panel_left modules">
-                        <div id="wrongPathAlert" style="display: none;"><h2>Wrong path of research,<br />or ship patched</h2></div>
+                    <div class="panel_left show" data-type="modules">
                         <table>
                             <tbody>
                                 <tr th:each="i : ${#numbers.sequence(1, warship.ShipUpgradeInfo.maxRows)}">
                                     <th:block th:each="col : ${warship.ShipUpgradeInfo.cols}" th:if="${col.value > 0}">
                                         <th:block th:with="modules=${warship.ShipUpgradeInfo.components.get(col.key).?[position == __${i}__]}">
                                             <td th:each="module : ${modules}">
-                                                <button th:class="'button_module'" th:attr="data-index=${colStat.index}, data-position=${module.position}">
+                                                <button th:class="'button_module'" th:attr="data-index=${colStat.index}, data-type=${module.ucTypeShort}, data-position=${module.position},
+                                                data-prev-type=${module.prevType}, data-prev-position=${module.prevPosition}" th:classappend="${module.position == 1 ? 'select' : ''}">
                                                     <img th:src="${module.image}" /><br />
-                                                    <span th:text="${global.get('IDS_' + module.name.toUpperCase())}"></span>
+                                                    <span th:text="${global.get(IDS + module.name.toUpperCase())}"></span>
                                                 </button>
                                             </td>
                                             <td th:each="j : ${#numbers.sequence(1, col.value - modules.size())}" th:if="${col.value > modules.size()}">
@@ -45,23 +45,23 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="upgrades" class="panel_left upgrades hide">
+                    <div class="panel_left hide" data-type="upgrades">
                         <div th:each="slot : ${upgrades}">
                             <li th:each="upgrade : ${slot.value}"
                                 th:if="${(!#lists.contains(upgrade.value.excludes, warship.name) and #lists.contains(upgrade.value.group, warship.group) and #lists.contains(upgrade.value.nation, warship.typeinfo.nation)
                                         and #lists.contains(upgrade.value.shiptype, warship.typeinfo.species) and #lists.contains(upgrade.value.shiplevel, warship.level)) or #lists.contains(upgrade.value.ships, warship.name)}">
                                 <button th:title="${upgrade.value.description}" th:class="'button_upgrade'" th:id="${upgrade.key}" th:attr="data-index=${slotStat.index}, data-position=${upgradeStat.index + 1}">
                                     <img th:src="${upgrade.value.image}" /><br />
-                                    <span th:text="${global.get('IDS_TITLE_' + upgrade.key.toUpperCase())}"></span>
+                                    <span th:text="${global.get(IDS + 'TITLE_' + upgrade.key.toUpperCase())}"></span>
                                 </button>
                             </li>
                         </div>
                     </div>
-                    <div id="crewSkills" class="panel_left crewSkills hide">
+                    <div class="panel_left hide" data-type="crewSkills">
                     </div>
-                    <div id="flags" class="panel_left flags hide">
+                    <div class="panel_left hide" data-type="flags">
                     </div>
-                    <div id="consumables" class="panel_left consumables hide">
+                    <div class="panel_left hide" data-type="consumables">
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                 <br />
                 <br />
             </th:block>
-            <div class="right_side" style="display: inline-table; vertical-align: top;">
+            <div class="inner_info">
             </div>
         </div>
     </div>

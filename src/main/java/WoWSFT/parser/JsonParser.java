@@ -150,8 +150,6 @@ public class JsonParser
         setRealShipType(ship);
         setRows(ship);
 
-        ship.setFullName(global.get("IDS_" + ship.getIndex().toUpperCase() + "_FULL").toString());
-
         tempShips.put(ship.getIndex(), ship);
 
         addToShipsList(ship, shipsList);
@@ -190,6 +188,21 @@ public class JsonParser
                 });
             });
             value.sort(Comparator.comparingInt(ShipUpgrade::getPosition).thenComparing(ShipUpgrade::getName));
+        });
+
+        ship.getShipUpgradeInfo().getComponents().forEach((key, value) -> {
+            value.forEach(upgrade -> {
+                if (StringUtils.isNotEmpty(upgrade.getPrev())) {
+                    for (Map.Entry<String, List<ShipUpgrade>> entry : ship.getShipUpgradeInfo().getComponents().entrySet()) {
+                        ShipUpgrade tSU = entry.getValue().stream().filter(v -> v.getName().equalsIgnoreCase(upgrade.getPrev())).findFirst().orElse(null);
+                        if (tSU != null) {
+                            upgrade.setPrevType(tSU.getUcTypeShort());
+                            upgrade.setPrevPosition(tSU.getPosition());
+                            break;
+                        }
+                    }
+                }
+            });
         });
 
         ship.setComponents(new LinkedHashMap<>());
@@ -236,12 +249,13 @@ public class JsonParser
 
     private void addToShipsList(Ship ship, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList)
     {
-        shipsList.putIfAbsent(ship.getTypeinfo().getNation(), new LinkedHashMap<>());
-        shipsList.get(ship.getTypeinfo().getNation()).putIfAbsent(ship.getRealShipType(), new LinkedHashMap<>());
-        shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipType()).putIfAbsent(ship.getTypeinfo().getSpecies(), new LinkedHashMap<>());
-        shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipType()).get(ship.getTypeinfo().getSpecies()).putIfAbsent(ship.getLevel(), new ArrayList<>());
+        shipsList.putIfAbsent(ship.getTypeinfo().getNation().toUpperCase(), new LinkedHashMap<>());
+        shipsList.get(ship.getTypeinfo().getNation().toUpperCase()).putIfAbsent(ship.getRealShipTypeId().toUpperCase(), new LinkedHashMap<>());
+        shipsList.get(ship.getTypeinfo().getNation().toUpperCase()).get(ship.getRealShipTypeId().toUpperCase()).putIfAbsent(ship.getTypeinfo().getSpecies().toUpperCase(), new LinkedHashMap<>());
+        shipsList.get(ship.getTypeinfo().getNation().toUpperCase()).get(ship.getRealShipTypeId().toUpperCase()).get(ship.getTypeinfo().getSpecies().toUpperCase()).putIfAbsent(ship.getLevel(), new ArrayList<>());
 
-        shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipType()).get(ship.getTypeinfo().getSpecies()).get(ship.getLevel()).add(new ShipIndex(ship.getName(), ship.getIndex(), ship.getFullName(), ship.isResearch()));
+        shipsList.get(ship.getTypeinfo().getNation().toUpperCase()).get(ship.getRealShipTypeId().toUpperCase()).get(ship.getTypeinfo().getSpecies().toUpperCase()).get(ship.getLevel())
+                .add(new ShipIndex(ship.getName(), ship.getIndex(), "", ship.isResearch()));
     }
 
     private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> sortShipsList(
@@ -306,7 +320,7 @@ public class JsonParser
             LinkedHashMap<String, Object> tempCopy = mapper.convertValue(u.getValue(), new TypeReference<LinkedHashMap<String, Object>>(){});
             tempCopy.forEach((key, val) -> {
                 if (val instanceof Float && ((float) val != 0)) {
-                    u.getValue().getBonus().put("IDS_PARAMS_MODIFIER_" + key.toUpperCase() + (key.contains("WorkTime") ? "_MODERNIZATION" : ""),
+                    u.getValue().getBonus().put("PARAMS_MODIFIER_" + key.toUpperCase() + (key.contains("WorkTime") ? "_MODERNIZATION" : ""),
                             (((float) val) >= 1 ? "+" : "") + (((float) val) % 1 == 0 ? String.valueOf((int) ((float) val)) : ((int) CommonUtils.getBonus((float) val)) + " %"));
                 }
             });

@@ -73,6 +73,7 @@ public class GPController extends ExceptionController
     public String getWarship(Model model, @RequestParam(required = false, defaultValue = "") String index) throws Exception
     {
         model.addAttribute("single", true);
+        model.addAttribute("IDS", IDS);
         model.addAttribute("global", global);
         model.addAttribute("nations", gameParamsHM.get(TYPE_SHIP_LIST));
 
