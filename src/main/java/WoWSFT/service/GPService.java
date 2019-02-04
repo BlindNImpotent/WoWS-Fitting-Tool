@@ -1,5 +1,6 @@
 package WoWSFT.service;
 
+import WoWSFT.model.gameparams.commander.Commander;
 import WoWSFT.model.gameparams.modernization.Modernization;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,17 +27,17 @@ public class GPService
 
     @Autowired
     @Qualifier (value = "global")
-    private HashMap<String, Object> global;
+    private HashMap<String, HashMap<String, Object>> global;
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    public LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> getUpgrades() throws Exception
+    public LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> getUpgrades(String language) throws Exception
     {
         LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgradesCopy = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(TYPE_UPGRADE)), new TypeReference<LinkedHashMap<Integer, LinkedHashMap<String, Modernization>>>(){});
         upgradesCopy.forEach((slot, upgrades) -> upgrades.forEach((key, upgrade) -> upgrade.getBonus().forEach((ids, val) -> {
-            Object desc = global.get(IDS + ids);
+            Object desc = global.get(language).get(IDS + ids);
             if (desc == null) {
-                desc = global.get(IDS + ids.replace("_MODERNIZATION", ""));
+                desc = global.get(language).get(IDS + ids.replace("_MODERNIZATION", ""));
             }
 
             if (desc != null) {
@@ -44,5 +45,26 @@ public class GPService
             }
         })));
         return upgradesCopy;
+    }
+
+    public Commander getCommander(String language) throws Exception
+    {
+        LinkedHashMap<String, Commander> cCopy = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(TYPE_COMMANDER)), new TypeReference<LinkedHashMap<String, Commander>>(){});
+        Commander commander = cCopy.get("PAW001_DefaultCrew");
+
+        commander.getCSkills().forEach(row -> row.forEach(skill -> {
+            Object skillDesc = global.get(language).get(IDS + "SKILL_DESC_" + skill.getModifier().toUpperCase());
+            if (skillDesc != null) {
+                skill.setDescription(skill.getDescription() + skillDesc.toString().replace("\n\n", "\n") + "\n\n");
+            }
+
+            skill.getBonus().forEach((key, val) -> {
+                Object desc = global.get(language).get(IDS + key);
+                if (desc != null) {
+                    skill.setDescription(skill.getDescription() + desc.toString() + ": " + val + "\n");
+                }
+            });
+        }));
+        return commander;
     }
 }

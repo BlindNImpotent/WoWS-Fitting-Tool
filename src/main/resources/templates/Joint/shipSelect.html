@@ -58,10 +58,33 @@
                         </div>
                     </div>
                     <div class="panel_left hide" data-type="crewSkills">
+                        <table id="skillsTable" align="center" style="height: 418px;">
+                            <tbody>
+                            <tr th:each="skillTier : ${skills.cSkills}">
+                                <td th:each="skill : ${skillTier}">
+                                    <button th:title="${skill.description}" th:class="'button_skill'" th:attr="data-index=${skillTierStat.index}, data-position=${skillStat.index}">
+                                        <img th:src="${skill.image}"/><br />
+                                        <span th:text="${global.get(IDS + 'SKILL_' + skill.modifier.toUpperCase())}"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="panel_left hide" data-type="flags">
                     </div>
                     <div class="panel_left hide" data-type="consumables">
+                        <th:block th:each="shipAbil : ${warship.ShipAbilities}" th:with="ability = ${shipAbil.value}">
+                            <div class="consumablesIcon" th:if="${ability.abils.size() > 0}">
+                                <li th:each="consumable : ${ability.abils}" th:if="${!consumable[0].contains('Super')}">
+                                    <button th:title="${global.get(IDS + 'DOCK_CONSUME_DESCRIPTION_' + consumable[0].toUpperCase())}" class="button_consumable"
+                                            th:attr="data-index=${shipAbilStat.index}, data-position=${consumableStat.index + 1}">
+                                        <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
+                                        <span th:text="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable[0].toUpperCase())}"></span>
+                                    </button>
+                                </li>
+                            </div>
+                        </th:block>
                     </div>
                 </div>
             </div>

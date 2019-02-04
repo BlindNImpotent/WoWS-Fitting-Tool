@@ -2,11 +2,13 @@ package WoWSFT.model.gameparams.consumable;
 
 import WoWSFT.config.WoWSFT;
 import WoWSFT.utils.CommonUtils;
-import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
 @Data
 @WoWSFT
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ConsumableSub
 {
     private float activationDelay;
@@ -30,15 +32,12 @@ public class ConsumableSub
     private String group;
     private float height;
     private float lifeTime;
-    private String livePointEffect; //
-    private int numConsumables;
+    private float numConsumables;
     private String planeType;
     private float radius;
     private float regenerationHPSpeed;
     private float regenerationRate;
     private float reloadTime;
-    private String spawnEffect; //
-    private String spawnPointEffect; //
     private float startDelayTime;
     private float timeDelayAttack;
     private float timeToHeaven;
@@ -47,15 +46,27 @@ public class ConsumableSub
     private float torpedoReloadTime;
     private float workTime;
 
-    @JsonGetter
-    public float getDistShipReal()
+    @JsonSetter
+    public void setDistanceToKill(float distanceToKill)
     {
-        return CommonUtils.getDistCoefWG(distShip);
+        this.distanceToKill = CommonUtils.getDistCoefWG(distanceToKill);
     }
 
-    @JsonGetter
-    public float getDistTorpedoReal()
+    @JsonSetter
+    public void setRadius(float radius)
     {
-        return CommonUtils.getDistCoefWG(distTorpedo);
+        this.radius = CommonUtils.getDistCoefWG(radius);
+    }
+
+    @JsonSetter
+    public void setDistShip(float distShip)
+    {
+        this.distShip = CommonUtils.getDistCoefWG(distShip);
+    }
+
+    @JsonSetter
+    public void setDistTorpedo(float distTorpedo)
+    {
+        this.distTorpedo = CommonUtils.getDistCoefWG(distTorpedo);
     }
 }

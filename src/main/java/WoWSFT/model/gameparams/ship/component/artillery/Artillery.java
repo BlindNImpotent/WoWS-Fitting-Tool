@@ -39,14 +39,11 @@ public class Artillery
     {
         if (name.contains("Far")) {
             auraFar = mapper.convertValue(value, Aura.class);
-        }
-        else if (name.contains("Medium")) {
+        } else if (name.contains("Medium")) {
             auraMedium = mapper.convertValue(value, Aura.class);
-        }
-        else if (name.contains("Near")) {
+        } else if (name.contains("Near")) {
             auraNear = mapper.convertValue(value, Aura.class);
-        }
-        else if (value instanceof HashMap) {
+        } else if (value instanceof HashMap) {
             HashMap<String, Object> tempObject = mapper.convertValue(value, new TypeReference<HashMap<String, Object>>(){});
 
             if (tempObject.containsKey("HitLocationArtillery")) {

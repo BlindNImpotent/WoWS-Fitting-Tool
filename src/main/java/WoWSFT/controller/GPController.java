@@ -32,7 +32,7 @@ public class GPController extends ExceptionController
 
     @Autowired
     @Qualifier (value = "global")
-    private HashMap<String, Object> global;
+    private HashMap<String, HashMap<String, Object>> global;
 
     @Autowired
     private GPService gpService;
@@ -70,16 +70,17 @@ public class GPController extends ExceptionController
     }
 
     @GetMapping(value = "/ship")
-    public String getWarship(Model model, @RequestParam(required = false, defaultValue = "") String index) throws Exception
+    public String getWarship(Model model, @RequestParam(required = false, defaultValue = "") String index, @RequestParam(required = false, defaultValue = "en") String language) throws Exception
     {
         model.addAttribute("single", true);
         model.addAttribute("IDS", IDS);
-        model.addAttribute("global", global);
+        model.addAttribute("global", global.get(language));
         model.addAttribute("nations", gameParamsHM.get(TYPE_SHIP_LIST));
 
         if (StringUtils.isNotEmpty(index)) {
             model.addAttribute(TYPE_WARSHIP, getShipFromIndex(index.toUpperCase()));
-            model.addAttribute(TYPE_UPGRADE, gpService.getUpgrades());
+            model.addAttribute(TYPE_UPGRADE, gpService.getUpgrades(language));
+            model.addAttribute(TYPE_SKILL, gpService.getCommander(language));
         }
 
         return "FittingTool/ftHome";

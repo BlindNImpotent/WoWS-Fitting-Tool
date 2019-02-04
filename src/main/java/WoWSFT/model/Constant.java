@@ -10,12 +10,15 @@ public class Constant
     public static BigDecimal distCoefWG = new BigDecimal(100f / 3f);
 
     public static final String IDS = "IDS_";
+    public static final String MODIFIER = "PARAMS_MODIFIER_";
 
     public static final String TYPE_SHIP = "ships";
     public static final String TYPE_SHIP_LIST = "shipsList";
     public static final String TYPE_WARSHIP = "warship";
     public static final String TYPE_UPGRADE = "upgrades";
     public static final String TYPE_CONSUMABLE = "consumables";
+    public static final String TYPE_COMMANDER = "commanders";
+    public static final String TYPE_SKILL = "skills";
 
     public static final String flightControl = "flightControl";
     public static final String artillery = "artillery";

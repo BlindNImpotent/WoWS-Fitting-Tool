@@ -1,6 +1,7 @@
 package WoWSFT.parser;
 
 import WoWSFT.model.gameparams.TypeInfo;
+import WoWSFT.model.gameparams.commander.Commander;
 import WoWSFT.model.gameparams.consumable.Consumable;
 import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
@@ -56,7 +57,7 @@ public class JsonParser
 
     @Autowired
     @Qualifier (value = "global")
-    private HashMap<String, Object> global;
+    private HashMap<String, HashMap<String, Object>> global;
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -64,6 +65,7 @@ public class JsonParser
     private static HashSet<String> excludeShipNations = new HashSet<>(Arrays.asList("Events", "disabled", "preserved", "clan"));
     private static HashSet<String> excludeShipSpecies = new HashSet<>(Arrays.asList("Auxiliary", "Submarine"));
     private static HashSet<String> excludeCompStats = new HashSet<>(Arrays.asList("directors", "finders", "radars"));
+    private static HashSet<String> globalLanguage = new HashSet<>(Arrays.asList("en", "kr"));
 
     @Async
     public void setNotification() throws IOException
@@ -83,12 +85,11 @@ public class JsonParser
     {
         log.info("Setting up Global");
 
-        Resource GlobalFile = new ClassPathResource("/json/live/global.json");
-
-        HashMap<String, Object> temp = mapper.readValue(GlobalFile.getInputStream(), new TypeReference<HashMap<String, Object>>(){});
-
-        global.putAll(temp);
-        temp.clear();
+        for (String language : globalLanguage) {
+            Resource GlobalFile = new ClassPathResource("/json/live/global-" + language + ".json");
+            HashMap<String, Object> temp = mapper.readValue(GlobalFile.getInputStream(), new TypeReference<HashMap<String, Object>>() {});
+            global.put(language, temp);
+        }
     }
 
 //    @Async
@@ -104,6 +105,7 @@ public class JsonParser
         HashMap<String, Consumable> tempConsumables = new HashMap<>();
         LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList = new LinkedHashMap<>();
         LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> tempUpgrades = new LinkedHashMap<>();
+        LinkedHashMap<String, Commander> tempCommanders = new LinkedHashMap<>();
 
         int uSlot = 0;
         while (uSlot < 6) {
@@ -119,16 +121,19 @@ public class JsonParser
                 if (!excludeShipGroups.contains(ship.getGroup()) && StringUtils.isEmpty(ship.getDefaultCrew())) {
                     addShips(ship, tempShips, shipsList);
                 }
-            }
-            else if (typeInfo.getType().equalsIgnoreCase("Modernization")) {
+            } else if (typeInfo.getType().equalsIgnoreCase("Modernization")) {
                 Modernization modernization = mapper.convertValue(value, Modernization.class);
                 if (modernization.getSlot() >= 0) {
                     tempUpgrades.get(modernization.getSlot()).put(modernization.getName(), modernization);
                 }
-            }
-            else if (typeInfo.getType().equalsIgnoreCase("Ability") && !excludeShipNations.contains(typeInfo.getNation()) && !key.contains("Super")) {
+            } else if (typeInfo.getType().equalsIgnoreCase("Ability") && !excludeShipNations.contains(typeInfo.getNation()) && !key.contains("Super")) {
                 Consumable consumable = mapper.convertValue(value, Consumable.class);
                 tempConsumables.put(key, consumable);
+            } else if (typeInfo.getType().equalsIgnoreCase("Crew")) {
+                Commander commander = mapper.convertValue(value, Commander.class);
+                if (commander.getName().contains("DefaultCrew") || commander.getCrewPersonality().isUnique()) {
+                    tempCommanders.put(key, commander);
+                }
             }
 
 //            nameToId.put(key, String.valueOf(value.get("id")));
@@ -140,6 +145,7 @@ public class JsonParser
         gameParamsHM.put(TYPE_SHIP_LIST, sortShipsList(tempShips, shipsList));
         gameParamsHM.put(TYPE_UPGRADE, sortUpgrades(tempUpgrades));
         gameParamsHM.put(TYPE_CONSUMABLE, tempConsumables);
+        gameParamsHM.put(TYPE_COMMANDER, sortCommanders(tempCommanders));
 
         temp.clear();
     }
@@ -213,8 +219,7 @@ public class JsonParser
         if ("upgradeable".equalsIgnoreCase(ship.getGroup()) || "start".equalsIgnoreCase(ship.getGroup())) {
             ship.setRealShipType(ship.getTypeinfo().getSpecies());
             ship.setResearch(true);
-        }
-        else {
+        } else {
             ship.setRealShipType("Premium");
         }
     }
@@ -316,12 +321,14 @@ public class JsonParser
 
     private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> sortUpgrades(LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades)
     {
+        List<String> exclude = new ArrayList<>(Arrays.asList("AAEXTRABUBBLES"));
+
         upgrades.forEach((slot, mod) -> mod.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(u -> {
             LinkedHashMap<String, Object> tempCopy = mapper.convertValue(u.getValue(), new TypeReference<LinkedHashMap<String, Object>>(){});
             tempCopy.forEach((key, val) -> {
                 if (val instanceof Float && ((float) val != 0)) {
-                    u.getValue().getBonus().put("PARAMS_MODIFIER_" + key.toUpperCase() + (key.contains("WorkTime") ? "_MODERNIZATION" : ""),
-                            (((float) val) >= 1 ? "+" : "") + (((float) val) % 1 == 0 ? String.valueOf((int) ((float) val)) : ((int) CommonUtils.getBonus((float) val)) + " %"));
+                    u.getValue().getBonus().put(MODIFIER + key.toUpperCase() + (key.contains("WorkTime") ? "_MODERNIZATION" : ""),
+                            (((float) val) >= 1 ? "+" : "") + (exclude.contains(key.toUpperCase()) ? String.valueOf((int) ((float) val)) : ((int) CommonUtils.getBonusCoef((float) val)) + "%"));
                 }
             });
 
@@ -330,5 +337,36 @@ public class JsonParser
         }));
 
         return upgrades;
+    }
+
+    private LinkedHashMap<String, Commander> sortCommanders(LinkedHashMap<String, Commander> commanders)
+    {
+        List<String> exclude = new ArrayList<>(Arrays.asList("tier", "column", "modifier", "epic", "image"));
+        List<String> include = new ArrayList<>(Arrays.asList("diveBomber", "fighter", "torpedoBomber"));
+
+        commanders.forEach((key, commander) -> {
+            commander.getCSkills().forEach(row -> row.forEach(skill -> {
+                LinkedHashMap<String, Object> tempCopy = mapper.convertValue(skill, new TypeReference<LinkedHashMap<String, Object>>(){});
+                tempCopy.forEach((sKey, sVal) -> {
+                    if (!exclude.contains(sKey.toLowerCase()) && sVal instanceof Number) {
+                        if (sKey.toLowerCase().endsWith("bonus") || sKey.toLowerCase().contains("chance")) {
+                            if (sKey.toLowerCase().contains("probability") || sKey.toLowerCase().contains("chance")) {
+                                skill.getBonus().put(MODIFIER + sKey.toUpperCase(), (((Number) sVal).floatValue() >= 0 ? "+" : "") + String.valueOf(CommonUtils.getBonus((float) sVal)).replace(".0", "") + "%");
+                            } else {
+                                skill.getBonus().put(MODIFIER + sKey.toUpperCase(), (((Number) sVal).floatValue() >= 0 ? "+" : "") + String.valueOf(sVal).replace(".0", ""));
+                            }
+                        } else if (sKey.toLowerCase().contains("coef") || sKey.toLowerCase().contains("ideal") || include.contains(sKey)) {
+                            skill.getBonus().put(MODIFIER + sKey.toUpperCase(), (((Number) sVal).floatValue() >= 1 ? "+" : "") + String.valueOf(CommonUtils.getBonusCoef((float) sVal)).replace(".0", "") + "%");
+                        } else if (sKey.toLowerCase().endsWith("step")) {
+                            skill.getBonus().put(MODIFIER + sKey.toUpperCase(), (((Number) sVal).floatValue() >= 0 ? "+" : "") + sVal.toString() + "%");
+                        } else {
+                            skill.getBonus().put(MODIFIER + sKey.toUpperCase(), (((Number) sVal).floatValue() >= 0 ? "+" : "") + String.valueOf(sVal).replace(".0", ""));
+                        }
+                    }
+                });
+            }));
+        });
+
+        return commanders;
     }
 }

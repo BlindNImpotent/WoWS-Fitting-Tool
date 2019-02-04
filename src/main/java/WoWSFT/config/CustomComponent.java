@@ -23,7 +23,7 @@ public class CustomComponent
 
     private HashMap<String, String> idToName = new HashMap<>();
 
-    private HashMap<String, Object> global = new HashMap<>();
+    private HashMap<String, HashMap<String, Object>> global = new HashMap<>();
 
     private HashMap<String, Object> gameParamsHM = new HashMap<>();
 
@@ -54,7 +54,7 @@ public class CustomComponent
     }
 
     @Bean (value = "global")
-    public HashMap<String, Object> global()
+    public HashMap<String, HashMap<String, Object>> global()
     {
         return global;
     }

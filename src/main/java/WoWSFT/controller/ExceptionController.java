@@ -28,8 +28,7 @@ public class ExceptionController
         if (t instanceof NullPointerException) {
             log.info("Null Point");
             return "";
-        }
-        else {
+        } else {
             log.error(t.getLocalizedMessage(), t);
         }
 

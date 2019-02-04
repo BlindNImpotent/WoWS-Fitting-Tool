@@ -39,7 +39,7 @@ public class AsyncHashMap implements CommandLineRunner
 
     @Autowired
     @Qualifier (value = "global")
-    private HashMap<String, Object> global;
+    private HashMap<String, HashMap<String, Object>> global;
 
     private ObjectMapper mapper = new ObjectMapper();
 

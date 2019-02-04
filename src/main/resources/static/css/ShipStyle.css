@@ -331,7 +331,7 @@ nav ul ul ul li {
     margin-bottom: 0px;
 }
 
-.button_skill_selected
+.button_skill.select
 {
     background-color:#fff;
     text-align: center;
@@ -349,7 +349,7 @@ nav ul ul ul li {
     vertical-align: top;
 }
 
-.button_skill_selected img
+.button_skill.select img
 {
     width: 30px;
     margin-bottom: 0px;
