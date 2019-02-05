@@ -1,10 +1,11 @@
-$(document).on('click', '.button_tab.left', function (e) {
+$(document).on('click', '.button_tab', function (e) {
     var $this = $(this),
         $type = $this.attr('data-type'),
+        $direction = $this.attr('data-direction'),
         $ship = $this.parents('.ship'),
-        $tabs = $ship.find('.button_tab.left.select'),
-        $panels = $ship.find('.panel_left.show'),
-        $info = $ship.find('.panel_left[data-type=' + $type + ']');
+        $tabs = $ship.find('.button_tab.select[data-direction=' + $direction + ']'),
+        $panels = $ship.find('.panel_' + $direction + '.show'),
+        $info = $ship.find('.panel_' + $direction + '[data-type=' + $type + ']');
 
     for (var i = 0; i < $tabs.length; i++) {
         $tabs.eq(i).removeClass('select');

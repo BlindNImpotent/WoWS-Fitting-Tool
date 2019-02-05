@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <th:block th:if="${warship != null}" th:fragment="detailedStat">
+        <div>
+            
+        </div>
+        <div class="right_tabs">
+            <div data-direction="right" class="button_tab" data-type="flightControl" th:if="${!#maps.isEmpty(warship.compStats.flightControl)}" th:classappend="'select'">Flight Control</div>
+            <div data-direction="right" class="button_tab" data-type="fighters" th:if="${!#maps.isEmpty(warship.compStats.fighter)}">Fighter</div>
+            <div data-direction="right" class="button_tab" data-type="diveBombers" th:if="${!#maps.isEmpty(warship.compStats.diveBomber)}">Dive Bomber</div>
+            <div data-direction="right" class="button_tab" data-type="torpBombers" th:if="${!#maps.isEmpty(warship.compStats.torpedoBomber)}">Torpedo Bomber</div>
+            <div data-direction="right" class="button_tab" data-type="artillery" th:if="${!#maps.isEmpty(warship.compStats.artillery)}" th:classappend="'select'">Artillery</div>
+            <!--<div data-direction="right" class="button_tab" data-type="heShells" th:if="${shipAPI.artillery != null and shipAPI.artillery.shells != null and shipAPI.artillery.shells.?[value.type == 'HE'].size() > 0}">HE Shell</div>-->
+            <!--<div data-direction="right" class="button_tab" data-type="apShells" th:if="${shipAPI.artillery != null and shipAPI.artillery.shells != null and shipAPI.artillery.shells.?[value.type == 'AP'].size() > 0}">AP Shell</div>-->
+            <div data-direction="right" class="button_tab" data-type="torpedoes" th:if="${!#maps.isEmpty(warship.compStats.torpedoes)}">Torpedoes</div>
+            <div data-direction="right" class="button_tab" data-type="AA"
+                 th:if="${(!#maps.isEmpty(warship.compStats.atba) and warship.compStats.atba.entrySet().?[key.contains('aura')].size() > 0)
+                        or !#maps.isEmpty(warship.compStats.airDefense)}">Anti Air</div>
+            <div data-direction="right" class="button_tab" data-type="secondary" th:if="${!#maps.isEmpty(warship.compStats.atba)}">Secondary</div>
+            <div data-direction="right" class="button_tab" data-type="hull" th:if="${!#maps.isEmpty(warship.compStats.hull)}">Hull</div>
+            <div data-direction="right" class="button_tab" data-type="mobility" th:if="${!#maps.isEmpty(warship.compStats.engine)}">Mobility</div>
+            <div data-direction="right" class="button_tab" data-type="consumables" th:if="${warship.ShipAbilities.entrySet().?[!#lists.isEmpty(value.abils)]}">Consumables</div>
+        </div>
+        <!--<div id="consumablesDataFragment" style="display: none;" th:include="Joint/consumablesPage :: consumablesDataFragment"></div>-->
+    </th:block>
+</body>
+</html>

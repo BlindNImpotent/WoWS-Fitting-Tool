@@ -17,11 +17,11 @@
         <div class="info_box">
             <div class="inner_info">
                 <div class="left_tabs">
-                    <div class="button_tab left select" data-type="modules" th:text="${global.get(IDS + 'MODULES')}"></div>
-                    <div class="button_tab left" data-type="upgrades" th:text="${global.get(IDS + 'MODERNIZATION')}"></div>
-                    <div class="button_tab left" data-type="crewSkills" th:text="${global.get(IDS + 'CREW_PERKS')}"></div>
-                    <!--<div class="button_tab left" data-type="flags" th:text="${global.get(IDS + 'FLAG')}"></div>-->
-                    <div class="button_tab left" data-type="consumables" th:text="${global.get(IDS + 'TITLE_CONSUMABLES')}"></div>
+                    <div data-direction="left" class="button_tab" data-type="modules" th:text="${global.get(IDS + 'MODULES')}" th:classappend="'select'"></div>
+                    <div data-direction="left" class="button_tab" data-type="upgrades" th:text="${global.get(IDS + 'MODERNIZATION')}"></div>
+                    <div data-direction="left" class="button_tab" data-type="crewSkills" th:text="${global.get(IDS + 'CREW_PERKS')}"></div>
+                    <!--<div data-direction="left" class="button_tab left" data-type="flags" th:text="${global.get(IDS + 'FLAG')}"></div>-->
+                    <div data-direction="left" class="button_tab" data-type="consumables" th:text="${global.get(IDS + 'TITLE_CONSUMABLES')}"></div>
                 </div>
                 <div class="left_info_box">
                     <div class="panel_left show" data-type="modules">
@@ -91,6 +91,7 @@
                 <br />
             </th:block>
             <div class="inner_info">
+                <th:block th:include="Joint/statGenerator :: detailedStat"></th:block>
             </div>
         </div>
     </div>

@@ -1,8 +1,11 @@
 package WoWSFT.controller;
 
+import WoWSFT.model.gameparams.commander.Commander;
+import WoWSFT.model.gameparams.consumable.Consumable;
+import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
+import WoWSFT.model.gameparams.ship.ShipIndex;
 import WoWSFT.service.GPService;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import static WoWSFT.model.Constant.*;
 
@@ -35,29 +39,47 @@ public class GPController extends ExceptionController
     private HashMap<String, HashMap<String, Object>> global;
 
     @Autowired
+    @Qualifier (value = TYPE_SHIP)
+    private LinkedHashMap<String, Ship> ships;
+
+    @Autowired
+    @Qualifier (value =  TYPE_CONSUMABLE)
+    private LinkedHashMap<String, Consumable> consumables;
+
+    @Autowired
+    @Qualifier (value = TYPE_SHIP_LIST)
+    private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList;
+
+    @Autowired
+    @Qualifier (value = TYPE_UPGRADE)
+    private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades;
+
+    @Autowired
+    @Qualifier (value = TYPE_COMMANDER)
+    private LinkedHashMap<String, Commander> commanders;
+
+    @Autowired
     private GPService gpService;
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    private HashMap<String, Ship> ships = new HashMap<>();
-
-    private Ship getShipFromIndex(String index, String language) throws Exception {
-        if (ships.size() == 0) {
-            ships = mapper.convertValue(gameParamsHM.get(TYPE_SHIP), new TypeReference<HashMap<String, Ship>>(){});
-        }
-        return gpService.getShip(ships.get(index), gpService.getConsumables(), language);
-    }
-
     @ResponseBody
     @GetMapping(value = "/data")
-    public Object tester(@RequestParam String type,
-                         @RequestParam(required = false) String ship) throws Exception
+    public Object tester(@RequestParam(required = false, defaultValue = "") String type,
+                         @RequestParam(required = false, defaultValue = "") String index)
     {
-        if (TYPE_SHIP.equalsIgnoreCase(type)) {
-            return getShipFromIndex(ship, "en");
+        if (type.equalsIgnoreCase(TYPE_SHIP)) {
+            return ships.get(index);
+        } else if (type.equalsIgnoreCase(TYPE_UPGRADE)) {
+            return upgrades;
+        } else if (type.equalsIgnoreCase(TYPE_CONSUMABLE)) {
+            return consumables;
+        } else if (type.equalsIgnoreCase(TYPE_COMMANDER)) {
+            return commanders;
+        } else if (type.equalsIgnoreCase(TYPE_SHIP_LIST)) {
+            return shipsList;
         }
-
-        return mapper.convertValue(gameParamsHM.get(type), new TypeReference<LinkedHashMap<String, Object>>(){});
+        return gameParamsHM.get(index);
     }
 
     @GetMapping(value = "/")
@@ -74,10 +96,10 @@ public class GPController extends ExceptionController
         model.addAttribute("single", true);
         model.addAttribute("IDS", IDS);
         model.addAttribute("global", global.get(language));
-        model.addAttribute("nations", gameParamsHM.get(TYPE_SHIP_LIST));
+        model.addAttribute("nations", shipsList);
 
         if (StringUtils.isNotEmpty(index)) {
-            model.addAttribute(TYPE_WARSHIP, getShipFromIndex(index.toUpperCase(), language));
+            model.addAttribute(TYPE_WARSHIP, gpService.getShip(index, language));
             model.addAttribute(TYPE_UPGRADE, gpService.getUpgrades(language));
             model.addAttribute(TYPE_SKILL, gpService.getCommander(language));
         }

@@ -11,6 +11,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Data
@@ -30,6 +31,8 @@ public class Artillery
     private boolean normalDistribution;
     private float sigmaCount;
     private float taperDist;
+
+    private LinkedHashMap<String, Shell> shells = new LinkedHashMap<>();
 
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();

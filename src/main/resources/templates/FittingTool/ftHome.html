@@ -48,7 +48,9 @@
                                     <th:block th:each="shipType : ${realShipType.value.get(realShipType.key)}">
                                         <th:block th:each="tier : ${shipType}">
                                             <li th:each="ship : ${tier.value}">
-                                                <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}" th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
+                                                <a th:href="'/ship?index=' + ${ship.index}">
+                                                    <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}" th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
+                                                </a>
                                             </li>
                                         </th:block>
                                     </th:block>
@@ -59,7 +61,9 @@
                                         <ul class="dropdown_sub">
                                             <th:block th:each="tier : ${shipType.value}">
                                                 <li th:each="ship : ${tier.value}">
-                                                    <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}" th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
+                                                    <a th:href="'/ship?index=' + ${ship.index}">
+                                                        <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}" th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
+                                                    </a>
                                                 </li>
                                             </th:block>
                                         </ul>
@@ -80,6 +84,12 @@
 <script th:src="@{/js/common.js}"></script>
 <script th:inline="javascript">
     // <![CDATA[
+
+    var temp;
+
+    $().ready(function () {
+        temp = [[${warship}]] /*null*/;
+    });
 
     // ]]>
 </script>

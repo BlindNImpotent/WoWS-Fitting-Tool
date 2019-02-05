@@ -9,9 +9,10 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import static WoWSFT.model.Constant.compStatsList;
 
 @Data
 @WoWSFT
@@ -53,6 +54,10 @@ public class Ship
 
     private List<List<Consumable>> consumables;
 
+    {
+        compStatsList.forEach(c -> compStats.put(c, new LinkedHashMap<>()));
+    }
+
     @JsonSetter
     public void setRealShipType(String realShipType)
     {
@@ -76,7 +81,7 @@ public class Ship
     {
         if (StringUtils.isEmpty(typeImage)) {
             if (typeinfo != null && StringUtils.isNotEmpty(typeinfo.getSpecies()) && StringUtils.isNotEmpty(realShipType)) {
-                return "https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/types/" + typeinfo.getSpecies() + (realShipType.equalsIgnoreCase("Premium") ? "/normal" : "/premium") + ".png";
+                return "https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/types/" + typeinfo.getSpecies() + (realShipType.equalsIgnoreCase("Premium") ? "/premium" : "/normal") + ".png";
             }
             return "";
         }

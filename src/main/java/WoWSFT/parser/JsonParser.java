@@ -59,6 +59,26 @@ public class JsonParser
     @Qualifier (value = "global")
     private HashMap<String, HashMap<String, Object>> global;
 
+    @Autowired
+    @Qualifier (value = TYPE_SHIP)
+    private LinkedHashMap<String, Ship> ships;
+
+    @Autowired
+    @Qualifier (value =  TYPE_CONSUMABLE)
+    private LinkedHashMap<String, Consumable> consumables;
+
+    @Autowired
+    @Qualifier (value = TYPE_SHIP_LIST)
+    private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList;
+
+    @Autowired
+    @Qualifier (value = TYPE_UPGRADE)
+    private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades;
+
+    @Autowired
+    @Qualifier (value = TYPE_COMMANDER)
+    private LinkedHashMap<String, Commander> commanders;
+
     private ObjectMapper mapper = new ObjectMapper();
 
     private static HashSet<String> excludeShipGroups = new HashSet<>(Arrays.asList("unavailable", "disabled", "preserved", "clan"));
@@ -114,14 +134,8 @@ public class JsonParser
 
         LinkedHashMap<String, LinkedHashMap<String, Object>> temp = mapper.readValue(GameParamsFile.getInputStream(), new TypeReference<LinkedHashMap<String, LinkedHashMap<String, Object>>>(){});
 
-        LinkedHashMap<String, Ship> tempShips = new LinkedHashMap<>();
-        LinkedHashMap<String, Consumable> tempConsumables = new LinkedHashMap<>();
-        LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList = new LinkedHashMap<>();
-        LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> tempUpgrades = new LinkedHashMap<>();
-        LinkedHashMap<String, Commander> tempCommanders = new LinkedHashMap<>();
-
         for (int i = 0; i < 6; i++) {
-            tempUpgrades.put(i, new LinkedHashMap<>());
+            upgrades.put(i, new LinkedHashMap<>());
         }
 
         temp.forEach((key, value) -> {
@@ -130,48 +144,47 @@ public class JsonParser
             if (typeInfo.getType().equalsIgnoreCase("Ship") && !excludeShipNations.contains(typeInfo.getNation()) && !excludeShipSpecies.contains(typeInfo.getSpecies())) {
                 Ship ship = mapper.convertValue(value, Ship.class);
                 if (!excludeShipGroups.contains(ship.getGroup()) && StringUtils.isEmpty(ship.getDefaultCrew())) {
-                    addShips(ship, tempShips, shipsList);
+                    addShips(ship);
                 }
             } else if (typeInfo.getType().equalsIgnoreCase("Modernization")) {
                 Modernization modernization = mapper.convertValue(value, Modernization.class);
                 if (modernization.getSlot() >= 0) {
                     setBonusParams(key, mapper.convertValue(modernization, new TypeReference<LinkedHashMap<String, Object>>(){}), modernization.getBonus(), "modernization");
-                    tempUpgrades.get(modernization.getSlot()).put(modernization.getName(), modernization);
+                    upgrades.get(modernization.getSlot()).put(modernization.getName(), modernization);
                 }
             } else if (typeInfo.getType().equalsIgnoreCase("Ability") && !excludeShipNations.contains(typeInfo.getNation()) && !key.contains("Super")) {
                 Consumable consumable = mapper.convertValue(value, Consumable.class);
                 consumable.getSubConsumables().forEach((sub, val) -> setBonusParams(key, mapper.convertValue(val, new TypeReference<LinkedHashMap<String, Object>>(){}), val.getBonus(), "consumable"));
-                tempConsumables.put(key, consumable);
+                consumables.put(key, consumable);
             } else if (typeInfo.getType().equalsIgnoreCase("Crew")) {
                 Commander commander = mapper.convertValue(value, Commander.class);
                 if (commander.getName().contains("DefaultCrew") || commander.getCrewPersonality().isUnique()) {
                     commander.getCSkills().forEach(row -> row.forEach(skill -> setBonusParams(key, mapper.convertValue(skill, new TypeReference<LinkedHashMap<String, Object>>(){}), skill.getBonus(), "commander")));
-                    tempCommanders.put(key, commander);
+                    commanders.put(key, commander);
                 }
+            } else {
+                gameParamsHM.put(key, value);
             }
 //            nameToId.put(key, String.valueOf(value.get("id")));
 //            idToName.put(String.valueOf(value.get("id")), key);
 //            gameParamsHM.put(String.valueOf(value.get("id")), value);
         });
 
-        gameParamsHM.put(TYPE_SHIP, tempShips);
-        gameParamsHM.put(TYPE_SHIP_LIST, sortShipsList(tempShips, shipsList));
-        gameParamsHM.put(TYPE_UPGRADE, sortUpgrades(tempUpgrades));
-        gameParamsHM.put(TYPE_CONSUMABLE, tempConsumables);
-        gameParamsHM.put(TYPE_COMMANDER, tempCommanders);
+        sortShipsList();
+        sortUpgrades();
 
         temp.clear();
     }
 
-    private void addShips(Ship ship, LinkedHashMap<String, Ship> tempShips, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList)
+    private void addShips(Ship ship)
     {
         sortShipUpgradeInfo(ship);
         setRealShipType(ship);
         setRows(ship);
 
-        tempShips.put(ship.getIndex(), ship);
+        ships.put(ship.getIndex(), ship);
 
-        addToShipsList(ship, shipsList);
+        addToShipsList(ship);
     }
 
     private void sortShipUpgradeInfo(Ship ship)
@@ -265,7 +278,7 @@ public class JsonParser
         ship.getShipUpgradeInfo().setCols(colCount).setMaxRows(maxRows);
     }
 
-    private void addToShipsList(Ship ship, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList)
+    private void addToShipsList(Ship ship)
     {
         shipsList.putIfAbsent(ship.getTypeinfo().getNation().toUpperCase(), new LinkedHashMap<>());
         shipsList.get(ship.getTypeinfo().getNation().toUpperCase()).putIfAbsent(ship.getRealShipTypeId().toUpperCase(), new LinkedHashMap<>());
@@ -276,8 +289,7 @@ public class JsonParser
                 .add(new ShipIndex(ship.getName(), ship.getIndex(), "", ship.isResearch()));
     }
 
-    private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> sortShipsList(
-            LinkedHashMap<String, Ship> tempShips, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList)
+    private void sortShipsList()
     {
         shipsList.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(nation -> {
             nation.getValue().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(realShipType -> {
@@ -302,10 +314,10 @@ public class JsonParser
 
                                     if (CollectionUtils.isNotEmpty(shipsList.get(nation.getKey()).get(realShipType.getKey()).get(shipType).get(cTier - 1))) {
                                         shipsList.get(nation.getKey()).get(realShipType.getKey()).get(shipType).get(cTier - 1).forEach(tShip -> {
-                                            if (tempShips.get(tShip.getIndex()).getTypeinfo().getSpecies().equalsIgnoreCase(shipType)) {
-                                                tempShips.get(tShip.getIndex()).getShipUpgradeInfo().getComponents().forEach((comp, list) -> list.forEach(u1 -> {
+                                            if (ships.get(tShip.getIndex()).getTypeinfo().getSpecies().equalsIgnoreCase(shipType)) {
+                                                ships.get(tShip.getIndex()).getShipUpgradeInfo().getComponents().forEach((comp, list) -> list.forEach(u1 -> {
                                                     if (u1.getNextShips().contains(ship.getIdentifier())) {
-                                                        tempShips.get(ship.getIndex()).setPrevShipIndex(tShip.getIndex());
+                                                        ships.get(ship.getIndex()).setPrevShipIndex(tShip.getIndex());
 
                                                         if (list.stream().filter(u2 -> CollectionUtils.isNotEmpty(u2.getNextShips())).count() == 1) {
                                                             tShip.setPosition(ship.getPosition());
@@ -328,18 +340,14 @@ public class JsonParser
             shipsList.remove(nation.getKey());
             shipsList.put(nation.getKey(), nation.getValue());
         });
-
-        return shipsList;
     }
 
-    private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> sortUpgrades(LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades)
+    private void sortUpgrades()
     {
         upgrades.forEach((slot, mod) -> mod.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(u -> {
             upgrades.get(slot).remove(u.getKey());
             upgrades.get(slot).put(u.getKey(), u.getValue());
         }));
-
-        return upgrades;
     }
 
     private void setBonusParams(String key, LinkedHashMap<String, Object> tempCopy, LinkedHashMap<String, String> bonus, String type)
