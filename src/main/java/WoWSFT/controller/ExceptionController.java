@@ -11,27 +11,27 @@ import java.io.IOException;
 @Slf4j
 public class ExceptionController
 {
-    @ExceptionHandler(IndexOutOfBoundsException.class)
-    public void doIndexError(Throwable t, HttpServletRequest request, HttpServletResponse response) throws IOException
-    {
-        if (request.getMethod().equalsIgnoreCase("get")) {
-            response.sendRedirect(request.getRequestURI());
-        }
-        response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write("");
-    }
-
-    @ResponseBody
-    @ExceptionHandler(Exception.class)
-    public String sendError(Throwable t, HttpServletRequest request) throws Exception
-    {
-        if (t instanceof NullPointerException) {
-            log.info("Null Point");
-            return "";
-        } else {
-            log.error(t.getLocalizedMessage(), t);
-        }
-
-        throw (Exception) t;
-    }
+//    @ExceptionHandler(IndexOutOfBoundsException.class)
+//    public void doIndexError(Throwable t, HttpServletRequest request, HttpServletResponse response) throws IOException
+//    {
+//        if (request.getMethod().equalsIgnoreCase("get")) {
+//            response.sendRedirect(request.getRequestURI());
+//        }
+//        response.setContentType("application/json;charset=UTF-8");
+//        response.getWriter().write("");
+//    }
+//
+//    @ResponseBody
+//    @ExceptionHandler(Exception.class)
+//    public String sendError(Throwable t, HttpServletRequest request) throws Exception
+//    {
+//        if (t instanceof NullPointerException) {
+//            log.info("Null Point");
+//            return "";
+//        } else {
+//            log.error(t.getLocalizedMessage(), t);
+//        }
+//
+//        throw (Exception) t;
+//    }
 }

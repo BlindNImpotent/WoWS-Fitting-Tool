@@ -76,7 +76,8 @@
                     <div class="panel_left hide" data-type="consumables">
                         <div class="consumablesIcon" th:each="slot : ${warship.consumables}">
                             <li th:each="consumable : ${slot}">
-                                <button class="button_consumable" th:title="${consumable.description}" th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">
+                                <button class="button_consumable" th:classappend="${consumableStat.index == 0 ? 'select' : ''}"
+                                        th:title="${consumable.description}" th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">
                                     <img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/><br />
                                     <span th:text="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase())}"></span>
                                 </button>

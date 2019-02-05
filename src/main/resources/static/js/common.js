@@ -19,11 +19,11 @@ $(document).on('click', '.button_tab.left', function (e) {
 
 $(document).on('click', '.button_module', function(){
     var $this = $(this),
-        $index = $this.attr('data-index'),
+        $index = parseInt($this.attr('data-index')),
         $type = $this.attr('data-type'),
-        $pos = $this.attr('data-position'),
+        $pos = parseInt($this.attr('data-position')),
         $prevType = $this.attr('data-prev-type'),
-        $prevPos = $this.attr('data-prev-position'),
+        $prevPos = parseInt($this.attr('data-prev-position')),
         $ship = $this.parents('.ship'),
         $all = $ship.find('.button_module.select'),
         $modules = $ship.find('.button_module.select[data-index=' + $index + ']');
@@ -31,9 +31,9 @@ $(document).on('click', '.button_module', function(){
     for (var i = 0; i < $all.length; i++) {
         var $cur = $all.eq(i),
             $curType = $cur.attr('data-type'),
-            $curPos = $cur.attr('data-position'),
+            $curPos = parseInt($cur.attr('data-position')),
             $curPrevType = $cur.attr('data-prev-type'),
-            $curPrevPos = $cur.attr('data-prev-position');
+            $curPrevPos = parseInt($cur.attr('data-prev-position'));
 
         if ((($curPrevType === $type && $curPrevPos > $pos) || ($prevType === $curType && $prevPos > $curPos)) && $curType !== $type) {
             return false;
@@ -48,7 +48,7 @@ $(document).on('click', '.button_module', function(){
 
 $(document).on('click', '.button_upgrade', function () {
     var $this = $(this),
-        $index = $this.attr('data-index'),
+        $index = parseInt($this.attr('data-index')),
         $ship = $this.parents('.ship'),
         $upgrades = $ship.find('.button_upgrade.select[data-index=' + $index + ']');
 
@@ -59,5 +59,51 @@ $(document).on('click', '.button_upgrade', function () {
             $upgrades.eq(i).removeClass('select');
         }
         $this.addClass('select');
+    }
+});
+
+$(document).on('click', '.button_consumable', function () {
+    var $this = $(this),
+        $index = parseInt($this.attr('data-index')),
+        $ship = $this.parents('.ship'),
+        $consumables = $ship.find('.button_consumable.select[data-index=' + $index + ']');
+
+    for (var i = 0; i < $consumables.length; i++) {
+        $consumables.eq(i).removeClass('select');
+    }
+    $this.addClass('select');
+});
+
+$(document).on('click', '.button_skill', function () {
+    var $this = $(this),
+        $index = parseInt($this.attr('data-index')),
+        $ship = $this.parents('.ship'),
+        $skills = $ship.find('.button_skill.select'),
+        $maxSpts = 19,
+        $totalSpts = 0;
+
+    if ($this.hasClass('select')) {
+        $this.removeClass('select')
+    } else {
+        var canUse = false;
+
+        if ($index === 0) {
+            canUse = true;
+        }
+
+        for (var i = 0; i < $skills.length; i++) {
+            var $sIndex = parseInt($skills.eq(i).attr('data-index'));
+            $totalSpts += $sIndex + 1;
+
+            if ($sIndex + 1 === $index || $index === 0) {
+                canUse = true;
+            }
+        }
+
+        if (!canUse || $totalSpts + $index + 1 > $maxSpts) {
+            return false;
+        } else {
+            $this.addClass('select');
+        }
     }
 });

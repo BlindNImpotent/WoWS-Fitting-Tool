@@ -216,322 +216,69 @@ nav ul li:active > ul {
     cursor: pointer;
 }
 
-.select {
-    border-color: rgb(256,0,0);
-}
-
-.button_module
-{
+.button_ship,
+.button_module, .button_upgrade,
+.button_skill, .button_uSkill,
+.button_flag, .button_consumable {
     background-color:#fff;
     text-align: center;
     border-color: rgb(0,0,0);
-    border-width: 0px;
+    border-width: 0;
     border-style: solid;
     border-radius: 5px;
     font-size: 9px;
-    min-width: 85px;
-    max-width: 85px;
-    min-height: 85px;
-    max-height: 85px;
+    min-width: 90px;
+    max-width: 90px;
+    min-height: 90px;
+    max-height: 90px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
 }
 
-.button_module img
-{
+.button_module img {
     width: 30px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
-.button_module.select
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(256,0,0);
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 9px;
-    min-width: 85px;
-    max-width: 85px;
-    min-height: 85px;
-    max-height: 85px;
-    word-wrap: normal;
-    cursor: pointer;
-    vertical-align: top;
-}
-
-.button_module.select img
-{
+.button_module.select img {
     width: 40px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
-.button_ship
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(0,0,0);
-    border-width: 0px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 9px;
-    min-width: 85px;
-    max-width: 85px;
-    min-height: 85px;
-    max-height: 85px;
-    word-wrap: normal;
-    cursor: pointer;
-    vertical-align: top;
-}
-
-.button_ship img
-{
+.button_ship img {
     width: 70px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
-.button_upgrade
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(0,0,0);
-    border-width: 0px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 9px;
-    min-width: 90px;
-    max-width: 90px;
-    min-height: 90px;
-    max-height: 90px;
-    word-wrap: normal;
-    cursor: pointer;
-    vertical-align: top;
-}
-
-.button_upgrade img
-{
+.button_upgrade img {
     width: 30px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
-.button_upgrade.select
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(256,0,0);
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 9px;
-    min-width: 90px;
-    max-width: 90px;
-    min-height: 90px;
-    max-height: 90px;
-    word-wrap: normal;
-    cursor: pointer;
-    vertical-align: top;
-}
-
-.button_upgrade.select img
-{
-    width: 30px;
-    margin-bottom: 0px;
-}
-
-.button_skill
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(0,0,0);
-    border-width: 0px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 9px;
-    min-width: 85px;
-    max-width: 85px;
-    min-height: 85px;
-    max-height: 85px;
-    word-wrap: normal;
-    cursor: pointer;
-    vertical-align: top;
-}
-
-.button_skill img
-{
+.button_skill img {
     width: 20px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
-.button_skill_selected
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(256,0,0);
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 9px;
-    min-width: 85px;
-    max-width: 85px;
-    min-height: 85px;
-    max-height: 85px;
-    word-wrap: normal;
-    cursor: pointer;
-    vertical-align: top;
-}
-
-.button_skill_selected img
-{
+.button_uSkill img {
     width: 25px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
-.button_uSkill
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(0,0,0);
-    border-width: 0px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 9px;
-    min-width: 85px;
-    max-width: 85px;
-    min-height: 85px;
-    max-height: 85px;
-    word-wrap: normal;
-    cursor: pointer;
-    vertical-align: top;
-}
-
-.button_uSkill img
-{
+.button_flag img {
     width: 25px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
-.button_uSkill_selected
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(256,0,0);
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 9px;
-    min-width: 85px;
-    max-width: 85px;
-    min-height: 85px;
-    max-height: 85px;
-    word-wrap: normal;
-    cursor: pointer;
-    vertical-align: top;
-}
-
-.button_uSkill_selected img
-{
-    width: 30px;
-    margin-bottom: 0px;
-}
-
-.button_flag
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(0,0,0);
-    border-width: 0px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 9px;
-    min-width: 85px;
-    max-width: 85px;
-    min-height: 85px;
-    max-height: 85px;
-    word-wrap: normal;
-    cursor: pointer;
-    vertical-align: top;
-}
-
-.button_flag img
-{
-    width: 25px;
-    margin-bottom: 0px;
-}
-
-.button_flag_selected
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(256,0,0);
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 9px;
-    min-width: 85px;
-    max-width: 85px;
-    min-height: 85px;
-    max-height: 85px;
-    word-wrap: normal;
-    cursor: pointer;
-    vertical-align: top;
-}
-
-.button_flag_selected img
-{
-    width: 30px;
-    margin-bottom: 0px;
-}
-
-.button_consumable
-{
-    background-color:#fff;
-    text-align: center;
-    border-color: rgb(0,0,0);
-    border-width: 0px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 9px;
-    min-width: 85px;
-    max-width: 85px;
-    min-height: 85px;
-    max-height: 85px;
-    word-wrap: normal;
-    cursor: pointer;
-    vertical-align: top;
-    padding: 2px 8px;
-}
-
-.button_consumable img
-{
+.button_consumable img {
     width: 40px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
-.button_consumable_selected
-{
-    background-color:#fff;
-    text-align: center;
+.select {
+    border-width:1px;
     border-color: rgb(256,0,0);
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;
-    font-size: 9px;
-    min-width: 85px;
-    max-width: 85px;
-    min-height: 85px;
-    max-height: 85px;
-    word-wrap: normal;
-    cursor: pointer;
-    vertical-align: top;
-    padding: 1px 6px;
-}
-
-.button_consumable_selected img
-{
-    width: 40px;
-    margin-bottom: 0px;
 }
 
 .consumablesIcon

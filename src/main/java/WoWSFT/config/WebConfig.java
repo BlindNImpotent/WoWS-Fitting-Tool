@@ -1,19 +1,23 @@
 package WoWSFT.config;
 
+import com.fasterxml.jackson.databind.MappingJsonFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import java.util.List;
 
 /**
  * Created by Qualson-Lee on 2016-08-04.
  */
 @Configuration
-@EnableWebMvc
 @ComponentScan("WoWSFT")
-public class WebConfig implements WebMvcConfigurer
+public class WebConfig extends WebMvcConfigurationSupport
 {
     @Bean
     public ViewResolver viewResolver()
@@ -25,17 +29,26 @@ public class WebConfig implements WebMvcConfigurer
         return resolver;
     }
 
-//    @Bean
-//    public WebContentInterceptor webContentInterceptor() {
-//        WebContentInterceptor interceptor = new WebContentInterceptor();
-//        interceptor.setCacheSeconds(4096);
-//        return interceptor;
-//    }
-//
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(webContentInterceptor());
-//    }
+    @Override
+    protected void configureMessageConverters(List<HttpMessageConverter<?>> converters)
+    {
+        converters.add(customMJ2HMC());
+        addDefaultHttpMessageConverters(converters);
+    }
+
+    @Bean
+    public CustomObjectMapper createObjectMapper()
+    {
+        return new CustomObjectMapper(new MappingJsonFactory());
+    }
+
+    @Bean
+    public CustomMJ2HMC customMJ2HMC()
+    {
+        CustomMJ2HMC customMJ2HMC = new CustomMJ2HMC();
+        customMJ2HMC.setObjectMapper(new CustomObjectMapper(new MappingJsonFactory()));
+        return customMJ2HMC;
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry)
