@@ -65,7 +65,20 @@ public class JsonParser
     private static HashSet<String> excludeShipNations = new HashSet<>(Arrays.asList("Events", "disabled", "preserved", "clan"));
     private static HashSet<String> excludeShipSpecies = new HashSet<>(Arrays.asList("Auxiliary", "Submarine"));
     private static HashSet<String> excludeCompStats = new HashSet<>(Arrays.asList("directors", "finders", "radars"));
+    private static HashSet<String> excludeModernization = new HashSet<>(Arrays.asList("extra"));
+
+    private static HashSet<String> coeff = new HashSet<>(Arrays.asList("coef", "maxdist", "idealradius"));
+    private static HashSet<String> noUnit = new HashSet<>(Arrays.asList("num"));
+    private static HashSet<String> extra = new HashSet<>(Arrays.asList("count", "level", "additional"));
+    private static HashSet<String> meter = new HashSet<>(Arrays.asList("radius", "height", "dist"));
+    private static HashSet<String> rate = new HashSet<>(Arrays.asList("regeneration", "boostcoeff", "probabilitybonus", "chance"));
+    private static HashSet<String> rateNoSym = new HashSet<>(Arrays.asList("step"));
+    private static HashSet<String> multiple = new HashSet<>(Arrays.asList("multiplier"));
+    private static HashSet<String> extraAngle = new HashSet<>(Arrays.asList("gunbonus"));
+    private static HashSet<String> angle = new HashSet<>(Arrays.asList("angle"));
+    private static HashSet<String> time = new HashSet<>(Arrays.asList("time"));
     private static HashSet<String> globalLanguage = new HashSet<>(Arrays.asList("en", "kr"));
+    private static HashSet<String> speed = new HashSet<>(Arrays.asList("speedbonus"));
 
     @Async
     public void setNotification() throws IOException
@@ -99,18 +112,16 @@ public class JsonParser
 
         Resource GameParamsFile = new ClassPathResource("/json/live/GameParams.json");
 
-        LinkedHashMap<String, LinkedHashMap> temp = mapper.readValue(GameParamsFile.getInputStream(), new TypeReference<LinkedHashMap<String, LinkedHashMap>>(){});
+        LinkedHashMap<String, LinkedHashMap<String, Object>> temp = mapper.readValue(GameParamsFile.getInputStream(), new TypeReference<LinkedHashMap<String, LinkedHashMap<String, Object>>>(){});
 
-        HashMap<String, Ship> tempShips = new HashMap<>();
-        HashMap<String, Consumable> tempConsumables = new HashMap<>();
+        LinkedHashMap<String, Ship> tempShips = new LinkedHashMap<>();
+        LinkedHashMap<String, Consumable> tempConsumables = new LinkedHashMap<>();
         LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList = new LinkedHashMap<>();
         LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> tempUpgrades = new LinkedHashMap<>();
         LinkedHashMap<String, Commander> tempCommanders = new LinkedHashMap<>();
 
-        int uSlot = 0;
-        while (uSlot < 6) {
-            tempUpgrades.put(uSlot, new LinkedHashMap<>());
-            uSlot++;
+        for (int i = 0; i < 6; i++) {
+            tempUpgrades.put(i, new LinkedHashMap<>());
         }
 
         temp.forEach((key, value) -> {
@@ -124,18 +135,20 @@ public class JsonParser
             } else if (typeInfo.getType().equalsIgnoreCase("Modernization")) {
                 Modernization modernization = mapper.convertValue(value, Modernization.class);
                 if (modernization.getSlot() >= 0) {
+                    setBonusParams(key, mapper.convertValue(modernization, new TypeReference<LinkedHashMap<String, Object>>(){}), modernization.getBonus(), "modernization");
                     tempUpgrades.get(modernization.getSlot()).put(modernization.getName(), modernization);
                 }
             } else if (typeInfo.getType().equalsIgnoreCase("Ability") && !excludeShipNations.contains(typeInfo.getNation()) && !key.contains("Super")) {
                 Consumable consumable = mapper.convertValue(value, Consumable.class);
+                consumable.getSubConsumables().forEach((sub, val) -> setBonusParams(key, mapper.convertValue(val, new TypeReference<LinkedHashMap<String, Object>>(){}), val.getBonus(), "consumable"));
                 tempConsumables.put(key, consumable);
             } else if (typeInfo.getType().equalsIgnoreCase("Crew")) {
                 Commander commander = mapper.convertValue(value, Commander.class);
                 if (commander.getName().contains("DefaultCrew") || commander.getCrewPersonality().isUnique()) {
+                    commander.getCSkills().forEach(row -> row.forEach(skill -> setBonusParams(key, mapper.convertValue(skill, new TypeReference<LinkedHashMap<String, Object>>(){}), skill.getBonus(), "commander")));
                     tempCommanders.put(key, commander);
                 }
             }
-
 //            nameToId.put(key, String.valueOf(value.get("id")));
 //            idToName.put(String.valueOf(value.get("id")), key);
 //            gameParamsHM.put(String.valueOf(value.get("id")), value);
@@ -145,12 +158,12 @@ public class JsonParser
         gameParamsHM.put(TYPE_SHIP_LIST, sortShipsList(tempShips, shipsList));
         gameParamsHM.put(TYPE_UPGRADE, sortUpgrades(tempUpgrades));
         gameParamsHM.put(TYPE_CONSUMABLE, tempConsumables);
-        gameParamsHM.put(TYPE_COMMANDER, sortCommanders(tempCommanders));
+        gameParamsHM.put(TYPE_COMMANDER, tempCommanders);
 
         temp.clear();
     }
 
-    private void addShips(Ship ship, HashMap<String, Ship> tempShips, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList)
+    private void addShips(Ship ship, LinkedHashMap<String, Ship> tempShips, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList)
     {
         sortShipUpgradeInfo(ship);
         setRealShipType(ship);
@@ -264,7 +277,7 @@ public class JsonParser
     }
 
     private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> sortShipsList(
-            HashMap<String, Ship> tempShips, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList)
+            LinkedHashMap<String, Ship> tempShips, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList)
     {
         shipsList.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(nation -> {
             nation.getValue().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(realShipType -> {
@@ -321,17 +334,7 @@ public class JsonParser
 
     private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> sortUpgrades(LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades)
     {
-        List<String> exclude = new ArrayList<>(Arrays.asList("AAEXTRABUBBLES"));
-
         upgrades.forEach((slot, mod) -> mod.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(u -> {
-            LinkedHashMap<String, Object> tempCopy = mapper.convertValue(u.getValue(), new TypeReference<LinkedHashMap<String, Object>>(){});
-            tempCopy.forEach((key, val) -> {
-                if (val instanceof Float && ((float) val != 0)) {
-                    u.getValue().getBonus().put(MODIFIER + key.toUpperCase() + (key.contains("WorkTime") ? "_MODERNIZATION" : ""),
-                            (((float) val) >= 1 ? "+" : "") + (exclude.contains(key.toUpperCase()) ? String.valueOf((int) ((float) val)) : ((int) CommonUtils.getBonusCoef((float) val)) + "%"));
-                }
-            });
-
             upgrades.get(slot).remove(u.getKey());
             upgrades.get(slot).put(u.getKey(), u.getValue());
         }));
@@ -339,34 +342,42 @@ public class JsonParser
         return upgrades;
     }
 
-    private LinkedHashMap<String, Commander> sortCommanders(LinkedHashMap<String, Commander> commanders)
+    private void setBonusParams(String key, LinkedHashMap<String, Object> tempCopy, LinkedHashMap<String, String> bonus, String type)
     {
-        List<String> exclude = new ArrayList<>(Arrays.asList("tier", "column", "modifier", "epic", "image"));
-        List<String> include = new ArrayList<>(Arrays.asList("diveBomber", "fighter", "torpedoBomber"));
-
-        commanders.forEach((key, commander) -> {
-            commander.getCSkills().forEach(row -> row.forEach(skill -> {
-                LinkedHashMap<String, Object> tempCopy = mapper.convertValue(skill, new TypeReference<LinkedHashMap<String, Object>>(){});
-                tempCopy.forEach((sKey, sVal) -> {
-                    if (!exclude.contains(sKey.toLowerCase()) && sVal instanceof Number) {
-                        if (sKey.toLowerCase().endsWith("bonus") || sKey.toLowerCase().contains("chance")) {
-                            if (sKey.toLowerCase().contains("probability") || sKey.toLowerCase().contains("chance")) {
-                                skill.getBonus().put(MODIFIER + sKey.toUpperCase(), (((Number) sVal).floatValue() >= 0 ? "+" : "") + String.valueOf(CommonUtils.getBonus((float) sVal)).replace(".0", "") + "%");
-                            } else {
-                                skill.getBonus().put(MODIFIER + sKey.toUpperCase(), (((Number) sVal).floatValue() >= 0 ? "+" : "") + String.valueOf(sVal).replace(".0", ""));
-                            }
-                        } else if (sKey.toLowerCase().contains("coef") || sKey.toLowerCase().contains("ideal") || include.contains(sKey)) {
-                            skill.getBonus().put(MODIFIER + sKey.toUpperCase(), (((Number) sVal).floatValue() >= 1 ? "+" : "") + String.valueOf(CommonUtils.getBonusCoef((float) sVal)).replace(".0", "") + "%");
-                        } else if (sKey.toLowerCase().endsWith("step")) {
-                            skill.getBonus().put(MODIFIER + sKey.toUpperCase(), (((Number) sVal).floatValue() >= 0 ? "+" : "") + sVal.toString() + "%");
-                        } else {
-                            skill.getBonus().put(MODIFIER + sKey.toUpperCase(), (((Number) sVal).floatValue() >= 0 ? "+" : "") + String.valueOf(sVal).replace(".0", ""));
-                        }
+        tempCopy.forEach((param, cVal) -> {
+            if ("modernization".equalsIgnoreCase(type)) {
+                if (cVal instanceof Float && ((float) cVal != 0)) {
+                    if (excludeModernization.stream().anyMatch(param.toLowerCase()::contains)) {
+                        bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal));
+                    } else {
+                        bonus.put(MODIFIER + param.toUpperCase() + (key.contains("WorkTime") ? "_MODERNIZATION" : ""), CommonUtils.getNumSym(CommonUtils.getBonusCoef((float) cVal)) + " %");
                     }
-                });
-            }));
+                }
+            } else if ("consumable".equalsIgnoreCase(type) || "commander".equalsIgnoreCase(type)) {
+                if ((key.toLowerCase().contains("forsag") && param.contains("boostCoeff")) || speed.stream().anyMatch(param.toLowerCase()::contains)) {
+                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal) + " kts");
+                } else if (rate.stream().anyMatch(param.toLowerCase()::contains)) {
+                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonus((float) cVal)) + " %");
+                } else if (multiple.stream().anyMatch(param.toLowerCase()::contains)) {
+                    bonus.put(MODIFIER + param.toUpperCase(), "X " + CommonUtils.replaceZero(cVal.toString()));
+                } else if (coeff.stream().anyMatch(param.toLowerCase()::contains)) {
+                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonusCoef((float) cVal)) + " %");
+                } else if (noUnit.stream().anyMatch(param.toLowerCase()::contains)) {
+                    bonus.put(MODIFIER + param.toUpperCase(), (float) cVal > 0 ? CommonUtils.replaceZero(cVal.toString()) : "∞");
+                } else if (meter.stream().anyMatch(param.toLowerCase()::contains)) {
+                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " m");
+                } else if (rateNoSym.stream().anyMatch(param.toLowerCase()::contains)) {
+                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " %");
+                } else if (time.stream().anyMatch(param.toLowerCase()::contains)) {
+                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " s");
+                } else if (extraAngle.stream().anyMatch(param.toLowerCase()::contains)) {
+                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal) + " °");
+                } else if (angle.stream().anyMatch(param.toLowerCase()::contains)) {
+                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " °");
+                } else if (extra.stream().anyMatch(param.toLowerCase()::contains)) {
+                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal));
+                }
+            }
         });
-
-        return commanders;
     }
 }

@@ -30,7 +30,7 @@ public class Skill
     private float smallGunRangeCoefficient;
     private float consumablePlaneSpeedCoefficient;
     private float reloadCoefficient;
-    private int alertMinDistance;
+    private float alertMinDistance;
     private float critTimeCoefficient;
     private float atbaIdealRadiusHi;
     private float atbaIdealRadiusLo;
@@ -62,10 +62,10 @@ public class Skill
     private float torpedoBombersPrepareCoefficient;
     private float vitalityCoefficient;
     private float fightersPassiveEfficiencyCoefficient;
-    private int additionalConsumables;
-    private int healthPerLevel;
+    private float additionalConsumables;
+    private float healthPerLevel;
     private float torpedoRangeCoefficient;
-    private int torpedoSpeedBonus;
+    private float torpedoSpeedBonus;
     private float rangeCoefficient;
     private float bomberCoefficient;
     private float launcherCoefficient;
@@ -77,7 +77,7 @@ public class Skill
     private float squadronCoefficient;
     private float nearAuraDamageCoefficient;
     private float advancedOuterAuraDamageCoefficient;
-    private int extraFighterCount;
+    private float extraFighterCount;
     private float fighterLifeTimeCoefficient;
     private float hangarSizeBonus;
     private float planeSpawnTimeCoefficient;
@@ -90,9 +90,9 @@ public class Skill
     private float squadronHealthStep;
     private float squadronSpeedStep;
     private float nearAuraDamageTakenCoefficient;
-    private int planeHealthPerLevel;
+    private float planeHealthPerLevel;
     private float planeTorpedoRangeCoefficient;
-    private int planeTorpedoSpeedBonus;
+    private float planeTorpedoSpeedBonus;
     private float planeRangeCoefficient;
     @JsonAlias("isEpic")
     private boolean epic;

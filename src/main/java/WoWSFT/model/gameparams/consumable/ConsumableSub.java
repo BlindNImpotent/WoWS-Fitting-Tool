@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
+import java.util.LinkedHashMap;
+
 @Data
 @WoWSFT
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -46,10 +48,18 @@ public class ConsumableSub
     private float torpedoReloadTime;
     private float workTime;
 
+    private LinkedHashMap<String, String> bonus = new LinkedHashMap<>();
+
     @JsonSetter
     public void setDistanceToKill(float distanceToKill)
     {
         this.distanceToKill = CommonUtils.getDistCoefWG(distanceToKill);
+    }
+
+    @JsonSetter
+    public void setHeight(float height)
+    {
+        this.height = CommonUtils.getDistCoefWG(height);
     }
 
     @JsonSetter

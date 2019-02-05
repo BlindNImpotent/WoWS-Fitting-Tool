@@ -41,21 +41,20 @@ public class GPController extends ExceptionController
 
     private HashMap<String, Ship> ships = new HashMap<>();
 
-    private Ship getShipFromIndex(String index)
-    {
+    private Ship getShipFromIndex(String index, String language) throws Exception {
         if (ships.size() == 0) {
             ships = mapper.convertValue(gameParamsHM.get(TYPE_SHIP), new TypeReference<HashMap<String, Ship>>(){});
         }
-        return ships.get(index);
+        return gpService.getShip(ships.get(index), gpService.getConsumables(), language);
     }
 
     @ResponseBody
     @GetMapping(value = "/data")
     public Object tester(@RequestParam String type,
-                         @RequestParam(required = false) String ship)
+                         @RequestParam(required = false) String ship) throws Exception
     {
         if (TYPE_SHIP.equalsIgnoreCase(type)) {
-            return getShipFromIndex(ship);
+            return getShipFromIndex(ship, "en");
         }
 
         return mapper.convertValue(gameParamsHM.get(type), new TypeReference<LinkedHashMap<String, Object>>(){});
@@ -78,7 +77,7 @@ public class GPController extends ExceptionController
         model.addAttribute("nations", gameParamsHM.get(TYPE_SHIP_LIST));
 
         if (StringUtils.isNotEmpty(index)) {
-            model.addAttribute(TYPE_WARSHIP, getShipFromIndex(index.toUpperCase()));
+            model.addAttribute(TYPE_WARSHIP, getShipFromIndex(index.toUpperCase(), language));
             model.addAttribute(TYPE_UPGRADE, gpService.getUpgrades(language));
             model.addAttribute(TYPE_SKILL, gpService.getCommander(language));
         }

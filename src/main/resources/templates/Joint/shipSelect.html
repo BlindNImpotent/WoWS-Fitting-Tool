@@ -20,7 +20,7 @@
                     <div class="button_tab left select" data-type="modules" th:text="${global.get(IDS + 'MODULES')}"></div>
                     <div class="button_tab left" data-type="upgrades" th:text="${global.get(IDS + 'MODERNIZATION')}"></div>
                     <div class="button_tab left" data-type="crewSkills" th:text="${global.get(IDS + 'CREW_PERKS')}"></div>
-                    <div class="button_tab left" data-type="flags" th:text="${global.get(IDS + 'FLAG')}"></div>
+                    <!--<div class="button_tab left" data-type="flags" th:text="${global.get(IDS + 'FLAG')}"></div>-->
                     <div class="button_tab left" data-type="consumables" th:text="${global.get(IDS + 'TITLE_CONSUMABLES')}"></div>
                 </div>
                 <div class="left_info_box">
@@ -71,20 +71,17 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="panel_left hide" data-type="flags">
-                    </div>
+                    <!--<div class="panel_left hide" data-type="flags">-->
+                    <!--</div>-->
                     <div class="panel_left hide" data-type="consumables">
-                        <th:block th:each="shipAbil : ${warship.ShipAbilities}" th:with="ability = ${shipAbil.value}">
-                            <div class="consumablesIcon" th:if="${ability.abils.size() > 0}">
-                                <li th:each="consumable : ${ability.abils}" th:if="${!consumable[0].contains('Super')}">
-                                    <button th:title="${global.get(IDS + 'DOCK_CONSUME_DESCRIPTION_' + consumable[0].toUpperCase())}" class="button_consumable"
-                                            th:attr="data-index=${shipAbilStat.index}, data-position=${consumableStat.index + 1}">
-                                        <img th:src="${'/images/Consumables/' + consumable[0] + '.png'}"/><br />
-                                        <span th:text="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable[0].toUpperCase())}"></span>
-                                    </button>
-                                </li>
-                            </div>
-                        </th:block>
+                        <div class="consumablesIcon" th:each="slot : ${warship.consumables}">
+                            <li th:each="consumable : ${slot}">
+                                <button class="button_consumable" th:title="${consumable.description}" th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">
+                                    <img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/><br />
+                                    <span th:text="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase())}"></span>
+                                </button>
+                            </li>
+                        </div>
                     </div>
                 </div>
             </div>

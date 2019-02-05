@@ -25,6 +25,8 @@ public class Consumable
     private String name;
     private TypeInfo typeinfo;
 
+    private String description = "";
+
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();
 

@@ -11,6 +11,10 @@ public class Constant
 
     public static final String IDS = "IDS_";
     public static final String MODIFIER = "PARAMS_MODIFIER_";
+    public static final String CONSUME = "DOCK_CONSUME_";
+    public static final String TITLE = "TITLE_";
+    public static final String DESCRIPTION = "DESCRIPTION_";
+    public static final String DESC = "DESC_";
 
     public static final String TYPE_SHIP = "ships";
     public static final String TYPE_SHIP_LIST = "shipsList";

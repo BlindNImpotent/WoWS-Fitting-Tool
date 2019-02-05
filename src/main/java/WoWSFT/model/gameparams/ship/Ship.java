@@ -2,12 +2,14 @@ package WoWSFT.model.gameparams.ship;
 
 import WoWSFT.config.WoWSFT;
 import WoWSFT.model.gameparams.TypeInfo;
+import WoWSFT.model.gameparams.consumable.Consumable;
 import WoWSFT.model.gameparams.ship.abilities.AbilitySlot;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgradeInfo;
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -48,6 +50,8 @@ public class Ship
     private String prevShipIndex;
     private String typeImage;
     private String imageMedium;
+
+    private List<List<Consumable>> consumables;
 
     @JsonSetter
     public void setRealShipType(String realShipType)
