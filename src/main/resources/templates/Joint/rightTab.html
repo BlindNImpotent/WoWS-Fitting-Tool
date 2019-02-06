@@ -10,7 +10,7 @@
             <div data-direction="right" class="button_tab" data-type="fighters" th:if="${!#maps.isEmpty(warship.compStats.fighter)}">Fighter</div>
             <div data-direction="right" class="button_tab" data-type="diveBombers" th:if="${!#maps.isEmpty(warship.compStats.diveBomber)}">Dive Bomber</div>
             <div data-direction="right" class="button_tab" data-type="torpBombers" th:if="${!#maps.isEmpty(warship.compStats.torpedoBomber)}">Torpedo Bomber</div>
-            <div data-direction="right" class="button_tab" data-type="artillery" th:if="${!#maps.isEmpty(warship.compStats.artillery)}" th:classappend="'select'">Artillery</div>
+            <div data-direction="right" class="button_tab" data-type="artillery" th:if="${!#maps.isEmpty(warship.compStats.artillery)}" th:classappend="'select'" th:text="${global.get('IDS_SHIP_PARAM_WEAPONRY')}"></div>
             <!--<div data-direction="right" class="button_tab" data-type="heShells" th:if="${shipAPI.artillery != null and shipAPI.artillery.shells != null and shipAPI.artillery.shells.?[value.type == 'HE'].size() > 0}">HE Shell</div>-->
             <!--<div data-direction="right" class="button_tab" data-type="apShells" th:if="${shipAPI.artillery != null and shipAPI.artillery.shells != null and shipAPI.artillery.shells.?[value.type == 'AP'].size() > 0}">AP Shell</div>-->
             <div data-direction="right" class="button_tab" data-type="torpedoes" th:if="${!#maps.isEmpty(warship.compStats.torpedoes)}">Torpedoes</div>

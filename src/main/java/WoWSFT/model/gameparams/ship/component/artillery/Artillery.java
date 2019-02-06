@@ -5,14 +5,12 @@ import WoWSFT.model.gameparams.ship.component.airdefense.Aura;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 @Data
 @WoWSFT
@@ -23,7 +21,7 @@ public class Artillery
     private Aura auraMedium;
     private Aura auraNear;
     private List<Turret> turrets = new ArrayList<>();
-    private LinkedHashMap<String, Integer> turretTypes = new LinkedHashMap<>();
+    private LinkedHashMap<String, List<Integer>> turretTypes = new LinkedHashMap<>();
 
     private float artificialOffset;
     private float maxDist;
@@ -32,6 +30,8 @@ public class Artillery
     private boolean normalDistribution;
     private float sigmaCount;
     private float taperDist;
+    @JsonInclude
+    private float GMIdealRadius = 1f;
 
     private LinkedHashMap<String, Shell> shells = new LinkedHashMap<>();
 
@@ -54,11 +54,12 @@ public class Artillery
                 Turret turret = mapper.convertValue(value, Turret.class);
                 turrets.add(turret);
 
-                if (turretTypes.containsKey(turret.getName())) {
-                    turretTypes.put(turret.getName(), turretTypes.get(turret.getName()) + 1);
-                } else {
-                    turretTypes.put(turret.getName(), 1);
-                }
+                turretTypes.putIfAbsent(turret.getName(), new ArrayList<>(Arrays.asList(0, turret.getNumBarrels())));
+                turretTypes.get(turret.getName()).set(0, turretTypes.get(turret.getName()).get(0) + 1);
+                turretTypes.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(e -> {
+                    turretTypes.remove(e.getKey());
+                    turretTypes.put(e.getKey(), e.getValue());
+                });
             }
         }
     }

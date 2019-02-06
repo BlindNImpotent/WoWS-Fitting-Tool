@@ -105,6 +105,7 @@ public class GPController extends ExceptionController
         model.addAttribute("nations", shipsList);
 
         if (StringUtils.isNotEmpty(index)) {
+            model.addAttribute("dataIndex", 0);
             model.addAttribute(TYPE_WARSHIP, gpService.getShip(index, language));
             model.addAttribute(TYPE_UPGRADE, gpService.getUpgrades(language));
             model.addAttribute(TYPE_SKILL, gpService.getCommander(language));

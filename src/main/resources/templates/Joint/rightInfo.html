@@ -3,21 +3,35 @@
 <body>
     <th:block th:fragment="rightInfo">
         <div th:if="${modules.containsKey('artillery')}" class="panel_right show" data-type="artillery">
-            <table>
-                <tbody th:with="module=${warship.ShipUpgradeInfo.components.get('artillery').get(positions.get('artillery') - 1)}, arty=${warship.compStats.get('artillery').get(modules.get('artillery'))}">
-                    <tr>
-                        <td>
-                            <!--<th:block th:each="turret : ${arty.turrets}" th:if="${turretStat.index == 0 or (arty.turrets.get(turretStat.index - 1).index != turret.index or arty.turrets.get(turretStat.index - 1).numBarrels != turret.numBarrels)}"-->
-                                      <!--th:with="tempGroup=${arty.turrets.?[numBarrels == __${turret.numBarrels}__]}">-->
-                                <!--<strong th:name="${turret.name}" th:text="${tempGroup.size() + ' X ' + turret.numBarrels + ' ' + global.get(IDS + turret.name.toUpperCase())}"></strong><br />-->
-                            <!--</th:block>-->
-                        </td>
-                        <td>
-
-                        </td>
-                    </tr>
+            <table style="text-align: left;">
+                <tbody th:with="module=${warship.ShipUpgradeInfo.components.get('artillery').get(positions.get('artillery') - 1)},
+                    arty=${warship.compStats.get('artillery').get(modules.get('artillery'))}, turret0=${warship.compStats.get('artillery').get(modules.get('artillery')).turrets.get(0)},
+                    suo=${warship.compStats.get('suo').get(modules.get('suo'))}">
+                <tr>
+                    <td>
+                        <th:block th:each="turretType : ${arty.turretTypes}">
+                            <strong th:text="${turretType.value.get(0) + ' X ' + turretType.value.get(1) + ' ' + global.get(IDS + turretType.key.toUpperCase())}"></strong><br />
+                        </th:block>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr><td th:text="${global.get('IDS_SHIP_PARAM_MAX_DIST')}"></td><td th:text="${#numbers.formatDecimal(arty.maxDist * suo.maxDistCoef / 1000.0, 1, 2)} + ' km'"></td></tr>
+                <tr><td th:text="${global.get('IDS_SHIP_PARAM_SHOT_SPEED')}"></td><td th:text="${#numbers.formatDecimal(60.0 / turret0.shotDelay, 1, 1) + ' RPM'}"></td></tr>
+                <tr><td th:text="${global.get('IDS_SHIP_PARAM_SHOT_DELAY')}"></td><td th:text="${#numbers.formatDecimal(turret0.shotDelay, 1, 1)} + ' s'"></td></tr>
+                <tr><td th:text="${global.get('IDS_ACCURACY')}"></td><td></td></tr>
+                <tr><td>- Sigma</td><td th:text="${#numbers.formatDecimal(arty.sigmaCount, 1, 1)} + ' σ'"></td></tr>
+                <tr>
+                    <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_DISPERSION')}"></td>
+                    <td th:text="${#numbers.formatInteger(((turret0.idealRadius * arty.GMIdealRadius - turret0.minRadius) / 1000.0 * (arty.maxDist * suo.maxDistCoef / 30.0) + turret0.minRadius) * 30.0, 1, 'COMMA')} + ' m'"></td>
+                </tr>
+                <tr><td>- Min H</td><td th:text="${#numbers.formatInteger(arty.minDistH, 1, 'COMMA')} + ' m'"></td></tr>
+                <tr><td>- Min V</td><td th:text="${#numbers.formatInteger(arty.minDistV, 1, 'COMMA')} + ' m'"></td></tr>
+                <tr><td th:text="${global.get('IDS_SHIP_PARAM_ROTATION_SPEED')}"></td><td th:text="${#numbers.formatDecimal(turret0.rotationSpeed.get(0), 1, 1)} + ' °/ s'"></td></tr>
+                <tr><td th:text="${global.get('IDS_SHIP_PARAM_ROTATION_TIME')}"></td><td th:text="${#numbers.formatDecimal(60.0 * 2.0 / turret0.rotationSpeed.get(0), 1, 1)} + ' s'"></td></tr>
                 </tbody>
             </table>
+            <th:block th:include="Joint/angleSectorArtyPage :: angleSectorArtyPage"></th:block>
             <!--<li th:if="${shipAPI.shipComponents.artillery != null and !#lists.isEmpty(shipAPI.shipComponents.artillery.turretNames)}" th:each="turretName : ${shipAPI.shipComponents.artillery.turretNames}" name="guns">-->
                 <!--<u style="float: left;" th:text="${turretName.value + ' X ' + turretName.key}"/><br />-->
             <!--</li>-->

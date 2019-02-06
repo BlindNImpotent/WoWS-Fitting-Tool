@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="angleSectorArtyPage">
+    <script th:inline="javascript" data-script="artySector">
+    //    <![CDATA[
+
+        $(function () {
+            var curIndex = [[${dataIndex}]];
+            var artyString = [[${modules['artillery']}]];
+            drawArtillery($('[data-ship-index=' + curIndex + ']'), [[${warship.compStats['artillery']}]][artyString])
+        });
+
+    //    ]]>
+    </script>
+    <div title="Artillery Sector">
+        <canvas data-type="artilleryCanvas" width="250" height="250">
+        </canvas>
+    </div>
+</th:block>
+</body>
+</html>

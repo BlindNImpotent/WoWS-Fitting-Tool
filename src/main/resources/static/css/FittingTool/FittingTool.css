@@ -4,6 +4,10 @@ body {
     background: white;
 }
 
+table {
+    border-spacing: 0;
+}
+
 td {
     padding: 2px 1px;
 }
@@ -200,6 +204,7 @@ nav ul li:active > ul {
     border-radius:5px;
     display: block;
     padding: 0 2px;
+    margin: 0 1px;
     cursor: pointer;
     white-space: normal;
     overflow: hidden;
@@ -286,14 +291,6 @@ button img {
 .select {
     border-width:1px;
     border-color: rgb(256,0,0);
-}
-
-.consumablesIcon
-{
-    display: inline-block;
-    text-align: left;
-    vertical-align: top;
-    font-size: 9px;
 }
 
 .inner_info {
