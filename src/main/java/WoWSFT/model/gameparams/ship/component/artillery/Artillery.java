@@ -23,6 +23,7 @@ public class Artillery
     private Aura auraMedium;
     private Aura auraNear;
     private List<Turret> turrets = new ArrayList<>();
+    private LinkedHashMap<String, Integer> turretTypes = new LinkedHashMap<>();
 
     private float artificialOffset;
     private float maxDist;
@@ -50,7 +51,14 @@ public class Artillery
             HashMap<String, Object> tempObject = mapper.convertValue(value, new TypeReference<HashMap<String, Object>>(){});
 
             if (tempObject.containsKey("HitLocationArtillery")) {
-                turrets.add(mapper.convertValue(value, Turret.class));
+                Turret turret = mapper.convertValue(value, Turret.class);
+                turrets.add(turret);
+
+                if (turretTypes.containsKey(turret.getName())) {
+                    turretTypes.put(turret.getName(), turretTypes.get(turret.getName()) + 1);
+                } else {
+                    turretTypes.put(turret.getName(), 1);
+                }
             }
         }
     }

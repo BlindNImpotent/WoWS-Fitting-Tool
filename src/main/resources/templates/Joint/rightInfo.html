@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <th:block th:fragment="rightInfo">
+        <div th:if="${modules.containsKey('artillery')}" class="panel_right show" data-type="artillery">
+            <table>
+                <tbody th:with="module=${warship.ShipUpgradeInfo.components.get('artillery').get(positions.get('artillery') - 1)}, arty=${warship.compStats.get('artillery').get(modules.get('artillery'))}">
+                    <tr>
+                        <td>
+                            <!--<th:block th:each="turret : ${arty.turrets}" th:if="${turretStat.index == 0 or (arty.turrets.get(turretStat.index - 1).index != turret.index or arty.turrets.get(turretStat.index - 1).numBarrels != turret.numBarrels)}"-->
+                                      <!--th:with="tempGroup=${arty.turrets.?[numBarrels == __${turret.numBarrels}__]}">-->
+                                <!--<strong th:name="${turret.name}" th:text="${tempGroup.size() + ' X ' + turret.numBarrels + ' ' + global.get(IDS + turret.name.toUpperCase())}"></strong><br />-->
+                            <!--</th:block>-->
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--<li th:if="${shipAPI.shipComponents.artillery != null and !#lists.isEmpty(shipAPI.shipComponents.artillery.turretNames)}" th:each="turretName : ${shipAPI.shipComponents.artillery.turretNames}" name="guns">-->
+                <!--<u style="float: left;" th:text="${turretName.value + ' X ' + turretName.key}"/><br />-->
+            <!--</li>-->
+            <!--<span style="float:left;">Distance</span>-->
+            <!--<span style="float: right;" th:if="${configurationAPI != null and (shipAPI.shipComponents.artillery.maxDist - configurationAPI.shipComponents.artillery.maxDist) / 1000 != 0}" th:text="${(shipAPI.shipComponents.artillery.maxDist - configurationAPI.shipComponents.artillery.maxDist) / 1000 > 0 ? ' (+' + #numbers.formatDecimal((shipAPI.shipComponents.artillery.maxDist - configurationAPI.shipComponents.artillery.maxDist) / 1000, 1, 2) + ')' : ' (' + #numbers.formatDecimal((shipAPI.shipComponents.artillery.maxDist - configurationAPI.shipComponents.artillery.maxDist) / 1000, 1, 2) + ')'}"/>-->
+            <!--<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.maxDist / 1000, 1, 2)} + ' km'"/><br />-->
+            <!--<th:block th:if="${shipAPI.shipComponents.artillery != null}">-->
+                <!--<span style="float:left;">Sigma</span>-->
+                <!--<span style="float: right" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.sigmaCount, 1, 2)}"/><br />-->
+            <!--</th:block>-->
+            <!--<th:block th:if="${shipAPI.shipComponents.artillery != null}">-->
+                <!--<span style="float:left;">Dispersion</span><br />-->
+                <!--<span style="float:left;">- Max Dispersion</span>-->
+                <!--<span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.shipComponents.artillery.maxDispersion, 1, 'COMMA')} + ' m'"/><br />-->
+                <!--<span style="float:left;">- Min H Dispersion</span>-->
+                <!--<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.minDistH, 1, 0)} + ' m'"/><br />-->
+                <!--<span style="float:left;">- Min V Dispersion</span>-->
+                <!--<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.minDistV, 1, 0)} + ' m'"/><br />-->
+            <!--</th:block>-->
+            <!--<span style="float:left;">Reload</span>-->
+            <!--<span id="reloadDiff" style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.artillery.shotDelay - configurationAPI.shipComponents.artillery.shotDelay != 0}" th:text="${shipAPI.shipComponents.artillery.shotDelay - configurationAPI.shipComponents.artillery.shotDelay > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.shipComponents.artillery.shotDelay - configurationAPI.shipComponents.artillery.shotDelay, 1, 2) + ')' : ' (' + #numbers.formatDecimal(shipAPI.shipComponents.artillery.shotDelay - configurationAPI.shipComponents.artillery.shotDelay, 1, 2) + ')'}"/>-->
+            <!--<span id="reload" style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.shotDelay, 0 ,2)} + ' s'"/><br />-->
+            <!--<span style="float:left;">RoF</span>-->
+            <!--<span id="rofDiff" style="float: right;" th:if="${configurationAPI != null and 60 / shipAPI.shipComponents.artillery.shotDelay - 60 / configurationAPI.shipComponents.artillery.shotDelay != 0}" th:text="${60 / shipAPI.shipComponents.artillery.shotDelay - 60 / configurationAPI.shipComponents.artillery.shotDelay > 0 ? ' (+' + #numbers.formatDecimal(60 / shipAPI.shipComponents.artillery.shotDelay - 60 / configurationAPI.shipComponents.artillery.shotDelay, 1, 2) + ')' : ' (' + #numbers.formatDecimal(60 / shipAPI.shipComponents.artillery.shotDelay - 60 / configurationAPI.shipComponents.artillery.shotDelay, 1, 2) + ')'}"/>-->
+            <!--<span id="rof" style="float: right;" th:text="${#numbers.formatDecimal(60 / shipAPI.shipComponents.artillery.shotDelay, 1, 2)} + ' RPM'"/><br />-->
+            <!--<span style="float:left;">Rotation / 180 deg</span>-->
+            <!--<span style="float: right;" th:if="${configurationAPI != null and 180 / shipAPI.shipComponents.artillery.rotationDeg - 180 / configurationAPI.shipComponents.artillery.rotationDeg != 0}" th:text="${180 / shipAPI.shipComponents.artillery.rotationDeg - 180 / configurationAPI.shipComponents.artillery.rotationDeg > 0 ? ' (+' + #numbers.formatDecimal(180 / shipAPI.shipComponents.artillery.rotationDeg - 180 / configurationAPI.shipComponents.artillery.rotationDeg, 1, 2) + ')' : ' (' + #numbers.formatDecimal(180 / shipAPI.shipComponents.artillery.rotationDeg - 180 / configurationAPI.shipComponents.artillery.rotationDeg, 1, 2) + ')'}"/>-->
+            <!--<span style="float: right;" th:text="${#numbers.formatDecimal(180 / shipAPI.shipComponents.artillery.rotationDeg, 1, 2)} + ' s'"/><br />-->
+            <!--<span style="float:left;">Rotation</span>-->
+            <!--<span style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.artillery.rotationDeg - configurationAPI.shipComponents.artillery.rotationDeg != 0}" th:text="${shipAPI.shipComponents.artillery.rotationDeg - configurationAPI.shipComponents.artillery.rotationDeg > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.shipComponents.artillery.rotationDeg - configurationAPI.shipComponents.artillery.rotationDeg, 1, 2) + ')' : ' (' + #numbers.formatDecimal(shipAPI.shipComponents.artillery.rotationDeg - configurationAPI.shipComponents.artillery.rotationDeg, 1, 2) + ')'}"/>-->
+            <!--<span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.rotationDeg, 1, 2)} + ' deg / s'"/>-->
+            <!--<br />-->
+            <!--<br />-->
+            <!--<th:block th:include="Joint/angleSectorArtyPage :: angleSectorArtyPage"></th:block>-->
+        </div>
+    </th:block>
+</body>
+</html>

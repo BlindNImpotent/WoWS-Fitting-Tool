@@ -52,10 +52,17 @@ public class ShipUpgrade
     }
 
     @JsonSetter
-    public void setComponents(String name, Object value)
+    public void setComponents(Object value)
     {
-        components.putIfAbsent(name, new ArrayList<>());
-        components.get(name).add(mapper.convertValue(value, new TypeReference<List<String>>(){}));
+        LinkedHashMap<String, List<String>> temp = mapper.convertValue(value, new TypeReference<LinkedHashMap<String, List<String>>>(){});
+
+        temp.forEach((key, list) -> {
+            String name = key;
+            if (key.equalsIgnoreCase("fireControl")) {
+                name = suo;
+            }
+            components.put(name, list);
+        });
     }
 
     @JsonGetter

@@ -1,11 +1,15 @@
 body {
+    padding: 0;
     margin: 0;
     background: white;
 }
 
+td {
+    padding: 2px 1px;
+}
+
 li {
     list-style-type: none;
-    margin: 4px 0;
 }
 
 a {
@@ -27,12 +31,11 @@ a {
 }
 
 nav {
-    margin: 0 0 0;
     background-color: lightblue;
     cursor: pointer;
 }
 
-nav ul {
+ul {
     padding: 0;
     margin: 0;
     list-style: none;
@@ -42,7 +45,6 @@ nav ul {
 nav ul li {
     display:inline-block;
     background-color: lightblue;
-    margin: 0;
 }
 
 nav a {
@@ -150,10 +152,12 @@ nav ul li:active > ul {
     position: relative;
 }
 
-.ship
-{
+#main {
+    padding: 10px;
+}
+
+.ship {
     text-align: center;
-    padding: 0px 0px 5px;
 }
 
 .panel_left div, .panel_right div {
@@ -186,7 +190,6 @@ nav ul li:active > ul {
 
 .left_info_box, .right_info_box {
     background-color:#fff;
-    margin:2px;
     text-decoration:none;
     color:inherit;
     opacity:1;
@@ -196,7 +199,7 @@ nav ul li:active > ul {
     border-style:solid;
     border-radius:5px;
     display: block;
-    padding: 5px 5px;
+    padding: 0 2px;
     cursor: pointer;
     white-space: normal;
     overflow: hidden;
@@ -227,39 +230,43 @@ nav ul li:active > ul {
     border-style: solid;
     border-radius: 5px;
     font-size: 9px;
-    min-width: 90px;
-    max-width: 90px;
-    min-height: 90px;
-    max-height: 90px;
+    width: 70px;
+    height: 70px;
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
+    padding: 2px;
+    margin: 1px;
 }
 
-.button_module img {
-    width: 30px;
-    margin-bottom: 0;
+.button_module {
+    width: 90px;
+    height: 90px;
 }
 
-.button_module.select img {
-    width: 40px;
-    margin-bottom: 0;
+button img {
+    width: 45px;
 }
 
-.button_ship img {
-    width: 70px;
-    margin-bottom: 0;
-}
+/*.button_module.select img {*/
+    /*width: 40px;*/
+    /*margin-bottom: 0;*/
+/*}*/
 
-.button_upgrade img {
-    width: 30px;
-    margin-bottom: 0;
-}
+/*.button_ship img {*/
+    /*width: 70px;*/
+    /*margin-bottom: 0;*/
+/*}*/
 
-.button_skill img {
-    width: 20px;
-    margin-bottom: 0;
-}
+/*.button_upgrade img {*/
+    /*width: 30px;*/
+    /*margin-bottom: 0;*/
+/*}*/
+
+/*.button_skill img {*/
+    /*width: 20px;*/
+    /*margin-bottom: 0;*/
+/*}*/
 
 .button_uSkill img {
     width: 25px;
@@ -271,10 +278,10 @@ nav ul li:active > ul {
     margin-bottom: 0;
 }
 
-.button_consumable img {
-    width: 40px;
-    margin-bottom: 0;
-}
+/*.button_consumable img {*/
+    /*width: 40px;*/
+    /*margin-bottom: 0;*/
+/*}*/
 
 .select {
     border-width:1px;

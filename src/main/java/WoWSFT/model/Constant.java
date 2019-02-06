@@ -19,6 +19,7 @@ public class Constant
     public static final String TYPE_SHIP = "ships";
     public static final String TYPE_SHIP_LIST = "shipsList";
     public static final String TYPE_WARSHIP = "warship";
+    public static final String TYPE_MODULE = "modules";
     public static final String TYPE_UPGRADE = "upgrades";
     public static final String TYPE_CONSUMABLE = "consumables";
     public static final String TYPE_COMMANDER = "commanders";
@@ -41,5 +42,5 @@ public class Constant
     public static final String fireControl = "fireControl";
 
     public static final List<String> componentsList = new ArrayList<>(Arrays.asList(flightControl, artillery, hull, torpedoes, suo, fighter, torpedoBomber, diveBomber, engine));
-    public static final List<String> compStatsList = new ArrayList<>(Arrays.asList(flightControl, airArmament, airDefense, artillery, atba, hull, fireControl, torpedoes, fighter, torpedoBomber, diveBomber, engine));
+    public static final List<String> compStatsList = new ArrayList<>(Arrays.asList(flightControl, airArmament, airDefense, artillery, atba, hull, suo, torpedoes, fighter, torpedoBomber, diveBomber, engine));
 }

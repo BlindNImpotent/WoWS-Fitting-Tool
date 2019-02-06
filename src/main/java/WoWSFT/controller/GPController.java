@@ -6,6 +6,7 @@ import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
 import WoWSFT.service.GPService;
+import WoWSFT.service.ParserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,9 @@ public class GPController extends ExceptionController
     @Autowired
     private GPService gpService;
 
+    @Autowired
+    private ParserService parserService;
+
     private ObjectMapper mapper = new ObjectMapper();
 
     @ResponseBody
@@ -91,7 +95,9 @@ public class GPController extends ExceptionController
     }
 
     @GetMapping(value = "/ship")
-    public String getWarship(Model model, @RequestParam(required = false, defaultValue = "") String index, @RequestParam(required = false, defaultValue = "en") String language) throws Exception
+    public String getWarship(Model model, @RequestParam(required = false, defaultValue = "en") String language,
+                             @RequestParam(required = false, defaultValue = "") String index,
+                             @RequestParam(required = false, defaultValue = "") String modules) throws Exception
     {
         model.addAttribute("single", true);
         model.addAttribute("IDS", IDS);
@@ -102,6 +108,7 @@ public class GPController extends ExceptionController
             model.addAttribute(TYPE_WARSHIP, gpService.getShip(index, language));
             model.addAttribute(TYPE_UPGRADE, gpService.getUpgrades(language));
             model.addAttribute(TYPE_SKILL, gpService.getCommander(language));
+            parserService.parseModules(model, index, modules);
         }
 
         return "FittingTool/ftHome";

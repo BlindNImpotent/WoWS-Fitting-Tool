@@ -5,7 +5,7 @@
     <div id="notification" style="text-align: center;" th:if="${single and warship == null}">
         <h2>Click on a ship for fitting.</h2>
     </div>
-    <div class="ship" th:id="${warship.index}" th:attr="data-ship-index=${single ? '0' : dataIndex}" th:if="${warship != null}">
+    <div class="ship" th:name="${warship.index}" th:attr="data-ship-index=${single ? '0' : dataIndex}" th:if="${warship != null}">
         <div class="name">
             <img th:src="${warship.typeImage}"/><br />
             <span th:text="${'Tier ' + warship.level}"></span><br />
@@ -29,15 +29,16 @@
                             <tbody>
                                 <tr th:each="i : ${#numbers.sequence(1, warship.ShipUpgradeInfo.maxRows)}">
                                     <th:block th:each="col : ${warship.ShipUpgradeInfo.cols}" th:if="${col.value > 0}">
-                                        <th:block th:with="modules=${warship.ShipUpgradeInfo.components.get(col.key).?[position == __${i}__]}">
-                                            <td th:each="module : ${modules}">
+                                        <th:block th:with="mods=${warship.ShipUpgradeInfo.components.get(col.key).?[position == __${i}__]}">
+                                            <td th:each="module : ${mods}">
                                                 <button th:class="'button_module'" th:attr="data-index=${colStat.index}, data-type=${module.ucTypeShort}, data-position=${module.position},
-                                                data-prev-type=${module.prevType}, data-prev-position=${module.prevPosition}" th:classappend="${module.position == 1 ? 'select' : ''}">
+                                                data-prev-type=${module.prevType}, data-prev-position=${module.prevPosition}"
+                                                        th:classappend="${(modules.size() > 0 and module.components.get(module.ucTypeShort).contains(modules.get(module.ucTypeShort))) or (modules.size() == 0 and module.position == 1) ? 'select' : ''}">
                                                     <img th:src="${module.image}" /><br />
                                                     <span th:text="${global.get(IDS + module.name.toUpperCase())}"></span>
                                                 </button>
                                             </td>
-                                            <td th:each="j : ${#numbers.sequence(1, col.value - modules.size())}" th:if="${col.value > modules.size()}">
+                                            <td th:each="j : ${#numbers.sequence(1, col.value - mods.size())}" th:if="${col.value > mods.size()}">
                                             </td>
                                         </th:block>
                                     </th:block>
@@ -50,21 +51,21 @@
                             <li th:each="upgrade : ${slot.value}"
                                 th:if="${(!#lists.contains(upgrade.value.excludes, warship.name) and #lists.contains(upgrade.value.group, warship.group) and #lists.contains(upgrade.value.nation, warship.typeinfo.nation)
                                         and #lists.contains(upgrade.value.shiptype, warship.typeinfo.species) and #lists.contains(upgrade.value.shiplevel, warship.level)) or #lists.contains(upgrade.value.ships, warship.name)}">
-                                <button th:title="${upgrade.value.description}" th:class="'button_upgrade'" th:id="${upgrade.key}" th:attr="data-index=${slotStat.index}, data-position=${upgradeStat.index + 1}">
+                                <button th:title="${global.get(IDS + 'TITLE_' + upgrade.key.toUpperCase()) + '&#013&#013' + upgrade.value.description}" th:class="'button_upgrade'" th:name="${upgrade.key}" th:attr="data-index=${slotStat.index}, data-position=${upgradeStat.index + 1}">
                                     <img th:src="${upgrade.value.image}" /><br />
-                                    <span th:text="${global.get(IDS + 'TITLE_' + upgrade.key.toUpperCase())}"></span>
+                                    <!--<span th:text="${global.get(IDS + 'TITLE_' + upgrade.key.toUpperCase())}"></span>-->
                                 </button>
                             </li>
                         </div>
                     </div>
                     <div class="panel_left hide" data-type="crewSkills">
-                        <table id="skillsTable" align="center" style="height: 418px;">
+                        <table>
                             <tbody>
                             <tr th:each="skillTier : ${skills.cSkills}">
                                 <td th:each="skill : ${skillTier}">
-                                    <button th:title="${skill.description}" th:class="'button_skill'" th:attr="data-index=${skillTierStat.index}, data-position=${skillStat.index}">
+                                    <button th:title="${global.get(IDS + 'SKILL_' + skill.modifier.toUpperCase()) + '&#013&#013' + skill.description}" th:class="'button_skill'" th:attr="data-index=${skillTierStat.index}, data-position=${skillStat.index}">
                                         <img th:src="${skill.image}"/><br />
-                                        <span th:text="${global.get(IDS + 'SKILL_' + skill.modifier.toUpperCase())}"></span>
+                                        <!--<span th:text="${global.get(IDS + 'SKILL_' + skill.modifier.toUpperCase())}"></span>-->
                                     </button>
                                 </td>
                             </tr>
@@ -77,9 +78,9 @@
                         <div class="consumablesIcon" th:each="slot : ${warship.consumables}">
                             <li th:each="consumable : ${slot}">
                                 <button class="button_consumable" th:classappend="${consumableStat.index == 0 ? 'select' : ''}"
-                                        th:title="${consumable.description}" th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">
+                                        th:title="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase()) + '&#013&#013' + consumable.description}" th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">
                                     <img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/><br />
-                                    <span th:text="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase())}"></span>
+                                    <!--<span th:text="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase())}"></span>-->
                                 </button>
                             </li>
                         </div>
@@ -91,7 +92,7 @@
                 <br />
             </th:block>
             <div class="inner_info">
-                <th:block th:include="Joint/statGenerator :: detailedStat"></th:block>
+                <th:block th:include="Joint/rightTab :: detailedStat"></th:block>
             </div>
         </div>
     </div>

@@ -2,8 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
     <th:block th:if="${warship != null}" th:fragment="detailedStat">
-        <div>
-            
+        <div class="right_info_box">
+            <th:block th:include="Joint/rightInfo :: rightInfo"></th:block>
         </div>
         <div class="right_tabs">
             <div data-direction="right" class="button_tab" data-type="flightControl" th:if="${!#maps.isEmpty(warship.compStats.flightControl)}" th:classappend="'select'">Flight Control</div>
@@ -22,7 +22,6 @@
             <div data-direction="right" class="button_tab" data-type="mobility" th:if="${!#maps.isEmpty(warship.compStats.engine)}">Mobility</div>
             <div data-direction="right" class="button_tab" data-type="consumables" th:if="${warship.ShipAbilities.entrySet().?[!#lists.isEmpty(value.abils)]}">Consumables</div>
         </div>
-        <!--<div id="consumablesDataFragment" style="display: none;" th:include="Joint/consumablesPage :: consumablesDataFragment"></div>-->
     </th:block>
 </body>
 </html>

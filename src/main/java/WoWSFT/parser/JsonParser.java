@@ -197,8 +197,6 @@ public class JsonParser
 
                 upgrade.getComponents().forEach((cKey, cValue) -> {
                     if (!excludeCompStats.contains(cKey)) {
-                        ship.getCompStats().putIfAbsent(cKey, new LinkedHashMap<>());
-
                         if (cKey.equalsIgnoreCase(artillery)) {
                             cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), Artillery.class)));
                         } else if (cKey.equalsIgnoreCase(airDefense)) {
@@ -208,7 +206,7 @@ public class JsonParser
                         } else if (cKey.equalsIgnoreCase(engine)) {
                             cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), Engine.class)));
                         } else if (cKey.equalsIgnoreCase(fireControl)) {
-                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), FireControl.class)));
+                            cValue.forEach(cVal -> ship.getCompStats().get(suo).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), FireControl.class)));
                         } else if (cKey.equalsIgnoreCase(hull)) {
                             cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), Hull.class)));
                         } else if (cKey.equalsIgnoreCase(torpedoes)) {
