@@ -3,7 +3,7 @@
 <body>
 <div class="warshipData" th:fragment="warshipStats" th:attr="data-api-index=${single ? '0' : dataIndex}">
     <div id="notification" style="text-align: center;" th:if="${single and warship == null}">
-        <h2>Click on a ship for fitting.</h2>
+        <strong>Click on a ship for fitting.</strong>
     </div>
     <div class="ship" th:name="${warship.index}" th:attr="data-ship-index=${single ? '0' : dataIndex}" th:if="${warship != null}">
         <div class="name">
@@ -15,85 +15,77 @@
             <br />
         </div>
         <div class="info_box">
-            <div class="inner_info">
-                <div class="left_tabs">
-                    <div data-direction="left" class="button_tab" data-type="modules" th:text="${global.get(IDS + 'MODULES')}" th:classappend="'select'"></div>
-                    <div data-direction="left" class="button_tab" data-type="upgrades" th:text="${global.get(IDS + 'MODERNIZATION')}"></div>
-                    <div data-direction="left" class="button_tab" data-type="crewSkills" th:text="${global.get(IDS + 'CREW_PERKS')}"></div>
-                    <!--<div data-direction="left" class="button_tab left" data-type="flags" th:text="${global.get(IDS + 'FLAG')}"></div>-->
-                    <div data-direction="left" class="button_tab" data-type="consumables" th:text="${global.get(IDS + 'TITLE_CONSUMABLES')}"></div>
-                </div>
-                <div class="left_info_box">
-                    <div class="panel_left show" data-type="modules">
-                        <table>
-                            <tbody>
-                                <tr th:each="i : ${#numbers.sequence(1, warship.ShipUpgradeInfo.maxRows)}">
-                                    <th:block th:each="col : ${warship.ShipUpgradeInfo.cols}" th:if="${col.value > 0}">
-                                        <th:block th:with="mods=${warship.ShipUpgradeInfo.components.get(col.key).?[position == __${i}__]}">
-                                            <td th:each="module : ${mods}">
-                                                <button th:class="'button_module'" th:attr="data-index=${colStat.index}, data-type=${module.ucTypeShort}, data-position=${module.position},
+            <div class="tabs left">
+                <div data-direction="left" class="button_tab" data-type="modules" th:text="${global.get(IDS + 'MODULES')}" th:classappend="'select'"></div>
+                <div data-direction="left" class="button_tab" data-type="upgrades" th:text="${global.get(IDS + 'MODERNIZATION')}"></div>
+                <div data-direction="left" class="button_tab" data-type="crewSkills" th:text="${global.get(IDS + 'CREW_PERKS')}"></div>
+                <!--<div data-direction="left" class="button_tab left" data-type="flags" th:text="${global.get(IDS + 'FLAG')}"></div>-->
+                <div data-direction="left" class="button_tab" data-type="consumables" th:text="${global.get(IDS + 'TITLE_CONSUMABLES')}"></div>
+            </div>
+            <div class="info_box_inner left">
+                <div class="panel_left show" data-type="modules">
+                    <table>
+                        <tbody>
+                        <tr th:each="i : ${#numbers.sequence(1, warship.ShipUpgradeInfo.maxRows)}">
+                            <th:block th:each="col : ${warship.ShipUpgradeInfo.cols}" th:if="${col.value > 0}">
+                                <th:block th:with="mods=${warship.ShipUpgradeInfo.components.get(col.key).?[position == __${i}__]}">
+                                    <td th:each="module : ${mods}">
+                                        <button th:class="'button_module'" th:attr="data-index=${colStat.index}, data-type=${module.ucTypeShort}, data-position=${module.position},
                                                 data-prev-type=${module.prevType}, data-prev-position=${module.prevPosition}"
-                                                        th:classappend="${(modules.size() > 0 and module.components.get(module.ucTypeShort).contains(modules.get(module.ucTypeShort))) or (modules.size() == 0 and module.position == 1) ? 'select' : ''}">
-                                                    <img th:src="${module.image}" /><br />
-                                                    <span th:text="${global.get(IDS + module.name.toUpperCase())}"></span>
-                                                </button>
-                                            </td>
-                                            <td th:each="j : ${#numbers.sequence(1, col.value - mods.size())}" th:if="${col.value > mods.size()}">
-                                            </td>
-                                        </th:block>
-                                    </th:block>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="panel_left hide" data-type="upgrades">
-                        <div th:each="slot : ${upgrades}">
-                            <li th:each="upgrade : ${slot.value}"
-                                th:if="${(!#lists.contains(upgrade.value.excludes, warship.name) and #lists.contains(upgrade.value.group, warship.group) and #lists.contains(upgrade.value.nation, warship.typeinfo.nation)
+                                                th:classappend="${(modules.size() > 0 and module.components.get(module.ucTypeShort).contains(modules.get(module.ucTypeShort))) or (modules.size() == 0 and module.position == 1) ? 'select' : ''}">
+                                            <img th:src="${module.image}" /><br />
+                                            <span th:text="${global.get(IDS + module.name.toUpperCase())}"></span>
+                                        </button>
+                                    </td>
+                                    <td th:each="j : ${#numbers.sequence(1, col.value - mods.size())}" th:if="${col.value > mods.size()}">
+                                    </td>
+                                </th:block>
+                            </th:block>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel_left hide" data-type="upgrades">
+                    <ul th:each="slot : ${upgrades}" class="left">
+                        <li th:each="upgrade : ${slot.value}"
+                            th:if="${(!#lists.contains(upgrade.value.excludes, warship.name) and #lists.contains(upgrade.value.group, warship.group) and #lists.contains(upgrade.value.nation, warship.typeinfo.nation)
                                         and #lists.contains(upgrade.value.shiptype, warship.typeinfo.species) and #lists.contains(upgrade.value.shiplevel, warship.level)) or #lists.contains(upgrade.value.ships, warship.name)}">
-                                <button th:title="${global.get(IDS + 'TITLE_' + upgrade.key.toUpperCase()) + '&#013&#013' + upgrade.value.description}" th:class="'button_upgrade'" th:name="${upgrade.key}" th:attr="data-index=${slotStat.index}, data-position=${upgradeStat.index + 1}">
-                                    <img th:src="${upgrade.value.image}" /><br />
-                                    <!--<span th:text="${global.get(IDS + 'TITLE_' + upgrade.key.toUpperCase())}"></span>-->
+                            <button th:title="${global.get(IDS + 'TITLE_' + upgrade.key.toUpperCase()) + '&#013&#013' + upgrade.value.description}" th:class="'button_upgrade'" th:name="${upgrade.key}" th:attr="data-index=${slotStat.index}, data-position=${upgradeStat.index + 1}">
+                                <img th:src="${upgrade.value.image}" /><br />
+                                <!--<span th:text="${global.get(IDS + 'TITLE_' + upgrade.key.toUpperCase())}"></span>-->
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel_left hide" data-type="crewSkills">
+                    <table>
+                        <tbody>
+                        <tr th:each="skillTier : ${skills.cSkills}">
+                            <td th:each="skill : ${skillTier}">
+                                <button th:title="${global.get(IDS + 'SKILL_' + skill.modifier.toUpperCase()) + '&#013&#013' + skill.description}" th:class="'button_skill'" th:attr="data-index=${skillTierStat.index}, data-position=${skillStat.index}">
+                                    <img th:src="${skill.image}"/><br />
+                                    <!--<span th:text="${global.get(IDS + 'SKILL_' + skill.modifier.toUpperCase())}"></span>-->
                                 </button>
-                            </li>
-                        </div>
-                    </div>
-                    <div class="panel_left hide" data-type="crewSkills">
-                        <table>
-                            <tbody>
-                            <tr th:each="skillTier : ${skills.cSkills}">
-                                <td th:each="skill : ${skillTier}">
-                                    <button th:title="${global.get(IDS + 'SKILL_' + skill.modifier.toUpperCase()) + '&#013&#013' + skill.description}" th:class="'button_skill'" th:attr="data-index=${skillTierStat.index}, data-position=${skillStat.index}">
-                                        <img th:src="${skill.image}"/><br />
-                                        <!--<span th:text="${global.get(IDS + 'SKILL_' + skill.modifier.toUpperCase())}"></span>-->
-                                    </button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!--<div class="panel_left hide" data-type="flags">-->
-                    <!--</div>-->
-                    <div class="panel_left hide" data-type="consumables">
-                        <div class="consumablesIcon" th:each="slot : ${warship.consumables}">
-                            <li th:each="consumable : ${slot}">
-                                <button class="button_consumable" th:classappend="${consumableStat.index == 0 ? 'select' : ''}"
-                                        th:title="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase()) + '&#013&#013' + consumable.description}" th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">
-                                    <img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/><br />
-                                    <!--<span th:text="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase())}"></span>-->
-                                </button>
-                            </li>
-                        </div>
-                    </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--<div class="panel_left hide" data-type="flags">-->
+                <!--</div>-->
+                <div class="panel_left hide" data-type="consumables">
+                    <ul th:each="slot : ${warship.consumables}" class="left">
+                        <li th:each="consumable : ${slot}">
+                            <button class="button_consumable" th:classappend="${consumableStat.index == 0 ? 'select' : ''}"
+                                    th:title="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase()) + '&#013&#013' + consumable.description}" th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">
+                                <img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/><br />
+                                <!--<span th:text="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase())}"></span>-->
+                            </button>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <th:block th:if="${!single}">
-                <br />
-                <br />
-            </th:block>
-            <div class="inner_info">
-                <th:block th:include="Joint/rightTab :: detailedStat"></th:block>
-            </div>
+            <th:block th:include="Joint/rightTab :: detailedStat"></th:block>
         </div>
     </div>
 </div>

@@ -1,0 +1,217 @@
+body {
+    height: 100%;
+    line-height: 150%;
+    box-sizing: border-box;
+    overflow: hidden;
+    min-width: 960px;
+    max-width: 1600px;
+    background-color: white;
+    color: black;
+    text-align: center;
+    position: relative;
+}
+
+body, header, div, nav, ul, li, a, span {
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    background-color: lightblue;
+    cursor: pointer;
+}
+
+ul, li {
+    position: relative;
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.top {
+    position: relative;
+    display: inline-block;
+    background: lightblue;
+    width: 100%;
+    z-index: 1;
+}
+
+.top li {
+    padding: 10px;
+}
+
+.link {
+    padding: 0 15px;
+    font-size: 16px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.shipsList {
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+}
+
+nav ul li {
+    display:inline-block;
+    background-color: lightblue;
+}
+
+nav li:hover {
+    background-color: deepskyblue;
+    cursor: pointer;
+}
+
+nav li:active {
+    background-color: deepskyblue;
+    cursor: pointer;
+}
+
+nav ul li:hover > ul {
+    display: block;
+    cursor: pointer;
+}
+
+nav ul li:active > ul {
+    display: block;
+    cursor: pointer;
+}
+
+.dropdown_main {
+    text-align: left;
+    display: none;
+    position: absolute;
+    padding: inherit;
+    left: -10px;
+}
+
+.dropdown_main li {
+    width:130px;
+    float:none;
+    display:list-item;
+}
+
+.dropdown_main li:hover > .dropdown_main {
+    display:inherit;
+    cursor: pointer;
+    position: absolute;
+    left: 140px;
+    top: -10px;
+}
+
+.dropdown_main li:active > .dropdown_main {
+    display:inherit;
+    cursor: pointer;
+    position: absolute;
+    left: 140px;
+    top: -10px;
+}
+
+.dropdown_sub {
+    display: none;
+    position: absolute;
+    padding: inherit;
+    left: 140px;
+    top: -10px;
+}
+
+.dropdown_sub li {
+    width:200px;
+    float:none;
+    display:list-item;
+}
+
+.info_box {
+    display: inline-block;
+    text-align: center;
+    border: 0;
+    vertical-align: top;
+    padding: 0;
+    margin: 0;
+}
+
+.tabs {
+    vertical-align: top;
+}
+
+.info_box_inner {
+    text-decoration:none;
+    color:inherit;
+    opacity:1;
+    text-align:center;
+    border-color:rgb(210,210,210);
+    border-width:1px;
+    border-style:solid;
+    border-radius:5px;
+    display: block;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.button_tab {
+    margin:1px;
+    text-align:center;
+    background-color: transparent;
+    border-color:rgb(210,210,210);
+    border-width:1px;
+    border-style:solid;
+    border-radius:5px;
+    max-width: 130px;
+    padding: 9px 15px;
+    cursor: pointer;
+}
+
+.button_ship,
+.button_module, .button_upgrade,
+.button_skill, .button_uSkill,
+.button_flag, .button_consumable {
+    background-color: transparent;
+    text-align: center;
+    border-color: transparent;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    width: 70px;
+    height: 70px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.button_module {
+    width: 90px;
+    height: 90px;
+}
+
+button img {
+    width: 45px;
+}
+
+.select {
+    border-width:1px;
+    border-color: rgb(256,0,0);
+}
+
+.inner_info {
+    display: inline-table;
+    vertical-align: top;
+}
+
+.hide {
+    display: none;
+}

@@ -2,36 +2,25 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 <th:block th:fragment="top">
-    <div>
-        <div style="display: inline-block; float: right;">
-            <div style="float: right;">
-                <a href="https://sea-group.org/" style="display: inline-block;"><img alt="" th:src="@{/images/Icon/SEA-group-LOGO.svg}" style="height: 45px;" /></a>
-            </div>
-        </div>
-        <div style="display: inline-block; float: left; margin: 6px;">
-            <div id="header" style="display: inline-block;">
-                <nav>
-                    <ul>
-                        <li>
-                            <a th:href="@{/}"><span>Home</span></a>
-                        </li>
-                        <li>
-                            <a th:href="@{/ship}"><span>Fitting Tool</span></a>
-                        </li>
-                        <!--<li>-->
-                            <!--<a th:href="@{/shipStatComparison}"><span>Ship Comparison</span></a>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<a th:href="@{/arty}"><span>Artillery Chart</span></a>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<a th:href="@{/shipTree}"><span>Research Tree</span></a>-->
-                        <!--</li>-->
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
+    <nav class="link left">
+        <ul>
+            <li>
+                <a th:href="@{/}"><span>Home</span></a>
+            </li>
+            <li>
+                <a th:href="@{/ship}"><span>Fitting Tool</span></a>
+            </li>
+            <!--<li>-->
+            <!--<a th:href="@{/shipStatComparison}"><span>Ship Comparison</span></a>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<a th:href="@{/arty}"><span>Artillery Chart</span></a>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<a th:href="@{/shipTree}"><span>Research Tree</span></a>-->
+            <!--</li>-->
+        </ul>
+    </nav>
 </th:block>
 </body>
 </html>

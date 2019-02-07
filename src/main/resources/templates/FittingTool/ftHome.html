@@ -10,8 +10,8 @@
     <!-- End Google Tag Manager -->
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="utf-8" />
-    <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/FittingTool/FittingTool.css}" />
+    <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png?20190207}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/WoWSFT.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
     <script th:src="@{/js/jquery/jquery-3.3.1.min.js}"></script>
     <title>WoWS Fitting Tool by Aesis</title>
@@ -21,54 +21,56 @@
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5KDG7W6"
                   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-<header>
-    <div th:include="top :: top" id="top"></div>
-    <div id="shipsList">
-        <nav>
-            <ul>
-                <th:block th:each="nation : ${nations}">
-                    <li>
-                        <span th:text="${global.get(IDS + nation.key)}"></span>
-                        <ul class="dropdown_main">
-                            <li th:each="realShipType : ${nation.value}">
-                                <span th:text="${global.get(IDS + realShipType.key)}"></span>
-                                <ul class="dropdown_sub" th:if="${realShipType.value.get(realShipType.key) != null}">
-                                    <th:block th:each="shipType : ${realShipType.value.get(realShipType.key)}">
-                                        <th:block th:each="tier : ${shipType}">
-                                            <li th:each="ship : ${tier.value}">
-                                                <a th:href="'/ship?index=' + ${ship.index}">
-                                                    <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}" th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
-                                                </a>
-                                            </li>
-                                        </th:block>
-                                    </th:block>
-                                </ul>
-                                <ul class="dropdown_main" th:unless="${realShipType.value.get(realShipType.key) != null}">
-                                    <li th:each="shipType : ${realShipType.value}">
-                                        <span th:text="${global.get(IDS + shipType.key)}"></span>
-                                        <ul class="dropdown_sub">
-                                            <th:block th:each="tier : ${shipType.value}">
+<div class="head">
+    <div class="top">
+        <th:block th:include="top :: top"></th:block>
+        <div class="shipsList link left">
+            <nav>
+                <ul>
+                    <th:block th:each="nation : ${nations}">
+                        <li>
+                            <span th:text="${global.get(IDS + nation.key)}"></span>
+                            <ul class="dropdown_main">
+                                <li th:each="realShipType : ${nation.value}">
+                                    <span th:text="${global.get(IDS + realShipType.key)}"></span>
+                                    <ul class="dropdown_sub" th:if="${realShipType.value.get(realShipType.key) != null}">
+                                        <th:block th:each="shipType : ${realShipType.value.get(realShipType.key)}">
+                                            <th:block th:each="tier : ${shipType}">
                                                 <li th:each="ship : ${tier.value}">
                                                     <a th:href="'/ship?index=' + ${ship.index}">
                                                         <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}" th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
                                                     </a>
                                                 </li>
                                             </th:block>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </th:block>
-            </ul>
-        </nav>
+                                        </th:block>
+                                    </ul>
+                                    <ul class="dropdown_main" th:unless="${realShipType.value.get(realShipType.key) != null}">
+                                        <li th:each="shipType : ${realShipType.value}">
+                                            <span th:text="${global.get(IDS + shipType.key)}"></span>
+                                            <ul class="dropdown_sub">
+                                                <th:block th:each="tier : ${shipType.value}">
+                                                    <li th:each="ship : ${tier.value}">
+                                                        <a th:href="'/ship?index=' + ${ship.index}">
+                                                            <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}" th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
+                                                        </a>
+                                                    </li>
+                                                </th:block>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </th:block>
+                </ul>
+            </nav>
+        </div>
     </div>
-</header>
-<main id="main">
+</div>
+<div class="main">
     <th:block th:include="Joint/shipSelect :: warshipStats"></th:block>
     <th:block th:include="bottom"></th:block>
-</main>
+</div>
 <script th:src="@{/js/angle/arty.js}"></script>
 <script th:src="@{/js/angle/torp.js}"></script>
 <script th:src="@{/js/common.js}"></script>
