@@ -3,7 +3,7 @@
 <body>
     <th:block th:fragment="rightInfo">
         <div th:if="${modules.containsKey('artillery')}" class="panel_right show" data-type="artillery">
-            <table style="text-align: left;">
+            <table>
                 <tbody th:with="module=${warship.ShipUpgradeInfo.components.get('artillery').get(positions.get('artillery') - 1)},
                     arty=${warship.compStats.get('artillery').get(modules.get('artillery'))}, turret0=${warship.compStats.get('artillery').get(modules.get('artillery')).turrets.get(0)},
                     suo=${warship.compStats.get('suo').get(modules.get('suo'))}">
