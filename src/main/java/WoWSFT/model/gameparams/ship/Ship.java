@@ -4,6 +4,7 @@ import WoWSFT.config.WoWSFT;
 import WoWSFT.model.gameparams.TypeInfo;
 import WoWSFT.model.gameparams.consumable.Consumable;
 import WoWSFT.model.gameparams.ship.abilities.AbilitySlot;
+import WoWSFT.model.gameparams.ship.component.ShipComponent;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgradeInfo;
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
@@ -12,15 +13,14 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static WoWSFT.model.Constant.compStatsList;
-
 @Data
 @WoWSFT
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Ship
 {
-    private LinkedHashMap<String, Object> components = new LinkedHashMap<>();
-    private LinkedHashMap<String, LinkedHashMap> compStats = new LinkedHashMap<>();
+    private LinkedHashMap<String, Object> tempComponents = new LinkedHashMap<>();
+    private ShipComponent components = new ShipComponent();
+//    private LinkedHashMap<String, LinkedHashMap> compStats = new LinkedHashMap<>();
 
     private LinkedHashMap<String, AbilitySlot> ShipAbilities;
     private ShipUpgradeInfo ShipUpgradeInfo;
@@ -51,12 +51,9 @@ public class Ship
     private String prevShipIndex;
     private String typeImage;
     private String imageMedium;
+    private String imageSmall;
 
     private List<List<Consumable>> consumables;
-
-    {
-        compStatsList.forEach(c -> compStats.put(c, new LinkedHashMap<>()));
-    }
 
     @JsonSetter
     public void setRealShipType(String realShipType)
@@ -71,9 +68,9 @@ public class Ship
     }
 
     @JsonAnySetter
-    public void setUpComponents(String name, Object value)
+    public void setUpTempComponents(String name, Object value)
     {
-        components.put(name, value);
+        tempComponents.put(name, value);
     }
 
     @JsonGetter
@@ -98,5 +95,17 @@ public class Ship
             return "";
         }
         return imageMedium;
+    }
+
+    @JsonGetter
+    public String getImageSmall()
+    {
+        if (StringUtils.isEmpty(imageSmall)) {
+            if (StringUtils.isNotEmpty(index)) {
+                return "https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/small/" + index + ".png";
+            }
+            return "";
+        }
+        return imageSmall;
     }
 }

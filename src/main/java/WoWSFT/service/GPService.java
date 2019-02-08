@@ -91,16 +91,16 @@ public class GPService
             }
             ship.setConsumables(consumablesList);
 
-            ship.getCompStats().get(artillery).forEach((key, arty) -> {
-                Artillery tempArty = mapper.convertValue(arty, Artillery.class);
-                if (CollectionUtils.isNotEmpty(tempArty.getTurrets())) {
-                    tempArty.getTurrets().get(0).getAmmoList().forEach(ammo -> {
-                        Shell tempShell = mapper.convertValue(gameParamsHM.get(ammo), Shell.class);
-                        tempArty.getShells().put(ammo, tempShell);
-                    });
-                }
-                ship.getCompStats().get(artillery).put(key, tempArty);
-            });
+//            ship.getCompStats().get(artillery).forEach((key, arty) -> {
+//                Artillery tempArty = mapper.convertValue(arty, Artillery.class);
+//                if (CollectionUtils.isNotEmpty(tempArty.getTurrets())) {
+//                    tempArty.getTurrets().get(0).getAmmoList().forEach(ammo -> {
+//                        Shell tempShell = mapper.convertValue(gameParamsHM.get(ammo), Shell.class);
+//                        tempArty.getShells().put(ammo, tempShell);
+//                    });
+//                }
+//                ship.getCompStats().get(artillery).put(key, tempArty);
+//            });
         }
 
         return ship;

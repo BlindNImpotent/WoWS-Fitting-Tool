@@ -11,7 +11,7 @@
             <span th:text="${'Tier ' + warship.level}"></span><br />
             <span th:text="${global.get(IDS + warship.typeinfo.species.toUpperCase())}"></span><br />
             <strong style="font-size: 2em;" th:text="${global.get(IDS + warship.index.toUpperCase() + '_FULL')}"></strong><br />
-            <img th:title="${global.get(IDS + warship.index +'_DESCR')}" th:src="${warship.imageMedium}" /><br />
+            <img th:title="${global.get(IDS + warship.index +'_DESCR')}" th:src="${warship.imageSmall}" /><br />
             <br />
         </div>
         <div class="info_box">
@@ -26,22 +26,22 @@
                 <div class="panel_left show" data-type="modules">
                     <table>
                         <tbody>
-                        <tr th:each="i : ${#numbers.sequence(1, warship.ShipUpgradeInfo.maxRows)}">
-                            <th:block th:each="col : ${warship.ShipUpgradeInfo.cols}" th:if="${col.value > 0}">
-                                <th:block th:with="mods=${warship.ShipUpgradeInfo.components.get(col.key).?[position == __${i}__]}">
-                                    <td th:each="module : ${mods}">
-                                        <button th:class="'button_module'" th:attr="data-index=${colStat.index}, data-type=${module.ucTypeShort}, data-position=${module.position},
-                                                data-prev-type=${module.prevType}, data-prev-position=${module.prevPosition}"
-                                                th:classappend="${(modules.size() > 0 and module.components.get(module.ucTypeShort).contains(modules.get(module.ucTypeShort))) or (modules.size() == 0 and module.position == 1) ? 'select' : ''}">
-                                            <img th:src="${module.image}" /><br />
-                                            <span th:text="${global.get(IDS + module.name.toUpperCase())}"></span>
-                                        </button>
-                                    </td>
-                                    <td th:each="j : ${#numbers.sequence(1, col.value - mods.size())}" th:if="${col.value > mods.size()}">
-                                    </td>
+                            <tr th:each="i : ${#numbers.sequence(1, warship.ShipUpgradeInfo.maxRows)}">
+                                <th:block th:each="col : ${warship.ShipUpgradeInfo.cols}" th:if="${col.value > 0}">
+                                    <th:block th:with="mods=${warship.ShipUpgradeInfo.components.get(col.key).?[position == __${i}__]}">
+                                        <td th:each="module : ${mods}">
+                                            <button th:class="'button_module'" th:attr="data-index=${colStat.index}, data-type=${module.ucTypeShort}, data-position=${module.position},
+                                                    data-prev-type=${module.prevType}, data-prev-position=${module.prevPosition}"
+                                                    th:classappend="${(modules.size() > 0 and module.components.get(module.ucTypeShort).contains(modules.get(module.ucTypeShort))) or (modules.size() == 0 and module.position == 1) ? 'select' : ''}">
+                                                <img th:src="${module.image}" /><br />
+                                                <span th:text="${global.get(IDS + module.name.toUpperCase())}"></span>
+                                            </button>
+                                        </td>
+                                        <td th:each="j : ${#numbers.sequence(1, col.value - mods.size())}" th:if="${col.value > mods.size()}">
+                                        </td>
+                                    </th:block>
                                 </th:block>
-                            </th:block>
-                        </tr>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

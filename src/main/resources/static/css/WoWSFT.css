@@ -47,11 +47,11 @@ table {
 
 body {
     height: 100%;
-    line-height: 125%;
+    line-height: 150%;
     box-sizing: border-box;
     /*overflow: hidden;*/
     min-width: 960px;
-    max-width: 1280px;
+    max-width: 1600px;
     background-color: white;
     color: black;
     text-align: center;
@@ -311,41 +311,6 @@ button img {
     width: 45px;
 }
 
-/*.button_module.select img {*/
-/*width: 40px;*/
-/*margin-bottom: 0;*/
-/*}*/
-
-/*.button_ship img {*/
-/*width: 70px;*/
-/*margin-bottom: 0;*/
-/*}*/
-
-/*.button_upgrade img {*/
-/*width: 30px;*/
-/*margin-bottom: 0;*/
-/*}*/
-
-/*.button_skill img {*/
-/*width: 20px;*/
-/*margin-bottom: 0;*/
-/*}*/
-
-.button_uSkill img {
-    width: 25px;
-    margin-bottom: 0;
-}
-
-.button_flag img {
-    width: 25px;
-    margin-bottom: 0;
-}
-
-/*.button_consumable img {*/
-/*width: 40px;*/
-/*margin-bottom: 0;*/
-/*}*/
-
 .select {
     border-width:1px;
     border-color: rgb(256,0,0);
@@ -369,7 +334,28 @@ button img {
     margin-bottom: 10px;
 }
 
+.panel_right table thead {
+    text-align: center;
+}
+
 .panel_right table tr td:first-of-type {
     min-width: 200px;
-    /*max-width: 240px;*/
+    max-width: 240px;
+}
+
+.panel_right table tr td span {
+    z-index:10;
+    display:none;
+    padding:14px 20px;
+    margin-top:-30px;
+    margin-left:28px;
+    width:300px;
+    line-height:16px;
+}
+.panel_right table tr td:hover span {
+    display:inline;
+    position:absolute;
+    color:#111;
+    border:1px solid #DCA;
+    background:#fffAF0;
 }

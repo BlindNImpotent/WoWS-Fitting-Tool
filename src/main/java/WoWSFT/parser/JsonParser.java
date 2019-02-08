@@ -198,21 +198,29 @@ public class JsonParser
                 upgrade.getComponents().forEach((cKey, cValue) -> {
                     if (!excludeCompStats.contains(cKey)) {
                         if (cKey.equalsIgnoreCase(artillery)) {
-                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), Artillery.class)));
+                            cValue.forEach(cVal -> ship.getComponents().getArtillery().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), Artillery.class)));
                         } else if (cKey.equalsIgnoreCase(airDefense)) {
-                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), AirDefense.class)));
+                            cValue.forEach(cVal -> ship.getComponents().getAirDefense().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), AirDefense.class)));
                         } else if (cKey.equalsIgnoreCase(atba)) {
-                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), ATBA.class)));
+                            cValue.forEach(cVal -> ship.getComponents().getAtba().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), ATBA.class)));
                         } else if (cKey.equalsIgnoreCase(engine)) {
-                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), Engine.class)));
+                            cValue.forEach(cVal -> ship.getComponents().getEngine().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), Engine.class)));
                         } else if (cKey.equalsIgnoreCase(suo)) {
-                            cValue.forEach(cVal -> ship.getCompStats().get(suo).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), FireControl.class)));
+                            cValue.forEach(cVal -> ship.getComponents().getSuo().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), FireControl.class)));
                         } else if (cKey.equalsIgnoreCase(hull)) {
-                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), Hull.class)));
+                            cValue.forEach(cVal -> ship.getComponents().getHull().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), Hull.class)));
                         } else if (cKey.equalsIgnoreCase(torpedoes)) {
-                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), Torpedo.class)));
-                        } else {
-//                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, ship.getComponents().get(cVal)));
+                            cValue.forEach(cVal -> ship.getComponents().getTorpedoes().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), Torpedo.class)));
+                        } else if (cKey.equalsIgnoreCase(airArmament)) {
+                            cValue.forEach(cVal -> ship.getComponents().getAirArmament().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), new TypeReference<LinkedHashMap<String, Object>>(){})));
+                        } else if (cKey.equalsIgnoreCase(flightControl)) {
+                            cValue.forEach(cVal -> ship.getComponents().getFlightControl().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), new TypeReference<LinkedHashMap<String, Object>>(){})));
+                        } else if (cKey.equalsIgnoreCase(fighter)) {
+                            cValue.forEach(cVal -> ship.getComponents().getFighter().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), new TypeReference<LinkedHashMap<String, Object>>(){})));
+                        } else if (cKey.equalsIgnoreCase(diveBomber)) {
+                            cValue.forEach(cVal -> ship.getComponents().getDiveBomber().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), new TypeReference<LinkedHashMap<String, Object>>(){})));
+                        } else if (cKey.equalsIgnoreCase(torpedoBomber)) {
+                            cValue.forEach(cVal -> ship.getComponents().getTorpedoBomber().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), new TypeReference<LinkedHashMap<String, Object>>(){})));
                         }
                     }
                 });
@@ -228,6 +236,10 @@ public class JsonParser
                         if (tSU != null) {
                             upgrade.setPrevType(tSU.getUcTypeShort());
                             upgrade.setPrevPosition(tSU.getPosition());
+
+                            if (upgrade.getPosition() == upgrade.getPrevPosition() && upgrade.getUcTypeShort().equalsIgnoreCase(upgrade.getPrevType())) {
+                                upgrade.setPosition(upgrade.getPrevPosition() + 1);
+                            }
                             break;
                         }
                     }
@@ -235,7 +247,7 @@ public class JsonParser
             });
         });
 
-        ship.setComponents(new LinkedHashMap<>());
+        ship.setTempComponents(new LinkedHashMap<>());
     }
 
     private void setRealShipType(Ship ship)

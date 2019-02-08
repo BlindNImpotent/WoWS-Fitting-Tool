@@ -58,7 +58,7 @@ public class ShipUpgrade
 
         temp.forEach((key, list) -> {
             String name = key;
-            if (key.equalsIgnoreCase("fireControl")) {
+            if (key.equalsIgnoreCase(fireControl)) {
                 name = suo;
             }
             components.put(name, list);

@@ -70,9 +70,13 @@ public class GPController extends ExceptionController
     @ResponseBody
     @GetMapping(value = "/data")
     public Object tester(@RequestParam(required = false, defaultValue = "") String type,
-                         @RequestParam(required = false, defaultValue = "") String index)
+                         @RequestParam(required = false, defaultValue = "") String index,
+                         @RequestParam(required = false, defaultValue = "") String lang) throws Exception
     {
         if (type.equalsIgnoreCase(TYPE_SHIP)) {
+            if (StringUtils.isNotEmpty(lang)) {
+                return gpService.getShip(index, lang);
+            }
             return ships.get(index);
         } else if (type.equalsIgnoreCase(TYPE_UPGRADE)) {
             return upgrades;
