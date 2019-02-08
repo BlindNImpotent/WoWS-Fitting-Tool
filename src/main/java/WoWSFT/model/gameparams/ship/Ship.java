@@ -20,7 +20,7 @@ import static WoWSFT.model.Constant.compStatsList;
 public class Ship
 {
     private LinkedHashMap<String, Object> components = new LinkedHashMap<>();
-    private LinkedHashMap<String, LinkedHashMap<String, Object>> compStats = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap> compStats = new LinkedHashMap<>();
 
     private LinkedHashMap<String, AbilitySlot> ShipAbilities;
     private ShipUpgradeInfo ShipUpgradeInfo;

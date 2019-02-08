@@ -15,7 +15,7 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+time, mark, audio, video, button {
     margin: 0;
     padding: 0;
     border: 0;
@@ -199,14 +199,17 @@ nav ul li:active > ul {
     padding: 0;
 }
 
-
-
 #main {
     padding: 10px;
 }
 
 .ship {
+    padding-top: 10px;
     text-align: center;
+}
+
+.ship img {
+    max-width: 350px;
 }
 
 .panel_left div, .panel_right div {
@@ -226,19 +229,22 @@ nav ul li:active > ul {
 
 .info_box {
     text-align: center;
-    margin: auto;
+    margin: 0 auto;
     border: 0;
     vertical-align: top;
-    padding: 0 0 100px;
-    display: table;
+    padding: 10px 0;
+    /*display: table;*/
 }
 
 .tabs {
-    display: table-cell;
+    /*display: table-cell;*/
+    display: inline-block;
     vertical-align: top;
 }
 
 .info_box_inner {
+    /*display: table-cell;*/
+    display: inline-block;
     vertical-align: top;
     background-color:#fff;
     text-decoration:none;
@@ -249,7 +255,6 @@ nav ul li:active > ul {
     border-width:1px;
     border-style:solid;
     border-radius:5px;
-    display: table-cell;
     white-space: normal;
 }
 
@@ -258,15 +263,15 @@ nav ul li:active > ul {
 }
 
 .button_tab {
-    background-color:#fff;
-    margin:1px;
-    text-align:center;
-    border-color:rgb(210,210,210);
-    border-width:1px;
-    border-style:solid;
-    border-radius:5px;
-    max-width: 130px;
-    padding: 9px 15px;
+    background-color: #fff;
+    margin-bottom: 2px;
+    text-align: center;
+    border-color: rgb(210,210,210);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    max-width: 140px;
+    padding: 8px;
     cursor: pointer;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -277,7 +282,7 @@ nav ul li:active > ul {
 .button_module, .button_upgrade,
 .button_skill, .button_uSkill,
 .button_flag, .button_consumable {
-    background-color:#fff;
+    background-color: #fff;
     text-align: center;
     border-color: rgb(0,0,0);
     border-width: 0;
@@ -289,8 +294,12 @@ nav ul li:active > ul {
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
-    padding: 2px;
-    margin: 1px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: normal;
+    margin: 2px;
+    /*padding: 2px;*/
+    /*margin: 1px;*/
 }
 
 .button_module {
@@ -345,4 +354,22 @@ button img {
 .inner_info {
     display: inline-table;
     vertical-align: top;
+}
+
+.panel_left {
+    padding: 10px;
+}
+
+.panel_right {
+    padding: 10px;
+}
+
+.panel_right table {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.panel_right table tr td:first-of-type {
+    min-width: 200px;
+    /*max-width: 240px;*/
 }

@@ -205,14 +205,14 @@ public class JsonParser
                             cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), ATBA.class)));
                         } else if (cKey.equalsIgnoreCase(engine)) {
                             cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), Engine.class)));
-                        } else if (cKey.equalsIgnoreCase(fireControl)) {
+                        } else if (cKey.equalsIgnoreCase(suo)) {
                             cValue.forEach(cVal -> ship.getCompStats().get(suo).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), FireControl.class)));
                         } else if (cKey.equalsIgnoreCase(hull)) {
                             cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), Hull.class)));
                         } else if (cKey.equalsIgnoreCase(torpedoes)) {
                             cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, mapper.convertValue(ship.getComponents().get(cVal), Torpedo.class)));
                         } else {
-                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, ship.getComponents().get(cVal)));
+//                            cValue.forEach(cVal -> ship.getCompStats().get(cKey).put(cVal, ship.getComponents().get(cVal)));
                         }
                     }
                 });
