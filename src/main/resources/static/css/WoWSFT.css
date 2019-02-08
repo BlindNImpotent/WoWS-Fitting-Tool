@@ -66,6 +66,8 @@ nav {
 a {
     text-decoration: none;
     color: black;
+    padding: 10px;
+    display: block;
 }
 
 ul {
@@ -191,18 +193,156 @@ nav ul li:active > ul {
     cursor: pointer;
 }
 
-.dropdown_main .dropdown_main li {
-    width:130px;
-    float:none;
-    display:list-item;
-    position: relative;
-}
-
 .dropdown_main .dropdown_sub li {
     left: 130px;
     top:-40px;
-    width:200px;
-    float:none;
-    display:list-item;
-    position: relative;
+    padding: 0;
+}
+
+
+
+#main {
+    padding: 10px;
+}
+
+.ship {
+    text-align: center;
+}
+
+.panel_left div, .panel_right div {
+    vertical-align: top;
+    display: inline-block;
+}
+
+.hide {
+    display: none;
+}
+
+.upgrades div
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.info_box {
+    text-align: center;
+    margin: auto;
+    border: 0;
+    vertical-align: top;
+    padding: 0 0 100px;
+    display: table;
+}
+
+.tabs {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.info_box_inner {
+    vertical-align: top;
+    background-color:#fff;
+    text-decoration:none;
+    color:inherit;
+    opacity:1;
+    text-align:center;
+    border-color:rgb(210,210,210);
+    border-width:1px;
+    border-style:solid;
+    border-radius:5px;
+    display: table-cell;
+    white-space: normal;
+}
+
+.panel_left ul {
+    display: table-cell;
+}
+
+.button_tab {
+    background-color:#fff;
+    margin:1px;
+    text-align:center;
+    border-color:rgb(210,210,210);
+    border-width:1px;
+    border-style:solid;
+    border-radius:5px;
+    max-width: 130px;
+    padding: 9px 15px;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.button_ship,
+.button_module, .button_upgrade,
+.button_skill, .button_uSkill,
+.button_flag, .button_consumable {
+    background-color:#fff;
+    text-align: center;
+    border-color: rgb(0,0,0);
+    border-width: 0;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 9px;
+    width: 70px;
+    height: 70px;
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+    padding: 2px;
+    margin: 1px;
+}
+
+.button_module {
+    width: 90px;
+    height: 90px;
+}
+
+button img {
+    width: 45px;
+}
+
+/*.button_module.select img {*/
+/*width: 40px;*/
+/*margin-bottom: 0;*/
+/*}*/
+
+/*.button_ship img {*/
+/*width: 70px;*/
+/*margin-bottom: 0;*/
+/*}*/
+
+/*.button_upgrade img {*/
+/*width: 30px;*/
+/*margin-bottom: 0;*/
+/*}*/
+
+/*.button_skill img {*/
+/*width: 20px;*/
+/*margin-bottom: 0;*/
+/*}*/
+
+.button_uSkill img {
+    width: 25px;
+    margin-bottom: 0;
+}
+
+.button_flag img {
+    width: 25px;
+    margin-bottom: 0;
+}
+
+/*.button_consumable img {*/
+/*width: 40px;*/
+/*margin-bottom: 0;*/
+/*}*/
+
+.select {
+    border-width:1px;
+    border-color: rgb(256,0,0);
+}
+
+.inner_info {
+    display: inline-table;
+    vertical-align: top;
 }
