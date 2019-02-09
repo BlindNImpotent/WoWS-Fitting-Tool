@@ -7,11 +7,12 @@ function drawArtillery(currentIndex, artillery)
         var ctx = artilleryCanvas[0].getContext('2d');
 
         var eccentricity = 3.25;
+        var size = 100;
         ctx.save();
         ctx.scale(1 / eccentricity, 1);
         ctx.beginPath();
         ctx.globalAlpha = 0.5;
-        ctx.arc(125 * eccentricity, 125, 125, 0, 2 * Math.PI, false);
+        ctx.arc(size * eccentricity, size, size, 0, 2 * Math.PI, false);
         ctx.closePath();
         ctx.fillStyle = '#64C8FF';
         ctx.fill();
@@ -111,49 +112,49 @@ function drawArtillery(currentIndex, artillery)
             }
 
             // -1 .. 7
-            var centerX = 125 + (horizPosition - 1) * (250 / 8);
-            var centerY = (vertiPosition + 1.5) * (250 / 8);
+            var centerX = size + (horizPosition - 1) * (size * 2 / 8);
+            var centerY = (vertiPosition + 1.5) * (size * 2 / 8);
 
             if (deadZone.length === 0 || isMerge) {
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size * 4, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
                 ctx.closePath();
                 ctx.stroke();
 
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size / 5, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
                 ctx.closePath();
                 ctx.fill();
             } else if ((deadZone.length === 1 || deadZone.length === 2) && !isMerge) {
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size * 4, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
                 ctx.closePath();
                 ctx.stroke();
 
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size / 5, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
                 ctx.closePath();
                 ctx.fill();
 
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, 500, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size * 4, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
                 ctx.closePath();
                 ctx.stroke();
 
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, 25, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size / 5, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
                 ctx.closePath();
                 ctx.fill();
             }

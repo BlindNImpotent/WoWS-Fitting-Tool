@@ -7,19 +7,22 @@
                     suo=${modules.containsKey('suo') ? warship.components.suo.get(modules.get('suo')) : null},
                     atba=${modules.containsKey('atba') ? warship.components.atba.get(modules.get('atba')) : null},
                     airDefense=${modules.containsKey('airDefense') ? warship.components.airDefense.get(modules.get('airDefense')) : null}">
-            <div th:if="${modules.containsKey('artillery')}" class="panel_right hide" data-type="artillery">
-                <table>
-                    <thead>
+            <div th:if="${modules.containsKey('artillery')}" class="panel_right" data-type="artillery">
+                <div class="switch" data-type="table"><strong th:text="${global.get('IDS_SHIP_PARAM_ARTILLERY')}"></strong></div>
+                <table class="toggle hide">
+                    <thead class="switch" data-type="tr">
                         <tr>
                             <td colspan="2">
                                 <th:block th:each="turretType : ${artillery.turretTypes}">
-                                    <strong th:text="${turretType.value.get(0) + ' X ' + turretType.value.get(1) + ' ' + global.get(IDS + turretType.key.toUpperCase())}"></strong><br />
+                                    <u th:text="${turretType.value.get(0) + ' X ' + turretType.value.get(1) + ' ' + global.get(IDS + turretType.key.toUpperCase())}"></u><br />
                                 </th:block>
                             </td>
                         </tr>
                         <tr><td colspan="2">&nbsp</td></tr>
+                        <tr class="toggle hide" style="text-align: center"><td colspan="2"><th:block th:include="Joint/angleSectorArtyPage :: angleSectorArtyPage"></th:block></td></tr>
+                        <tr class="toggle hide"><td colspan="2">&nbsp</td></tr>
                     </thead>
-                    <tbody th:with="turret0=${warship.components.artillery.get(modules.get('artillery')).turrets.get(0)}">
+                    <tbody th:with="turret0=${artillery.turrets.get(0)}">
                         <tr>
                             <td th:text="${global.get('IDS_SHIP_PARAM_MAX_DIST')}"></td>
                             <td th:text="${#numbers.formatDecimal(artillery.maxDist * suo.maxDistCoef / 1000.0, 1, 2)} + ' km'"></td>
@@ -53,7 +56,7 @@
                         </tr>
                         <tr>
                             <td th:text="${global.get('IDS_SHIP_PARAM_ROTATION_SPEED')}"></td>
-                            <td th:text="${#numbers.formatDecimal(turret0.rotationSpeed.get(0), 1, 1)} + ' °/ s'"></td>
+                            <td th:text="${#numbers.formatDecimal(turret0.rotationSpeed.get(0), 1, 1)} + ' °/s'"></td>
                         </tr>
                         <tr>
                             <td th:text="${global.get('IDS_SHIP_PARAM_ROTATION_TIME')}"></td>
@@ -61,17 +64,12 @@
                         </tr>
                     </tbody>
                 </table>
-                <th:block th:include="Joint/angleSectorArtyPage :: angleSectorArtyPage"></th:block>
             </div>
             <div th:if="${(airDefense != null)
                         or (artillery != null and (artillery.auraFar != null or artillery.auraMedium != null or artillery.auraNear != null))
-                        or (atba != null and (atba.auraFar != null or atba.auraMedium != null or atba.auraNear != null))}" class="panel_right hide" data-type="airDefense">
-                <table>
-                    <thead>
-                        <tr>
-                            <td colspan="2"><strong th:text="${global.get('IDS_SHIP_PARAM_AIR_DEFENSE')}"></strong></td>
-                        </tr>
-                    </thead>
+                        or (atba != null and (atba.auraFar != null or atba.auraMedium != null or atba.auraNear != null))}" class="panel_right switch" data-type="airDefense">
+                <div class="switch" data-type="table"><strong th:text="${global.get('IDS_SHIP_PARAM_AIR_DEFENSE')}"></strong></div>
+                <table class="toggle hide">
                     <tbody>
                         <th:block th:with="auraFar=${atba != null and atba.auraFar != null ? atba.auraFar : (artillery != null and artillery.auraFar != null ? artillery.auraFar : airDefense.auraFar)},
                                            auraMedium=${atba != null and atba.auraMedium != null ? atba.auraMedium : (artillery != null and artillery.auraMedium != null ? artillery.auraMedium : airDefense.auraMedium)},
@@ -95,83 +93,77 @@
                                 </tr>
                                 <tr><td colspan="2">&nbsp</td></tr>
                             </th:block>
-                            <th:block th:if="${auraFar != null and (auraFar.explosionCount > 0 or auraFar.innerBubbleCount > 0)}">
+                            <th:block th:if="${auraFar != null and (auraFar.innerBubbleCount > 0 or auraFar.outerBubbleCount > 0)}">
                                 <tr>
                                     <td colspan="2">
                                         <u th:text="${global.get('IDS_SHIP_PARAM_AA_AURA') + global.get('IDS_AURA_TYPE_FAR')}"></u>
-                                        <span th:text="${#numbers.formatInteger(auraFar.explosionCount + auraFar.innerBubbleCount, 1, 'COMMA')}"></span>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td th:text="'Explosions'" th:title="${global.get('IDS_SHIP_PARAM_AA_EXPL_COUNT')}"></td>
+                                    <td th:text="${#numbers.formatInteger(auraFar.innerBubbleCount + auraFar.outerBubbleCount, 1, 'COMMA')}"></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="'- dps'" th:title="${global.get('IDS_SHIP_PARAM_AA_EXPL_DAMAGE')}"></td>
+                                    <td th:text="${#numbers.formatInteger(auraFar.bubbleDamage * 7, 1, 'COMMA')}"></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="'Area dps'" th:title="${global.get('IDS_SHIP_PARAM_AA_DAMAGE_PER_SECOND')}"></td>
+                                    <td th:text="${#numbers.formatDecimal(auraFar.areaDamage / auraFar.areaDamageFrequency, 1, 1)}"></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="${global.get('IDS_SHIP_PARAM_AA_HIT_CHANCE')}"></td>
+                                    <td th:text="${#numbers.formatInteger(auraFar.hitChance * 100, 1, 'COMMA')} + ' %'"></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="${global.get('IDS_SHIP_PARAM_AA_RANGE')}"></td>
+                                    <td th:text="${#numbers.formatDecimal(auraFar.minDistance / 1000, 1, 1) + ' - ' + #numbers.formatDecimal(auraFar.maxDistance / 1000, 1, 1)} + ' km'"></td>
+                                </tr>
+                                <tr><td colspan="2">&nbsp</td></tr>
                             </th:block>
-                            <!--<th:block th:if="${auraFar != null and (auraFar.explosionCount > 0 or auraFar.innerBubbleCount > 0)}">-->
-                                <!--<tr>-->
-                                    <!--<td colspan="2"><u th:text="${global.get('IDS_FAR')}"></u></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td th:text="'Explosions'" th:title="${global.get('IDS_SHIP_PARAM_AA_EXPL_COUNT')}"></td>-->
-                                    <!--<td th:text="${#numbers.formatInteger(auraFar.explosionCount + auraFar.innerBubbleCount, 1, 'COMMA')}"></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td th:text="'- dps'" th:title="${global.get('IDS_SHIP_PARAM_AA_EXPL_DAMAGE')}"></td>-->
-                                    <!--<td th:text="${#numbers.formatInteger(auraFar.bubbleDamage * 7, 1, 'COMMA')}"></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td th:text="'Area dps'" th:title="${global.get('IDS_SHIP_PARAM_AA_DAMAGE_PER_SECOND')}"></td>-->
-                                    <!--<td th:text="${#numbers.formatDecimal(auraFar.areaDamage / auraFar.areaDamageFrequency, 1, 1)}"></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td th:text="${global.get('IDS_SHIP_PARAM_AA_HIT_CHANCE')}"></td>-->
-                                    <!--<td th:text="${#numbers.formatInteger(auraFar.hitChance * 100, 1, 'COMMA')} + ' %'"></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td th:text="${global.get('IDS_SHIP_PARAM_AA_RANGE')}"></td>-->
-                                    <!--<td th:text="${#numbers.formatDecimal(auraFar.minDistance / 1000, 1, 1) + ' - ' + #numbers.formatDecimal(auraFar.maxDistance / 1000, 1, 1)} + ' km'"></td>-->
-                                <!--</tr>-->
-                                <!--<tr><td colspan="2">&nbsp</td></tr>-->
-                            <!--</th:block>-->
-                            <!--<th:block th:if="${auraMedium != null and (auraMedium.explosionCount > 0 or auraMedium.innerBubbleCount > 0)}">-->
-                                <!--<tr>-->
-                                    <!--<td colspan="2"><u th:text="${global.get('IDS_MEDIUM')}"></u></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td th:text="'Explosions'" th:title="${global.get('IDS_SHIP_PARAM_AA_EXPL_COUNT')}"></td>-->
-                                    <!--<td th:text="${#numbers.formatInteger(auraMedium.explosionCount + auraMedium.innerBubbleCount, 1, 'COMMA')}"></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td th:text="'- dps'" th:title="${global.get('IDS_SHIP_PARAM_AA_EXPL_DAMAGE')}"></td>-->
-                                    <!--<td th:text="${#numbers.formatInteger(auraMedium.bubbleDamage * 7, 1, 'COMMA')}"></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td th:text="'Area dps'" th:title="${global.get('IDS_SHIP_PARAM_AA_DAMAGE_PER_SECOND')}"></td>-->
-                                    <!--<td th:text="${#numbers.formatDecimal(auraMedium.areaDamage / auraMedium.areaDamageFrequency, 1, 1)}"></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td th:text="${global.get('IDS_SHIP_PARAM_AA_HIT_CHANCE')}"></td>-->
-                                    <!--<td th:text="${#numbers.formatInteger(auraMedium.hitChance * 100, 1, 'COMMA')} + ' %'"></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td th:text="${global.get('IDS_SHIP_PARAM_AA_RANGE')}"></td>-->
-                                    <!--<td th:text="${#numbers.formatDecimal(auraMedium.minDistance / 1000, 1, 1) + ' - ' + #numbers.formatDecimal(auraMedium.maxDistance / 1000, 1, 1)} + ' km'"></td>-->
-                                <!--</tr>-->
-                                <!--<tr><td colspan="2">&nbsp</td></tr>-->
-                            <!--</th:block>-->
-                            <!--<th:block th:if="${auraNear != null}">-->
-                                <!--<tr>-->
-                                    <!--<td colspan="2"><u th:text="${global.get('IDS_NEAR')}"></u></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td th:text="'Area dps'" th:title="${global.get('IDS_SHIP_PARAM_AA_DAMAGE_PER_SECOND')}"></td>-->
-                                    <!--<td th:text="${#numbers.formatDecimal(auraNear.areaDamage / auraNear.areaDamageFrequency, 1, 1)}"></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td th:text="${global.get('IDS_SHIP_PARAM_AA_HIT_CHANCE')}"></td>-->
-                                    <!--<td th:text="${#numbers.formatInteger(auraNear.hitChance * 100, 1, 'COMMA')} + ' %'"></td>-->
-                                <!--</tr>-->
-                                <!--<tr>-->
-                                    <!--<td th:text="${global.get('IDS_SHIP_PARAM_AA_RANGE')}"></td>-->
-                                    <!--<td th:text="${#numbers.formatDecimal(auraNear.minDistance / 1000, 1, 1) + ' - ' + #numbers.formatDecimal(auraNear.maxDistance / 1000, 1, 1)} + ' km'"></td>-->
-                                <!--</tr>-->
-                            <!--</th:block>-->
+                            <th:block th:if="${auraMedium != null and (auraMedium.innerBubbleCount > 0 or auraMedium.outerBubbleCount > 0)}">
+                                <tr>
+                                    <td colspan="2"><u th:text="${global.get('IDS_SHIP_PARAM_AA_AURA') + global.get('IDS_AURA_TYPE_MEDIUM')}"></u></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="'Explosions'" th:title="${global.get('IDS_SHIP_PARAM_AA_EXPL_COUNT')}"></td>
+                                    <td th:text="${#numbers.formatInteger(auraMedium.innerBubbleCount + auraMedium.outerBubbleCount, 1, 'COMMA')}"></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="'- dps'" th:title="${global.get('IDS_SHIP_PARAM_AA_EXPL_DAMAGE')}"></td>
+                                    <td th:text="${#numbers.formatInteger(auraMedium.bubbleDamage * 7, 1, 'COMMA')}"></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="'Area dps'" th:title="${global.get('IDS_SHIP_PARAM_AA_DAMAGE_PER_SECOND')}"></td>
+                                    <td th:text="${#numbers.formatDecimal(auraMedium.areaDamage / auraMedium.areaDamageFrequency, 1, 1)}"></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="${global.get('IDS_SHIP_PARAM_AA_HIT_CHANCE')}"></td>
+                                    <td th:text="${#numbers.formatInteger(auraMedium.hitChance * 100, 1, 'COMMA')} + ' %'"></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="${global.get('IDS_SHIP_PARAM_AA_RANGE')}"></td>
+                                    <td th:text="${#numbers.formatDecimal(auraMedium.minDistance / 1000, 1, 1) + ' - ' + #numbers.formatDecimal(auraMedium.maxDistance / 1000, 1, 1)} + ' km'"></td>
+                                </tr>
+                                <tr><td colspan="2">&nbsp</td></tr>
+                            </th:block>
+                            <th:block th:if="${auraNear != null}">
+                                <tr>
+                                    <td colspan="2"><u th:text="${global.get('IDS_SHIP_PARAM_AA_AURA') + global.get('IDS_AURA_TYPE_NEAR')}"></u></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="'Area dps'" th:title="${global.get('IDS_SHIP_PARAM_AA_DAMAGE_PER_SECOND')}"></td>
+                                    <td th:text="${#numbers.formatDecimal(auraNear.areaDamage / auraNear.areaDamageFrequency, 1, 1)}"></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="${global.get('IDS_SHIP_PARAM_AA_HIT_CHANCE')}"></td>
+                                    <td th:text="${#numbers.formatInteger(auraNear.hitChance * 100, 1, 'COMMA')} + ' %'"></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="${global.get('IDS_SHIP_PARAM_AA_RANGE')}"></td>
+                                    <td th:text="${#numbers.formatDecimal(auraNear.minDistance / 1000, 1, 1) + ' - ' + #numbers.formatDecimal(auraNear.maxDistance / 1000, 1, 1)} + ' km'"></td>
+                                </tr>
+                            </th:block>
                         </th:block>
                     </tbody>
                 </table>
