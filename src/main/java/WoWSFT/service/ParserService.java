@@ -61,8 +61,12 @@ public class ParserService
                     if (shipUpgrades.get(upgrade.getPrevType()).getPosition() >= upgrade.getPrevPosition()) {
                         modules.put(type, upgrade.getComponents().get(type).get(0));
                     }
-                } else if (upgrade.getComponents().get(type).contains(shipUpgrades.get(hull).getComponents().get(type).get(0))) {
-                    modules.put(type, shipUpgrades.get(hull).getComponents().get(type).get(0));
+                } else {
+                    shipUpgrades.get(hull).getComponents().get(type).forEach(x -> {
+                        if (upgrade.getComponents().get(type).contains(x)) {
+                            modules.put(type, x);
+                        }
+                    });
                 }
             } else {
                 modules.put(type, shipUpgrades.get(hull).getComponents().get(type).get(0));

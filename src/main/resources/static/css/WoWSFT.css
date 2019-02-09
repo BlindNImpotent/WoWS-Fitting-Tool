@@ -245,7 +245,6 @@ nav ul li:active > ul {
 }
 
 .info_box_inner {
-    /*display: table-cell;*/
     display: inline-block;
     vertical-align: top;
     background: white;
@@ -257,6 +256,13 @@ nav ul li:active > ul {
     border-radius: 5px;
     white-space: normal;
     padding: 4px;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+    overflow-y: scroll;
+}
+
+.info_box_inner::-webkit-scrollbar {
+    width: 0 !important
 }
 
 .panel_left ul {
@@ -318,7 +324,7 @@ button img {
 }
 
 .panel_right {
-    width: 320px;
+    width: 330px;
     border: 1px solid rgb(210,210,210);
     border-radius: 5px;
 }
@@ -344,7 +350,7 @@ button img {
 }
 
 .panel_right table tr td:nth-of-type(2) {
-    width: 80px;
+    width: 100px;
 }
 
 /*.panel_right table tr td[colspan]:not([colspan="1"]) {*/
