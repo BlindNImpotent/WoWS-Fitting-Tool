@@ -1,25 +1,24 @@
 function drawTorpedoes(currentIndex, torpedoes)
 {
-    if (torpedoes !== null)
-    {
-        var launchers = torpedoes['launchersList'];
+    if (torpedoes !== null) {
+        var launchers = torpedoes['launchers'];
 
-        var torpedoesCanvas = currentIndex.find('#torpedoesCanvas');
+        var torpedoesCanvas = currentIndex.find('[data-type=torpedoesCanvas]');
         var ctx = torpedoesCanvas[0].getContext('2d');
 
         var eccentricity = 3.25;
+        var size = 100;
         ctx.save();
         ctx.scale(1 / eccentricity, 1);
         ctx.beginPath();
         ctx.globalAlpha = 0.5;
-        ctx.arc(125 * eccentricity, 125, 125, 0, 2 * Math.PI, false);
+        ctx.arc(size * eccentricity, size, size, 0, 2 * Math.PI, false);
         ctx.closePath();
         ctx.fillStyle = '#64C8FF';
         ctx.fill();
         ctx.restore();
 
-        for (var i = 0; i < launchers.length; i++)
-        {
+        for (var i = 0; i < launchers.length; i++) {
             var current = launchers[i];
 
             var minAngle = current['horizSector'][0];
@@ -31,13 +30,10 @@ function drawTorpedoes(currentIndex, torpedoes)
             var deadZone = current['deadZone'];
             var deadZone1 = 0;
             var deadZone2 = 0;
-            if (deadZone.length === 1)
-            {
+            if (deadZone.length === 1) {
                 deadZone1 = deadZone[0][0];
                 deadZone2 = deadZone[0][1];
-            }
-            else if (deadZone.length === 2)
-            {
+            } else if (deadZone.length === 2) {
                 var tempDz1 = deadZone[0][0];
                 var tempDz2 = deadZone[0][1];
                 var tempDz3 = deadZone[1][0];
@@ -48,8 +44,7 @@ function drawTorpedoes(currentIndex, torpedoes)
                 deadZone1 = tempDz3 < tempDz4 ? tempDz3 : tempDz4;
                 deadZone2 = tempDz3 === deadZone1 ? tempDz4 : tempDz3;
 
-                if (minAngle > deadZone1)
-                {
+                if (minAngle > deadZone1) {
                     var tempMin = minAngle;
                     var tempMax = maxAngle;
                     minAngle = deadZone1;
@@ -60,17 +55,13 @@ function drawTorpedoes(currentIndex, torpedoes)
             }
 
             var isMerge = false;
-            if (deadZone.length === 1 && deadZone2 === maxAngle)
-            {
+            if (deadZone.length === 1 && deadZone2 === maxAngle) {
                 isMerge = true;
                 maxAngle = deadZone1;
-            }
-            else if (deadZone.length === 1 && deadZone1 === minAngle)
-            {
+            } else if (deadZone.length === 1 && deadZone1 === minAngle) {
                 isMerge = true;
                 minAngle = deadZone2;
-            }
-            else if (deadZone.length === 1 && minAngle === maxAngle)
+            } else if (deadZone.length === 1 && minAngle === maxAngle)
             {
                 isMerge = true;
                 minAngle = deadZone2;
@@ -98,55 +89,54 @@ function drawTorpedoes(currentIndex, torpedoes)
             }
 
             // -1 .. 7
-            var centerX = 125 + (horizPosition - 1) * (250 / 8);
-            var centerY = (vertiPosition + 1.5) * (250 / 8);
+            var centerX = size + (horizPosition - 1) * (size * 2 / 8);
+            var centerY = (vertiPosition + 1.5) * (size * 2 / 8);
 
-            if (deadZone.length === 0 || isMerge)
-            {
+            if (deadZone.length === 0 || isMerge) {
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size * 4, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
                 ctx.closePath();
                 ctx.stroke();
 
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size / 5, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
                 ctx.closePath();
                 ctx.fill();
-            }
-            else if ((deadZone.length === 1 || deadZone.length === 2) && !isMerge)
-            {
+            } else if ((deadZone.length === 1 || deadZone.length === 2) && !isMerge) {
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, 500, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size * 4, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
                 ctx.closePath();
                 ctx.stroke();
 
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, 25, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size / 5, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
                 ctx.closePath();
                 ctx.fill();
 
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, 500, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size * 4, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
                 ctx.closePath();
                 ctx.stroke();
 
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, 25, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size / 5, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
                 ctx.closePath();
                 ctx.fill();
             }
         }
     }
+
+    $('[data-script=torpSector]').remove();
 }

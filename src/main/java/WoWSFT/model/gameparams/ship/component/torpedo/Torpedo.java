@@ -8,9 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Data
 @WoWSFT
@@ -18,11 +16,14 @@ import java.util.List;
 public class Torpedo
 {
     private List<Launcher> launchers = new ArrayList<>();
+    private LinkedHashMap<String, List<Integer>> launcherTypes = new LinkedHashMap<>();
 
     private int numTorpsInSalvo;
     private float oneShotWaitTime;
     private boolean useGroups;
     private boolean useOneShot;
+
+    private TorpedoAmmo ammo;
 
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();
@@ -34,7 +35,15 @@ public class Torpedo
             HashMap<String, Object> tempObject = mapper.convertValue(value, new TypeReference<HashMap<String, Object>>(){});
 
             if (tempObject.containsKey("HitLocationTorpedo")) {
-                launchers.add(mapper.convertValue(value, Launcher.class));
+                Launcher launcher = mapper.convertValue(value, Launcher.class);
+                launchers.add(launcher);
+
+                launcherTypes.putIfAbsent(launcher.getName(), new ArrayList<>(Arrays.asList(0, launcher.getNumBarrels())));
+                launcherTypes.get(launcher.getName()).set(0, launcherTypes.get(launcher.getName()).get(0) + 1);
+                launcherTypes.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(e -> {
+                    launcherTypes.remove(e.getKey());
+                    launcherTypes.put(e.getKey(), e.getValue());
+                });
             }
         }
     }

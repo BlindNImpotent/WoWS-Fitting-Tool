@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -20,7 +21,6 @@ public class Ship
 {
     private LinkedHashMap<String, Object> tempComponents = new LinkedHashMap<>();
     private ShipComponent components = new ShipComponent();
-//    private LinkedHashMap<String, LinkedHashMap> compStats = new LinkedHashMap<>();
 
     private LinkedHashMap<String, AbilitySlot> ShipAbilities;
     private ShipUpgradeInfo ShipUpgradeInfo;
@@ -54,6 +54,8 @@ public class Ship
     private String imageSmall;
 
     private List<List<Consumable>> consumables;
+    private HashMap<String, String> modules = new HashMap<>();
+    private HashMap<String, Integer> positions = new HashMap<>();
 
     @JsonSetter
     public void setRealShipType(String realShipType)

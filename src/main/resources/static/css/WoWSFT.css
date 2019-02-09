@@ -46,12 +46,14 @@ table {
 }
 
 body {
+    cursor: default;
     height: 100%;
-    line-height: 150%;
+    line-height: 20px;
+    font-size: 14px;
     box-sizing: border-box;
     min-width: 960px;
     max-width: 1600px;
-    background-color: white;
+    background: white;
     color: black;
     text-align: center;
     margin: 0 auto;
@@ -81,7 +83,7 @@ ul {
 }
 
 li {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 #notification {
@@ -108,7 +110,7 @@ li {
 
 .link {
     padding: 0 15px;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .left {
@@ -159,12 +161,12 @@ li {
 }
 
 nav li:hover {
-    background-color: deepskyblue;
+    background: deepskyblue;
     cursor: pointer;
 }
 
 nav li:active {
-    background-color: deepskyblue;
+    background: deepskyblue;
     cursor: pointer;
 }
 
@@ -246,15 +248,13 @@ nav ul li:active > ul {
     /*display: table-cell;*/
     display: inline-block;
     vertical-align: top;
-    background-color:#fff;
-    text-decoration:none;
-    color:inherit;
-    opacity:1;
-    text-align:center;
-    border-color:rgb(210,210,210);
-    border-width:1px;
-    border-style:solid;
-    border-radius:5px;
+    background: white;
+    text-decoration: none;
+    color: inherit;
+    opacity: 1;
+    text-align: center;
+    border: 1px solid rgb(210,210,210);
+    border-radius: 5px;
     white-space: normal;
     padding: 4px;
 }
@@ -264,12 +264,10 @@ nav ul li:active > ul {
 }
 
 .button_tab {
-    background-color: #fff;
+    background: white;
     margin-bottom: 2px;
     text-align: center;
-    border-color: rgb(210,210,210);
-    border-width: 1px;
-    border-style: solid;
+    border: 1px solid rgb(210,210,210);
     border-radius: 5px;
     max-width: 140px;
     padding: 8px;
@@ -283,11 +281,9 @@ nav ul li:active > ul {
 .button_module, .button_upgrade,
 .button_skill, .button_uSkill,
 .button_flag, .button_consumable {
-    background-color: #fff;
+    background: white;
     text-align: center;
-    border-color: rgb(0,0,0);
-    border-width: 0;
-    border-style: solid;
+    border: 1px solid rgba(0,0,0,0);
     border-radius: 5px;
     font-size: 9px;
     width: 70px;
@@ -313,17 +309,18 @@ button img {
 }
 
 .select {
-    border-width:1px;
-    border-color: rgb(256,0,0);
+    border:1px solid rgb(256,0,0);
+    border-radius: 5px;
+}
+
+.switch {
+    cursor: pointer;
 }
 
 .panel_right {
-    width: 360px;
-    border-color:rgb(210,210,210);
-    border-width:1px;
-    border-style:solid;
-    border-radius:5px;
-    /*padding: 8px;*/
+    width: 320px;
+    border: 1px solid rgb(210,210,210);
+    border-radius: 5px;
 }
 
 .panel_right:not(:last-of-type) {
@@ -343,31 +340,35 @@ button img {
 }
 
 .panel_right table tr td:first-of-type {
-    width: 240px;
+    /*width: 240px;*/
 }
 
 .panel_right table tr td:nth-of-type(2) {
-    width: 100px;
+    width: 80px;
 }
 
 /*.panel_right table tr td[colspan]:not([colspan="1"]) {*/
     /*text-align: center;*/
 /*}*/
 
-.panel_right table tr td span {
-    z-index:10;
-    display:none;
-    padding:14px 20px;
-    margin-top:-30px;
-    margin-left:28px;
-    width:300px;
-    line-height:16px;
-}
+/*.panel_right table tr td span {*/
+    /*z-index: 10;*/
+    /*display: none;*/
+    /*padding: 14px 20px;*/
+    /*margin-top: -30px;*/
+    /*margin-left :28px;*/
+    /*width: 300px;*/
+    /*line-height: 16px;*/
+/*}*/
 
 .panel_right table tr td:hover span {
-    display:inline;
-    position:absolute;
-    color:#111;
-    border:1px solid #DCA;
-    background:#fffAF0;
+    display: inline;
+    position: absolute;
+    color: #111;
+    border: 1px solid #DCA;
+    background: #fffAF0;
+}
+
+.panel_right tr.subsystem {
+    background: rgba(0, 0, 0, 0.1)
 }

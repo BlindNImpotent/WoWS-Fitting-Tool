@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="angleSectorTorpPage">
+    <script th:inline="javascript" data-script="torpSector">
+    //    <![CDATA[
+
+        $(function () {
+            var curIndex = [[${dataIndex}]];
+            var torpString = [[${warship.modules['torpedoes']}]];
+            drawTorpedoes($('[data-ship-index=' + curIndex + ']'), [[${warship.components.torpedoes}]][torpString]);
+        });
+
+    //    ]]>
+    </script>
+    <div title="Torpedo Sector">
+        <canvas data-type="torpedoesCanvas" width="200" height="200">
+        </canvas>
+    </div>
+</th:block>
+</body>
+</html>

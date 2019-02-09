@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,12 +23,10 @@ public class ParserService
     @Qualifier(value = TYPE_SHIP)
     private LinkedHashMap<String, Ship> ships;
 
-    public void parseModules(Model model, String index, String bits)
+    public void setModules(String index, String bits, HashMap<String, String> modules, HashMap<String, Integer> positions)
     {
         Ship ship = ships.get(index);
-        HashMap<String, String> modules = new HashMap<>();
         HashMap<String, String> baseModules = new HashMap<>();
-        HashMap<String, Integer> positions = new HashMap<>();
         HashMap<String, Integer> basePositions = new HashMap<>();
         List<Integer> list = new ArrayList<>();
         LinkedHashMap<String, ShipUpgrade> shipUpgrades = new LinkedHashMap<>();
@@ -78,11 +75,11 @@ public class ParserService
                     modules.put(x, y.get(0));
                 }
             });
-            model.addAttribute(TYPE_MODULE, modules);
-            model.addAttribute("positions", positions);
         } else {
-            model.addAttribute(TYPE_MODULE, baseModules);
-            model.addAttribute("positions", basePositions);
+            modules.clear();
+            modules.putAll(baseModules);
+            positions.clear();
+            positions.putAll(basePositions);
         }
     }
 }

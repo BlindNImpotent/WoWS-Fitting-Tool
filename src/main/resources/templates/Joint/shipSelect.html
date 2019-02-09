@@ -32,7 +32,7 @@
                                         <td th:each="module : ${mods}">
                                             <button th:class="'button_module'" th:attr="data-index=${colStat.index}, data-type=${module.ucTypeShort}, data-position=${module.position},
                                                     data-prev-type=${module.prevType}, data-prev-position=${module.prevPosition}"
-                                                    th:classappend="${(modules.size() > 0 and module.components.get(module.ucTypeShort).contains(modules.get(module.ucTypeShort))) or (modules.size() == 0 and module.position == 1) ? 'select' : ''}">
+                                                    th:classappend="${(warship.modules.size() > 0 and module.components.get(module.ucTypeShort).contains(warship.modules.get(module.ucTypeShort))) or (warship.modules.size() == 0 and module.position == 1) ? 'select' : ''}">
                                                 <img th:src="${module.image}" /><br />
                                                 <span th:text="${global.get(IDS + module.name.toUpperCase())}"></span>
                                             </button>
@@ -77,9 +77,9 @@
                     <ul th:each="slot : ${warship.consumables}">
                         <li th:each="consumable : ${slot}">
                             <button class="button_consumable" th:classappend="${consumableStat.index == 0 ? 'select' : ''}"
-                                    th:title="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase()) + '&#013&#013' + consumable.description}" th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">
+                                    th:title="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase()) + '&#013&#013' + consumable.description}"
+                                    th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">
                                 <img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/><br />
-                                <!--<span th:text="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase())}"></span>-->
                             </button>
                         </li>
                     </ul>

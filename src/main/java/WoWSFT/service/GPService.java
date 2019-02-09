@@ -6,8 +6,15 @@ import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
 import WoWSFT.model.gameparams.ship.abilities.AbilitySlot;
+import WoWSFT.model.gameparams.ship.component.airdefense.AirDefense;
 import WoWSFT.model.gameparams.ship.component.artillery.Artillery;
 import WoWSFT.model.gameparams.ship.component.artillery.Shell;
+import WoWSFT.model.gameparams.ship.component.atba.ATBA;
+import WoWSFT.model.gameparams.ship.component.engine.Engine;
+import WoWSFT.model.gameparams.ship.component.firecontrol.FireControl;
+import WoWSFT.model.gameparams.ship.component.hull.Hull;
+import WoWSFT.model.gameparams.ship.component.torpedo.Torpedo;
+import WoWSFT.model.gameparams.ship.component.torpedo.TorpedoAmmo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -56,13 +63,16 @@ public class GPService
     @Qualifier (value = TYPE_COMMANDER)
     private LinkedHashMap<String, Commander> commanders;
 
+    @Autowired
+    private ParserService parserService;
+
     private ObjectMapper mapper = new ObjectMapper();
 
-    public Ship getShip(String index, String language) throws Exception
+    public Ship getShip(String index, String language, String bits) throws Exception
     {
         Ship ship = mapper.readValue(mapper.writeValueAsString(ships.get(index)), Ship.class);
-
         List<List<Consumable>> consumablesList = new ArrayList<>();
+
         if (ship != null) {
             for (Map.Entry<String, AbilitySlot> entry : ship.getShipAbilities().entrySet()) {
                 for (List<String> consumable : entry.getValue().getAbils()) {
@@ -91,19 +101,82 @@ public class GPService
             }
             ship.setConsumables(consumablesList);
 
-//            ship.getCompStats().get(artillery).forEach((key, arty) -> {
-//                Artillery tempArty = mapper.convertValue(arty, Artillery.class);
-//                if (CollectionUtils.isNotEmpty(tempArty.getTurrets())) {
-//                    tempArty.getTurrets().get(0).getAmmoList().forEach(ammo -> {
-//                        Shell tempShell = mapper.convertValue(gameParamsHM.get(ammo), Shell.class);
-//                        tempArty.getShells().put(ammo, tempShell);
-//                    });
-//                }
-//                ship.getCompStats().get(artillery).put(key, tempArty);
-//            });
+            setShipModules(index, bits, ship);
+            setShipAmmo(ship);
         }
 
         return ship;
+    }
+
+    private void setShipModules(String index, String bits, Ship ship)
+    {
+        parserService.setModules(index, bits, ship.getModules(), ship.getPositions());
+
+        ship.getModules().forEach((cKey, value) -> {
+            if (cKey.equalsIgnoreCase(artillery)) {
+                LinkedHashMap<String, Artillery> tComponent = new LinkedHashMap<>();
+                tComponent.put(value, ship.getComponents().getArtillery().get(value));
+                ship.getComponents().setArtillery(tComponent);
+            } else if (cKey.equalsIgnoreCase(airDefense)) {
+                LinkedHashMap<String, AirDefense> tComponent = new LinkedHashMap<>();
+                tComponent.put(value, ship.getComponents().getAirDefense().get(value));
+                ship.getComponents().setAirDefense(tComponent);
+            } else if (cKey.equalsIgnoreCase(atba)) {
+                LinkedHashMap<String, ATBA> tComponent = new LinkedHashMap<>();
+                tComponent.put(value, ship.getComponents().getAtba().get(value));
+                ship.getComponents().setAtba(tComponent);
+            } else if (cKey.equalsIgnoreCase(engine)) {
+                LinkedHashMap<String, Engine> tComponent = new LinkedHashMap<>();
+                tComponent.put(value, ship.getComponents().getEngine().get(value));
+                ship.getComponents().setEngine(tComponent);
+            } else if (cKey.equalsIgnoreCase(suo)) {
+                LinkedHashMap<String, FireControl> tComponent = new LinkedHashMap<>();
+                tComponent.put(value, ship.getComponents().getSuo().get(value));
+                ship.getComponents().setSuo(tComponent);
+            } else if (cKey.equalsIgnoreCase(hull)) {
+                LinkedHashMap<String, Hull> tComponent = new LinkedHashMap<>();
+                tComponent.put(value, ship.getComponents().getHull().get(value));
+                ship.getComponents().setHull(tComponent);
+            } else if (cKey.equalsIgnoreCase(torpedoes)) {
+                LinkedHashMap<String, Torpedo> tComponent = new LinkedHashMap<>();
+                tComponent.put(value, ship.getComponents().getTorpedoes().get(value));
+                ship.getComponents().setTorpedoes(tComponent);
+            } else if (cKey.equalsIgnoreCase(airArmament)) {
+                LinkedHashMap<String, Object> tComponent = new LinkedHashMap<>();
+                tComponent.put(value, ship.getComponents().getAirArmament().get(value));
+                ship.getComponents().setAirArmament(tComponent);
+            } else if (cKey.equalsIgnoreCase(flightControl)) {
+                LinkedHashMap<String, Object> tComponent = new LinkedHashMap<>();
+                tComponent.put(value, ship.getComponents().getFlightControl().get(value));
+                ship.getComponents().setFlightControl(tComponent);
+            } else if (cKey.equalsIgnoreCase(fighter)) {
+                LinkedHashMap<String, Object> tComponent = new LinkedHashMap<>();
+                tComponent.put(value, ship.getComponents().getFighter().get(value));
+                ship.getComponents().setFighter(tComponent);
+            } else if (cKey.equalsIgnoreCase(diveBomber)) {
+                LinkedHashMap<String, Object> tComponent = new LinkedHashMap<>();
+                tComponent.put(value, ship.getComponents().getDiveBomber().get(value));
+                ship.getComponents().setDiveBomber(tComponent);
+            } else if (cKey.equalsIgnoreCase(torpedoBomber)) {
+                LinkedHashMap<String, Object> tComponent = new LinkedHashMap<>();
+                tComponent.put(value, ship.getComponents().getTorpedoBomber().get(value));
+                ship.getComponents().setTorpedoBomber(tComponent);
+            }
+        });
+    }
+
+    private void setShipAmmo(Ship ship)
+    {
+        if (ship != null && ship.getComponents() != null) {
+            if (ship.getComponents().getArtillery().size() > 0) {
+
+            }
+
+            if (ship.getComponents().getTorpedoes().size() > 0) {
+                TorpedoAmmo ammo = mapper.convertValue(gameParamsHM.get(ship.getComponents().getTorpedoes().get(ship.getModules().get(torpedoes)).getLaunchers().get(0).getAmmoList().get(0)), TorpedoAmmo.class);
+                ship.getComponents().getTorpedoes().get(ship.getModules().get(torpedoes)).setAmmo(ammo);
+            }
+        }
     }
 
     public LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> getUpgrades(String language) throws Exception
