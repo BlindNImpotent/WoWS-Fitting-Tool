@@ -376,7 +376,7 @@
                 <div class="switch" data-type="table"><strong th:text="${global.get('IDS_SHIP_PARAM_MOBILITY')}"></strong></div>
                 <table class="toggle hide">
                     <tbody>
-                        <tr class="subsystem switch">
+                        <tr class="subsystem switch" data-type="tr">
                             <td th:text="${global.get('IDS_SHIP_PARAM_MAXSPEED')}"></td>
                             <td th:text="${#numbers.formatDecimal(hull.maxSpeed * (1 + engine.speedCoef), 1, 1)} + ' kts'"></td>
                         </tr>
