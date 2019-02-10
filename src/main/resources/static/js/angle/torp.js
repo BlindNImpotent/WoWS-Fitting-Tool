@@ -8,11 +8,12 @@ function drawTorpedoes(currentIndex, torpedoes)
 
         var eccentricity = 3.25;
         var size = 100;
+        var cY = 25;
         ctx.save();
         ctx.scale(1 / eccentricity, 1);
         ctx.beginPath();
         ctx.globalAlpha = 0.5;
-        ctx.arc(size * eccentricity, size, size, 0, 2 * Math.PI, false);
+        ctx.arc(size * eccentricity, size + cY, size, 0, 2 * Math.PI, false);
         ctx.closePath();
         ctx.fillStyle = '#64C8FF';
         ctx.fill();
@@ -90,7 +91,7 @@ function drawTorpedoes(currentIndex, torpedoes)
 
             // -1 .. 7
             var centerX = size + (horizPosition - 1) * (size * 2 / 8);
-            var centerY = (vertiPosition + 1.5) * (size * 2 / 8);
+            var centerY = (vertiPosition + 1.5) * (size * 2 / 8) + cY;
 
             if (deadZone.length === 0 || isMerge) {
                 ctx.beginPath();

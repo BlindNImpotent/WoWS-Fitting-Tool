@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-<th:block th:fragment="top">
-    <nav class="link">
-        <ul>
-            <li>
-                <a th:href="@{/}"><span>Home</span></a>
-            </li>
-            <li>
-                <a th:href="@{/ship}"><span>Fitting Tool</span></a>
-            </li>
-            <!--<li>-->
-            <!--<a th:href="@{/shipStatComparison}"><span>Ship Comparison</span></a>-->
-            <!--</li>-->
-            <!--<li>-->
-            <!--<a th:href="@{/arty}"><span>Artillery Chart</span></a>-->
-            <!--</li>-->
-            <!--<li>-->
-            <!--<a th:href="@{/shipTree}"><span>Research Tree</span></a>-->
-            <!--</li>-->
-        </ul>
-    </nav>
-</th:block>
+<nav th:fragment="top" class="link">
+    <ul>
+        <li>
+            <a th:href="@{/}"><span>Home</span></a>
+        </li>
+        <li>
+            <a th:href="@{/ship}"><span>Fitting Tool</span></a>
+        </li>
+        <!--<li>-->
+        <!--<a th:href="@{/shipStatComparison}"><span>Ship Comparison</span></a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a th:href="@{/arty}"><span>Artillery Chart</span></a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a th:href="@{/shipTree}"><span>Research Tree</span></a>-->
+        <!--</li>-->
+    </ul>
+</nav>
 </body>
 </html>

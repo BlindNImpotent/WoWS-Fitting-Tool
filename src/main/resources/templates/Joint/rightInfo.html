@@ -18,7 +18,7 @@
                         <tr class="subsystem switch" data-type="tr">
                             <td colspan="2">
                                 <th:block th:each="turretType : ${artillery.turretTypes}">
-                                    <u th:text="${turretType.value.get(0) + ' X ' + turretType.value.get(1) + ' ' + global.get(IDS + turretType.key.toUpperCase())}"></u><br />
+                                    <u th:text="${turretType.value.get(0) + ' X ' + turretType.key + ' ' + global.get(IDS + turretType.value.get(1).toUpperCase())}"></u><br />
                                 </th:block>
                             </td>
                         </tr>
@@ -63,10 +63,20 @@
                             <td th:text="${#numbers.formatDecimal(180.0 / turret0.rotationSpeed.get(0), 1, 1)} + ' s'"></td>
                         </tr>
                     </tbody>
+                    <tbody th:each="shell : ${artillery.shells}">
+                        <tr class="subsystem switch" data-type="tr">
+                            <td colspan="2">
+                                <u th:text="${global.get('IDS_' + shell.key.toUpperCase())}"></u><br />
+                            </td>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                    </tbody>
                     <tbody>
                         <tr class="subsystem switch" data-type="tr"><td colspan="2"><u>Sector</u></td></tr>
-                        <tr class="toggle" style="text-align: center">
-                            <td colspan="2"><th:block th:include="Joint/angleSectorArtyPage :: angleSectorArtyPage"></th:block></td>
+                        <tr class="toggle hide" style="text-align: center">
+                            <td colspan="2"><th:block th:replace="Joint/angleSectorArtyPage :: angleSectorArtyPage"></th:block></td>
                         </tr>
                     </tbody>
                 </table>
@@ -78,7 +88,9 @@
                     <tbody th:with="torp0=${torpedoes.launchers.get(0)}">
                         <tr class="subsystem switch" data-type="tr">
                             <td colspan="2">
-                                <u th:text="${torpedoes.launchers.size() + ' X ' + torp0.numBarrels + ' ' + global.get(IDS + torpedoes.ammo.name.toUpperCase())}"></u><br />
+                                <th:block th:each="launcherType : ${torpedoes.launcherTypes}">
+                                    <u th:text="${launcherType.value.get(0) + ' X ' + launcherType.key + ' ' + global.get(IDS + launcherType.value.get(1).toUpperCase())}"></u><br />
+                                </th:block>
                             </td>
                         </tr>
                         <tr class="toggle">
@@ -120,8 +132,8 @@
                     </tbody>
                     <tbody>
                         <tr class="subsystem switch" data-type="tr"><td colspan="2"><u>Sector</u></td></tr>
-                        <tr class="toggle" style="text-align: center">
-                            <td colspan="2"><th:block th:include="Joint/angleSectorTorpPage :: angleSectorTorpPage"></th:block></td>
+                        <tr class="toggle hide" style="text-align: center">
+                            <td colspan="2"><th:block th:replace="Joint/angleSectorTorpPage :: angleSectorTorpPage"></th:block></td>
                         </tr>
                     </tbody>
                 </table>

@@ -22,22 +22,24 @@
                   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <header>
-    <div class="top"><th:block th:include="top :: top"></th:block></div>
+    <div class="top"><div th:replace="top :: top"></div></div>
 </header>
 <main>
     <div>
         <div id="notification">
             <img alt="" th:src="@{/images/Icon/WoWSFT_Icon.png}" style="height: 300px" title="Image courtesy of ReptorPi from DCInside" />
             <h2>0.8.0.0</h2>
-            <li th:if="${5 > noticeStat.index}" th:each="notice : ${notification}">
-                <strong th:text="${notice.key}"></strong><br />
-                <span th:utext="${notice.value}"></span><br />
-            </li>
+            <ul>
+                <li th:if="${5 > noticeStat.index}" th:each="notice : ${notification}">
+                    <strong th:text="${notice.key}"></strong><br />
+                    <span th:utext="${notice.value}"></span><br />
+                </li>
+            </ul>
         </div>
     </div>
     <br />
     <br />
-    <th:block th:include="bottom :: bottom"></th:block>
+    <div th:replace="bottom :: bottom"></div>
 </main>
 <script th:inline="javascript">
     //    <![CDATA[

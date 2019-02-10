@@ -23,7 +23,7 @@
 <!-- End Google Tag Manager (noscript) -->
 <div class="head">
     <div class="top">
-        <th:block th:include="top :: top"></th:block>
+        <div th:replace="top :: top"></div>
         <div class="shipsList link">
             <nav>
                 <ul>
@@ -68,8 +68,8 @@
     </div>
 </div>
 <div class="main">
-    <th:block th:include="Joint/shipSelect :: warshipStats"></th:block>
-    <th:block th:include="bottom"></th:block>
+    <th:block th:replace="Joint/shipSelect :: warshipStats"></th:block>
+    <div th:replace="bottom :: bottom"></div>
 </div>
 <script th:src="@{/js/angle/arty.js}"></script>
 <script th:src="@{/js/angle/torp.js}"></script>
@@ -81,10 +81,12 @@
     var positions;
     var warship;
 
-    $().ready(function () {
-        modules = [[${warship.modules}]];
-        positions = [[${warship.positions}]];
-        warship = [[${warship}]]
+    $(function () {
+        warship = [[${warship}]];
+        if (warship) {
+            modules = warship.modules;
+            positions = warship.positions;
+        }
     });
 
     // ]]>

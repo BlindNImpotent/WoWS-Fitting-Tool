@@ -16,7 +16,7 @@ import java.util.*;
 public class Torpedo
 {
     private List<Launcher> launchers = new ArrayList<>();
-    private LinkedHashMap<String, List<Integer>> launcherTypes = new LinkedHashMap<>();
+    private LinkedHashMap<Integer, List<Object>> launcherTypes = new LinkedHashMap<>();
 
     private int numTorpsInSalvo;
     private float oneShotWaitTime;
@@ -38,12 +38,14 @@ public class Torpedo
                 Launcher launcher = mapper.convertValue(value, Launcher.class);
                 launchers.add(launcher);
 
-                launcherTypes.putIfAbsent(launcher.getName(), new ArrayList<>(Arrays.asList(0, launcher.getNumBarrels())));
-                launcherTypes.get(launcher.getName()).set(0, launcherTypes.get(launcher.getName()).get(0) + 1);
-                launcherTypes.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(e -> {
-                    launcherTypes.remove(e.getKey());
-                    launcherTypes.put(e.getKey(), e.getValue());
-                });
+                if (launcherTypes.containsKey(launcher.getNumBarrels())) {
+                    launcherTypes.get(launcher.getNumBarrels()).set(0, (int) launcherTypes.get(launcher.getNumBarrels()).get(0) + 1);
+                } else {
+                    List<Object> tObject = new ArrayList<>();
+                    tObject.add(1);
+                    tObject.add(launcher.getName());
+                    launcherTypes.put(launcher.getNumBarrels(), tObject);
+                }
             }
         }
     }
