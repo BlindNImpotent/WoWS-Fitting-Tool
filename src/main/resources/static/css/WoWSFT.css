@@ -324,7 +324,7 @@ button img {
 }
 
 .panel_right {
-    width: 330px;
+    width: 340px;
     border: 1px solid rgb(210,210,210);
     border-radius: 5px;
 }
@@ -350,7 +350,7 @@ button img {
 }
 
 .panel_right table tr td:nth-of-type(2) {
-    width: 100px;
+    width: 120px;
 }
 
 /*.panel_right table tr td[colspan]:not([colspan="1"]) {*/

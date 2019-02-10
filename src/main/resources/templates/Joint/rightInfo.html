@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
     <th:block th:if="${warship != null}" th:fragment="rightInfo">
-        <div class="info_box_inner"
+        <div class="info_box_inner" style="max-height: 500px;"
              th:with="artillery=${warship.modules.containsKey('artillery') ? warship.components.artillery.get(warship.modules.get('artillery')) : null},
                     suo=${warship.modules.containsKey('suo') ? warship.components.suo.get(warship.modules.get('suo')) : null},
                     atba=${warship.modules.containsKey('atba') ? warship.components.atba.get(warship.modules.get('atba')) : null},
@@ -39,14 +39,6 @@
                             <td th:text="${#numbers.formatInteger(((turret0.idealRadius * artillery.GMIdealRadius - turret0.minRadius) / 1000.0 * (artillery.maxDist * suo.maxDistCoef / 30.0) + turret0.minRadius) * 30.0, 1, 'COMMA')} + ' m'"></td>
                         </tr>
                         <tr class="toggle">
-                            <td>- Min H</td>
-                            <td th:text="${#numbers.formatInteger(artillery.minDistH, 1, 'COMMA')} + ' m'"></td>
-                        </tr>
-                        <tr class="toggle">
-                            <td>- Min V</td>
-                            <td th:text="${#numbers.formatInteger(artillery.minDistV, 1, 'COMMA')} + ' m'"></td>
-                        </tr>
-                        <tr class="toggle">
                             <td th:text="${global.get('IDS_SHIP_PARAM_SHOT_SPEED')}"></td>
                             <td th:text="${#numbers.formatDecimal(60.0 / turret0.shotDelay, 1, 1) + ' rpm'}"></td>
                         </tr>
@@ -63,14 +55,103 @@
                             <td th:text="${#numbers.formatDecimal(180.0 / turret0.rotationSpeed.get(0), 1, 1)} + ' s'"></td>
                         </tr>
                     </tbody>
-                    <tbody th:each="shell : ${artillery.shells}">
+                    <tbody th:each="shell : ${artillery.shells}" th:with="ammo=${shell.value}">
                         <tr class="subsystem switch" data-type="tr">
-                            <td colspan="2">
-                                <u th:text="${global.get('IDS_' + shell.key.toUpperCase())}"></u><br />
+                            <td><u th:text="${global.get('IDS_' + shell.key.toUpperCase())}"></u></td>
+                            <td th:text="${global.get('IDS_SHIP_PARAM_AMMO_' + ammo.ammoType.toUpperCase())}"></td>
+                        </tr>
+                        <tr class="toggle hide">
+                            <td th:text="${global.get('IDS_MAX_DAMAGE')}"></td>
+                            <td th:text="${#numbers.formatInteger(ammo.alphaDamage, 1, 'COMMA')}"></td>
+                        </tr>
+                        <tr class="toggle hide">
+                            <td th:text="${global.get('IDS_SHIP_PARAM_AMMO_BULLET_SPEED')}"></td>
+                            <td th:text="${#numbers.formatInteger(ammo.bulletSpeed, 1, 'COMMA')} + ' m/s'"></td>
+                        </tr>
+                        <tr class="toggle hide">
+                            <td th:text="${global.get('IDS_SHIP_PARAM_AMMO_BULLET_MASS')}"></td>
+                            <td th:text="${#numbers.formatInteger(ammo.bulletMass, 1, 'COMMA')} + ' kg'"></td>
+                        </tr>
+                        <tr class="toggle hide">
+                            <td th:text="${global.get('IDS_RIBBON_SUBRIBBON_MAIN_CALIBER_RICOCHET')}"></td>
+                            <td th:text="${#numbers.formatInteger(ammo.bulletAlwaysRicochetAt, 1, 'COMMA') + ' + ' + #numbers.formatInteger(ammo.bulletCapNormalizeMaxAngle, 1, 'COMMA')} + ' °'"></td>
+                        </tr>
+                        <tr class="toggle hide" th:if="${ammo.ammoType == 'HE'}">
+                            <td th:text="'HE Penetration'"></td>
+                            <td th:text="${#numbers.formatInteger(ammo.alphaPiercingHEReal, 1, 'COMMA')} + ' mm'"></td>
+                        </tr>
+                        <tr class="toggle hide" th:if="${ammo.ammoType == 'HE'}">
+                            <td th:text="'Burn Probability'"></td>
+                            <td th:text="${#numbers.formatDecimal(ammo.burnProb * 100, 1, 1)} + ' %'"></td>
+                        </tr>
+                        <tr class="toggle hide" th:if="${ammo.ammoType == 'AP'}">
+                            <td th:text="'Overmatch'"></td>
+                            <td th:text="${#numbers.formatInteger(T(Math).floor(ammo.bulletDiametr * 1000 / 14.3), 1, 'COMMA')} + ' mm'"></td>
+                        </tr>
+                        <tr class="toggle hide" th:if="${ammo.ammoType == 'AP'}">
+                            <td th:text="'Threshold'"></td>
+                            <td th:text="${#numbers.formatInteger(ammo.bulletDetonatorThreshold, 1, 'COMMA')} + ' mm'"></td>
+                        </tr>
+                        <tr class="toggle hide" th:if="${ammo.ammoType == 'AP'}">
+                            <td th:text="'Fuse Time'"></td>
+                            <td th:text="${#numbers.formatDecimal(ammo.bulletDetonator, 1, 3)} + ' s'"></td>
+                        </tr>
+                        <tr class="toggle hide">
+                            <td>
+                                <th:block th:utext="'Flight Time<br />'"></th:block>
+                                <th:block th:if="${ammo.flightTimeAtFive > 0 and artillery.maxDist >= 5000}" th:utext="'- 5 km<br />'"></th:block>
+                                <th:block th:if="${ammo.flightTimeAtTen > 0 and artillery.maxDist >= 10000}" th:utext="'- 10 km<br />'"></th:block>
+                                <th:block th:if="${ammo.flightTimeAtFifteen > 0 and artillery.maxDist >= 15000}" th:utext="'- 15 km<br />'"></th:block>
+                                <th:block th:if="${ammo.flightTimeAtTwenty > 0 and artillery.maxDist >= 20000}" th:utext="'- 20 km<br />'"></th:block>
+                            </td>
+                            <td>
+                                <th:block th:utext="'<br />'"></th:block>
+                                <th:block th:if="${ammo.flightTimeAtFive > 0 and artillery.maxDist >= 5000}"
+                                          th:utext="${#numbers.formatDecimal(ammo.flightTimeAtFive, 1, 2)} + ' s<br />'"></th:block>
+                                <th:block th:if="${ammo.flightTimeAtTen > 0 and artillery.maxDist >= 10000}"
+                                          th:utext="${#numbers.formatDecimal(ammo.flightTimeAtTen, 1, 2)} + ' s<br />'"></th:block>
+                                <th:block th:if="${ammo.flightTimeAtFifteen > 0 and artillery.maxDist >= 15000}"
+                                          th:utext="${#numbers.formatDecimal(ammo.flightTimeAtFifteen, 1, 2)} + ' s<br />'"></th:block>
+                                <th:block th:if="${ammo.flightTimeAtTwenty > 0 and artillery.maxDist >= 20000}"
+                                          th:utext="${#numbers.formatDecimal(ammo.flightTimeAtTwenty, 1, 2)} + ' s<br />'"></th:block>
                             </td>
                         </tr>
-                        <tr>
-
+                        <tr class="toggle hide" th:if="${ammo.ammoType == 'AP'}">
+                            <td>
+                                <th:block th:utext="'Vertical Dispersion<br />'"></th:block>
+                                <th:block th:if="${ammo.vertMinusAtTen > 0 and ammo.vertPlusAtTen > 0 and artillery.maxDist >= 10000}" th:utext="'- 10 km<br />'"></th:block>
+                                <th:block th:if="${ammo.vertMinusAtFifteen > 0 and ammo.vertPlusAtFifteen > 0 and artillery.maxDist >= 15000}" th:utext="'- 15 km<br />'"></th:block>
+                                <th:block th:if="${ammo.vertMinusAtTwenty > 0 and ammo.vertPlusAtTwenty > 0 and artillery.maxDist >= 20000}" th:utext="'- 20 km<br />'"></th:block>
+                            </td>
+                            <td>
+                                <th:block th:utext="'<br />'"></th:block>
+                                <th:block th:if="${ammo.vertMinusAtTen > 0 and ammo.vertPlusAtTen > 0 and artillery.maxDist >= 10000}"
+                                          th:utext="${#numbers.formatDecimal(ammo.vertMinusAtTen / 1000, 1, 2) + ' - ' + #numbers.formatDecimal(ammo.vertPlusAtTen / 1000, 1, 2)} + ' km<br />'"></th:block>
+                                <th:block th:if="${ammo.vertMinusAtFifteen > 0 and ammo.vertPlusAtFifteen > 0 and artillery.maxDist >= 15000}"
+                                          th:utext="${#numbers.formatDecimal(ammo.vertMinusAtFifteen / 1000, 1, 2) + ' - ' + #numbers.formatDecimal(ammo.vertPlusAtFifteen / 1000, 1, 2)} + ' km<br />'"></th:block>
+                                <th:block th:if="${ammo.vertMinusAtTwenty > 0 and ammo.vertPlusAtTwenty > 0 and artillery.maxDist >= 20000}"
+                                          th:utext="${#numbers.formatDecimal(ammo.vertMinusAtTwenty / 1000, 1, 2) + ' - ' + #numbers.formatDecimal(ammo.vertPlusAtTwenty / 1000, 1, 2)} + ' km<br />'"></th:block>
+                            </td>
+                        </tr>
+                        <tr class="toggle hide" th:if="${ammo.ammoType == 'AP'}">
+                            <td>
+                                <th:block th:utext="'Penetration<br />'"></th:block>
+                                <th:block th:if="${ammo.penetrationAtFive > 0 and artillery.maxDist >= 5000}" th:utext="'- 5 km<br />'"></th:block>
+                                <th:block th:if="${ammo.penetrationAtTen > 0 and artillery.maxDist >= 10000}" th:utext="'- 10 km<br />'"></th:block>
+                                <th:block th:if="${ammo.penetrationAtFifteen > 0 and artillery.maxDist >= 15000}" th:utext="'- 15 km<br />'"></th:block>
+                                <th:block th:if="${ammo.penetrationAtTwenty > 0 and artillery.maxDist >= 20000}" th:utext="'- 20 km<br />'"></th:block>
+                            </td>
+                            <td>
+                                <th:block th:utext="'<br />'"></th:block>
+                                <th:block th:if="${ammo.penetrationAtFive > 0 and artillery.maxDist >= 5000}"
+                                          th:utext="${#numbers.formatInteger(ammo.penetrationAtFive, 1, 'COMMA') + ' (' + #numbers.formatDecimal(ammo.impactAtFive, 1, 2) + ' °)'} + ' mm<br />'"></th:block>
+                                <th:block th:if="${ammo.penetrationAtTen > 0 and artillery.maxDist >= 10000}"
+                                          th:utext="${#numbers.formatInteger(ammo.penetrationAtTen, 1, 'COMMA') + ' (' + #numbers.formatDecimal(ammo.impactAtTen, 1, 2) + ' °)'} + ' mm<br />'"></th:block>
+                                <th:block th:if="${ammo.penetrationAtFifteen > 0 and artillery.maxDist >= 15000}"
+                                          th:utext="${#numbers.formatInteger(ammo.penetrationAtFifteen, 1, 'COMMA') + ' (' + #numbers.formatDecimal(ammo.impactAtFifteen, 1, 2) + ' °)'} + ' mm<br />'"></th:block>
+                                <th:block th:if="${ammo.penetrationAtTwenty > 0 and artillery.maxDist >= 20000}"
+                                          th:utext="${#numbers.formatInteger(ammo.penetrationAtTwenty, 1, 'COMMA') + ' (' + #numbers.formatDecimal(ammo.impactAtTwenty, 1, 2) + ' °)'} + ' mm<br />'"></th:block>
+                            </td>
                         </tr>
                     </tbody>
                     <tbody>

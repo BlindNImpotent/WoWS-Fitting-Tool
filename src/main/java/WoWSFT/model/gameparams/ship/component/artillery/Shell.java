@@ -1,12 +1,11 @@
 package WoWSFT.model.gameparams.ship.component.artillery;
 
 import WoWSFT.model.gameparams.TypeInfo;
-import WoWSFT.utils.PenetrationUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,12 +47,19 @@ public class Shell
     private float volume;
     private List<Float> waterRefractionReflectDeltaAngleInterval;
 
+    @JsonIgnore
     private LinkedHashMap<String, Float> penetration;
+    @JsonIgnore
     private LinkedHashMap<String, Float> flightTime;
+    @JsonIgnore
     private LinkedHashMap<String, Float> impact;
+    @JsonIgnore
     private LinkedHashMap<String, Float> launchAngle;
+    @JsonIgnore
     private LinkedHashMap<String, Float> vertPlus;
+    @JsonIgnore
     private LinkedHashMap<String, Float> vertMinus;
+    @JsonIgnore
     private List<String> distanceList;
     private float minDistV;
     private float penetrationAtFive;
@@ -113,13 +119,11 @@ public class Shell
             if (penetration != null) {
                 penetrationAtMax = setMiddleAtDistance(Float.parseFloat(maxOne), penetration.get(maxOne), Float.parseFloat(maxTwo), penetration.get(maxTwo), maxDist);
                 impactAtMax = setMiddleAtDistance(Float.parseFloat(maxOne), impact.get(maxOne), Float.parseFloat(maxTwo), impact.get(maxTwo), maxDist);
+
+                vertMinusAtMax = (getVertDist(maxOne, maxDist, true) + getVertDist(maxTwo, maxDist, true)) / 2f;
+                vertPlusAtMax = (getVertDist(maxOne, maxDist, false) + getVertDist(maxTwo, maxDist, false)) / 2f;
             }
             flightTimeAtMax = setMiddleAtDistance(Float.parseFloat(maxOne), flightTime.get(maxOne), Float.parseFloat(maxTwo), flightTime.get(maxTwo), maxDist);
-
-//            if (vertPlus != null && vertMinus != null) {
-//                vertPlusAtMax = setMiddleAtDistance(maxOne, vertPlus.get(maxOne), maxTwo, vertPlus.get(maxTwo), maxDist);
-//                vertMinusAtMax = setMiddleAtDistance(maxOne, vertMinus.get(maxOne), maxTwo, vertMinus.get(maxTwo), maxDist);
-//            }
         }
     }
 
@@ -194,8 +198,8 @@ public class Shell
                 penetrationAtFive = setMiddleAtDistance(Float.parseFloat(fiveOne), penetration.get(fiveOne), Float.parseFloat(fiveTwo), penetration.get(fiveTwo), 5000f);
                 impactAtFive = setMiddleAtDistance(Float.parseFloat(fiveOne), impact.get(fiveOne), Float.parseFloat(fiveTwo), impact.get(fiveTwo), 5000f);
 
-//                vertPlusAtFive = setMiddleAtDistance(fiveOne, vertPlus.get(fiveOne), fiveTwo, vertPlus.get(fiveTwo), 5000f);
-//                vertMinusAtFive = setMiddleAtDistance(fiveOne, vertMinus.get(fiveOne), fiveTwo, vertMinus.get(fiveTwo), 5000f);
+                vertMinusAtFive = (getVertDist(fiveOne, 5000f, true) + getVertDist(fiveTwo, 5000f, true)) / 2f;
+                vertPlusAtFive = (getVertDist(fiveOne, 5000f, false) + getVertDist(fiveTwo, 5000f, false)) / 2f;
             }
             flightTimeAtFive = setMiddleAtDistance(Float.parseFloat(fiveOne), flightTime.get(fiveOne), Float.parseFloat(fiveTwo), flightTime.get(fiveTwo), 5000f);
         }
@@ -237,7 +241,7 @@ public class Shell
     private float getVertDist(String dist, float mid, boolean low)
     {
         float minDistVOffset = minDistV / 2f;
-        float radAtDist = (float) Math.atan(minDistVOffset / mid);
+        float radAtDist = (float) Math.atan(minDistVOffset / 21143f) / 2f;
 
         if (low) {
             radAtDist = -radAtDist;
@@ -256,6 +260,10 @@ public class Shell
                 e2 = entry.getKey();
                 break;
             }
+        }
+
+        if (StringUtils.isEmpty(e1) || StringUtils.isEmpty(e2)) {
+            return 0;
         }
 
         return (Float.parseFloat(e1) + Float.parseFloat(e2)) / 2f;

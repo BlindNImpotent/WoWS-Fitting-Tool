@@ -67,16 +67,16 @@ public class GPService
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    public Ship getShip(String index, String language, String bits)
+    public Ship getShip(String index, String language, String bits) throws Exception
     {
-        Ship ship = mapper.convertValue(ships.get(index), Ship.class);
+        Ship ship = mapper.readValue(mapper.writeValueAsString(ships.get(index)), Ship.class);
         List<List<Consumable>> consumablesList = new ArrayList<>();
 
         if (ship != null) {
             for (Map.Entry<String, AbilitySlot> entry : ship.getShipAbilities().entrySet()) {
                 for (List<String> consumable : entry.getValue().getAbils()) {
                     if (!consumable.get(0).contains("Super")) {
-                        Consumable tempConsumable = mapper.convertValue(consumables.get(consumable.get(0)), Consumable.class);
+                        Consumable tempConsumable = mapper.readValue(mapper.writeValueAsString(consumables.get(consumable.get(0))), Consumable.class);
                         tempConsumable.getSubConsumables().entrySet().removeIf(e -> !e.getKey().equalsIgnoreCase(consumable.get(1)));
 
                         Object consDesc = global.get(language).get(IDS + CONSUME + DESCRIPTION + tempConsumable.getName().toUpperCase());
@@ -167,9 +167,9 @@ public class GPService
         });
     }
 
-    public LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> getUpgrades(String language)
+    public LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> getUpgrades(String language) throws Exception
     {
-        LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgradesCopy = mapper.convertValue(upgrades, new TypeReference<LinkedHashMap<Integer, LinkedHashMap<String, Modernization>>>(){});
+        LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgradesCopy = mapper.readValue(mapper.writeValueAsString(upgrades), new TypeReference<LinkedHashMap<Integer, LinkedHashMap<String, Modernization>>>(){});
         upgradesCopy.forEach((slot, upgrades) -> upgrades.forEach((key, upgrade) -> {
             Object uDesc = global.get(language).get(IDS + DESC + upgrade.getName().toUpperCase());
             if (uDesc != null) {
@@ -191,9 +191,9 @@ public class GPService
         return upgradesCopy;
     }
 
-    public Commander getCommander(String language)
+    public Commander getCommander(String language) throws Exception
     {
-        Commander commander = mapper.convertValue(commanders.get("PAW001_DefaultCrew"), Commander.class);
+        Commander commander = mapper.readValue(mapper.writeValueAsString(commanders.get("PAW001_DefaultCrew")), Commander.class);
 
         commander.getCSkills().forEach(row -> row.forEach(skill -> {
             Object skillDesc = global.get(language).get(IDS + "SKILL_DESC_" + skill.getModifier().toUpperCase());
@@ -212,22 +212,25 @@ public class GPService
         return commander;
     }
 
-    private void setShipAmmo(Ship ship)
+    private void setShipAmmo(Ship ship) throws Exception
     {
         if (ship != null && ship.getComponents() != null) {
             if (ship.getComponents().getArtillery().size() > 0) {
-                ship.getComponents().getArtillery().forEach((key, value) -> value.getTurrets().get(0).getAmmoList().forEach(ammo -> {
-                    Shell shell = mapper.convertValue(gameParamsHM.get(ammo), Shell.class);
-                    PenetrationUtils.setPenetration(shell, value.getTurrets().get(0).getVertSector().get(1),value.getMinDistV(), value.getMaxDist(), "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
-                    value.getShells().put(ammo, shell);
-                }));
+                for (Map.Entry<String, Artillery> entry : ship.getComponents().getArtillery().entrySet()) {
+                    for (String ammo : entry.getValue().getTurrets().get(0).getAmmoList()) {
+                        Shell shell = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ammo)), Shell.class);
+                        PenetrationUtils.setPenetration(shell, entry.getValue().getTurrets().get(0).getVertSector().get(1),
+                                entry.getValue().getMinDistV(), entry.getValue().getMaxDist(), "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
+                        entry.getValue().getShells().put(ammo, shell);
+                    }
+                }
             }
 
             if (ship.getComponents().getTorpedoes().size() > 0) {
-                ship.getComponents().getTorpedoes().forEach((key, value) -> {
-                    TorpedoAmmo ammo = mapper.convertValue(gameParamsHM.get(value.getLaunchers().get(0).getAmmoList().get(0)), TorpedoAmmo.class);
-                    value.setAmmo(ammo);
-                });
+                for (Map.Entry<String, Torpedo> entry : ship.getComponents().getTorpedoes().entrySet()) {
+                    TorpedoAmmo ammo = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(entry.getValue().getLaunchers().get(0).getAmmoList().get(0))), TorpedoAmmo.class);
+                    entry.getValue().setAmmo(ammo);
+                }
             }
         }
     }
