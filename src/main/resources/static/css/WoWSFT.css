@@ -58,8 +58,6 @@ body {
     text-align: center;
     margin: 0 auto;
     list-style: none;
-    overflow: -moz-scrollbars-none;
-    -ms-overflow-style: none;
 }
 
 body::-webkit-scrollbar {
@@ -256,9 +254,6 @@ nav ul li:active > ul {
     border-radius: 5px;
     white-space: normal;
     padding: 4px;
-    overflow: -moz-scrollbars-none;
-    -ms-overflow-style: none;
-    overflow-y: scroll;
 }
 
 .info_box_inner::-webkit-scrollbar {

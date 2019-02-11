@@ -112,7 +112,7 @@ $(document).on('click', '.button_skill', function () {
 $(document).on('click', '.switch', function (e) {
     var $this = $(this),
         $type = $this.attr('data-type'),
-        $toggle = $this.parent().find($type);
+        $toggle = $this.parent().find('.' + $type);
 
     for (var i = 0; i < $toggle.length; i++) {
         if ($toggle.eq(i).hasClass('toggle')) {
