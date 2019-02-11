@@ -10,6 +10,7 @@ import WoWSFT.model.gameparams.ship.component.airdefense.AirDefense;
 import WoWSFT.model.gameparams.ship.component.artillery.Artillery;
 import WoWSFT.model.gameparams.ship.component.artillery.Shell;
 import WoWSFT.model.gameparams.ship.component.atba.ATBA;
+import WoWSFT.model.gameparams.ship.component.atba.Secondary;
 import WoWSFT.model.gameparams.ship.component.engine.Engine;
 import WoWSFT.model.gameparams.ship.component.firecontrol.FireControl;
 import WoWSFT.model.gameparams.ship.component.hull.Hull;
@@ -230,6 +231,19 @@ public class GPService
                 for (Map.Entry<String, Torpedo> entry : ship.getComponents().getTorpedoes().entrySet()) {
                     TorpedoAmmo ammo = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(entry.getValue().getLaunchers().get(0).getAmmoList().get(0))), TorpedoAmmo.class);
                     entry.getValue().setAmmo(ammo);
+                }
+            }
+
+            if (ship.getComponents().getAtba().size() > 0) {
+                for (Map.Entry<String, ATBA> entry : ship.getComponents().getAtba().entrySet()) {
+                    for (Map.Entry<String, Secondary> secondary : entry.getValue().getSecondaries().entrySet()) {
+                        Shell ammo = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(secondary.getValue().getAmmoList().get(0))), Shell.class);
+                        secondary.getValue().setAlphaDamage(ammo.getAlphaDamage());
+                        secondary.getValue().setAlphaPiercingHE(ammo.getAlphaPiercingHE());
+                        secondary.getValue().setAmmoType(ammo.getAmmoType());
+                        secondary.getValue().setBulletSpeed(ammo.getBulletSpeed());
+                        secondary.getValue().setBurnProb(ammo.getBurnProb());
+                    }
                 }
             }
         }
