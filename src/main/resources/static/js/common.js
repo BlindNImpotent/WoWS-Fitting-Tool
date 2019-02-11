@@ -47,21 +47,63 @@ $(document).on('click', '.button_module', function(){
     $this.addClass('select');
 });
 
-$(document).on('click', '.button_upgrade', function () {
+var uClick = false;
+var uClickIndex = -1;
+var uClickPosition = -1;
+$(document).on('click', '.button_upgrade', function (e) {
     var $this = $(this),
         $index = parseInt($this.attr('data-index')),
+        $position = parseInt($this.attr('data-position')),
+        $uSlot = $this.parents('.uSlot[data-index=' + $index + ']'),
         $ship = $this.parents('.ship'),
-        $upgrades = $ship.find('.button_upgrade.select[data-index=' + $index + ']');
+        $upgrades = $ship.find('.button_upgrade[data-index=' + $index + ']');
 
-    if ($this.hasClass('select')) {
-        $this.removeClass('select');
+    var uCCopy = uClick,
+        uCICopy = uClickIndex,
+        uCPCopy = uClickPosition;
+
+    if ($uSlot.hasClass('closed')) {
+        $uSlot.removeClass('closed');
+        $uSlot.find('.button_upgrade').removeClass('hide');
+        uClick = true;
+        uClickIndex = $index;
+        uClickPosition = $position;
+        $this.focus();
     } else {
+        uClick = false;
         for (var i = 0; i < $upgrades.length; i++) {
             $upgrades.eq(i).removeClass('select');
+            $upgrades.eq(i).addClass('hide');
         }
+        $this.removeClass('hide');
         $this.addClass('select');
+        $uSlot.addClass('closed');
+        // $('.button_upgrade[data-index=' + uCICopy + ']').find('[data-position=' + uCPCopy + ']')
     }
 });
+
+$(document).on('blur', '.button_upgrade', function (e) {
+    console.log('test');
+    var $this = $(this),
+        $index = parseInt($this.attr('data-index')),
+        $position = parseInt($this.attr('data-position')),
+        $uSlot = $this.parents('.uSlot[data-index=' + $index + ']'),
+        $ship = $this.parents('.ship'),
+        $upgrades = $ship.find('.button_upgrade[data-index=' + $index + ']');
+
+    if (!(uClick && $index === uClickIndex && $position === uClickPosition)) {
+        console.log('123');
+        // return false;
+    }
+
+    console.log(uClick, uClickIndex, uClickPosition);
+    uClick = false;
+    uClickIndex = -1;
+    uClickPosition = -1;
+    // $this.trigger(e.type);
+    console.log(uClick, uClickIndex, uClickPosition);
+});
+
 
 $(document).on('click', '.button_consumable', function () {
     var $this = $(this),
