@@ -109,12 +109,8 @@ public class Modernization
     private LinkedHashMap<String, String> bonus = new LinkedHashMap<>();
     private String description = "";
 
-    @JsonGetter
     public String getImage()
     {
-        if (StringUtils.isEmpty(image)) {
-            return "https://glossary-na-static.gcdn.co/icons/wows/current/modernization/icon_modernization_" + name + ".png";
-        }
-        return image;
+        return "https://glossary-na-static.gcdn.co/icons/wows/current/modernization/icon_modernization_" + name + ".png";
     }
 }

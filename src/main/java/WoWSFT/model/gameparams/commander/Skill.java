@@ -102,12 +102,8 @@ public class Skill
     private String description = "";
     private String image;
 
-    @JsonGetter
     public String getImage()
     {
-        if (StringUtils.isEmpty(image)) {
-            return "https://glossary-na-static.gcdn.co/icons/wows/current/crew_commander/perks/" + modifier + ".png";
-        }
-        return image;
+        return "https://glossary-na-static.gcdn.co/icons/wows/current/crew_commander/perks/" + modifier + ".png";
     }
 }

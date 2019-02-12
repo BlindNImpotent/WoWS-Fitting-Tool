@@ -77,39 +77,27 @@ public class Ship
         tempComponents.put(name, value);
     }
 
-    @JsonGetter
     public String getTypeImage()
     {
-        if (StringUtils.isEmpty(typeImage)) {
-            if (typeinfo != null && StringUtils.isNotEmpty(typeinfo.getSpecies()) && StringUtils.isNotEmpty(realShipType)) {
-                return "https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/types/" + typeinfo.getSpecies() + (realShipType.equalsIgnoreCase("Premium") ? "/premium" : "/normal") + ".png";
-            }
-            return "";
+        if (typeinfo != null && StringUtils.isNotEmpty(typeinfo.getSpecies()) && StringUtils.isNotEmpty(realShipType)) {
+            return "https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/types/" + typeinfo.getSpecies() + (realShipType.equalsIgnoreCase("Premium") ? "/premium" : "/normal") + ".png";
         }
-        return typeImage;
+        return "";
     }
 
-    @JsonGetter
     public String getImageMedium()
     {
-        if (StringUtils.isEmpty(imageMedium)) {
-            if (StringUtils.isNotEmpty(index)) {
-                return "https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/medium/" + index + ".png";
-            }
-            return "";
+        if (StringUtils.isNotEmpty(index)) {
+            return "https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/medium/" + index + ".png";
         }
-        return imageMedium;
+        return "";
     }
 
-    @JsonGetter
     public String getImageSmall()
     {
-        if (StringUtils.isEmpty(imageSmall)) {
-            if (StringUtils.isNotEmpty(index)) {
-                return "https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/small/" + index + ".png";
-            }
-            return "";
+        if (StringUtils.isNotEmpty(index)) {
+            return "https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/small/" + index + ".png";
         }
-        return imageSmall;
+        return "";
     }
 }

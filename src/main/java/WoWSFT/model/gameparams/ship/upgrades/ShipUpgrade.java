@@ -27,28 +27,22 @@ public class ShipUpgrade
     private String name;
     private String prev = "";
     private String ucType;
-    private String ucTypeShort;
     private int position;
 
     private String prevType;
     private int prevPosition;
 
     private LinkedHashMap<String, List<String>> components = new LinkedHashMap<>();
-    private String image;
 
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();
 
-    @JsonSetter
-    public void setUcType(String ucType)
+    public String getUcTypeShort()
     {
-        this.ucType = ucType;
-
         if (StringUtils.isNotEmpty(ucType)) {
-            ucTypeShort = StringUtils.uncapitalize(ucType.replace("_", ""));
-        } else {
-            ucTypeShort = ucType;
+            return StringUtils.uncapitalize(ucType.replace("_", ""));
         }
+        return ucType;
     }
 
     @JsonSetter
@@ -65,38 +59,34 @@ public class ShipUpgrade
         });
     }
 
-    @JsonGetter
     public String getPrevType()
     {
         if (StringUtils.isEmpty(prevType)) {
-            return ucTypeShort;
+            return getUcTypeShort();
         }
         return prevType;
     }
 
-    @JsonGetter
     public String getImage()
     {
-        if (StringUtils.isEmpty(image)) {
-            if (StringUtils.isNotEmpty(ucTypeShort)) {
-                String type;
-                if (ucTypeShort.equalsIgnoreCase(artillery)) {
-                    type = "maingun";
-                } else if (ucTypeShort.equalsIgnoreCase(suo)) {
-                    type = "radar";
-                } else if (ucTypeShort.equalsIgnoreCase(fighter)) {
-                    type = "avia_fighter";
-                } else if (ucTypeShort.equalsIgnoreCase(torpedoBomber)) {
-                    type = "avia_torpedo";
-                } else if (ucTypeShort.equalsIgnoreCase(diveBomber)) {
-                    type = "avia_bomber";
-                } else {
-                    type = ucTypeShort.toLowerCase();
-                }
-                return "https://glossary-na-static.gcdn.co/icons/wows/current/module/icon_module_" + type + ".png";
+        String tempUcTypeShort = getUcTypeShort();
+        if (StringUtils.isNotEmpty(tempUcTypeShort)) {
+            String type;
+            if (tempUcTypeShort.equalsIgnoreCase(artillery)) {
+                type = "maingun";
+            } else if (tempUcTypeShort.equalsIgnoreCase(suo)) {
+                type = "radar";
+            } else if (tempUcTypeShort.equalsIgnoreCase(fighter)) {
+                type = "avia_fighter";
+            } else if (tempUcTypeShort.equalsIgnoreCase(torpedoBomber)) {
+                type = "avia_torpedo";
+            } else if (tempUcTypeShort.equalsIgnoreCase(diveBomber)) {
+                type = "avia_bomber";
+            } else {
+                type = tempUcTypeShort.toLowerCase();
             }
-            return "";
+            return "https://glossary-na-static.gcdn.co/icons/wows/current/module/icon_module_" + type + ".png";
         }
-        return image;
+        return "";
     }
 }

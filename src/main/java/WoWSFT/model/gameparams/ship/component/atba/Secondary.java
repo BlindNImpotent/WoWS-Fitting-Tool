@@ -41,12 +41,10 @@ public class Secondary
 
     private float alphaDamage;
     private float alphaPiercingHE;
-    public float alphaPiercingHEReal;
     private String ammoType;
     private float bulletSpeed;
     private float burnProb;
 
-    @JsonGetter
     public float getAlphaPiercingHEReal()
     {
         return alphaPiercingHE - 1f;
