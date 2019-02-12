@@ -56,19 +56,12 @@
                             </button>
                         </li>
                     </ul>
-                    <!--<ul><li>&nbsp;&nbsp;&nbsp;</li></ul>-->
-                    <!--<ul th:each="slot : ${warship.consumables}">-->
-                        <!--<li th:each="consumable : ${slot}">-->
-                            <!--<button class="button_consumable" th:classappend="${consumableStat.index == 0 ? 'select' : 'hide'}"-->
-                                    <!--th:title="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase()) + '&#013&#013' + consumable.description}"-->
-                                    <!--th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">-->
-                                <!--<img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/><br />-->
-                            <!--</button>-->
-                        <!--</li>-->
-                    <!--</ul>-->
                 </div>
                 <div class="panel_left" data-type="crewSkills">
-                    <table>
+                    <div class="switch" data-type="skills" style="padding: 8px;">
+                        <strong>Skill pts: </strong><strong class="points">0</strong><strong> / 19</strong>
+                    </div>
+                    <table class="toggle skills hide">
                         <tbody>
                         <tr th:each="skillTier : ${skills.cSkills}">
                             <td th:each="skill : ${skillTier}">
@@ -85,7 +78,6 @@
             </div>
 
             <div th:replace="Joint/rightInfo :: rightInfo"></div>
-            <!--<th:block th:include="Joint/rightTab :: rightTab"></th:block>-->
         </div>
     </div>
 </th:block>

@@ -50,33 +50,28 @@ public class ConsumableSub
 
     private LinkedHashMap<String, String> bonus = new LinkedHashMap<>();
 
-    @JsonSetter
-    public void setDistanceToKill(float distanceToKill)
+    public float getDistanceToKill()
     {
-        this.distanceToKill = CommonUtils.getDistCoefWG(distanceToKill);
+        return CommonUtils.getDistCoefWG(distanceToKill);
     }
 
-    @JsonSetter
-    public void setHeight(float height)
+    public float getHeight()
     {
-        this.height = CommonUtils.getDistCoefWG(height);
+        return CommonUtils.getDistCoefWG(height);
     }
 
-    @JsonSetter
-    public void setRadius(float radius)
+    public float getRadius()
     {
-        this.radius = CommonUtils.getDistCoefWG(radius);
+        return CommonUtils.getDistCoefWG(radius);
     }
 
-    @JsonSetter
-    public void setDistShip(float distShip)
+    public float getDistShip()
     {
-        this.distShip = CommonUtils.getDistCoefWG(distShip);
+        return CommonUtils.getDistCoefWG(distShip);
     }
 
-    @JsonSetter
-    public void setDistTorpedo(float distTorpedo)
+    public float setDistTorpedo()
     {
-        this.distTorpedo = CommonUtils.getDistCoefWG(distTorpedo);
+        return CommonUtils.getDistCoefWG(distTorpedo);
     }
 }

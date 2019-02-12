@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="angleSectorAirDefense">
+    <script th:inline="javascript" data-script="airDefenseSector">
+        //    <![CDATA[
+
+        $(function () {
+            var curIndex = [[${dataIndex}]];
+            var airDefenseString = [[${warship.modules['airDefense']}]];
+            drawAirDefense($('[data-ship-index=' + curIndex + ']'), [[${warship.components.airDefense}]][airDefenseString])
+        });
+
+        //    ]]>
+    </script>
+    <div title="Air Defense Sector">
+        <canvas data-type="airDefenseCanvas" width="200" height="200">
+        </canvas>
+    </div>
+</th:block>
+</body>
+</html>

@@ -102,38 +102,53 @@ $(document).click(function () {
     }
 });
 
+var $maxSpts = 19;
+
 $(document).on('click', '.button_skill', function () {
     var $this = $(this),
         $index = parseInt($this.attr('data-index')),
+        $pos = parseInt($this.attr('data-position')),
         $ship = $this.parents('.ship'),
+        $pts = $ship.find('.points'),
         $skills = $ship.find('.button_skill.select'),
-        $maxSpts = 19,
         $totalSpts = 0;
 
-    if ($this.hasClass('select')) {
-        $this.removeClass('select')
-    } else {
-        var canUse = false;
+    var canUse = true;
+    var hasIndex = [false, false, false, false];
 
-        if ($index === 0) {
-            canUse = true;
-        }
+    if (!$this.hasClass('select')) {
+        hasIndex[$index] = true;
+        $totalSpts = $totalSpts + $index + 1;
+    }
 
-        for (var i = 0; i < $skills.length; i++) {
-            var $sIndex = parseInt($skills.eq(i).attr('data-index'));
-            $totalSpts += $sIndex + 1;
+    for (var i = 0; i < $skills.length; i++) {
+        var $sIndex = parseInt($skills.eq(i).attr('data-index'));
+        var $sPos = parseInt($skills.eq(i).attr('data-position'));
 
-            if ($sIndex + 1 === $index || $index === 0) {
-                canUse = true;
-            }
-        }
-
-        if (!canUse || $totalSpts + $index + 1 > $maxSpts) {
-            return false;
-        } else {
-            $this.addClass('select');
+        if ($sIndex !== $index || $sPos !== $pos) {
+            $totalSpts = $totalSpts + $sIndex + 1;
+            hasIndex[$sIndex] = true;
         }
     }
+
+    for (var i = 3; i > 0; i--) {
+        if (hasIndex[i] && !hasIndex[i - 1]) {
+            canUse = false;
+            break;
+        }
+    }
+
+    if (!canUse || $totalSpts > $maxSpts) {
+        return false;
+    }
+
+    if ($this.hasClass('select')) {
+        $this.removeClass('select');
+    } else {
+        $this.addClass('select');
+    }
+
+    $pts.text($totalSpts);
 });
 
 $(document).on('click', '.switch', function (e) {

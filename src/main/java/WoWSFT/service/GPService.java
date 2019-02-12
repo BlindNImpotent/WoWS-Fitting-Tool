@@ -153,54 +153,44 @@ public class GPService
 
         ship.getModules().forEach((cKey, value) -> {
             if (cKey.equalsIgnoreCase(artillery)) {
-                LinkedHashMap<String, Artillery> tComponent = new LinkedHashMap<>();
-                tComponent.put(value, ship.getComponents().getArtillery().get(value));
-                ship.getComponents().setArtillery(tComponent);
+                ship.getComponents().getArtillery().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
             } else if (cKey.equalsIgnoreCase(airDefense)) {
-                LinkedHashMap<String, AirDefense> tComponent = new LinkedHashMap<>();
-                tComponent.put(value, ship.getComponents().getAirDefense().get(value));
-                ship.getComponents().setAirDefense(tComponent);
+                ship.getComponents().getAirDefense().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
             } else if (cKey.equalsIgnoreCase(atba)) {
-                LinkedHashMap<String, ATBA> tComponent = new LinkedHashMap<>();
-                tComponent.put(value, ship.getComponents().getAtba().get(value));
-                ship.getComponents().setAtba(tComponent);
+                ship.getComponents().getAtba().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
             } else if (cKey.equalsIgnoreCase(engine)) {
-                LinkedHashMap<String, Engine> tComponent = new LinkedHashMap<>();
-                tComponent.put(value, ship.getComponents().getEngine().get(value));
-                ship.getComponents().setEngine(tComponent);
+                ship.getComponents().getEngine().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
             } else if (cKey.equalsIgnoreCase(suo)) {
-                LinkedHashMap<String, FireControl> tComponent = new LinkedHashMap<>();
-                tComponent.put(value, ship.getComponents().getSuo().get(value));
-                ship.getComponents().setSuo(tComponent);
+                ship.getComponents().getSuo().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
             } else if (cKey.equalsIgnoreCase(hull)) {
-                LinkedHashMap<String, Hull> tComponent = new LinkedHashMap<>();
-                tComponent.put(value, ship.getComponents().getHull().get(value));
-                ship.getComponents().setHull(tComponent);
+                ship.getComponents().getHull().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
             } else if (cKey.equalsIgnoreCase(torpedoes)) {
-                LinkedHashMap<String, Torpedo> tComponent = new LinkedHashMap<>();
-                tComponent.put(value, ship.getComponents().getTorpedoes().get(value));
-                ship.getComponents().setTorpedoes(tComponent);
+                ship.getComponents().getTorpedoes().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
             } else if (cKey.equalsIgnoreCase(airArmament)) {
-                LinkedHashMap<String, Object> tComponent = new LinkedHashMap<>();
-                tComponent.put(value, ship.getComponents().getAirArmament().get(value));
-                ship.getComponents().setAirArmament(tComponent);
+                ship.getComponents().getAirArmament().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
             } else if (cKey.equalsIgnoreCase(flightControl)) {
-                LinkedHashMap<String, Object> tComponent = new LinkedHashMap<>();
-                tComponent.put(value, ship.getComponents().getFlightControl().get(value));
-                ship.getComponents().setFlightControl(tComponent);
+                ship.getComponents().getFlightControl().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
             } else if (cKey.equalsIgnoreCase(fighter)) {
-                LinkedHashMap<String, Object> tComponent = new LinkedHashMap<>();
-                tComponent.put(value, ship.getComponents().getFighter().get(value));
-                ship.getComponents().setFighter(tComponent);
+                ship.getComponents().getFighter().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
             } else if (cKey.equalsIgnoreCase(diveBomber)) {
-                LinkedHashMap<String, Object> tComponent = new LinkedHashMap<>();
-                tComponent.put(value, ship.getComponents().getDiveBomber().get(value));
-                ship.getComponents().setDiveBomber(tComponent);
+                ship.getComponents().getDiveBomber().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
             } else if (cKey.equalsIgnoreCase(torpedoBomber)) {
-                LinkedHashMap<String, Object> tComponent = new LinkedHashMap<>();
-                tComponent.put(value, ship.getComponents().getTorpedoBomber().get(value));
-                ship.getComponents().setTorpedoBomber(tComponent);
+                ship.getComponents().getTorpedoBomber().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
             }
+        });
+
+        ship.getComponents().getAirDefense().forEach((aaKey, aaVal) -> {
+            ship.getComponents().getArtillery().forEach((artyKey, val) -> {
+                aaVal.setAuraFar(aaVal.getAuraFar() == null && val.getAuraFar() != null ? val.getAuraFar() : aaVal.getAuraFar());
+                aaVal.setAuraMedium(aaVal.getAuraMedium() == null && val.getAuraMedium() != null ? val.getAuraMedium() : aaVal.getAuraMedium());
+                aaVal.setAuraNear(aaVal.getAuraNear() == null && val.getAuraNear() != null ? val.getAuraNear() : aaVal.getAuraNear());
+            });
+
+            ship.getComponents().getAtba().forEach((atbaKey, val) -> {
+                aaVal.setAuraFar(aaVal.getAuraFar() == null && val.getAuraFar() != null ? val.getAuraFar() : aaVal.getAuraFar());
+                aaVal.setAuraMedium(aaVal.getAuraMedium() == null && val.getAuraMedium() != null ? val.getAuraMedium() : aaVal.getAuraMedium());
+                aaVal.setAuraNear(aaVal.getAuraNear() == null && val.getAuraNear() != null ? val.getAuraNear() : aaVal.getAuraNear());
+            });
         });
     }
 

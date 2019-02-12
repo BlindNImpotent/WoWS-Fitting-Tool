@@ -46,9 +46,8 @@ public class TorpedoAmmo
     private float visibilityFactor;
     private float volume;
 
-    @JsonSetter
-    public void setMaxDist(float maxDist)
+    public float getMaxDist()
     {
-        this.maxDist = CommonUtils.getDistCoefWG(maxDist);
+        return CommonUtils.getDistCoefWG(maxDist);
     }
 }
