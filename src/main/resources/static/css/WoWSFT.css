@@ -82,12 +82,13 @@ li {
 }
 
 .bottom-fix {
+    position: sticky;
+    position: -webkit-sticky;
     background: white;
-    width: 100%;
     text-align: center;
-    position: fixed;
     bottom: 0;
     z-index: 1;
+    padding: 10px 0;
 }
 
 #notification {
@@ -212,7 +213,7 @@ nav ul li:active > ul {
 }
 
 .main {
-    padding-bottom: 60px;
+    padding-bottom: 10px;
 }
 
 .ship {
@@ -344,7 +345,7 @@ button img {
 }
 
 .panel_left ul {
-    display: table-cell;
+    display: inline-table;
 }
 
 .panel_right {
@@ -371,14 +372,6 @@ button img {
 
 .panel_right table tr td:nth-of-type(2) {
     width: 120px;
-}
-
-.panel_right table tr td:hover span {
-    display: inline;
-    position: absolute;
-    color: #111;
-    border: 1px solid #DCA;
-    background: #fffAF0;
 }
 
 .panel_right tr.subsystem {

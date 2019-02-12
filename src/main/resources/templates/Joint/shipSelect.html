@@ -56,16 +56,16 @@
                             </button>
                         </li>
                     </ul>
-                    <ul><li>&nbsp;&nbsp;&nbsp;</li></ul>
-                    <ul th:each="slot : ${warship.consumables}">
-                        <li th:each="consumable : ${slot}">
-                            <button class="button_consumable" th:classappend="${consumableStat.index == 0 ? 'select' : 'hide'}"
-                                    th:title="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase()) + '&#013&#013' + consumable.description}"
-                                    th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">
-                                <img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/><br />
-                            </button>
-                        </li>
-                    </ul>
+                    <!--<ul><li>&nbsp;&nbsp;&nbsp;</li></ul>-->
+                    <!--<ul th:each="slot : ${warship.consumables}">-->
+                        <!--<li th:each="consumable : ${slot}">-->
+                            <!--<button class="button_consumable" th:classappend="${consumableStat.index == 0 ? 'select' : 'hide'}"-->
+                                    <!--th:title="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase()) + '&#013&#013' + consumable.description}"-->
+                                    <!--th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">-->
+                                <!--<img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/><br />-->
+                            <!--</button>-->
+                        <!--</li>-->
+                    <!--</ul>-->
                 </div>
                 <div class="panel_left" data-type="crewSkills">
                     <table>
