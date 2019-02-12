@@ -102,7 +102,7 @@ li {
     display: inline-block;
     background: lightblue;
     width: 100%;
-    z-index: 1;
+    z-index: 10;
     text-align: left;
 }
 
@@ -110,6 +110,7 @@ li {
     background: lightblue;
     display: inline-block;
     padding: 10px;
+    z-index: 10;
 }
 
 .link {
@@ -210,14 +211,13 @@ nav ul li:active > ul {
     padding: 0;
 }
 
-#main {
-    padding: 10px;
+.main {
+    padding-bottom: 60px;
 }
 
 .ship {
     padding-top: 10px;
     text-align: center;
-    padding-bottom: 50px;
 }
 
 .ship img {
@@ -308,6 +308,12 @@ nav ul li:active > ul {
     height: 90px;
 }
 
+.button_upgrade, .button_consumable {
+    z-index: 2;
+    border: 1px solid rgb(210,210,210);
+    border-radius: 5px;
+}
+
 button img {
     width: 45px;
 }
@@ -324,6 +330,13 @@ button img {
 .panel_left {
     border: 1px solid rgb(210,210,210);
     border-radius: 5px;
+}
+
+.panel_left table {
+    /*text-align: left;*/
+    /*width: 100%;*/
+    margin: 0 auto;
+    padding: 8px;
 }
 
 .panel_left:not(:last-of-type), .panel_right:not(:last-of-type) {
@@ -360,20 +373,6 @@ button img {
     width: 120px;
 }
 
-/*.panel_right table tr td[colspan]:not([colspan="1"]) {*/
-    /*text-align: center;*/
-/*}*/
-
-/*.panel_right table tr td span {*/
-    /*z-index: 10;*/
-    /*display: none;*/
-    /*padding: 14px 20px;*/
-    /*margin-top: -30px;*/
-    /*margin-left :28px;*/
-    /*width: 300px;*/
-    /*line-height: 16px;*/
-/*}*/
-
 .panel_right table tr td:hover span {
     display: inline;
     position: absolute;
@@ -384,4 +383,13 @@ button img {
 
 .panel_right tr.subsystem {
     background: rgba(0, 0, 0, 0.1)
+}
+
+.panel_left[data-type=upgrades] {
+    padding: 8px;
+    height: 74px;
+}
+
+.panel_left[data-type=upgrades] ul li:first-of-type {
+    background: white;
 }

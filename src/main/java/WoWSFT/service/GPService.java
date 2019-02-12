@@ -71,44 +71,80 @@ public class GPService
     public Ship getShip(String index, String language, String bits) throws Exception
     {
         Ship ship = mapper.readValue(mapper.writeValueAsString(ships.get(index)), Ship.class);
-        List<List<Consumable>> consumablesList = new ArrayList<>();
 
         if (ship != null) {
-            for (Map.Entry<String, AbilitySlot> entry : ship.getShipAbilities().entrySet()) {
-                for (List<String> consumable : entry.getValue().getAbils()) {
-                    if (!consumable.get(0).contains("Super")) {
-                        Consumable tempConsumable = mapper.readValue(mapper.writeValueAsString(consumables.get(consumable.get(0))), Consumable.class);
-                        tempConsumable.getSubConsumables().entrySet().removeIf(e -> !e.getKey().equalsIgnoreCase(consumable.get(1)));
-
-                        Object consDesc = global.get(language).get(IDS + CONSUME + DESCRIPTION + tempConsumable.getName().toUpperCase());
-                        if (consDesc != null) {
-                            tempConsumable.setDescription(tempConsumable.getDescription() + consDesc.toString().replace("\n\n", "\n") + "\n\n");
-                        }
-
-                        tempConsumable.getSubConsumables().get(consumable.get(1)).getBonus().forEach((id, val) -> {
-                            Object desc = global.get(language).get(IDS + id);
-                            if (desc != null) {
-                                tempConsumable.setDescription(tempConsumable.getDescription() + desc.toString() + ": " + val + "\n");
-                            }
-                        });
-
-                        if (consumablesList.size() < entry.getValue().getSlot() + 1) {
-                            consumablesList.add(new ArrayList<>());
-                        }
-                        consumablesList.get(entry.getValue().getSlot()).add(tempConsumable);
-                    }
-                }
-            }
-            ship.setConsumables(consumablesList);
-
+            setUpgrades(ship, language);
+            setConsumables(ship, language);
             setShipModules(index, bits, ship);
-
             setShipAmmo(ship);
 
             return ship;
         }
-
         return null;
+    }
+
+    private void setUpgrades(Ship ship, String language) throws Exception
+    {
+        List<List<Modernization>> upgradesList = new ArrayList<>();
+        LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgradesCopy
+                = mapper.readValue(mapper.writeValueAsString(upgrades), new TypeReference<LinkedHashMap<Integer, LinkedHashMap<String, Modernization>>>(){});
+        upgradesCopy.forEach((slot, upgrades) -> upgrades.forEach((key, upgrade) -> {
+            if ((!upgrade.getExcludes().contains(ship.getName()) && upgrade.getGroup().contains(ship.getGroup()) && upgrade.getNation().contains(ship.getTypeinfo().getNation())
+                && upgrade.getShiptype().contains(ship.getTypeinfo().getSpecies()) && upgrade.getShiplevel().contains(ship.getLevel())) || upgrade.getShips().contains(ship.getName())) {
+                Object uDesc = global.get(language).get(IDS + DESC + upgrade.getName().toUpperCase());
+                if (uDesc != null) {
+                    upgrade.setDescription(upgrade.getDescription() + uDesc.toString().replace("\n\n", "\n") + "\n\n");
+                }
+
+                upgrade.getBonus().forEach((id, val) -> {
+                    Object desc = global.get(language).get(IDS + id);
+                    if (desc == null) {
+                        desc = global.get(language).get(IDS + id.replace("_MODERNIZATION", ""));
+                    }
+
+                    if (desc != null) {
+                        upgrade.setDescription(upgrade.getDescription() + desc.toString() + ": " + val + "\n");
+                    }
+                });
+
+                if (upgradesList.size() < upgrade.getSlot() + 1) {
+                    upgradesList.add(new ArrayList<>());
+                }
+                upgradesList.get(upgrade.getSlot()).add(upgrade);
+            }
+        }));
+        ship.setUpgrades(upgradesList);
+    }
+
+    private void setConsumables(Ship ship, String language) throws Exception
+    {
+        List<List<Consumable>> consumablesList = new ArrayList<>();
+        for (Map.Entry<String, AbilitySlot> entry : ship.getShipAbilities().entrySet()) {
+            for (List<String> consumable : entry.getValue().getAbils()) {
+                if (!consumable.get(0).contains("Super")) {
+                    Consumable tempConsumable = mapper.readValue(mapper.writeValueAsString(consumables.get(consumable.get(0))), Consumable.class);
+                    tempConsumable.getSubConsumables().entrySet().removeIf(e -> !e.getKey().equalsIgnoreCase(consumable.get(1)));
+
+                    Object consDesc = global.get(language).get(IDS + CONSUME + DESCRIPTION + tempConsumable.getName().toUpperCase());
+                    if (consDesc != null) {
+                        tempConsumable.setDescription(tempConsumable.getDescription() + consDesc.toString().replace("\n\n", "\n") + "\n\n");
+                    }
+
+                    tempConsumable.getSubConsumables().get(consumable.get(1)).getBonus().forEach((id, val) -> {
+                        Object desc = global.get(language).get(IDS + id);
+                        if (desc != null) {
+                            tempConsumable.setDescription(tempConsumable.getDescription() + desc.toString() + ": " + val + "\n");
+                        }
+                    });
+
+                    if (consumablesList.size() < entry.getValue().getSlot() + 1) {
+                        consumablesList.add(new ArrayList<>());
+                    }
+                    consumablesList.get(entry.getValue().getSlot()).add(tempConsumable);
+                }
+            }
+        }
+        ship.setConsumables(consumablesList);
     }
 
     private void setShipModules(String index, String bits, Ship ship)
@@ -166,30 +202,6 @@ public class GPService
                 ship.getComponents().setTorpedoBomber(tComponent);
             }
         });
-    }
-
-    public LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> getUpgrades(String language) throws Exception
-    {
-        LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgradesCopy = mapper.readValue(mapper.writeValueAsString(upgrades), new TypeReference<LinkedHashMap<Integer, LinkedHashMap<String, Modernization>>>(){});
-        upgradesCopy.forEach((slot, upgrades) -> upgrades.forEach((key, upgrade) -> {
-            Object uDesc = global.get(language).get(IDS + DESC + upgrade.getName().toUpperCase());
-            if (uDesc != null) {
-                upgrade.setDescription(upgrade.getDescription() + uDesc.toString().replace("\n\n", "\n") + "\n\n");
-            }
-
-            upgrade.getBonus().forEach((id, val) -> {
-                Object desc = global.get(language).get(IDS + id);
-                if (desc == null) {
-                    desc = global.get(language).get(IDS + id.replace("_MODERNIZATION", ""));
-                }
-
-                if (desc != null) {
-                    upgrade.setDescription(upgrade.getDescription() + desc.toString() + ": " + val + "\n");
-                }
-            });
-        }));
-
-        return upgradesCopy;
     }
 
     public Commander getCommander(String language) throws Exception

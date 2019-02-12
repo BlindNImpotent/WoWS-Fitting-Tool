@@ -47,74 +47,59 @@ $(document).on('click', '.button_module', function(){
     $this.addClass('select');
 });
 
-var uClick = false;
-var uClickIndex = -1;
-var uClickPosition = -1;
 $(document).on('click', '.button_upgrade', function (e) {
+    e.stopPropagation();
     var $this = $(this),
         $index = parseInt($this.attr('data-index')),
-        $position = parseInt($this.attr('data-position')),
-        $uSlot = $this.parents('.uSlot[data-index=' + $index + ']'),
         $ship = $this.parents('.ship'),
         $upgrades = $ship.find('.button_upgrade[data-index=' + $index + ']');
 
-    var uCCopy = uClick,
-        uCICopy = uClickIndex,
-        uCPCopy = uClickPosition;
-
-    if ($uSlot.hasClass('closed')) {
-        $uSlot.removeClass('closed');
-        $uSlot.find('.button_upgrade').removeClass('hide');
-        uClick = true;
-        uClickIndex = $index;
-        uClickPosition = $position;
-        $this.focus();
-    } else {
-        uClick = false;
+    if (!$this.hasClass('select')) {
         for (var i = 0; i < $upgrades.length; i++) {
             $upgrades.eq(i).removeClass('select');
             $upgrades.eq(i).addClass('hide');
         }
-        $this.removeClass('hide');
         $this.addClass('select');
-        $uSlot.addClass('closed');
-        // $('.button_upgrade[data-index=' + uCICopy + ']').find('[data-position=' + uCPCopy + ']')
+        $this.removeClass('hide');
+    } else {
+        $upgrades.removeClass('hide');
     }
 });
 
-$(document).on('blur', '.button_upgrade', function (e) {
-    console.log('test');
+$(document).on('click', '.button_consumable', function (e) {
+    e.stopPropagation();
     var $this = $(this),
         $index = parseInt($this.attr('data-index')),
-        $position = parseInt($this.attr('data-position')),
-        $uSlot = $this.parents('.uSlot[data-index=' + $index + ']'),
         $ship = $this.parents('.ship'),
-        $upgrades = $ship.find('.button_upgrade[data-index=' + $index + ']');
+        $consumables = $ship.find('.button_consumable[data-index=' + $index + ']');
 
-    if (!(uClick && $index === uClickIndex && $position === uClickPosition)) {
-        console.log('123');
-        // return false;
+    if (!$this.hasClass('select')) {
+        for (var i = 0; i < $consumables.length; i++) {
+            $consumables.eq(i).removeClass('select');
+            $consumables.eq(i).addClass('hide');
+        }
+        $this.addClass('select');
+        $this.removeClass('hide');
+    } else {
+        $consumables.removeClass('hide');
     }
-
-    console.log(uClick, uClickIndex, uClickPosition);
-    uClick = false;
-    uClickIndex = -1;
-    uClickPosition = -1;
-    // $this.trigger(e.type);
-    console.log(uClick, uClickIndex, uClickPosition);
 });
 
+$(document).click(function () {
+    var $upgrades = $('.button_upgrade'),
+        $consumables = $('.button_consumable');
 
-$(document).on('click', '.button_consumable', function () {
-    var $this = $(this),
-        $index = parseInt($this.attr('data-index')),
-        $ship = $this.parents('.ship'),
-        $consumables = $ship.find('.button_consumable.select[data-index=' + $index + ']');
+    for (var i = 0; i < $upgrades.length; i++) {
+        if (!$upgrades.eq(i).hasClass('select')) {
+            $upgrades.eq(i).addClass('hide');
+        }
+    }
 
     for (var i = 0; i < $consumables.length; i++) {
-        $consumables.eq(i).removeClass('select');
+        if (!$consumables.eq(i).hasClass('select')) {
+            $consumables.eq(i).addClass('hide');
+        }
     }
-    $this.addClass('select');
 });
 
 $(document).on('click', '.button_skill', function () {

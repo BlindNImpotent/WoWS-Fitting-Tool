@@ -3,6 +3,7 @@ package WoWSFT.model.gameparams.ship;
 import WoWSFT.config.WoWSFT;
 import WoWSFT.model.gameparams.TypeInfo;
 import WoWSFT.model.gameparams.consumable.Consumable;
+import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.abilities.AbilitySlot;
 import WoWSFT.model.gameparams.ship.component.ShipComponent;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgradeInfo;
@@ -54,6 +55,7 @@ public class Ship
     private String imageSmall;
 
     private List<List<Consumable>> consumables;
+    private List<List<Modernization>> upgrades;
     private HashMap<String, String> modules = new HashMap<>();
     private HashMap<String, Integer> positions = new HashMap<>();
 
