@@ -75,18 +75,20 @@
 <script th:src="@{/js/angle/torp.js}"></script>
 <script th:src="@{/js/angle/aa.js}"></script>
 <script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/paramSetter.js}"></script>
 <script th:inline="javascript">
     // <![CDATA[
 
-    var modules;
-    var positions;
     var warship;
+    var curIndex = [[${dataIndex}]];
 
     $(function () {
         warship = [[${warship}]];
         if (warship) {
-            modules = warship.modules;
-            positions = warship.positions;
+
+            drawArtillery($('[data-ship-index=' + curIndex + ']'), warship);
+            drawTorpedoes($('[data-ship-index=' + curIndex + ']'), warship);
+            drawAirDefense($('[data-ship-index=' + curIndex + ']'), warship);
         }
     });
 

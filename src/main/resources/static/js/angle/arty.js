@@ -1,7 +1,7 @@
-function drawArtillery(currentIndex, artillery)
+function drawArtillery(currentIndex, warship)
 {
-    if (artillery !== null) {
-        var turrets = artillery['turrets'];
+    if (warship.components.artillery !== undefined) {
+        var turrets = warship.components.artillery[warship.modules.artillery].turrets;
 
         var artilleryCanvas = currentIndex.find('[data-type=artilleryCanvas]');
         var ctx = artilleryCanvas[0].getContext('2d');
@@ -22,10 +22,10 @@ function drawArtillery(currentIndex, artillery)
         for (var i = 0; i < turrets.length; i++) {
             var current = turrets[i];
 
-            var minAngle = current['horizSector'][0];
-            var maxAngle = current['horizSector'][1];
-            var vertiPosition = current['position'][0];
-            var horizPosition = current['position'][1];
+            var minAngle = current.horizSector[0];
+            var maxAngle = current.horizSector[1];
+            var vertiPosition = current.position[0];
+            var horizPosition = current.position[1];
             var horizFactor = Math.PI / -2;
 
             var deadZone = current['deadZone'];

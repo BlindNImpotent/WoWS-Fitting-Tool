@@ -1,7 +1,51 @@
-function drawAirDefense(currentIndex, airDefense)
+function setAA(warship)
 {
-    if (airDefense !== null) {
-        var aa = [airDefense.auraFar, airDefense.auraMedium, airDefense.auraNear];
+    var auraFar = undefined,
+        auraMedium = undefined,
+        auraNear = undefined,
+        modules = warship.modules;
+
+    if (modules.atba !== undefined && warship.components.atba[modules.atba] !== undefined) {
+        if (auraFar === undefined && warship.components.atba[modules.atba].auraFar !== undefined) {
+            auraFar = warship.components.atba[modules.atba].auraFar;
+        }
+        if (auraMedium === undefined && warship.components.atba[modules.atba].auraMedium !== undefined) {
+            auraMedium = warship.components.atba[modules.atba].auraMedium;
+        }
+        if (auraNear === undefined && warship.components.atba[modules.atba].auraNear !== undefined) {
+            auraNear = warship.components.atba[modules.atba].auraNear;
+        }
+    }
+    if (modules.artillery !== undefined && warship.components.artillery[modules.artillery] !== undefined) {
+        if (auraFar === undefined && warship.components.artillery[modules.artillery].auraFar !== undefined) {
+            auraFar = warship.components.artillery[modules.artillery].auraFar;
+        }
+        if (auraMedium === undefined && warship.components.artillery[modules.artillery].auraMedium !== undefined) {
+            auraMedium = warship.components.artillery[modules.artillery].auraMedium;
+        }
+        if (auraNear === undefined && warship.components.artillery[modules.artillery].auraNear !== undefined) {
+            auraNear = warship.components.artillery[modules.artillery].auraNear;
+        }
+    }
+    if (modules.airDefense !== undefined && warship.components.airDefense[modules.airDefense] !== undefined) {
+        if (auraFar === undefined && warship.components.airDefense[modules.airDefense].auraFar !== undefined) {
+            auraFar = warship.components.airDefense[modules.airDefense].auraFar;
+        }
+        if (auraMedium === undefined && warship.components.airDefense[modules.airDefense].auraMedium !== undefined) {
+            auraMedium = warship.components.airDefense[modules.airDefense].auraMedium;
+        }
+        if (auraNear === undefined && warship.components.airDefense[modules.airDefense].auraNear !== undefined) {
+            auraNear = warship.components.airDefense[modules.airDefense].auraNear;
+        }
+    }
+
+    return [auraFar, auraMedium, auraNear];
+}
+
+function drawAirDefense(currentIndex, warship)
+{
+    if (warship.airDefense !== null) {
+        var aa = setAA(warship);
 
         var airDefenseCanvas = currentIndex.find('[data-type=airDefenseCanvas]');
         var ctx = airDefenseCanvas[0].getContext('2d');
@@ -28,10 +72,10 @@ function drawAirDefense(currentIndex, airDefense)
         var furthest = -1;
         var closest = -1;
 
-        var angles = airDefense.sectors;
+        var angles = warship.components.airDefense[warship.modules.airDefense].sectors;
 
         for (var i = 0; i < aa.length; i++) {
-            if (aa[i] !== null) {
+            if (aa[i] !== undefined) {
                 var current = aa[i];
                 var maxDist = current.maxDistance;
                 var minDist = current.minDistance;
@@ -46,7 +90,7 @@ function drawAirDefense(currentIndex, airDefense)
         }
 
         for (var i = 0; i < aa.length; i++) {
-            if (aa[i] !== null) {
+            if (aa[i] !== undefined) {
                 var current = aa[i];
                 var maxDist = current.maxDistance;
                 var minDist = current.minDistance;

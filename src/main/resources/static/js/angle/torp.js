@@ -1,7 +1,7 @@
-function drawTorpedoes(currentIndex, torpedoes)
+function drawTorpedoes(currentIndex, warship)
 {
-    if (torpedoes !== null) {
-        var launchers = torpedoes['launchers'];
+    if (warship.components.torpedoes !== undefined) {
+        var launchers = warship.components.torpedoes[warship.modules.torpedoes].launchers;
 
         var torpedoesCanvas = currentIndex.find('[data-type=torpedoesCanvas]');
         var ctx = torpedoesCanvas[0].getContext('2d');
@@ -22,13 +22,13 @@ function drawTorpedoes(currentIndex, torpedoes)
         for (var i = 0; i < launchers.length; i++) {
             var current = launchers[i];
 
-            var minAngle = current['horizSector'][0];
-            var maxAngle = current['horizSector'][1];
-            var vertiPosition = current['position'][0];
-            var horizPosition = current['position'][1];
+            var minAngle = current.horizSector[0];
+            var maxAngle = current.horizSector[1];
+            var vertiPosition = current.position[0];
+            var horizPosition = current.position[1];
             var horizFactor = Math.PI / -2;
 
-            var deadZone = current['deadZone'];
+            var deadZone = current.deadZone;
             var deadZone1 = 0;
             var deadZone2 = 0;
             if (deadZone.length === 1) {

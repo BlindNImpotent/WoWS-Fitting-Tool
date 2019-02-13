@@ -45,7 +45,7 @@
                     <th:block th:text="${#numbers.formatInteger(((turret0.idealRadius * artillery.GMIdealRadius - turret0.minRadius) / 1000.0 * (artillery.maxDist * suo.maxDistCoef / 30.0) + turret0.minRadius) * 30.0, 1, 'COMMA')} + ' m'"></th:block><br />
                 </td>
             </tr>
-            <th:block th:each="shell : ${artillery.shells}" th:with="ammo=${shell.value}">
+            <th:block th:if="${false}" th:each="shell : ${artillery.shells}" th:with="ammo=${shell.value}">
                 <tr class="subsystem switch" th:attr="data-type=${ammo.index}">
                     <td><u th:text="${global.get('IDS_' + ammo.name.toUpperCase())}"></u></td>
                     <td th:text="${global.get('IDS_SHIP_PARAM_AMMO_' + ammo.ammoType.toUpperCase())}"></td>
@@ -126,7 +126,12 @@
                 <td colspan="2"><u>Sector</u></td>
             </tr>
             <tr class="toggle sector hide" style="text-align: center">
-                <td colspan="2"><th:block th:replace="Joint/angleSectorArty :: angleSectorArty"></th:block></td>
+                <td colspan="2">
+                    <div title="Artillery Sector">
+                        <canvas data-type="artilleryCanvas" width="200" height="250">
+                        </canvas>
+                    </div>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -172,7 +177,12 @@
             </tr>
             <tr class="subsystem switch" data-type="sector"><td colspan="2"><u>Sector</u></td></tr>
             <tr class="toggle sector hide" style="text-align: center">
-                <td colspan="2"><th:block th:replace="Joint/angleSectorTorp :: angleSectorTorp"></th:block></td>
+                <td colspan="2">
+                    <div title="Torpedo Sector">
+                        <canvas data-type="torpedoesCanvas" width="200" height="250">
+                        </canvas>
+                    </div>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -226,33 +236,46 @@
         </table>
     </div>
 
-    <div th:if="${(airDefense != null
-                and ((airDefense.auraFar != null and (airDefense.auraFar.innerBubbleCount > 0 or airDefense.auraFar.outerBubbleCount > 0))
+    <div th:if="${airDefense != null
+
+                and (((airDefense.auraFar != null and (airDefense.auraFar.innerBubbleCount > 0 or airDefense.auraFar.outerBubbleCount > 0))
                 or (airDefense.auraMedium != null and (airDefense.auraMedium.innerBubbleCount > 0 or airDefense.auraMedium.outerBubbleCount > 0))
-                or airDefense.auraNear != null))}"
+                or airDefense.auraNear != null)
+
+                or (atba != null
+                and ((atba.auraFar != null and (atba.auraFar.innerBubbleCount > 0 or atba.auraFar.outerBubbleCount > 0))
+                or (atba.auraMedium != null and (atba.auraMedium.innerBubbleCount > 0 or atba.auraMedium.outerBubbleCount > 0))
+                or atba.auraNear != null))
+
+                or (artillery != null
+                and ((artillery.auraFar != null and (artillery.auraFar.innerBubbleCount > 0 or artillery.auraFar.outerBubbleCount > 0))
+                or (artillery.auraMedium != null and (artillery.auraMedium.innerBubbleCount > 0 or artillery.auraMedium.outerBubbleCount > 0))
+                or artillery.auraNear != null)))}"
             class="panel_right switch" data-type="airDefense">
         <div class="switch" data-type="aa">
             <strong th:text="${global.get('IDS_SHIP_PARAM_AIR_DEFENSE')}"></strong>
         </div>
         <table class="toggle aa hide">
-            <th:block th:with="auraFar=${airDefense.auraFar}, auraMedium=${airDefense.auraMedium}, auraNear=${airDefense.auraNear}">
+            <th:block th:with="auraFar=${atba != null and atba.auraFar != null ? atba.auraFar : (artillery != null and artillery.auraFar != null ? artillery.auraFar : airDefense.auraFar)},
+                               auraMedium=${atba != null and atba.auraMedium != null ? atba.auraMedium : (artillery != null and artillery.auraMedium != null ? artillery.auraMedium : airDefense.auraMedium)},
+                               auraNear=${atba != null and atba.auraNear != null ? atba.auraNear : (artillery != null and artillery.auraNear != null ? artillery.auraNear : airDefense.auraNear)}">
                 <tbody>
                     <th:block th:if="${airDefense != null}">
-                    <tr class="subsystem switch" data-type="enforce">
-                        <td><u th:text="'AA Enforcement'"></u></td>
-                        <td th:text="${#numbers.formatDecimal(airDefense.prioritySectorStrength * 100 - 100, 1, 1)} + ' %'"></td>
-                    </tr>
-                    <tr class="toggle enforce hide">
-                        <td>
-                            <th:block th:text="'- Enable Duration'" th:title="${global.get('IDS_SHIP_PARAM_AA_SECTOR_ENABLE_DELAY')}"></th:block><br />
-                            <th:block th:text="'- Change Duration'" th:title="${global.get('IDS_SHIP_PARAM_AA_SECTOR_CHANGE_DELAY')}"></th:block><br />
-                        </td>
-                        <td>
-                            <th:block th:text="${#numbers.formatDecimal(airDefense.prioritySectorEnableDelay, 1, 1)} + ' s'"></th:block><br />
-                            <th:block th:text="${#numbers.formatDecimal(airDefense.prioritySectorChangeDelay, 1, 1)} + ' s'"></th:block><br />
-                        </td>
-                    </tr>
-                </th:block>
+                        <tr class="subsystem switch" data-type="enforce">
+                            <td><u th:text="'AA Enforcement'"></u></td>
+                            <td th:text="${#numbers.formatDecimal(airDefense.prioritySectorStrength * 100 - 100, 1, 1)} + ' %'"></td>
+                        </tr>
+                        <tr class="toggle enforce hide">
+                            <td>
+                                <th:block th:text="'- Enable Duration'" th:title="${global.get('IDS_SHIP_PARAM_AA_SECTOR_ENABLE_DELAY')}"></th:block><br />
+                                <th:block th:text="'- Change Duration'" th:title="${global.get('IDS_SHIP_PARAM_AA_SECTOR_CHANGE_DELAY')}"></th:block><br />
+                            </td>
+                            <td>
+                                <th:block th:text="${#numbers.formatDecimal(airDefense.prioritySectorEnableDelay, 1, 1)} + ' s'"></th:block><br />
+                                <th:block th:text="${#numbers.formatDecimal(airDefense.prioritySectorChangeDelay, 1, 1)} + ' s'"></th:block><br />
+                            </td>
+                        </tr>
+                    </th:block>
                     <th:block th:if="${auraFar != null and (auraFar.innerBubbleCount > 0 or auraFar.outerBubbleCount > 0)}">
                         <tr class="subsystem switch" data-type="far">
                             <td><u th:text="${global.get('IDS_FAR')}"></u><br /></td>
@@ -316,7 +339,12 @@
                         <td colspan="2"><u>Sector</u></td>
                     </tr>
                     <tr class="toggle sector hide" style="text-align: center">
-                        <td colspan="2"><th:block th:replace="Joint/angleSectorAirDefense :: angleSectorAirDefense"></th:block></td>
+                        <td colspan="2">
+                            <div title="Air Defense Sector">
+                                <canvas data-type="airDefenseCanvas" width="200" height="200">
+                                </canvas>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </th:block>
@@ -437,7 +465,7 @@
         </table>
     </div>
 
-    <div th:if="${consumables != null}" class="panel_right" data-type="consumables">
+    <div th:if="${false and consumables != null}" class="panel_right" data-type="consumables">
         <div class="switch" data-type="consumable"><strong th:text="${global.get('IDS_PRMP_ITEM_ABILITY')}"></strong></div>
         <div class="toggle consumable hide">
             <ul th:each="slot : ${consumables}">

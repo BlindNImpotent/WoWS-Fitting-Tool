@@ -45,6 +45,10 @@ $(document).on('click', '.button_module', function(){
         $modules.eq(i).removeClass('select');
     }
     $this.addClass('select');
+
+    warship.positions[$type] = $pos;
+
+    setNewStats($ship);
 });
 
 $(document).on('click', '.button_upgrade', function (e) {
