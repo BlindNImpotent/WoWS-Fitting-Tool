@@ -1,5 +1,6 @@
 package WoWSFT.controller;
 
+import WoWSFT.config.CustomMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,17 +22,16 @@ public class ExceptionController
 //        response.getWriter().write("");
 //    }
 //
-//    @ResponseBody
-//    @ExceptionHandler(Exception.class)
-//    public String sendError(Throwable t, HttpServletRequest request) throws Exception
-//    {
-//        if (t instanceof NullPointerException) {
-//            log.info("Null Point");
-//            return "";
-//        } else {
-//            log.error(t.getLocalizedMessage(), t);
-//        }
-//
-//        throw (Exception) t;
-//    }
+    @ResponseBody
+    @ExceptionHandler(Exception.class)
+    public CustomMessage sendError(Throwable t, HttpServletRequest request)
+    {
+        if (t instanceof NullPointerException) {
+            log.info("Null Point");
+        } else {
+            log.error(t.getLocalizedMessage(), t);
+        }
+
+        return new CustomMessage("500", t.toString());
+    }
 }

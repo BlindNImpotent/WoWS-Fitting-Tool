@@ -1,3 +1,22 @@
+function getShipData($shipIndex) {
+    $.ajax({
+        url: '/ship?index=' + $shipIndex + (modules === null ? '' : '&modules=' + modules),
+        type: 'post',
+        contentType: "application/json",
+        success: function (data) {
+            if (data.status === '200') {
+                warship = data.result;
+                modules = warship.modules;
+                positions = warship.positions;
+                // generateAll();
+            }
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+}
+
 function setNewStats($ship)
 {
     var $all = $ship.find('.button_module.select'),

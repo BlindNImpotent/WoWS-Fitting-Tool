@@ -109,11 +109,24 @@ public class GPController extends ExceptionController
         model.addAttribute("nations", shipsList);
 
         if (StringUtils.isNotEmpty(index)) {
+            model.addAttribute("index", index);
             model.addAttribute("dataIndex", 0);
             model.addAttribute(TYPE_WARSHIP, gpService.getShip(index, language, modules));
             model.addAttribute(TYPE_SKILL, gpService.getCommander(language));
         }
 
         return "FittingTool/ftHome";
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/ship")
+    public Ship getWarshipData(@RequestParam(required = false, defaultValue = "en") String language,
+                             @RequestParam(required = false, defaultValue = "") String index,
+                             @RequestParam(required = false, defaultValue = "") String modules) throws Exception
+    {
+        if (StringUtils.isNotEmpty(index)) {
+            return gpService.getShip(index, language, modules);
+        }
+        throw new NullPointerException();
     }
 }

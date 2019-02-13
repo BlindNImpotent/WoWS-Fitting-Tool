@@ -1,5 +1,3 @@
-var ships = [{}, {}, {}];
-
-function setShips(ship, index) {
-    ships[index] = ship;
-}
+var IDS = 'IDS_';
+var FULL = '_FULL';
+var DESC = '_DESCR';

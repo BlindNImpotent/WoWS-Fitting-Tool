@@ -23,8 +23,10 @@ public class Ship
     private LinkedHashMap<String, Object> tempComponents = new LinkedHashMap<>();
     private ShipComponent components = new ShipComponent();
 
+    @JsonAlias("shipAbilities")
     private LinkedHashMap<String, AbilitySlot> ShipAbilities;
-    private ShipUpgradeInfo ShipUpgradeInfo;
+    @JsonAlias("ShipUpgradeInfo")
+    private ShipUpgradeInfo shipUpgradeInfo;
 
     private float apDamageLimitCoeff;
     private BattleLevels battleLevels;

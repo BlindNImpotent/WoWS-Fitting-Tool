@@ -38,7 +38,8 @@
                                             <th:block th:each="tier : ${shipType}">
                                                 <li th:each="ship : ${tier.value}">
                                                     <a th:href="'/ship?index=' + ${ship.index}">
-                                                        <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}" th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
+                                                        <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}"
+                                                              th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
                                                     </a>
                                                 </li>
                                             </th:block>
@@ -51,7 +52,8 @@
                                                 <th:block th:each="tier : ${shipType.value}">
                                                     <li th:each="ship : ${tier.value}">
                                                         <a th:href="'/ship?index=' + ${ship.index}">
-                                                            <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}" th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
+                                                            <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}"
+                                                                  th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
                                                         </a>
                                                     </li>
                                                 </th:block>
@@ -74,22 +76,31 @@
 <script th:src="@{/js/angle/arty.js}"></script>
 <script th:src="@{/js/angle/torp.js}"></script>
 <script th:src="@{/js/angle/aa.js}"></script>
+<script th:src="@{/js/variables.js}"></script>
 <script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/domGen.js}"></script>
 <script th:src="@{/js/paramSetter.js}"></script>
 <script th:inline="javascript">
     // <![CDATA[
 
+    var $shipIndex;
+    var global;
     var warship;
-    var curIndex = [[${dataIndex}]];
+    var modules;
+    var positions;
 
     $(function () {
-        warship = [[${warship}]];
-        if (warship) {
+        // $shipIndex = [[${index}]];
+        //
+        // if ($shipIndex) {
+        //     getShipData($shipIndex);
+        // }
 
-            drawArtillery($('[data-ship-index=' + curIndex + ']'), warship);
-            drawTorpedoes($('[data-ship-index=' + curIndex + ']'), warship);
-            drawAirDefense($('[data-ship-index=' + curIndex + ']'), warship);
-        }
+        // if (warship) {
+            // drawArtillery($('[data-ship-index=' + curIndex + ']'), warship);
+            // drawTorpedoes($('[data-ship-index=' + curIndex + ']'), warship);
+            // drawAirDefense($('[data-ship-index=' + curIndex + ']'), warship);
+        // }
     });
 
     // ]]>

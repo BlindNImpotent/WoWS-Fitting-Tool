@@ -80,7 +80,7 @@ public class GPService
 
             return ship;
         }
-        return null;
+        throw new NullPointerException();
     }
 
     private void setUpgrades(Ship ship, String language) throws Exception
