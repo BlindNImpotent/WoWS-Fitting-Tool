@@ -222,8 +222,8 @@ public class GPService
                 for (Map.Entry<String, Artillery> entry : ship.getComponents().getArtillery().entrySet()) {
                     for (String ammo : entry.getValue().getTurrets().get(0).getAmmoList()) {
                         Shell shell = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ammo)), Shell.class);
-//                        PenetrationUtils.setPenetration(shell, entry.getValue().getTurrets().get(0).getVertSector().get(1),
-//                                entry.getValue().getMinDistV(), entry.getValue().getMaxDist(), "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
+                        PenetrationUtils.setPenetration(shell, entry.getValue().getTurrets().get(0).getVertSector().get(1),
+                                entry.getValue().getMinDistV(), entry.getValue().getMaxDist(), "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
                         entry.getValue().getShells().put(ammo, shell);
                     }
                 }

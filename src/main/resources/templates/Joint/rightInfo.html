@@ -45,7 +45,7 @@
                     <th:block th:text="${#numbers.formatInteger(((turret0.idealRadius * artillery.GMIdealRadius - turret0.minRadius) / 1000.0 * (artillery.maxDist * suo.maxDistCoef / 30.0) + turret0.minRadius) * 30.0, 1, 'COMMA')} + ' m'"></th:block><br />
                 </td>
             </tr>
-            <th:block th:if="${false}" th:each="shell : ${artillery.shells}" th:with="ammo=${shell.value}">
+            <th:block th:each="shell : ${artillery.shells}" th:with="ammo=${shell.value}">
                 <tr class="subsystem switch" th:attr="data-type=${ammo.index}">
                     <td><u th:text="${global.get('IDS_' + ammo.name.toUpperCase())}"></u></td>
                     <td th:text="${global.get('IDS_SHIP_PARAM_AMMO_' + ammo.ammoType.toUpperCase())}"></td>
