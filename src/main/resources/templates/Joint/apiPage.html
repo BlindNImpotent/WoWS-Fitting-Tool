@@ -156,10 +156,6 @@
                     <span style="float:left;">Dispersion</span><br />
                     <span style="float:left;">- Max Dispersion</span>
                     <span style="float: right;" th:text="${#numbers.formatInteger(shipAPI.shipComponents.artillery.maxDispersion, 1, 'COMMA')} + ' m'"/><br />
-                    <span style="float:left;">- Min H Dispersion</span>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.minDistH, 1, 0)} + ' m'"/><br />
-                    <span style="float:left;">- Min V Dispersion</span>
-                    <span style="float: right;" th:text="${#numbers.formatDecimal(shipAPI.shipComponents.artillery.minDistV, 1, 0)} + ' m'"/><br />
                 </th:block>
                 <span style="float:left;">Reload</span>
                 <span id="reloadDiff" style="float: right;" th:if="${configurationAPI != null and shipAPI.shipComponents.artillery.shotDelay - configurationAPI.shipComponents.artillery.shotDelay != 0}" th:text="${shipAPI.shipComponents.artillery.shotDelay - configurationAPI.shipComponents.artillery.shotDelay > 0 ? ' (+' + #numbers.formatDecimal(shipAPI.shipComponents.artillery.shotDelay - configurationAPI.shipComponents.artillery.shotDelay, 1, 2) + ')' : ' (' + #numbers.formatDecimal(shipAPI.shipComponents.artillery.shotDelay - configurationAPI.shipComponents.artillery.shotDelay, 1, 2) + ')'}"/>
