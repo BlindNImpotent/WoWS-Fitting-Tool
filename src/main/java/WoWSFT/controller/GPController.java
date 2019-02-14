@@ -99,20 +99,21 @@ public class GPController extends ExceptionController
     }
 
     @GetMapping(value = "/ship")
-    public String getWarship(Model model, @RequestParam(required = false, defaultValue = "en") String language,
+    public String getWarship(Model model,
+                             @RequestParam(required = false, defaultValue = "en") String lang,
                              @RequestParam(required = false, defaultValue = "") String index,
                              @RequestParam(required = false, defaultValue = "") String modules) throws Exception
     {
         model.addAttribute("single", true);
         model.addAttribute("IDS", IDS);
-        model.addAttribute("global", global.get(language));
+        model.addAttribute("global", global.get(lang));
         model.addAttribute("nations", shipsList);
 
         if (StringUtils.isNotEmpty(index)) {
             model.addAttribute("index", index);
             model.addAttribute("dataIndex", 0);
-            model.addAttribute(TYPE_WARSHIP, gpService.getShip(index, language, modules));
-            model.addAttribute(TYPE_SKILL, gpService.getCommander(language));
+            model.addAttribute(TYPE_WARSHIP, gpService.getShip(index, lang, modules));
+            model.addAttribute(TYPE_SKILL, gpService.getCommander(lang));
         }
 
         return "FittingTool/ftHome";

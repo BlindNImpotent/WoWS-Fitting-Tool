@@ -11,7 +11,8 @@
             <span th:text="${'Tier ' + warship.level}"></span><br />
             <span th:text="${global.get(IDS + warship.typeinfo.species.toUpperCase())}"></span><br />
             <strong style="font-size: 2em;" th:text="${global.get(IDS + warship.index.toUpperCase() + '_FULL')}"></strong><br />
-            <!--<img th:title="${global.get(IDS + warship.index +'_DESCR')}" th:src="${warship.imageSmall}" /><br />-->
+            <img th:title="${global.get(IDS + warship.index +'_DESCR')}" th:src="${warship.imageSmall}" /><br />
+            <span class="tooltip"></span>
             <br />
         </div>
         <div class="info_box">
@@ -43,9 +44,22 @@
                         <li><button class="button_upgrade select" th:attr="data-index=${slotStat.index}, data-position=${0}">+</button></li>
                         <li th:each="upgrade : ${slot}">
                             <button th:class="'button_upgrade'"
-                                    th:title="${global.get(IDS + 'TITLE_' + upgrade.name.toUpperCase()) + '&#013&#013' + upgrade.description}"
                                     th:attr="data-index=${slotStat.index}, data-position=${upgradeStat.index + 1}" th:classappend="'hide'">
                                 <img th:src="${upgrade.image}" /><br />
+                                <table class="tooltip">
+                                    <tbody>
+                                    <tr><td colspan="2"><th:block th:utext="${global.get(IDS + 'TITLE_' + upgrade.name.toUpperCase())}"></th:block></td></tr>
+                                    <tr><td colspan="2">&nbsp;</td></tr>
+                                    <tr><td colspan="2"><th:block th:utext="${global.get(IDS + 'DESC_' + upgrade.name.toUpperCase())}"></th:block></td></tr>
+                                    <tr><td colspan="2">&nbsp;</td></tr>
+                                    <th:block th:each="b : ${upgrade.bonus}" th:with="desc=${global.get(IDS + b.key) != null ? global.get(IDS + b.key) : global.get(IDS + b.key + '_MODERNIZATION')}">
+                                        <tr th:if="${desc != null}">
+                                            <td th:utext="${desc}"></td>
+                                            <td th:utext="${b.value}" style="width: 40px;"></td>
+                                        </tr>
+                                    </th:block>
+                                    </tbody>
+                                </table>
                             </button>
                         </li>
                     </ul>
@@ -60,14 +74,22 @@
                         <tbody>
                         <tr th:each="skillTier : ${skills.cSkills}">
                             <td th:each="skill : ${skillTier}">
-                                <button th:title="${global.get(IDS + 'SKILL_' + skill.modifier.toUpperCase())}"
-                                        th:class="'button_skill'" th:attr="data-index=${skillTierStat.index}, data-position=${skillStat.index}">
+                                <button th:class="'button_skill'" th:attr="data-index=${skillTierStat.index}, data-position=${skillStat.index}">
                                     <img th:src="${skill.image}"/><br />
-                                    <i class="tooltip">
-                                        <th:block th:each="b : ${skill.bonus}" th:text="${global.get(IDS + b.key.toUpperCase())}">
-
+                                    <table class="tooltip">
+                                        <tbody>
+                                        <tr><td colspan="2" th:utext="${global.get(IDS + 'SKILL_' + skill.modifier.toUpperCase())}"></td></tr>
+                                        <tr><td colspan="2">&nbsp;</td></tr>
+                                        <tr><td colspan="2" th:utext="${global.get(IDS + 'SKILL_DESC_' + skill.modifier.toUpperCase())}"></td></tr>
+                                        <tr><td colspan="2">&nbsp;</td></tr>
+                                        <th:block th:each="b : ${skill.bonus}" th:with="desc=${global.get(IDS + b.key)}">
+                                            <tr th:if="${desc != null}">
+                                                <td th:utext="${desc}"></td>
+                                                <td th:utext="${b.value}" style="width: 40px;"></td>
+                                            </tr>
                                         </th:block>
-                                    </i>
+                                        </tbody>
+                                    </table>
                                 </button>
                             </td>
                         </tr>

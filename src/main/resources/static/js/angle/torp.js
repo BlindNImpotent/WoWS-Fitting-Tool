@@ -1,8 +1,6 @@
-function drawTorpedoes(currentIndex, warship)
+function drawTorpedoes(currentIndex, launchers)
 {
-    if (warship.components.torpedoes !== undefined) {
-        var launchers = warship.components.torpedoes[warship.modules.torpedoes].launchers;
-
+    if (launchers !== undefined && launchers !== null) {
         var torpedoesCanvas = currentIndex.find('[data-type=torpedoesCanvas]');
         var ctx = torpedoesCanvas[0].getContext('2d');
 

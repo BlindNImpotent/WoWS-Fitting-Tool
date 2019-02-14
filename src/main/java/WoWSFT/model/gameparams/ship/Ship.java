@@ -7,6 +7,8 @@ import WoWSFT.model.gameparams.consumable.Consumable;
 import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.abilities.AbilitySlot;
 import WoWSFT.model.gameparams.ship.component.ShipComponent;
+import WoWSFT.model.gameparams.ship.component.artillery.Turret;
+import WoWSFT.model.gameparams.ship.component.torpedo.Launcher;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgradeInfo;
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
@@ -62,6 +64,9 @@ public class Ship
     private LinkedHashMap<String, Integer> positions = new LinkedHashMap<>();
 
     private Commander commander;
+
+    private List<Turret> turrets;
+    private List<Launcher> launchers;
 
     @JsonSetter
     public void setRealShipType(String realShipType)

@@ -81,7 +81,7 @@ public class JsonParser
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    private static HashSet<String> excludeShipGroups = new HashSet<>(Arrays.asList("unavailable", "disabled", "preserved", "clan"));
+    private static HashSet<String> excludeShipGroups = new HashSet<>(Arrays.asList("unavailable", "disabled", "preserved", "clan", "demoWithoutStats"));
     private static HashSet<String> excludeShipNations = new HashSet<>(Arrays.asList("Events", "disabled", "preserved", "clan"));
     private static HashSet<String> excludeShipSpecies = new HashSet<>(Arrays.asList("Auxiliary", "Submarine"));
     private static HashSet<String> excludeCompStats = new HashSet<>(Arrays.asList("directors", "finders", "radars"));
@@ -97,7 +97,7 @@ public class JsonParser
     private static HashSet<String> extraAngle = new HashSet<>(Arrays.asList("gunbonus"));
     private static HashSet<String> angle = new HashSet<>(Arrays.asList("angle"));
     private static HashSet<String> time = new HashSet<>(Arrays.asList("time"));
-    private static HashSet<String> globalLanguage = new HashSet<>(Arrays.asList("en", "kr"));
+    private static HashSet<String> globalLanguage = new HashSet<>(Arrays.asList("en", "ko"));
     private static HashSet<String> speed = new HashSet<>(Arrays.asList("speedbonus"));
 
     @Async
@@ -350,6 +350,9 @@ public class JsonParser
             shipsList.remove(nation.getKey());
             shipsList.put(nation.getKey(), nation.getValue());
         });
+        LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>> russia = shipsList.get("RUSSIA");
+        shipsList.remove("RUSSIA");
+        shipsList.put("RUSSIA", russia);
     }
 
     private void sortUpgrades()
@@ -368,7 +371,7 @@ public class JsonParser
                     if (excludeModernization.stream().anyMatch(param.toLowerCase()::contains)) {
                         bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal));
                     } else {
-                        bonus.put(MODIFIER + param.toUpperCase() + (key.contains("WorkTime") ? "_MODERNIZATION" : ""), CommonUtils.getNumSym(CommonUtils.getBonusCoef((float) cVal)) + " %");
+                        bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonusCoef((float) cVal)) + " %");
                     }
                 }
             } else if ("consumable".equalsIgnoreCase(type) || "commander".equalsIgnoreCase(type)) {

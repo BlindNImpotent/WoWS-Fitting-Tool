@@ -48,7 +48,7 @@ $(document).on('click', '.button_module', function(){
 
     warship.positions[$type] = $pos;
 
-    setNewStats($ship);
+    // setNewStats($ship);
 });
 
 $(document).on('click', '.button_upgrade', function (e) {

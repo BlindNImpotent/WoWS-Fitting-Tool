@@ -100,12 +100,12 @@ public class PenetrationUtils
                 penetration.put(String.valueOf(maxDistCalc), (float) Math.cos(IA) * p_athit);
                 impactAngle.put(String.valueOf(maxDistCalc), IA * 180f / ((float) Math.PI));
                 distanceList.add(String.valueOf(maxDistCalc));
-                launchAngle.put(String.valueOf(maxDistCalc), alpha.get(i));
+//                launchAngle.put(String.valueOf(maxDistCalc), alpha.get(i));
             }
         }
 
         if (apShell) {
-            ArtyShell.setShell(flightTime, penetration, impactAngle, distanceList, launchAngle, minDistV, true);
+            ArtyShell.setShell(flightTime, penetration, impactAngle, distanceList, null, minDistV, true);
         } else {
             ArtyShell.setShell(flightTime, null, null, null, null, minDistV, false);
         }

@@ -4,11 +4,13 @@ import WoWSFT.config.WoWSFT;
 import WoWSFT.model.gameparams.TypeInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
 @Data
 @WoWSFT
+@Accessors(chain = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Launcher
 {

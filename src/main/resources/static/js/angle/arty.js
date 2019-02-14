@@ -1,8 +1,6 @@
-function drawArtillery(currentIndex, warship)
+function drawArtillery(currentIndex, turrets)
 {
-    if (warship.components.artillery !== undefined) {
-        var turrets = warship.components.artillery[warship.modules.artillery].turrets;
-
+    if (turrets !== undefined && turrets != null) {
         var artilleryCanvas = currentIndex.find('[data-type=artilleryCanvas]');
         var ctx = artilleryCanvas[0].getContext('2d');
 

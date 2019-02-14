@@ -9,11 +9,13 @@ import WoWSFT.model.gameparams.ship.abilities.AbilitySlot;
 import WoWSFT.model.gameparams.ship.component.airdefense.AirDefense;
 import WoWSFT.model.gameparams.ship.component.artillery.Artillery;
 import WoWSFT.model.gameparams.ship.component.artillery.Shell;
+import WoWSFT.model.gameparams.ship.component.artillery.Turret;
 import WoWSFT.model.gameparams.ship.component.atba.ATBA;
 import WoWSFT.model.gameparams.ship.component.atba.Secondary;
 import WoWSFT.model.gameparams.ship.component.engine.Engine;
 import WoWSFT.model.gameparams.ship.component.firecontrol.FireControl;
 import WoWSFT.model.gameparams.ship.component.hull.Hull;
+import WoWSFT.model.gameparams.ship.component.torpedo.Launcher;
 import WoWSFT.model.gameparams.ship.component.torpedo.Torpedo;
 import WoWSFT.model.gameparams.ship.component.torpedo.TorpedoAmmo;
 import WoWSFT.utils.PenetrationUtils;
@@ -77,7 +79,7 @@ public class GPService
             setConsumables(ship, language);
             setShipModules(index, bits, ship);
             setShipAmmo(ship);
-            ship.setCommander(getCommander(""));
+//            ship.setCommander(getCommander(""));
 
             return ship;
         }
@@ -155,6 +157,10 @@ public class GPService
         ship.getModules().forEach((cKey, value) -> {
             if (cKey.equalsIgnoreCase(artillery)) {
                 ship.getComponents().getArtillery().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+                List<Turret> tTurrets = new ArrayList<>();
+                ship.getComponents().getArtillery().get(value).getTurrets().forEach(t ->
+                        tTurrets.add(new Turret().setDeadZone(t.getDeadZone()).setHorizSector(t.getHorizSector()).setPosition(t.getPosition())));
+                ship.setTurrets(tTurrets);
             } else if (cKey.equalsIgnoreCase(airDefense)) {
                 ship.getComponents().getAirDefense().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
             } else if (cKey.equalsIgnoreCase(atba)) {
@@ -167,6 +173,10 @@ public class GPService
                 ship.getComponents().getHull().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
             } else if (cKey.equalsIgnoreCase(torpedoes)) {
                 ship.getComponents().getTorpedoes().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+                List<Launcher> tLaunchers = new ArrayList<>();
+                ship.getComponents().getTorpedoes().get(value).getLaunchers().forEach(l ->
+                        tLaunchers.add(new Launcher().setDeadZone(l.getDeadZone()).setHorizSector(l.getHorizSector()).setPosition(l.getPosition())));
+                ship.setLaunchers(tLaunchers);
             } else if (cKey.equalsIgnoreCase(airArmament)) {
                 ship.getComponents().getAirArmament().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
             } else if (cKey.equalsIgnoreCase(flightControl)) {
