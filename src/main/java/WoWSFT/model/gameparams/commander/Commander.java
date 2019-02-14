@@ -2,10 +2,7 @@ package WoWSFT.model.gameparams.commander;
 
 import WoWSFT.config.WoWSFT;
 import WoWSFT.model.gameparams.TypeInfo;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
@@ -53,5 +50,11 @@ public class Commander
                 cSkills.get(val.getTier() - 1).set(val.getColumn(), val);
             });
         }
+    }
+
+    @JsonProperty("cSkills")
+    public List<List<Skill>> getCSkills()
+    {
+        return cSkills;
     }
 }

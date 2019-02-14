@@ -119,6 +119,13 @@ public class GPController extends ExceptionController
     }
 
     @ResponseBody
+    @PostMapping(value = "/global")
+    public HashMap<String, Object> getGlobalData(@RequestParam(required = false, defaultValue = "en") String lang) throws Exception
+    {
+        return global.get(lang);
+    }
+
+    @ResponseBody
     @PostMapping(value = "/ship")
     public Ship getWarshipData(@RequestParam(required = false, defaultValue = "en") String language,
                              @RequestParam(required = false, defaultValue = "") String index,

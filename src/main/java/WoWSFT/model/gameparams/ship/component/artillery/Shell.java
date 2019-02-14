@@ -249,7 +249,7 @@ public class Shell
     
     private float calcVertDist(float dist, float vert)
     {
-        return dist + (vert - dist) / 2f;
+        return dist + (vert - dist);
     }
     
     private float getVertDist(String dist, float mid, boolean low)

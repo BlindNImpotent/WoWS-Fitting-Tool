@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div class="info_box_inner" th:if="${warship != null}" th:fragment="rightInfo"
- th:with="artillery=${warship.modules.containsKey('artillery') ? warship.components.artillery.get(warship.modules.get('artillery')) : null},
+<th:block th:fragment="rightInfo" th:if="${warship != null}"
+          th:with="artillery=${warship.modules.containsKey('artillery') ? warship.components.artillery.get(warship.modules.get('artillery')) : null},
             suo=${warship.modules.containsKey('suo') ? warship.components.suo.get(warship.modules.get('suo')) : null},
             atba=${warship.modules.containsKey('atba') ? warship.components.atba.get(warship.modules.get('atba')) : null},
             airDefense=${warship.modules.containsKey('airDefense') ? warship.components.airDefense.get(warship.modules.get('airDefense')) : null},
@@ -10,7 +10,7 @@
             hull=${warship.modules.containsKey('hull') ? warship.components.hull.get(warship.modules.get('hull')) : null},
             engine=${warship.modules.containsKey('engine') ? warship.components.engine.get(warship.modules.get('engine')) : null},
             consumables=${warship.consumables}">
-
+<div class="info_box_inner">
     <div th:if="${artillery != null}" class="panel_right" data-type="artillery">
         <div class="switch" data-type="arty">
             <strong th:text="${global.get('IDS_SHIP_PARAM_ARTILLERY')}"></strong>
@@ -141,7 +141,7 @@
         <div class="switch" data-type="torpedo">
             <strong th:text="${global.get('IDS_SHIP_PARAM_TORPEDY')}"></strong>
         </div>
-        <table class="toggle torpedo hide">
+        <table class="toggle torpedo">
             <tbody th:with="torp0=${torpedoes.launchers.get(0)}">
             <tr class="subsystem switch" data-type="torps">
                 <td>
@@ -187,12 +187,13 @@
             </tbody>
         </table>
     </div>
-
+</div>
+<div class="info_box_inner">
     <div th:if="${atba != null}" class="panel_right" data-type="atba">
         <div class="switch" data-type="secondary">
             <strong th:text="${global.get('IDS_SHIP_PARAM_ATBA')}"></strong>
         </div>
-        <table class="toggle secondary hide">
+        <table class="toggle secondary">
             <tbody>
             <tr>
                 <td th:text="${global.get('IDS_SHIP_PARAM_MAX_DIST')}"></td>
@@ -255,7 +256,7 @@
         <div class="switch" data-type="aa">
             <strong th:text="${global.get('IDS_SHIP_PARAM_AIR_DEFENSE')}"></strong>
         </div>
-        <table class="toggle aa hide">
+        <table class="toggle aa">
             <th:block th:with="auraFar=${atba != null and atba.auraFar != null ? atba.auraFar : (artillery != null and artillery.auraFar != null ? artillery.auraFar : airDefense.auraFar)},
                                auraMedium=${atba != null and atba.auraMedium != null ? atba.auraMedium : (artillery != null and artillery.auraMedium != null ? artillery.auraMedium : airDefense.auraMedium)},
                                auraNear=${atba != null and atba.auraNear != null ? atba.auraNear : (artillery != null and artillery.auraNear != null ? artillery.auraNear : airDefense.auraNear)}">
@@ -350,7 +351,8 @@
             </th:block>
         </table>
     </div>
-
+</div>
+<div class="info_box_inner">
     <div th:if="${hull != null}" class="panel_right" data-type="hull">
         <div class="switch" data-type="survive"><strong th:text="${global.get('IDS_SHIP_PARAM_DURABILITY')}"></strong></div>
         <table class="toggle survive">
@@ -464,7 +466,8 @@
             </tbody>
         </table>
     </div>
-
+</div>
+<!--<div class="info_box_inner">-->
     <div th:if="${false and consumables != null}" class="panel_right" data-type="consumables">
         <div class="switch" data-type="consumable"><strong th:text="${global.get('IDS_PRMP_ITEM_ABILITY')}"></strong></div>
         <div class="toggle consumable hide">
@@ -481,6 +484,7 @@
             </ul>
         </div>
     </div>
-</div>
+<!--</div>-->
+</th:block>
 </body>
 </html>

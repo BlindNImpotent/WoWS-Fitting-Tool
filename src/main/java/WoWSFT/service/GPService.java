@@ -77,6 +77,7 @@ public class GPService
             setConsumables(ship, language);
             setShipModules(index, bits, ship);
             setShipAmmo(ship);
+            ship.setCommander(getCommander(""));
 
             return ship;
         }
@@ -91,21 +92,21 @@ public class GPService
         upgradesCopy.forEach((slot, upgrades) -> upgrades.forEach((key, upgrade) -> {
             if ((!upgrade.getExcludes().contains(ship.getName()) && upgrade.getGroup().contains(ship.getGroup()) && upgrade.getNation().contains(ship.getTypeinfo().getNation())
                 && upgrade.getShiptype().contains(ship.getTypeinfo().getSpecies()) && upgrade.getShiplevel().contains(ship.getLevel())) || upgrade.getShips().contains(ship.getName())) {
-                Object uDesc = global.get(language).get(IDS + DESC + upgrade.getName().toUpperCase());
-                if (uDesc != null) {
-                    upgrade.setDescription(upgrade.getDescription() + uDesc.toString().replace("\n\n", "\n") + "\n\n");
-                }
-
-                upgrade.getBonus().forEach((id, val) -> {
-                    Object desc = global.get(language).get(IDS + id);
-                    if (desc == null) {
-                        desc = global.get(language).get(IDS + id.replace("_MODERNIZATION", ""));
-                    }
-
-                    if (desc != null) {
-                        upgrade.setDescription(upgrade.getDescription() + desc.toString() + ": " + val + "\n");
-                    }
-                });
+//                Object uDesc = global.get(language).get(IDS + DESC + upgrade.getName().toUpperCase());
+//                if (uDesc != null) {
+//                    upgrade.setDescription(upgrade.getDescription() + uDesc.toString().replace("\n\n", "\n") + "\n\n");
+//                }
+//
+//                upgrade.getBonus().forEach((id, val) -> {
+//                    Object desc = global.get(language).get(IDS + id);
+//                    if (desc == null) {
+//                        desc = global.get(language).get(IDS + id.replace("_MODERNIZATION", ""));
+//                    }
+//
+//                    if (desc != null) {
+//                        upgrade.setDescription(upgrade.getDescription() + desc.toString() + ": " + val + "\n");
+//                    }
+//                });
 
                 if (upgradesList.size() < upgrade.getSlot() + 1) {
                     upgradesList.add(new ArrayList<>());
@@ -149,68 +150,68 @@ public class GPService
 
     private void setShipModules(String index, String bits, Ship ship)
     {
-        parserService.setModules(index, bits, ship.getModules(), ship.getPositions());
+        parserService.setModules(ship, index, bits, ship.getModules(), ship.getPositions());
 
-//        ship.getModules().forEach((cKey, value) -> {
-//            if (cKey.equalsIgnoreCase(artillery)) {
-//                ship.getComponents().getArtillery().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-//            } else if (cKey.equalsIgnoreCase(airDefense)) {
-//                ship.getComponents().getAirDefense().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-//            } else if (cKey.equalsIgnoreCase(atba)) {
-//                ship.getComponents().getAtba().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-//            } else if (cKey.equalsIgnoreCase(engine)) {
-//                ship.getComponents().getEngine().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-//            } else if (cKey.equalsIgnoreCase(suo)) {
-//                ship.getComponents().getSuo().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-//            } else if (cKey.equalsIgnoreCase(hull)) {
-//                ship.getComponents().getHull().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-//            } else if (cKey.equalsIgnoreCase(torpedoes)) {
-//                ship.getComponents().getTorpedoes().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-//            } else if (cKey.equalsIgnoreCase(airArmament)) {
-//                ship.getComponents().getAirArmament().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-//            } else if (cKey.equalsIgnoreCase(flightControl)) {
-//                ship.getComponents().getFlightControl().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-//            } else if (cKey.equalsIgnoreCase(fighter)) {
-//                ship.getComponents().getFighter().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-//            } else if (cKey.equalsIgnoreCase(diveBomber)) {
-//                ship.getComponents().getDiveBomber().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-//            } else if (cKey.equalsIgnoreCase(torpedoBomber)) {
-//                ship.getComponents().getTorpedoBomber().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-//            }
-//        });
-//
-//        ship.getComponents().getAirDefense().forEach((aaKey, aaVal) -> {
-//            ship.getComponents().getArtillery().forEach((artyKey, val) -> {
-//                aaVal.setAuraFar(aaVal.getAuraFar() == null && val.getAuraFar() != null ? val.getAuraFar() : aaVal.getAuraFar());
-//                aaVal.setAuraMedium(aaVal.getAuraMedium() == null && val.getAuraMedium() != null ? val.getAuraMedium() : aaVal.getAuraMedium());
-//                aaVal.setAuraNear(aaVal.getAuraNear() == null && val.getAuraNear() != null ? val.getAuraNear() : aaVal.getAuraNear());
-//            });
-//
-//            ship.getComponents().getAtba().forEach((atbaKey, val) -> {
-//                aaVal.setAuraFar(aaVal.getAuraFar() == null && val.getAuraFar() != null ? val.getAuraFar() : aaVal.getAuraFar());
-//                aaVal.setAuraMedium(aaVal.getAuraMedium() == null && val.getAuraMedium() != null ? val.getAuraMedium() : aaVal.getAuraMedium());
-//                aaVal.setAuraNear(aaVal.getAuraNear() == null && val.getAuraNear() != null ? val.getAuraNear() : aaVal.getAuraNear());
-//            });
-//        });
+        ship.getModules().forEach((cKey, value) -> {
+            if (cKey.equalsIgnoreCase(artillery)) {
+                ship.getComponents().getArtillery().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+            } else if (cKey.equalsIgnoreCase(airDefense)) {
+                ship.getComponents().getAirDefense().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+            } else if (cKey.equalsIgnoreCase(atba)) {
+                ship.getComponents().getAtba().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+            } else if (cKey.equalsIgnoreCase(engine)) {
+                ship.getComponents().getEngine().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+            } else if (cKey.equalsIgnoreCase(suo)) {
+                ship.getComponents().getSuo().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+            } else if (cKey.equalsIgnoreCase(hull)) {
+                ship.getComponents().getHull().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+            } else if (cKey.equalsIgnoreCase(torpedoes)) {
+                ship.getComponents().getTorpedoes().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+            } else if (cKey.equalsIgnoreCase(airArmament)) {
+                ship.getComponents().getAirArmament().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+            } else if (cKey.equalsIgnoreCase(flightControl)) {
+                ship.getComponents().getFlightControl().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+            } else if (cKey.equalsIgnoreCase(fighter)) {
+                ship.getComponents().getFighter().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+            } else if (cKey.equalsIgnoreCase(diveBomber)) {
+                ship.getComponents().getDiveBomber().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+            } else if (cKey.equalsIgnoreCase(torpedoBomber)) {
+                ship.getComponents().getTorpedoBomber().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+            }
+        });
+
+        ship.getComponents().getAirDefense().forEach((aaKey, aaVal) -> {
+            ship.getComponents().getArtillery().forEach((artyKey, val) -> {
+                aaVal.setAuraFar(aaVal.getAuraFar() == null && val.getAuraFar() != null ? val.getAuraFar() : aaVal.getAuraFar());
+                aaVal.setAuraMedium(aaVal.getAuraMedium() == null && val.getAuraMedium() != null ? val.getAuraMedium() : aaVal.getAuraMedium());
+                aaVal.setAuraNear(aaVal.getAuraNear() == null && val.getAuraNear() != null ? val.getAuraNear() : aaVal.getAuraNear());
+            });
+
+            ship.getComponents().getAtba().forEach((atbaKey, val) -> {
+                aaVal.setAuraFar(aaVal.getAuraFar() == null && val.getAuraFar() != null ? val.getAuraFar() : aaVal.getAuraFar());
+                aaVal.setAuraMedium(aaVal.getAuraMedium() == null && val.getAuraMedium() != null ? val.getAuraMedium() : aaVal.getAuraMedium());
+                aaVal.setAuraNear(aaVal.getAuraNear() == null && val.getAuraNear() != null ? val.getAuraNear() : aaVal.getAuraNear());
+            });
+        });
     }
 
     public Commander getCommander(String language) throws Exception
     {
         Commander commander = mapper.readValue(mapper.writeValueAsString(commanders.get("PAW001_DefaultCrew")), Commander.class);
 
-        commander.getCSkills().forEach(row -> row.forEach(skill -> {
-            Object skillDesc = global.get(language).get(IDS + "SKILL_DESC_" + skill.getModifier().toUpperCase());
-            if (skillDesc != null) {
-                skill.setDescription(skill.getDescription() + skillDesc.toString().replace("\n\n", "\n") + "\n\n");
-            }
-
-            skill.getBonus().forEach((id, val) -> {
-                Object desc = global.get(language).get(IDS + id);
-                if (desc != null) {
-                    skill.setDescription(skill.getDescription() + desc.toString() + ": " + val + "\n");
-                }
-            });
-        }));
+//        commander.getCSkills().forEach(row -> row.forEach(skill -> {
+//            Object skillDesc = global.get(language).get(IDS + "SKILL_DESC_" + skill.getModifier().toUpperCase());
+//            if (skillDesc != null) {
+//                skill.setDescription(skill.getDescription() + skillDesc.toString().replace("\n\n", "\n") + "\n\n");
+//            }
+//
+//            skill.getBonus().forEach((id, val) -> {
+//                Object desc = global.get(language).get(IDS + id);
+//                if (desc != null) {
+//                    skill.setDescription(skill.getDescription() + desc.toString() + ": " + val + "\n");
+//                }
+//            });
+//        }));
 
         return commander;
     }

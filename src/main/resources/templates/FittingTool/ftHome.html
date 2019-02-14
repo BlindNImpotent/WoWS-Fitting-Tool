@@ -83,24 +83,21 @@
 <script th:inline="javascript">
     // <![CDATA[
 
+    var curIndex = 0;
     var $shipIndex;
     var global;
     var warship;
-    var modules;
-    var positions;
+    var skills;
 
     $(function () {
-        // $shipIndex = [[${index}]];
-        //
-        // if ($shipIndex) {
-        //     getShipData($shipIndex);
-        // }
-
-        // if (warship) {
-            // drawArtillery($('[data-ship-index=' + curIndex + ']'), warship);
-            // drawTorpedoes($('[data-ship-index=' + curIndex + ']'), warship);
-            // drawAirDefense($('[data-ship-index=' + curIndex + ']'), warship);
-        // }
+        $shipIndex = [[${index}]];
+        // getGlobal('en');
+        if ($shipIndex) {
+            warship = [[${warship}]];
+            drawArtillery($('[data-ship-index=' + curIndex + ']'), warship);
+            drawTorpedoes($('[data-ship-index=' + curIndex + ']'), warship);
+            drawAirDefense($('[data-ship-index=' + curIndex + ']'), warship);
+        }
     });
 
     // ]]>

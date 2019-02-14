@@ -2,6 +2,7 @@ package WoWSFT.model.gameparams.ship;
 
 import WoWSFT.config.WoWSFT;
 import WoWSFT.model.gameparams.TypeInfo;
+import WoWSFT.model.gameparams.commander.Commander;
 import WoWSFT.model.gameparams.consumable.Consumable;
 import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.abilities.AbilitySlot;
@@ -11,7 +12,6 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -23,8 +23,8 @@ public class Ship
     private LinkedHashMap<String, Object> tempComponents = new LinkedHashMap<>();
     private ShipComponent components = new ShipComponent();
 
-    @JsonAlias("shipAbilities")
-    private LinkedHashMap<String, AbilitySlot> ShipAbilities;
+    @JsonAlias("ShipAbilities")
+    private LinkedHashMap<String, AbilitySlot> shipAbilities;
     @JsonAlias("ShipUpgradeInfo")
     private ShipUpgradeInfo shipUpgradeInfo;
 
@@ -58,8 +58,10 @@ public class Ship
 
     private List<List<Consumable>> consumables;
     private List<List<Modernization>> upgrades;
-    private HashMap<String, String> modules = new HashMap<>();
-    private HashMap<String, Integer> positions = new HashMap<>();
+    private LinkedHashMap<String, String> modules = new LinkedHashMap<>();
+    private LinkedHashMap<String, Integer> positions = new LinkedHashMap<>();
+
+    private Commander commander;
 
     @JsonSetter
     public void setRealShipType(String realShipType)

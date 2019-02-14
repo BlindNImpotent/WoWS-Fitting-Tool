@@ -1,14 +1,38 @@
+function getGlobal($language) {
+    $.ajax({
+        url: '/global?lang=' + $language,
+        type: 'post',
+        contentType: "application/json",
+        success: function (data) {
+            if (data.status === '200') {
+                global = data.result;
+
+                if ($shipIndex) {
+                    getShipData($shipIndex);
+                }
+            }
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+}
+
 function getShipData($shipIndex) {
     $.ajax({
-        url: '/ship?index=' + $shipIndex + (modules === null ? '' : '&modules=' + modules),
+        url: '/ship?index=' + $shipIndex,
         type: 'post',
         contentType: "application/json",
         success: function (data) {
             if (data.status === '200') {
                 warship = data.result;
-                modules = warship.modules;
-                positions = warship.positions;
-                // generateAll();
+                skills = warship.commander;
+
+                generateAll();
+
+                // drawArtillery($('[data-ship-index=' + curIndex + ']'), warship);
+                // drawTorpedoes($('[data-ship-index=' + curIndex + ']'), warship);
+                // drawAirDefense($('[data-ship-index=' + curIndex + ']'), warship);
             }
         },
         error: function (data) {
@@ -48,7 +72,7 @@ function setNewStats($ship)
         }
     }
 
-    setHull($ship);
+    // setHull($ship);
 }
 
 
@@ -57,6 +81,6 @@ function setHull($ship)
     if (warship.components.hull !== undefined) {
         var tBody = $ship.find('.panel_right[data-type=hull] tbody');
 
-        tBody.find('tr').eq(0).find('td').eq(1).text(warship.components.hull[warship.modules.hull].health)
+        tBody.find('tr').eq(0).find('td').eq(1).text(warship.components.hull[warship.modules.hull].health.toLocaleString())
     }
 }

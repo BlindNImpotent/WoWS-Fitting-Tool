@@ -15,13 +15,6 @@
             <br />
         </div>
         <div class="info_box">
-            <!--<div class="tabs">-->
-                <!--<div data-direction="left" class="button_tab" data-type="modules" th:text="${global.get(IDS + 'MODULES')}" th:classappend="'select'"></div>-->
-                <!--<div data-direction="left" class="button_tab" data-type="upgrades" th:text="${global.get(IDS + 'MODERNIZATION')}"></div>-->
-                <!--<div data-direction="left" class="button_tab" data-type="crewSkills" th:text="${global.get(IDS + 'CREW_PERKS')}"></div>-->
-                <!--&lt;!&ndash;<div data-direction="left" class="button_tab" data-type="flags" th:text="${global.get(IDS + 'FLAG')}"></div>&ndash;&gt;-->
-                <!--<div data-direction="left" class="button_tab" data-type="consumables" th:text="${global.get(IDS + 'TITLE_CONSUMABLES')}"></div>-->
-            <!--</div>-->
             <div class="info_box_inner">
                 <div class="panel_left" data-type="modules">
                     <table>
@@ -57,27 +50,34 @@
                         </li>
                     </ul>
                 </div>
+            </div>
+            <div class="info_box_inner">
                 <div class="panel_left" data-type="crewSkills">
-                    <div class="switch" data-type="skills" style="padding: 8px;">
+                    <div data-type="skills" style="padding: 8px;">
                         <strong>Skill pts: </strong><strong class="points">0</strong><strong> / 19</strong>
                     </div>
-                    <table class="toggle skills hide">
+                    <table class="skills">
                         <tbody>
                         <tr th:each="skillTier : ${skills.cSkills}">
                             <td th:each="skill : ${skillTier}">
-                                <button th:title="${global.get(IDS + 'SKILL_' + skill.modifier.toUpperCase()) + '&#013&#013' + skill.description}" th:class="'button_skill'" th:attr="data-index=${skillTierStat.index}, data-position=${skillStat.index}">
+                                <button th:title="${global.get(IDS + 'SKILL_' + skill.modifier.toUpperCase())}"
+                                        th:class="'button_skill'" th:attr="data-index=${skillTierStat.index}, data-position=${skillStat.index}">
                                     <img th:src="${skill.image}"/><br />
+                                    <i class="tooltip">
+                                        <th:block th:each="b : ${skill.bonus}" th:text="${global.get(IDS + b.key.toUpperCase())}">
+
+                                        </th:block>
+                                    </i>
                                 </button>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <!--<div class="panel_left" data-type="flags">-->
-                <!--</div>-->
             </div>
-
-            <div th:replace="Joint/rightInfo :: rightInfo"></div>
+        </div>
+        <div class="info_box">
+            <th:block th:replace="Joint/rightInfo :: rightInfo"></th:block>
         </div>
     </div>
 </th:block>

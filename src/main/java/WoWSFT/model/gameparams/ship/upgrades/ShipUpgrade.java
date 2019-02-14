@@ -1,10 +1,7 @@
 package WoWSFT.model.gameparams.ship.upgrades;
 
 import WoWSFT.config.WoWSFT;
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
@@ -30,6 +27,7 @@ public class ShipUpgrade
     private int position;
 
     private String prevType;
+    @JsonInclude
     private int prevPosition;
 
     private LinkedHashMap<String, List<String>> components = new LinkedHashMap<>();

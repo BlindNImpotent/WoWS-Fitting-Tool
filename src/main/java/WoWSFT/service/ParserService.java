@@ -23,11 +23,10 @@ public class ParserService
     @Qualifier(value = TYPE_SHIP)
     private LinkedHashMap<String, Ship> ships;
 
-    public void setModules(String index, String bits, HashMap<String, String> modules, HashMap<String, Integer> positions)
+    public void setModules(Ship ship, String index, String bits, HashMap<String, String> modules, HashMap<String, Integer> positions)
     {
-        Ship ship = ships.get(index);
-        HashMap<String, String> baseModules = new HashMap<>();
-        HashMap<String, Integer> basePositions = new HashMap<>();
+        LinkedHashMap<String, String> baseModules = new LinkedHashMap<>();
+        LinkedHashMap<String, Integer> basePositions = new LinkedHashMap<>();
         List<Integer> list = new ArrayList<>();
         LinkedHashMap<String, ShipUpgrade> shipUpgrades = new LinkedHashMap<>();
 

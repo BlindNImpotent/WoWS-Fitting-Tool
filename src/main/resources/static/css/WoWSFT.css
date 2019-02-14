@@ -351,7 +351,7 @@ button img {
 }
 
 .panel_right {
-    width: 380px;
+    width: 360px;
     border: 1px solid rgb(210,210,210);
     border-radius: 5px;
 }
@@ -382,4 +382,43 @@ button img {
 
 .panel_right[data-type=consumables] ul {
     display: inline-table;
+}
+
+.tooltip {
+    display: none;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 10px;
+    /*top: - 3 px;*/
+    right: 10px;
+    font-size: 10px;
+    color: #000;
+    line-height: 1.38;
+    background-color: #f1f1f1;
+    transform: translateY(100%);
+    /*transform: translateY(- 100 %);*/
+    white-space: nowrap;
+    border-radius: 3px;
+    font-style: normal;
+    z-index: 150;
+}
+.tooltip::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    //bottom: -10px;
+    right: 8px;
+    border: 6px solid transparent;
+    //border-top: 6px solid #f1f1f1;
+    //border-right: 6px solid #f1f1f1;
+    border-bottom: 6px solid #f1f1f1;
+    border-left: 6px solid #f1f1f1;
+}
+.tooltip span {
+    background-color: transparent;
+    border: none;
+    color: inherit;
+}
+.tooltip:hover {
+    display: block;
 }
