@@ -3,6 +3,7 @@ package WoWSFT.model;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class Constant
@@ -43,4 +44,6 @@ public class Constant
 
     public static final List<String> componentsList = new ArrayList<>(Arrays.asList(flightControl, artillery, hull, torpedoes, suo, fighter, torpedoBomber, diveBomber, engine));
     public static final List<String> compStatsList = new ArrayList<>(Arrays.asList(flightControl, airArmament, airDefense, artillery, atba, hull, suo, torpedoes, fighter, torpedoBomber, diveBomber, engine));
+
+    public static final HashSet<String> globalLanguage = new HashSet<>(Arrays.asList("en", "ko"));
 }

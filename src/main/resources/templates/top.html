@@ -4,10 +4,10 @@
 <nav th:fragment="top" class="link">
     <ul>
         <li>
-            <a th:href="@{/}"><span>Home</span></a>
+            <a th:href="${'/?lang=' + lang}"><span>Home</span></a>
         </li>
         <li>
-            <a th:href="@{/ship}"><span>Fitting Tool</span></a>
+            <a th:href="${'/ship?lang=' + lang}"><span>Fitting Tool</span></a>
         </li>
         <!--<li>-->
         <!--<a th:href="@{/shipStatComparison}"><span>Ship Comparison</span></a>-->

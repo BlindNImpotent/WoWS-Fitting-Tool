@@ -22,8 +22,8 @@ public class ExceptionController
 //        response.getWriter().write("");
 //    }
 //
-    @ResponseBody
-    @ExceptionHandler(Exception.class)
+//    @ResponseBody
+//    @ExceptionHandler(Exception.class)
     public CustomMessage sendError(Throwable t, HttpServletRequest request)
     {
         if (t instanceof NullPointerException) {

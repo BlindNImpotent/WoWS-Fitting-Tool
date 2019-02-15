@@ -37,7 +37,7 @@
                                         <th:block th:each="shipType : ${realShipType.value.get(realShipType.key)}">
                                             <th:block th:each="tier : ${shipType}">
                                                 <li th:each="ship : ${tier.value}">
-                                                    <a th:href="'/ship?index=' + ${ship.index}">
+                                                    <a th:href="'/ship?index=' + ${ship.index + '&lang=' + lang}">
                                                         <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}"
                                                               th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
                                                     </a>
@@ -51,7 +51,7 @@
                                             <ul class="dropdown_sub">
                                                 <th:block th:each="tier : ${shipType.value}">
                                                     <li th:each="ship : ${tier.value}">
-                                                        <a th:href="'/ship?index=' + ${ship.index}">
+                                                        <a th:href="'/ship?index=' + ${ship.index + '&lang=' + lang}">
                                                             <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}"
                                                                   th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
                                                         </a>
@@ -79,16 +79,7 @@
 <script th:inline="javascript">
     // <![CDATA[
 
-    var curIndex = 0;
-    var $shipIndex;
-
-    $(function () {
-        $shipIndex = [[${index}]];
-        if ($shipIndex) {
-            drawArtillery($('[data-ship-index=' + curIndex + ']'), [[${warship.turrets}]]);
-            drawTorpedoes($('[data-ship-index=' + curIndex + ']'), [[${warship.launchers}]]);
-        }
-    });
+    var lang = [[${lang}]];
 
     // ]]>
 </script>

@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -70,23 +71,23 @@ public class GPService
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    public Ship getShip(String index, String language, String bits) throws Exception
+//    @Cacheable(value = "ship", key = "#index.concat('_').concat(#bits)")
+    public Ship getShip(String index, String bits) throws Exception
     {
         Ship ship = mapper.readValue(mapper.writeValueAsString(ships.get(index)), Ship.class);
 
         if (ship != null) {
-            setUpgrades(ship, language);
-            setConsumables(ship, language);
+            setUpgrades(ship);
+            setConsumables(ship);
             setShipModules(index, bits, ship);
             setShipAmmo(ship);
-//            ship.setCommander(getCommander(""));
 
             return ship;
         }
         throw new NullPointerException();
     }
 
-    private void setUpgrades(Ship ship, String language) throws Exception
+    private void setUpgrades(Ship ship) throws Exception
     {
         List<List<Modernization>> upgradesList = new ArrayList<>();
         LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgradesCopy
@@ -94,22 +95,6 @@ public class GPService
         upgradesCopy.forEach((slot, upgrades) -> upgrades.forEach((key, upgrade) -> {
             if ((!upgrade.getExcludes().contains(ship.getName()) && upgrade.getGroup().contains(ship.getGroup()) && upgrade.getNation().contains(ship.getTypeinfo().getNation())
                 && upgrade.getShiptype().contains(ship.getTypeinfo().getSpecies()) && upgrade.getShiplevel().contains(ship.getLevel())) || upgrade.getShips().contains(ship.getName())) {
-//                Object uDesc = global.get(language).get(IDS + DESC + upgrade.getName().toUpperCase());
-//                if (uDesc != null) {
-//                    upgrade.setDescription(upgrade.getDescription() + uDesc.toString().replace("\n\n", "\n") + "\n\n");
-//                }
-//
-//                upgrade.getBonus().forEach((id, val) -> {
-//                    Object desc = global.get(language).get(IDS + id);
-//                    if (desc == null) {
-//                        desc = global.get(language).get(IDS + id.replace("_MODERNIZATION", ""));
-//                    }
-//
-//                    if (desc != null) {
-//                        upgrade.setDescription(upgrade.getDescription() + desc.toString() + ": " + val + "\n");
-//                    }
-//                });
-
                 if (upgradesList.size() < upgrade.getSlot() + 1) {
                     upgradesList.add(new ArrayList<>());
                 }
@@ -119,7 +104,7 @@ public class GPService
         ship.setUpgrades(upgradesList);
     }
 
-    private void setConsumables(Ship ship, String language) throws Exception
+    private void setConsumables(Ship ship) throws Exception
     {
         List<List<Consumable>> consumablesList = new ArrayList<>();
         for (Map.Entry<String, AbilitySlot> entry : ship.getShipAbilities().entrySet()) {
@@ -127,19 +112,6 @@ public class GPService
                 if (!consumable.get(0).contains("Super")) {
                     Consumable tempConsumable = mapper.readValue(mapper.writeValueAsString(consumables.get(consumable.get(0))), Consumable.class);
                     tempConsumable.getSubConsumables().entrySet().removeIf(e -> !e.getKey().equalsIgnoreCase(consumable.get(1)));
-
-                    Object consDesc = global.get(language).get(IDS + CONSUME + DESCRIPTION + tempConsumable.getName().toUpperCase());
-                    if (consDesc != null) {
-                        tempConsumable.setDescription(tempConsumable.getDescription() + consDesc.toString().replace("\n\n", "\n") + "\n\n");
-                    }
-
-                    tempConsumable.getSubConsumables().get(consumable.get(1)).getBonus().forEach((id, val) -> {
-                        Object desc = global.get(language).get(IDS + id);
-                        if (desc != null) {
-                            tempConsumable.setDescription(tempConsumable.getDescription() + desc.toString() + ": " + val + "\n");
-                        }
-                    });
-
                     if (consumablesList.size() < entry.getValue().getSlot() + 1) {
                         consumablesList.add(new ArrayList<>());
                     }
@@ -205,25 +177,9 @@ public class GPService
         });
     }
 
-    public Commander getCommander(String language) throws Exception
+    public Commander getCommander(String commander) throws Exception
     {
-        Commander commander = mapper.readValue(mapper.writeValueAsString(commanders.get("PAW001_DefaultCrew")), Commander.class);
-
-//        commander.getCSkills().forEach(row -> row.forEach(skill -> {
-//            Object skillDesc = global.get(language).get(IDS + "SKILL_DESC_" + skill.getModifier().toUpperCase());
-//            if (skillDesc != null) {
-//                skill.setDescription(skill.getDescription() + skillDesc.toString().replace("\n\n", "\n") + "\n\n");
-//            }
-//
-//            skill.getBonus().forEach((id, val) -> {
-//                Object desc = global.get(language).get(IDS + id);
-//                if (desc != null) {
-//                    skill.setDescription(skill.getDescription() + desc.toString() + ": " + val + "\n");
-//                }
-//            });
-//        }));
-
-        return commander;
+        return mapper.readValue(mapper.writeValueAsString(commanders.get("PAW001_DefaultCrew")), Commander.class);
     }
 
     private void setShipAmmo(Ship ship) throws Exception
@@ -233,8 +189,8 @@ public class GPService
                 for (Map.Entry<String, Artillery> entry : ship.getComponents().getArtillery().entrySet()) {
                     for (String ammo : entry.getValue().getTurrets().get(0).getAmmoList()) {
                         Shell shell = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ammo)), Shell.class);
-                        PenetrationUtils.setPenetration(shell, entry.getValue().getTurrets().get(0).getVertSector().get(1),
-                                entry.getValue().getMinDistV(), entry.getValue().getMaxDist(), "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
+//                        PenetrationUtils.setPenetration(shell, entry.getValue().getTurrets().get(0).getVertSector().get(1),
+//                                entry.getValue().getMinDistV(), entry.getValue().getMaxDist(), "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
                         entry.getValue().getShells().put(ammo, shell);
                     }
                 }

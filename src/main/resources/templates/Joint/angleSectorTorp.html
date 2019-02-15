@@ -7,8 +7,7 @@
 
         $(function () {
             var curIndex = [[${dataIndex}]];
-            var torpString = [[${warship.modules['torpedoes']}]];
-            drawTorpedoes($('[data-ship-index=' + curIndex + ']'), [[${warship.components.torpedoes}]][torpString]);
+            drawTorpedoes($('[data-ship-index=' + curIndex + ']'), [[${warship.launchers}]]);
         });
 
     //    ]]>

@@ -97,7 +97,6 @@ public class JsonParser
     private static HashSet<String> extraAngle = new HashSet<>(Arrays.asList("gunbonus"));
     private static HashSet<String> angle = new HashSet<>(Arrays.asList("angle"));
     private static HashSet<String> time = new HashSet<>(Arrays.asList("time"));
-    private static HashSet<String> globalLanguage = new HashSet<>(Arrays.asList("en", "ko"));
     private static HashSet<String> speed = new HashSet<>(Arrays.asList("speedbonus"));
 
     @Async

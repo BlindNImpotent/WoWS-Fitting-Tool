@@ -15,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -67,6 +69,24 @@ public class GPController extends ExceptionController
 
     private ObjectMapper mapper = new ObjectMapper();
 
+    @ModelAttribute(name = "language")
+    public void setLanguage(Model model, HttpServletRequest request, HttpServletResponse response)
+    {
+        String[] lang = request.getParameterMap().get("lang");
+        if (lang == null || lang.length == 0) {
+            model.addAttribute("lang", "en");
+        } else {
+            String l = "en";
+            for (String s : lang) {
+                if (globalLanguage.contains(s)) {
+                    l = s;
+                    break;
+                }
+            }
+            model.addAttribute("lang", l);
+        }
+    }
+
     @ResponseBody
     @GetMapping(value = "/data")
     public Object tester(@RequestParam(required = false, defaultValue = "") String type,
@@ -75,7 +95,7 @@ public class GPController extends ExceptionController
     {
         if (type.equalsIgnoreCase(TYPE_SHIP)) {
             if (StringUtils.isNotEmpty(lang)) {
-                return gpService.getShip(index, lang, "");
+                return gpService.getShip(index, "");
             }
             return ships.get(index);
         } else if (type.equalsIgnoreCase(TYPE_UPGRADE)) {
@@ -102,38 +122,36 @@ public class GPController extends ExceptionController
     public String getWarship(Model model,
                              @RequestParam(required = false, defaultValue = "en") String lang,
                              @RequestParam(required = false, defaultValue = "") String index,
-                             @RequestParam(required = false, defaultValue = "") String modules) throws Exception
+                             @RequestParam(required = false, defaultValue = "") String modules,
+                             @RequestParam(required = false, defaultValue = "") String upgrades,
+                             @RequestParam(required = false, defaultValue = "") String commander,
+                             @RequestParam(required = false, defaultValue = "") String skills) throws Exception
     {
         model.addAttribute("single", true);
         model.addAttribute("IDS", IDS);
-        model.addAttribute("global", global.get(lang));
         model.addAttribute("nations", shipsList);
+
+        lang = globalLanguage.contains(lang) ? lang : "en";
+        model.addAttribute("global", global.get(lang));
 
         if (StringUtils.isNotEmpty(index)) {
             model.addAttribute("index", index);
             model.addAttribute("dataIndex", 0);
-            model.addAttribute(TYPE_WARSHIP, gpService.getShip(index, lang, modules));
-            model.addAttribute(TYPE_SKILL, gpService.getCommander(lang));
+            model.addAttribute(TYPE_WARSHIP, gpService.getShip(index, modules));
+            model.addAttribute(TYPE_SKILL, gpService.getCommander(commander));
         }
 
         return "FittingTool/ftHome";
     }
 
     @ResponseBody
-    @PostMapping(value = "/global")
-    public HashMap<String, Object> getGlobalData(@RequestParam(required = false, defaultValue = "en") String lang) throws Exception
-    {
-        return global.get(lang);
-    }
-
-    @ResponseBody
     @PostMapping(value = "/ship")
-    public Ship getWarshipData(@RequestParam(required = false, defaultValue = "en") String language,
+    public Ship getWarshipData(@RequestParam(required = false, defaultValue = "en") String lang,
                              @RequestParam(required = false, defaultValue = "") String index,
                              @RequestParam(required = false, defaultValue = "") String modules) throws Exception
     {
         if (StringUtils.isNotEmpty(index)) {
-            return gpService.getShip(index, language, modules);
+            return gpService.getShip(index, modules);
         }
         throw new NullPointerException();
     }

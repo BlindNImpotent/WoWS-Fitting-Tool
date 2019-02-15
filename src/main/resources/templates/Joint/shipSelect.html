@@ -11,8 +11,7 @@
             <span th:text="${'Tier ' + warship.level}"></span><br />
             <span th:text="${global.get(IDS + warship.typeinfo.species.toUpperCase())}"></span><br />
             <strong style="font-size: 2em;" th:text="${global.get(IDS + warship.index.toUpperCase() + '_FULL')}"></strong><br />
-            <img th:title="${global.get(IDS + warship.index +'_DESCR')}" th:src="${warship.imageSmall}" /><br />
-            <span class="tooltip"></span>
+            <!--<img th:title="${global.get(IDS + warship.index +'_DESCR')}" th:src="${warship.imageSmall}" /><br />-->
             <br />
         </div>
         <div class="info_box">
@@ -64,8 +63,6 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="info_box_inner">
                 <div class="panel_left" data-type="crewSkills">
                     <div data-type="skills" style="padding: 8px;">
                         <strong>Skill pts: </strong><strong class="points">0</strong><strong> / 19</strong>
@@ -97,8 +94,8 @@
                     </table>
                 </div>
             </div>
-        </div>
-        <div class="info_box">
+        <!--</div>-->
+        <!--<div class="info_box">-->
             <th:block th:replace="Joint/rightInfo :: rightInfo"></th:block>
         </div>
     </div>
