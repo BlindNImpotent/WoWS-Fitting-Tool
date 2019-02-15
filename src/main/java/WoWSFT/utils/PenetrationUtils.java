@@ -34,7 +34,7 @@ public class PenetrationUtils
         float k = 0.5f * c_D * (float) Math.pow((D / 2f), 2f) * (float) Math.PI / W; // CONSTANTS TERMS OF DRAG
 
         List<Float> alpha = linspace((float) Math.PI * maxVertAngle / 360f * 2f); // ELEV. ANGLES 0...MAX
-        float dt = 0.1f; // TIME STEP
+        float dt = 0.05f; // TIME STEP
 
         LinkedHashMap<String, Float> penetration = new LinkedHashMap<>();
         LinkedHashMap<String, Float> flightTime = new LinkedHashMap<>();
@@ -123,7 +123,7 @@ public class PenetrationUtils
     {
         List<Float> alpha = new ArrayList<>();
         float begin = 0f;
-        float incrementalBig = 0.002f;
+        float incrementalBig = 0.005f;
 
         while (begin <= end) {
             alpha.add(begin);

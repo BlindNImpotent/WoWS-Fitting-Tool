@@ -23,8 +23,10 @@ public class ParserService
     @Qualifier(value = TYPE_SHIP)
     private LinkedHashMap<String, Ship> ships;
 
-    public void setModules(Ship ship, String index, String bits, HashMap<String, String> modules, HashMap<String, Integer> positions)
+    public void setModules(Ship ship, String bits)
     {
+        ship.setModules(new LinkedHashMap<>());
+        ship.setPositions(new LinkedHashMap<>());
         LinkedHashMap<String, String> baseModules = new LinkedHashMap<>();
         LinkedHashMap<String, Integer> basePositions = new LinkedHashMap<>();
         List<Integer> list = new ArrayList<>();
@@ -48,7 +50,7 @@ public class ParserService
                 });
 
                 if (CollectionUtils.isNotEmpty(list)) {
-                    positions.put(type, list.get(position));
+                    ship.getPositions().put(type, list.get(position));
                     shipUpgrades.put(type, value.get(list.get(position) - 1));
                 }
             }
@@ -58,31 +60,43 @@ public class ParserService
             if (!type.equalsIgnoreCase(hull)) {
                 if (CollectionUtils.isEmpty(shipUpgrades.get(hull).getComponents().get(type))) {
                     if (shipUpgrades.get(upgrade.getPrevType()).getPosition() >= upgrade.getPrevPosition()) {
-                        modules.put(type, upgrade.getComponents().get(type).get(0));
+                        ship.getModules().put(type, upgrade.getComponents().get(type).get(0));
                     }
                 } else {
                     shipUpgrades.get(hull).getComponents().get(type).forEach(x -> {
                         if (upgrade.getComponents().get(type).contains(x)) {
-                            modules.put(type, x);
+                            ship.getModules().put(type, x);
                         }
                     });
                 }
             } else {
-                modules.put(type, shipUpgrades.get(hull).getComponents().get(type).get(0));
+                ship.getModules().put(type, shipUpgrades.get(hull).getComponents().get(type).get(0));
             }
         });
 
-        if (bits.length() > 0 && modules.size() == bits.length()) {
+        if (bits.length() > 0 && ship.getModules().size() == bits.length()) {
             shipUpgrades.get(hull).getComponents().forEach((x, y) -> {
-                if (!modules.containsKey(x) && CollectionUtils.isNotEmpty(y)) {
-                    modules.put(x, y.get(0));
+                if (!ship.getModules().containsKey(x) && CollectionUtils.isNotEmpty(y)) {
+                    ship.getModules().put(x, y.get(0));
                 }
             });
         } else {
-            modules.clear();
-            modules.putAll(baseModules);
-            positions.clear();
-            positions.putAll(basePositions);
+            ship.getModules().clear();
+            ship.getModules().putAll(baseModules);
+            ship.getPositions().clear();
+            ship.getPositions().putAll(basePositions);
+        }
+    }
+
+    public void setUpgrades(Ship ship, String bits)
+    {
+        int slots = ship.getUpgrades().size();
+        List<Integer> list = new ArrayList<>();
+
+        if (StringUtils.isNotEmpty(bits)) {
+            for (int i = 0; i < bits.length(); i++) {
+                list.add(Character.getNumericValue(bits.charAt(i)));
+            }
         }
     }
 }
