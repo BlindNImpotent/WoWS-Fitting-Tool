@@ -21,6 +21,7 @@ time, mark, audio, video, button {
     border: 0;
     font-size: 100%;
     vertical-align: baseline;
+    /*background: inherit;*/
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -48,7 +49,7 @@ body {
     line-height: 20px;
     font-size: 14px;
     box-sizing: border-box;
-    min-width: 1024px;
+    min-width: 1408px;
     max-width: 1408px;
     background: white;
     color: black;
@@ -82,12 +83,12 @@ li {
 }
 
 .bottom-fix {
-    position: sticky;
-    position: -webkit-sticky;
+    /*position: sticky;*/
+    /*position: -webkit-sticky;*/
     background: white;
     text-align: center;
     bottom: 0;
-    z-index: 1;
+    /*z-index: 1;*/
     padding: 10px 0;
 }
 
@@ -375,6 +376,7 @@ button img {
 
 .panel_right table tbody tr td:nth-of-type(2) {
     width: 100px;
+    text-align: right;
 }
 
 .panel_right tr.subsystem {
@@ -389,12 +391,37 @@ button .tooltip {
     visibility: hidden;
     position: absolute;
     z-index: 1;
-    width: 240px;
+    width: 200px;
+    border-collapse: collapse;
 }
+
+button .tooltip tr td:first-of-type {
+    width: 130px;
+    word-break: keep-all;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+}
+
+button .tooltip tr td:nth-of-type(2) {
+    vertical-align: middle;
+    width: 50px;
+    padding: 0 0 0 20px;
+}
+
 button:hover > .tooltip {
     visibility: visible;
     background: white;
     opacity: 0.8;
     color: black;
+    border: 1px solid black;
+}
+
+.switch {
+    vertical-align: top;
+    margin: 0 auto;
+    padding: 8px;
+}
+
+button .tooltip_desc {
     border: 1px solid black;
 }

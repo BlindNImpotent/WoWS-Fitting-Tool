@@ -123,7 +123,7 @@ public class PenetrationUtils
     {
         List<Float> alpha = new ArrayList<>();
         float begin = 0f;
-        float incrementalBig = 0.001f;
+        float incrementalBig = 0.002f;
 
         while (begin <= end) {
             alpha.add(begin);

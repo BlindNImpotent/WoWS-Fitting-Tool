@@ -7,7 +7,7 @@
 
         $(function () {
             var curIndex = [[${dataIndex}]];
-            drawArtillery($('[data-ship-index=' + curIndex + ']'), [[${warship.turrets}]]);
+            drawArtillery($('[data-ship-index=' + curIndex + ']'), [[${warship.components.artillery[warship.modules.artillery].turrets}]]);
         });
 
     //    ]]>

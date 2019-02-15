@@ -71,7 +71,7 @@ public class GPService
 
     private ObjectMapper mapper = new ObjectMapper();
 
-//    @Cacheable(value = "ship", key = "#index.concat('_').concat(#bits)")
+    @Cacheable(value = "ship", key = "#index.concat('_').concat(#bits)")
     public Ship getShip(String index, String bits) throws Exception
     {
         Ship ship = mapper.readValue(mapper.writeValueAsString(ships.get(index)), Ship.class);
@@ -126,55 +126,55 @@ public class GPService
     {
         parserService.setModules(ship, index, bits, ship.getModules(), ship.getPositions());
 
-        ship.getModules().forEach((cKey, value) -> {
-            if (cKey.equalsIgnoreCase(artillery)) {
-                ship.getComponents().getArtillery().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-                List<Turret> tTurrets = new ArrayList<>();
-                ship.getComponents().getArtillery().get(value).getTurrets().forEach(t ->
-                        tTurrets.add(new Turret().setDeadZone(t.getDeadZone()).setHorizSector(t.getHorizSector()).setPosition(t.getPosition())));
-                ship.setTurrets(tTurrets);
-            } else if (cKey.equalsIgnoreCase(airDefense)) {
-                ship.getComponents().getAirDefense().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-            } else if (cKey.equalsIgnoreCase(atba)) {
-                ship.getComponents().getAtba().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-            } else if (cKey.equalsIgnoreCase(engine)) {
-                ship.getComponents().getEngine().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-            } else if (cKey.equalsIgnoreCase(suo)) {
-                ship.getComponents().getSuo().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-            } else if (cKey.equalsIgnoreCase(hull)) {
-                ship.getComponents().getHull().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-            } else if (cKey.equalsIgnoreCase(torpedoes)) {
-                ship.getComponents().getTorpedoes().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-                List<Launcher> tLaunchers = new ArrayList<>();
-                ship.getComponents().getTorpedoes().get(value).getLaunchers().forEach(l ->
-                        tLaunchers.add(new Launcher().setDeadZone(l.getDeadZone()).setHorizSector(l.getHorizSector()).setPosition(l.getPosition())));
-                ship.setLaunchers(tLaunchers);
-            } else if (cKey.equalsIgnoreCase(airArmament)) {
-                ship.getComponents().getAirArmament().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-            } else if (cKey.equalsIgnoreCase(flightControl)) {
-                ship.getComponents().getFlightControl().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-            } else if (cKey.equalsIgnoreCase(fighter)) {
-                ship.getComponents().getFighter().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-            } else if (cKey.equalsIgnoreCase(diveBomber)) {
-                ship.getComponents().getDiveBomber().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-            } else if (cKey.equalsIgnoreCase(torpedoBomber)) {
-                ship.getComponents().getTorpedoBomber().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
-            }
-        });
-
-        ship.getComponents().getAirDefense().forEach((aaKey, aaVal) -> {
-            ship.getComponents().getArtillery().forEach((artyKey, val) -> {
-                aaVal.setAuraFar(aaVal.getAuraFar() == null && val.getAuraFar() != null ? val.getAuraFar() : aaVal.getAuraFar());
-                aaVal.setAuraMedium(aaVal.getAuraMedium() == null && val.getAuraMedium() != null ? val.getAuraMedium() : aaVal.getAuraMedium());
-                aaVal.setAuraNear(aaVal.getAuraNear() == null && val.getAuraNear() != null ? val.getAuraNear() : aaVal.getAuraNear());
-            });
-
-            ship.getComponents().getAtba().forEach((atbaKey, val) -> {
-                aaVal.setAuraFar(aaVal.getAuraFar() == null && val.getAuraFar() != null ? val.getAuraFar() : aaVal.getAuraFar());
-                aaVal.setAuraMedium(aaVal.getAuraMedium() == null && val.getAuraMedium() != null ? val.getAuraMedium() : aaVal.getAuraMedium());
-                aaVal.setAuraNear(aaVal.getAuraNear() == null && val.getAuraNear() != null ? val.getAuraNear() : aaVal.getAuraNear());
-            });
-        });
+//        ship.getModules().forEach((cKey, value) -> {
+//            if (cKey.equalsIgnoreCase(artillery)) {
+//                ship.getComponents().getArtillery().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+//                List<Turret> tTurrets = new ArrayList<>();
+//                ship.getComponents().getArtillery().get(value).getTurrets().forEach(t ->
+//                        tTurrets.add(new Turret().setDeadZone(t.getDeadZone()).setHorizSector(t.getHorizSector()).setPosition(t.getPosition())));
+//                ship.setTurrets(tTurrets);
+//            } else if (cKey.equalsIgnoreCase(airDefense)) {
+//                ship.getComponents().getAirDefense().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+//            } else if (cKey.equalsIgnoreCase(atba)) {
+//                ship.getComponents().getAtba().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+//            } else if (cKey.equalsIgnoreCase(engine)) {
+//                ship.getComponents().getEngine().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+//            } else if (cKey.equalsIgnoreCase(suo)) {
+//                ship.getComponents().getSuo().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+//            } else if (cKey.equalsIgnoreCase(hull)) {
+//                ship.getComponents().getHull().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+//            } else if (cKey.equalsIgnoreCase(torpedoes)) {
+//                ship.getComponents().getTorpedoes().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+//                List<Launcher> tLaunchers = new ArrayList<>();
+//                ship.getComponents().getTorpedoes().get(value).getLaunchers().forEach(l ->
+//                        tLaunchers.add(new Launcher().setDeadZone(l.getDeadZone()).setHorizSector(l.getHorizSector()).setPosition(l.getPosition())));
+//                ship.setLaunchers(tLaunchers);
+//            } else if (cKey.equalsIgnoreCase(airArmament)) {
+//                ship.getComponents().getAirArmament().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+//            } else if (cKey.equalsIgnoreCase(flightControl)) {
+//                ship.getComponents().getFlightControl().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+//            } else if (cKey.equalsIgnoreCase(fighter)) {
+//                ship.getComponents().getFighter().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+//            } else if (cKey.equalsIgnoreCase(diveBomber)) {
+//                ship.getComponents().getDiveBomber().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+//            } else if (cKey.equalsIgnoreCase(torpedoBomber)) {
+//                ship.getComponents().getTorpedoBomber().entrySet().removeIf(entry -> !entry.getKey().equalsIgnoreCase(value));
+//            }
+//        });
+//
+//        ship.getComponents().getAirDefense().forEach((aaKey, aaVal) -> {
+//            ship.getComponents().getArtillery().forEach((artyKey, val) -> {
+//                aaVal.setAuraFar(aaVal.getAuraFar() == null && val.getAuraFar() != null ? val.getAuraFar() : aaVal.getAuraFar());
+//                aaVal.setAuraMedium(aaVal.getAuraMedium() == null && val.getAuraMedium() != null ? val.getAuraMedium() : aaVal.getAuraMedium());
+//                aaVal.setAuraNear(aaVal.getAuraNear() == null && val.getAuraNear() != null ? val.getAuraNear() : aaVal.getAuraNear());
+//            });
+//
+//            ship.getComponents().getAtba().forEach((atbaKey, val) -> {
+//                aaVal.setAuraFar(aaVal.getAuraFar() == null && val.getAuraFar() != null ? val.getAuraFar() : aaVal.getAuraFar());
+//                aaVal.setAuraMedium(aaVal.getAuraMedium() == null && val.getAuraMedium() != null ? val.getAuraMedium() : aaVal.getAuraMedium());
+//                aaVal.setAuraNear(aaVal.getAuraNear() == null && val.getAuraNear() != null ? val.getAuraNear() : aaVal.getAuraNear());
+//            });
+//        });
     }
 
     public Commander getCommander(String commander) throws Exception
@@ -189,8 +189,8 @@ public class GPService
                 for (Map.Entry<String, Artillery> entry : ship.getComponents().getArtillery().entrySet()) {
                     for (String ammo : entry.getValue().getTurrets().get(0).getAmmoList()) {
                         Shell shell = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ammo)), Shell.class);
-//                        PenetrationUtils.setPenetration(shell, entry.getValue().getTurrets().get(0).getVertSector().get(1),
-//                                entry.getValue().getMinDistV(), entry.getValue().getMaxDist(), "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
+                        PenetrationUtils.setPenetration(shell, entry.getValue().getTurrets().get(0).getVertSector().get(1),
+                                entry.getValue().getMinDistV(), entry.getValue().getMaxDist(), "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
                         entry.getValue().getShells().put(ammo, shell);
                     }
                 }
