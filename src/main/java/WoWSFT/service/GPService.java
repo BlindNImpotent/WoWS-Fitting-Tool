@@ -2,6 +2,7 @@ package WoWSFT.service;
 
 import WoWSFT.model.gameparams.commander.Commander;
 import WoWSFT.model.gameparams.consumable.Consumable;
+import WoWSFT.model.gameparams.consumable.ConsumableSub;
 import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
@@ -18,6 +19,7 @@ import WoWSFT.model.gameparams.ship.component.hull.Hull;
 import WoWSFT.model.gameparams.ship.component.torpedo.Launcher;
 import WoWSFT.model.gameparams.ship.component.torpedo.Torpedo;
 import WoWSFT.model.gameparams.ship.component.torpedo.TorpedoAmmo;
+import WoWSFT.utils.CommonUtils;
 import WoWSFT.utils.PenetrationUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -86,12 +88,11 @@ public class GPService
         throw new NullPointerException();
     }
 
-    private void setUpgrades(Ship ship) throws Exception
+    private void setUpgrades(Ship ship)
     {
         List<List<Modernization>> upgradesList = new ArrayList<>();
-        LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgradesCopy
-                = mapper.readValue(mapper.writeValueAsString(upgrades), new TypeReference<LinkedHashMap<Integer, LinkedHashMap<String, Modernization>>>(){});
-        upgradesCopy.forEach((slot, upgrades) -> upgrades.forEach((key, upgrade) -> {
+
+        upgrades.forEach((slot, upgrades) -> upgrades.forEach((key, upgrade) -> {
             if ((!upgrade.getExcludes().contains(ship.getName()) && upgrade.getGroup().contains(ship.getGroup()) && upgrade.getNation().contains(ship.getTypeinfo().getNation())
                 && upgrade.getShiptype().contains(ship.getTypeinfo().getSpecies()) && upgrade.getShiplevel().contains(ship.getLevel())) || upgrade.getShips().contains(ship.getName())) {
                 if (upgradesList.size() < upgrade.getSlot() + 1) {
@@ -100,6 +101,9 @@ public class GPService
                 upgradesList.get(upgrade.getSlot()).add(upgrade);
             }
         }));
+
+        int maxRows = upgradesList.stream().mapToInt(List::size).filter(slot -> slot > 0).max().orElse(0);
+        ship.setUpgradesRow(maxRows);
         ship.setUpgrades(upgradesList);
     }
 

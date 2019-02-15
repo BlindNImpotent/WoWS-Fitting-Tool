@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -58,8 +59,10 @@ public class Ship
     private String imageMedium;
     private String imageSmall;
 
-    private List<List<Consumable>> consumables;
-    private List<List<Modernization>> upgrades;
+    private List<List<Consumable>> consumables = new ArrayList<>();
+    private List<List<Modernization>> upgrades = new ArrayList<>();
+    private int upgradesRow;
+    private List<Integer> sUpgrades = new ArrayList<>();
     private LinkedHashMap<String, String> modules = new LinkedHashMap<>();
     private LinkedHashMap<String, Integer> positions = new LinkedHashMap<>();
 

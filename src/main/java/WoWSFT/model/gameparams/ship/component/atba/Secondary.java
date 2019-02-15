@@ -4,6 +4,7 @@ import WoWSFT.config.WoWSFT;
 import WoWSFT.model.gameparams.TypeInfo;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.util.List;
@@ -36,6 +37,8 @@ public class Secondary
     private float smokePenalty;
     private TypeInfo typeinfo;
     private List<Float> vertSector;
+    @JsonInclude
+    private float GSIdealRadius = 1f;
 
     private int count;
 

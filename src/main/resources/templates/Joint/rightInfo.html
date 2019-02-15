@@ -247,11 +247,11 @@
                     </tr>
                     <tr class="toggle hide" th:classappend="${gun.index}">
                         <td th:text="${global.get('IDS_SHIP_PARAM_SHOT_DELAY')}"></td>
-                        <td th:text="${#numbers.formatDecimal(gun.shotDelay, 1, 1)} + ' s'"></td>
+                        <td th:text="${#numbers.formatDecimal(gun.shotDelay, 1, 2)} + ' s'"></td>
                     </tr>
                     <tr class="toggle hide" th:classappend="${gun.index}">
                         <td th:text="${global.get('IDS_SHIP_PARAM_SHOT_SPEED')}"></td>
-                        <td th:text="${#numbers.formatDecimal(60.0 / gun.shotDelay, 1, 1) + ' rpm'}"></td>
+                        <td th:text="${#numbers.formatDecimal(60.0 / gun.shotDelay, 1, 2) + ' rpm'}"></td>
                     </tr>
                     <th:block th:if="${gun.ammoType == 'HE'}">
                         <tr class="toggle hide" th:classappend="${gun.index}">
@@ -273,7 +273,7 @@
                     </tr>
                     <tr class="toggle hide" th:classappend="${gun.index}">
                         <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_DISPERSION')}"></td>
-                        <td th:text="${#numbers.formatInteger(((gun.idealRadius * atba.GSIdealRadius - gun.minRadius) / 1000.0 * (atba.maxDist / 30.0) + gun.minRadius) * 30.0, 1, 'COMMA')} + ' m'"></td>
+                        <td th:text="${#numbers.formatInteger(((gun.idealRadius * gun.GSIdealRadius - gun.minRadius) / 1000.0 * (atba.maxDist / 30.0) + gun.minRadius) * 30.0, 1, 'COMMA')} + ' m'"></td>
                     </tr>                    
                 </th:block>
             </tbody>
@@ -488,17 +488,31 @@
     </div>
 <!--</div>-->
 <!--<div class="info_box_inner">-->
-    <div th:if="${false and consumables != null}" class="panel_right" data-type="consumables">
+    <div th:if="${consumables != null}" class="panel_right" data-type="consumables">
         <div class="switch" data-type="consumable"><strong th:text="${global.get('IDS_PRMP_ITEM_ABILITY')}"></strong></div>
         <div class="toggle consumable hide">
             <ul th:each="slot : ${consumables}">
                 <li th:each="consumable : ${slot}">
                     <button class="button_consumable"
                             th:classappend="${consumableStat.index == 0 ? 'select' : 'hide'}
-                                    + ${#lists.contains(warship.ShipUpgradeInfo.components.get('hull').get(warship.positions.get('hull') - 1).disabledAbilities, consumable.name) ? ' disable' : ''}"
-                            th:title="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase()) + '&#013&#013' + consumable.description}"
+                                    + ${#lists.contains(warship.shipUpgradeInfo.components.get('hull').get(warship.positions.get('hull') - 1).disabledAbilities, consumable.name) ? ' disable' : ''}"
                             th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">
                         <img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/>
+                        <table class="tooltip">
+                            <tbody>
+                            <tr><td colspan="2"><th:block th:utext="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase())}"></th:block></td></tr>
+                            <tr><td colspan="2">&nbsp;</td></tr>
+                            <tr><td colspan="2"><th:block th:utext="${#strings.replace(global.get(IDS + 'DOCK_CONSUME_DESCRIPTION_' + consumable.name.toUpperCase()), '&#10', '<br />')}"></th:block></td></tr>
+                            <th:block th:each="sub : ${consumable.subConsumables}">
+                                <th:block th:each="b : ${sub.value.bonus}" th:with="desc=${global.get(IDS + b.key)}">
+                                    <tr th:if="${desc != null}" class="tooltip_desc">
+                                        <td th:utext="${desc}"></td>
+                                        <td th:utext="${b.value}"></td>
+                                    </tr>
+                                </th:block>
+                            </th:block>
+                            </tbody>
+                        </table>
                     </button>
                 </li>
             </ul>

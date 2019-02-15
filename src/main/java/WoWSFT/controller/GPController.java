@@ -6,6 +6,7 @@ import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
 import WoWSFT.service.GPService;
+import WoWSFT.service.ParamService;
 import WoWSFT.service.ParserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -63,6 +64,9 @@ public class GPController extends ExceptionController
 
     @Autowired
     private GPService gpService;
+
+    @Autowired
+    private ParamService paramService;
 
     @Autowired
     private ParserService parserService;
@@ -138,8 +142,10 @@ public class GPController extends ExceptionController
             model.addAttribute("index", index);
             model.addAttribute("dataIndex", 0);
 
-            Ship ship = gpService.getShip(index, modules);
-            parserService.setModules(ship, modules);
+            Ship ship = mapper.readValue(mapper.writeValueAsString(gpService.getShip(index, modules)), Ship.class);
+            parserService.parseModules(ship, modules);
+            parserService.parseUpgrades(ship, upgrades);
+            paramService.setParameters(ship);
 
             model.addAttribute(TYPE_WARSHIP, ship);
             model.addAttribute(TYPE_SKILL, gpService.getCommander(commander));

@@ -4,12 +4,9 @@ import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgrade;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -19,11 +16,7 @@ import static WoWSFT.model.Constant.*;
 @Service
 public class ParserService
 {
-    @Autowired
-    @Qualifier(value = TYPE_SHIP)
-    private LinkedHashMap<String, Ship> ships;
-
-    public void setModules(Ship ship, String bits)
+    public void parseModules(Ship ship, String bits)
     {
         ship.setModules(new LinkedHashMap<>());
         ship.setPositions(new LinkedHashMap<>());
@@ -34,7 +27,11 @@ public class ParserService
 
         if (StringUtils.isNotEmpty(bits)) {
             for (int i = 0; i < bits.length(); i++) {
-                list.add(Character.getNumericValue(bits.charAt(i)));
+                if (Character.isDigit(bits.charAt(i))) {
+                    list.add(Character.getNumericValue(bits.charAt(i)));
+                } else{
+                    list.add(1);
+                }
             }
         }
 
@@ -88,15 +85,25 @@ public class ParserService
         }
     }
 
-    public void setUpgrades(Ship ship, String bits)
+    public void parseUpgrades(Ship ship, String bits)
     {
-        int slots = ship.getUpgrades().size();
         List<Integer> list = new ArrayList<>();
 
         if (StringUtils.isNotEmpty(bits)) {
-            for (int i = 0; i < bits.length(); i++) {
-                list.add(Character.getNumericValue(bits.charAt(i)));
+            for (int i = 0; i < bits.length() && i < ship.getUpgrades().size(); i++) {
+                if (Character.isDigit(bits.charAt(i))) {
+                    list.add(Character.getNumericValue(bits.charAt(i)));
+                } else{
+                    list.add(0);
+                }
             }
+
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i) > ship.getUpgrades().get(i).size()) {
+                    list.set(i, 0);
+                }
+            }
+            ship.setSUpgrades(list);
         }
     }
 }

@@ -15,7 +15,7 @@
             <div data-direction="right" class="button_tab" data-type="secondary" th:if="${!#maps.isEmpty(warship.components.atba)}">Secondary</div>
             <div data-direction="right" class="button_tab" data-type="hull" th:if="${!#maps.isEmpty(warship.components.hull)}">Hull</div>
             <div data-direction="right" class="button_tab" data-type="mobility" th:if="${!#maps.isEmpty(warship.components.engine)}">Mobility</div>
-            <div data-direction="right" class="button_tab" data-type="consumables" th:if="${warship.ShipAbilities.entrySet().?[!#lists.isEmpty(value.abils)]}">Consumables</div>
+            <div data-direction="right" class="button_tab" data-type="consumables" th:if="${warship.shipAbilities.entrySet().?[!#lists.isEmpty(value.abils)]}">Consumables</div>
         </div>
     </th:block>
 </body>

@@ -81,24 +81,6 @@ public class JsonParser
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    private static HashSet<String> excludeShipGroups = new HashSet<>(Arrays.asList("unavailable", "disabled", "preserved", "clan", "demoWithoutStats"));
-    private static HashSet<String> excludeShipNations = new HashSet<>(Arrays.asList("Events", "disabled", "preserved", "clan"));
-    private static HashSet<String> excludeShipSpecies = new HashSet<>(Arrays.asList("Auxiliary", "Submarine"));
-    private static HashSet<String> excludeCompStats = new HashSet<>(Arrays.asList("directors", "finders", "radars"));
-    private static HashSet<String> excludeModernization = new HashSet<>(Arrays.asList("extra"));
-
-    private static HashSet<String> coeff = new HashSet<>(Arrays.asList("coef", "maxdist", "idealradius"));
-    private static HashSet<String> noUnit = new HashSet<>(Arrays.asList("num"));
-    private static HashSet<String> extra = new HashSet<>(Arrays.asList("count", "level", "additional"));
-    private static HashSet<String> meter = new HashSet<>(Arrays.asList("radius", "height", "dist"));
-    private static HashSet<String> rate = new HashSet<>(Arrays.asList("regeneration", "boostcoeff", "probabilitybonus", "chance"));
-    private static HashSet<String> rateNoSym = new HashSet<>(Arrays.asList("step"));
-    private static HashSet<String> multiple = new HashSet<>(Arrays.asList("multiplier"));
-    private static HashSet<String> extraAngle = new HashSet<>(Arrays.asList("gunbonus"));
-    private static HashSet<String> angle = new HashSet<>(Arrays.asList("angle"));
-    private static HashSet<String> time = new HashSet<>(Arrays.asList("time"));
-    private static HashSet<String> speed = new HashSet<>(Arrays.asList("speedbonus"));
-
     @Async
     public void setNotification() throws IOException
     {
@@ -153,7 +135,7 @@ public class JsonParser
                 }
             } else if (typeInfo.getType().equalsIgnoreCase("Ability") && !excludeShipNations.contains(typeInfo.getNation()) && !key.contains("Super")) {
                 Consumable consumable = mapper.convertValue(value, Consumable.class);
-                consumable.getSubConsumables().forEach((sub, val) -> setBonusParams(key, mapper.convertValue(val, new TypeReference<LinkedHashMap<String, Object>>(){}), val.getBonus(), "consumable"));
+//                consumable.getSubConsumables().forEach((sub, val) -> setBonusParams(key, mapper.convertValue(val, new TypeReference<LinkedHashMap<String, Object>>(){}), val.getBonus(), "consumable"));
                 consumables.put(key, consumable);
             } else if (typeInfo.getType().equalsIgnoreCase("Crew")) {
                 Commander commander = mapper.convertValue(value, Commander.class);

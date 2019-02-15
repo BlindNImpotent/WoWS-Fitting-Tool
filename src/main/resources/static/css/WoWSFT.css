@@ -111,7 +111,7 @@ li {
 .top li {
     background: lightblue;
     display: inline-block;
-    padding: 8px;
+    padding: 8px 16px;
     z-index: 10;
 }
 
@@ -295,6 +295,7 @@ nav ul li:active > ul {
     overflow: hidden;
     white-space: normal;
     margin: 2px;
+    z-index: 2;
     /*padding: 2px;*/
     /*margin: 1px;*/
 }
@@ -332,8 +333,13 @@ button img {
     border-radius: 5px;
 }
 
-.panel_left[data-type=upgrades]{
+.panel_left[data-type=upgrades] {
     padding: 4px;
+}
+
+.panel_left[data-type=upgrades] ul {
+    display: inline-block;
+    vertical-align: top;
 }
 
 .panel_left table {
@@ -345,10 +351,6 @@ button img {
 
 .panel_left:not(:last-of-type), .panel_right:not(:last-of-type) {
     margin-bottom: 4px;
-}
-
-.panel_left ul {
-    display: inline-table;
 }
 
 .panel_right {
@@ -371,20 +373,16 @@ button img {
 }
 
 .panel_right table tr td:first-of-type {
-    width: 240px;
+    width: 220px;
 }
 
 .panel_right table tbody tr td:nth-of-type(2) {
-    width: 100px;
+    width: 120px;
     text-align: right;
 }
 
 .panel_right tr.subsystem {
     background: rgba(0, 0, 0, 0.1)
-}
-
-.panel_right[data-type=consumables] ul {
-    display: inline-table;
 }
 
 button .tooltip {
@@ -424,4 +422,13 @@ button:hover > .tooltip {
 
 button .tooltip_desc {
     border: 1px solid black;
+}
+
+.panel_right[data-type=consumables] {
+    padding: 4px;
+}
+
+.panel_right[data-type=consumables] ul {
+    display: inline-block;
+    vertical-align: top;
 }

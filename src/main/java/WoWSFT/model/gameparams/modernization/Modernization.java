@@ -4,6 +4,7 @@ import WoWSFT.config.WoWSFT;
 import WoWSFT.model.gameparams.TypeInfo;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
@@ -15,45 +16,73 @@ import java.util.List;
 @WoWSFT
 public class Modernization
 {
-    private float AAExtraBubbles;
-    private float AANearDamage = 1f;
-    private float AAOuterDamage = 1f;
-    private float ADMaxHP = 1f;
-    private float GMCritProb = 1f;
-    private float GMIdealRadius = 1f;
-    private float GMMaxDist = 1f;
-    private float GMMaxHP = 1f;
-    private float GMRepairTime = 1f;
-    private float GMRotationSpeed = 1f;
-    private float GMShotDelay = 1f;
-    private float GMSigmaCount = 1f;
-    private float GSIdealRadius = 1f;
-    private float GSMaxDist = 1f;
-    private float GSMaxHP = 1f;
-    private float GSShotDelay = 1f;
-    private float GSSigmaCount = 1f;
-    private float GTCritProb = 1f;
-    private float GTMaxHP = 1f;
-    private float GTRepairTime = 1f;
-    private float GTRotationSpeed = 1f;
-    private float GTShotDelay = 1f;
-    private float PMCritProb = 1f;
-    private float PMDetonationProb = 1f;
-    private float PMRepairTime = 1f;
-    private float SGCritProb = 1f;
-    private float SGRepairTime = 1f;
-    private float SGRudderTime = 1f;
+    @JsonProperty("AAExtraBubbles")
+    private float aaextraBubbles;
+    @JsonProperty("AANearDamage")
+    private float aanearDamage = 1f;
+    @JsonProperty("AAOuterDamage")
+    private float aaouterDamage = 1f;
+    @JsonProperty("ADMaxHP")
+    private float admaxHP = 1f;
+    @JsonProperty("GMCritProb")
+    private float gmcritProb = 1f;
+    @JsonProperty("GMIdealRadius")
+    private float gmidealRadius = 1f;
+    @JsonProperty("GMMaxDist")
+    private float gmmaxDist = 1f;
+    @JsonProperty("GMMaxHP")
+    private float gmmaxHP = 1f;
+    @JsonProperty("GMRepairTime")
+    private float gmrepairTime = 1f;
+    @JsonProperty("GMRotationSpeed")
+    private float gmrotationSpeed = 1f;
+    @JsonProperty("GMShotDelay")
+    private float gmshotDelay = 1f;
+    @JsonProperty("GMSigmaCount")
+    private float gmsigmaCount = 1f;
+    @JsonProperty("GSIdealRadius")
+    private float gsidealRadius = 1f;
+    @JsonProperty("GSMaxDist")
+    private float gsmaxDist = 1f;
+    @JsonProperty("GSMaxHP")
+    private float gsmaxHP = 1f;
+    @JsonProperty("GSShotDelay")
+    private float gsshotDelay = 1f;
+    @JsonProperty("GSSigmaCount")
+    private float gssigmaCount = 1f;
+    @JsonProperty("GTCritProb")
+    private float gtcritProb = 1f;
+    @JsonProperty("GTMaxHP")
+    private float gtmaxHP = 1f;
+    @JsonProperty("GTRepairTime")
+    private float gtrepairTime = 1f;
+    @JsonProperty("GTRotationSpeed")
+    private float gtrotationSpeed = 1f;
+    @JsonProperty("GTShotDelay")
+    private float gtshotDelay = 1f;
+    @JsonProperty("PMCritProb")
+    private float pmcritProb = 1f;
+    @JsonProperty("PMDetonationProb")
+    private float pmdetonationProb = 1f;
+    @JsonProperty("PMRepairTime")
+    private float pmrepairTime = 1f;
+    @JsonProperty("SGCritProb")
+    private float sgcritProb = 1f;
+    @JsonProperty("SGRepairTime")
+    private float sgrepairTime = 1f;
+    @JsonProperty("SGRudderTime")
+    private float sgrudderTime = 1f;
     private float airDefenseDispWorkTime = 1f;
     private float airplanesDiveBombersHealth = 1f;
     private float airplanesEmptyReturnSpeed = 1f;
     private float airplanesExtraHangarSize;
-    private float airplanesFighterAimingTime;
+    private float airplanesFighterAimingTime = 1f;
     private float airplanesFightersHealth = 1f;
     private float airplanesForsageDuration = 1f;
     private float airplanesHealth = 1f;
     private float airplanesSpawnTime = 1f;
     private float airplanesSpeed = 1f;
-    private float airplanesTorpedoAimingTime;
+    private float airplanesTorpedoAimingTime = 1f;
     private float airplanesTorpedoBombersHealth = 1f;
     private float burnProb = 1f;
     private float burnTime = 1f;

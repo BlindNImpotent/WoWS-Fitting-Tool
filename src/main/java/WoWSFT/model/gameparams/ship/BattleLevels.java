@@ -13,7 +13,7 @@ import java.util.List;
 public class BattleLevels
 {
     @JsonProperty("COOPERATIVE")
-    private List<Integer> COOPERATIVE;
+    private List<Integer> cooperative;
     @JsonProperty("PVP")
-    private List<Integer> PVP;
+    private List<Integer> pvp;
 }

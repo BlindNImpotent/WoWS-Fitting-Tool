@@ -7,16 +7,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 @Data
 @WoWSFT
 public class Consumable
 {
-    private HashMap<String, ConsumableSub> subConsumables = new HashMap<>();
+    private LinkedHashMap<String, ConsumableSub> subConsumables = new LinkedHashMap<>();
 
     private boolean canBuy;
-    private HashMap<String, Boolean> canBuyCustom;
+    private LinkedHashMap<String, Boolean> canBuyCustom;
     private float costCR;
     private float costGold;
     private boolean freeOfCharge;

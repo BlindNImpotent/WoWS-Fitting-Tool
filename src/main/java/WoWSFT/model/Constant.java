@@ -46,4 +46,22 @@ public class Constant
     public static final List<String> compStatsList = new ArrayList<>(Arrays.asList(flightControl, airArmament, airDefense, artillery, atba, hull, suo, torpedoes, fighter, torpedoBomber, diveBomber, engine));
 
     public static final HashSet<String> globalLanguage = new HashSet<>(Arrays.asList("en", "ko"));
+
+    public static final HashSet<String> excludeShipGroups = new HashSet<>(Arrays.asList("unavailable", "disabled", "preserved", "clan", "demoWithoutStats"));
+    public static final HashSet<String> excludeShipNations = new HashSet<>(Arrays.asList("Events", "disabled", "preserved", "clan"));
+    public static final HashSet<String> excludeShipSpecies = new HashSet<>(Arrays.asList("Auxiliary", "Submarine"));
+    public static final HashSet<String> excludeCompStats = new HashSet<>(Arrays.asList("directors", "finders", "radars"));
+    public static final HashSet<String> excludeModernization = new HashSet<>(Arrays.asList("extra"));
+
+    public static final HashSet<String> coeff = new HashSet<>(Arrays.asList("coef", "maxdist", "idealradius"));
+    public static final HashSet<String> noUnit = new HashSet<>(Arrays.asList("num"));
+    public static final HashSet<String> extra = new HashSet<>(Arrays.asList("count", "level", "additional"));
+    public static final HashSet<String> meter = new HashSet<>(Arrays.asList("radius", "height", "dist"));
+    public static final HashSet<String> rate = new HashSet<>(Arrays.asList("regeneration", "boostcoeff", "probabilitybonus", "chance"));
+    public static final HashSet<String> rateNoSym = new HashSet<>(Arrays.asList("step"));
+    public static final HashSet<String> multiple = new HashSet<>(Arrays.asList("multiplier"));
+    public static final HashSet<String> extraAngle = new HashSet<>(Arrays.asList("gunbonus"));
+    public static final HashSet<String> angle = new HashSet<>(Arrays.asList("angle"));
+    public static final HashSet<String> time = new HashSet<>(Arrays.asList("time"));
+    public static final HashSet<String> speed = new HashSet<>(Arrays.asList("speedbonus"));
 }
