@@ -64,4 +64,6 @@ public class Constant
     public static final HashSet<String> angle = new HashSet<>(Arrays.asList("angle"));
     public static final HashSet<String> time = new HashSet<>(Arrays.asList("time"));
     public static final HashSet<String> speed = new HashSet<>(Arrays.asList("speedbonus"));
+
+    public static final long maxBitsToInt = 4294967295L;
 }

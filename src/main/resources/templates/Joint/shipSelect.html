@@ -72,7 +72,8 @@
                         <tbody>
                         <tr th:each="skillTier : ${skills.cSkills}">
                             <td th:each="skill : ${skillTier}">
-                                <button th:class="'button_skill'" th:attr="data-index=${skillTierStat.index}, data-position=${skillStat.index}">
+                                <button th:class="'button_skill'" th:classappend="${warship.sSkills.get(skillTierStat.index * 8 + skillStat.index) == 1 ? 'select' : ''}"
+                                        th:attr="data-index=${skillTierStat.index}, data-position=${skillStat.index}">
                                     <img th:src="${skill.image}"/>
                                     <table class="tooltip">
                                         <tbody>

@@ -113,9 +113,25 @@ public class ParserService
         List<Integer> list = new ArrayList<>();
         String bits = Long.toBinaryString(skill);
 
-        for (int i = bits.length() - 1; i >= 0; i--){
-            list.add(Character.getNumericValue(bits.charAt(i)));
+        if (bits.length() < 32) {
+            for (int i = 0; i < 32 - bits.length(); i++) {
+                list.add(0);
+            }
         }
+
+        int pts = 0;
+        for (int i = bits.length() - 1; i >= 0; i--) {
+            int check = Character.getNumericValue(bits.charAt(i));
+            int tempPts = (bits.length() - i) / 8 + 1;
+
+            if (check == 1 && tempPts + pts <= 19) {
+                pts += tempPts;
+                list.add(Character.getNumericValue(bits.charAt(i)));
+            } else {
+                list.add(0);
+            }
+        }
+
         ship.setSSkills(list);
     }
 }

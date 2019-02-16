@@ -32,6 +32,7 @@ public class Artillery
     private float taperDist;
     @JsonInclude
     private float GMIdealRadius = 1f;
+    private float barrelDiameter;
 
     private LinkedHashMap<String, Shell> shells = new LinkedHashMap<>();
 
@@ -53,6 +54,7 @@ public class Artillery
             if (tempObject.containsKey("HitLocationArtillery")) {
                 Turret turret = mapper.convertValue(value, Turret.class);
                 turrets.add(turret);
+                this.barrelDiameter = turret.getBarrelDiameter();
 
                 if (turretTypes.containsKey(turret.getNumBarrels())) {
                     turretTypes.get(turret.getNumBarrels()).set(0, (int) turretTypes.get(turret.getNumBarrels()).get(0) + 1);

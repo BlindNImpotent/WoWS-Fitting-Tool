@@ -149,7 +149,7 @@ public class GPController extends ExceptionController
         if (StringUtils.isNotEmpty(index)) {
             model.addAttribute("index", index);
             model.addAttribute("dataIndex", 0);
-            skills = skills > 4294967295L ? 0 : skills;
+            skills = skills > maxBitsToInt ? 0 : skills;
 
             Ship ship = mapper.readValue(mapper.writeValueAsString(gpService.getShip(index, modules)), Ship.class);
             parserService.parseModules(ship, modules);

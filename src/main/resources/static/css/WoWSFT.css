@@ -392,7 +392,7 @@ button .tooltip {
     width: 200px;
     border-collapse: collapse;
     left: 60px;
-    top: 60px;
+    /*top: 60px;*/
 }
 
 button .tooltip tr td:first-of-type {
@@ -433,4 +433,9 @@ button .tooltip_desc {
 .panel_right[data-type=consumables] ul {
     display: inline-block;
     vertical-align: top;
+}
+
+.panel_left[data-type=crewSkills] td {
+    /*padding: 4px;*/
+    position: relative;
 }
