@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Google Tag Manager -->
+    <!--<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':-->
+            <!--new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],-->
+        <!--j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=-->
+        <!--'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);-->
+    <!--})(window,document,'script','dataLayer','GTM-5KDG7W6');</script>-->
+    <!-- End Google Tag Manager -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png?20190207}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/WoWSFT.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.6, user-scalable=yes" />
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script th:src="@{/js/jquery/jquery-3.3.1.min.js}"></script>
+    <title>WoWS Fitting Tool by Aesis</title>
+    <style>
+        #chart_div1 circle {
+            r: 1.5;
+        }
+        #chart_div2 circle {
+            r: 1.5;
+        }
+    </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<!--<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5KDG7W6"-->
+                  <!--height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>-->
+<!-- End Google Tag Manager (noscript) -->
+<div class="head">
+    <div class="top">
+        <div th:replace="top :: top"></div>
+    </div>
+</div>
+<main style="padding: 5px;">
+    <div id="shipSelector">
+        <select id="nationSelect">
+            <th:block th:each="nation : ${nations}">
+                <option th:text="${global.get(IDS + nation.key)}" th:value="${nation.key}"></option>
+            </th:block>
+        </select>
+        <select th:each="nation : ${nations}" th:id="${nation.key}" th:class="${'nationShipType ' + (nationStat.index == 0 ? 'show' : 'hide')}">
+            <th:block th:each="realShipType : ${nation.value}" th:if="${realShipType.key != 'AIRCARRIER'}">
+                <option th:text="${global.get(IDS + realShipType.key)}" th:value="${realShipType.key}"></option>
+            </th:block>
+        </select>
+        <th:block th:each="nation : ${nations}" th:id="${nation.key}" th:class="${'nationShipType ' + (nationStat.index == 0 ? 'show' : 'hide')}">
+            <select th:each="realShipType : ${nation.value}" th:if="${realShipType.key != 'AIRCARRIER'}" th:class="${'shipList ' + nation.key + ' ' + realShipType.key + ' ' + (nationStat.index == 0 and realShipTypeStat.index == 0 ? 'show' : 'hide')}">
+                <th:block th:each="shipType : ${realShipType.value}" th:if="${shipType.key != 'AIRCARRIER'}">
+                    <th:block th:each="tier : ${shipType.value}">
+                        <th:block th:each="ship : ${tier.value}">
+                            <option th:text="${global.get(IDS + ship.index.toUpperCase() + '_FULL')}"  th:attr="ship-id=${ship.index}"></option>
+                        </th:block>
+                    </th:block>
+                </th:block>
+            </select>
+        </th:block>
+        <th:block th:each="nation : ${nations}" th:id="${nation.key}" th:class="${'nationShipType ' + (nationStat.index == 0 ? 'show' : 'hide')}">
+            <th:block th:each="realShipType : ${nation.value}" th:if="${realShipType.key != 'AIRCARRIER'}" th:class="${'shipList ' + nation.key + ' ' + realShipType.key + ' ' + (nationStat.index == 0 and realShipTypeStat.index == 0 ? 'show' : 'hide')}">
+                <th:block th:each="shipType : ${realShipType.value}" th:if="${shipType.key != 'AIRCARRIER'}">
+                    <th:block th:each="tier : ${shipType.value}">
+                        <th:block th:each="ship : ${tier.value}">
+                            <select th:id="${ship.index}" th:class="${'artyList ' + (nationStat.index == 0 and shipTypeStat.index == 0 and shipStat.index == 0 ? 'show' : 'hide')}">
+                                <th:block th:each="arty : ${ship.arties}">
+                                    <option th:text="${global.get(IDS + arty.toUpperCase())}" th:attr="arty-id=${arty}"></option>
+                                </th:block>
+                            </select>
+                        </th:block>
+                    </th:block>
+                </th:block>
+            </th:block>
+        </th:block>
+        <button id="addSelect">Add to Comparison</button>
+        <button id="resetChart">Reset Chart</button>
+    </div>
+    <br />
+    <div id="chart_div1"></div>
+    <div id="chart_div2"></div>
+    <th:block th:include="bottom"></th:block>
+</main>
+<script th:inline="javascript">
+//    <![CDATA[
+    var index = 0;
+    var data1;
+    var materialChart1;
+    var chartDiv1 = document.getElementById('chart_div1');
+    var data2;
+    var materialChart2;
+    var chartDiv2 = document.getElementById('chart_div2');
+
+    $('#nationSelect').on('change', function () {
+        var selectedNation = $('#nationSelect option:selected').val();
+        var list1 = $('.nationShipType');
+        for (var i = 0; i < list1.length; i++) {
+            list1.eq(i).addClass('hide');
+        }
+        var $thisNation = $('#' + selectedNation);
+        $thisNation.removeClass('hide');
+        $thisNation.addClass('show');
+        changeShipType(selectedNation);
+    });
+
+    $('.nationShipType').on('change', function () {
+        var selectedNation = $('#nationSelect option:selected').val();
+        changeShipType(selectedNation);
+    });
+
+    $('.shipList').on('change', function () {
+        var selectedNation = $('#nationSelect option:selected').val();
+        var selectedShipType = $('#' + selectedNation + ' option:selected').val();
+        changeArty($('.' + selectedNation + '.' + selectedShipType + ' option:selected').attr('ship-id'));
+    });
+
+    function changeShipType(selectedNation) {
+        var selectedShipType = $('#' + selectedNation + ' option:selected').val();
+        var list1 = $('.shipList');
+        for (var i = 0; i < list1.length; i++) {
+            list1.eq(i).addClass('hide');
+        }
+        $('.' + selectedNation + '.' + selectedShipType).removeClass('hide');
+        changeArty($('.' + selectedNation + '.' + selectedShipType + ' option:selected').attr('ship-id'));
+    }
+
+    function changeArty(shipId) {
+        var list = $('.artyList.show');
+        for (var i = 0; i < list.length; i++) {
+            list.eq(i).removeClass('show');
+            list.eq(i).addClass('hide');
+        }
+        $('#' + shipId).removeClass('hide');
+        $('#' + shipId).addClass('show');
+    }
+
+    $('#addSelect').on('click', function () {
+        var selectedNation = $('#nationSelect option:selected').val();
+        var nation = selectedNation.replace(/ /g, '+');
+        var selectedShipType = $('#' + selectedNation + ' option:selected').val();
+        var shipType = selectedShipType.replace(/ /g, '+');
+        var selectedShip = $('.' + selectedNation + '.' + selectedShipType).val();
+        var ship = selectedShip.replace(/ /g, '+');
+        var shipId = $('.' + selectedNation + '.' + selectedShipType + ' option:selected').attr('ship-id');
+        var artyName = $('#' + shipId  + ' option:selected').val();
+        var artyId = $('#' + shipId  + ' option:selected').attr('arty-id');
+
+        var url = '/arty?index=' + shipId + '&artyId=' + artyId;
+
+        $.ajax({
+            url: url,
+            type: 'post',
+            success: function (serverData) {
+                if (serverData !== undefined && serverData !== null && serverData.apshell !== null) {
+                    var list1 = [];
+                    var list2 = [];
+                    for (var i = 0; i < serverData.apshell.distanceList.length; i++) {
+                        var dist = serverData.apshell.distanceList[i];
+
+                        if (dist > 30000) {
+                            break;
+                        }
+
+                        if (index === 0) {
+                            list1.push([dist, serverData.apshell.penetration[dist], serverData.apshell.impact[dist]]);
+                            list2.push([dist, serverData.apshell.penetration[dist], serverData.apshell.flightTime[dist]]);
+                        }
+                        else {
+                            var curIndex = index * 2;
+                            var tempList1 = [dist];
+                            var tempList2 = [dist];
+                            for (var j = 1; j <= curIndex; j++) {
+                                tempList1.push(null);
+                                tempList2.push(null);
+                            }
+                            tempList1.push(serverData.apshell.penetration[dist]);
+                            tempList1.push(serverData.apshell.impact[dist]);
+                            tempList2.push(serverData.apshell.penetration[dist]);
+                            tempList2.push(serverData.apshell.flightTime[dist]);
+                            list1.push(tempList1);
+                            list2.push(tempList2);
+                        }
+                    }
+                    drawMaterialChart(data1, materialChart1, chartDiv1, selectedShip + ' ' + artyName, list1, 'Penetration (mm)', 'Impact Angle (deg)');
+                    drawMaterialChart(data2, materialChart2, chartDiv2, selectedShip + ' ' + artyName, list2, 'Penetration (mm)', 'Flight Time (s)');
+                    index++;
+                }
+            }
+        });
+    });
+
+    function drawMaterialChart(data, materialChart, chartDiv, artyName, list, y1, y2) {
+        data.addColumn('number', artyName + '\n' + y1);
+        data.addColumn('number', artyName + '\n' + y2);
+        var tempSeries = {};
+        for (var i = 0; i <= index; i++) {
+            tempSeries[i * 2] = {
+                axis: 'y1',
+                targetAxisIndex: 0
+            };
+            tempSeries[i * 2 + 1] = {
+                axis: 'y2',
+                targetAxisIndex: 1
+            };
+        }
+        data.addRows(list);
+
+        materialChart = new google.charts.Scatter(chartDiv);
+
+        var materialOptions = {
+            chart: {
+                title: y1 + ' and ' + y2 + ' over distance'
+            },
+            // width: 800,
+            height: 600,
+            series: tempSeries,
+            axes: {
+                y: {
+                    'y1': {
+                        label: y1
+                    },
+                    'y2': {
+                        label: y2
+                    }
+                }
+            },
+            hAxis: {
+                format: '#,###',
+                viewWindow: {
+                    min: 0
+                }
+            },
+            vAxis: {
+                format: '#,###.###'
+            }
+        };
+        materialChart.draw(data, google.charts.Scatter.convertOptions(materialOptions));
+    }
+
+    function drawStuff() {
+        data1 = new google.visualization.DataTable();
+        data1.addColumn('number', 'Distance (m)');
+        data2 = new google.visualization.DataTable();
+        data2.addColumn('number', 'Distance (m)');
+    }
+
+    function doInit() {
+        google.charts.load('current', {'packages':['corechart', 'scatter']});
+        google.charts.setOnLoadCallback(drawStuff);
+    }
+
+    $().ready(function () {
+        doInit();
+    });
+
+    $('#resetChart').on('click', function () {
+        $('#chart_div1').html('');
+        $('#chart_div2').html('');
+        index = 0;
+        doInit();
+    });
+
+//    ]]>
+</script>
+</body>
+</html>

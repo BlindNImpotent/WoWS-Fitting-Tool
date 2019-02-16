@@ -34,13 +34,13 @@ public class PenetrationUtils
         float k = 0.5f * c_D * (float) Math.pow((D / 2f), 2f) * (float) Math.PI / W; // CONSTANTS TERMS OF DRAG
 
         List<Float> alpha = linspace((float) Math.PI * maxVertAngle / 360f * 2f); // ELEV. ANGLES 0...MAX
-        float dt = 0.05f; // TIME STEP
+        float dt = 0.1f; // TIME STEP
 
         LinkedHashMap<String, Float> penetration = new LinkedHashMap<>();
         LinkedHashMap<String, Float> flightTime = new LinkedHashMap<>();
         LinkedHashMap<String, Float> impactAngle = new LinkedHashMap<>();
-        LinkedHashMap<String, Float> launchAngle = new LinkedHashMap<>();
-        List<String> distanceList = new ArrayList<>();
+//        LinkedHashMap<String, Float> launchAngle = new LinkedHashMap<>();
+//        List<String> distanceList = new ArrayList<>();
 
         float maxDistCalc = 0f;
 
@@ -90,7 +90,7 @@ public class PenetrationUtils
 
             maxDistCalc = getMidAtY(tX_1, tY_1, tX_2, tY_2, 0f);
 
-            if (IA > ricochet || maxDistCalc > 35000f) {
+            if (IA > ricochet || maxDistCalc > 25000f) {
                 break;
             }
 
@@ -99,13 +99,13 @@ public class PenetrationUtils
             if (apShell) {
                 penetration.put(String.valueOf(maxDistCalc), (float) Math.cos(IA) * p_athit);
                 impactAngle.put(String.valueOf(maxDistCalc), IA * 180f / ((float) Math.PI));
-                distanceList.add(String.valueOf(maxDistCalc));
+//                distanceList.add(String.valueOf(maxDistCalc));
 //                launchAngle.put(String.valueOf(maxDistCalc), alpha.get(i));
             }
         }
 
         if (apShell) {
-            ArtyShell.setShell(flightTime, penetration, impactAngle, distanceList, null, minDistV, true);
+            ArtyShell.setShell(flightTime, penetration, impactAngle, null, null, minDistV, true);
         } else {
             ArtyShell.setShell(flightTime, null, null, null, null, minDistV, false);
         }

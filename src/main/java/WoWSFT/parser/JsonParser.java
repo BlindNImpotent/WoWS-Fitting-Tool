@@ -275,8 +275,11 @@ public class JsonParser
         shipsList.get(ship.getTypeinfo().getNation().toUpperCase()).get(ship.getRealShipTypeId().toUpperCase()).putIfAbsent(ship.getTypeinfo().getSpecies().toUpperCase(), new LinkedHashMap<>());
         shipsList.get(ship.getTypeinfo().getNation().toUpperCase()).get(ship.getRealShipTypeId().toUpperCase()).get(ship.getTypeinfo().getSpecies().toUpperCase()).putIfAbsent(ship.getLevel(), new ArrayList<>());
 
+        List<String> arties = new ArrayList<>();
+        ship.getShipUpgradeInfo().getComponents().get(artillery).forEach(arty -> arties.add(arty.getName()));
+
         shipsList.get(ship.getTypeinfo().getNation().toUpperCase()).get(ship.getRealShipTypeId().toUpperCase()).get(ship.getTypeinfo().getSpecies().toUpperCase()).get(ship.getLevel())
-                .add(new ShipIndex(ship.getName(), ship.getIndex(), "", ship.isResearch()));
+                .add(new ShipIndex(ship.getName(), ship.getIndex(), "", ship.isResearch(), arties));
     }
 
     private void sortShipsList()

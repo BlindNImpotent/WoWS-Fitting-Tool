@@ -5,6 +5,7 @@ import WoWSFT.model.gameparams.consumable.Consumable;
 import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
+import WoWSFT.model.gameparams.ship.component.artillery.Artillery;
 import WoWSFT.service.GPService;
 import WoWSFT.service.ParamService;
 import WoWSFT.service.ParserService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -190,5 +192,25 @@ public class GPController extends ExceptionController
         paramService.setParameters(ship, data ? gpService.getCommander(commander) : crew);
 
         return ship;
+    }
+
+    @RequestMapping (value = "/arty", method = RequestMethod.GET)
+    public String getArtyChart(Model model)
+    {
+        model.addAttribute("IDS", IDS);
+        model.addAttribute("global", global.get("en"));
+        model.addAttribute("nations", shipsList);
+
+        return "ArtyChart/acHome";
+    }
+
+    @ResponseBody
+    @RequestMapping (value = "/arty", method = RequestMethod.POST)
+    public Artillery test123(@RequestParam String index,
+                             @RequestParam String artyId)
+    {
+        return new Artillery();
+//        return ships.get(index);
+//        return gpService.setShipArty(nation, shipType, ship, shipId, artyId, new ArrayList<>(), true).getArtillery();
     }
 }

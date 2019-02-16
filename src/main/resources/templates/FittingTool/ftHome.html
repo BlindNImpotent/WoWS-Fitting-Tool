@@ -71,9 +71,8 @@
 </div>
 <div class="main">
     <th:block th:replace="Joint/shipSelect :: warshipStats"></th:block>
+    <div th:replace="bottom :: bottom"></div>
 </div>
-<br />
-<div th:replace="bottom :: bottom"></div>
 <script th:src="@{/js/angle/arty.js}"></script>
 <script th:src="@{/js/angle/torp.js}"></script>
 <script th:src="@{/js/common.js}"></script>

@@ -191,6 +191,16 @@ function callPage($ship)
     var sModules = $ship.find('.button_module.select');
     var sUpgrades = $ship.find('.button_upgrade.select');
     var sSkills = $ship.find('.button_skill.select');
+    var $toggle = $ship.find('.toggle');
+    var $toggleDecide = {};
+
+    for (var i = 0; i < $toggle.length; i++) {
+        if ($toggle.eq(i).hasClass('hide')) {
+            $toggleDecide[$toggle.eq(i).attr('class').replace('toggle', '').replace('hide', '').trim()] = 'hide';
+        } else {
+            $toggleDecide[$toggle.eq(i).attr('class').replace('toggle', '').trim()] = '';
+        }
+    }
 
     var modules = '';
     var mArrays = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -230,6 +240,16 @@ function callPage($ship)
             if (data.status === undefined) {
                 $('.info_box_inner.replace').remove();
                 $('.info_box').append(data);
+
+                for (var x in $toggleDecide) {
+                    var temp = '.toggle.' + x.toString();
+                    if ($toggleDecide[x] === 'hide') {
+                        $('[name=' + $shipIndex + ']').find(temp).addClass('hide')
+                    } else {
+                        $('[name=' + $shipIndex + ']').find(temp).removeClass('hide')
+                    }
+                }
+
                 history.replaceState({
                     id: $shipIndex
                 }, '', url);
