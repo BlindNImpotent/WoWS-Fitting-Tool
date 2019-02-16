@@ -391,6 +391,8 @@ button .tooltip {
     z-index: 1;
     width: 200px;
     border-collapse: collapse;
+    left: 60px;
+    top: 60px;
 }
 
 button .tooltip tr td:first-of-type {

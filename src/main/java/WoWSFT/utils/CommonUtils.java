@@ -1,10 +1,12 @@
 package WoWSFT.utils;
 
+import static WoWSFT.model.Constant.*;
+
 public class CommonUtils
 {
-    public static float getDistCoefWG(Number number)
+    public static Float getDistCoefWG(Number number)
     {
-        return Math.round(number.floatValue() / (100f / 3f) * 1000f);
+        return Math.round(number.floatValue() / distCoefWG.floatValue() * 1000f) / 1000f;
     }
 
     public static float getBonusCoef(Number number)

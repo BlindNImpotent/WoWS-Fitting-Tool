@@ -13,6 +13,8 @@ public class CustomProperties
 
     private String protocol;
 
+    private String env;
+
     public String getLanguage() {
         return language;
     }
@@ -30,6 +32,11 @@ public class CustomProperties
         return protocol;
     }
 
+    public String getEnv()
+    {
+        return env;
+    }
+
     public void setLanguage(String language) {
         this.language = language;
     }
@@ -45,5 +52,10 @@ public class CustomProperties
     public void setProtocol(String protocol)
     {
         this.protocol = protocol;
+    }
+
+    public void setEnv(String env)
+    {
+        this.env = env;
     }
 }

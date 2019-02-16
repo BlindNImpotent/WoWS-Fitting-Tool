@@ -1,5 +1,6 @@
 package WoWSFT.service;
 
+import WoWSFT.model.gameparams.commander.Commander;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgrade;
 import org.apache.commons.collections4.CollectionUtils;
@@ -105,5 +106,16 @@ public class ParserService
             }
             ship.setSUpgrades(list);
         }
+    }
+
+    public void parseSkills(Ship ship, long skill)
+    {
+        List<Integer> list = new ArrayList<>();
+        String bits = Long.toBinaryString(skill);
+
+        for (int i = bits.length() - 1; i >= 0; i--){
+            list.add(Character.getNumericValue(bits.charAt(i)));
+        }
+        ship.setSSkills(list);
     }
 }

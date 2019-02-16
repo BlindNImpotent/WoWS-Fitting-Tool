@@ -1,6 +1,7 @@
 package WoWSFT.service;
 
-import WoWSFT.model.gameparams.consumable.ConsumableSub;
+import WoWSFT.model.gameparams.commander.Commander;
+import WoWSFT.model.gameparams.commander.Skill;
 import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.utils.CommonUtils;
@@ -17,19 +18,39 @@ public class ParamService
 {
     private ObjectMapper mapper = new ObjectMapper();
 
-    public void setParameters(Ship ship)
+    public void setParameters(Ship ship, Commander crew)
     {
         for (int i = 0; i < ship.getSUpgrades().size(); i++) {
             if (ship.getSUpgrades().get(i) > 0) {
-                setUpgrades(ship, ship.getUpgrades().get(i).get(ship.getSUpgrades().get(i) - 1));
+                setUpgrades(ship, ship.getUpgrades().get(i).get(ship.getSUpgrades().get(i) - 1), TYPE_UPGRADE);
             }
         }
 
-        ship.getConsumables().forEach(slot -> slot.forEach(c -> c.getSubConsumables().forEach((key, sub) -> setConsumableSub(sub))));
+        for (int i = 0; i < ship.getSSkills().size(); i++) {
+            if (ship.getSSkills().get(i) == 1) {
+                setUpgrades(ship, crew.getCSkills().get(i / 8).get(i % 8), TYPE_SKILL);
+            }
+        }
+
+        ship.getConsumables().forEach(slot -> slot.forEach(c -> c.getSubConsumables().forEach((key, sub) -> sub.setBonus(getBonus(mapper.convertValue(sub, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
     }
 
-    private void setUpgrades(Ship ship, Modernization upgrade)
+    private void setUpgrades(Ship ship, Object modifier, String type)
     {
+        Modernization upgrade;
+        if (TYPE_UPGRADE.equalsIgnoreCase(type)) {
+            upgrade = (Modernization) modifier;
+        } else {
+            upgrade = new Modernization();
+        }
+
+        Skill skill;
+        if (TYPE_SKILL.equalsIgnoreCase(type)) {
+            skill = (Skill) modifier;
+        } else {
+            skill = new Skill();
+        }
+
         if (ship.getComponents().getArtillery().size() > 0) {
             ship.getComponents().getArtillery().forEach((c, val) -> {
                 val.setGMIdealRadius(val.getGMIdealRadius() * upgrade.getGmidealRadius());
@@ -147,13 +168,12 @@ public class ParamService
         }
     }
 
-    private void setConsumableSub(ConsumableSub sub)
+    protected LinkedHashMap<String, String> getBonus(LinkedHashMap<String, Object> copy)
     {
         LinkedHashMap<String, String> bonus = new LinkedHashMap<>();
-        LinkedHashMap<String, Object> copy = mapper.convertValue(sub, new TypeReference<LinkedHashMap<String, Object>>(){});
 
         copy.forEach((param, cVal) -> {
-            if ((param.contains("boostCoeff")) || speed.stream().anyMatch(param.toLowerCase()::contains)) {
+            if (speed.stream().anyMatch(param.toLowerCase()::contains)) {
                 bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal) + " kts");
             } else if (rate.stream().anyMatch(param.toLowerCase()::contains)) {
                 bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonus((float) cVal)) + " %");
@@ -164,7 +184,7 @@ public class ParamService
             } else if (noUnit.stream().anyMatch(param.toLowerCase()::contains)) {
                 bonus.put(MODIFIER + param.toUpperCase(), (float) cVal > 0 ? CommonUtils.replaceZero(cVal.toString()) : "∞");
             } else if (meter.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " m");
+                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getDistCoefWG((float) cVal) + " km");
             } else if (rateNoSym.stream().anyMatch(param.toLowerCase()::contains)) {
                 bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " %");
             } else if (time.stream().anyMatch(param.toLowerCase()::contains)) {
@@ -177,6 +197,6 @@ public class ParamService
                 bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal));
             }
         });
-        sub.setBonus(bonus);
+        return bonus;
     }
 }

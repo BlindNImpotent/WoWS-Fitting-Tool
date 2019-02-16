@@ -69,6 +69,9 @@ public class GPService
     private LinkedHashMap<String, Commander> commanders;
 
     @Autowired
+    private ParamService paramService;
+
+    @Autowired
     private ParserService parserService;
 
     private ObjectMapper mapper = new ObjectMapper();
@@ -125,9 +128,17 @@ public class GPService
         ship.setConsumables(consumablesList);
     }
 
+    @Cacheable(value = "commander", key = "#commander")
     public Commander getCommander(String commander) throws Exception
     {
-        return mapper.readValue(mapper.writeValueAsString(commanders.get("PAW001_DefaultCrew")), Commander.class);
+        if (commanders.get(commander) == null) {
+            commander = "PAW001";
+        }
+
+        Commander tempCommander = mapper.readValue(mapper.writeValueAsString(commanders.get(commander)), Commander.class);
+        tempCommander.getCSkills().forEach(r -> r.forEach(s -> s.setBonus(paramService.getBonus(mapper.convertValue(s, new TypeReference<LinkedHashMap<String, Object>>(){})))));
+
+        return tempCommander;
     }
 
     private void setShipAmmo(Ship ship) throws Exception

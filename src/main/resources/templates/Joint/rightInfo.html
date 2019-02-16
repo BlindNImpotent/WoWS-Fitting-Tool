@@ -179,7 +179,7 @@
                             <u th:text="${launcherType.value.get(0) + ' X ' + launcherType.key + ' ' + global.get(IDS + launcherType.value.get(1).toUpperCase())}"></u><br />
                         </th:block>
                     </td>
-                    <td th:text="${#numbers.formatDecimal(torpedoes.ammo.maxDist / 1000.0, 1, 2)} + ' km'"></td>
+                    <td th:text="${#numbers.formatDecimal(torpedoes.ammo.maxDist / (100.0 / 3.0), 1, 2)} + ' km'"></td>
                 </tr>
                 <tr class="toggle torps">
                     <td th:text="'Type'"></td>
@@ -389,7 +389,7 @@
                 </tr>
                 <tr class="subsystem switch" data-type="fire">
                     <td><u th:text="${global.get('IDS_HELP_FIRE')}"></u></td>
-                    <td th:text="${#numbers.formatInteger(hull.burnNodes[0][3], 1, 'COMMA')} + ' s'"></td>
+                    <td th:text="${#numbers.formatDecimal(hull.burnNodes[0][3], 1, 1)} + ' s'"></td>
                 </tr>
                 <tr class="toggle fire hide">
                     <td th:text="'- No. of fire'"></td>
@@ -405,15 +405,15 @@
                 </tr>
                 <tr class="subsystem switch" data-type="flood">
                     <td><u th:text="${global.get('IDS_HELP_FLOODING')}"></u></td>
-                    <td th:text="${1 >= hull.floodParams[0] * 3.0 ? #numbers.formatInteger(100.0 - hull.floodParams[0] * 3.0 * 100.0, 1, 'COMMA') : 0} + ' %'"></td>
+                    <td th:text="${#numbers.formatDecimal(hull.floodParams[2], 1, 1)} + ' s'"></td>
                 </tr>
                 <tr class="toggle flood hide">
                     <td th:text="'- Probability'"></td>
                     <td th:text="${#numbers.formatInteger(hull.floodParams[0] * 100.0, 1, 'COMMA')} + ' %'"></td>
                 </tr>
                 <tr class="toggle flood hide">
-                    <td th:text="'- Duration'"></td>
-                    <td th:text="${#numbers.formatDecimal(hull.floodParams[2], 1, 1)} + ' s'"></td>
+                    <td th:text="'- Reduction'"></td>
+                    <td th:text="${1 >= hull.floodParams[0] * 3.0 ? #numbers.formatInteger(100.0 - hull.floodParams[0] * 3.0 * 100.0, 1, 'COMMA') : 0} + ' %'"></td>
                 </tr>
                 <tr class="toggle flood hide">
                     <td th:text="'- DoT'"></td>
@@ -489,8 +489,7 @@
 <!--</div>-->
 <!--<div class="info_box_inner">-->
     <div th:if="${consumables != null}" class="panel_right" data-type="consumables">
-        <div class="switch" data-type="consumable"><strong th:text="${global.get('IDS_PRMP_ITEM_ABILITY')}"></strong></div>
-        <div class="toggle consumable hide">
+        <div>
             <ul th:each="slot : ${consumables}">
                 <li th:each="consumable : ${slot}">
                     <button class="button_consumable"

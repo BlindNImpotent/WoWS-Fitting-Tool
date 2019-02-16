@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -39,8 +40,7 @@ public class CustomFilter implements Filter
 
     private static HashSet<String> ignoreUri = new HashSet<>();
 
-    static
-    {
+    static {
         blockIP.add("52.71.155.178");
 
         ignoreUri.add("/favicon");
@@ -66,8 +66,8 @@ public class CustomFilter implements Filter
         String uri = request.getRequestURI();
         String queryString = request.getQueryString();
 
-        if ("https".equalsIgnoreCase(customProperties.getProtocol()) && url.contains("http://") && !url.contains("https://")) {
-            url = url.replace("http", "https") + (StringUtils.isNotEmpty(queryString) ? "?" + queryString : "");
+        if (isRelease() && !url.startsWith("https://")) {
+            url = url.replaceFirst(".*://", "https://") + (StringUtils.isNotEmpty(queryString) ? "?" + queryString : "");
             response.setContentType("text/html");
             response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
             response.setHeader("Location", url);
@@ -75,55 +75,40 @@ public class CustomFilter implements Filter
             return;
         }
 
-        if (loadFinish.get("loadFinish") == 0 && !request.getRequestURI().equalsIgnoreCase("/") && !isIgnore(request.getRequestURI())) {
+        if (loadFinish.get("loadFinish") == 0 && !"/".equalsIgnoreCase(uri) && isNotIgnore(uri)) {
             request.getRequestDispatcher("/").forward(request, response);
             return;
         }
 
-        if (StringUtils.isNotEmpty(queryString) && request.getQueryString().contains("/images/Icon/WoWSFT_Icon.png")) {
-            response.sendRedirect(request.getRequestURI() + "?" + queryString.replace("/images/Icon/WoWSFT_Icon.png", ""));
-            return;
-        }
+//        if (StringUtils.isNotEmpty(queryString) && request.getQueryString().contains("/images/Icon/WoWSFT_Icon.png")) {
+//            response.sendRedirect(request.getRequestURI() + "?" + queryString.replace("/images/Icon/WoWSFT_Icon.png", ""));
+//            return;
+//        }
 
         String ipAddress = getClientIPAddress(request);
 
-        if (request.getRequestURI().equalsIgnoreCase("/") && loadFinish.get("loadFinish") != 0)
-        {
-            if (!ipMap.containsKey(ipAddress))
-            {
+        if (isRelease() && isNotIgnore(request.getRequestURI()) && loadFinish.get("loadFinish") != 0) {
+            if (!ipMap.containsKey(ipAddress)) {
                 ipMap.put(ipAddress, new BlockIp(ipAddress));
-            }
-            else
-            {
-                if (ipMap.get(ipAddress).getBlockCount() < 3)
-                {
-                    if (ipMap.get(ipAddress).getCount() < 5)
-                    {
+            } else {
+                if (ipMap.get(ipAddress).getBlockCount() < 3) {
+                    if (ipMap.get(ipAddress).getCount() < 10) {
                         ipMap.get(ipAddress).doCount();
-                    }
-                    else
-                    {
-                        if (System.currentTimeMillis() - ipMap.get(ipAddress).getCreated().getTime() < 60 * 1000)
-                        {
-                            if (!blockIP.contains(ipAddress))
-                            {
+                    } else {
+                        if (System.currentTimeMillis() - ipMap.get(ipAddress).getCreated().getTime() < 15 * 1000) {
+                            if (!blockIP.contains(ipAddress)) {
                                 ipMap.get(ipAddress).setCreated(new Date()).setBlockCreated(new Date()).addBlockCount();
                                 blockIP.add(ipAddress);
 
                                 log.error("Blocked: " + ipAddress + ", count: " + ipMap.get(ipAddress).getBlockCount());
                             }
-                        }
-                        else
-                        {
+                        } else {
                             blockIP.remove(ipAddress);
                             ipMap.get(ipAddress).reset();
                         }
                     }
-                }
-                else
-                {
-                    if (System.currentTimeMillis() - ipMap.get(ipAddress).getBlockCreated().getTime() > 24 * 60 * 60 * 1000)
-                    {
+                } else {
+                    if (System.currentTimeMillis() - ipMap.get(ipAddress).getBlockCreated().getTime() > 60 * 60 * 1000) {
                         blockIP.remove(ipAddress);
                         ipMap.get(ipAddress).resetBlock();
                     }
@@ -131,8 +116,7 @@ public class CustomFilter implements Filter
             }
         }
 
-        if (blockIP.contains(ipAddress))
-        {
+        if (blockIP.contains(ipAddress)) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
@@ -146,9 +130,9 @@ public class CustomFilter implements Filter
 
     }
 
-    private boolean isIgnore(String address)
+    private boolean isNotIgnore(String address)
     {
-        return ignoreUri.stream().anyMatch(ig -> address.toLowerCase().contains(ig));
+        return ignoreUri.stream().noneMatch(ig -> address.toLowerCase().contains(ig));
     }
 
     private String getClientIPAddress(HttpServletRequest request) {
@@ -157,11 +141,15 @@ public class CustomFilter implements Filter
             ipAddress = request.getRemoteAddr();
         }
 
-        if (ipAddress.equalsIgnoreCase("0:0:0:0:0:0:0:1"))
-        {
+        if (ipAddress.equalsIgnoreCase("0:0:0:0:0:0:0:1")) {
             return "localhost";
         }
 
         return ipAddress;
+    }
+    
+    private boolean isRelease()
+    {
+        return "release".equalsIgnoreCase(customProperties.getEnv());
     }
 }

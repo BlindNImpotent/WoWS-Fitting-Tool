@@ -63,6 +63,7 @@ public class Ship
     private List<List<Modernization>> upgrades = new ArrayList<>();
     private int upgradesRow;
     private List<Integer> sUpgrades = new ArrayList<>();
+    private List<Integer> sSkills = new ArrayList<>();
     private LinkedHashMap<String, String> modules = new LinkedHashMap<>();
     private LinkedHashMap<String, Integer> positions = new LinkedHashMap<>();
 

@@ -45,9 +45,4 @@ public class TorpedoAmmo
     private float uwCritical;
     private float visibilityFactor;
     private float volume;
-
-    public float getMaxDist()
-    {
-        return CommonUtils.getDistCoefWG(maxDist);
-    }
 }

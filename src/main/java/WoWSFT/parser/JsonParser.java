@@ -135,13 +135,12 @@ public class JsonParser
                 }
             } else if (typeInfo.getType().equalsIgnoreCase("Ability") && !excludeShipNations.contains(typeInfo.getNation()) && !key.contains("Super")) {
                 Consumable consumable = mapper.convertValue(value, Consumable.class);
-//                consumable.getSubConsumables().forEach((sub, val) -> setBonusParams(key, mapper.convertValue(val, new TypeReference<LinkedHashMap<String, Object>>(){}), val.getBonus(), "consumable"));
                 consumables.put(key, consumable);
             } else if (typeInfo.getType().equalsIgnoreCase("Crew")) {
                 Commander commander = mapper.convertValue(value, Commander.class);
                 if (commander.getName().contains("DefaultCrew") || commander.getCrewPersonality().isUnique()) {
-                    commander.getCSkills().forEach(row -> row.forEach(skill -> setBonusParams(key, mapper.convertValue(skill, new TypeReference<LinkedHashMap<String, Object>>(){}), skill.getBonus(), "commander")));
-                    commanders.put(key, commander);
+                    commander.setIdentifier(IDS + commander.getCrewPersonality().getPersonName());
+                    commanders.put(commander.getIndex(), commander);
                 }
             } else {
                 gameParamsHM.put(key, value);
@@ -354,30 +353,6 @@ public class JsonParser
                     } else {
                         bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonusCoef((float) cVal)) + " %");
                     }
-                }
-            } else if ("consumable".equalsIgnoreCase(type) || "commander".equalsIgnoreCase(type)) {
-                if ((key.toLowerCase().contains("forsag") && param.contains("boostCoeff")) || speed.stream().anyMatch(param.toLowerCase()::contains)) {
-                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal) + " kts");
-                } else if (rate.stream().anyMatch(param.toLowerCase()::contains)) {
-                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonus((float) cVal)) + " %");
-                } else if (multiple.stream().anyMatch(param.toLowerCase()::contains)) {
-                    bonus.put(MODIFIER + param.toUpperCase(), "X " + CommonUtils.replaceZero(cVal.toString()));
-                } else if (coeff.stream().anyMatch(param.toLowerCase()::contains)) {
-                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonusCoef((float) cVal)) + " %");
-                } else if (noUnit.stream().anyMatch(param.toLowerCase()::contains)) {
-                    bonus.put(MODIFIER + param.toUpperCase(), (float) cVal > 0 ? CommonUtils.replaceZero(cVal.toString()) : "∞");
-                } else if (meter.stream().anyMatch(param.toLowerCase()::contains)) {
-                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " m");
-                } else if (rateNoSym.stream().anyMatch(param.toLowerCase()::contains)) {
-                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " %");
-                } else if (time.stream().anyMatch(param.toLowerCase()::contains)) {
-                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " s");
-                } else if (extraAngle.stream().anyMatch(param.toLowerCase()::contains)) {
-                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal) + " °");
-                } else if (angle.stream().anyMatch(param.toLowerCase()::contains)) {
-                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " °");
-                } else if (extra.stream().anyMatch(param.toLowerCase()::contains)) {
-                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal));
                 }
             }
         });

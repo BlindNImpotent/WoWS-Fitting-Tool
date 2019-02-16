@@ -31,6 +31,10 @@ import static WoWSFT.model.Constant.*;
 public class GPController extends ExceptionController
 {
     @Autowired
+    @Qualifier (value = "loadFinish")
+    private HashMap<String, Integer> loadFinish;
+
+    @Autowired
     @Qualifier (value = "gameParamsHM")
     private HashMap<String, Object> gameParamsHM;
 
@@ -114,9 +118,13 @@ public class GPController extends ExceptionController
         return gameParamsHM.get(index);
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     public String getHome(Model model)
     {
+        if (loadFinish.get("loadFinish") == 0) {
+            return "loadPage";
+        }
+
         model.addAttribute("notification", notification);
 
         return "home";
@@ -128,8 +136,8 @@ public class GPController extends ExceptionController
                              @RequestParam(required = false, defaultValue = "") String index,
                              @RequestParam(required = false, defaultValue = "") String modules,
                              @RequestParam(required = false, defaultValue = "") String upgrades,
-                             @RequestParam(required = false, defaultValue = "") String commander,
-                             @RequestParam(required = false, defaultValue = "") String skills) throws Exception
+                             @RequestParam(required = false, defaultValue = "PAW001") String commander,
+                             @RequestParam(required = false, defaultValue = "0") long skills) throws Exception
     {
         model.addAttribute("single", true);
         model.addAttribute("IDS", IDS);
@@ -141,14 +149,17 @@ public class GPController extends ExceptionController
         if (StringUtils.isNotEmpty(index)) {
             model.addAttribute("index", index);
             model.addAttribute("dataIndex", 0);
+            skills = skills > 4294967295L ? 0 : skills;
 
             Ship ship = mapper.readValue(mapper.writeValueAsString(gpService.getShip(index, modules)), Ship.class);
             parserService.parseModules(ship, modules);
             parserService.parseUpgrades(ship, upgrades);
-            paramService.setParameters(ship);
+            Commander crew = gpService.getCommander(commander);
+            parserService.parseSkills(ship, skills);
+            paramService.setParameters(ship, crew);
 
             model.addAttribute(TYPE_WARSHIP, ship);
-            model.addAttribute(TYPE_SKILL, gpService.getCommander(commander));
+            model.addAttribute(TYPE_SKILL, crew);
         }
 
         return "FittingTool/ftHome";

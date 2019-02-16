@@ -49,29 +49,4 @@ public class ConsumableSub
     private float workTime;
 
     private LinkedHashMap<String, String> bonus = new LinkedHashMap<>();
-
-    public float getDistanceToKill()
-    {
-        return CommonUtils.getDistCoefWG(distanceToKill);
-    }
-
-    public float getHeight()
-    {
-        return CommonUtils.getDistCoefWG(height);
-    }
-
-    public float getRadius()
-    {
-        return CommonUtils.getDistCoefWG(radius);
-    }
-
-    public float getDistShip()
-    {
-        return CommonUtils.getDistCoefWG(distShip);
-    }
-
-    public float setDistTorpedo()
-    {
-        return CommonUtils.getDistCoefWG(distTorpedo);
-    }
 }

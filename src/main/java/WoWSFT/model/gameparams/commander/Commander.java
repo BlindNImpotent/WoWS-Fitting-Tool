@@ -18,6 +18,7 @@ public class Commander
 {
     private CrewPersonality CrewPersonality;
     private long id;
+    private String identifier;
     private String index;
     private String name;
     private TypeInfo typeinfo;

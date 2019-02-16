@@ -89,7 +89,7 @@ $(document).on('click', '.button_consumable', function (e) {
     }
 });
 
-$(document).click(function () {
+$(document).on('click', function () {
     var $upgrades = $('.button_upgrade'),
         $consumables = $('.button_consumable');
 
