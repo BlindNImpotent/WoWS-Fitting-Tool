@@ -130,8 +130,8 @@ public class GPController extends ExceptionController
         return "home";
     }
 
-    @GetMapping(value = "/ship")
-    public String getWarship(Model model,
+    @RequestMapping(value = "/ship", method = { RequestMethod.GET, RequestMethod.POST })
+    public String getWarship(HttpServletRequest request, Model model,
                              @RequestParam(required = false, defaultValue = "en") String lang,
                              @RequestParam(required = false, defaultValue = "") String index,
                              @RequestParam(required = false, defaultValue = "") String modules,
@@ -141,7 +141,6 @@ public class GPController extends ExceptionController
     {
         model.addAttribute("single", true);
         model.addAttribute("IDS", IDS);
-        model.addAttribute("nations", shipsList);
 
         lang = globalLanguage.contains(lang) ? lang : "en";
         model.addAttribute("global", global.get(lang));
@@ -149,31 +148,47 @@ public class GPController extends ExceptionController
         if (StringUtils.isNotEmpty(index)) {
             model.addAttribute("index", index);
             model.addAttribute("dataIndex", 0);
+
+            Commander crew = gpService.getCommander(commander);
             skills = skills > maxBitsToInt ? 0 : skills;
 
-            Ship ship = mapper.readValue(mapper.writeValueAsString(gpService.getShip(index, modules)), Ship.class);
-            parserService.parseModules(ship, modules);
-            parserService.parseUpgrades(ship, upgrades);
-            Commander crew = gpService.getCommander(commander);
-            parserService.parseSkills(ship, skills);
-            paramService.setParameters(ship, crew);
-
+            Ship ship = getShip(index, modules, upgrades, skills, commander, crew, false);
             model.addAttribute(TYPE_WARSHIP, ship);
+
+            if ("post".equalsIgnoreCase(request.getMethod())) {
+                return "Joint/rightInfo :: rightInfo";
+            }
+
             model.addAttribute(TYPE_SKILL, crew);
         }
+        model.addAttribute("nations", shipsList);
 
         return "FittingTool/ftHome";
     }
 
     @ResponseBody
-    @PostMapping(value = "/ship")
+    @PostMapping(value = "/shipData")
     public Ship getWarshipData(@RequestParam(required = false, defaultValue = "en") String lang,
-                             @RequestParam(required = false, defaultValue = "") String index,
-                             @RequestParam(required = false, defaultValue = "") String modules) throws Exception
+                               @RequestParam(required = false, defaultValue = "") String index,
+                               @RequestParam(required = false, defaultValue = "") String modules,
+                               @RequestParam(required = false, defaultValue = "") String upgrades,
+                               @RequestParam(required = false, defaultValue = "PAW001") String commander,
+                               @RequestParam(required = false, defaultValue = "0") long skills) throws Exception
     {
         if (StringUtils.isNotEmpty(index)) {
-            return gpService.getShip(index, modules);
+            return getShip(index, modules, upgrades, skills, commander, null, true);
         }
         throw new NullPointerException();
+    }
+
+    private Ship getShip(String index, String modules, String upgrades, long skills, String commander, Commander crew, boolean data) throws Exception
+    {
+        Ship ship = mapper.readValue(mapper.writeValueAsString(gpService.getShip(index, modules)), Ship.class);
+        parserService.parseModules(ship, modules);
+        parserService.parseUpgrades(ship, upgrades);
+        parserService.parseSkills(ship, skills);
+        paramService.setParameters(ship, data ? gpService.getCommander(commander) : crew);
+
+        return ship;
     }
 }

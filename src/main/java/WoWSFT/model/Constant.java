@@ -65,5 +65,7 @@ public class Constant
     public static final HashSet<String> time = new HashSet<>(Arrays.asList("time"));
     public static final HashSet<String> speed = new HashSet<>(Arrays.asList("speedbonus"));
 
-    public static final long maxBitsToInt = 4294967295L;
+    public static final long maxBitsToInt = 3766517952L;
+
+    public static final String GENERAL_INTERNAL_ERROR = "GENERAL_INTERNAL_ERROR";
 }

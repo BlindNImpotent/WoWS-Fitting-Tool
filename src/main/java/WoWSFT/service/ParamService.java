@@ -41,8 +41,8 @@ public class ParamService
     {
         if (ship.getComponents().getArtillery().size() > 0) {
             ship.getComponents().getArtillery().forEach((c, val) -> {
-                val.setGMIdealRadius(val.getGMIdealRadius() * modifier.getGmidealRadius() * (val.getBarrelDiameter() > 0.139 ? modifier.getSmallGunRangeCoefficient() : 1f));
-                val.setMaxDist(val.getMaxDist() * modifier.getGmmaxDist());
+                val.setGMIdealRadius(val.getGMIdealRadius() * modifier.getGmidealRadius());
+                val.setMaxDist(val.getMaxDist() * modifier.getGmmaxDist() * (val.getBarrelDiameter() > 0.139 ? 1f : modifier.getSmallGunRangeCoefficient()));
                 val.getTurrets().forEach(t -> {
                     t.getRotationSpeed().set(0, (t.getRotationSpeed().get(0) + (t.getBarrelDiameter() > 0.139 ? modifier.getBigGunBonus() : modifier.getSmallGunBonus())) * modifier.getGmrotationSpeed());
                     t.setShotDelay(t.getShotDelay() * modifier.getGmshotDelay() * (t.getBarrelDiameter() > 0.139 ? 1f : modifier.getSmallGunReloadCoefficient()));
@@ -79,6 +79,10 @@ public class ParamService
                 val.getSecondaries().forEach((k, sec) -> {
                     sec.setShotDelay(sec.getShotDelay() * modifier.getGsshotDelay() * modifier.getSmallGunReloadCoefficient());
                     sec.setGSIdealRadius(sec.getGSIdealRadius() * modifier.getGsidealRadius() * (ship.getLevel() >= 7 ? modifier.getAtbaIdealRadiusHi() : modifier.getAtbaIdealRadiusLo()));
+                    if ("HE".equalsIgnoreCase(sec.getAmmoType())) {
+                        sec.setBurnProb(sec.getBurnProb() + modifier.getProbabilityBonus() + modifier.getChanceToSetOnFireBonusSmall());
+                        sec.setAlphaPiercingHE(sec.getAlphaPiercingHE() * modifier.getThresholdPenetrationCoefficientSmall());
+                    }
                 });
 
                 setAuraWithBubble(val.getAuraFar(), modifier);
@@ -92,7 +96,7 @@ public class ParamService
                 setAuraWithBubble(val.getAuraFar(), modifier);
                 setAuraWithBubble(val.getAuraMedium(), modifier);
                 setAuraWithoutBubble(val.getAuraNear(), modifier);
-                val.setPrioritySectorStrength(val.getPrioritySectorStrength() * modifier.getPrioritySectorStrengthCoefficient());
+                val.setPrioritySectorStrength((val.getPrioritySectorStrength() - 1.0f) * modifier.getPrioritySectorStrengthCoefficient() + 1.0f);
                 val.setPrioritySectorChangeDelay(val.getPrioritySectorChangeDelay() * modifier.getSectorSwitchDelayCoefficient());
             });
         }
@@ -103,6 +107,7 @@ public class ParamService
                     n.set(1, ((double) n.get(1)) * modifier.getBurnProb() * modifier.getProbabilityCoefficient());
                     n.set(3, ((double) n.get(3)) * modifier.getBurnTime() * modifier.getCritTimeCoefficient());
                 });
+                val.setBurnSizeSkill(modifier.getProbabilityCoefficient() != 1f ? 3 : val.getBurnSizeSkill());
                 val.getFloodParams().set(0, val.getFloodParams().get(0) * modifier.getFloodProb());
                 val.getFloodParams().set(2, val.getFloodParams().get(2) * modifier.getFloodTime() * modifier.getCritTimeCoefficient());
                 val.setRudderTime(val.getRudderTime() * modifier.getSgrudderTime());

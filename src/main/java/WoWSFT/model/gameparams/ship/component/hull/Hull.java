@@ -3,6 +3,7 @@ package WoWSFT.model.gameparams.ship.component.hull;
 import WoWSFT.config.WoWSFT;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.util.List;
@@ -61,4 +62,7 @@ public class Hull
     private float visibilityFactor;
     private float visibilityFactorByPlane;
     private float visibilityFactorInSmoke;
+
+    @JsonInclude
+    private int burnSizeSkill = 4;
 }

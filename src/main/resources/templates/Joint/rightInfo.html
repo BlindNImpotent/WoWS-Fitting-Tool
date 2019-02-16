@@ -10,7 +10,7 @@
             hull=${warship.modules.containsKey('hull') ? warship.components.hull.get(warship.modules.get('hull')) : null},
             engine=${warship.modules.containsKey('engine') ? warship.components.engine.get(warship.modules.get('engine')) : null},
             consumables=${warship.consumables}">
-<div class="info_box_inner">
+<div class="info_box_inner replace">
     <div th:if="${artillery != null}" class="panel_right" data-type="artillery">
         <div class="switch" data-type="arty">
             <strong th:text="${global.get('IDS_SHIP_PARAM_ARTILLERY')}"></strong>
@@ -221,7 +221,7 @@
         </table>
     </div>
 <!--</div>-->
-<!--<div class="info_box_inner">-->
+<!--<div class="info_box_inner replace">-->
     <div th:if="${atba != null}" class="panel_right" data-type="atba">
         <div class="switch" data-type="secondary">
             <strong th:text="${global.get('IDS_SHIP_PARAM_ATBA')}"></strong>
@@ -280,7 +280,7 @@
         </table>
     </div>
 </div>
-<div class="info_box_inner">
+<div class="info_box_inner replace">
     <div th:if="${airDefense != null
 
                 and (((airDefense.auraFar != null and (airDefense.auraFar.innerBubbleCount > 0 or airDefense.auraFar.outerBubbleCount > 0))
@@ -378,7 +378,8 @@
             </th:block>
         </table>
     </div>
-
+<!--</div>-->
+<!--<div class="info_box_inner replace">-->
     <div th:if="${hull != null}" class="panel_right" data-type="hull">
         <div class="switch" data-type="survive"><strong th:text="${global.get('IDS_SHIP_PARAM_DURABILITY')}"></strong></div>
         <table class="toggle survive">
@@ -391,15 +392,15 @@
                     <td><u th:text="${global.get('IDS_HELP_FIRE')}"></u></td>
                     <td th:text="${#numbers.formatDecimal(hull.burnNodes[0][3], 1, 1)} + ' s'"></td>
                 </tr>
-                <tr class="toggle fire hide">
+                <tr class="toggle fire">
                     <td th:text="'- No. of fire'"></td>
-                    <td th:text="${#numbers.formatInteger(hull.burnNodes.size(), 1, 'COMMA')}"></td>
+                    <td th:text="${#numbers.formatInteger((hull.burnNodes.size() > hull.burnSizeSkill ? hull.burnSizeSkill : hull.burnNodes.size()), 1, 'COMMA')}"></td>
                 </tr>
-                <tr class="toggle fire hide">
+                <tr class="toggle fire">
                     <td th:text="'- Reduction'"></td>
                     <td th:text="${#numbers.formatDecimal(100.0 - hull.burnNodes[0][1] * 100.0, 1, 1)} + ' %'"></td>
                 </tr>
-                <tr class="toggle fire hide">
+                <tr class="toggle fire">
                     <td th:text="'- DoT per fire'"></td>
                     <td th:text="${#numbers.formatInteger(hull.health * hull.burnNodes[0][2] / 100.0, 1, 'COMMA')} + ' dps'"></td>
                 </tr>
@@ -407,15 +408,15 @@
                     <td><u th:text="${global.get('IDS_HELP_FLOODING')}"></u></td>
                     <td th:text="${#numbers.formatDecimal(hull.floodParams[2], 1, 1)} + ' s'"></td>
                 </tr>
-                <tr class="toggle flood hide">
+                <tr class="toggle flood">
                     <td th:text="'- Probability'"></td>
                     <td th:text="${#numbers.formatInteger(hull.floodParams[0] * 100.0, 1, 'COMMA')} + ' %'"></td>
                 </tr>
-                <tr class="toggle flood hide">
+                <tr class="toggle flood">
                     <td th:text="'- Reduction'"></td>
                     <td th:text="${1 >= hull.floodParams[0] * 3.0 ? #numbers.formatInteger(100.0 - hull.floodParams[0] * 3.0 * 100.0, 1, 'COMMA') : 0} + ' %'"></td>
                 </tr>
-                <tr class="toggle flood hide">
+                <tr class="toggle flood">
                     <td th:text="'- DoT'"></td>
                     <td th:text="${#numbers.formatInteger(hull.health * hull.floodParams[1] / 100.0, 1, 'COMMA')} + ' dps'"></td>
                 </tr>
@@ -489,33 +490,31 @@
 <!--</div>-->
 <!--<div class="info_box_inner">-->
     <div th:if="${consumables != null}" class="panel_right" data-type="consumables">
-        <div>
-            <ul th:each="slot : ${consumables}">
-                <li th:each="consumable : ${slot}">
-                    <button class="button_consumable"
-                            th:classappend="${consumableStat.index == 0 ? 'select' : 'hide'}
+        <ul th:each="slot : ${consumables}">
+            <li th:each="consumable : ${slot}">
+                <button class="button_consumable"
+                        th:classappend="${consumableStat.index == 0 ? 'select' : 'hide'}
                                     + ${#lists.contains(warship.shipUpgradeInfo.components.get('hull').get(warship.positions.get('hull') - 1).disabledAbilities, consumable.name) ? ' disable' : ''}"
-                            th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">
-                        <img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/>
-                        <table class="tooltip">
-                            <tbody>
-                            <tr><td colspan="2"><th:block th:utext="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase())}"></th:block></td></tr>
-                            <tr><td colspan="2">&nbsp;</td></tr>
-                            <tr><td colspan="2"><th:block th:utext="${#strings.replace(global.get(IDS + 'DOCK_CONSUME_DESCRIPTION_' + consumable.name.toUpperCase()), '&#10', '<br />')}"></th:block></td></tr>
-                            <th:block th:each="sub : ${consumable.subConsumables}">
-                                <th:block th:each="b : ${sub.value.bonus}" th:with="desc=${global.get(IDS + b.key)}">
-                                    <tr th:if="${desc != null}" class="tooltip_desc">
-                                        <td th:utext="${desc}"></td>
-                                        <td th:utext="${b.value}"></td>
-                                    </tr>
-                                </th:block>
+                        th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">
+                    <img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/>
+                    <table class="tooltip">
+                        <tbody>
+                        <tr><td colspan="2"><th:block th:utext="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase())}"></th:block></td></tr>
+                        <tr><td colspan="2">&nbsp;</td></tr>
+                        <tr><td colspan="2"><th:block th:utext="${#strings.replace(global.get(IDS + 'DOCK_CONSUME_DESCRIPTION_' + consumable.name.toUpperCase()), '&#10', '<br />')}"></th:block></td></tr>
+                        <th:block th:each="sub : ${consumable.subConsumables}">
+                            <th:block th:each="b : ${sub.value.bonus}" th:with="desc=${global.get(IDS + b.key)}">
+                                <tr th:if="${desc != null}" class="tooltip_desc">
+                                    <td th:utext="${desc}"></td>
+                                    <td th:utext="${b.value}"></td>
+                                </tr>
                             </th:block>
-                            </tbody>
-                        </table>
-                    </button>
-                </li>
-            </ul>
-        </div>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </button>
+            </li>
+        </ul>
     </div>
 </div>
 </th:block>

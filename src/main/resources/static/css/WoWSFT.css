@@ -3,6 +3,19 @@
    License: none (public domain)
 */
 
+html {
+    /*!*General*!*/
+    /*transform: translate(-5%, -5%) scale(0.9, 0.9);*/
+    /*!*Firefox*!*/
+    /*-moz-transform: translate(-5%, -5%) scale(0.9, 0.9);*/
+    /*!*Microsoft Internet Explorer*!*/
+    /*-ms-transform: translate(-5%, -5%) scale(0.9, 0.9);*/
+    /*!*Chrome, Safari*!*/
+    /*-webkit-transform: translate(-5%, -5%) scale(0.9, 0.9);*/
+    /*!*Opera*!*/
+    /*-o-transform: translate(-5%, -5%) scale(0.9, 0.9);*/
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -21,7 +34,6 @@ time, mark, audio, video, button {
     border: 0;
     font-size: 100%;
     vertical-align: baseline;
-    /*background: inherit;*/
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -49,8 +61,8 @@ body {
     line-height: 20px;
     font-size: 14px;
     box-sizing: border-box;
-    min-width: 1408px;
-    max-width: 1408px;
+    min-width: 1366px;
+    max-width: 1600px;
     background: white;
     color: black;
     text-align: center;
@@ -386,13 +398,13 @@ button img {
 }
 
 button .tooltip {
-    visibility: hidden;
+    display: none;
     position: absolute;
     z-index: 1;
     width: 200px;
     border-collapse: collapse;
     left: 60px;
-    /*top: 60px;*/
+    top: 60px;
 }
 
 button .tooltip tr td:first-of-type {
@@ -409,7 +421,7 @@ button .tooltip tr td:nth-of-type(2) {
 }
 
 button:hover > .tooltip {
-    visibility: visible;
+    display: inline-table;
     background: white;
     opacity: 0.8;
     color: black;

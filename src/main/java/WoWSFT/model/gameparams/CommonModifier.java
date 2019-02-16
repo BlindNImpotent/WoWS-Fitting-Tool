@@ -126,13 +126,13 @@ public class CommonModifier
     private float atbaIdealRadiusLo = 1f;
     private float fightersAmmunitionCoefficient = 1f;
     private float fightersEfficiencyCoefficient = 1f;
-    private float probabilityBonus = 1f;
+    private float probabilityBonus;
     private float probabilityCoefficient = 1f;
     private float switchAmmoReloadCoef = 1f;
 
-    private float chanceToSetOnFireBonus = 1f;
-    private float chanceToSetOnFireBonusBig = 1f;
-    private float chanceToSetOnFireBonusSmall = 1f;
+    private float chanceToSetOnFireBonus;
+    private float chanceToSetOnFireBonusBig;
+    private float chanceToSetOnFireBonusSmall;
     private float thresholdPenetrationCoefficient = 1f;
     private float thresholdPenetrationCoefficientBig = 1f;
     private float thresholdPenetrationCoefficientSmall = 1f;

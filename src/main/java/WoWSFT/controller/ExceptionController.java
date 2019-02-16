@@ -2,36 +2,33 @@ package WoWSFT.controller;
 
 import WoWSFT.config.CustomMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import static WoWSFT.model.Constant.GENERAL_INTERNAL_ERROR;
 
 @Slf4j
 public class ExceptionController
 {
-//    @ExceptionHandler(IndexOutOfBoundsException.class)
-//    public void doIndexError(Throwable t, HttpServletRequest request, HttpServletResponse response) throws IOException
-//    {
-//        if (request.getMethod().equalsIgnoreCase("get")) {
-//            response.sendRedirect(request.getRequestURI());
-//        }
-//        response.setContentType("application/json;charset=UTF-8");
-//        response.getWriter().write("");
-//    }
-//
-//    @ResponseBody
-//    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    @ExceptionHandler({NullPointerException.class, IndexOutOfBoundsException.class})
     public CustomMessage sendError(Throwable t, HttpServletRequest request)
     {
-        if (t instanceof NullPointerException) {
-            log.info("Null Point");
-        } else {
-            log.error(t.getLocalizedMessage(), t);
-        }
+        log.info(t.getLocalizedMessage(), request.getRequestURL().toString() + (StringUtils.isNotEmpty(request.getQueryString()) ? "?" + request.getQueryString() : ""));
 
-        return new CustomMessage("500", t.toString());
+        return new CustomMessage("1001", GENERAL_INTERNAL_ERROR);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(Exception.class)
+    public CustomMessage otherErrors(Throwable t, HttpServletRequest request)
+    {
+        log.info(request.getRequestURL().toString() + (StringUtils.isNotEmpty(request.getQueryString()) ? "?" + request.getQueryString() : ""));
+        log.error(t.getLocalizedMessage(), t);
+
+        return new CustomMessage("1001", GENERAL_INTERNAL_ERROR);
     }
 }

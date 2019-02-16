@@ -23,7 +23,7 @@
                                     <th:block th:with="mods=${warship.shipUpgradeInfo.components.get(col.key).?[position == __${i}__]}">
                                         <td th:each="module : ${mods}">
                                             <button th:class="'button_module'" th:attr="data-index=${colStat.index}, data-type=${module.ucTypeShort}, data-position=${module.position},
-                                                    data-prev-type=${module.prevType}, data-prev-position=${module.prevPosition}"
+                                                    data-prev-type=${module.prevType}, data-prev-position=${module.prevPosition}, data-temp-position=${moduleStat.index}"
                                                     th:classappend="${(warship.modules.size() > 0 and module.components.get(module.ucTypeShort).contains(warship.modules.get(module.ucTypeShort))) or (warship.modules.size() == 0 and module.position == 1) ? 'select' : ''}">
                                                 <img th:src="${module.image}" /><br />
                                                 <span th:text="${global.get(IDS + module.name.toUpperCase())}"></span>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="panel_left" data-type="crewSkills">
                     <div class="switch" data-type="skills">
-                        <strong th:text="${global.get('IDS_CREW_PERKS')} + ' : '"></strong><strong class="points">0</strong><strong> / 19</strong>
+                        <strong th:text="${global.get('IDS_CREW_PERKS')} + ' : '"></strong><strong class="points" th:text="${warship.sSkillPts}"></strong><strong> / 19</strong>
                     </div>
                     <table class="toggle skills">
                         <tbody>

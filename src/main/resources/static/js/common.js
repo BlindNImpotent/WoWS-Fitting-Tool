@@ -29,6 +29,10 @@ $(document).on('click', '.button_module', function(){
         $all = $ship.find('.button_module.select'),
         $modules = $ship.find('.button_module.select[data-index=' + $index + ']');
 
+    if ($this.hasClass('select')) {
+        return false;
+    }
+
     for (var i = 0; i < $all.length; i++) {
         var $cur = $all.eq(i),
             $curType = $cur.attr('data-type'),
@@ -46,9 +50,7 @@ $(document).on('click', '.button_module', function(){
     }
     $this.addClass('select');
 
-    warship.positions[$type] = $pos;
-
-    // setNewStats($ship);
+    delayCall($ship);
 });
 
 $(document).on('click', '.button_upgrade', function (e) {
@@ -65,6 +67,7 @@ $(document).on('click', '.button_upgrade', function (e) {
         }
         $this.addClass('select');
         $this.removeClass('hide');
+        delayCall($ship);
     } else {
         $upgrades.removeClass('hide');
     }
@@ -107,7 +110,6 @@ $(document).on('click', function () {
 });
 
 var $maxSpts = 19;
-
 $(document).on('click', '.button_skill', function () {
     var $this = $(this),
         $index = parseInt($this.attr('data-index')),
@@ -153,6 +155,8 @@ $(document).on('click', '.button_skill', function () {
     }
 
     $pts.text($totalSpts);
+
+    delayCall($ship);
 });
 
 $(document).on('click', '.switch', function (e) {
@@ -170,3 +174,71 @@ $(document).on('click', '.switch', function (e) {
         }
     }
 });
+
+var waitTime = 1500;
+var timer = [];
+function delayCall($ship)
+{
+    var index = $ship.attr('data-ship-index');
+    window.clearTimeout(timer[index]);
+    timer[index] = window.setTimeout(function() {
+        callPage($ship);
+    }, waitTime);
+}
+
+function callPage($ship)
+{
+    var sModules = $ship.find('.button_module.select');
+    var sUpgrades = $ship.find('.button_upgrade.select');
+    var sSkills = $ship.find('.button_skill.select');
+
+    var modules = '';
+    var mArrays = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    for (var i = 0; i < sModules.length; i++) {
+        mArrays[sModules.eq(i).attr('data-index')] = parseInt(sModules.eq(i).attr('data-position')) + parseInt(sModules.eq(i).attr('data-temp-position'));
+    }
+    for (var x in mArrays) {
+        modules += (mArrays[x] === 0 ? '' : mArrays[x].toString());
+    }
+
+    var upgrades = '';
+    var uArrays = [0, 0, 0, 0, 0, 0];
+    for (var i = 0; i < sUpgrades.length; i++) {
+        uArrays[sUpgrades.eq(i).attr('data-index')] = parseInt(sUpgrades.eq(i).attr('data-position'));
+    }
+    for (var x in uArrays) {
+        upgrades += (uArrays[x] === 0 ? '0' : uArrays[x].toString());
+    }
+
+    var skills = 0;
+    for (var i = 0; i < sSkills.length; i++) {
+        var pos = parseInt(sSkills.eq(i).attr('data-index')) * 8 + parseInt(sSkills.eq(i).attr('data-position'));
+        skills += Math.pow(2, pos);
+    }
+
+    var $shipIndex = $ship.attr('name');
+    var url = '/ship?index=' + $shipIndex
+            + (modules !== '' ? '&modules=' + modules : '')
+            + (upgrades.replace('0') !== '' ? '&upgrades=' + upgrades : '')
+            + (skills > 0 ? '&skills=' + skills.toString() : '')
+            + '&lang=' + lang;
+
+    $.ajax({
+        url: url,
+        type: 'post',
+        success: function (data) {
+            if (data.status === undefined) {
+                $('.info_box_inner.replace').remove();
+                $('.info_box').append(data);
+                history.replaceState({
+                    id: $shipIndex
+                }, '', url);
+            } else {
+                console.log(data);
+            }
+        },
+        error: function (data) {
+            console.log(data)
+        }
+    })
+}
