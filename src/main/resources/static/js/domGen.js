@@ -5,7 +5,7 @@ function generateAll()
         left = getLeft();
 
     html = html +
-        '<div class="ship" name="' + warship.index + '" data-ship-index="0">' +
+        '<div class="ship" data-ship-index="' + warship.index + '" data-ship-position="0">' +
             name +
         '   <div class="info_box">' +
                 left +

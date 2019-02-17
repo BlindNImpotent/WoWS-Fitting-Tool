@@ -5,14 +5,10 @@ import WoWSFT.model.gameparams.consumable.Consumable;
 import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
-import WoWSFT.model.gameparams.ship.component.artillery.Artillery;
 import WoWSFT.model.gameparams.ship.component.artillery.Shell;
-import WoWSFT.model.gameparams.ship.component.atba.Secondary;
-import WoWSFT.model.gameparams.ship.component.torpedo.TorpedoAmmo;
 import WoWSFT.service.GPService;
 import WoWSFT.service.ParamService;
 import WoWSFT.service.ParserService;
-import WoWSFT.utils.PenetrationUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,6 +135,7 @@ public class GPController extends ExceptionController
                              @RequestParam(required = false, defaultValue = "") String index,
                              @RequestParam(required = false, defaultValue = "") String modules,
                              @RequestParam(required = false, defaultValue = "") String upgrades,
+                             @RequestParam(required = false, defaultValue = "") String consumables,
                              @RequestParam(required = false, defaultValue = "PAW001") String commander,
                              @RequestParam(required = false, defaultValue = "0") long skills) throws Exception
     {
@@ -146,16 +143,16 @@ public class GPController extends ExceptionController
         model.addAttribute("IDS", IDS);
 
         lang = globalLanguage.contains(lang) ? lang : "en";
-        model.addAttribute("global", global.get(lang));
+        model.addAttribute("global", global.get(lang.toLowerCase()));
 
         if (StringUtils.isNotEmpty(index)) {
-            model.addAttribute("index", index);
+            model.addAttribute("index", index.toUpperCase());
             model.addAttribute("dataIndex", 0);
 
-            Commander crew = gpService.getCommander(commander);
+            Commander crew = gpService.getCommander(commander.toUpperCase());
             skills = skills > maxBitsToInt ? 0 : skills;
 
-            Ship ship = getShip(index, modules, upgrades, skills, commander, crew, false);
+            Ship ship = getShip(index.toUpperCase(), modules, upgrades, consumables, skills, commander.toUpperCase(), crew, false);
             model.addAttribute(TYPE_WARSHIP, ship);
 
             if ("post".equalsIgnoreCase(request.getMethod())) {
@@ -175,20 +172,30 @@ public class GPController extends ExceptionController
                                @RequestParam(required = false, defaultValue = "") String index,
                                @RequestParam(required = false, defaultValue = "") String modules,
                                @RequestParam(required = false, defaultValue = "") String upgrades,
+                               @RequestParam(required = false, defaultValue = "") String consumables,
                                @RequestParam(required = false, defaultValue = "PAW001") String commander,
                                @RequestParam(required = false, defaultValue = "0") long skills) throws Exception
     {
         if (StringUtils.isNotEmpty(index)) {
-            return getShip(index, modules, upgrades, skills, commander, null, true);
+            return getShip(index.toUpperCase(), modules, upgrades, consumables, skills, commander.toUpperCase(), null, true);
         }
         throw new NullPointerException();
     }
 
-    private Ship getShip(String index, String modules, String upgrades, long skills, String commander, Commander crew, boolean data) throws Exception
+    @GetMapping(value = "/WarshipStats")
+    public String legacyUrl(HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+        String url = parserService.parseLegacyUrl(request);
+
+        return "redirect:" + url;
+    }
+
+    private Ship getShip(String index, String modules, String upgrades, String consumables, long skills, String commander, Commander crew, boolean data) throws Exception
     {
         Ship ship = mapper.readValue(mapper.writeValueAsString(gpService.getShip(index)), Ship.class);
         parserService.parseModules(ship, modules);
         gpService.setShipAmmo(ship);
+        parserService.parseConsumables(ship, consumables);
         parserService.parseUpgrades(ship, upgrades);
         parserService.parseSkills(ship, skills);
         paramService.setParameters(ship, data ? gpService.getCommander(commander) : crew);
@@ -208,11 +215,9 @@ public class GPController extends ExceptionController
 
     @ResponseBody
     @RequestMapping (value = "/arty", method = RequestMethod.POST)
-    public Artillery test123(@RequestParam String index,
-                             @RequestParam String artyId)
+    public Shell test123(@RequestParam String index,
+                             @RequestParam String artyId) throws Exception
     {
-        return new Artillery();
-//        return ships.get(index);
-//        return gpService.setShipArty(nation, shipType, ship, shipId, artyId, new ArrayList<>(), true).getArtillery();
+        return gpService.getArtyAmmoOnly(index, artyId);
     }
 }

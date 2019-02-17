@@ -43,6 +43,7 @@ public class PenetrationUtils
         List<String> distanceList = new ArrayList<>();
 
         float maxDistCalc = 0f;
+        float prevMax = 0f;
 
         // for each alpha angle do:
         for (int i = 0; i < alpha.size(); i++) {
@@ -90,9 +91,10 @@ public class PenetrationUtils
 
             maxDistCalc = getMidAtY(tX_1, tY_1, tX_2, tY_2, 0f);
 
-            if (IA > ricochet || maxDistCalc > 25000f) {
+            if (IA > ricochet || prevMax > maxDistCalc || maxDistCalc > maxDist * 1.5f || maxDistCalc > 25000f) {
                 break;
             }
+            prevMax = maxDistCalc;
 
             flightTime.put(String.valueOf(maxDistCalc), t / 3f);
 

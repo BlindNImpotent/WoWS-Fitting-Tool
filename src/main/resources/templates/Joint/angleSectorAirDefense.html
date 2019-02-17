@@ -8,7 +8,7 @@
         $(function () {
             var curIndex = [[${dataIndex}]];
             var airDefenseString = [[${warship.modules['airDefense']}]];
-            drawAirDefense($('[data-ship-index=' + curIndex + ']'), [[${warship.components.airDefense}]][airDefenseString])
+            drawAirDefense($('[data-ship-position=' + curIndex + ']'), [[${warship.components.airDefense}]][airDefenseString])
         });
 
         //    ]]>

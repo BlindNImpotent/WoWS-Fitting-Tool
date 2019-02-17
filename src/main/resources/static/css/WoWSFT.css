@@ -296,11 +296,12 @@ nav ul li:active > ul {
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
-    text-overflow: ellipsis;
+    /*text-overflow: ellipsis;*/
     overflow: hidden;
     white-space: normal;
     margin: 2px;
     z-index: 2;
+    padding: 0 2px;
     /*padding: 2px;*/
     /*margin: 1px;*/
 }
@@ -322,6 +323,10 @@ nav ul li:active > ul {
 
 button img {
     width: 30px;
+}
+
+td {
+    vertical-align: middle;
 }
 
 .select {
@@ -445,4 +450,8 @@ button .tooltip_desc {
 .panel_left[data-type=crewSkills] td {
     /*padding: 4px;*/
     position: relative;
+}
+
+#chart_div1 circle, #chart_div2 circle {
+    r: 3
 }

@@ -8,6 +8,7 @@ import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class ShipUpgrade
             if (key.equalsIgnoreCase(fireControl)) {
                 name = suo;
             }
+            Collections.sort(list);
             components.put(name, list);
         });
     }

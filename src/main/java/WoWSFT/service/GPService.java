@@ -6,12 +6,10 @@ import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
 import WoWSFT.model.gameparams.ship.abilities.AbilitySlot;
-import WoWSFT.model.gameparams.ship.component.artillery.Artillery;
 import WoWSFT.model.gameparams.ship.component.artillery.Shell;
-import WoWSFT.model.gameparams.ship.component.atba.ATBA;
 import WoWSFT.model.gameparams.ship.component.atba.Secondary;
-import WoWSFT.model.gameparams.ship.component.torpedo.Torpedo;
 import WoWSFT.model.gameparams.ship.component.torpedo.TorpedoAmmo;
+import WoWSFT.model.gameparams.ship.upgrades.ShipUpgrade;
 import WoWSFT.utils.PenetrationUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -161,5 +159,30 @@ public class GPService
                 secondary.getValue().setBurnProb(ammo.getBurnProb());
             }
         }
+    }
+
+    public Shell getArtyAmmoOnly(String index, String artyId) throws Exception
+    {
+        if (ships.get(index) != null && ships.get(index).getShipUpgradeInfo().getComponents().get(artillery).size() > 0) {
+            for (ShipUpgrade su : ships.get(index).getShipUpgradeInfo().getComponents().get(artillery)) {
+                if (su.getName().equalsIgnoreCase(artyId)) {
+                    String tempId = su.getComponents().get(artillery).get(su.getComponents().get(artillery).size() - 1);
+
+                    for (String ammo : ships.get(index).getComponents().getArtillery().get(tempId).getTurrets().get(0).getAmmoList()) {
+                        Shell shell = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ammo)), Shell.class);
+                        if ("AP".equalsIgnoreCase(shell.getAmmoType())) {
+                            PenetrationUtils.setPenetration(shell,
+                                    ships.get(index).getComponents().getArtillery().get(tempId).getTurrets().get(0).getVertSector().get(1),
+                                    ships.get(index).getComponents().getArtillery().get(tempId).getMinDistV(),
+                                    ships.get(index).getComponents().getArtillery().get(tempId).getMaxDist(),
+                                    "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
+
+                            return shell;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

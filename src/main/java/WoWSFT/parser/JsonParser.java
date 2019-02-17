@@ -163,6 +163,7 @@ public class JsonParser
         setRows(ship);
 
         ships.put(ship.getIndex(), ship);
+        nameToId.put(global.get("en").get(IDS + ship.getIndex().toUpperCase() + "_FULL").toString(), ship.getIndex().toUpperCase());
 
         addToShipsList(ship);
     }

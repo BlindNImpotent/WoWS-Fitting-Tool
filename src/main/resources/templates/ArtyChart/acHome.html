@@ -13,17 +13,9 @@
     <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png?20190207}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/WoWSFT.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=0.6, user-scalable=yes" />
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script th:src="@{/js/jquery/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <title>WoWS Fitting Tool by Aesis</title>
-    <style>
-        #chart_div1 circle {
-            r: 1.5;
-        }
-        #chart_div2 circle {
-            r: 1.5;
-        }
-    </style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -91,7 +83,13 @@
     var materialChart2;
     var chartDiv2 = document.getElementById('chart_div2');
 
-    $('#nationSelect').on('change', function () {
+    $(function () {
+        doInit();
+        nationChange();
+    });
+
+    function nationChange()
+    {
         var selectedNation = $('#nationSelect option:selected').val();
         var list1 = $('.nationShipType');
         for (var i = 0; i < list1.length; i++) {
@@ -101,6 +99,10 @@
         $thisNation.removeClass('hide');
         $thisNation.addClass('show');
         changeShipType(selectedNation);
+    }
+
+    $('#nationSelect').on('change', function () {
+        nationChange();
     });
 
     $('.nationShipType').on('change', function () {
@@ -148,20 +150,20 @@
             url: url,
             type: 'post',
             success: function (data) {
-                var serverData = data.status === '200' ? data.result : null;
-                if (serverData !== null && serverData.apshell !== null) {
+                var apshell = data.status === '200' ? data.result : null;
+                if (apshell !== null) {
                     var list1 = [];
                     var list2 = [];
-                    for (var i = 0; i < serverData.apshell.distanceList.length; i++) {
-                        var dist = serverData.apshell.distanceList[i];
+                    for (var i = 0; i < apshell.distanceList.length; i++) {
+                        var dist = Number(apshell.distanceList[i]);
 
                         if (dist > 25000) {
                             break;
                         }
 
                         if (index === 0) {
-                            list1.push([dist, serverData.apshell.penetration[dist], serverData.apshell.impact[dist]]);
-                            list2.push([dist, serverData.apshell.penetration[dist], serverData.apshell.flightTime[dist]]);
+                            list1.push([dist, apshell.penetration[dist], apshell.impact[dist]]);
+                            list2.push([dist, apshell.penetration[dist], apshell.flightTime[dist]]);
                         } else {
                             var curIndex = index * 2;
                             var tempList1 = [dist];
@@ -170,10 +172,10 @@
                                 tempList1.push(null);
                                 tempList2.push(null);
                             }
-                            tempList1.push(serverData.apshell.penetration[dist]);
-                            tempList1.push(serverData.apshell.impact[dist]);
-                            tempList2.push(serverData.apshell.penetration[dist]);
-                            tempList2.push(serverData.apshell.flightTime[dist]);
+                            tempList1.push(apshell.penetration[dist]);
+                            tempList1.push(apshell.impact[dist]);
+                            tempList2.push(apshell.penetration[dist]);
+                            tempList2.push(apshell.flightTime[dist]);
                             list1.push(tempList1);
                             list2.push(tempList2);
                         }
@@ -245,10 +247,6 @@
         google.charts.load('current', {'packages':['corechart', 'scatter']});
         google.charts.setOnLoadCallback(drawStuff);
     }
-
-    $(function () {
-        doInit();
-    });
 
     $('#resetChart').on('click', function () {
         $('#chart_div1').html('');

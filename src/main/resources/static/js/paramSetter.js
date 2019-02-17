@@ -30,9 +30,9 @@ function getShipData($shipIndex) {
 
                 generateAll();
 
-                // drawArtillery($('[data-ship-index=' + curIndex + ']'), warship);
-                // drawTorpedoes($('[data-ship-index=' + curIndex + ']'), warship);
-                // drawAirDefense($('[data-ship-index=' + curIndex + ']'), warship);
+                // drawArtillery($('[data-ship-position=' + curIndex + ']'), warship);
+                // drawTorpedoes($('[data-ship-position=' + curIndex + ']'), warship);
+                // drawAirDefense($('[data-ship-position=' + curIndex + ']'), warship);
             }
         },
         error: function (data) {

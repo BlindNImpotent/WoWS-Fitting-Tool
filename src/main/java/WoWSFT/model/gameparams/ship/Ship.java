@@ -63,6 +63,8 @@ public class Ship
     private List<List<Modernization>> upgrades = new ArrayList<>();
     private int upgradesRow;
     @JsonIgnore
+    private List<Integer> selectConsumables = new ArrayList<>();
+    @JsonIgnore
     private List<Integer> selectUpgrades = new ArrayList<>();
     @JsonIgnore
     private List<Integer> selectSkills = new ArrayList<>();

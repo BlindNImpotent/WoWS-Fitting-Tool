@@ -186,21 +186,12 @@ function delayCall($ship)
     }, waitTime);
 }
 
-function callPage($ship)
+function makeUrl($ship)
 {
     var sModules = $ship.find('.button_module.select');
     var sUpgrades = $ship.find('.button_upgrade.select');
     var sSkills = $ship.find('.button_skill.select');
-    var $toggle = $ship.find('.toggle');
-    var $toggleDecide = {};
-
-    for (var i = 0; i < $toggle.length; i++) {
-        if ($toggle.eq(i).hasClass('hide')) {
-            $toggleDecide[$toggle.eq(i).attr('class').replace('toggle', '').replace('hide', '').trim()] = 'hide';
-        } else {
-            $toggleDecide[$toggle.eq(i).attr('class').replace('toggle', '').trim()] = '';
-        }
-    }
+    var sConsumables = $ship.find('.button_consumable.select');
 
     var modules = '';
     var mArrays = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -226,12 +217,46 @@ function callPage($ship)
         skills += Math.pow(2, pos);
     }
 
-    var $shipIndex = $ship.attr('name');
-    var url = '/ship?index=' + $shipIndex
-            + (modules !== '' ? '&modules=' + modules : '')
-            + (upgrades.replace('0') !== '' ? '&upgrades=' + upgrades : '')
-            + (skills > 0 ? '&skills=' + skills.toString() : '')
-            + '&lang=' + lang;
+    var consumables = '';
+    var cArrays = [0, 0, 0, 0, 0];
+    for (var i = 0; i < sConsumables.length; i++) {
+        cArrays[sConsumables.eq(i).attr('data-index')] = parseInt(sConsumables.eq(i).attr('data-position'));
+    }
+    for (var x in cArrays) {
+        consumables += (cArrays[x] === 0 ? '' : cArrays[x].toString());
+    }
+
+    var $shipIndex = $ship.attr('data-ship-index');
+    var url =
+        '/ship?index=' + $shipIndex
+        + (modules !== '' ? '&modules=' + modules : '')
+        + (upgrades.replace('0') !== '' ? '&upgrades=' + upgrades : '')
+        + (skills > 0 ? '&skills=' + skills.toString() : '')
+        + (consumables !== '' ? '&consumables=' + consumables : '')
+        + '&lang=' + lang;
+
+    history.replaceState({
+        id: $shipIndex
+    }, '', url);
+
+    return url;
+}
+
+function callPage($ship)
+{
+    var $toggle = $ship.find('.toggle');
+    var $toggleDecide = {};
+
+    for (var i = 0; i < $toggle.length; i++) {
+        if ($toggle.eq(i).hasClass('hide')) {
+            $toggleDecide[$toggle.eq(i).attr('class').replace('toggle', '').replace('hide', '').trim()] = 'hide';
+        } else {
+            $toggleDecide[$toggle.eq(i).attr('class').replace('toggle', '').trim()] = '';
+        }
+    }
+
+    var $shipIndex = $ship.attr('data-ship-index');
+    var url = makeUrl($ship);
 
     $.ajax({
         url: url,
@@ -249,10 +274,6 @@ function callPage($ship)
                         $('[name=' + $shipIndex + ']').find(temp).removeClass('hide')
                     }
                 }
-
-                history.replaceState({
-                    id: $shipIndex
-                }, '', url);
             } else {
                 console.log(data);
             }
