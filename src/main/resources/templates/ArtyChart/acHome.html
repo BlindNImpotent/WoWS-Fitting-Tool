@@ -136,11 +136,8 @@
 
     $('#addSelect').on('click', function () {
         var selectedNation = $('#nationSelect option:selected').val();
-        var nation = selectedNation.replace(/ /g, '+');
         var selectedShipType = $('#' + selectedNation + ' option:selected').val();
-        var shipType = selectedShipType.replace(/ /g, '+');
         var selectedShip = $('.' + selectedNation + '.' + selectedShipType).val();
-        var ship = selectedShip.replace(/ /g, '+');
         var shipId = $('.' + selectedNation + '.' + selectedShipType + ' option:selected').attr('ship-id');
         var artyName = $('#' + shipId  + ' option:selected').val();
         var artyId = $('#' + shipId  + ' option:selected').attr('arty-id');
@@ -150,22 +147,22 @@
         $.ajax({
             url: url,
             type: 'post',
-            success: function (serverData) {
-                if (serverData !== undefined && serverData !== null && serverData.apshell !== null) {
+            success: function (data) {
+                var serverData = data.status === '200' ? data.result : null;
+                if (serverData !== null && serverData.apshell !== null) {
                     var list1 = [];
                     var list2 = [];
                     for (var i = 0; i < serverData.apshell.distanceList.length; i++) {
                         var dist = serverData.apshell.distanceList[i];
 
-                        if (dist > 30000) {
+                        if (dist > 25000) {
                             break;
                         }
 
                         if (index === 0) {
                             list1.push([dist, serverData.apshell.penetration[dist], serverData.apshell.impact[dist]]);
                             list2.push([dist, serverData.apshell.penetration[dist], serverData.apshell.flightTime[dist]]);
-                        }
-                        else {
+                        } else {
                             var curIndex = index * 2;
                             var tempList1 = [dist];
                             var tempList2 = [dist];
@@ -249,7 +246,7 @@
         google.charts.setOnLoadCallback(drawStuff);
     }
 
-    $().ready(function () {
+    $(function () {
         doInit();
     });
 

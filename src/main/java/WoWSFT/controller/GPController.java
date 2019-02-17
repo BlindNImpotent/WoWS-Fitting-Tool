@@ -6,9 +6,13 @@ import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
 import WoWSFT.model.gameparams.ship.component.artillery.Artillery;
+import WoWSFT.model.gameparams.ship.component.artillery.Shell;
+import WoWSFT.model.gameparams.ship.component.atba.Secondary;
+import WoWSFT.model.gameparams.ship.component.torpedo.TorpedoAmmo;
 import WoWSFT.service.GPService;
 import WoWSFT.service.ParamService;
 import WoWSFT.service.ParserService;
+import WoWSFT.utils.PenetrationUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 import static WoWSFT.model.Constant.*;
 
@@ -105,7 +106,7 @@ public class GPController extends ExceptionController
     {
         if (type.equalsIgnoreCase(TYPE_SHIP)) {
             if (StringUtils.isNotEmpty(lang)) {
-                return gpService.getShip(index, "");
+                return gpService.getShip(index);
             }
             return ships.get(index);
         } else if (type.equalsIgnoreCase(TYPE_UPGRADE)) {
@@ -185,8 +186,9 @@ public class GPController extends ExceptionController
 
     private Ship getShip(String index, String modules, String upgrades, long skills, String commander, Commander crew, boolean data) throws Exception
     {
-        Ship ship = mapper.readValue(mapper.writeValueAsString(gpService.getShip(index, modules)), Ship.class);
+        Ship ship = mapper.readValue(mapper.writeValueAsString(gpService.getShip(index)), Ship.class);
         parserService.parseModules(ship, modules);
+        gpService.setShipAmmo(ship);
         parserService.parseUpgrades(ship, upgrades);
         parserService.parseSkills(ship, skills);
         paramService.setParameters(ship, data ? gpService.getCommander(commander) : crew);

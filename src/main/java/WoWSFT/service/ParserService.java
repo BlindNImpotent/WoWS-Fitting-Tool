@@ -1,6 +1,5 @@
 package WoWSFT.service;
 
-import WoWSFT.model.gameparams.commander.Commander;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgrade;
 import org.apache.commons.collections4.CollectionUtils;
@@ -104,7 +103,7 @@ public class ParserService
                     list.set(i, 0);
                 }
             }
-            ship.setSUpgrades(list);
+            ship.setSelectUpgrades(list);
         }
     }
 
@@ -131,7 +130,7 @@ public class ParserService
             }
         }
 
-        ship.setSSkills(list);
-        ship.setSSkillPts(pts);
+        ship.setSelectSkills(list);
+        ship.setSelectSkillPts(pts);
     }
 }

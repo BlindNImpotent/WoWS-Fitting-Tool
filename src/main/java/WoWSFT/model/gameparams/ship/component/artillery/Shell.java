@@ -47,19 +47,19 @@ public class Shell
     private float volume;
     private List<Float> waterRefractionReflectDeltaAngleInterval;
 
-    @JsonIgnore
+//    @JsonIgnore
     private LinkedHashMap<String, Float> penetration;
-    @JsonIgnore
+//    @JsonIgnore
     private LinkedHashMap<String, Float> flightTime;
-    @JsonIgnore
+//    @JsonIgnore
     private LinkedHashMap<String, Float> impact;
     @JsonIgnore
     private LinkedHashMap<String, Float> launchAngle;
-    @JsonIgnore
-    private LinkedHashMap<String, Float> vertPlus;
-    @JsonIgnore
-    private LinkedHashMap<String, Float> vertMinus;
-    @JsonIgnore
+//    @JsonIgnore
+//    private LinkedHashMap<String, Float> vertPlus;
+//    @JsonIgnore
+//    private LinkedHashMap<String, Float> vertMinus;
+//    @JsonIgnore
     private List<String> distanceList;
     private float minDistV;
     private float penetrationAtFive;
@@ -105,36 +105,36 @@ public class Shell
         this.alphaPiercingHEReal = alphaPiercingHE - 1f;
     }
 
-    public void setMaxDist(float maxDist)
-    {
-        String maxOne = "0";
-        String maxTwo = "";
-
-        for (Map.Entry<String, Float> entry : this.flightTime.entrySet()) {
-            float tempFloat = Float.parseFloat(entry.getKey());
-
-            if (tempFloat < maxDist) {
-                if (Float.parseFloat(maxOne) < tempFloat) {
-                    maxOne = entry.getKey();
-                }
-            } else if (tempFloat >= maxDist) {
-                if (StringUtils.isEmpty(maxTwo)) {
-                    maxTwo = entry.getKey();
-                }
-            }
-        }
-
-        if (StringUtils.isNotEmpty(maxOne) && StringUtils.isNotEmpty(maxTwo)) {
-            if (penetration != null) {
-                penetrationAtMax = setMiddleAtDistance(Float.parseFloat(maxOne), penetration.get(maxOne), Float.parseFloat(maxTwo), penetration.get(maxTwo), maxDist);
-                impactAtMax = setMiddleAtDistance(Float.parseFloat(maxOne), impact.get(maxOne), Float.parseFloat(maxTwo), impact.get(maxTwo), maxDist);
-
-//                vertMinusAtMax = calcVertDist(maxDist, (getVertDist(maxOne, maxDist, true) + getVertDist(maxTwo, maxDist, true)) / 2f);
-//                vertPlusAtMax = calcVertDist(maxDist, (getVertDist(maxOne, maxDist, false) + getVertDist(maxTwo, maxDist, false)) / 2f);
-            }
-            flightTimeAtMax = setMiddleAtDistance(Float.parseFloat(maxOne), flightTime.get(maxOne), Float.parseFloat(maxTwo), flightTime.get(maxTwo), maxDist);
-        }
-    }
+//    public void setMaxDist(float maxDist)
+//    {
+//        String maxOne = "0";
+//        String maxTwo = "";
+//
+//        for (Map.Entry<String, Float> entry : this.flightTime.entrySet()) {
+//            float tempFloat = Float.parseFloat(entry.getKey());
+//
+//            if (tempFloat < maxDist) {
+//                if (Float.parseFloat(maxOne) < tempFloat) {
+//                    maxOne = entry.getKey();
+//                }
+//            } else if (tempFloat >= maxDist) {
+//                if (StringUtils.isEmpty(maxTwo)) {
+//                    maxTwo = entry.getKey();
+//                }
+//            }
+//        }
+//
+//        if (StringUtils.isNotEmpty(maxOne) && StringUtils.isNotEmpty(maxTwo)) {
+//            if (penetration != null) {
+//                penetrationAtMax = setMiddleAtDistance(Float.parseFloat(maxOne), penetration.get(maxOne), Float.parseFloat(maxTwo), penetration.get(maxTwo), maxDist);
+//                impactAtMax = setMiddleAtDistance(Float.parseFloat(maxOne), impact.get(maxOne), Float.parseFloat(maxTwo), impact.get(maxTwo), maxDist);
+//
+////                vertMinusAtMax = calcVertDist(maxDist, (getVertDist(maxOne, maxDist, true) + getVertDist(maxTwo, maxDist, true)) / 2f);
+////                vertPlusAtMax = calcVertDist(maxDist, (getVertDist(maxOne, maxDist, false) + getVertDist(maxTwo, maxDist, false)) / 2f);
+//            }
+//            flightTimeAtMax = setMiddleAtDistance(Float.parseFloat(maxOne), flightTime.get(maxOne), Float.parseFloat(maxTwo), flightTime.get(maxTwo), maxDist);
+//        }
+//    }
 
     public void setShell(LinkedHashMap<String, Float> flightTime,
                          LinkedHashMap<String, Float> penetration, LinkedHashMap<String, Float> impact, List<String> distanceList, LinkedHashMap<String, Float> launchAngle,

@@ -62,9 +62,12 @@ public class Ship
     private List<List<Consumable>> consumables = new ArrayList<>();
     private List<List<Modernization>> upgrades = new ArrayList<>();
     private int upgradesRow;
-    private List<Integer> sUpgrades = new ArrayList<>();
-    private List<Integer> sSkills = new ArrayList<>();
-    private int sSkillPts;
+    @JsonIgnore
+    private List<Integer> selectUpgrades = new ArrayList<>();
+    @JsonIgnore
+    private List<Integer> selectSkills = new ArrayList<>();
+    @JsonIgnore
+    private int selectSkillPts;
     private LinkedHashMap<String, String> modules = new LinkedHashMap<>();
     private LinkedHashMap<String, Integer> positions = new LinkedHashMap<>();
 

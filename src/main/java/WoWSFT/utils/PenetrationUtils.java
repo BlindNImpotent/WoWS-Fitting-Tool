@@ -40,7 +40,7 @@ public class PenetrationUtils
         LinkedHashMap<String, Float> flightTime = new LinkedHashMap<>();
         LinkedHashMap<String, Float> impactAngle = new LinkedHashMap<>();
 //        LinkedHashMap<String, Float> launchAngle = new LinkedHashMap<>();
-//        List<String> distanceList = new ArrayList<>();
+        List<String> distanceList = new ArrayList<>();
 
         float maxDistCalc = 0f;
 
@@ -99,13 +99,13 @@ public class PenetrationUtils
             if (apShell) {
                 penetration.put(String.valueOf(maxDistCalc), (float) Math.cos(IA) * p_athit);
                 impactAngle.put(String.valueOf(maxDistCalc), IA * 180f / ((float) Math.PI));
-//                distanceList.add(String.valueOf(maxDistCalc));
+                distanceList.add(String.valueOf(maxDistCalc));
 //                launchAngle.put(String.valueOf(maxDistCalc), alpha.get(i));
             }
         }
 
         if (apShell) {
-            ArtyShell.setShell(flightTime, penetration, impactAngle, null, null, minDistV, true);
+            ArtyShell.setShell(flightTime, penetration, impactAngle, distanceList, null, minDistV, true);
         } else {
             ArtyShell.setShell(flightTime, null, null, null, null, minDistV, false);
         }

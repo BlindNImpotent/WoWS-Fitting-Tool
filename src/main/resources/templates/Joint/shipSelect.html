@@ -37,7 +37,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="panel_left" data-type="upgrades" th:with="selection=${warship.sUpgrades}">
+                <div class="panel_left" data-type="upgrades" th:with="selection=${warship.selectUpgrades}">
                     <ul th:each="slot : ${warship.upgrades}">
                         <li>
                             <button class="button_upgrade" th:classappend="${selection .size() == 0 or selection.get(slotStat.index) == 0 ? 'select' : 'hide'}"
@@ -66,13 +66,13 @@
                 </div>
                 <div class="panel_left" data-type="crewSkills">
                     <div class="switch" data-type="skills">
-                        <strong th:text="${global.get('IDS_CREW_PERKS')} + ' : '"></strong><strong class="points" th:text="${warship.sSkillPts}"></strong><strong> / 19</strong>
+                        <strong th:text="${global.get('IDS_CREW_PERKS')} + ' : '"></strong><strong class="points" th:text="${warship.selectSkillPts}"></strong><strong> / 19</strong>
                     </div>
                     <table class="toggle skills">
                         <tbody>
                         <tr th:each="skillTier : ${skills.cSkills}">
                             <td th:each="skill : ${skillTier}">
-                                <button th:class="'button_skill'" th:classappend="${warship.sSkills.get(skillTierStat.index * 8 + skillStat.index) == 1 ? 'select' : ''}"
+                                <button th:class="'button_skill'" th:classappend="${warship.selectSkills.get(skillTierStat.index * 8 + skillStat.index) == 1 ? 'select' : ''}"
                                         th:attr="data-index=${skillTierStat.index}, data-position=${skillStat.index}">
                                     <img th:src="${skill.image}"/>
                                     <table class="tooltip">

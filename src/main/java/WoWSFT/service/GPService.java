@@ -63,20 +63,16 @@ public class GPService
     @Autowired
     private ParamService paramService;
 
-    @Autowired
-    private ParserService parserService;
-
     private ObjectMapper mapper = new ObjectMapper();
 
-    @Cacheable(value = "ship", key = "#index.concat('_').concat(#bits)")
-    public Ship getShip(String index, String bits) throws Exception
+    @Cacheable(value = "ship", key = "#index")
+    public Ship getShip(String index) throws Exception
     {
         Ship ship = mapper.readValue(mapper.writeValueAsString(ships.get(index)), Ship.class);
 
         if (ship != null) {
             setUpgrades(ship);
             setConsumables(ship);
-            setShipAmmo(ship);
 
             return ship;
         }
@@ -133,38 +129,36 @@ public class GPService
         return tempCommander;
     }
 
-    private void setShipAmmo(Ship ship) throws Exception
+    public void setShipAmmo(Ship ship) throws Exception
     {
-        if (ship != null && ship.getComponents() != null) {
-            if (ship.getComponents().getArtillery().size() > 0) {
-                for (Map.Entry<String, Artillery> entry : ship.getComponents().getArtillery().entrySet()) {
-                    for (String ammo : entry.getValue().getTurrets().get(0).getAmmoList()) {
-                        Shell shell = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ammo)), Shell.class);
-//                        PenetrationUtils.setPenetration(shell, entry.getValue().getTurrets().get(0).getVertSector().get(1),
-//                                entry.getValue().getMinDistV(), entry.getValue().getMaxDist(), "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
-                        entry.getValue().getShells().put(ammo, shell);
-                    }
-                }
-            }
+        if (ship.getComponents().getArtillery().size() > 0) {
+            for (String ammo : ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getTurrets().get(0).getAmmoList()) {
+                Shell shell = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ammo)), Shell.class);
+                PenetrationUtils.setPenetration(shell,
+                        ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getTurrets().get(0).getVertSector().get(1),
+                        ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getMinDistV(),
+                        ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getMaxDist(),
+                        "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
 
-            if (ship.getComponents().getTorpedoes().size() > 0) {
-                for (Map.Entry<String, Torpedo> entry : ship.getComponents().getTorpedoes().entrySet()) {
-                    TorpedoAmmo ammo = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(entry.getValue().getLaunchers().get(0).getAmmoList().get(0))), TorpedoAmmo.class);
-                    entry.getValue().setAmmo(ammo);
-                }
+                ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getShells()
+                        .put(ammo, shell);
             }
+        }
 
-            if (ship.getComponents().getAtba().size() > 0) {
-                for (Map.Entry<String, ATBA> entry : ship.getComponents().getAtba().entrySet()) {
-                    for (Map.Entry<String, Secondary> secondary : entry.getValue().getSecondaries().entrySet()) {
-                        Shell ammo = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(secondary.getValue().getAmmoList().get(0))), Shell.class);
-                        secondary.getValue().setAlphaDamage(ammo.getAlphaDamage());
-                        secondary.getValue().setAlphaPiercingHE(ammo.getAlphaPiercingHE());
-                        secondary.getValue().setAmmoType(ammo.getAmmoType());
-                        secondary.getValue().setBulletSpeed(ammo.getBulletSpeed());
-                        secondary.getValue().setBurnProb(ammo.getBurnProb());
-                    }
-                }
+        if (ship.getComponents().getTorpedoes().size() > 0) {
+            String ammo = ship.getComponents().getTorpedoes().get(ship.getModules().get(torpedoes)).getLaunchers().get(0).getAmmoList().get(0);
+            ship.getComponents().getTorpedoes().get(ship.getModules().get(torpedoes))
+                    .setAmmo(mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ammo)), TorpedoAmmo.class));
+        }
+
+        if (ship.getComponents().getAtba().size() > 0) {
+            for (Map.Entry<String, Secondary> secondary : ship.getComponents().getAtba().get(ship.getModules().get(atba)).getSecondaries().entrySet()) {
+                Shell ammo = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(secondary.getValue().getAmmoList().get(0))), Shell.class);
+                secondary.getValue().setAlphaDamage(ammo.getAlphaDamage());
+                secondary.getValue().setAlphaPiercingHE(ammo.getAlphaPiercingHE());
+                secondary.getValue().setAmmoType(ammo.getAmmoType());
+                secondary.getValue().setBulletSpeed(ammo.getBulletSpeed());
+                secondary.getValue().setBurnProb(ammo.getBurnProb());
             }
         }
     }
