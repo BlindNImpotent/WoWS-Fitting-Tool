@@ -3,6 +3,7 @@
 <body>
 <th:block th:fragment="warshipStats">
     <div id="notification" style="text-align: center;" th:if="${single and warship == null}">
+        <br /><br />
         <strong>Click on a ship for fitting.</strong>
     </div>
     <div class="ship" th:attr="data-ship-index=${warship.index}, data-ship-position=${single ? '0' : dataIndex}" th:if="${warship != null}">
@@ -22,19 +23,20 @@
                                 <tr th:if="${i > 1 and warship.shipUpgradeInfo.maxRows >= i}">
                                     <th:block th:each="col : ${warship.shipUpgradeInfo.cols}" th:if="${col.value > 0}">
                                         <th:block th:with="mods=${warship.shipUpgradeInfo.components.get(col.key).?[position == __${i}__]}">
-                                            <td th:each="module : ${mods}" th:if="${colStat.index > 2 and warship.shipUpgradeInfo.components.get(col.key).?[prevType != ucTypeShort].size() > 0}"></td>
+                                            <td th:if="${colStat.index > 2}" style="width: 7px;"></td>
                                             <td th:each="module : ${mods}">
                                                 <img th:if="${module.prevType == module.ucTypeShort and module.prevPosition > 0}" th:src="@{/images/Icon/down.png}" />
                                             </td>
-                                            <!--<td th:each="module : ${mods}" th:if="${2 > colStat.index}"></td>-->
                                             <td th:each="j : ${#numbers.sequence(1, col.value - mods.size())}" th:if="${col.value > mods.size()}"></td>
+                                            <td th:if="${2 > colStat.index}" style="width: 7px;"></td>
                                         </th:block>
                                     </th:block>
                                 </tr>
                                 <tr>
                                     <th:block th:each="col : ${warship.shipUpgradeInfo.cols}" th:if="${col.value > 0}">
                                         <th:block th:with="mods=${warship.shipUpgradeInfo.components.get(col.key).?[position == __${i}__]}">
-                                            <td th:each="module : ${mods}" th:if="${colStat.index > 2 and warship.shipUpgradeInfo.components.get(col.key).?[prevType != ucTypeShort].size() > 0}">
+                                            <td th:if="${mods.size() == 0 and colStat.index > 2}" style="width: 7px;"></td>
+                                            <td th:each="module : ${mods}" th:if="${moduleStat.index == 0 and colStat.index > 2}" style="width: 7px;">
                                                 <img th:if="${module.prevType != module.ucTypeShort and module.prevPosition == module.position}" th:src="@{/images/Icon/right.png}" />
                                             </td>
                                             <td th:each="module : ${mods}">
@@ -46,7 +48,10 @@
                                                     <span th:text="${global.get(IDS + module.name.toUpperCase())}"></span>
                                                 </button>
                                             </td>
-                                            <td th:each="j : ${#numbers.sequence(1, col.value - mods.size())}" th:if="${col.value > mods.size()}">
+                                            <td th:each="j : ${#numbers.sequence(1, col.value - mods.size())}" th:if="${col.value > mods.size()}"></td>
+                                            <td th:if="${mods.size() == 0 and 2 > colStat.index}" style="width: 7px;"></td>
+                                            <td th:each="module : ${mods}" th:if="${2 > colStat.index}" style="width: 7px;">
+                                                <img th:if="${module.prevType != module.ucTypeShort and module.prevPosition == module.position}" th:src="@{/images/Icon/left.png}" />
                                             </td>
                                         </th:block>
                                     </th:block>
@@ -113,8 +118,6 @@
                     </table>
                 </div>
             </div>
-        <!--</div>-->
-        <!--<div class="info_box">-->
             <th:block th:replace="Joint/rightInfo :: rightInfo"></th:block>
         </div>
     </div>

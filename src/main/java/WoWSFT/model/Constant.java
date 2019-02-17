@@ -49,7 +49,7 @@ public class Constant
 
     public static final HashSet<String> excludeShipGroups = new HashSet<>(Arrays.asList("unavailable", "disabled", "preserved", "clan", "demoWithoutStats"));
     public static final HashSet<String> excludeShipNations = new HashSet<>(Arrays.asList("Events", "disabled", "preserved", "clan"));
-    public static final HashSet<String> excludeShipSpecies = new HashSet<>(Arrays.asList("Auxiliary", "Submarine"));
+    public static final HashSet<String> excludeShipSpecies = new HashSet<>(Arrays.asList("Auxiliary", "Submarine", "AirCarrier"));
     public static final HashSet<String> excludeCompStats = new HashSet<>(Arrays.asList("directors", "finders", "radars"));
     public static final HashSet<String> excludeModernization = new HashSet<>(Arrays.asList("extra"));
 

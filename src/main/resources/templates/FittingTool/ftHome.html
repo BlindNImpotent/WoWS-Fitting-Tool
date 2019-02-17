@@ -80,11 +80,13 @@
     // <![CDATA[
 
     var lang = [[${lang}]];
-    var index = [[${index}]];
 
     $(function () {
+        var index = [[${index}]];
         if (index) {
-            makeUrl($('[data-ship-index=' + index + ']'));
+            history.replaceState({
+                id: index
+            }, '', makeUrl($('[data-ship-index=' + index + ']')));
         }
     });
 

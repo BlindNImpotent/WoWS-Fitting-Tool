@@ -235,10 +235,6 @@ function makeUrl($ship)
         + (consumables !== '' ? '&consumables=' + consumables : '')
         + '&lang=' + lang;
 
-    history.replaceState({
-        id: $shipIndex
-    }, '', url);
-
     return url;
 }
 
@@ -269,11 +265,15 @@ function callPage($ship)
                 for (var x in $toggleDecide) {
                     var temp = '.toggle.' + x.toString();
                     if ($toggleDecide[x] === 'hide') {
-                        $('[name=' + $shipIndex + ']').find(temp).addClass('hide')
+                        $('[data-ship-index=' + $shipIndex + ']').find(temp).addClass('hide')
                     } else {
-                        $('[name=' + $shipIndex + ']').find(temp).removeClass('hide')
+                        $('[data-ship-index=' + $shipIndex + ']').find(temp).removeClass('hide')
                     }
                 }
+
+                history.replaceState({
+                    id: $shipIndex
+                }, '', url);
             } else {
                 console.log(data);
             }
