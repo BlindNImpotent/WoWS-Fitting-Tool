@@ -54,7 +54,7 @@ public class ParserService
                     }
                 });
 
-                if (CollectionUtils.isNotEmpty(list)) {
+                if (CollectionUtils.isNotEmpty(list) && value.size() >= list.get(position)) {
                     ship.getPositions().put(type, list.get(position));
                     shipUpgrades.put(type, value.get(list.get(position) - 1));
                 }

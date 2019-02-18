@@ -6,11 +6,13 @@ import WoWSFT.model.gameparams.consumable.Consumable;
 import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
+import WoWSFT.model.gameparams.ship.component.airarmament.AirArmament;
 import WoWSFT.model.gameparams.ship.component.airdefense.AirDefense;
 import WoWSFT.model.gameparams.ship.component.artillery.Artillery;
 import WoWSFT.model.gameparams.ship.component.atba.ATBA;
 import WoWSFT.model.gameparams.ship.component.engine.Engine;
 import WoWSFT.model.gameparams.ship.component.firecontrol.FireControl;
+import WoWSFT.model.gameparams.ship.component.flightcontrol.FlightControl;
 import WoWSFT.model.gameparams.ship.component.hull.Hull;
 import WoWSFT.model.gameparams.ship.component.torpedo.Torpedo;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgrade;
@@ -125,6 +127,12 @@ public class JsonParser
             if (typeInfo.getType().equalsIgnoreCase("Ship") && !excludeShipNations.contains(typeInfo.getNation()) && !excludeShipSpecies.contains(typeInfo.getSpecies())) {
                 Ship ship = mapper.convertValue(value, Ship.class);
                 if (!excludeShipGroups.contains(ship.getGroup()) && StringUtils.isEmpty(ship.getDefaultCrew())) {
+                    ship.getShipUpgradeInfo().getComponents().forEach((cType, c) ->
+                        c.forEach(su -> {
+                            for (String s : excludeCompStats) {
+                                su.getComponents().remove(s);
+                            }
+                        }));
                     addShips(ship);
                 }
             } else if (typeInfo.getType().equalsIgnoreCase("Modernization")) {
@@ -178,32 +186,29 @@ public class JsonParser
                 }
 
                 upgrade.getComponents().forEach((cKey, cValue) -> {
-                    if (!excludeCompStats.contains(cKey)) {
-                        if (cKey.equalsIgnoreCase(artillery)) {
-                            cValue.forEach(cVal -> ship.getComponents().getArtillery().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), Artillery.class)));
-                        } else if (cKey.equalsIgnoreCase(airDefense)) {
-                            cValue.forEach(cVal -> ship.getComponents().getAirDefense().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), AirDefense.class)));
-                        } else if (cKey.equalsIgnoreCase(atba)) {
-                            cValue.forEach(cVal -> ship.getComponents().getAtba().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), ATBA.class)));
-                        } else if (cKey.equalsIgnoreCase(engine)) {
-                            cValue.forEach(cVal -> ship.getComponents().getEngine().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), Engine.class)));
-                        } else if (cKey.equalsIgnoreCase(suo)) {
-                            cValue.forEach(cVal -> ship.getComponents().getSuo().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), FireControl.class)));
-                        } else if (cKey.equalsIgnoreCase(hull)) {
-                            cValue.forEach(cVal -> ship.getComponents().getHull().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), Hull.class)));
-                        } else if (cKey.equalsIgnoreCase(torpedoes)) {
-                            cValue.forEach(cVal -> ship.getComponents().getTorpedoes().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), Torpedo.class)));
-                        } else if (cKey.equalsIgnoreCase(airArmament)) {
-                            cValue.forEach(cVal -> ship.getComponents().getAirArmament().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), new TypeReference<LinkedHashMap<String, Object>>(){})));
-                        } else if (cKey.equalsIgnoreCase(flightControl)) {
-                            cValue.forEach(cVal -> ship.getComponents().getFlightControl().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), new TypeReference<LinkedHashMap<String, Object>>(){})));
-                        } else if (cKey.equalsIgnoreCase(fighter)) {
-                            cValue.forEach(cVal -> ship.getComponents().getFighter().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), new TypeReference<LinkedHashMap<String, Object>>(){})));
-                        } else if (cKey.equalsIgnoreCase(diveBomber)) {
-                            cValue.forEach(cVal -> ship.getComponents().getDiveBomber().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), new TypeReference<LinkedHashMap<String, Object>>(){})));
-                        } else if (cKey.equalsIgnoreCase(torpedoBomber)) {
-                            cValue.forEach(cVal -> ship.getComponents().getTorpedoBomber().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), new TypeReference<LinkedHashMap<String, Object>>(){})));
-                        }
+                    if (cKey.equalsIgnoreCase(artillery)) {
+                        cValue.forEach(cVal -> ship.getComponents().getArtillery().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), Artillery.class)));
+                    } else if (cKey.equalsIgnoreCase(airDefense)) {
+                        cValue.forEach(cVal -> ship.getComponents().getAirDefense().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), AirDefense.class)));
+                    } else if (cKey.equalsIgnoreCase(atba)) {
+                        cValue.forEach(cVal -> ship.getComponents().getAtba().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), ATBA.class)));
+                    } else if (cKey.equalsIgnoreCase(engine)) {
+                        cValue.forEach(cVal -> ship.getComponents().getEngine().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), Engine.class)));
+                    } else if (cKey.equalsIgnoreCase(suo)) {
+                        cValue.forEach(cVal -> ship.getComponents().getSuo().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), FireControl.class)));
+                    } else if (cKey.equalsIgnoreCase(hull)) {
+                        cValue.forEach(cVal -> ship.getComponents().getHull().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), Hull.class)));
+                    } else if (cKey.equalsIgnoreCase(torpedoes)) {
+                        cValue.forEach(cVal -> ship.getComponents().getTorpedoes().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), Torpedo.class)));
+                    } else if (cKey.equalsIgnoreCase(airArmament)) {
+                        cValue.forEach(cVal -> ship.getComponents().getAirArmament().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), AirArmament.class)));
+                    } else if (cKey.equalsIgnoreCase(flightControl)) {
+                        cValue.forEach(cVal -> ship.getComponents().getFlightControl().put(cVal, mapper.convertValue(ship.getTempComponents().get(cVal), FlightControl.class)));
+                    } else if (cKey.equalsIgnoreCase(fighter) || cKey.equalsIgnoreCase(diveBomber) || cKey.equalsIgnoreCase(torpedoBomber)) {
+                        cValue.forEach(cVal -> {
+                            HashMap<String, String> tempPlaneType = mapper.convertValue(ship.getTempComponents().get(cVal), new TypeReference<HashMap<String, String>>(){});
+                            ship.getPlanes().put(cVal, tempPlaneType.get("planeType"));
+                        });
                     }
                 });
             });

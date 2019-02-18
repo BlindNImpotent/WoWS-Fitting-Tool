@@ -64,6 +64,8 @@ public class Ship
     private String imageMedium;
     private String imageSmall;
 
+    private LinkedHashMap<String, String> planes = new LinkedHashMap<>();
+
     private List<List<Consumable>> consumables = new ArrayList<>();
     private List<List<Modernization>> upgrades = new ArrayList<>();
     private int upgradesRow;

@@ -29,6 +29,7 @@ public class ShipUpgradeInfo
     private int costSaleGold;
     private int costXP;
     private List<Object> lockedConfig;
+    private float prepareTimeFactor;
     private int value;
 
     {

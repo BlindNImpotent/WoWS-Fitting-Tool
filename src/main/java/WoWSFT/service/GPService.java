@@ -8,6 +8,7 @@ import WoWSFT.model.gameparams.ship.ShipIndex;
 import WoWSFT.model.gameparams.ship.abilities.AbilitySlot;
 import WoWSFT.model.gameparams.ship.component.artillery.Shell;
 import WoWSFT.model.gameparams.ship.component.atba.Secondary;
+import WoWSFT.model.gameparams.ship.component.planes.Plane;
 import WoWSFT.model.gameparams.ship.component.torpedo.TorpedoAmmo;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgrade;
 import WoWSFT.utils.PenetrationUtils;
@@ -132,11 +133,11 @@ public class GPService
         if (ship.getComponents().getArtillery().size() > 0) {
             for (String ammo : ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getTurrets().get(0).getAmmoList()) {
                 Shell shell = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ammo)), Shell.class);
-                PenetrationUtils.setPenetration(shell,
-                        ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getTurrets().get(0).getVertSector().get(1),
-                        ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getMinDistV(),
-                        ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getMaxDist(),
-                        "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
+//                PenetrationUtils.setPenetration(shell,
+//                        ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getTurrets().get(0).getVertSector().get(1),
+//                        ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getMinDistV(),
+//                        ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getMaxDist(),
+//                        "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
 
                 ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getShells()
                         .put(ammo, shell);
@@ -159,6 +160,45 @@ public class GPService
                 secondary.getValue().setBurnProb(ammo.getBurnProb());
             }
         }
+
+        if (ship.getPlanes().size() > 0) {
+            if (ship.getModules().get(diveBomber) != null && ship.getPlanes().get(ship.getModules().get(diveBomber)) != null) {
+                Plane dbPlane = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ship.getPlanes().get(ship.getModules().get(diveBomber)))), Plane.class);
+                dbPlane.setBomb(mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(dbPlane.getBombName())), Shell.class));
+                setPlaneConsumables(dbPlane);
+                ship.getComponents().getDiveBomber().put(ship.getModules().get(diveBomber), dbPlane);
+            }
+
+            if (ship.getModules().get(fighter) != null && ship.getPlanes().get(ship.getModules().get(fighter)) != null) {
+                Plane fPlane = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ship.getPlanes().get(ship.getModules().get(fighter)))), Plane.class);
+                fPlane.setRocket(mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(fPlane.getBombName())), Shell.class));
+                setPlaneConsumables(fPlane);
+                ship.getComponents().getFighter().put(ship.getModules().get(fighter), fPlane);
+            }
+
+            if (ship.getModules().get(torpedoBomber) != null && ship.getPlanes().get(ship.getModules().get(torpedoBomber)) != null) {
+                Plane tbPlane = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ship.getPlanes().get(ship.getModules().get(torpedoBomber)))), Plane.class);
+                tbPlane.setTorpedo(mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(tbPlane.getBombName())), TorpedoAmmo.class));
+                setPlaneConsumables(tbPlane);
+                ship.getComponents().getTorpedoBomber().put(ship.getModules().get(torpedoBomber), tbPlane);
+            }
+        }
+    }
+
+    private void setPlaneConsumables(Plane plane) throws Exception
+    {
+        List<Consumable> consumablesList = new ArrayList<>();
+
+        for (Map.Entry<String, AbilitySlot> entry : plane.getPlaneAbilities().entrySet()) {
+            for (List<String> consumable : entry.getValue().getAbils()) {
+                if (!consumable.get(0).contains("Super")) {
+                    Consumable tempConsumable = mapper.readValue(mapper.writeValueAsString(consumables.get(consumable.get(0))), Consumable.class);
+                    tempConsumable.getSubConsumables().entrySet().removeIf(e -> !e.getKey().equalsIgnoreCase(consumable.get(1)));
+                    consumablesList.add(tempConsumable);
+                }
+            }
+        }
+        plane.setConsumables(consumablesList);
     }
 
     public Shell getArtyAmmoOnly(String index, String artyId) throws Exception

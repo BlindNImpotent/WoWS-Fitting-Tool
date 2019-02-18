@@ -3,6 +3,7 @@ package WoWSFT.model.gameparams.ship.component.artillery;
 import WoWSFT.model.gameparams.TypeInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Shell
 {

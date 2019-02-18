@@ -424,6 +424,10 @@ td {
     width: 220px;
 }
 
+.panel_right table tr td[colspan="2"] {
+    width: 340px;
+}
+
 .panel_right table tbody tr td:nth-of-type(2) {
     width: 120px;
     text-align: right;
@@ -440,8 +444,21 @@ button .tooltip {
     z-index: 1;
     width: 200px;
     border-collapse: collapse;
-    left: 60px;
-    top: 60px;
+    /*left: 60px;*/
+    /*top: 60px;*/
+    -webkit-transform: translate(40%, -100%);
+    -moz-transform: translate(40%, -100%);
+    -ms-transform: translate(40%, -100%);
+    -o-transform: translate(40%, -100%);
+    transform: translate(40%, -100%);
+}
+
+button .tooltip.invert {
+    -webkit-transform: translate(-100%, -120%);
+    -moz-transform: translate(-100%, -120%);
+    -ms-transform: translate(-100%, -120%);
+    -o-transform: translate(-100%, -120%);
+    transform: translate(-100%, -120%);
 }
 
 button .tooltip tr td:first-of-type {
