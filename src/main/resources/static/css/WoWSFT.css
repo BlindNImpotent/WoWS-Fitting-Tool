@@ -224,7 +224,7 @@ nav ul li:active > ul {
 .ship {
     padding-top: 10px;
     text-align: center;
-    transform: translate(0%, -5%) scale(0.9, 0.9);
+    /*transform: translate(0%, -3%) scale(0.96, 0.96);*/
 }
 
 .ship img {
@@ -282,7 +282,6 @@ nav ul li:active > ul {
     white-space: nowrap;
 }
 
-.button_ship,
 .button_module, .button_upgrade,
 .button_skill, .button_uSkill,
 .button_flag, .button_consumable {
@@ -327,6 +326,45 @@ button img {
 
 td {
     vertical-align: middle;
+}
+
+.button_ship {
+    width: 120px;
+    /*height: 90px;*/
+    background-color:#fff;
+    text-align: center;
+    border: 0 solid black;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.button_ship img {
+    width: 120px;
+    /*height: 75px;*/
+}
+
+.button_nation
+{
+    background-color:#fff;
+    text-align: center;
+    border: 0 solid black;
+    border-radius: 5px;
+    font-size: 12px;
+    /*min-width: 140px;*/
+    /*max-width: 140px;*/
+    /*min-height: 140px;*/
+    /*max-height: 140px;*/
+    word-wrap: normal;
+    cursor: pointer;
+    vertical-align: top;
+    margin: 2px;
+}
+
+.button_nation img
+{
+    width: 120px;
+    margin-bottom: 0;
 }
 
 .select {
@@ -454,4 +492,27 @@ button .tooltip_desc {
 
 #chart_div1 circle, #chart_div2 circle {
     r: 3
+}
+
+.research_nation {
+    padding: 20px 0;
+}
+
+.research_reset {
+    padding-bottom: 20px;
+}
+
+.research_list {
+    text-align: center;
+    display: inline-table;
+    padding: 50px 0;
+}
+
+.research_list table {
+
+}
+
+.research_list td {
+    width: 140px;
+    vertical-align: middle;
 }

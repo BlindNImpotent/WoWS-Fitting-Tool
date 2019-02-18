@@ -203,7 +203,7 @@ public class GPController extends ExceptionController
         return ship;
     }
 
-    @RequestMapping (value = "/arty", method = RequestMethod.GET)
+    @RequestMapping(value = "/arty", method = RequestMethod.GET)
     public String getArtyChart(Model model)
     {
         model.addAttribute("IDS", IDS);
@@ -214,10 +214,20 @@ public class GPController extends ExceptionController
     }
 
     @ResponseBody
-    @RequestMapping (value = "/arty", method = RequestMethod.POST)
+    @RequestMapping(value = "/arty", method = RequestMethod.POST)
     public Shell test123(@RequestParam String index,
                              @RequestParam String artyId) throws Exception
     {
         return gpService.getArtyAmmoOnly(index, artyId);
+    }
+
+    @GetMapping(value = "/research")
+    public String getResearch(Model model)
+    {
+        model.addAttribute("global", global.get("en"));
+        model.addAttribute("IDS", IDS);
+        model.addAttribute("nations", shipsList);
+
+        return "Research/shipTree";
     }
 }

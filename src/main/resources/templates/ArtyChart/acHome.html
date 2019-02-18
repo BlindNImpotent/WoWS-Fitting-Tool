@@ -31,7 +31,7 @@
     <div id="shipSelector">
         <select id="nationSelect">
             <th:block th:each="nation : ${nations}">
-                <option th:text="${global.get(IDS + nation.key)}" th:value="${nation.key}"></option>
+                <option th:text="${global.get(IDS + nation.key.toUpperCase())}" th:value="${nation.key}"></option>
             </th:block>
         </select>
         <select th:each="nation : ${nations}" th:id="${nation.key}" th:class="${'nationShipType ' + (nationStat.index == 0 ? 'show' : 'hide')}">

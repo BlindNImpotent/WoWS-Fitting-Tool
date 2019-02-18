@@ -12,6 +12,8 @@ import WoWSFT.model.gameparams.ship.component.torpedo.Launcher;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgradeInfo;
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ import java.util.List;
 
 @Data
 @WoWSFT
+@NoArgsConstructor
+@Accessors(chain = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Ship
 {
@@ -55,6 +59,7 @@ public class Ship
     private String fullName;
     private boolean research;
     private String prevShipIndex;
+    private String prevShipName;
     private String typeImage;
     private String imageMedium;
     private String imageSmall;

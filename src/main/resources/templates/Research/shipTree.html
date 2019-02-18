@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5KDG7W6');</script>
+    <!-- End Google Tag Manager -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png?20190207}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/WoWSFT.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.6, user-scalable=yes" />
+    <script th:src="@{/js/jquery/jquery-3.3.1.min.js}"></script>
+    <title>WoWS Fitting Tool by Aesis</title>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5KDG7W6"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<header>
+    <div class="top">
+        <div th:replace="top :: top"></div>
+    </div>
+</header>
+<main>
+    <div class="research_nation">
+        <button class="button_nation initiate" th:each="nation : ${nations}" th:if="${nation.value.entrySet().?[!key.contains('PREMIUM')].size() > 0}" th:attr="data-nation=${nation.key}">
+            <img th:src="${'https://glossary-na-static.gcdn.co/icons/wows/current/nation_flags/small/flag_' + nation.key + '.png'}"/><br />
+            <span th:text="${global.get(IDS + nation.key.toUpperCase())}"></span>
+        </button>
+    </div>
+    <div class="research_reset">
+        <strong id="xpRequired" th:text="'Click on two ships for lowest research xp'"></strong><br />
+        <button id="resetSelect">Reset</button>
+    </div>
+    <div class="research_list">
+        <table th:each="nation : ${nations}" th:if="${nation.value.entrySet().?[!key.contains('PREMIUM')].size() > 0}" th:class="${'tree ' + nation.key}" th:classappend="'hide'">
+            <tbody>
+                <tr th:each="realShipType : ${nation.value}" th:if="${realShipType.value.containsKey(realShipType.key)}">
+                    <td th:if="${realShipTypeStat.index == 0}" th:rowspan="${nation.value.size()}">
+                        <button class="button_nation" th:attr="data-nation=${nation.key}">
+                            <img th:src="${'https://glossary-na-static.gcdn.co/icons/wows/current/nation_flags/small/flag_' + nation.key + '.png'}"/><br />
+                            <span th:text="${global.get(IDS + nation.key.toUpperCase())}"></span>
+                        </button>
+                    </td>
+                    <th:block th:each="shipType : ${realShipType.value}">
+                        <td th:each="i : ${#numbers.sequence(1, 10)}">
+                            <th:block th:each="ship : ${shipType.value.get(i)}" th:if="${shipType.value.get(i) != null}">
+                                <button class="button_ship" th:attr="data-tier=${i}, data-position=${ship.position}">
+                                    <img th:attr="data-src=${'https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/small/' + ship.index + '.png'}" /><br/>
+                                    <span th:text="${global.get(IDS + ship.index.toUpperCase() + '_FULL')}"></span>
+                                </button><br th:if="${shipStat.index > 0}"/>
+                            </th:block>
+                            <th:block th:if="${shipType.value.get(i) == null}">
+                                <button class="button_ship" th:attr="data-tier=${i}"></button>
+                            </th:block>
+                        </td>
+                    </th:block>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<div th:replace="bottom :: bottom"></div>
+<script th:inline="javascript">
+    //    <![CDATA[
+
+    $(document).on('click', '.button_nation.initiate', function () {
+        var $this = $(this),
+            $nation = $this.attr('data-nation'),
+            $tree = $('.tree'),
+            $table = $('.tree.' + $nation),
+            $img = $table.find('img');
+
+        $('.button_nation.initiate').removeClass('select');
+        $this.addClass('select');
+
+        for (var i = 0; i < $img.length; i++) {
+            if ($img.eq(i).attr('src') === undefined) {
+                $img.eq(i).attr('src', $img.eq(i).attr('data-src'));
+            }
+        }
+
+        $tree.addClass('hide');
+        $table.removeClass('hide');
+    });
+
+    //    ]]>
+</script>
+</body>
+</html>

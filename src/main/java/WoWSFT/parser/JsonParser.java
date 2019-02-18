@@ -150,7 +150,9 @@ public class JsonParser
 //            gameParamsHM.put(String.valueOf(value.get("id")), value);
         });
 
-        sortShipsList();
+        generateShipsList();
+//        sortShipsList();
+//        calculateXp();
         sortUpgrades();
 
         temp.clear();
@@ -163,9 +165,8 @@ public class JsonParser
         setRows(ship);
 
         ships.put(ship.getIndex(), ship);
+        idToName.put(ship.getName(), ship.getIndex());
         nameToId.put(global.get("en").get(IDS + ship.getIndex().toUpperCase() + "_FULL").toString(), ship.getIndex().toUpperCase());
-
-        addToShipsList(ship);
     }
 
     private void sortShipUpgradeInfo(Ship ship)
@@ -269,74 +270,84 @@ public class JsonParser
         ship.getShipUpgradeInfo().setCols(colCount).setMaxRows(maxRows);
     }
 
-    private void addToShipsList(Ship ship)
+    private void generateShipsList()
     {
-        shipsList.putIfAbsent(ship.getTypeinfo().getNation().toUpperCase(), new LinkedHashMap<>());
-        shipsList.get(ship.getTypeinfo().getNation().toUpperCase()).putIfAbsent(ship.getRealShipTypeId().toUpperCase(), new LinkedHashMap<>());
-        shipsList.get(ship.getTypeinfo().getNation().toUpperCase()).get(ship.getRealShipTypeId().toUpperCase()).putIfAbsent(ship.getTypeinfo().getSpecies().toUpperCase(), new LinkedHashMap<>());
-        shipsList.get(ship.getTypeinfo().getNation().toUpperCase()).get(ship.getRealShipTypeId().toUpperCase()).get(ship.getTypeinfo().getSpecies().toUpperCase()).putIfAbsent(ship.getLevel(), new ArrayList<>());
+        ships.forEach((index, ship) -> ship.getShipUpgradeInfo().getComponents().forEach((cKey, components) -> components.forEach(component -> {
+            if (CollectionUtils.isNotEmpty(component.getNextShips())) {
+                component.getNextShips().forEach(ns -> {
+                    if (idToName.get(ns) != null) {
+                        ships.get(idToName.get(ns)).setPrevShipIndex(ship.getIndex()).setPrevShipName(ship.getName());
+                    }
+                });
+            }
+        })));
 
-        List<String> arties = new ArrayList<>();
-        ship.getShipUpgradeInfo().getComponents().get(artillery).forEach(arty -> arties.add(arty.getName()));
+        ships.forEach((index, ship) -> {
+            shipsList.putIfAbsent(ship.getTypeinfo().getNation(), new LinkedHashMap<>());
+            shipsList.get(ship.getTypeinfo().getNation()).putIfAbsent(ship.getRealShipTypeId().toUpperCase(), new LinkedHashMap<>());
+            shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipTypeId().toUpperCase()).putIfAbsent(ship.getTypeinfo().getSpecies().toUpperCase(), new LinkedHashMap<>());
+            shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipTypeId().toUpperCase()).get(ship.getTypeinfo().getSpecies().toUpperCase()).putIfAbsent(ship.getLevel(), new ArrayList<>());
 
-        shipsList.get(ship.getTypeinfo().getNation().toUpperCase()).get(ship.getRealShipTypeId().toUpperCase()).get(ship.getTypeinfo().getSpecies().toUpperCase()).get(ship.getLevel())
-                .add(new ShipIndex(ship.getName(), ship.getIndex(), "", ship.isResearch(), arties));
-    }
+            List<String> arties = new ArrayList<>();
+            ship.getShipUpgradeInfo().getComponents().get(artillery).forEach(arty -> arties.add(arty.getName()));
 
-    private void sortShipsList()
-    {
+            shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipTypeId().toUpperCase()).get(ship.getTypeinfo().getSpecies().toUpperCase()).get(ship.getLevel())
+                    .add(new ShipIndex(ship.getName(), ship.getIndex(), ship.getPrevShipIndex(), ship.getPrevShipName(), ship.isResearch(), arties));
+        });
+
         shipsList.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(nation -> {
             nation.getValue().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(realShipType -> {
                 realShipType.getValue().forEach((shipType, tiers) -> {
                     tiers.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(tier -> {
+                        tier.getValue().sort(Comparator.comparing(ShipIndex::getIndex));
                         shipsList.get(nation.getKey()).get(realShipType.getKey()).get(shipType).remove(tier.getKey());
                         shipsList.get(nation.getKey()).get(realShipType.getKey()).get(shipType).put(tier.getKey(), tier.getValue());
                     });
-
-                    int tier = 10;
-                    while (tier > 0) {
-                        if (CollectionUtils.isNotEmpty(tiers.get(tier))) {
-                            tiers.get(tier).sort(Comparator.comparing(ShipIndex::getIndex));
-
-                            int cTier = tier;
-                            AtomicInteger pos = new AtomicInteger(1);
-                            tiers.get(tier).forEach(ship -> {
-                                if (ship.isResearch()) {
-                                    if (ship.getPosition() == 0) {
-                                        ship.setPosition(pos.getAndIncrement());
-                                    }
-
-                                    if (CollectionUtils.isNotEmpty(shipsList.get(nation.getKey()).get(realShipType.getKey()).get(shipType).get(cTier - 1))) {
-                                        shipsList.get(nation.getKey()).get(realShipType.getKey()).get(shipType).get(cTier - 1).forEach(tShip -> {
-                                            if (ships.get(tShip.getIndex()).getTypeinfo().getSpecies().equalsIgnoreCase(shipType)) {
-                                                ships.get(tShip.getIndex()).getShipUpgradeInfo().getComponents().forEach((comp, list) -> list.forEach(u1 -> {
-                                                    if (u1.getNextShips().contains(ship.getIdentifier())) {
-                                                        ships.get(ship.getIndex()).setPrevShipIndex(tShip.getIndex());
-
-                                                        if (list.stream().filter(u2 -> CollectionUtils.isNotEmpty(u2.getNextShips())).count() == 1) {
-                                                            tShip.setPosition(ship.getPosition());
-                                                        }
-                                                    }
-                                                }));
-                                            }
-                                        });
-                                    }
-                                }
-                            });
-                            tiers.get(tier).sort(Comparator.comparingInt(ShipIndex::getPosition));
-                        }
-                        tier--;
-                    }
                 });
-                shipsList.get(nation.getKey()).remove(realShipType.getKey());
-                shipsList.get(nation.getKey()).put(realShipType.getKey(), realShipType.getValue());
+                if (realShipType.getKey().equalsIgnoreCase("FILTER_PREMIUM")) {
+                    shipsList.get(nation.getKey()).remove(realShipType.getKey());
+                    shipsList.get(nation.getKey()).put(realShipType.getKey(), realShipType.getValue());
+                }
             });
             shipsList.remove(nation.getKey());
             shipsList.put(nation.getKey(), nation.getValue());
         });
-        LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>> russia = shipsList.get("RUSSIA");
-        shipsList.remove("RUSSIA");
-        shipsList.put("RUSSIA", russia);
+        LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>> russia = shipsList.get("Russia");
+        shipsList.remove("Russia");
+        shipsList.put("Russia", russia);
+
+        sortShipsList();
+    }
+
+    private void sortShipsList()
+    {
+        shipsList.forEach((nation, realShipTypes) -> realShipTypes.forEach((realShipType, shipTypes) -> shipTypes.values().forEach(shipType -> {
+            for (int i = 10; i >= 1; i--) {
+                if (CollectionUtils.isNotEmpty(shipType.get(i))) {
+                    if (shipType.get(i).stream().anyMatch(ShipIndex::isResearch)) {
+                        for (int j = 0; j < shipType.get(i).size(); j++) {
+                            if (shipType.get(i).get(j).getPosition() == 0) {
+                                shipType.get(i).get(j).setPosition(j + 1);
+
+                                int tempTier = i;
+                                while (tempTier > 1) {
+                                    if (CollectionUtils.isNotEmpty(shipType.get(tempTier - 1)) && shipType.get(tempTier - 1).size() >= j + 1) {
+                                        for (int k = 0; k < shipType.get(tempTier - 1).size(); k++) {
+                                            if (shipType.get(tempTier - 1).get(k).getIndex().equalsIgnoreCase(shipType.get(tempTier).get(j).getPrevShipIndex())) {
+                                                shipType.get(tempTier - 1).get(k).setPosition(shipType.get(tempTier).get(j).getPosition());
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    tempTier--;
+                                }
+                            }
+                        }
+                    }
+                    shipType.get(i).sort(Comparator.comparingInt(ShipIndex::getPosition));
+                }
+            }
+        })));
     }
 
     private void sortUpgrades()
@@ -359,6 +370,21 @@ public class JsonParser
                     }
                 }
             }
+        });
+    }
+
+    private void calculateXp()
+    {
+        shipsList.forEach((nation, realShipTypes) -> {
+            realShipTypes.forEach((realShipType, shipTypes) -> {
+                if (shipTypes.keySet().contains(realShipType)) {
+                    shipTypes.forEach((shipType, tiers) -> {
+                        tiers.forEach((tier, ships) -> {
+
+                        });
+                    });
+                }
+            });
         });
     }
 }

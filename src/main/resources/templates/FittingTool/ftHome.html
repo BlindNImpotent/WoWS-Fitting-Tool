@@ -29,7 +29,7 @@
                 <ul>
                     <th:block th:each="nation : ${nations}">
                         <li>
-                            <span th:text="${global.get(IDS + nation.key)}"></span>
+                            <span th:text="${global.get(IDS + nation.key.toUpperCase())}"></span>
                             <ul class="dropdown_main">
                                 <li th:each="realShipType : ${nation.value}">
                                     <span th:text="${global.get(IDS + realShipType.key)}"></span>
