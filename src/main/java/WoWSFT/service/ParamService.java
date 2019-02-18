@@ -71,6 +71,39 @@ public class ParamService
             }
         });
 
+        ship.getComponents().getFighter().forEach((c, val) -> {
+            if (c.equalsIgnoreCase(ship.getModules().get(fighter))) {
+                val.getHangarSettings().setTimeToRestore(val.getHangarSettings().getTimeToRestore() * modifier.getPlaneSpawnTimeCoefficient());
+                val.setMaxForsageAmount(val.getMaxForsageAmount() * modifier.getForsageDurationCoefficient());
+                val.getConsumables().forEach(consumable -> consumable.getSubConsumables().values().forEach(sub -> sub.setReloadTime(sub.getReloadTime() * modifier.getReloadCoefficient())));
+                val.setSpeedMoveWithBomb(val.getSpeedMoveWithBomb() * modifier.getFlightSpeedCoefficient());
+                val.setSpeedMove(val.getSpeedMove() * modifier.getFlightSpeedCoefficient());
+                val.setMaxHealth(val.getMaxHealth() + ship.getLevel() * (int) modifier.getPlaneHealthPerLevel());
+                val.setMaxVisibilityFactor(val.getMaxVisibilityFactor() * modifier.getSquadronVisibilityDistCoeff());
+
+                if ("HE".equalsIgnoreCase(val.getRocket().getAmmoType())) {
+                    val.getRocket().setBurnProb(val.getRocket().getBurnProb() + modifier.getRocketProbabilityBonus());
+                }
+            }
+        });
+
+        ship.getComponents().getDiveBomber().forEach((c, val) -> {
+            if (c.equalsIgnoreCase(ship.getModules().get(diveBomber))) {
+
+                if ("HE".equalsIgnoreCase(val.getBomb().getAmmoType())) {
+                    val.getBomb().setBurnProb(val.getBomb().getBurnProb() + modifier.getBombProbabilityBonus());
+                }
+            }
+        });
+
+        ship.getComponents().getTorpedoBomber().forEach((c, val) -> {
+            if (c.equalsIgnoreCase(ship.getModules().get(torpedoBomber))) {
+
+                val.getTorpedo().setMaxDist(val.getTorpedo().getMaxDist() * modifier.getPlaneTorpedoRangeCoefficient());
+                val.getTorpedo().setSpeed(val.getTorpedo().getSpeed() + modifier.getPlaneTorpedoSpeedBonus());
+            }
+        });
+
         ship.getComponents().getAtba().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(atba))) {
                 val.setGSIdealRadius(val.getGSIdealRadius() * modifier.getGsidealRadius());

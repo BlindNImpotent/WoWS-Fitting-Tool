@@ -271,7 +271,7 @@
                     </tr>
                     <tr class="toggle fPlane hide">
                         <td th:text="${global.get('IDS_SHIP_PARAM_SQUADRON_MAX_FORSAGE_AMOUNT')}"></td>
-                        <td th:text="${#numbers.formatInteger(fighter.maxForsageAmount, 1, 'COMMA')} + ' s'"></td>
+                        <td th:text="${#numbers.formatDecimal(fighter.maxForsageAmount, 1, 1)} + ' s'"></td>
                     </tr>
                     <tr class="toggle fPlane hide">
                         <td th:text="${global.get('IDS_SHIP_PARAM_SQUADRON_FORSAGE_RESTORE_TIME')}"></td>
@@ -342,7 +342,7 @@
                     </tr>
                     <tr class="toggle dPlane hide">
                         <td th:text="${global.get('IDS_SHIP_PARAM_SQUADRON_MAX_FORSAGE_AMOUNT')}"></td>
-                        <td th:text="${#numbers.formatInteger(diveBomber.maxForsageAmount, 1, 'COMMA')} + ' s'"></td>
+                        <td th:text="${#numbers.formatDecimal(diveBomber.maxForsageAmount, 1, 1)} + ' s'"></td>
                     </tr>
                     <tr class="toggle dPlane hide">
                         <td th:text="${global.get('IDS_SHIP_PARAM_SQUADRON_FORSAGE_RESTORE_TIME')}"></td>
@@ -413,7 +413,7 @@
                     </tr>
                     <tr class="toggle tPlane hide">
                         <td th:text="${global.get('IDS_SHIP_PARAM_SQUADRON_MAX_FORSAGE_AMOUNT')}"></td>
-                        <td th:text="${#numbers.formatInteger(torpedoBomber.maxForsageAmount, 1, 'COMMA')} + ' s'"></td>
+                        <td th:text="${#numbers.formatDecimal(torpedoBomber.maxForsageAmount, 1, 1)} + ' s'"></td>
                     </tr>
                     <tr class="toggle tPlane hide">
                         <td th:text="${global.get('IDS_SHIP_PARAM_SQUADRON_FORSAGE_RESTORE_TIME')}"></td>
