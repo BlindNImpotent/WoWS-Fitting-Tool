@@ -68,7 +68,7 @@ nav {
 a {
     text-decoration: none;
     color: black;
-    padding: 10px;
+    padding: 8px;
     display: block;
 }
 
@@ -213,7 +213,7 @@ nav ul li:active > ul {
 
 .dropdown_main .dropdown_sub li {
     left: 130px;
-    top:-40px;
+    top:-36px;
     padding: 0;
 }
 
