@@ -221,13 +221,13 @@ public class GPController extends ExceptionController
         return gpService.getArtyAmmoOnly(index, artyId);
     }
 
-    @GetMapping(value = "/research")
-    public String getResearch(Model model)
-    {
-        model.addAttribute("global", global.get("en"));
-        model.addAttribute("IDS", IDS);
-        model.addAttribute("nations", shipsList);
-
-        return "Research/shipTree";
-    }
+//    @GetMapping(value = "/research")
+//    public String getResearch(Model model)
+//    {
+//        model.addAttribute("global", global.get("en"));
+//        model.addAttribute("IDS", IDS);
+//        model.addAttribute("nations", shipsList);
+//
+//        return "Research/shipTree";
+//    }
 }

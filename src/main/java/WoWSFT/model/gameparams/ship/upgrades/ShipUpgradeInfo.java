@@ -46,8 +46,6 @@ public class ShipUpgradeInfo
 
         if (StringUtils.isEmpty(upgrade.getPrev())) {
             upgrade.setPosition(1);
-        } else if (CollectionUtils.isNotEmpty(upgrade.getNextShips())) {
-            upgrade.setPosition(3);
         } else {
             upgrade.setPosition(2);
         }

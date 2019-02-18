@@ -442,7 +442,7 @@
                 <tbody>
                     <tr class="subsystem switch" data-type="sea">
                         <td><u>Sea</u></td>
-                        <td th:text="${#numbers.formatDecimal(hull.visibilityFactor * 0.97, 1, 2)} + ' km'"></td>
+                        <td th:text="${#numbers.formatDecimal(hull.visibilityFactor * (warship.canEquipCamouflage ? 0.97 : 1), 1, 2)} + ' km'"></td>
                     </tr>
                     <tr class="toggle sea hide">
                         <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_VISIBILITY_DIST_BY_GK_IN_SMOKE_BATTLE')}"></td>
