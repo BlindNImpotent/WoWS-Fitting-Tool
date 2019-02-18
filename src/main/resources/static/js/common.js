@@ -175,7 +175,7 @@ $(document).on('click', '.switch', function (e) {
     }
 });
 
-var waitTime = 1500;
+var waitTime = 1000;
 var timer = [];
 function delayCall($ship)
 {
