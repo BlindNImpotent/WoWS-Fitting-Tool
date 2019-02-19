@@ -10,6 +10,7 @@ import WoWSFT.service.GPService;
 import WoWSFT.service.ParamService;
 import WoWSFT.service.ParserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +27,7 @@ import static WoWSFT.model.Constant.*;
 /**
  * Created by Aesis on 2016-10-15.
  */
+@Slf4j
 @Controller
 public class GPController extends ExceptionController
 {
@@ -154,6 +156,8 @@ public class GPController extends ExceptionController
 
             Ship ship = getShip(index.toUpperCase(), modules, upgrades, consumables, skills, commander.toUpperCase(), crew, false);
             model.addAttribute(TYPE_WARSHIP, ship);
+
+            log.info(request.getRequestURL() + (StringUtils.isNotEmpty(request.getQueryString()) ? "?" + request.getQueryString() : ""));
 
             if ("post".equalsIgnoreCase(request.getMethod())) {
                 return "Joint/rightInfo :: rightInfo";

@@ -14,15 +14,6 @@ import static WoWSFT.model.Constant.GENERAL_INTERNAL_ERROR;
 public class ExceptionController
 {
     @ResponseBody
-    @ExceptionHandler({NullPointerException.class, IndexOutOfBoundsException.class})
-    public CustomMessage sendError(Throwable t, HttpServletRequest request)
-    {
-        log.info(t.getLocalizedMessage(), request.getRequestURL().toString() + (StringUtils.isNotEmpty(request.getQueryString()) ? "?" + request.getQueryString() : ""));
-
-        return new CustomMessage("1001", GENERAL_INTERNAL_ERROR);
-    }
-
-    @ResponseBody
     @ExceptionHandler(Exception.class)
     public CustomMessage otherErrors(Throwable t, HttpServletRequest request)
     {
