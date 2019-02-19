@@ -126,7 +126,7 @@ public class JsonParser
 
             if (typeInfo.getType().equalsIgnoreCase("Ship") && !excludeShipNations.contains(typeInfo.getNation()) && !excludeShipSpecies.contains(typeInfo.getSpecies())) {
                 Ship ship = mapper.convertValue(value, Ship.class);
-                if (!excludeShipGroups.contains(ship.getGroup()) && StringUtils.isEmpty(ship.getDefaultCrew())) {
+                if (!excludeShipGroups.contains(ship.getGroup()) && StringUtils.isEmpty(ship.getDefaultCrew()) && ship.getShipUpgradeInfo().getCostGold() < 99999) {
                     ship.getShipUpgradeInfo().getComponents().forEach((cType, c) ->
                         c.forEach(su -> {
                             for (String s : excludeCompStats) {
@@ -239,7 +239,8 @@ public class JsonParser
 
     private void setRealShipType(Ship ship)
     {
-        if ("upgradeable".equalsIgnoreCase(ship.getGroup()) || "start".equalsIgnoreCase(ship.getGroup())) {
+        if ("upgradeable".equalsIgnoreCase(ship.getGroup()) || "start".equalsIgnoreCase(ship.getGroup())
+                || (ship.getShipUpgradeInfo().getCostGold() == 0 && ship.getShipUpgradeInfo().getCostXP() == 0)) {
             ship.setRealShipType(ship.getTypeinfo().getSpecies());
             ship.setResearch(true);
         } else {

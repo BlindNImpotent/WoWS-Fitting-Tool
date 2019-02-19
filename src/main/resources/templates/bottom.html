@@ -1,7 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="bottom" class="bottom-fix">
-    <span>Contact EdibleBug on Reddit for service related issues.<br />
-        All copyright materials provided by Wargaming.net are owned by Wargaming.net</span>
+    <span>
+        Contact EdibleBug on Reddit for service related issues.<br /><br />
+        All copyright materials provided by Wargaming.net are owned and copyrighted by Wargaming.net.<br />
+        If you do not acknowledge this, please refrain from using the service.<br />
+        I am not responsible for any problems that may occur by using this service.
+    </span>
+    <span th:if="${lang == 'ko'}">
+        <br /><br />
+        문의 사항은 '먹는버러지' 혹은 'EdibleBug' 를 찾으세요.<br /><br />
+        Wargaming.net (이하 워게이밍) 에서 제공하는 모든 데이터에 대한 소유권 및 저작권은 워게이밍에게 있습니다.<br />
+        해당 소유권 및 저작권을 인정하지 못한다면 이 사이트를 이용하지 마세요.<br />
+        저는 이 사이트를 이용함으로 생기는 모든 문제에 대한 책임을 지지 않습니다.
+    </span>
 </div>
 </html>

@@ -3,7 +3,9 @@ package WoWSFT.service;
 import WoWSFT.model.gameparams.CommonModifier;
 import WoWSFT.model.gameparams.commander.Commander;
 import WoWSFT.model.gameparams.ship.Ship;
+import WoWSFT.model.gameparams.ship.component.ShipComponent;
 import WoWSFT.model.gameparams.ship.component.airdefense.Aura;
+import WoWSFT.model.gameparams.ship.component.planes.Plane;
 import WoWSFT.utils.CommonUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -73,14 +75,9 @@ public class ParamService
 
         ship.getComponents().getFighter().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(fighter))) {
-                val.getHangarSettings().setTimeToRestore(val.getHangarSettings().getTimeToRestore() * modifier.getPlaneSpawnTimeCoefficient());
-                val.setMaxForsageAmount(val.getMaxForsageAmount() * modifier.getForsageDurationCoefficient());
-                val.getConsumables().forEach(consumable -> consumable.getSubConsumables().values().forEach(sub -> sub.setReloadTime(sub.getReloadTime() * modifier.getReloadCoefficient())));
-                val.setSpeedMoveWithBomb(val.getSpeedMoveWithBomb() * modifier.getFlightSpeedCoefficient());
-                val.setSpeedMove(val.getSpeedMove() * modifier.getFlightSpeedCoefficient());
-                val.setMaxHealth(val.getMaxHealth() + ship.getLevel() * (int) modifier.getPlaneHealthPerLevel());
-                val.setMaxVisibilityFactor(val.getMaxVisibilityFactor() * modifier.getSquadronVisibilityDistCoeff());
+                setPlanes(val, modifier);
 
+                val.setMaxHealth((int) ((val.getMaxHealth() + (ship.getLevel() * modifier.getPlaneHealthPerLevel())) * modifier.getAirplanesFightersHealth() * modifier.getAirplanesHealth()));
                 if ("HE".equalsIgnoreCase(val.getRocket().getAmmoType())) {
                     val.getRocket().setBurnProb(val.getRocket().getBurnProb() + modifier.getRocketProbabilityBonus());
                 }
@@ -89,7 +86,9 @@ public class ParamService
 
         ship.getComponents().getDiveBomber().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(diveBomber))) {
+                setPlanes(val, modifier);
 
+                val.setMaxHealth((int) ((val.getMaxHealth() + (ship.getLevel() * modifier.getPlaneHealthPerLevel())) * modifier.getAirplanesDiveBombersHealth() * modifier.getAirplanesHealth()));
                 if ("HE".equalsIgnoreCase(val.getBomb().getAmmoType())) {
                     val.getBomb().setBurnProb(val.getBomb().getBurnProb() + modifier.getBombProbabilityBonus());
                 }
@@ -98,9 +97,17 @@ public class ParamService
 
         ship.getComponents().getTorpedoBomber().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(torpedoBomber))) {
+                setPlanes(val, modifier);
 
+                val.setMaxHealth((int) ((val.getMaxHealth() + (ship.getLevel() * modifier.getPlaneHealthPerLevel())) * modifier.getAirplanesTorpedoBombersHealth() * modifier.getAirplanesHealth()));
                 val.getTorpedo().setMaxDist(val.getTorpedo().getMaxDist() * modifier.getPlaneTorpedoRangeCoefficient());
                 val.getTorpedo().setSpeed(val.getTorpedo().getSpeed() + modifier.getPlaneTorpedoSpeedBonus());
+            }
+        });
+
+        ship.getComponents().getAirArmament().forEach((c, val) -> {
+            if (c.equalsIgnoreCase(ship.getModules().get(airArmament))) {
+                val.setDeckPlaceCount(val.getDeckPlaceCount() + modifier.getAirplanesExtraHangarSize());
             }
         });
 
@@ -233,5 +240,19 @@ public class ParamService
             }
         });
         return bonus;
+    }
+
+    private void setPlanes(Plane plane, CommonModifier modifier)
+    {
+        if (plane.getHangarSettings() != null) {
+            plane.getHangarSettings().setTimeToRestore(plane.getHangarSettings().getTimeToRestore() * modifier.getPlaneSpawnTimeCoefficient() * modifier.getAirplanesSpawnTime());
+        }
+        plane.setMaxForsageAmount(plane.getMaxForsageAmount() * modifier.getForsageDurationCoefficient() * modifier.getAirplanesForsageDuration());
+        plane.getConsumables().forEach(consumable -> consumable.getSubConsumables().values().forEach(sub -> sub.setReloadTime(sub.getReloadTime() * modifier.getReloadCoefficient())));
+        plane.setSpeedMoveWithBomb(plane.getSpeedMoveWithBomb() * modifier.getFlightSpeedCoefficient());
+        plane.setSpeedMove(plane.getSpeedMove() * modifier.getFlightSpeedCoefficient());
+        plane.setMaxVisibilityFactor(plane.getMaxVisibilityFactor() * modifier.getSquadronVisibilityDistCoeff());
+        plane.setMaxVisibilityFactorByPlane(plane.getMaxVisibilityFactorByPlane() * modifier.getSquadronVisibilityDistCoeff());
+        plane.setSpeedMoveWithBomb(plane.getSpeedMoveWithBomb() * modifier.getAirplanesSpeed());
     }
 }

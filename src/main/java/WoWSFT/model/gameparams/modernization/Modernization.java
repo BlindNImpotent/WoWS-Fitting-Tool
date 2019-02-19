@@ -76,13 +76,13 @@ public class Modernization
     private float airplanesDiveBombersHealth = 1f;
     private float airplanesEmptyReturnSpeed = 1f;
     private float airplanesExtraHangarSize;
-    private float airplanesFighterAimingTime = 1f;
+    private float airplanesFighterAimingTime;
     private float airplanesFightersHealth = 1f;
     private float airplanesForsageDuration = 1f;
     private float airplanesHealth = 1f;
     private float airplanesSpawnTime = 1f;
     private float airplanesSpeed = 1f;
-    private float airplanesTorpedoAimingTime = 1f;
+    private float airplanesTorpedoAimingTime;
     private float airplanesTorpedoBombersHealth = 1f;
     private float burnProb = 1f;
     private float burnTime = 1f;

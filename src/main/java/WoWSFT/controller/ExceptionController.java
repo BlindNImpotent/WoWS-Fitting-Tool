@@ -17,8 +17,6 @@ public class ExceptionController
     @ExceptionHandler({NullPointerException.class, IndexOutOfBoundsException.class})
     public CustomMessage sendError(Throwable t, HttpServletRequest request)
     {
-        t.printStackTrace();
-
         log.info(t.getLocalizedMessage(), request.getRequestURL().toString() + (StringUtils.isNotEmpty(request.getQueryString()) ? "?" + request.getQueryString() : ""));
 
         return new CustomMessage("1001", GENERAL_INTERNAL_ERROR);

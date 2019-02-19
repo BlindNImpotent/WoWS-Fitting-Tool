@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  * Created by Aesis on 2017. 5. 21..
@@ -77,6 +78,28 @@ public class CustomFilter implements Filter
 
         if (loadFinish.get("loadFinish") == 0 && !"/".equalsIgnoreCase(uri) && isNotIgnore(uri)) {
             request.getRequestDispatcher("/").forward(request, response);
+            return;
+        }
+
+        if (request.getServerName().startsWith("kr.")) {
+            String tempQS = "";
+            int count = 0;
+            for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
+                if (entry.getValue() != null && entry.getValue().length > 0 && !entry.getKey().toLowerCase().equalsIgnoreCase("lang")) {
+                    if (count != 0) {
+                        tempQS = tempQS.concat("&");
+
+                    }
+                    tempQS = tempQS.concat(entry.getKey()).concat("=").concat(entry.getValue()[0]);
+                    count++;
+                }
+            }
+            tempQS = tempQS.concat(count > 0 ? "&" : "").concat("lang=ko");
+
+            response.setContentType("text/html");
+            response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+            response.setHeader("Location", url.replace("kr.", "") + "?" + tempQS);
+            chain.doFilter(request, response);
             return;
         }
 

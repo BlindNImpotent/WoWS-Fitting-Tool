@@ -173,8 +173,8 @@ public class CommonModifier
     private float planeSpawnTimeCoefficient = 1f;
     private float prioritySectorStrengthCoefficient = 1f;
     private float sectorSwitchDelayCoefficient = 1f;
-    private float bombProbabilityBonus = 1f;
-    private float rocketProbabilityBonus = 1f;
+    private float bombProbabilityBonus;
+    private float rocketProbabilityBonus;
     private float flightSpeedCoefficient = 1f;
     private float forsageDurationCoefficient = 1f;
     private float squadronHealthStep;

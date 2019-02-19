@@ -55,6 +55,13 @@ body {
     text-align: center;
     margin: 0 auto;
     list-style: none;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 
 body::-webkit-scrollbar {
@@ -284,12 +291,13 @@ nav ul li:active > ul {
 
 .button_module, .button_upgrade,
 .button_skill, .button_uSkill,
-.button_flag, .button_consumable {
+.button_flag, .button_consumable,
+.button_plane_consumable {
     background: white;
     text-align: center;
     border: 1px solid rgba(0,0,0,0);
     border-radius: 5px;
-    font-size: 12px;
+    font-size: 11px;
     width: 60px;
     height: 60px;
     word-wrap: normal;
