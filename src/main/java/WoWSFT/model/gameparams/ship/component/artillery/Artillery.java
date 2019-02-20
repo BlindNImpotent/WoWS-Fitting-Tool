@@ -17,9 +17,10 @@ import java.util.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Artillery
 {
-    private Aura auraFar;
-    private Aura auraMedium;
-    private Aura auraNear;
+    private List<Aura> auraFar = new ArrayList<>();
+    private List<Aura> auraMedium = new ArrayList<>();
+    private List<Aura> auraNear = new ArrayList<>();
+
     private List<Turret> turrets = new ArrayList<>();
     private LinkedHashMap<Integer, List<Object>> turretTypes = new LinkedHashMap<>();
 
@@ -43,11 +44,11 @@ public class Artillery
     public void setGuns(String name, Object value)
     {
         if (name.contains("Far")) {
-            auraFar = mapper.convertValue(value, Aura.class);
+            auraFar.add(mapper.convertValue(value, Aura.class));
         } else if (name.contains("Medium")) {
-            auraMedium = mapper.convertValue(value, Aura.class);
+            auraMedium.add(mapper.convertValue(value, Aura.class));
         } else if (name.contains("Near")) {
-            auraNear = mapper.convertValue(value, Aura.class);
+            auraNear.add(mapper.convertValue(value, Aura.class));
         } else if (value instanceof HashMap) {
             HashMap<String, Object> tempObject = mapper.convertValue(value, new TypeReference<HashMap<String, Object>>(){});
 

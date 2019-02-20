@@ -20,9 +20,10 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ATBA
 {
-    private Aura auraFar;
-    private Aura auraMedium;
-    private Aura auraNear;
+    private List<Aura> auraFar = new ArrayList<>();
+    private List<Aura> auraMedium = new ArrayList<>();
+    private List<Aura> auraNear = new ArrayList<>();
+
     private List<Secondary> turrets = new ArrayList<>();
     private LinkedHashMap<String, Secondary> secondaries = new LinkedHashMap<>();
 
@@ -41,11 +42,11 @@ public class ATBA
     public void setGuns(String name, Object value)
     {
         if (name.contains("Far")) {
-            auraFar = mapper.convertValue(value, Aura.class);
+            auraFar.add(mapper.convertValue(value, Aura.class));
         } else if (name.contains("Medium")) {
-            auraMedium = mapper.convertValue(value, Aura.class);
+            auraMedium.add(mapper.convertValue(value, Aura.class));
         } else if (name.contains("Near")) {
-            auraNear = mapper.convertValue(value, Aura.class);
+            auraNear.add(mapper.convertValue(value, Aura.class));
         } else if (value instanceof HashMap) {
             HashMap<String, Object> tempObject = mapper.convertValue(value, new TypeReference<HashMap<String, Object>>(){});
 

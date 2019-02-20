@@ -14,8 +14,24 @@
             diveBomber=${warship.modules.containsKey('diveBomber') ? warship.components.diveBomber.get(warship.modules.get('diveBomber')) : null},
             fighter=${warship.modules.containsKey('fighter') ? warship.components.fighter.get(warship.modules.get('fighter')) : null},
             torpedoBomber=${warship.modules.containsKey('torpedoBomber') ? warship.components.torpedoBomber.get(warship.modules.get('torpedoBomber')) : null},
+            auraFars=${warship.auraFar}, auraMediums=${warship.auraMedium}, auraNears=${warship.auraNear},
             consumables=${warship.consumables}">
     <div class="info_box_inner replace">
+        <div th:if="${warship.arUse}" class="panel_right" data-type="misc">
+            <div class="switch" data-type="misc"><strong th:text="${global.get('IDS_OTHER')}"></strong></div>
+            <table class="toggle misc">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="display: flex;">
+                            <u style="float: left; width: 50%;" th:text="${global.get('IDS_SKILL_LASTCHANCEMODIFIER')}"></u>
+                            <span style="float: left; width: 10%;" class="arSliderValue" th:text="${warship.adrenaline}"></span>
+                            <input style="float: left; width: 40%;" type="range" min="1" max="100" th:value="${warship.adrenaline}" class="arSlider" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div th:if="${artillery != null}" class="panel_right" data-type="artillery">
             <div class="switch" data-type="arty">
                 <strong th:text="${global.get('IDS_SHIP_PARAM_ARTILLERY')}"></strong>
@@ -211,6 +227,10 @@
                         <td th:text="${#numbers.formatDecimal(torpedoes.ammo.visibilityFactor, 1, 2)} + ' km'"></td>
                     </tr>
                     <tr class="toggle torps">
+                        <td th:text="${'Reaction Time'}"></td>
+                        <td th:text="${#numbers.formatDecimal(torpedoes.ammo.visibilityFactor / torpedoes.ammo.speed / 2.6 * 1000, 1, 1)} + ' s'"></td>
+                    </tr>
+                    <tr class="toggle torps">
                         <td th:text="${global.get('IDS_PARAMS_MODIFIER_FLOODCHANCEFACTOR')}"></td>
                         <td th:text="${#numbers.formatInteger(torpedoes.ammo.uwCritical * 100.0, 1, 'COMMA')} + ' %'"></td>
                     </tr>
@@ -336,7 +356,6 @@
                             </tr>
                         </th:block>
                     </th:block>
-
                     <th:block th:if="${flightControl.planesReserveAssignment.get('Dive') > 0}">
                         <tr class="switch subsystem" data-type="dPlane">
                             <td><u th:text="${diveBomber.numPlanesInSquadron + ' X ' + global.get(IDS + diveBomber.name.toUpperCase())}"></u></td>
@@ -433,7 +452,6 @@
                             </tr>
                         </th:block>
                     </th:block>
-
                     <th:block th:if="${flightControl.planesReserveAssignment.get('Bomber') > 0}">
                         <tr class="switch subsystem" data-type="tPlane">
                             <td><u th:text="${diveBomber.numPlanesInSquadron + ' X ' + global.get(IDS + diveBomber.name.toUpperCase())}"></u></td>
@@ -531,6 +549,7 @@
                 </tbody>
             </table>
         </div>
+
         <div th:if="${atba != null}" class="panel_right" data-type="atba">
             <div class="switch" data-type="secondary">
                 <strong th:text="${global.get('IDS_SHIP_PARAM_ATBA')}"></strong>
@@ -590,103 +609,86 @@
         </div>
     </div>
     <div class="info_box_inner replace">
-        <div th:if="${airDefense != null
-
-                    and (((airDefense.auraFar != null and (airDefense.auraFar.innerBubbleCount > 0 or airDefense.auraFar.outerBubbleCount > 0))
-                    or (airDefense.auraMedium != null and (airDefense.auraMedium.innerBubbleCount > 0 or airDefense.auraMedium.outerBubbleCount > 0))
-                    or airDefense.auraNear != null)
-
-                    or (atba != null
-                    and ((atba.auraFar != null and (atba.auraFar.innerBubbleCount > 0 or atba.auraFar.outerBubbleCount > 0))
-                    or (atba.auraMedium != null and (atba.auraMedium.innerBubbleCount > 0 or atba.auraMedium.outerBubbleCount > 0))
-                    or atba.auraNear != null))
-
-                    or (artillery != null
-                    and ((artillery.auraFar != null and (artillery.auraFar.innerBubbleCount > 0 or artillery.auraFar.outerBubbleCount > 0))
-                    or (artillery.auraMedium != null and (artillery.auraMedium.innerBubbleCount > 0 or artillery.auraMedium.outerBubbleCount > 0))
-                    or artillery.auraNear != null)))}"
+        <div th:if="${airDefense != null and (auraFars.size() > 0 or auraMediums.size() > 0 or auraNears.size() > 0)}"
              class="panel_right" data-type="airDefense">
             <div class="switch" data-type="aa">
                 <strong th:text="${global.get('IDS_SHIP_PARAM_AIR_DEFENSE')}"></strong>
             </div>
             <table class="toggle aa">
-                <th:block th:with="auraFar=${atba != null and atba.auraFar != null ? atba.auraFar : (artillery != null and artillery.auraFar != null ? artillery.auraFar : airDefense.auraFar)},
-                                   auraMedium=${atba != null and atba.auraMedium != null ? atba.auraMedium : (artillery != null and artillery.auraMedium != null ? artillery.auraMedium : airDefense.auraMedium)},
-                                   auraNear=${atba != null and atba.auraNear != null ? atba.auraNear : (artillery != null and artillery.auraNear != null ? artillery.auraNear : airDefense.auraNear)}">
-                    <tbody>
-                        <th:block th:if="${airDefense != null}">
-                            <tr class="subsystem switch" data-type="enforce">
-                                <td><u th:text="${global.get('IDS_SHIP_PARAM_AA_SECTOR_STRENGTH')}"></u></td>
-                                <td th:text="${#numbers.formatDecimal(airDefense.prioritySectorStrength * 100 - 100, 1, 1)} + ' %'"></td>
-                            </tr>
-                            <tr class="toggle enforce hide">
-                                <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_AA_SECTOR_ENABLE_DELAY')}"></td>
-                                <td th:text="${#numbers.formatDecimal(airDefense.prioritySectorEnableDelay, 1, 1)} + ' s'"></td>
-                            </tr>
-                            <tr class="toggle enforce hide">
-                                <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_AA_SECTOR_CHANGE_DELAY')}"></td>
-                                <td th:text="${#numbers.formatDecimal(airDefense.prioritySectorChangeDelay, 1, 1)} + ' s'"></td>
-                            </tr>
-                        </th:block>
-                        <th:block th:if="${auraFar != null and (auraFar.innerBubbleCount > 0 or auraFar.outerBubbleCount > 0)}">
-                            <tr class="subsystem switch" data-type="far">
-                                <td><u th:text="${global.get('IDS_FAR')}"></u></td>
-                                <td>
-                                    <th:block th:text="${#numbers.formatDecimal(auraFar.minDistance / 1000, 1, 1) + ' - ' + #numbers.formatDecimal(auraFar.maxDistance / 1000, 1, 1)} + ' km'"></th:block><br />
-                                    <th:block th:text="${#numbers.formatDecimal(auraFar.areaDamage / auraFar.areaDamageFrequency, 1, 1)} + ' dps'"></th:block>
-                                </td>
-                            </tr>
-                            <tr class="toggle far hide">
-                                <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_AA_EXPL_COUNT')}"></td>
-                                <td th:text="${#numbers.formatInteger(auraFar.innerBubbleCount + auraFar.outerBubbleCount, 1, 'COMMA')}"></td>
-                            </tr>
-                            <tr class="toggle far hide">
-                                <td th:text="'- ' + ${'DPS'}"></td>
-                                <td th:text="${#numbers.formatInteger(auraFar.bubbleDamage * 7, 1, 'COMMA')}"></td>
-                            </tr>
-                            <tr class="toggle far hide">
-                                <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_AA_HIT_CHANCE')}"></td>
-                                <td th:text="${#numbers.formatInteger(auraFar.hitChance * 100, 1, 'COMMA')} + ' %'"></td>
-                            </tr>
-                        </th:block>
-                        <th:block th:if="${auraMedium != null and (auraMedium.innerBubbleCount > 0 or auraMedium.outerBubbleCount > 0)}">
-                            <tr class="subsystem switch" data-type="medium">
-                                <td><u th:text="${global.get('IDS_MEDIUM')}"></u></td>
-                                <td>
-                                    <th:block th:text="${#numbers.formatDecimal(auraMedium.minDistance / 1000, 1, 1) + ' - ' + #numbers.formatDecimal(auraMedium.maxDistance / 1000, 1, 1)} + ' km'"></th:block><br />
-                                    <th:block th:text="${#numbers.formatDecimal(auraMedium.areaDamage / auraMedium.areaDamageFrequency, 1, 1)} + ' dps'"></th:block>
-                                </td>
-                            </tr>
-                            <tr class="toggle medium hide">
-                                <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_AA_EXPL_COUNT')}"></td>
-                                <td th:text="${#numbers.formatInteger(auraMedium.innerBubbleCount + auraMedium.outerBubbleCount, 1, 'COMMA')}"></td>
-                            </tr>
-                            <tr class="toggle medium hide">
-                                <td th:text="'- ' + ${'DPS'}"></td>
-                                <td th:text="${#numbers.formatInteger(auraMedium.bubbleDamage * 7, 1, 'COMMA')}"></td>
-                            </tr>
-                            <tr class="toggle medium hide">
-                                <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_AA_HIT_CHANCE')}"></td>
-                                <td th:text="${#numbers.formatInteger(auraMedium.hitChance * 100, 1, 'COMMA')} + ' %'"></td>
-                            </tr>
-                        </th:block>
-                        <th:block th:if="${auraNear != null}">
-                            <tr class="subsystem switch" data-type="near">
-                                <td><u th:text="${global.get('IDS_NEAR')}"></u></td>
-                                <td>
-                                    <th:block th:text="${#numbers.formatDecimal(auraNear.minDistance / 1000, 1, 1) + ' - ' + #numbers.formatDecimal(auraNear.maxDistance / 1000, 1, 1)} + ' km'"></th:block><br />
-                                    <th:block th:text="${#numbers.formatDecimal(auraNear.areaDamage / auraNear.areaDamageFrequency, 1, 1)} + ' dps'"></th:block>
-                                </td>
-                            </tr>
-                            <tr class="toggle near hide">
-                                <td th:text="${global.get('IDS_SHIP_PARAM_AA_HIT_CHANCE')}"></td>
-                                <td th:text="${#numbers.formatInteger(auraNear.hitChance * 100, 1, 'COMMA')} + ' %'"></td>
-                            </tr>
-                        </th:block>
-                    </tbody>
-                </th:block>
+                <tbody>
+                    <th:block th:if="${airDefense != null}">
+                        <tr class="subsystem switch" data-type="enforce">
+                            <td><u th:text="${global.get('IDS_SHIP_PARAM_AA_SECTOR_STRENGTH')}"></u></td>
+                            <td th:text="${#numbers.formatDecimal(airDefense.prioritySectorStrength * 100 - 100, 1, 1)} + ' %'"></td>
+                        </tr>
+                        <tr class="toggle enforce hide">
+                            <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_AA_SECTOR_ENABLE_DELAY')}"></td>
+                            <td th:text="${#numbers.formatDecimal(airDefense.prioritySectorEnableDelay, 1, 1)} + ' s'"></td>
+                        </tr>
+                        <tr class="toggle enforce hide">
+                            <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_AA_SECTOR_CHANGE_DELAY')}"></td>
+                            <td th:text="${#numbers.formatDecimal(airDefense.prioritySectorChangeDelay, 1, 1)} + ' s'"></td>
+                        </tr>
+                    </th:block>
+                    <th:block th:each="auraFar : ${auraFars}" th:if="${auraFar.innerBubbleCount > 0 or auraFar.outerBubbleCount > 0}">
+                        <tr class="subsystem switch" th:attr="data-type=${'far' + auraFarStat.index}">
+                            <td><u th:text="${global.get('IDS_FAR')}"></u></td>
+                            <td>
+                                <th:block th:text="${#numbers.formatDecimal(auraFar.minDistance / 1000, 1, 1) + ' - ' + #numbers.formatDecimal(auraFar.maxDistance / 1000, 1, 1)} + ' km'"></th:block><br />
+                                <th:block th:text="${#numbers.formatDecimal(auraFar.areaDamage / auraFar.areaDamageFrequency, 1, 1)} + ' dps'"></th:block>
+                            </td>
+                        </tr>
+                        <tr class="toggle" th:classappend="${'far' + auraFarStat.index + ' hide'}">
+                            <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_AA_EXPL_COUNT')}"></td>
+                            <td th:text="${#numbers.formatInteger(auraFar.innerBubbleCount + auraFar.outerBubbleCount, 1, 'COMMA')}"></td>
+                        </tr>
+                        <tr class="toggle" th:classappend="${'far' + auraFarStat.index + ' hide'}">
+                            <td th:text="'- ' + ${'DPS'}"></td>
+                            <td th:text="${#numbers.formatInteger(auraFar.bubbleDamage * 7, 1, 'COMMA')}"></td>
+                        </tr>
+                        <tr class="toggle" th:classappend="${'far' + auraFarStat.index + ' hide'}">
+                            <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_AA_HIT_CHANCE')}"></td>
+                            <td th:text="${#numbers.formatInteger(auraFar.hitChance * 100, 1, 'COMMA')} + ' %'"></td>
+                        </tr>
+                    </th:block>
+                    <th:block th:each="auraMedium : ${auraMediums}" th:if="${auraMedium.innerBubbleCount > 0 or auraMedium.outerBubbleCount > 0}">
+                        <tr class="subsystem switch" th:attr="data-type=${'medium' + auraMediumStat.index}">
+                            <td><u th:text="${global.get('IDS_MEDIUM')}"></u></td>
+                            <td>
+                                <th:block th:text="${#numbers.formatDecimal(auraMedium.minDistance / 1000, 1, 1) + ' - ' + #numbers.formatDecimal(auraMedium.maxDistance / 1000, 1, 1)} + ' km'"></th:block><br />
+                                <th:block th:text="${#numbers.formatDecimal(auraMedium.areaDamage / auraMedium.areaDamageFrequency, 1, 1)} + ' dps'"></th:block>
+                            </td>
+                        </tr>
+                        <tr class="toggle" th:classappend="${'medium' + auraMediumStat.index + ' hide'}">
+                            <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_AA_EXPL_COUNT')}"></td>
+                            <td th:text="${#numbers.formatInteger(auraMedium.innerBubbleCount + auraMedium.outerBubbleCount, 1, 'COMMA')}"></td>
+                        </tr>
+                        <tr class="toggle" th:classappend="${'medium' + auraMediumStat.index + ' hide'}">
+                            <td th:text="'- ' + ${'DPS'}"></td>
+                            <td th:text="${#numbers.formatInteger(auraMedium.bubbleDamage * 7, 1, 'COMMA')}"></td>
+                        </tr>
+                        <tr class="toggle" th:classappend="${'medium' + auraMediumStat.index + ' hide'}">
+                            <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_AA_HIT_CHANCE')}"></td>
+                            <td th:text="${#numbers.formatInteger(auraMedium.hitChance * 100, 1, 'COMMA')} + ' %'"></td>
+                        </tr>
+                    </th:block>
+                    <th:block th:each="auraNear : ${auraNears}">
+                        <tr class="subsystem switch" th:attr="data-type=${'near' + auraNearStat.index}">
+                            <td><u th:text="${global.get('IDS_NEAR')}"></u></td>
+                            <td>
+                                <th:block th:text="${#numbers.formatDecimal(auraNear.minDistance / 1000, 1, 1) + ' - ' + #numbers.formatDecimal(auraNear.maxDistance / 1000, 1, 1)} + ' km'"></th:block><br />
+                                <th:block th:text="${#numbers.formatDecimal(auraNear.areaDamage / auraNear.areaDamageFrequency, 1, 1)} + ' dps'"></th:block>
+                            </td>
+                        </tr>
+                        <tr class="toggle" th:classappend="${'near' + auraNearStat.index + ' hide'}">
+                            <td th:text="${global.get('IDS_SHIP_PARAM_AA_HIT_CHANCE')}"></td>
+                            <td th:text="${#numbers.formatInteger(auraNear.hitChance * 100, 1, 'COMMA')} + ' %'"></td>
+                        </tr>
+                    </th:block>
+                </tbody>
             </table>
         </div>
+
         <div th:if="${hull != null}" class="panel_right" data-type="hull">
             <div class="switch" data-type="survive"><strong th:text="${global.get('IDS_SHIP_PARAM_DURABILITY')}"></strong></div>
             <table class="toggle survive">
@@ -802,6 +804,7 @@
                 </tbody>
             </table>
         </div>
+
         <div th:if="${consumables != null}" class="panel_right" data-type="consumables" th:with="selection=${warship.selectConsumables}">
             <ul th:each="slot : ${consumables}">
                 <li th:each="consumable : ${slot}">

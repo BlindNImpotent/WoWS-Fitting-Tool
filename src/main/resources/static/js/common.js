@@ -283,3 +283,11 @@ function callPage($ship)
         }
     })
 }
+
+$(document).on('input', '.arSlider', function () {
+    var $this = $(this),
+        $parent = $this.parents('td'),
+        $sliderVal = $parent.find('.arSliderValue');
+
+    $sliderVal.text($this.val());
+});

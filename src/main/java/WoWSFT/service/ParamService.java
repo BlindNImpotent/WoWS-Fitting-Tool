@@ -3,7 +3,6 @@ package WoWSFT.service;
 import WoWSFT.model.gameparams.CommonModifier;
 import WoWSFT.model.gameparams.commander.Commander;
 import WoWSFT.model.gameparams.ship.Ship;
-import WoWSFT.model.gameparams.ship.component.ShipComponent;
 import WoWSFT.model.gameparams.ship.component.airdefense.Aura;
 import WoWSFT.model.gameparams.ship.component.planes.Plane;
 import WoWSFT.utils.CommonUtils;
@@ -11,7 +10,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import static WoWSFT.model.Constant.*;
 
@@ -20,26 +21,72 @@ public class ParamService
 {
     private ObjectMapper mapper = new ObjectMapper();
 
-    public void setParameters(Ship ship, Commander crew)
+    public void setAA(Ship ship)
     {
+        List<Aura> auraFar = new ArrayList<>();
+        List<Aura> auraMedium = new ArrayList<>();
+        List<Aura> auraNear = new ArrayList<>();
+
+        ship.getComponents().getAirDefense().forEach((c, val) -> {
+            if (c.equalsIgnoreCase(ship.getModules().get(airDefense))) {
+                auraFar.addAll(val.getAuraFar());
+                auraMedium.addAll(val.getAuraMedium());
+                auraNear.addAll(val.getAuraNear());
+            }
+        });
+
+        ship.getComponents().getAtba().forEach((c, val) -> {
+            if (c.equalsIgnoreCase(ship.getModules().get(atba))) {
+                auraFar.addAll(val.getAuraFar());
+                auraMedium.addAll(val.getAuraMedium());
+                auraNear.addAll(val.getAuraNear());
+            }
+        });
+
+        ship.getComponents().getArtillery().forEach((c, val) -> {
+            if (c.equalsIgnoreCase(ship.getModules().get(artillery))) {
+                auraFar.addAll(val.getAuraFar());
+                auraMedium.addAll(val.getAuraMedium());
+                auraNear.addAll(val.getAuraNear());
+            }
+        });
+
+        ship.setAuraFar(auraFar);
+        ship.setAuraMedium(auraMedium);
+        ship.setAuraNear(auraNear);
+    }
+
+    public void setParameters(Ship ship, Commander crew, int ar)
+    {
+        int tempAr = 1000;
+        if (ship.isArUse()) {
+            tempAr = tempAr - ar;
+        }
+
         for (int i = 0; i < ship.getSelectSkills().size(); i++) {
             if (ship.getSelectSkills().get(i) == 1) {
                 CommonModifier modifier = mapper.convertValue(crew.getCSkills().get(i / 8).get(i % 8), CommonModifier.class);
-                setUpgrades(ship, modifier);
+                setUpgrades(ship, modifier, tempAr);
             }
         }
 
         for (int i = 0; i < ship.getSelectUpgrades().size(); i++) {
             if (ship.getSelectUpgrades().get(i) > 0) {
                 CommonModifier modifier = mapper.convertValue(ship.getUpgrades().get(i).get(ship.getSelectUpgrades().get(i) - 1), CommonModifier.class);
-                setUpgrades(ship, modifier);
+                setUpgrades(ship, modifier, tempAr);
             }
         }
 
         ship.getConsumables().forEach(slot -> slot.forEach(c -> c.getSubConsumables().forEach((key, sub) -> sub.setBonus(getBonus(mapper.convertValue(sub, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
+        ship.getComponents().getFighter().forEach((k, p) -> p.getConsumables().forEach(c -> c.getSubConsumables().forEach((sKey, sVal) ->
+                sVal.setBonus(getBonus(mapper.convertValue(sVal, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
+        ship.getComponents().getDiveBomber().forEach((k, p) -> p.getConsumables().forEach(c -> c.getSubConsumables().forEach((sKey, sVal) ->
+                sVal.setBonus(getBonus(mapper.convertValue(sVal, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
+        ship.getComponents().getTorpedoBomber().forEach((k, p) -> p.getConsumables().forEach(c -> c.getSubConsumables().forEach((sKey, sVal) ->
+                sVal.setBonus(getBonus(mapper.convertValue(sVal, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
     }
 
-    private void setUpgrades(Ship ship, CommonModifier modifier)
+    private void setUpgrades(Ship ship, CommonModifier modifier, int ar)
     {
         ship.getComponents().getArtillery().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(artillery))) {
@@ -55,10 +102,6 @@ public class ParamService
                         ammo.setAlphaPiercingHE(ammo.getAlphaPiercingHE() * (ammo.getBulletDiametr() > 0.139 ? modifier.getThresholdPenetrationCoefficientBig() : modifier.getThresholdPenetrationCoefficientSmall()));
                     }
                 });
-
-                setAura(val.getAuraFar(), modifier);
-                setAura(val.getAuraMedium(), modifier);
-                setAura(val.getAuraNear(), modifier);
             }
         });
 
@@ -124,20 +167,14 @@ public class ParamService
                         sec.setAlphaPiercingHE(sec.getAlphaPiercingHE() * modifier.getThresholdPenetrationCoefficientSmall());
                     }
                 });
-
-                setAura(val.getAuraFar(), modifier);
-                setAura(val.getAuraMedium(), modifier);
-                setAura(val.getAuraNear(), modifier);
             }
         });
 
         ship.getComponents().getAirDefense().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(airDefense))) {
-                setAura(val.getAuraFar(), modifier);
-                setAura(val.getAuraMedium(), modifier);
-                setAura(val.getAuraNear(), modifier);
-                val.setPrioritySectorStrength((val.getPrioritySectorStrength() - 1.0f) * modifier.getPrioritySectorStrengthCoefficient() + 1.0f);
+                val.setPrioritySectorStrength(val.getPrioritySectorStrength() * modifier.getPrioritySectorStrengthCoefficient());
                 val.setPrioritySectorChangeDelay(val.getPrioritySectorChangeDelay() * modifier.getSectorSwitchDelayCoefficient());
+                val.setPrioritySectorEnableDelay(val.getPrioritySectorEnableDelay() * modifier.getSectorSwitchDelayCoefficient());
             }
         });
 
@@ -173,6 +210,10 @@ public class ParamService
                 val.setForwardEngineForsag(val.getForwardEngineForsag() * modifier.getEngineForwardForsagePower());
             }
         });
+
+        ship.getAuraFar().forEach(aura -> setAura(aura, modifier));
+        ship.getAuraMedium().forEach(aura -> setAura(aura, modifier));
+        ship.getAuraNear().forEach(aura -> setAura(aura, modifier));
 
         ship.getConsumables().forEach(c -> c.forEach(s -> s.getSubConsumables().forEach((k, sC) -> {
             sC.setWorkTime(sC.getWorkTime() * ("scout".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getScoutWorkTime() : 1f));
@@ -217,6 +258,12 @@ public class ParamService
         copy.forEach((param, cVal) -> {
             if (speed.stream().anyMatch(param.toLowerCase()::contains)) {
                 bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal) + " kts");
+            } else if (param.toLowerCase().contains("boostcoeff")) {
+                if ((float) cVal >= 2.0) {
+                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal));
+                } else {
+                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonus((float) cVal)) + " %");
+                }
             } else if (rate.stream().anyMatch(param.toLowerCase()::contains)) {
                 bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonus((float) cVal)) + " %");
             } else if (multiple.stream().anyMatch(param.toLowerCase()::contains)) {
@@ -251,8 +298,12 @@ public class ParamService
         plane.getConsumables().forEach(consumable -> consumable.getSubConsumables().values().forEach(sub -> sub.setReloadTime(sub.getReloadTime() * modifier.getReloadCoefficient())));
         plane.setSpeedMoveWithBomb(plane.getSpeedMoveWithBomb() * modifier.getFlightSpeedCoefficient());
         plane.setSpeedMove(plane.getSpeedMove() * modifier.getFlightSpeedCoefficient());
-        plane.setMaxVisibilityFactor(plane.getMaxVisibilityFactor() * modifier.getSquadronVisibilityDistCoeff());
-        plane.setMaxVisibilityFactorByPlane(plane.getMaxVisibilityFactorByPlane() * modifier.getSquadronVisibilityDistCoeff());
+        plane.setMaxVisibilityFactor(plane.getMaxVisibilityFactor() * modifier.getSquadronCoefficient() * modifier.getSquadronVisibilityDistCoeff());
+        plane.setMaxVisibilityFactorByPlane(plane.getMaxVisibilityFactorByPlane() * modifier.getSquadronCoefficient() * modifier.getSquadronVisibilityDistCoeff());
         plane.setSpeedMoveWithBomb(plane.getSpeedMoveWithBomb() * modifier.getAirplanesSpeed());
+        plane.getConsumables().forEach(c -> c.getSubConsumables().forEach((key, val) -> {
+            val.setReloadTime(val.getReloadTime() * ("AllSkillsCooldownModifier".equalsIgnoreCase(modifier.getModifier()) ? modifier.getReloadCoefficient() : 1f));
+            val.setFightersNum(val.getFightersNum() + (val.getFightersNum() > 0 ? modifier.getExtraFighterCount() : 0));
+        }));
     }
 }

@@ -35,9 +35,9 @@ public class GPController extends ExceptionController
     @Qualifier (value = "loadFinish")
     private HashMap<String, Integer> loadFinish;
 
-//    @Autowired
-//    @Qualifier (value = "gameParamsHM")
-//    private HashMap<String, Object> gameParamsHM;
+    @Autowired
+    @Qualifier (value = "gameParamsHM")
+    private HashMap<String, Object> gameParamsHM;
 
     @Autowired
     @Qualifier (value = "notification")
@@ -47,25 +47,25 @@ public class GPController extends ExceptionController
     @Qualifier (value = "global")
     private HashMap<String, HashMap<String, Object>> global;
 
-//    @Autowired
-//    @Qualifier (value = TYPE_SHIP)
-//    private LinkedHashMap<String, Ship> ships;
-//
-//    @Autowired
-//    @Qualifier (value =  TYPE_CONSUMABLE)
-//    private LinkedHashMap<String, Consumable> consumables;
+    @Autowired
+    @Qualifier (value = TYPE_SHIP)
+    private LinkedHashMap<String, Ship> ships;
+
+    @Autowired
+    @Qualifier (value =  TYPE_CONSUMABLE)
+    private LinkedHashMap<String, Consumable> consumables;
 
     @Autowired
     @Qualifier (value = TYPE_SHIP_LIST)
     private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList;
 
-//    @Autowired
-//    @Qualifier (value = TYPE_UPGRADE)
-//    private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades;
-//
-//    @Autowired
-//    @Qualifier (value = TYPE_COMMANDER)
-//    private LinkedHashMap<String, Commander> commanders;
+    @Autowired
+    @Qualifier (value = TYPE_UPGRADE)
+    private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades;
+
+    @Autowired
+    @Qualifier (value = TYPE_COMMANDER)
+    private LinkedHashMap<String, Commander> commanders;
 
     @Autowired
     private GPService gpService;
@@ -96,28 +96,28 @@ public class GPController extends ExceptionController
         }
     }
 
-//    @ResponseBody
-//    @GetMapping(value = "/data")
-//    public Object tester(@RequestParam(required = false, defaultValue = "") String type,
-//                         @RequestParam(required = false, defaultValue = "") String index,
-//                         @RequestParam(required = false, defaultValue = "") String lang) throws Exception
-//    {
-//        if (type.equalsIgnoreCase(TYPE_SHIP)) {
-//            if (StringUtils.isNotEmpty(lang)) {
-//                return gpService.getShip(index);
-//            }
-//            return ships.get(index);
-//        } else if (type.equalsIgnoreCase(TYPE_UPGRADE)) {
-//            return upgrades;
-//        } else if (type.equalsIgnoreCase(TYPE_CONSUMABLE)) {
-//            return consumables;
-//        } else if (type.equalsIgnoreCase(TYPE_COMMANDER)) {
-//            return commanders;
-//        } else if (type.equalsIgnoreCase(TYPE_SHIP_LIST)) {
-//            return shipsList;
-//        }
-//        return gameParamsHM.get(index);
-//    }
+    @ResponseBody
+    @GetMapping(value = "/data")
+    public Object tester(@RequestParam(required = false, defaultValue = "") String type,
+                         @RequestParam(required = false, defaultValue = "") String index,
+                         @RequestParam(required = false, defaultValue = "") String lang) throws Exception
+    {
+        if (type.equalsIgnoreCase(TYPE_SHIP)) {
+            if (StringUtils.isNotEmpty(lang)) {
+                return gpService.getShip(index);
+            }
+            return ships.get(index);
+        } else if (type.equalsIgnoreCase(TYPE_UPGRADE)) {
+            return upgrades;
+        } else if (type.equalsIgnoreCase(TYPE_CONSUMABLE)) {
+            return consumables;
+        } else if (type.equalsIgnoreCase(TYPE_COMMANDER)) {
+            return commanders;
+        } else if (type.equalsIgnoreCase(TYPE_SHIP_LIST)) {
+            return shipsList;
+        }
+        return gameParamsHM.get(index);
+    }
 
     @GetMapping(value = "")
     public String getHome(Model model)
@@ -139,7 +139,8 @@ public class GPController extends ExceptionController
                              @RequestParam(required = false, defaultValue = "") String upgrades,
                              @RequestParam(required = false, defaultValue = "") String consumables,
                              @RequestParam(required = false, defaultValue = "PAW001") String commander,
-                             @RequestParam(required = false, defaultValue = "0") long skills) throws Exception
+                             @RequestParam(required = false, defaultValue = "0") long skills,
+                             @RequestParam(required = false, defaultValue = "100") int ar) throws Exception
     {
         model.addAttribute("single", true);
         model.addAttribute("IDS", IDS);
@@ -154,10 +155,10 @@ public class GPController extends ExceptionController
             Commander crew = gpService.getCommander(commander.toUpperCase());
             skills = skills > maxBitsToInt ? 0 : skills;
 
-            Ship ship = getShip(index.toUpperCase(), modules, upgrades, consumables, skills, commander.toUpperCase(), crew, false);
+            Ship ship = getShip(index.toUpperCase(), modules, upgrades, consumables, skills, commander.toUpperCase(), crew, ar, false);
             model.addAttribute(TYPE_WARSHIP, ship);
 
-            log.info(request.getRequestURL() + (StringUtils.isNotEmpty(request.getQueryString()) ? "?" + request.getQueryString() : ""));
+//            log.info(request.getRequestURL() + (StringUtils.isNotEmpty(request.getQueryString()) ? "?" + request.getQueryString() : ""));
 
             if ("post".equalsIgnoreCase(request.getMethod())) {
                 return "Joint/rightInfo :: rightInfo";
@@ -170,21 +171,21 @@ public class GPController extends ExceptionController
         return "FittingTool/ftHome";
     }
 
-//    @ResponseBody
-//    @PostMapping(value = "/shipData")
-//    public Ship getWarshipData(@RequestParam(required = false, defaultValue = "en") String lang,
-//                               @RequestParam(required = false, defaultValue = "") String index,
-//                               @RequestParam(required = false, defaultValue = "") String modules,
-//                               @RequestParam(required = false, defaultValue = "") String upgrades,
-//                               @RequestParam(required = false, defaultValue = "") String consumables,
-//                               @RequestParam(required = false, defaultValue = "PAW001") String commander,
-//                               @RequestParam(required = false, defaultValue = "0") long skills) throws Exception
-//    {
-//        if (StringUtils.isNotEmpty(index)) {
-//            return getShip(index.toUpperCase(), modules, upgrades, consumables, skills, commander.toUpperCase(), null, true);
-//        }
-//        throw new NullPointerException();
-//    }
+    @ResponseBody
+    @PostMapping(value = "/shipData")
+    public Ship getWarshipData(@RequestParam(required = false, defaultValue = "en") String lang,
+                               @RequestParam(required = false, defaultValue = "") String index,
+                               @RequestParam(required = false, defaultValue = "") String modules,
+                               @RequestParam(required = false, defaultValue = "") String upgrades,
+                               @RequestParam(required = false, defaultValue = "") String consumables,
+                               @RequestParam(required = false, defaultValue = "PAW001") String commander,
+                               @RequestParam(required = false, defaultValue = "0") long skills) throws Exception
+    {
+        if (StringUtils.isNotEmpty(index)) {
+            return getShip(index.toUpperCase(), modules, upgrades, consumables, skills, commander.toUpperCase(), null, 100, true);
+        }
+        throw new NullPointerException();
+    }
 
     @GetMapping(value = "/WarshipStats")
     public String legacyUrl(HttpServletRequest request, HttpServletResponse response) throws Exception
@@ -194,7 +195,7 @@ public class GPController extends ExceptionController
         return "redirect:" + url;
     }
 
-    private Ship getShip(String index, String modules, String upgrades, String consumables, long skills, String commander, Commander crew, boolean data) throws Exception
+    private Ship getShip(String index, String modules, String upgrades, String consumables, long skills, String commander, Commander crew, int ar, boolean data) throws Exception
     {
         Ship ship = mapper.readValue(mapper.writeValueAsString(gpService.getShip(index)), Ship.class);
         parserService.parseModules(ship, modules);
@@ -202,7 +203,8 @@ public class GPController extends ExceptionController
         parserService.parseConsumables(ship, consumables);
         parserService.parseUpgrades(ship, upgrades);
         parserService.parseSkills(ship, skills);
-        paramService.setParameters(ship, data ? gpService.getCommander(commander) : crew);
+        paramService.setAA(ship);
+        paramService.setParameters(ship, data ? gpService.getCommander(commander) : crew, ar);
 
         return ship;
     }

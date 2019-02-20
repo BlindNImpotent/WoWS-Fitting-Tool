@@ -7,6 +7,7 @@ import WoWSFT.model.gameparams.consumable.Consumable;
 import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.abilities.AbilitySlot;
 import WoWSFT.model.gameparams.ship.component.ShipComponent;
+import WoWSFT.model.gameparams.ship.component.airdefense.Aura;
 import WoWSFT.model.gameparams.ship.component.artillery.Turret;
 import WoWSFT.model.gameparams.ship.component.torpedo.Launcher;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgradeInfo;
@@ -84,6 +85,13 @@ public class Ship
 
     private List<Turret> turrets;
     private List<Launcher> launchers;
+
+    private List<Aura> auraFar = new ArrayList<>();
+    private List<Aura> auraMedium = new ArrayList<>();
+    private List<Aura> auraNear = new ArrayList<>();
+
+    private int adrenaline = 100;
+    private boolean arUse;
 
     @JsonSetter
     public void setRealShipType(String realShipType)

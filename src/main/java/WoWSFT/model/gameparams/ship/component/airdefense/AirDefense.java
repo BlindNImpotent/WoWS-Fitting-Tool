@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -14,9 +15,9 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AirDefense
 {
-    private Aura auraFar;
-    private Aura auraMedium;
-    private Aura auraNear;
+    private List<Aura> auraFar = new ArrayList<>();
+    private List<Aura> auraMedium = new ArrayList<>();
+    private List<Aura> auraNear = new ArrayList<>();
 
     private float ownerlessTracesScatterCoefficient;
     private float prioritySectorChangeDelay;
@@ -32,11 +33,11 @@ public class AirDefense
     public void setAura(String name, Object value)
     {
         if (name.contains("Far")) {
-            auraFar = mapper.convertValue(value, Aura.class);
+            auraFar.add(mapper.convertValue(value, Aura.class));
         } else if (name.contains("Medium")) {
-            auraMedium = mapper.convertValue(value, Aura.class);
+            auraMedium.add(mapper.convertValue(value, Aura.class));
         } else if (name.contains("Near")) {
-            auraNear = mapper.convertValue(value, Aura.class);
+            auraNear.add(mapper.convertValue(value, Aura.class));
         }
     }
 }

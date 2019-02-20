@@ -139,6 +139,11 @@ public class ParserService
             if (check == 1 && tempPts + pts <= 19) {
                 pts += tempPts;
                 list.add(Character.getNumericValue(bits.charAt(i)));
+
+                // Adrenaline Rush
+                if (i == 14) {
+                    ship.setArUse(Character.getNumericValue(bits.charAt(i)) == 1);
+                }
             } else {
                 list.add(0);
             }

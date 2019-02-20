@@ -57,7 +57,7 @@ public class Constant
     public static final HashSet<String> noUnit = new HashSet<>(Arrays.asList("num"));
     public static final HashSet<String> extra = new HashSet<>(Arrays.asList("count", "level", "additional"));
     public static final HashSet<String> meter = new HashSet<>(Arrays.asList("radius", "height", "dist"));
-    public static final HashSet<String> rate = new HashSet<>(Arrays.asList("regeneration", "boostcoeff", "probabilitybonus", "chance"));
+    public static final HashSet<String> rate = new HashSet<>(Arrays.asList("regeneration", "probabilitybonus", "chance"));
     public static final HashSet<String> rateNoSym = new HashSet<>(Arrays.asList("step"));
     public static final HashSet<String> multiple = new HashSet<>(Arrays.asList("multiplier"));
     public static final HashSet<String> extraAngle = new HashSet<>(Arrays.asList("gunbonus"));

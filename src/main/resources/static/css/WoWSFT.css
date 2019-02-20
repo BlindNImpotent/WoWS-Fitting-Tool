@@ -15,7 +15,7 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+time, mark, audio, video, u {
     margin: 0;
     padding: 0;
     border: 0;
@@ -45,8 +45,8 @@ table {
 body {
     cursor: default;
     /*height: 100%;*/
-    line-height: 20px;
-    font-size: 14px;
+    line-height: 22px;
+    font-size: 15px;
     box-sizing: border-box;
     min-width: 1408px;
     max-width: 1792px;
@@ -85,7 +85,7 @@ ul {
 }
 
 li {
-    font-size: 14px;
+    font-size: 15px;
 }
 
 select, option {
@@ -128,7 +128,7 @@ select, option {
 
 .link {
     padding: 0 12px;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .left {
@@ -297,7 +297,7 @@ nav ul li:active > ul {
     text-align: center;
     border: 1px solid rgba(0,0,0,0);
     border-radius: 5px;
-    font-size: 11px;
+    font-size: 13px;
     width: 60px;
     height: 60px;
     word-wrap: normal;
@@ -343,7 +343,7 @@ td {
     text-align: center;
     border: 0 solid black;
     border-radius: 5px;
-    font-size: 12px;
+    font-size: 13px;
     cursor: pointer;
 }
 
@@ -358,7 +358,7 @@ td {
     text-align: center;
     border: 0 solid black;
     border-radius: 5px;
-    font-size: 12px;
+    font-size: 13px;
     /*min-width: 140px;*/
     /*max-width: 140px;*/
     /*min-height: 140px;*/
@@ -540,4 +540,11 @@ button .tooltip_desc {
 .research_list td {
     width: 140px;
     vertical-align: middle;
+}
+
+.arSlider {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    height: 20px;
 }
