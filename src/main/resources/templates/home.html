@@ -31,10 +31,10 @@
             <span th:text="${lang == 'en' ? 'Logo courtesy of ReptorPi from DCInside' : 'ReptorPi 제작'}"></span><br /><br />
             <h2>Server version 0.8.0.2</h2>
             <br /><br />
-            <ul th:if="${lang == 'en'}">
-                <li>
-                    <strong>2019-02-19</strong><br />
-                    <span>Renewal finished somewhat.</span>
+            <ul>
+                <li th:if="${5 > noticeStat.index}" th:each="notice : ${notification}">
+                    <strong th:text="${notice.key}"></strong><br />
+                    <span th:utext="${notice.value}"></span><br />
                 </li>
             </ul>
             <ul th:if="${lang == 'ko'}">

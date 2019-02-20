@@ -56,24 +56,19 @@ public class ParamService
         ship.setAuraNear(auraNear);
     }
 
-    public void setParameters(Ship ship, Commander crew, int ar)
+    public void setParameters(Ship ship, Commander crew)
     {
-        int tempAr = 1000;
-        if (ship.isArUse()) {
-            tempAr = tempAr - ar;
-        }
-
         for (int i = 0; i < ship.getSelectSkills().size(); i++) {
             if (ship.getSelectSkills().get(i) == 1) {
                 CommonModifier modifier = mapper.convertValue(crew.getCSkills().get(i / 8).get(i % 8), CommonModifier.class);
-                setUpgrades(ship, modifier, tempAr);
+                setUpgrades(ship, modifier);
             }
         }
 
         for (int i = 0; i < ship.getSelectUpgrades().size(); i++) {
             if (ship.getSelectUpgrades().get(i) > 0) {
                 CommonModifier modifier = mapper.convertValue(ship.getUpgrades().get(i).get(ship.getSelectUpgrades().get(i) - 1), CommonModifier.class);
-                setUpgrades(ship, modifier, tempAr);
+                setUpgrades(ship, modifier);
             }
         }
 
@@ -86,7 +81,7 @@ public class ParamService
                 sVal.setBonus(getBonus(mapper.convertValue(sVal, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
     }
 
-    private void setUpgrades(Ship ship, CommonModifier modifier, int ar)
+    private void setUpgrades(Ship ship, CommonModifier modifier)
     {
         ship.getComponents().getArtillery().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(artillery))) {
@@ -94,7 +89,8 @@ public class ParamService
                 val.setMaxDist(val.getMaxDist() * modifier.getGmmaxDist() * (val.getBarrelDiameter() > 0.139 ? 1f : modifier.getSmallGunRangeCoefficient()));
                 val.getTurrets().forEach(t -> {
                     t.getRotationSpeed().set(0, (t.getRotationSpeed().get(0) + (t.getBarrelDiameter() > 0.139 ? modifier.getBigGunBonus() : modifier.getSmallGunBonus())) * modifier.getGmrotationSpeed());
-                    t.setShotDelay(t.getShotDelay() * modifier.getGmshotDelay() * (t.getBarrelDiameter() > 0.139 ? 1f : modifier.getSmallGunReloadCoefficient()));
+                    t.setShotDelay(t.getShotDelay() * modifier.getGmshotDelay() * (t.getBarrelDiameter() > 0.139 ? 1f : modifier.getSmallGunReloadCoefficient())
+                            * (1f - (ship.getAdrenaline() / modifier.getHpStep() * modifier.getTimeStep())));
                 });
                 val.getShells().forEach((s, ammo) -> {
                     if ("HE".equalsIgnoreCase(ammo.getAmmoType())) {
@@ -109,7 +105,7 @@ public class ParamService
             if (c.equalsIgnoreCase(ship.getModules().get(torpedoes))) {
                 val.getLaunchers().forEach(l -> {
                     l.getRotationSpeed().set(0, l.getRotationSpeed().get(0) * modifier.getGtrotationSpeed());
-                    l.setShotDelay(l.getShotDelay() * modifier.getGtshotDelay() * modifier.getLauncherCoefficient());
+                    l.setShotDelay(l.getShotDelay() * modifier.getGtshotDelay() * modifier.getLauncherCoefficient() * (1f - (ship.getAdrenaline() / modifier.getHpStep() * modifier.getTimeStep())));
                 });
                 val.getAmmo().setMaxDist(val.getAmmo().getMaxDist() * modifier.getTorpedoRangeCoefficient());
                 val.getAmmo().setSpeed(val.getAmmo().getSpeed() + modifier.getTorpedoSpeedBonus());
@@ -118,7 +114,7 @@ public class ParamService
 
         ship.getComponents().getFighter().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(fighter))) {
-                setPlanes(val, modifier);
+                setPlanes(ship, val, modifier);
 
                 val.setMaxHealth((int) ((val.getMaxHealth() + (ship.getLevel() * modifier.getPlaneHealthPerLevel())) * modifier.getAirplanesFightersHealth() * modifier.getAirplanesHealth()));
                 if ("HE".equalsIgnoreCase(val.getRocket().getAmmoType())) {
@@ -129,7 +125,7 @@ public class ParamService
 
         ship.getComponents().getDiveBomber().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(diveBomber))) {
-                setPlanes(val, modifier);
+                setPlanes(ship, val, modifier);
 
                 val.setMaxHealth((int) ((val.getMaxHealth() + (ship.getLevel() * modifier.getPlaneHealthPerLevel())) * modifier.getAirplanesDiveBombersHealth() * modifier.getAirplanesHealth()));
                 if ("HE".equalsIgnoreCase(val.getBomb().getAmmoType())) {
@@ -140,7 +136,7 @@ public class ParamService
 
         ship.getComponents().getTorpedoBomber().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(torpedoBomber))) {
-                setPlanes(val, modifier);
+                setPlanes(ship, val, modifier);
 
                 val.setMaxHealth((int) ((val.getMaxHealth() + (ship.getLevel() * modifier.getPlaneHealthPerLevel())) * modifier.getAirplanesTorpedoBombersHealth() * modifier.getAirplanesHealth()));
                 val.getTorpedo().setMaxDist(val.getTorpedo().getMaxDist() * modifier.getPlaneTorpedoRangeCoefficient());
@@ -160,7 +156,7 @@ public class ParamService
                 val.setMaxDist(val.getMaxDist() * modifier.getGsmaxDist() * modifier.getSmallGunRangeCoefficient());
 
                 val.getSecondaries().forEach((k, sec) -> {
-                    sec.setShotDelay(sec.getShotDelay() * modifier.getGsshotDelay() * modifier.getSmallGunReloadCoefficient());
+                    sec.setShotDelay(sec.getShotDelay() * modifier.getGsshotDelay() * modifier.getSmallGunReloadCoefficient() * (1f - (ship.getAdrenaline() / modifier.getHpStep() * modifier.getTimeStep())));
                     sec.setGSIdealRadius(sec.getGSIdealRadius() * modifier.getGsidealRadius() * (ship.getLevel() >= 7 ? modifier.getAtbaIdealRadiusHi() : modifier.getAtbaIdealRadiusLo()));
                     if ("HE".equalsIgnoreCase(sec.getAmmoType())) {
                         sec.setBurnProb(sec.getBurnProb() + modifier.getProbabilityBonus() + modifier.getChanceToSetOnFireBonusSmall());
@@ -289,7 +285,7 @@ public class ParamService
         return bonus;
     }
 
-    private void setPlanes(Plane plane, CommonModifier modifier)
+    private void setPlanes(Ship ship, Plane plane, CommonModifier modifier)
     {
         if (plane.getHangarSettings() != null) {
             plane.getHangarSettings().setTimeToRestore(plane.getHangarSettings().getTimeToRestore() * modifier.getPlaneSpawnTimeCoefficient() * modifier.getAirplanesSpawnTime());
@@ -300,7 +296,7 @@ public class ParamService
         plane.setSpeedMove(plane.getSpeedMove() * modifier.getFlightSpeedCoefficient());
         plane.setMaxVisibilityFactor(plane.getMaxVisibilityFactor() * modifier.getSquadronCoefficient() * modifier.getSquadronVisibilityDistCoeff());
         plane.setMaxVisibilityFactorByPlane(plane.getMaxVisibilityFactorByPlane() * modifier.getSquadronCoefficient() * modifier.getSquadronVisibilityDistCoeff());
-        plane.setSpeedMoveWithBomb(plane.getSpeedMoveWithBomb() * modifier.getAirplanesSpeed());
+        plane.setSpeedMoveWithBomb(plane.getSpeedMoveWithBomb() * modifier.getAirplanesSpeed() * (1f + (ship.getAdrenaline() / modifier.getSquadronHealthStep() * modifier.getSquadronSpeedStep())));
         plane.getConsumables().forEach(c -> c.getSubConsumables().forEach((key, val) -> {
             val.setReloadTime(val.getReloadTime() * ("AllSkillsCooldownModifier".equalsIgnoreCase(modifier.getModifier()) ? modifier.getReloadCoefficient() : 1f));
             val.setFightersNum(val.getFightersNum() + (val.getFightersNum() > 0 ? modifier.getExtraFighterCount() : 0));

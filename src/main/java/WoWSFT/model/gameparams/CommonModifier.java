@@ -137,7 +137,7 @@ public class CommonModifier
     private float thresholdPenetrationCoefficientBig = 1f;
     private float thresholdPenetrationCoefficientSmall = 1f;
 
-    private float hpStep;
+    private float hpStep = 1f;
     private float timeStep;
     private float critRudderTimeCoefficient = 1f;
     private float bigGunBonus;
@@ -177,7 +177,7 @@ public class CommonModifier
     private float rocketProbabilityBonus;
     private float flightSpeedCoefficient = 1f;
     private float forsageDurationCoefficient = 1f;
-    private float squadronHealthStep;
+    private float squadronHealthStep = 1f;
     private float squadronSpeedStep;
     private float nearAuraDamageTakenCoefficient = 1f;
     private float planeHealthPerLevel;

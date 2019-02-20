@@ -24,8 +24,8 @@
                     <tr>
                         <td colspan="2" style="display: flex;">
                             <u style="float: left; width: 50%;" th:text="${global.get('IDS_SKILL_LASTCHANCEMODIFIER')}"></u>
-                            <span style="float: left; width: 10%;" class="arSliderValue" th:text="${warship.adrenaline}"></span>
-                            <input style="float: left; width: 40%;" type="range" min="1" max="100" th:value="${warship.adrenaline}" class="arSlider" />
+                            <span style="float: left; width: 10%;" class="arSliderValue" th:text="${#numbers.formatInteger(100 - (warship.adrenaline * 100.0), 1, 'COMMA')}"></span>
+                            <input style="float: left; width: 40%;" type="range" min="1" max="100" th:value="${100 - (warship.adrenaline * 100.0)}" class="arSlider" />
                         </td>
                     </tr>
                 </tbody>

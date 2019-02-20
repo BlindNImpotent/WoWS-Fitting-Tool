@@ -90,7 +90,7 @@ public class Ship
     private List<Aura> auraMedium = new ArrayList<>();
     private List<Aura> auraNear = new ArrayList<>();
 
-    private int adrenaline = 100;
+    private float adrenaline;
     private boolean arUse;
 
     @JsonSetter

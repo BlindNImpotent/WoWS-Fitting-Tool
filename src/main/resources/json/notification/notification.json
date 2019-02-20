@@ -1,4 +1,5 @@
 {
+	"2019-02-20": "Source code reworked from ground zero. Should see better performance overall.<br />Korean language support added, with possibly more to come.<br />Some features removed until further notice.<br />Gonna rest a bit since I worked on this for 12 hours a day past 3 weeks.",
 	"2019-01-30": "AA changes implemented. Please report if there are any issues.<br /><br />Carriers removed until CV changes in 0.8.0 are fully implemented here.<br />Flags removed until WG API implements them properly.",
 	"2018-10-24": "Max dispersion calculation corrected",
 	"2018-10-22": "Vertical dispersion is now affected by accuracy bonus change.",

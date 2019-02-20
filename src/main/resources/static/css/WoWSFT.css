@@ -100,7 +100,11 @@ select, option {
     /*bottom: 0;*/
     /*z-index: 1;*/
     padding: 10px 0;
-    display: inline-block;
+    /*display: inline-block;*/
+    word-break: keep-all;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    font-size: 14px;
 }
 
 #notification {
@@ -156,6 +160,11 @@ select, option {
     float:none;
     display:list-item;
     position: relative;
+}
+
+.dropdown_main.shift_right {
+    left: 144px;
+    top: -8px;
 }
 
 .dropdown_sub {
@@ -220,7 +229,7 @@ nav ul li:active > ul {
 
 .dropdown_main .dropdown_sub li {
     left: 130px;
-    top:-36px;
+    top:-38px;
     padding: 0;
 }
 

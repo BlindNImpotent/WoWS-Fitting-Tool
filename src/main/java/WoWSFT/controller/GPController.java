@@ -202,9 +202,9 @@ public class GPController extends ExceptionController
         gpService.setShipAmmo(ship);
         parserService.parseConsumables(ship, consumables);
         parserService.parseUpgrades(ship, upgrades);
-        parserService.parseSkills(ship, skills);
+        parserService.parseSkills(ship, skills, ar);
         paramService.setAA(ship);
-        paramService.setParameters(ship, data ? gpService.getCommander(commander) : crew, ar);
+        paramService.setParameters(ship, data ? gpService.getCommander(commander) : crew);
 
         return ship;
     }

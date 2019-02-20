@@ -127,7 +127,7 @@ public class ParserService
         }
     }
 
-    public void parseSkills(Ship ship, long skill)
+    public void parseSkills(Ship ship, long skill, int ar)
     {
         List<Integer> list = new ArrayList<>();
         String bits = Long.toBinaryString(skill);
@@ -141,8 +141,9 @@ public class ParserService
                 list.add(Character.getNumericValue(bits.charAt(i)));
 
                 // Adrenaline Rush
-                if (i == 14) {
+                if (bits.length() - 1 - i == 14) {
                     ship.setArUse(Character.getNumericValue(bits.charAt(i)) == 1);
+                    ship.setAdrenaline((100 - ar) / 100f);
                 }
             } else {
                 list.add(0);

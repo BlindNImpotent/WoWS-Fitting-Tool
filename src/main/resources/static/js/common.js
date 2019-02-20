@@ -217,6 +217,8 @@ function makeUrl($ship)
         skills += Math.pow(2, pos);
     }
 
+    var ar = $ship.find('.arSlider').val() !== undefined ? $ship.find('.arSlider').val() : 0;
+
     var consumables = '';
     var cArrays = [0, 0, 0, 0, 0];
     for (var i = 0; i < sConsumables.length; i++) {
@@ -227,11 +229,13 @@ function makeUrl($ship)
     }
 
     var $shipIndex = $ship.attr('data-ship-index');
+
     var url =
         '/ship?index=' + $shipIndex
         + (modules !== '' ? '&modules=' + modules : '')
         + (upgrades.replace('0') !== '' ? '&upgrades=' + upgrades : '')
         + (skills > 0 ? '&skills=' + skills.toString() : '')
+        + (ar > 0 ? '&ar=' + ar : '')
         + (consumables !== '' ? '&consumables=' + consumables : '')
         + '&lang=' + lang;
 
@@ -284,10 +288,15 @@ function callPage($ship)
     })
 }
 
-$(document).on('input', '.arSlider', function () {
+$(document).on('input mouseup', '.arSlider', function (e) {
     var $this = $(this),
+        $ship = $this.parents('.ship'),
         $parent = $this.parents('td'),
         $sliderVal = $parent.find('.arSliderValue');
 
-    $sliderVal.text($this.val());
+    $sliderVal.text($this.val().toString());
+
+    if (e.type === 'mouseup') {
+        delayCall($ship);
+    }
 });
