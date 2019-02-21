@@ -33,24 +33,17 @@
             <span th:text="${global.get(IDS + nation.key.toUpperCase())}"></span>
         </button>
     </div>
-    <div class="research_reset">
-        <strong id="xpRequired" th:text="'Click on two ships for lowest research xp'"></strong><br />
-        <button id="resetSelect">Reset</button>
-    </div>
     <div class="research_list">
+        <strong id="xpText">XP calculation</strong><br /><br />
         <table th:each="nation : ${nations}" th:if="${nation.value.entrySet().?[!key.contains('PREMIUM')].size() > 0}" th:class="${'tree ' + nation.key}" th:classappend="'hide'">
             <tbody>
                 <tr th:each="realShipType : ${nation.value}" th:if="${realShipType.value.containsKey(realShipType.key)}">
-                    <td th:if="${realShipTypeStat.index == 0}" th:rowspan="${nation.value.size()}">
-                        <button class="button_nation" th:attr="data-nation=${nation.key}">
-                            <img th:src="${'https://glossary-na-static.gcdn.co/icons/wows/current/nation_flags/small/flag_' + nation.key + '.png'}"/><br />
-                            <span th:text="${global.get(IDS + nation.key.toUpperCase())}"></span>
-                        </button>
-                    </td>
                     <th:block th:each="shipType : ${realShipType.value}">
                         <td th:each="i : ${#numbers.sequence(1, 10)}">
                             <th:block th:each="ship : ${shipType.value.get(i)}" th:if="${shipType.value.get(i) != null}">
-                                <button class="button_ship" th:attr="data-tier=${i}, data-position=${ship.position}">
+                                <button class="button_ship"
+                                        th:attr="data-tier=${i}, data-position=${ship.position}, data-type=${shipType.key}, data-ship-index=${ship.index}, data-ship-xp=${ship.costXP},
+                                            data-prev-index=${ship.prevShipIndex}, data-prev-ship-xp=${ship.prevShipXP}, data-prev-ship-comp-xp=${ship.prevShipCompXP}">
                                     <img th:attr="data-src=${'https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/small/' + ship.index + '.png'}" /><br/>
                                     <span th:text="${global.get(IDS + ship.index.toUpperCase() + '_FULL')}"></span>
                                 </button><br th:if="${shipStat.index > 0}"/>
@@ -79,6 +72,8 @@
         $('.button_nation.initiate').removeClass('select');
         $this.addClass('select');
 
+        $('.button_ship').removeClass('select');
+
         for (var i = 0; i < $img.length; i++) {
             if ($img.eq(i).attr('src') === undefined) {
                 $img.eq(i).attr('src', $img.eq(i).attr('data-src'));
@@ -87,6 +82,73 @@
 
         $tree.addClass('hide');
         $table.removeClass('hide');
+    });
+
+    $(document).on('click', '.button_ship', function () {
+        var $this = $(this),
+            $bShipSelect = $('.button_ship.select'),
+            $text = $('#xpText');
+
+        var calc = 0;
+
+        if ($this.hasClass('select')) {
+            $this.removeClass('select');
+            return;
+        }
+
+        if ($bShipSelect.length > 1) {
+            $bShipSelect.removeClass('select');
+        }
+        $this.addClass('select');
+
+        $bShipSelect = $('.button_ship.select');
+        if ($bShipSelect.length === 2) {
+            var $first = $bShipSelect.eq(0);
+            var $temp = $bShipSelect.eq(1);
+            var $second;
+
+            if (parseInt($temp.attr('data-tier')) < parseInt($first.attr('data-tier'))) {
+                $second = $first;
+                $first = $temp;
+            } else {
+                $second = $temp;
+            }
+
+            if ($first.attr('data-tier') === $second.attr('data-tier')) {
+                if ($first.attr('data-prev-index') === $second.attr('data-ship-index')) {
+                    calc = parseInt($first.attr('data-prev-ship-xp')) + parseInt($first.attr('data-prev-ship-comp-xp')) + parseInt($first.attr('data-ship-xp'));
+                } else if ($second.attr('data-prev-index') === $first.attr('data-ship-index')) {
+                    calc = parseInt($second.attr('data-prev-ship-xp')) + parseInt($second.attr('data-prev-ship-comp-xp')) + parseInt($second.attr('data-ship-xp'));
+                } else {
+                    $text.text('Unknown');
+                    return false;
+                }
+                $text.text(calc.toLocaleString() + ' XP');
+            } else {
+                var curTier = parseInt($second.attr('data-tier'));
+                var endTier = parseInt($first.attr('data-tier'));
+                var endIndex = $first.attr('data-ship-index');
+                var $prev = $second;
+                var match = false;
+
+                while (curTier >= endTier && curTier > 0) {
+                    var prevShipIndex = $prev.attr('data-ship-index');
+                    if (prevShipIndex !== endIndex && prevShipIndex !== undefined) {
+                        calc = calc + parseInt($prev.attr('data-ship-xp')) + parseInt($prev.attr('data-prev-ship-comp-xp'));
+                        $prev = $('[data-ship-index=' + $prev.attr('data-prev-index') + ']');
+                        curTier = $prev.attr('data-tier');
+                    } else {
+                        match = true;
+                        break;
+                    }
+                }
+                if (match) {
+                    $text.text(calc.toLocaleString() + ' XP');
+                } else {
+                    $text.text('Unknown');
+                }
+            }
+        }
     });
 
     //    ]]>

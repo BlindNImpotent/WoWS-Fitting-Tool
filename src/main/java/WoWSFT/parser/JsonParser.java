@@ -282,7 +282,31 @@ public class JsonParser
             if (CollectionUtils.isNotEmpty(component.getNextShips())) {
                 component.getNextShips().forEach(ns -> {
                     if (idToName.get(ns) != null) {
-                        ships.get(idToName.get(ns)).setPrevShipIndex(ship.getIndex()).setPrevShipName(ship.getName());
+                        int currentPosition = component.getPosition();
+                        String current = component.getName();
+                        String prev = component.getPrev();
+                        String prevType = component.getPrevType();
+                        int compXP = 0;
+                        while (currentPosition > 1 && StringUtils.isNotEmpty(prev) && StringUtils.isNotEmpty(prevType) && gameParamsHM.containsKey(current)) {
+                            HashMap<String, Object> comp = mapper.convertValue(gameParamsHM.get(current), new TypeReference<HashMap<String, Object>>(){});
+                            compXP += (int) comp.get("costXP");
+
+                            if (StringUtils.isNotEmpty(prev)) {
+                                List<ShipUpgrade> tempSUList = ship.getShipUpgradeInfo().getComponents().get(prevType);
+                                for (ShipUpgrade su : tempSUList) {
+                                    if (su.getName().equalsIgnoreCase(prev)) {
+                                        currentPosition = su.getPosition();
+                                        prevType = su.getPrevType();
+                                        current = su.getName();
+                                        prev = su.getPrev();
+                                        break;
+                                    }
+                                }
+                            } else {
+                                break;
+                            }
+                        }
+                        ships.get(idToName.get(ns)).setPrevShipIndex(ship.getIndex()).setPrevShipName(ship.getName()).setPrevShipXP(ship.getShipUpgradeInfo().getCostXP()).setPrevShipCompXP(compXP);
                     }
                 });
             }
@@ -298,7 +322,8 @@ public class JsonParser
             ship.getShipUpgradeInfo().getComponents().get(artillery).forEach(arty -> arties.add(arty.getName()));
 
             shipsList.get(ship.getTypeinfo().getNation()).get(ship.getRealShipTypeId().toUpperCase()).get(ship.getTypeinfo().getSpecies().toUpperCase()).get(ship.getLevel())
-                    .add(new ShipIndex(ship.getName(), ship.getIndex(), ship.getPrevShipIndex(), ship.getPrevShipName(), ship.isResearch(), arties));
+                    .add(new ShipIndex(ship.getName(), ship.getIndex(), ship.getPrevShipIndex(), ship.getPrevShipName(),
+                            ship.isResearch(), ship.getShipUpgradeInfo().getCostXP(), ship.getPrevShipXP(), ship.getPrevShipCompXP(), arties));
         });
 
         shipsList.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(nation -> {

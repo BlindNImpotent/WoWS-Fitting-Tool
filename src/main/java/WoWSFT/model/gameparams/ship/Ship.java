@@ -61,6 +61,8 @@ public class Ship
     private boolean research;
     private String prevShipIndex;
     private String prevShipName;
+    private int prevShipXP;
+    private int prevShipCompXP;
     private String typeImage;
     private String imageMedium;
     private String imageSmall;

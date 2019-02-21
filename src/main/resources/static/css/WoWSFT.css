@@ -346,7 +346,7 @@ td {
 }
 
 .button_ship {
-    width: 120px;
+    /*width: 120px;*/
     /*height: 90px;*/
     background-color:#fff;
     text-align: center;
@@ -354,10 +354,12 @@ td {
     border-radius: 5px;
     font-size: 13px;
     cursor: pointer;
+    padding: 0;
+    margin: 0;
 }
 
 .button_ship img {
-    width: 120px;
+    width: 136px;
     /*height: 75px;*/
 }
 
