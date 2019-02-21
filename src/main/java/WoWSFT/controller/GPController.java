@@ -41,7 +41,11 @@ public class GPController extends ExceptionController
 
     @Autowired
     @Qualifier (value = "notification")
-    private LinkedHashMap<String, String> notification;
+    private LinkedHashMap<String, LinkedHashMap<String, String>> notification;
+
+    @Autowired
+    @Qualifier (value = "translation")
+    private LinkedHashMap<String, LinkedHashMap<String, String>> translation;
 
     @Autowired
     @Qualifier (value = "global")
@@ -87,7 +91,7 @@ public class GPController extends ExceptionController
         } else {
             String l = "en";
             for (String s : lang) {
-                if (globalLanguage.contains(s)) {
+                if (globalLanguage.contains(s.toLowerCase())) {
                     l = s;
                     break;
                 }
@@ -120,13 +124,14 @@ public class GPController extends ExceptionController
     }
 
     @GetMapping(value = "")
-    public String getHome(Model model)
+    public String getHome(Model model, @RequestParam(required = false, defaultValue = "en") String lang)
     {
         if (loadFinish.get("loadFinish") == 0) {
             return "loadPage";
         }
 
-        model.addAttribute("notification", notification);
+        model.addAttribute("notification", notification.get(lang.toLowerCase()));
+        model.addAttribute("trans", translation.get(lang.toLowerCase()));
 
         return "home";
     }
@@ -147,6 +152,7 @@ public class GPController extends ExceptionController
 
         lang = globalLanguage.contains(lang) ? lang : "en";
         model.addAttribute("global", global.get(lang.toLowerCase()));
+        model.addAttribute("trans", translation.get(lang.toLowerCase()));
 
         if (StringUtils.isNotEmpty(index)) {
             model.addAttribute("index", index.toUpperCase());
@@ -214,7 +220,8 @@ public class GPController extends ExceptionController
                                @RequestParam(required = false, defaultValue = "en") String lang)
     {
         model.addAttribute("IDS", IDS);
-        model.addAttribute("global", global.get(lang));
+        model.addAttribute("global", global.get(lang.toLowerCase()));
+        model.addAttribute("trans", translation.get(lang.toLowerCase()));
         model.addAttribute("nations", shipsList);
 
         return "ArtyChart/acHome";
@@ -231,7 +238,8 @@ public class GPController extends ExceptionController
     public String getResearch(Model model,
                               @RequestParam(required = false, defaultValue = "en") String lang)
     {
-        model.addAttribute("global", global.get(lang));
+        model.addAttribute("global", global.get(lang.toLowerCase()));
+        model.addAttribute("trans", translation.get(lang.toLowerCase().toLowerCase()));
         model.addAttribute("IDS", IDS);
         model.addAttribute("nations", shipsList);
 

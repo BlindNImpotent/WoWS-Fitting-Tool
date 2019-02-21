@@ -43,7 +43,11 @@ public class JsonParser
 {
     @Autowired
     @Qualifier (value = "notification")
-    private LinkedHashMap<String, String> notification;
+    private LinkedHashMap<String, LinkedHashMap<String, String>> notification;
+
+    @Autowired
+    @Qualifier (value = "translation")
+    private LinkedHashMap<String, LinkedHashMap<String, String>> translation;
 
     @Autowired
     @Qualifier (value = "nameToId")
@@ -84,16 +88,27 @@ public class JsonParser
     private ObjectMapper mapper = new ObjectMapper();
 
     @Async
+    public void setTranslation() throws IOException
+    {
+        log.info("Setting up translation");
+
+        for (String language : globalLanguage) {
+            Resource notificationFile = new ClassPathResource("/json/translation/custom-trans-" + language + ".json");
+            LinkedHashMap<String, String> temp = mapper.readValue(notificationFile.getURL(), new TypeReference<LinkedHashMap<String, String>>(){});
+            translation.put(language, temp);
+        }
+    }
+
+    @Async
     public void setNotification() throws IOException
     {
         log.info("Setting up notification");
 
-        Resource notificationFile = new ClassPathResource("/json/notification/notification.json");
-
-        LinkedHashMap<String, String> temp = mapper.readValue(notificationFile.getURL(), new TypeReference<LinkedHashMap<String, String>>(){});
-
-        notification.putAll(temp);
-        temp.clear();
+        for (String language : globalLanguage) {
+            Resource notificationFile = new ClassPathResource("/json/notification/notification-" + language + ".json");
+            LinkedHashMap<String, String> temp = mapper.readValue(notificationFile.getURL(), new TypeReference<LinkedHashMap<String, String>>(){});
+            notification.put(language, temp);
+        }
     }
 
 //    @Async

@@ -4,7 +4,8 @@
 <th:block th:fragment="warshipStats">
     <div id="notification" style="text-align: center;" th:if="${single and warship == null}">
         <br /><br />
-        <strong>Click on a ship for fitting.</strong>
+        <strong th:unless="${lang == 'ko'}">Click on a ship for fitting.</strong>
+        <strong th:if="${lang == 'ko'}">함선 선택</strong>
     </div>
     <div class="ship" th:attr="data-ship-index=${warship.index}, data-ship-position=${single ? '0' : dataIndex}" th:if="${warship != null}">
         <div class="name">

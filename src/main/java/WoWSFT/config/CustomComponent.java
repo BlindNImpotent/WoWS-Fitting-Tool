@@ -25,7 +25,9 @@ public class CustomComponent
 {
     private JsonParser jsonParser = new JsonParser();
 
-    private LinkedHashMap<String, String> notification = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap<String, String>> notification = new LinkedHashMap<>();
+
+    private LinkedHashMap<String, LinkedHashMap<String, String>> translation = new LinkedHashMap<>();
 
     private HashMap<String, String> nameToId = new HashMap<>();
 
@@ -92,9 +94,15 @@ public class CustomComponent
     }
 
     @Bean (value = "notification")
-    public LinkedHashMap<String, String> notification()
+    public LinkedHashMap<String, LinkedHashMap<String, String>> notification()
     {
         return notification;
+    }
+
+    @Bean (value = "translation")
+    public LinkedHashMap<String, LinkedHashMap<String, String>> translation()
+    {
+        return translation;
     }
 
     @Bean (value = "global")

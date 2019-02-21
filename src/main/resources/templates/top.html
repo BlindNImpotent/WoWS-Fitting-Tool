@@ -7,13 +7,13 @@
             <a th:href="${'/?lang=' + lang}"><span>Home</span></a>
         </li>
         <li>
-            <a th:href="${'/ship?lang=' + lang}"><span>Fitting Tool</span></a>
+            <a th:href="${'/ship?lang=' + lang}"><span th:text="${trans.get('FittingTool')}">Fitting Tool</span></a>
         </li>
         <li>
-            <a th:href="${'/arty?lang=' + lang}"><span>Artillery Chart</span></a>
+            <a th:href="${'/arty?lang=' + lang}"><span th:text="${trans.get('ArtilleryChart')}">Artillery Chart</span></a>
         </li>
         <li>
-            <a th:href="${'/research?lang=' + lang}"><span>Research XP</span></a>
+            <a th:href="${'/research?lang=' + lang}"><span th:text="${trans.get('ResearchXp')}">Research XP</span></a>
         </li>
     </ul>
 </nav>

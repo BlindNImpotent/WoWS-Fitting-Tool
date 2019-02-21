@@ -28,26 +28,13 @@
     <div>
         <div id="notification">
             <img alt="" th:src="@{/images/Icon/WoWSFT_Icon.png}" style="height: 300px" /><br />
-            <span th:text="${lang == 'en' ? 'Logo courtesy of ReptorPi from DCInside' : 'ReptorPi 제작'}"></span><br /><br />
-            <h2>Server version 0.8.0.2</h2>
+            <span th:text="${lang == 'ko' ? 'ReptorPi 제작' : 'Logo courtesy of ReptorPi from DCInside'}"></span><br /><br />
+            <h2>WoWS 0.8.0.2</h2>
             <br /><br />
             <ul>
-                <li th:if="${5 > noticeStat.index}" th:each="notice : ${notification}">
+                <li th:if="${3 > noticeStat.index}" th:each="notice : ${notification}">
                     <strong th:text="${notice.key}"></strong><br />
-                    <span th:utext="${notice.value}"></span><br />
-                </li>
-            </ul>
-            <br />
-            <br />
-            <ul th:if="${lang == 'ko'}">
-                <li>
-                    <strong>2019-02-19</strong><br />
-                    <span>
-                        번역이 별로인 부분은 영어로 임시 대체.<br /><br />
-                        현 직장의 길 건너편 금칠타워 안에 있는<br />
-                        외국 기업의 한국식 현지화가 매우 잘 된 그곳.<br />
-                        그곳에서 제대로 하는 일이나 있는지 그것이 알고 싶다.
-                    </span>
+                    <span th:utext="${notice.value}"></span><br /><br />
                 </li>
             </ul>
         </div>
