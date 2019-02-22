@@ -88,36 +88,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="panel_left" data-type="crewSkills">
-                    <div class="switch" data-type="skills">
-                        <strong th:text="${global.get('IDS_CREW_PERKS')} + ' : '"></strong><strong class="points" th:text="${warship.selectSkillPts}"></strong><strong> / 19</strong>
-                    </div>
-                    <table class="toggle skills">
-                        <tbody>
-                        <tr th:each="skillTier : ${skills.cSkills}">
-                            <td th:each="skill : ${skillTier}">
-                                <button th:class="'button_skill'" th:classappend="${warship.selectSkills.get(skillTierStat.index * 8 + skillStat.index) == 1 ? 'select' : ''}"
-                                        th:attr="data-index=${skillTierStat.index}, data-position=${skillStat.index}">
-                                    <img th:src="${skill.image}"/>
-                                    <table class="tooltip">
-                                        <tbody>
-                                        <tr><td colspan="2" th:utext="${global.get(IDS + 'SKILL_' + skill.modifier.toUpperCase())}"></td></tr>
-                                        <tr><td colspan="2">&nbsp;</td></tr>
-                                        <tr><td colspan="2" th:utext="${#strings.replace(global.get(IDS + 'SKILL_DESC_' + skill.modifier.toUpperCase()), '&#10', '<br />')}"></td></tr>
-                                        <th:block th:each="b : ${skill.bonus}" th:with="desc=${global.get(IDS + b.key)}">
-                                            <tr th:if="${desc != null}" class="tooltip_desc">
-                                                <td th:utext="${desc}"></td>
-                                                <td th:utext="${b.value}"></td>
-                                            </tr>
-                                        </th:block>
-                                        </tbody>
-                                    </table>
-                                </button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <div class="panel_left" data-type="crewSkills" th:replace="Joint/crewSkills :: crewSkills"></div>
             </div>
             <th:block th:replace="Joint/rightInfo :: rightInfo"></th:block>
         </div>

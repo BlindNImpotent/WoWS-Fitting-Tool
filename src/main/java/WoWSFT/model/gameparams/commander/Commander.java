@@ -16,7 +16,8 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Commander
 {
-    private CrewPersonality CrewPersonality;
+    @JsonProperty("CrewPersonality")
+    private CrewPersonality crewPersonality;
     private long id;
     private String identifier;
     private String index;

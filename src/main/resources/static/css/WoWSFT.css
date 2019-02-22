@@ -46,7 +46,7 @@ body {
     cursor: default;
     /*height: 100%;*/
     line-height: 22px;
-    font-size: 15px;
+    font-size: 16px;
     box-sizing: border-box;
     min-width: 1408px;
     max-width: 1792px;
@@ -85,7 +85,7 @@ ul {
 }
 
 li {
-    font-size: 15px;
+    font-size: 16px;
 }
 
 select, option {
@@ -104,7 +104,7 @@ select, option {
     word-break: keep-all;
     -ms-word-wrap: break-word;
     word-wrap: break-word;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 #notification {
@@ -132,7 +132,7 @@ select, option {
 
 .link {
     padding: 0 12px;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .left {

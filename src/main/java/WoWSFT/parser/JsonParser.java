@@ -161,9 +161,14 @@ public class JsonParser
                 consumables.put(key, consumable);
             } else if (typeInfo.getType().equalsIgnoreCase("Crew")) {
                 Commander commander = mapper.convertValue(value, Commander.class);
-                if (commander.getName().contains("DefaultCrew") || commander.getCrewPersonality().isUnique()) {
-                    commander.setIdentifier(IDS + commander.getCrewPersonality().getPersonName());
-                    commanders.put(commander.getIndex(), commander);
+                if (!"Events".equalsIgnoreCase(commander.getTypeinfo().getNation())) {
+                    if (!commander.getCrewPersonality().isUnique() && commander.getTypeinfo().getNation().equals("Common")) {
+                        commander.setIdentifier("IDS_CREW_LASTNAME_DEFAULT");
+                        commanders.put("DEFAULT", commander);
+                    } else if (commander.getCrewPersonality().isUnique()) {
+                        commander.setIdentifier(IDS + commander.getCrewPersonality().getPersonName().toUpperCase());
+                        commanders.put(commander.getIndex().toUpperCase(), commander);
+                    }
                 }
             } else {
                 gameParamsHM.put(key, value);

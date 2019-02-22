@@ -86,16 +86,16 @@ public class ParamService
         ship.getComponents().getArtillery().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(artillery))) {
                 val.setGMIdealRadius(val.getGMIdealRadius() * modifier.getGmidealRadius());
-                val.setMaxDist(val.getMaxDist() * modifier.getGmmaxDist() * (val.getBarrelDiameter() > 0.139 ? 1f : modifier.getSmallGunRangeCoefficient()));
+                val.setMaxDist(val.getMaxDist() * modifier.getGmmaxDist() * (val.getBarrelDiameter() > smallGun ? oneCoeff : modifier.getSmallGunRangeCoefficient()));
                 val.getTurrets().forEach(t -> {
-                    t.getRotationSpeed().set(0, (t.getRotationSpeed().get(0) + (t.getBarrelDiameter() > 0.139 ? modifier.getBigGunBonus() : modifier.getSmallGunBonus())) * modifier.getGmrotationSpeed());
-                    t.setShotDelay(t.getShotDelay() * modifier.getGmshotDelay() * (t.getBarrelDiameter() > 0.139 ? 1f : modifier.getSmallGunReloadCoefficient())
-                            * (1f - (ship.getAdrenaline() / modifier.getHpStep() * modifier.getTimeStep())));
+                    t.getRotationSpeed().set(0, (t.getRotationSpeed().get(0) + (t.getBarrelDiameter() > smallGun ? modifier.getBigGunBonus() : modifier.getSmallGunBonus())) * modifier.getGmrotationSpeed());
+                    t.setShotDelay(t.getShotDelay() * modifier.getGmshotDelay() * (t.getBarrelDiameter() > smallGun ? oneCoeff : modifier.getSmallGunReloadCoefficient())
+                            * (oneCoeff - (ship.getAdrenaline() / modifier.getHpStep() * modifier.getTimeStep())));
                 });
                 val.getShells().forEach((s, ammo) -> {
                     if ("HE".equalsIgnoreCase(ammo.getAmmoType())) {
-                        ammo.setBurnProb(ammo.getBurnProb() + modifier.getProbabilityBonus() + (ammo.getBulletDiametr() > 0.139 ? modifier.getChanceToSetOnFireBonusBig() : modifier.getChanceToSetOnFireBonusSmall()));
-                        ammo.setAlphaPiercingHE(ammo.getAlphaPiercingHE() * (ammo.getBulletDiametr() > 0.139 ? modifier.getThresholdPenetrationCoefficientBig() : modifier.getThresholdPenetrationCoefficientSmall()));
+                        ammo.setBurnProb(ammo.getBurnProb() + modifier.getProbabilityBonus() + (ammo.getBulletDiametr() > smallGun ? modifier.getChanceToSetOnFireBonusBig() : modifier.getChanceToSetOnFireBonusSmall()));
+                        ammo.setAlphaPiercingHE(ammo.getAlphaPiercingHE() * (ammo.getBulletDiametr() > smallGun ? modifier.getThresholdPenetrationCoefficientBig() : modifier.getThresholdPenetrationCoefficientSmall()));
                     }
                 });
             }
@@ -105,7 +105,7 @@ public class ParamService
             if (c.equalsIgnoreCase(ship.getModules().get(torpedoes))) {
                 val.getLaunchers().forEach(l -> {
                     l.getRotationSpeed().set(0, l.getRotationSpeed().get(0) * modifier.getGtrotationSpeed());
-                    l.setShotDelay(l.getShotDelay() * modifier.getGtshotDelay() * modifier.getLauncherCoefficient() * (1f - (ship.getAdrenaline() / modifier.getHpStep() * modifier.getTimeStep())));
+                    l.setShotDelay(l.getShotDelay() * modifier.getGtshotDelay() * modifier.getLauncherCoefficient() * (oneCoeff - (ship.getAdrenaline() / modifier.getHpStep() * modifier.getTimeStep())));
                 });
                 val.getAmmo().setMaxDist(val.getAmmo().getMaxDist() * modifier.getTorpedoRangeCoefficient());
                 val.getAmmo().setSpeed(val.getAmmo().getSpeed() + modifier.getTorpedoSpeedBonus());
@@ -156,7 +156,7 @@ public class ParamService
                 val.setMaxDist(val.getMaxDist() * modifier.getGsmaxDist() * modifier.getSmallGunRangeCoefficient());
 
                 val.getSecondaries().forEach((k, sec) -> {
-                    sec.setShotDelay(sec.getShotDelay() * modifier.getGsshotDelay() * modifier.getSmallGunReloadCoefficient() * (1f - (ship.getAdrenaline() / modifier.getHpStep() * modifier.getTimeStep())));
+                    sec.setShotDelay(sec.getShotDelay() * modifier.getGsshotDelay() * modifier.getSmallGunReloadCoefficient() * (oneCoeff - (ship.getAdrenaline() / modifier.getHpStep() * modifier.getTimeStep())));
                     sec.setGSIdealRadius(sec.getGSIdealRadius() * modifier.getGsidealRadius() * (ship.getLevel() >= 7 ? modifier.getAtbaIdealRadiusHi() : modifier.getAtbaIdealRadiusLo()));
                     if ("HE".equalsIgnoreCase(sec.getAmmoType())) {
                         sec.setBurnProb(sec.getBurnProb() + modifier.getProbabilityBonus() + modifier.getChanceToSetOnFireBonusSmall());
@@ -180,7 +180,7 @@ public class ParamService
                     n.set(1, ((double) n.get(1)) * modifier.getBurnProb() * modifier.getProbabilityCoefficient());
                     n.set(3, ((double) n.get(3)) * modifier.getBurnTime() * modifier.getCritTimeCoefficient());
                 });
-                val.setBurnSizeSkill(modifier.getProbabilityCoefficient() != 1f ? 3 : val.getBurnSizeSkill());
+                val.setBurnSizeSkill(modifier.getProbabilityCoefficient() != oneCoeff ? 3 : val.getBurnSizeSkill());
                 val.getFloodParams().set(0, val.getFloodParams().get(0) * modifier.getFloodProb());
                 val.getFloodParams().set(2, val.getFloodParams().get(2) * modifier.getFloodTime() * modifier.getCritTimeCoefficient());
                 val.setRudderTime(val.getRudderTime() * modifier.getSgrudderTime());
@@ -212,25 +212,25 @@ public class ParamService
         ship.getAuraNear().forEach(aura -> setAura(aura, modifier));
 
         ship.getConsumables().forEach(c -> c.forEach(s -> s.getSubConsumables().forEach((k, sC) -> {
-            sC.setWorkTime(sC.getWorkTime() * ("scout".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getScoutWorkTime() : 1f));
+            sC.setWorkTime(sC.getWorkTime() * ("scout".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getScoutWorkTime() : oneCoeff));
 
-            sC.setWorkTime(sC.getWorkTime() * ("crashCrew".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getCrashCrewWorkTime() : 1f));
+            sC.setWorkTime(sC.getWorkTime() * ("crashCrew".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getCrashCrewWorkTime() : oneCoeff));
             sC.setReloadTime(sC.getReloadTime() * ("crashCrew".equalsIgnoreCase(sC.getConsumableType())
-                    && "EmergencyTeamCooldownModifier".equalsIgnoreCase(modifier.getModifier()) ? modifier.getReloadCoefficient() : 1f));
+                    && "EmergencyTeamCooldownModifier".equalsIgnoreCase(modifier.getModifier()) ? modifier.getReloadCoefficient() : oneCoeff));
 
-            sC.setWorkTime(sC.getWorkTime() * ("speedBoosters".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getSpeedBoosterWorkTime() : 1f));
+            sC.setWorkTime(sC.getWorkTime() * ("speedBoosters".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getSpeedBoosterWorkTime() : oneCoeff));
 
-            sC.setWorkTime(sC.getWorkTime() * ("airDefenseDisp".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getAirDefenseDispWorkTime() : 1f));
+            sC.setWorkTime(sC.getWorkTime() * ("airDefenseDisp".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getAirDefenseDispWorkTime() : oneCoeff));
 
-            sC.setWorkTime(sC.getWorkTime() * ("sonar".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getSonarSearchWorkTime() : 1f));
+            sC.setWorkTime(sC.getWorkTime() * ("sonar".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getSonarSearchWorkTime() : oneCoeff));
 
-            sC.setWorkTime(sC.getWorkTime() * ("rls".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getRlsSearchWorkTime() : 1f));
+            sC.setWorkTime(sC.getWorkTime() * ("rls".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getRlsSearchWorkTime() : oneCoeff));
 
-            sC.setWorkTime(sC.getWorkTime() * ("smokeGenerator".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getSmokeGeneratorWorkTime() : 1f));
-            sC.setLifeTime(sC.getWorkTime() * ("smokeGenerator".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getSmokeGeneratorLifeTime() : 1f));
-            sC.setRadius(sC.getRadius() * ("smokeGenerator".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getRadiusCoefficient() : 1f));
+            sC.setWorkTime(sC.getWorkTime() * ("smokeGenerator".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getSmokeGeneratorWorkTime() : oneCoeff));
+            sC.setLifeTime(sC.getLifeTime() * ("smokeGenerator".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getSmokeGeneratorLifeTime() : oneCoeff));
+            sC.setRadius(sC.getRadius() * ("smokeGenerator".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getRadiusCoefficient() : oneCoeff));
 
-            sC.setReloadTime(sC.getReloadTime() * ("AllSkillsCooldownModifier".equalsIgnoreCase(modifier.getModifier()) ? modifier.getReloadCoefficient() : 1f));
+            sC.setReloadTime(sC.getReloadTime() * ("AllSkillsCooldownModifier".equalsIgnoreCase(modifier.getModifier()) ? modifier.getReloadCoefficient() : oneCoeff));
 
             sC.setNumConsumables(sC.getNumConsumables() + (sC.getNumConsumables() > 0 ? modifier.getAdditionalConsumables() : 0));
         })));
@@ -296,9 +296,9 @@ public class ParamService
         plane.setSpeedMove(plane.getSpeedMove() * modifier.getFlightSpeedCoefficient());
         plane.setMaxVisibilityFactor(plane.getMaxVisibilityFactor() * modifier.getSquadronCoefficient() * modifier.getSquadronVisibilityDistCoeff());
         plane.setMaxVisibilityFactorByPlane(plane.getMaxVisibilityFactorByPlane() * modifier.getSquadronCoefficient() * modifier.getSquadronVisibilityDistCoeff());
-        plane.setSpeedMoveWithBomb(plane.getSpeedMoveWithBomb() * modifier.getAirplanesSpeed() * (1f + (ship.getAdrenaline() / modifier.getSquadronHealthStep() * modifier.getSquadronSpeedStep())));
+        plane.setSpeedMoveWithBomb(plane.getSpeedMoveWithBomb() * modifier.getAirplanesSpeed() * (oneCoeff + (ship.getAdrenaline() / modifier.getSquadronHealthStep() * modifier.getSquadronSpeedStep())));
         plane.getConsumables().forEach(c -> c.getSubConsumables().forEach((key, val) -> {
-            val.setReloadTime(val.getReloadTime() * ("AllSkillsCooldownModifier".equalsIgnoreCase(modifier.getModifier()) ? modifier.getReloadCoefficient() : 1f));
+            val.setReloadTime(val.getReloadTime() * ("AllSkillsCooldownModifier".equalsIgnoreCase(modifier.getModifier()) ? modifier.getReloadCoefficient() : oneCoeff));
             val.setFightersNum(val.getFightersNum() + (val.getFightersNum() > 0 ? modifier.getExtraFighterCount() : 0));
         }));
     }

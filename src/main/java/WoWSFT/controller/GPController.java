@@ -143,7 +143,7 @@ public class GPController extends ExceptionController
                              @RequestParam(required = false, defaultValue = "") String modules,
                              @RequestParam(required = false, defaultValue = "") String upgrades,
                              @RequestParam(required = false, defaultValue = "") String consumables,
-                             @RequestParam(required = false, defaultValue = "PAW001") String commander,
+                             @RequestParam(required = false, defaultValue = "DEFAULT") String commander,
                              @RequestParam(required = false, defaultValue = "0") long skills,
                              @RequestParam(required = false, defaultValue = "100") int ar) throws Exception
     {
@@ -157,6 +157,7 @@ public class GPController extends ExceptionController
         if (StringUtils.isNotEmpty(index)) {
             model.addAttribute("index", index.toUpperCase());
             model.addAttribute("dataIndex", 0);
+            model.addAttribute("commanders", commanders);
 
             Commander crew = gpService.getCommander(commander.toUpperCase());
             skills = skills > maxBitsToInt ? 0 : skills;
@@ -184,7 +185,7 @@ public class GPController extends ExceptionController
                                @RequestParam(required = false, defaultValue = "") String modules,
                                @RequestParam(required = false, defaultValue = "") String upgrades,
                                @RequestParam(required = false, defaultValue = "") String consumables,
-                               @RequestParam(required = false, defaultValue = "PAW001") String commander,
+                               @RequestParam(required = false, defaultValue = "DEFAULT") String commander,
                                @RequestParam(required = false, defaultValue = "0") long skills) throws Exception
     {
         if (StringUtils.isNotEmpty(index)) {
