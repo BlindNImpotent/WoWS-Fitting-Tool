@@ -143,7 +143,7 @@ public class GPController extends ExceptionController
                              @RequestParam(required = false, defaultValue = "") String modules,
                              @RequestParam(required = false, defaultValue = "") String upgrades,
                              @RequestParam(required = false, defaultValue = "") String consumables,
-                             @RequestParam(required = false, defaultValue = "DEFAULT") String commander,
+                             @RequestParam(required = false, defaultValue = "PCW001") String commander,
                              @RequestParam(required = false, defaultValue = "0") long skills,
                              @RequestParam(required = false, defaultValue = "100") int ar) throws Exception
     {
@@ -158,11 +158,9 @@ public class GPController extends ExceptionController
             model.addAttribute("index", index.toUpperCase());
             model.addAttribute("dataIndex", 0);
             model.addAttribute("commanders", commanders);
-
-            Commander crew = gpService.getCommander(commander.toUpperCase());
             skills = skills > maxBitsToInt ? 0 : skills;
 
-            Ship ship = getShip(index.toUpperCase(), modules, upgrades, consumables, skills, commander.toUpperCase(), crew, ar, false);
+            Ship ship = getShip(index.toUpperCase(), modules, upgrades, consumables, skills, commander.toUpperCase(), ar, false);
             model.addAttribute(TYPE_WARSHIP, ship);
 
 //            log.info(request.getRequestURL() + (StringUtils.isNotEmpty(request.getQueryString()) ? "?" + request.getQueryString() : ""));
@@ -170,8 +168,6 @@ public class GPController extends ExceptionController
             if ("post".equalsIgnoreCase(request.getMethod())) {
                 return "Joint/rightInfo :: rightInfo";
             }
-
-            model.addAttribute(TYPE_SKILL, crew);
         }
         model.addAttribute("nations", shipsList);
 
@@ -185,11 +181,11 @@ public class GPController extends ExceptionController
                                @RequestParam(required = false, defaultValue = "") String modules,
                                @RequestParam(required = false, defaultValue = "") String upgrades,
                                @RequestParam(required = false, defaultValue = "") String consumables,
-                               @RequestParam(required = false, defaultValue = "DEFAULT") String commander,
+                               @RequestParam(required = false, defaultValue = "PCW001") String commander,
                                @RequestParam(required = false, defaultValue = "0") long skills) throws Exception
     {
         if (StringUtils.isNotEmpty(index)) {
-            return getShip(index.toUpperCase(), modules, upgrades, consumables, skills, commander.toUpperCase(), null, 100, true);
+            return getShip(index.toUpperCase(), modules, upgrades, consumables, skills, commander.toUpperCase(), 100, true);
         }
         throw new NullPointerException();
     }
@@ -202,7 +198,7 @@ public class GPController extends ExceptionController
         return "redirect:" + url;
     }
 
-    private Ship getShip(String index, String modules, String upgrades, String consumables, long skills, String commander, Commander crew, int ar, boolean data) throws Exception
+    private Ship getShip(String index, String modules, String upgrades, String consumables, long skills, String commander, int ar, boolean data) throws Exception
     {
         Ship ship = mapper.readValue(mapper.writeValueAsString(gpService.getShip(index)), Ship.class);
         parserService.parseModules(ship, modules);
@@ -211,7 +207,13 @@ public class GPController extends ExceptionController
         parserService.parseUpgrades(ship, upgrades);
         parserService.parseSkills(ship, skills, ar);
         paramService.setAA(ship);
-        paramService.setParameters(ship, data ? gpService.getCommander(commander) : crew);
+
+        if (!"PCW001".equals(commander)
+                && (commanders.get(commander) == null || !commanders.get(commander).getCrewPersonality().getShips().getNation().contains(ship.getTypeinfo().getNation()))) {
+            commander = "PCW001";
+        }
+        ship.setCommander(gpService.getCommander(commander));
+        paramService.setParameters(ship);
 
         return ship;
     }

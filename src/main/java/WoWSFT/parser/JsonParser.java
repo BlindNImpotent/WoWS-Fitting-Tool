@@ -164,7 +164,7 @@ public class JsonParser
                 if (!"Events".equalsIgnoreCase(commander.getTypeinfo().getNation())) {
                     if (!commander.getCrewPersonality().isUnique() && commander.getTypeinfo().getNation().equals("Common")) {
                         commander.setIdentifier("IDS_CREW_LASTNAME_DEFAULT");
-                        commanders.put("DEFAULT", commander);
+                        commanders.put(commander.getIndex().toUpperCase(), commander);
                     } else if (commander.getCrewPersonality().isUnique()) {
                         commander.setIdentifier(IDS + commander.getCrewPersonality().getPersonName().toUpperCase());
                         commanders.put(commander.getIndex().toUpperCase(), commander);

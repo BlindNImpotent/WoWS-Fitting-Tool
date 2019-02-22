@@ -56,11 +56,11 @@ public class ParamService
         ship.setAuraNear(auraNear);
     }
 
-    public void setParameters(Ship ship, Commander crew)
+    public void setParameters(Ship ship)
     {
         for (int i = 0; i < ship.getSelectSkills().size(); i++) {
             if (ship.getSelectSkills().get(i) == 1) {
-                CommonModifier modifier = mapper.convertValue(crew.getCSkills().get(i / 8).get(i % 8), CommonModifier.class);
+                CommonModifier modifier = mapper.convertValue(ship.getCommander().getCSkills().get(i / 8).get(i % 8), CommonModifier.class);
                 setUpgrades(ship, modifier);
             }
         }

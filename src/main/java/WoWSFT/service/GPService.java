@@ -119,7 +119,7 @@ public class GPService
     public Commander getCommander(String commander) throws Exception
     {
         if (commanders.get(commander) == null) {
-            commander = "DEFAULT";
+            commander = "PCW001";
         }
 
         Commander tempCommander = mapper.readValue(mapper.writeValueAsString(commanders.get(commander)), Commander.class);

@@ -5,14 +5,9 @@
     <div class="switch" data-type="skills">
         <strong th:text="${global.get('IDS_CREW_PERKS')} + ' : '"></strong><strong class="points" th:text="${warship.selectSkillPts}"></strong><strong> / 19</strong>
     </div>
-    <div class="toggle skills">
-        <th:block th:each="commander : ${commanders.entrySet().?[value.CrewPersonality.ships.nation.contains('USA')]}">
-            <span th:text="${global.get(commander.value.identifier)}" th:attr="identifier=${commander.value.identifier}"></span><br />
-        </th:block>
-    </div>
     <table class="toggle skills">
         <tbody>
-        <tr th:each="skillTier : ${skills.cSkills}">
+        <tr th:each="skillTier : ${warship.commander.cSkills}">
             <td th:each="skill : ${skillTier}">
                 <button th:class="'button_skill'" th:classappend="${warship.selectSkills.get(skillTierStat.index * 8 + skillStat.index) == 1 ? 'select' : ''}"
                         th:attr="data-index=${skillTierStat.index}, data-position=${skillStat.index}">
