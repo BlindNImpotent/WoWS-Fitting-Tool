@@ -211,13 +211,17 @@ function makeUrl($ship)
         upgrades += (uArrays[x] === 0 ? '0' : uArrays[x].toString());
     }
 
+    var useAr = false;
     var skills = 0;
     for (var i = 0; i < sSkills.length; i++) {
         var pos = parseInt(sSkills.eq(i).attr('data-index')) * 8 + parseInt(sSkills.eq(i).attr('data-position'));
         skills += Math.pow(2, pos);
+        if (pos === 14) {
+            useAr = true;
+        }
     }
 
-    var ar = $ship.find('.arSlider').val() !== undefined ? $ship.find('.arSlider').val() : 0;
+    var ar = useAr && $ship.find('.arSlider').val() !== undefined ? $ship.find('.arSlider').val() : 0;
 
     var consumables = '';
     var cArrays = [0, 0, 0, 0, 0];
