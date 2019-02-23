@@ -314,14 +314,16 @@ nav ul li:active > ul {
     margin: 2px;
     z-index: 2;
     padding: 0;
-    /*padding: 0 2px;*/
-    /*padding: 2px;*/
-    /*margin: 1px;*/
+    position: relative;
 }
 
 .button_module {
     width: 72px;
     height: 72px;
+}
+
+.button_module img {
+    vertical-align: middle;
 }
 
 .button_upgrade, .button_consumable {
@@ -336,8 +338,6 @@ nav ul li:active > ul {
 
 button img {
     width: 40px;
-    display: block;
-    margin: 0 auto;
 }
 
 .button_skill img {

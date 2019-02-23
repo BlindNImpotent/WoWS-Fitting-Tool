@@ -46,7 +46,7 @@
                                                         th:attr="data-index=${colStat.index}, data-type=${module.ucTypeShort}, data-position=${module.position},
                                                                  data-prev-type=${module.prevType}, data-prev-position=${module.prevPosition}, data-temp-position=${moduleStat.index}">
                                                     <img th:src="${module.image}" />
-                                                    <span th:text="${global.get(IDS + module.name.toUpperCase())}"></span>
+                                                    <div style="height: 24px; overflow: hidden;" th:text="${global.get(IDS + module.name.toUpperCase())}"></div>
                                                 </button>
                                             </td>
                                             <td th:each="j : ${#numbers.sequence(1, col.value - mods.size())}" th:if="${col.value > mods.size()}"></td>
