@@ -95,7 +95,7 @@ select, option {
 .bottom-fix {
     /*position: sticky;*/
     /*position: -webkit-sticky;*/
-    background: white;
+    /*background: white;*/
     text-align: center;
     /*bottom: 0;*/
     /*z-index: 1;*/
@@ -243,10 +243,6 @@ nav ul li:active > ul {
     /*transform: translate(0%, -3%) scale(0.96, 0.96);*/
 }
 
-.ship img {
-    max-width: 350px;
-}
-
 .hide {
     display: none;
 }
@@ -269,7 +265,7 @@ nav ul li:active > ul {
 .info_box_inner {
     display: inline-block;
     vertical-align: top;
-    background: white;
+    /*background: white;*/
     text-decoration: none;
     color: inherit;
     opacity: 1;
@@ -285,7 +281,7 @@ nav ul li:active > ul {
 }
 
 .button_tab {
-    background: white;
+    /*background: white;*/
     margin-bottom: 2px;
     text-align: center;
     border: 1px solid rgb(210,210,210);
@@ -302,11 +298,11 @@ nav ul li:active > ul {
 .button_skill, .button_uSkill,
 .button_flag, .button_consumable,
 .button_plane_consumable {
-    background: white;
+    background: transparent;
     text-align: center;
     border: 1px solid rgba(0,0,0,0);
     border-radius: 5px;
-    font-size: 12px;
+    font-size: 10px;
     width: 60px;
     height: 60px;
     word-wrap: normal;
@@ -324,8 +320,8 @@ nav ul li:active > ul {
 }
 
 .button_module {
-    width: 80px;
-    height: 80px;
+    width: 72px;
+    height: 72px;
 }
 
 .button_upgrade, .button_consumable {
@@ -340,6 +336,8 @@ nav ul li:active > ul {
 
 button img {
     width: 40px;
+    display: block;
+    margin: 0 auto;
 }
 
 .button_skill img {
@@ -366,7 +364,7 @@ td {
 .button_ship {
     /*width: 120px;*/
     /*height: 90px;*/
-    background-color:#fff;
+    /*background-color: white;*/
     text-align: center;
     border: 0 solid black;
     border-radius: 5px;
@@ -383,7 +381,7 @@ td {
 
 .button_nation
 {
-    background-color:#fff;
+    /*background-color: white;*/
     text-align: center;
     border: 0 solid black;
     border-radius: 5px;
@@ -476,6 +474,7 @@ td {
 
 button .tooltip {
     /*display: none;*/
+    font-size: 12px;
     visibility: hidden;
     position: absolute;
     z-index: 1;
