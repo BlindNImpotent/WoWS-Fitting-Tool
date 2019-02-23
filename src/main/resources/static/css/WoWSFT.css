@@ -46,7 +46,7 @@ body {
     cursor: default;
     /*height: 100%;*/
     line-height: 22px;
-    font-size: 16px;
+    font-size: 14px;
     box-sizing: border-box;
     min-width: 1408px;
     max-width: 1792px;
@@ -85,7 +85,7 @@ ul {
 }
 
 li {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 select, option {
@@ -104,7 +104,7 @@ select, option {
     word-break: keep-all;
     -ms-word-wrap: break-word;
     word-wrap: break-word;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 #notification {
@@ -132,7 +132,7 @@ select, option {
 
 .link {
     padding: 0 12px;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .left {
@@ -306,7 +306,7 @@ nav ul li:active > ul {
     text-align: center;
     border: 1px solid rgba(0,0,0,0);
     border-radius: 5px;
-    font-size: 13px;
+    font-size: 12px;
     width: 60px;
     height: 60px;
     word-wrap: normal;
@@ -317,7 +317,8 @@ nav ul li:active > ul {
     white-space: normal;
     margin: 2px;
     z-index: 2;
-    padding: 0 2px;
+    padding: 0;
+    /*padding: 0 2px;*/
     /*padding: 2px;*/
     /*margin: 1px;*/
 }
@@ -338,7 +339,24 @@ nav ul li:active > ul {
 }
 
 button img {
-    width: 30px;
+    width: 40px;
+}
+
+.button_skill img {
+    width: 50px;
+    vertical-align: middle;
+}
+
+.overlay {
+    position: absolute;
+    top: 7px;
+    left: 4px;
+    background-image: url(/images/Icon/skill_special.png);
+    background-repeat: no-repeat;
+    opacity: 1;
+    padding: 12px;
+    font-size: 0;
+    text-align: center;
 }
 
 td {
@@ -352,7 +370,7 @@ td {
     text-align: center;
     border: 0 solid black;
     border-radius: 5px;
-    font-size: 13px;
+    font-size: 12px;
     cursor: pointer;
     padding: 0;
     margin: 0;
@@ -369,7 +387,7 @@ td {
     text-align: center;
     border: 0 solid black;
     border-radius: 5px;
-    font-size: 13px;
+    font-size: 12px;
     /*min-width: 140px;*/
     /*max-width: 140px;*/
     /*min-height: 140px;*/
@@ -557,5 +575,5 @@ button .tooltip_desc {
     border: 0;
     margin: 0;
     padding: 0;
-    height: 20px;
+    height: 22px;
 }

@@ -166,7 +166,8 @@ public class GPController extends ExceptionController
 //            log.info(request.getRequestURL() + (StringUtils.isNotEmpty(request.getQueryString()) ? "?" + request.getQueryString() : ""));
 
             if ("post".equalsIgnoreCase(request.getMethod())) {
-                return "Joint/rightInfo :: rightInfo";
+//                return "Joint/rightInfo :: rightInfo";
+                return "Joint/shipSelect :: warshipStats";
             }
         }
         model.addAttribute("nations", shipsList);

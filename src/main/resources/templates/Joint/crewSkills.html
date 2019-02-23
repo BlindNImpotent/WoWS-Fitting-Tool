@@ -5,6 +5,26 @@
     <div class="switch" data-type="skills">
         <strong th:text="${global.get('IDS_CREW_PERKS')} + ' : '"></strong><strong class="points" th:text="${warship.selectSkillPts}"></strong><strong> / 19</strong>
     </div>
+    <div class="toggle skills" th:with="nation=${warship.typeinfo.nation}">
+        <label>
+            <select name="commander" style="height: 22px;">
+                <th:block th:with="default=${commanders.get('PCW001')}">
+                    <option th:value="${default.index}" th:text="${global.get(default.identifier)}" th:selected="${default.index == warship.commander.index}"></option>
+                </th:block>
+                <th:block th:each="commander : ${commanders.entrySet().?[value.CrewPersonality.ships.nation.contains(__${#strings.concat('''', nation, '''')}__)]}">
+                    <option th:text="${global.get(commander.value.identifier)}" th:value="${commander.value.index}" th:selected="${commander.value.index == warship.commander.index}"></option>
+                </th:block>
+            </select>
+        </label>
+        <th:block th:if="${warship.arUse}">
+            <br />
+            <label style="display: inline-flex;">
+                <u th:text="${global.get('IDS_SKILL_LASTCHANCEMODIFIER')}"></u><span>&emsp;</span>
+                <span class="arSliderValue" th:text="${#numbers.formatInteger(100 - (warship.adrenaline * 100.0), 1, 'COMMA')}"></span><span>&emsp;</span>
+                <input type="range" min="1" max="100" th:value="${#numbers.formatInteger(100 - (warship.adrenaline * 100.0), 1, 'COMMA')}" class="arSlider" />
+            </label>
+        </th:block>
+    </div>
     <table class="toggle skills">
         <tbody>
         <tr th:each="skillTier : ${warship.commander.cSkills}">
@@ -12,17 +32,18 @@
                 <button th:class="'button_skill'" th:classappend="${warship.selectSkills.get(skillTierStat.index * 8 + skillStat.index) == 1 ? 'select' : ''}"
                         th:attr="data-index=${skillTierStat.index}, data-position=${skillStat.index}">
                     <img th:src="${skill.image}"/>
+                    <div class="overlay" th:if="${skill.epic}"></div>
                     <table class="tooltip">
                         <tbody>
-                        <tr><td colspan="2" th:utext="${global.get(IDS + 'SKILL_' + skill.modifier.toUpperCase())}"></td></tr>
-                        <tr><td colspan="2">&nbsp;</td></tr>
-                        <tr><td colspan="2" th:utext="${#strings.replace(global.get(IDS + 'SKILL_DESC_' + skill.modifier.toUpperCase()), '&#10', '<br />')}"></td></tr>
-                        <th:block th:each="b : ${skill.bonus}" th:with="desc=${global.get(IDS + b.key)}">
-                            <tr th:if="${desc != null}" class="tooltip_desc">
-                                <td th:utext="${desc}"></td>
-                                <td th:utext="${b.value}"></td>
-                            </tr>
-                        </th:block>
+                            <tr><td colspan="2" th:utext="${global.get(IDS + 'SKILL_' + skill.modifier.toUpperCase())}"></td></tr>
+                            <tr><td colspan="2">&nbsp;</td></tr>
+                            <tr><td colspan="2" th:utext="${#strings.replace(global.get(IDS + 'SKILL_DESC_' + skill.modifier.toUpperCase()), '&#10', '<br />')}"></td></tr>
+                            <th:block th:each="b : ${skill.bonus}" th:with="desc=${global.get(IDS + b.key)}">
+                                <tr th:if="${desc != null}" class="tooltip_desc">
+                                    <td th:utext="${desc}"></td>
+                                    <td th:utext="${b.value}"></td>
+                                </tr>
+                            </th:block>
                         </tbody>
                     </table>
                 </button>

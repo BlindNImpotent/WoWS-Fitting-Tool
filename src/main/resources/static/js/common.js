@@ -175,7 +175,7 @@ $(document).on('click', '.switch', function (e) {
     }
 });
 
-var waitTime = 1000;
+var waitTime = 1500;
 var timer = [];
 function delayCall($ship)
 {
@@ -211,6 +211,8 @@ function makeUrl($ship)
         upgrades += (uArrays[x] === 0 ? '0' : uArrays[x].toString());
     }
 
+    var commander = $("[name=commander]").val();
+
     var useAr = false;
     var skills = 0;
     for (var i = 0; i < sSkills.length; i++) {
@@ -238,6 +240,7 @@ function makeUrl($ship)
         '/ship?index=' + $shipIndex
         + (modules !== '' ? '&modules=' + modules : '')
         + (upgrades.replace('0') !== '' ? '&upgrades=' + upgrades : '')
+        + '&commander=' + commander.toUpperCase()
         + (skills > 0 ? '&skills=' + skills.toString() : '')
         + (ar > 0 ? '&ar=' + ar : '')
         + (consumables !== '' ? '&consumables=' + consumables : '')
@@ -267,8 +270,10 @@ function callPage($ship)
         type: 'post',
         success: function (data) {
             if (data.status === undefined) {
-                $('.info_box_inner.replace').remove();
-                $('.info_box').append(data);
+                // $('.info_box_inner.replace').remove();
+                // $('.info_box').append(data);
+                $('.ship').remove();
+                $('.main').prepend(data);
 
                 for (var x in $toggleDecide) {
                     var temp = '.toggle.' + x.toString();
@@ -295,7 +300,7 @@ function callPage($ship)
 $(document).on('input mouseup', '.arSlider', function (e) {
     var $this = $(this),
         $ship = $this.parents('.ship'),
-        $parent = $this.parents('td'),
+        $parent = $this.parents('label'),
         $sliderVal = $parent.find('.arSliderValue');
 
     $sliderVal.text($this.val().toString());
@@ -303,4 +308,11 @@ $(document).on('input mouseup', '.arSlider', function (e) {
     if (e.type === 'mouseup') {
         delayCall($ship);
     }
+});
+
+$(document).on('change', '[name=commander]', function () {
+    var $this = $(this),
+        $ship = $this.parents('.ship');
+
+    delayCall($ship);
 });

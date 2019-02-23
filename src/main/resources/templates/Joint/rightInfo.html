@@ -18,33 +18,6 @@
             auraFars=${warship.auraFar}, auraMediums=${warship.auraMedium}, auraNears=${warship.auraNear},
             consumables=${warship.consumables}">
     <div class="info_box_inner replace">
-        <div class="panel_right" data-type="misc">
-            <div class="switch" data-type="misc"><strong th:text="${global.get('IDS_OTHER')}"></strong></div>
-            <div class="toggle misc">
-                <label>
-                    <select name="commander">
-                        <th:block th:with="default=${commanders.get('PCW001')}">
-                            <option th:value="${default.index}" th:text="${global.get(default.identifier)}" th:selected="${default.index == warship.commander.index}"></option>
-                        </th:block>
-                        <th:block th:each="commander : ${commanders.entrySet().?[value.CrewPersonality.ships.nation.contains(__${#strings.concat('''', nation, '''')}__)]}">
-                            <option th:text="${global.get(commander.value.identifier)}" th:value="${commander.value.index}" th:selected="${commander.value.index == warship.commander.index}"></option>
-                        </th:block>
-                    </select>
-                </label>
-            </div>
-            <table th:if="${warship.arUse}" class="toggle misc">
-                <tbody>
-                    <tr>
-                        <td colspan="2" style="display: flex;">
-                            <u style="float: left; width: 50%;" th:text="${global.get('IDS_SKILL_LASTCHANCEMODIFIER')}"></u>
-                            <span style="float: left; width: 10%;" class="arSliderValue" th:text="${#numbers.formatInteger(100 - (warship.adrenaline * 100.0), 1, 'COMMA')}"></span>
-                            <input style="float: left; width: 40%;" type="range" min="1" max="100" th:value="${#numbers.formatInteger(100 - (warship.adrenaline * 100.0), 1, 'COMMA')}" class="arSlider" />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
         <div th:if="${artillery != null}" class="panel_right" data-type="artillery">
             <div class="switch" data-type="arty">
                 <strong th:text="${global.get('IDS_SHIP_PARAM_ARTILLERY')}"></strong>
