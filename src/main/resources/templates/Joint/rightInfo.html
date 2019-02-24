@@ -440,7 +440,7 @@
                     </th:block>
                     <th:block th:if="${flightControl.planesReserveAssignment.get('Bomber') > 0}">
                         <tr class="switch subsystem" data-type="tPlane">
-                            <td><u th:text="${diveBomber.numPlanesInSquadron + ' X ' + global.get(IDS + diveBomber.name.toUpperCase())}"></u></td>
+                            <td><u th:text="${torpedoBomber.numPlanesInSquadron + ' X ' + global.get(IDS + torpedoBomber.name.toUpperCase())}"></u></td>
                             <td th:text="${global.get('IDS_SHIP_PARAM_TBOMBER_SQUADRONS')}"></td>
                         </tr>
                         <tr class="toggle tPlane hide">
@@ -671,6 +671,10 @@
                             <td th:text="${#numbers.formatInteger(auraNear.hitChance * 100, 1, 'COMMA')} + ' %'"></td>
                         </tr>
                     </th:block>
+                    <tr class="subsystem switch" data-type="aaSector"><td colspan="2"><u>Sector</u></td></tr>
+                    <tr class="toggle aaSector hide" style="text-align: center">
+                        <td colspan="2" th:include="Joint/angleSectorAirDefense :: angleSectorAirDefense"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -685,43 +689,43 @@
                     </tr>
                     <tr class="subsystem switch" data-type="fire">
                         <td><u th:text="${global.get('IDS_HELP_FIRE')}"></u></td>
-                        <td th:text="${#numbers.formatDecimal(hull.burnNodes[0][3], 1, 1)} + ' s'"></td>
+                        <td th:text="${#numbers.formatDecimal(hull.burnTime, 1, 1)} + ' s'"></td>
                     </tr>
                     <tr class="toggle fire hide">
                         <td th:text="'- No. of fire'"></td>
-                        <td th:text="${#numbers.formatInteger((hull.burnNodes.size() > hull.burnSizeSkill ? hull.burnSizeSkill : hull.burnNodes.size()), 1, 'COMMA')}"></td>
+                        <td th:text="${#numbers.formatInteger((hull.burnSize > hull.burnSizeSkill ? hull.burnSizeSkill : hull.burnSize), 1, 'COMMA')}"></td>
                     </tr>
                     <tr class="toggle fire hide">
                         <td th:text="'- Probability Reduction'"></td>
-                        <td th:text="${#numbers.formatDecimal(100.0 - hull.burnNodes[0][1] * 100.0, 1, 1)} + ' %'"></td>
+                        <td th:text="${#numbers.formatDecimal(100.0 - hull.burnProb * 100.0, 1, 1)} + ' %'"></td>
                     </tr>
                     <tr class="toggle fire hide">
                         <td th:text="'- DPS per Fire'"></td>
-                        <td th:text="${#numbers.formatInteger(hull.health * hull.burnNodes[0][2] / 100.0, 1, 'COMMA')}"></td>
+                        <td th:text="${#numbers.formatInteger(hull.health * hull.burnDamage / 100.0, 1, 'COMMA')}"></td>
                     </tr>
                     <tr class="toggle fire hide">
                         <td th:text="'- Total Damage per Fire'"></td>
-                        <td th:text="${#numbers.formatInteger(hull.health * hull.burnNodes[0][2] / 100.0 * hull.burnNodes[0][3], 1, 'COMMA')}"></td>
+                        <td th:text="${#numbers.formatInteger(hull.health * hull.burnDamage / 100.0 * hull.burnTime, 1, 'COMMA')}"></td>
                     </tr>
                     <tr class="subsystem switch" data-type="flood">
                         <td><u th:text="${global.get('IDS_HELP_FLOODING')}"></u></td>
-                        <td th:text="${#numbers.formatDecimal(hull.floodParams[2], 1, 1)} + ' s'"></td>
+                        <td th:text="${#numbers.formatDecimal(hull.floodTime, 1, 1)} + ' s'"></td>
                     </tr>
                     <tr class="toggle flood hide">
                         <td th:text="'- Probability Reduction'"></td>
-                        <td th:text="${#numbers.formatInteger(hull.floodParams[0] * 100.0, 1, 'COMMA')} + ' %'"></td>
+                        <td th:text="${#numbers.formatInteger(hull.floodProb * 100.0, 1, 'COMMA')} + ' %'"></td>
                     </tr>
                     <tr class="toggle flood hide">
                         <td th:text="'- Damage Reduction'"></td>
-                        <td th:text="${1 >= hull.floodParams[0] * 3.0 ? #numbers.formatInteger(100.0 - hull.floodParams[0] * 3.0 * 100.0, 1, 'COMMA') : 0} + ' %'"></td>
+                        <td th:text="${hull.floodProtection > 0 ? #numbers.formatInteger(hull.floodProtection, 1, 'COMMA') : 0} + ' %'"></td>
                     </tr>
                     <tr class="toggle flood hide">
                         <td th:text="'- DPS'"></td>
-                        <td th:text="${#numbers.formatInteger(hull.health * hull.floodParams[1] / 100.0, 1, 'COMMA')}"></td>
+                        <td th:text="${#numbers.formatInteger(hull.health * hull.floodDamage / 100.0, 1, 'COMMA')}"></td>
                     </tr>
                     <tr class="toggle flood hide">
                         <td th:text="'- Total Damage'"></td>
-                        <td th:text="${#numbers.formatInteger(hull.health * hull.floodParams[1] / 100.0 * hull.floodParams[2], 1, 'COMMA')}"></td>
+                        <td th:text="${#numbers.formatInteger(hull.health * hull.floodDamage / 100.0 * hull.floodTime, 1, 'COMMA')}"></td>
                     </tr>
                 </tbody>
             </table>

@@ -116,6 +116,7 @@ $(document).on('click', '.button_skill', function () {
         $pos = parseInt($this.attr('data-position')),
         $ship = $this.parents('.ship'),
         $pts = $ship.find('.points'),
+        $check = $ship.find('.limit_skill'),
         $skills = $ship.find('.button_skill.select'),
         $totalSpts = 0;
 
@@ -137,10 +138,12 @@ $(document).on('click', '.button_skill', function () {
         }
     }
 
-    for (var i = 3; i > 0; i--) {
-        if (hasIndex[i] && !hasIndex[i - 1]) {
-            canUse = false;
-            break;
+    if ($check.is(':checked')) {
+        for (var i = 3; i > 0; i--) {
+            if (hasIndex[i] && !hasIndex[i - 1]) {
+                canUse = false;
+                break;
+            }
         }
     }
 
@@ -261,6 +264,7 @@ function callPage($ship)
             $toggleDecide[$toggle.eq(i).attr('class').replace('toggle', '').trim()] = '';
         }
     }
+    var $checked = $ship.find('.limit_skill').is(':checked');
 
     var $shipIndex = $ship.attr('data-ship-index');
     var url = makeUrl($ship);
@@ -283,6 +287,7 @@ function callPage($ship)
                         $('[data-ship-index=' + $shipIndex + ']').find(temp).removeClass('hide')
                     }
                 }
+                $('[data-ship-index=' + $shipIndex + ']').find('.limit_skill').prop('checked', $checked);
 
                 history.replaceState({
                     id: $shipIndex

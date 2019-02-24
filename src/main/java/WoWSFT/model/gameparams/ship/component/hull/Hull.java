@@ -4,8 +4,10 @@ import WoWSFT.config.WoWSFT;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -18,12 +20,20 @@ public class Hull
     private float buoyancy;
     private float buoyancyRudderTime;
     private List<List<Object>> burnNodes;
+    private float burnProb;
+    private float burnDamage;
+    private float burnTime;
+    private float burnSize;
     private float deckHeight;
     private float deepwaterVisibilityCoeff;
     private float dockYOffset;
     private float draft;
     private float enginePower;
     private List<Float> floodParams;
+    private float floodProb;
+    private float floodProtection;
+    private float floodDamage;
+    private float floodTime;
     private float health;
     @JsonAlias("isBlind")
     private boolean blind;
@@ -65,4 +75,24 @@ public class Hull
 
     @JsonInclude
     private int burnSizeSkill = 4;
+
+    @JsonSetter
+    public void setFloodParams(List<Float> floodParams)
+    {
+        this.floodParams = floodParams;
+        this.floodProb = floodParams.get(0);
+        this.floodProtection = 100f - (floodParams.get(0) * 3.0f * 100f);
+        this.floodDamage = floodParams.get(1);
+        this.floodTime = floodParams.get(2);
+    }
+
+    @JsonSetter
+    public void setBurnNodes(List<List<Object>> burnNodes)
+    {
+        this.burnNodes = burnNodes;
+        this.burnProb = new BigDecimal((double) burnNodes.get(0).get(1)).floatValue();
+        this.burnDamage = new BigDecimal((double) burnNodes.get(0).get(2)).floatValue();
+        this.burnTime = new BigDecimal((double) burnNodes.get(0).get(3)).floatValue();
+        this.burnSize = burnNodes.size();
+    }
 }

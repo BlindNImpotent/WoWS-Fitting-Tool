@@ -176,13 +176,11 @@ public class ParamService
 
         ship.getComponents().getHull().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(hull))) {
-                val.getBurnNodes().forEach(n -> {
-                    n.set(1, ((double) n.get(1)) * modifier.getBurnProb() * modifier.getProbabilityCoefficient());
-                    n.set(3, ((double) n.get(3)) * modifier.getBurnTime() * modifier.getCritTimeCoefficient());
-                });
+                val.setBurnProb(val.getBurnProb() * modifier.getBurnProb() * modifier.getProbabilityCoefficient());
+                val.setBurnTime(val.getBurnTime() * modifier.getBurnTime() * modifier.getCritTimeCoefficient());
                 val.setBurnSizeSkill(modifier.getProbabilityCoefficient() != oneCoeff ? 3 : val.getBurnSizeSkill());
-                val.getFloodParams().set(0, val.getFloodParams().get(0) * modifier.getFloodProb());
-                val.getFloodParams().set(2, val.getFloodParams().get(2) * modifier.getFloodTime() * modifier.getCritTimeCoefficient());
+                val.setFloodProb(val.getFloodProb() * modifier.getFloodProb());
+                val.setFloodTime(val.getFloodTime() * modifier.getFloodTime() * modifier.getCritTimeCoefficient());
                 val.setRudderTime(val.getRudderTime() * modifier.getSgrudderTime());
                 val.setVisibilityFactor(val.getVisibilityFactor() * modifier.getVisibilityDistCoeff());
                 val.setVisibilityFactorByPlane(val.getVisibilityFactorByPlane() * modifier.getVisibilityDistCoeff());

@@ -93,14 +93,8 @@ select, option {
 }
 
 .bottom-fix {
-    /*position: sticky;*/
-    /*position: -webkit-sticky;*/
-    /*background: white;*/
     text-align: center;
-    /*bottom: 0;*/
-    /*z-index: 1;*/
     padding: 10px 0;
-    /*display: inline-block;*/
     word-break: keep-all;
     -ms-word-wrap: break-word;
     word-wrap: break-word;
@@ -308,13 +302,11 @@ nav ul li:active > ul {
     word-wrap: normal;
     cursor: pointer;
     vertical-align: top;
-    /*text-overflow: ellipsis;*/
     overflow: hidden;
     white-space: normal;
     margin: 2px;
     z-index: 2;
     padding: 0;
-    position: relative;
 }
 
 .button_module {
@@ -327,7 +319,6 @@ nav ul li:active > ul {
 }
 
 .button_upgrade, .button_consumable {
-    /*z-index: 2;*/
     border: 1px solid rgb(210,210,210);
     border-radius: 5px;
 }
@@ -363,8 +354,8 @@ td {
 
 .button_ship {
     /*width: 120px;*/
-    /*height: 90px;*/
-    /*background-color: white;*/
+    height: 92px;
+    background-color: transparent;
     text-align: center;
     border: 0 solid black;
     border-radius: 5px;
@@ -375,13 +366,12 @@ td {
 }
 
 .button_ship img {
-    width: 136px;
-    /*height: 75px;*/
+    width: 124px;
 }
 
 .button_nation
 {
-    /*background-color: white;*/
+    background-color: transparent;
     text-align: center;
     border: 0 solid black;
     border-radius: 5px;
@@ -473,15 +463,12 @@ td {
 }
 
 button .tooltip {
-    /*display: none;*/
     font-size: 12px;
     visibility: hidden;
     position: absolute;
-    z-index: 1;
+    z-index: 3;
     width: 200px;
     border-collapse: collapse;
-    /*left: 60px;*/
-    /*top: 60px;*/
     -webkit-transform: translate(40%, -100%);
     -moz-transform: translate(40%, -100%);
     -ms-transform: translate(40%, -100%);
@@ -514,7 +501,7 @@ button:hover > .tooltip {
     /*display: inline-table;*/
     visibility: visible;
     background: white;
-    opacity: 0.8;
+    opacity: 0.9;
     color: black;
     border: 1px solid black;
 }
@@ -561,12 +548,16 @@ button .tooltip_desc {
     padding: 50px 0;
 }
 
-.research_list table {
+.research_list table tr:not(:first-child) td:not(:first-child) {
+    border-top: 1px solid black;
+}
 
+.research_list table td:nth-child(even) {
+    background-color: rgb(210,210,210);
 }
 
 .research_list td {
-    width: 140px;
+    width: 130px;
     vertical-align: middle;
 }
 

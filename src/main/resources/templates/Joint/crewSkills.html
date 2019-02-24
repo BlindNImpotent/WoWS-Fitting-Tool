@@ -6,8 +6,8 @@
         <strong th:text="${global.get('IDS_CREW_PERKS')} + ' : '"></strong><strong class="points" th:text="${warship.selectSkillPts}"></strong><strong> / 19</strong>
     </div>
     <div class="toggle skills" th:with="nation=${warship.typeinfo.nation}">
-        <label>
-            <select name="commander" style="height: 22px;">
+        <label style="display: inline-flex;">
+            <select name="commander" style="height: 23px;">
                 <th:block th:with="default=${commanders.get('PCW001')}">
                     <option th:value="${default.index}" th:text="${global.get(default.identifier)}" th:selected="${default.index == warship.commander.index}"></option>
                 </th:block>
@@ -15,6 +15,7 @@
                     <option th:text="${global.get(commander.value.identifier)}" th:value="${commander.value.index}" th:selected="${commander.value.index == warship.commander.index}"></option>
                 </th:block>
             </select>
+            <input type="checkbox" checked="checked" class="limit_skill" style="margin: 5px;" th:text="${trans.get('limitSkill')}" />
         </label>
         <th:block th:if="${warship.arUse}">
             <br />

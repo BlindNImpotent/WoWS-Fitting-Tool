@@ -130,7 +130,7 @@ public class GPService
 
     public void setShipAmmo(Ship ship) throws Exception
     {
-        if (ship.getComponents().getArtillery().size() > 0) {
+        if (ship.getComponents().getArtillery().size() > 0 && ship.getComponents().getArtillery().get(ship.getModules().get(artillery)) != null) {
             for (String ammo : ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getTurrets().get(0).getAmmoList()) {
                 Shell shell = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ammo)), Shell.class);
 //                PenetrationUtils.setPenetration(shell,
@@ -144,13 +144,13 @@ public class GPService
             }
         }
 
-        if (ship.getComponents().getTorpedoes().size() > 0) {
+        if (ship.getComponents().getTorpedoes().size() > 0 && ship.getComponents().getTorpedoes().get(ship.getModules().get(torpedoes)) != null) {
             String ammo = ship.getComponents().getTorpedoes().get(ship.getModules().get(torpedoes)).getLaunchers().get(0).getAmmoList().get(0);
             ship.getComponents().getTorpedoes().get(ship.getModules().get(torpedoes))
                     .setAmmo(mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ammo)), TorpedoAmmo.class));
         }
 
-        if (ship.getComponents().getAtba().size() > 0) {
+        if (ship.getComponents().getAtba().size() > 0 && ship.getComponents().getAtba().get(ship.getModules().get(atba)) != null) {
             for (Map.Entry<String, Secondary> secondary : ship.getComponents().getAtba().get(ship.getModules().get(atba)).getSecondaries().entrySet()) {
                 Shell ammo = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(secondary.getValue().getAmmoList().get(0))), Shell.class);
                 secondary.getValue().setAlphaDamage(ammo.getAlphaDamage());
