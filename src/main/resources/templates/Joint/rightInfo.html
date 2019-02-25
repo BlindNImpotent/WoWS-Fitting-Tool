@@ -502,6 +502,10 @@
                             <td th:text="${global.get('IDS_SHIP_PARAM_TORPEDO_MAX_DIST')}"></td>
                             <td th:text="${#numbers.formatDecimal(torpedoBomber.torpedo.maxDist * 100 / 3 / 1000, 1, 1)} + ' km'"></td>
                         </tr>
+                        <tr class="toggle tBomb hide">
+                            <td th:text="${global.get('IDS_PARAMS_MODIFIER_FLOODCHANCEFACTOR')}"></td>
+                            <td th:text="${#numbers.formatInteger(torpedoBomber.torpedo.uwCritical * 100.0, 1, 'COMMA')} + ' %'"></td>
+                        </tr>
                         <th:block th:if="${torpedoBomber.consumables.size() > 0}">
                             <tr class="subsystem switch" data-type="tConsume">
                                 <td colspan="2"><u th:text="${global.get('IDS_TITLE_CONSUMABLES')}"></u></td>
