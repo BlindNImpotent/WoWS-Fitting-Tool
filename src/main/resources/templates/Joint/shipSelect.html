@@ -53,6 +53,10 @@
                                             <td th:if="${mods.size() == 0 and 2 > colStat.index}" style="width: 7px;"></td>
                                             <td th:each="module : ${mods}" th:if="${2 > colStat.index}" style="width: 7px;">
                                                 <img th:if="${module.prevType != module.ucTypeShort and module.prevPosition == module.position}" th:src="@{/images/Icon/left.png}" />
+                                                <img th:if="${i > 1 and warship.shipUpgradeInfo.components.get('hull').size() >= i
+                                                              and 2 > warship.shipUpgradeInfo.components.get('hull').get(i - 1).prevElem
+                                                              and warship.shipUpgradeInfo.components.get('hull').get(i - 1).position > 1}"
+                                                     th:src="@{/images/Icon/right.png}" />
                                             </td>
                                         </th:block>
                                     </th:block>

@@ -3,6 +3,7 @@ package WoWSFT.parser;
 import WoWSFT.model.gameparams.TypeInfo;
 import WoWSFT.model.gameparams.commander.Commander;
 import WoWSFT.model.gameparams.consumable.Consumable;
+import WoWSFT.model.gameparams.flag.Flag;
 import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
@@ -16,7 +17,7 @@ import WoWSFT.model.gameparams.ship.component.flightcontrol.FlightControl;
 import WoWSFT.model.gameparams.ship.component.hull.Hull;
 import WoWSFT.model.gameparams.ship.component.torpedo.Torpedo;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgrade;
-import WoWSFT.utils.CommonUtils;
+import WoWSFT.service.ParamService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -85,6 +86,13 @@ public class JsonParser
     @Qualifier (value = TYPE_COMMANDER)
     private LinkedHashMap<String, Commander> commanders;
 
+    @Autowired
+    @Qualifier (value = TYPE_FLAG)
+    private LinkedHashMap<String, Flag> flags;
+
+    @Autowired
+    private ParamService paramService;
+
     private ObjectMapper mapper = new ObjectMapper();
 
     @Async
@@ -147,13 +155,14 @@ public class JsonParser
                             for (String s : excludeCompStats) {
                                 su.getComponents().remove(s);
                             }
+                            su.setElem(componentsList.indexOf(cType));
                         }));
                     addShips(ship);
                 }
             } else if (typeInfo.getType().equalsIgnoreCase("Modernization")) {
                 Modernization modernization = mapper.convertValue(value, Modernization.class);
                 if (modernization.getSlot() >= 0) {
-                    setBonusParams(key, mapper.convertValue(modernization, new TypeReference<LinkedHashMap<String, Object>>(){}), modernization.getBonus(), "modernization");
+                    paramService.setBonusParams(key, mapper.convertValue(modernization, new TypeReference<LinkedHashMap<String, Object>>(){}), modernization.getBonus());
                     upgrades.get(modernization.getSlot()).put(modernization.getName(), modernization);
                 }
             } else if (typeInfo.getType().equalsIgnoreCase("Ability") && !excludeShipNations.contains(typeInfo.getNation()) && !key.contains("Super")) {
@@ -170,6 +179,13 @@ public class JsonParser
                         commanders.put(commander.getIndex().toUpperCase(), commander);
                     }
                 }
+            } else if (typeInfo.getType().equalsIgnoreCase("Exterior") && typeInfo.getSpecies().equalsIgnoreCase("Flags")) {
+                Flag flag = mapper.convertValue(value, Flag.class);
+                if (flag.getGroup() == 0) {
+                    flag.setIdentifier(IDS + flag.getName().toUpperCase());
+                    paramService.setBonusParams(key, mapper.convertValue(flag, new TypeReference<LinkedHashMap<String, Object>>(){}), flag.getBonus());
+                    flags.put(flag.getName(), flag);
+                }
             } else {
                 gameParamsHM.put(key, value);
             }
@@ -182,6 +198,8 @@ public class JsonParser
 //        sortShipsList();
 //        calculateXp();
         sortUpgrades();
+        setCommanderParams();
+        sortFlags();
 
         temp.clear();
     }
@@ -243,6 +261,7 @@ public class JsonParser
                         if (tSU != null) {
                             upgrade.setPrevType(tSU.getUcTypeShort());
                             upgrade.setPrevPosition(tSU.getPosition());
+                            upgrade.setPrevElem(componentsList.indexOf(tSU.getUcTypeShort()));
 
                             if (upgrade.getPosition() == upgrade.getPrevPosition() && upgrade.getUcTypeShort().equalsIgnoreCase(upgrade.getPrevType())) {
                                 upgrade.setPosition(upgrade.getPrevPosition() + 1);
@@ -409,18 +428,19 @@ public class JsonParser
         }));
     }
 
-    private void setBonusParams(String key, LinkedHashMap<String, Object> tempCopy, LinkedHashMap<String, String> bonus, String type)
+    private void sortFlags()
     {
-        tempCopy.forEach((param, cVal) -> {
-            if ("modernization".equalsIgnoreCase(type)) {
-                if (cVal instanceof Float && ((float) cVal != 0)) {
-                    if (excludeModernization.stream().anyMatch(param.toLowerCase()::contains)) {
-                        bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal));
-                    } else {
-                        bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonusCoef((float) cVal)) + " %");
-                    }
-                }
-            }
+        flags.values().stream().sorted(Comparator.comparingInt(Flag::getSortOrder)).forEach(flag -> {
+            flags.remove(flag.getName());
+            flags.put(flag.getName(), flag);
         });
     }
+
+    private void setCommanderParams()
+    {
+        commanders.forEach((key, commander) ->
+                commander.getCSkills().forEach(r -> r.forEach(s -> s.setBonus(paramService.getBonus(mapper.convertValue(s, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
+    }
+
+
 }

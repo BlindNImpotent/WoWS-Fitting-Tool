@@ -245,7 +245,20 @@ public class ParamService
         }
     }
 
-    protected LinkedHashMap<String, String> getBonus(LinkedHashMap<String, Object> copy)
+    public void setBonusParams(String key, LinkedHashMap<String, Object> tempCopy, LinkedHashMap<String, String> bonus)
+    {
+        tempCopy.forEach((param, cVal) -> {
+            if (cVal instanceof Float && ((float) cVal != 0)) {
+                if (excludeModernization.stream().anyMatch(param.toLowerCase()::contains)) {
+                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal));
+                } else {
+                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonusCoef((float) cVal)) + " %");
+                }
+            }
+        });
+    }
+
+    public LinkedHashMap<String, String> getBonus(LinkedHashMap<String, Object> copy)
     {
         LinkedHashMap<String, String> bonus = new LinkedHashMap<>();
 

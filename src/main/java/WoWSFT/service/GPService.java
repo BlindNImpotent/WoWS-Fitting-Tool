@@ -115,19 +115,6 @@ public class GPService
         ship.setConsumables(consumablesList);
     }
 
-    @Cacheable(value = "commander", key = "#commander")
-    public Commander getCommander(String commander) throws Exception
-    {
-        if (commanders.get(commander) == null) {
-            commander = "PCW001";
-        }
-
-        Commander tempCommander = mapper.readValue(mapper.writeValueAsString(commanders.get(commander)), Commander.class);
-        tempCommander.getCSkills().forEach(r -> r.forEach(s -> s.setBonus(paramService.getBonus(mapper.convertValue(s, new TypeReference<LinkedHashMap<String, Object>>(){})))));
-
-        return tempCommander;
-    }
-
     public void setShipAmmo(Ship ship) throws Exception
     {
         if (ship.getComponents().getArtillery().size() > 0 && ship.getComponents().getArtillery().get(ship.getModules().get(artillery)) != null) {

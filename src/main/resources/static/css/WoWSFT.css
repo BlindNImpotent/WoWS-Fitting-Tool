@@ -323,7 +323,7 @@ nav ul li:active > ul {
     border-radius: 5px;
 }
 
-.button_consumable.disable {
+.disable {
     display: none;
 }
 

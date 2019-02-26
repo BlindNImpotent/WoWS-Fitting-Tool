@@ -2,6 +2,7 @@ package WoWSFT.config;
 
 import WoWSFT.model.gameparams.commander.Commander;
 import WoWSFT.model.gameparams.consumable.Consumable;
+import WoWSFT.model.gameparams.flag.Flag;
 import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
@@ -44,6 +45,7 @@ public class CustomComponent
     private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList = new LinkedHashMap<>();
     private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades = new LinkedHashMap<>();
     private LinkedHashMap<String, Commander> commanders = new LinkedHashMap<>();
+    private LinkedHashMap<String, Flag> flags = new LinkedHashMap<>();
 
     @Bean (value = TYPE_SHIP)
     public LinkedHashMap<String, Ship> ships()
@@ -73,6 +75,12 @@ public class CustomComponent
     public LinkedHashMap<String, Commander> commanders()
     {
         return commanders;
+    }
+
+    @Bean (value = TYPE_FLAG)
+    public LinkedHashMap<String, Flag> flags()
+    {
+        return flags;
     }
 
     @Bean (value = "jsonParser")

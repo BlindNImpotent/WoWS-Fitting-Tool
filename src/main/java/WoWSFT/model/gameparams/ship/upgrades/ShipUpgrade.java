@@ -26,10 +26,13 @@ public class ShipUpgrade
     private String prev = "";
     private String ucType;
     private int position;
+    @JsonInclude
+    private int elem;
 
     private String prevType;
     @JsonInclude
     private int prevPosition;
+    private int prevElem;
 
     private LinkedHashMap<String, List<String>> components = new LinkedHashMap<>();
 

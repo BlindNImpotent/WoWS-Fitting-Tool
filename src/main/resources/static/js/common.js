@@ -117,7 +117,9 @@ $(document).on('click', '.button_skill', function () {
         $ship = $this.parents('.ship'),
         $pts = $ship.find('.points'),
         $check = $ship.find('.limit_skill'),
-        $skills = $ship.find('.button_skill.select'),
+        $sCommander = $ship.find('[name=commander]').val(),
+        $curCommander = $('[data-commander-index=' + $sCommander + ']'),
+        $skills = $curCommander.find('.button_skill.select'),
         $totalSpts = 0;
 
     var canUse = true;
@@ -152,9 +154,19 @@ $(document).on('click', '.button_skill', function () {
     }
 
     if ($this.hasClass('select')) {
-        $this.removeClass('select');
+        $('.button_skill[data-index=' + $index + '][data-position=' + $pos +']').removeClass('select');
     } else {
-        $this.addClass('select');
+        $('.button_skill[data-index=' + $index + '][data-position=' + $pos +']').addClass('select');
+    }
+
+    var adrenalRush = $curCommander.find('.button_skill[data-index=1][data-position=6]');
+    var adrenalSlider = $('.adrenalineRush');
+    if (adrenalRush.hasClass('select')) {
+        adrenalSlider.css('display', 'inline-flex')
+    } else {
+        adrenalSlider.css('display', 'none');
+        $('.arSlider').val(100);
+        $('.arSliderValue').text('100');
     }
 
     $pts.text($totalSpts);
@@ -193,7 +205,9 @@ function makeUrl($ship)
 {
     var sModules = $ship.find('.button_module.select');
     var sUpgrades = $ship.find('.button_upgrade.select');
-    var sSkills = $ship.find('.button_skill.select');
+    var $sCommander = $ship.find('[name=commander]').val(),
+        $curCommander = $('[data-commander-index=' + $sCommander + ']'),
+        sSkills = $curCommander.find('.button_skill.select');
     var sConsumables = $ship.find('.button_consumable.select');
 
     var modules = '';
@@ -274,10 +288,10 @@ function callPage($ship)
         type: 'post',
         success: function (data) {
             if (data.status === undefined) {
-                // $('.info_box_inner.replace').remove();
-                // $('.info_box').append(data);
-                $('.ship').remove();
-                $('.main').prepend(data);
+                $('.info_box_inner.replace').remove();
+                $('.info_box').append(data);
+                // $('.ship').remove();
+                // $('.main').prepend(data);
 
                 for (var x in $toggleDecide) {
                     var temp = '.toggle.' + x.toString();
@@ -287,7 +301,7 @@ function callPage($ship)
                         $('[data-ship-index=' + $shipIndex + ']').find(temp).removeClass('hide')
                     }
                 }
-                $('[data-ship-index=' + $shipIndex + ']').find('.limit_skill').prop('checked', $checked);
+                // $('[data-ship-index=' + $shipIndex + ']').find('.limit_skill').prop('checked', $checked);
 
                 history.replaceState({
                     id: $shipIndex
@@ -317,7 +331,11 @@ $(document).on('input mouseup', '.arSlider', function (e) {
 
 $(document).on('change', '[name=commander]', function () {
     var $this = $(this),
-        $ship = $this.parents('.ship');
+        $ship = $this.parents('.ship'),
+        $sCommander = $this.val();
+
+    $('.commander_body').addClass('disable');
+    $('.commander_body[data-commander-index=' + $sCommander + ']').removeClass('disable');
 
     delayCall($ship);
 });

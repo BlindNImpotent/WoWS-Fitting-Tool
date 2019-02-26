@@ -800,7 +800,7 @@
         </div>
 
         <div th:if="${consumables != null}" class="panel_right" data-type="consumables" th:with="selection=${warship.selectConsumables}">
-            <ul th:each="slot : ${consumables}">
+            <ul th:each="slot : ${consumables}" th:if="${slot.size() > slot.?[__${warship.shipUpgradeInfo.components.get('hull').get(warship.positions.get('hull') - 1).disabledAbilities.contains(name)}__].size()}">
                 <li th:each="consumable : ${slot}">
                     <button class="button_consumable"
                             th:classappend="${(selection.size() == 0 and consumableStat.index == 0) or (selection.size() > 0 and selection.get(slotStat.index) == consumableStat.index + 1) ? 'select' : 'hide'}

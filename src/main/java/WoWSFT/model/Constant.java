@@ -28,6 +28,7 @@ public class Constant
     public static final String TYPE_COMMANDER = "commanders";
     public static final String TYPE_SKILL = "skills";
     public static final String TYPE_SHELL = "shells";
+    public static final String TYPE_FLAG = "flags";
 
     public static final String flightControl = "flightControl";
     public static final String artillery = "artillery";

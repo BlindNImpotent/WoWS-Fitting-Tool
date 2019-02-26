@@ -2,6 +2,7 @@ package WoWSFT.controller;
 
 import WoWSFT.model.gameparams.commander.Commander;
 import WoWSFT.model.gameparams.consumable.Consumable;
+import WoWSFT.model.gameparams.flag.Flag;
 import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
@@ -72,6 +73,10 @@ public class GPController extends ExceptionController
     private LinkedHashMap<String, Commander> commanders;
 
     @Autowired
+    @Qualifier (value = TYPE_FLAG)
+    private LinkedHashMap<String, Flag> flags;
+
+    @Autowired
     private GPService gpService;
 
     @Autowired
@@ -119,6 +124,8 @@ public class GPController extends ExceptionController
             return commanders;
         } else if (type.equalsIgnoreCase(TYPE_SHIP_LIST)) {
             return shipsList;
+        } else if (type.equalsIgnoreCase(TYPE_FLAG)) {
+            return flags;
         }
         return gameParamsHM.get(index);
     }
@@ -166,8 +173,8 @@ public class GPController extends ExceptionController
 //            log.info(request.getRequestURL() + (StringUtils.isNotEmpty(request.getQueryString()) ? "?" + request.getQueryString() : ""));
 
             if ("post".equalsIgnoreCase(request.getMethod())) {
-//                return "Joint/rightInfo :: rightInfo";
-                return "Joint/shipSelect :: warshipStats";
+                return "Joint/rightInfo :: rightInfo";
+//                return "Joint/shipSelect :: warshipStats";
             }
         }
         model.addAttribute("nations", shipsList);
@@ -213,7 +220,7 @@ public class GPController extends ExceptionController
                 && (commanders.get(commander) == null || !commanders.get(commander).getCrewPersonality().getShips().getNation().contains(ship.getTypeinfo().getNation()))) {
             commander = "PCW001";
         }
-        ship.setCommander(gpService.getCommander(commander));
+        ship.setCommander(commanders.get(commander));
         paramService.setParameters(ship);
 
         return ship;
