@@ -28,14 +28,14 @@
 </header>
 <main>
     <div class="research_nation">
-        <button class="button_nation initiate" th:each="nation : ${nations}" th:if="${nation.value.entrySet().?[!key.contains('PREMIUM')].size() > 0}" th:attr="data-nation=${nation.key}">
+        <button class="button_nation initiate" th:each="nation : ${nations}" th:if="${nation.value.entrySet().?[!key.contains('PREMIUM') and !key.contains('TEST')].size() > 0}" th:attr="data-nation=${nation.key}">
             <img th:src="${'https://glossary-na-static.gcdn.co/icons/wows/current/nation_flags/small/flag_' + nation.key + '.png'}"/><br />
             <span th:text="${global.get(IDS + nation.key.toUpperCase())}"></span>
         </button>
     </div>
     <div class="research_list">
         <strong id="xpText">XP calculation</strong><br /><br />
-        <table th:each="nation : ${nations}" th:if="${nation.value.entrySet().?[!key.contains('PREMIUM')].size() > 0}" th:class="${'tree ' + nation.key}" th:classappend="'hide'">
+        <table th:each="nation : ${nations}" th:if="${nation.value.entrySet().?[!key.contains('PREMIUM') and !key.contains('TEST')].size() > 0}" th:class="${'tree ' + nation.key}" th:classappend="'hide'">
             <tbody>
                 <tr th:each="realShipType : ${nation.value}" th:if="${realShipType.value.containsKey(realShipType.key)}">
                     <th:block th:each="shipType : ${realShipType.value}">

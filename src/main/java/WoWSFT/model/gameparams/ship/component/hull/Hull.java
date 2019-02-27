@@ -29,11 +29,12 @@ public class Hull
     private float dockYOffset;
     private float draft;
     private float enginePower;
-    private List<Float> floodParams;
+    private List<List<Float>> floodNodes;
     private float floodProb;
     private float floodProtection;
     private float floodDamage;
     private float floodTime;
+    private float floodSize;
     private float health;
     @JsonAlias("isBlind")
     private boolean blind;
@@ -77,13 +78,14 @@ public class Hull
     private int burnSizeSkill = 4;
 
     @JsonSetter
-    public void setFloodParams(List<Float> floodParams)
+    public void setFloodNodes(List<List<Float>> floodNodes)
     {
-        this.floodParams = floodParams;
-        this.floodProb = floodParams.get(0);
-        this.floodProtection = 100f - (floodParams.get(0) * 3.0f * 100f);
-        this.floodDamage = floodParams.get(1);
-        this.floodTime = floodParams.get(2);
+        this.floodNodes = floodNodes;
+        this.floodProb = floodNodes.get(0).get(0);
+        this.floodProtection = 100f - (floodNodes.get(0).get(0) * 3.0f * 100f);
+        this.floodDamage = floodNodes.get(0).get(1);
+        this.floodTime = floodNodes.get(0).get(2);
+        this.floodSize = floodNodes.size();
     }
 
     @JsonSetter

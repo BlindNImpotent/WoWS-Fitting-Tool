@@ -221,6 +221,11 @@ nav ul li:active > ul {
     cursor: pointer;
 }
 
+.dropdown_main .dropdown_main li {
+    left: 130px;
+    top:-38px;
+}
+
 .dropdown_main .dropdown_sub li {
     left: 130px;
     top:-38px;
@@ -427,8 +432,7 @@ td {
 }
 
 .panel_right {
-    min-width: 300px;
-    max-width: 360px;
+    width: 360px;
     border: 1px solid rgb(210,210,210);
     border-radius: 5px;
 }
@@ -436,25 +440,25 @@ td {
 .panel_right div {
     vertical-align: top;
     margin: 0 auto;
-    padding: 8px;
+    padding: 4px;
 }
 
 .panel_right table {
     text-align: left;
     width: 100%;
-    padding: 8px;
+    padding: 4px;
 }
 
 .panel_right table tr td:first-of-type {
-    width: 220px;
+    width: 236px;
 }
 
 .panel_right table tr td[colspan="2"] {
-    width: 340px;
+    width: 352px;
 }
 
 .panel_right table tbody tr td:nth-of-type(2) {
-    width: 120px;
+    width: 116px;
     text-align: right;
 }
 
@@ -517,7 +521,7 @@ button .tooltip_desc {
 }
 
 .panel_right[data-type=consumables] {
-    padding: 4px;
+    padding: 4px 0;
 }
 
 .panel_right[data-type=consumables] ul {

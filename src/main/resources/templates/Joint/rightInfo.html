@@ -27,7 +27,8 @@
                     <tr class="subsystem switch" data-type="guns">
                         <td>
                             <th:block th:each="turretType : ${artillery.turretTypes}">
-                                <u th:text="${turretType.value.get(0) + ' X ' + turretType.key + ' ' + global.get(IDS + turretType.value.get(1).toUpperCase())}"></u><br />
+                                <br th:if="${turretTypeStat.index > 0}"/>
+                                <u th:text="${turretType.value.get(0) + ' X ' + turretType.key + ' ' + global.get(IDS + turretType.value.get(1).toUpperCase())}"></u>
                             </th:block>
                         </td>
                         <td th:text="${#numbers.formatDecimal(artillery.maxDist * suo.maxDistCoef / 1000.0, 1, 2)} + ' km'"></td>
@@ -54,7 +55,7 @@
                     </tr>
                     <tr class="toggle guns">
                         <td>- Sigma</td>
-                        <td th:text="${#numbers.formatDecimal(artillery.sigmaCount, 1, 1)} + ' σ'"></td>
+                        <td th:text="${#numbers.formatDecimal(artillery.sigmaCount, 1, 2)} + ' σ'"></td>
                     </tr>
                     <tr class="toggle guns">
                         <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_DISPERSION')}"></td>
@@ -79,7 +80,7 @@
                         </tr>
                         <tr class="toggle" th:classappend="${ammo.index} + ' hide'">
                             <td th:text="${global.get('IDS_RIBBON_SUBRIBBON_MAIN_CALIBER_RICOCHET')}"></td>
-                            <td th:text="${#numbers.formatInteger(ammo.bulletAlwaysRicochetAt, 1, 'COMMA') + ' + ' + #numbers.formatInteger(ammo.bulletCapNormalizeMaxAngle, 1, 'COMMA')} + ' °'"></td>
+                            <td th:text="${#numbers.formatDecimal(ammo.bulletAlwaysRicochetAt, 1, 1) + ' + ' + #numbers.formatDecimal(ammo.bulletCapNormalizeMaxAngle, 1, 1)} + ' °'"></td>
                         </tr>
                         <th:block th:if="${ammo.ammoType == 'HE'}">
                             <tr class="toggle" th:classappend="${ammo.index} + ' hide'">
@@ -187,7 +188,8 @@
                     <tr class="subsystem switch" data-type="torps">
                         <td>
                             <th:block th:each="launcherType : ${torpedoes.launcherTypes}">
-                                <u th:text="${launcherType.value.get(0) + ' X ' + launcherType.key + ' ' + global.get(IDS + launcherType.value.get(1).toUpperCase())}"></u><br />
+                                <br th:if="${launcherTypeStat.index > 0}"/>
+                                <u th:text="${launcherType.value.get(0) + ' X ' + launcherType.key + ' ' + global.get(IDS + launcherType.value.get(1).toUpperCase())}"></u>
                             </th:block>
                         </td>
                         <td th:text="${#numbers.formatDecimal(torpedoes.ammo.maxDist / (100.0 / 3.0), 1, 2)} + ' km'"></td>
@@ -246,7 +248,7 @@
                         <td th:text="${'Max number of planes on Deck'}"></td>
                         <td th:text="${#numbers.formatInteger(airArmament.deckPlaceCount, 1, 'COMMA')}"></td>
                     </tr>
-                    <th:block th:if="${flightControl.planesReserveAssignment.get('Fighter') > 0}">
+                    <th:block th:if="${flightControl.planesReserveAssignment.get('Fighter') > 0 and fighter != null}">
                         <tr class="switch subsystem" data-type="fPlane">
                             <td><u th:text="${fighter.numPlanesInSquadron + ' X ' + global.get(IDS + fighter.name.toUpperCase())}"></u></td>
                             <td th:text="${global.get('IDS_SHIP_PARAM_FIGHTER_SQUADRONS')}"></td>
@@ -342,7 +344,7 @@
                             </tr>
                         </th:block>
                     </th:block>
-                    <th:block th:if="${flightControl.planesReserveAssignment.get('Dive') > 0}">
+                    <th:block th:if="${flightControl.planesReserveAssignment.get('Dive') > 0 and diveBomber != null}">
                         <tr class="switch subsystem" data-type="dPlane">
                             <td><u th:text="${diveBomber.numPlanesInSquadron + ' X ' + global.get(IDS + diveBomber.name.toUpperCase())}"></u></td>
                             <td th:text="${global.get('IDS_SHIP_PARAM_BOMBER_SQUADRONS')}"></td>
@@ -438,7 +440,7 @@
                             </tr>
                         </th:block>
                     </th:block>
-                    <th:block th:if="${flightControl.planesReserveAssignment.get('Bomber') > 0}">
+                    <th:block th:if="${flightControl.planesReserveAssignment.get('Bomber') > 0 and torpedoBomber != null}">
                         <tr class="switch subsystem" data-type="tPlane">
                             <td><u th:text="${torpedoBomber.numPlanesInSquadron + ' X ' + global.get(IDS + torpedoBomber.name.toUpperCase())}"></u></td>
                             <td th:text="${global.get('IDS_SHIP_PARAM_TBOMBER_SQUADRONS')}"></td>
@@ -716,7 +718,11 @@
                         <td th:text="${#numbers.formatDecimal(hull.floodTime, 1, 1)} + ' s'"></td>
                     </tr>
                     <tr class="toggle flood hide">
-                        <td th:text="'- Probability Reduction'"></td>
+                        <td th:text="'- No. of flood'"></td>
+                        <td th:text="${#numbers.formatInteger(hull.floodSize, 1, 'COMMA')}"></td>
+                    </tr>
+                    <tr class="toggle flood hide">
+                        <td th:text="'- Probability'"></td>
                         <td th:text="${#numbers.formatInteger(hull.floodProb * 100.0, 1, 'COMMA')} + ' %'"></td>
                     </tr>
                     <tr class="toggle flood hide">
@@ -724,11 +730,11 @@
                         <td th:text="${hull.floodProtection > 0 ? #numbers.formatInteger(hull.floodProtection, 1, 'COMMA') : 0} + ' %'"></td>
                     </tr>
                     <tr class="toggle flood hide">
-                        <td th:text="'- DPS'"></td>
+                        <td th:text="'- DPS per flood'"></td>
                         <td th:text="${#numbers.formatInteger(hull.health * hull.floodDamage / 100.0, 1, 'COMMA')}"></td>
                     </tr>
                     <tr class="toggle flood hide">
-                        <td th:text="'- Total Damage'"></td>
+                        <td th:text="'- Total Damage Per Flood'"></td>
                         <td th:text="${#numbers.formatInteger(hull.health * hull.floodDamage / 100.0 * hull.floodTime, 1, 'COMMA')}"></td>
                     </tr>
                 </tbody>
@@ -816,7 +822,10 @@
                                 <th:block th:each="b : ${sub.value.bonus}" th:with="desc=${global.get(IDS + b.key)}">
                                     <tr th:if="${desc != null}" class="tooltip_desc">
                                         <td th:utext="${desc}"></td>
-                                        <td th:utext="${b.value}"></td>
+                                        <td th:if="${b.key == 'PARAMS_MODIFIER_AFFECTEDCLASSES'}">
+                                            <th:block th:each="sType : ${#strings.arraySplit(b.value, ' ')}" th:utext="${global.get(sType) + (sTypeStat.last ? '' : '<br />')}"></th:block>
+                                        </td>
+                                        <td th:unless="${b.key == 'PARAMS_MODIFIER_AFFECTEDCLASSES'}" th:utext="${b.value}"></td>
                                     </tr>
                                 </th:block>
                             </th:block>

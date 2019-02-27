@@ -34,8 +34,8 @@
                                 <li th:each="realShipType : ${nation.value}">
                                     <span th:text="${global.get(IDS + realShipType.key)}"></span>
                                     <ul class="dropdown_sub" th:if="${realShipType.value.get(realShipType.key) != null}">
-                                        <th:block th:each="shipType : ${realShipType.value.get(realShipType.key)}">
-                                            <th:block th:each="tier : ${shipType}">
+                                        <th:block th:each="shipType : ${realShipType.value}">
+                                            <th:block th:each="tier : ${shipType.value}">
                                                 <li th:each="ship : ${tier.value}">
                                                     <a th:href="'/ship?index=' + ${ship.index + '&lang=' + lang}">
                                                         <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}"

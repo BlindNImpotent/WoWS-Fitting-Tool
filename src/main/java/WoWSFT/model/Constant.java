@@ -51,6 +51,9 @@ public class Constant
     public static final HashSet<String> globalLanguage = new HashSet<>(Arrays.asList("en", "ko"));
 
     public static final HashSet<String> excludeShipGroups = new HashSet<>(Arrays.asList("unavailable", "disabled", "preserved", "clan"));
+    public static final HashSet<String> supertestShipGroups = new HashSet<>(Arrays.asList("demoWithoutStats"));
+    public static final HashSet<String> researchShipGroups = new HashSet<>(Arrays.asList("upgradeable", "start"));
+    public static final HashSet<String> premiumShipGroups = new HashSet<>(Arrays.asList("special", "specialUnsellable", "upgradeableExclusive", "ultimate", "earlyAccess"));
     public static final HashSet<String> excludeShipNations = new HashSet<>(Arrays.asList("Events", "disabled", "preserved", "clan"));
     public static final HashSet<String> excludeShipSpecies = new HashSet<>(Arrays.asList("Auxiliary", "Submarine"));
     public static final HashSet<String> excludeCompStats = new HashSet<>(Arrays.asList("directors", "finders", "radars"));

@@ -1,19 +1,17 @@
 package WoWSFT.model.gameparams.consumable;
 
 import WoWSFT.config.WoWSFT;
-import WoWSFT.utils.CommonUtils;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 @Data
 @WoWSFT
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ConsumableSub
 {
     private float activationDelay;
+    private List<String> affectedClasses;
     private float areaDamageMultiplier;
     private float artilleryDistCoeff;
     private float backwardEngineForsag;
@@ -47,6 +45,14 @@ public class ConsumableSub
     private float timeWaitDelayAttack;
     private float torpedoReloadTime;
     private float workTime;
+
+    // Effects. Ignore.
+    private String livePointEffect;
+    private String radarEffect;
+    private String radarEffectForPlayer;
+    private String spawnEffect;
+    private String spawnPointEffect;
+    private String waveEffect;
 
     private LinkedHashMap<String, String> bonus = new LinkedHashMap<>();
 }

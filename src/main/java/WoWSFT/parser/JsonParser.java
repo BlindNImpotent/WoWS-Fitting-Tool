@@ -149,7 +149,7 @@ public class JsonParser
 
             if (typeInfo.getType().equalsIgnoreCase("Ship") && !excludeShipNations.contains(typeInfo.getNation()) && !excludeShipSpecies.contains(typeInfo.getSpecies())) {
                 Ship ship = mapper.convertValue(value, Ship.class);
-                if (!excludeShipGroups.contains(ship.getGroup()) && StringUtils.isEmpty(ship.getDefaultCrew()) && ship.getShipUpgradeInfo().getCostGold() < 99999) {
+                if (!excludeShipGroups.contains(ship.getGroup()) && !supertestShipGroups.contains(ship.getGroup()) && StringUtils.isEmpty(ship.getDefaultCrew())) {
                     ship.getShipUpgradeInfo().getComponents().forEach((cType, c) ->
                         c.forEach(su -> {
                             for (String s : excludeCompStats) {
@@ -278,12 +278,13 @@ public class JsonParser
 
     private void setRealShipType(Ship ship)
     {
-        if ("upgradeable".equalsIgnoreCase(ship.getGroup()) || "start".equalsIgnoreCase(ship.getGroup())
-                || (ship.getShipUpgradeInfo().getCostGold() == 0 && ship.getShipUpgradeInfo().getCostXP() == 0)) {
+        if (researchShipGroups.contains(ship.getGroup())) {
             ship.setRealShipType(ship.getTypeinfo().getSpecies());
             ship.setResearch(true);
-        } else {
+        } else if (premiumShipGroups.contains(ship.getGroup())) {
             ship.setRealShipType("Premium");
+//        } else if (supertestShipGroups.contains(ship.getGroup())) {
+//            ship.setRealShipType("Test_Sample");
         }
     }
 
@@ -410,6 +411,9 @@ public class JsonParser
                 if (realShipType.getKey().equalsIgnoreCase("FILTER_PREMIUM")) {
                     shipsList.get(nation.getKey()).remove(realShipType.getKey());
                     shipsList.get(nation.getKey()).put(realShipType.getKey(), realShipType.getValue());
+//                } else if (realShipType.getKey().equalsIgnoreCase("TEST_SAMPLE")) {
+//                    shipsList.get(nation.getKey()).remove(realShipType.getKey());
+//                    shipsList.get(nation.getKey()).put(realShipType.getKey(), realShipType.getValue());
                 }
             });
             shipsList.remove(nation.getKey());
@@ -441,6 +445,4 @@ public class JsonParser
         commanders.forEach((key, commander) ->
                 commander.getCSkills().forEach(r -> r.forEach(s -> s.setBonus(paramService.getBonus(mapper.convertValue(s, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
     }
-
-
 }

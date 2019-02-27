@@ -1,13 +1,13 @@
 package WoWSFT.service;
 
 import WoWSFT.model.gameparams.CommonModifier;
-import WoWSFT.model.gameparams.commander.Commander;
 import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.component.airdefense.Aura;
 import WoWSFT.model.gameparams.ship.component.planes.Plane;
 import WoWSFT.utils.CommonUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -72,7 +72,8 @@ public class ParamService
             }
         }
 
-        ship.getConsumables().forEach(slot -> slot.forEach(c -> c.getSubConsumables().forEach((key, sub) -> sub.setBonus(getBonus(mapper.convertValue(sub, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
+        ship.getConsumables().forEach(slot -> slot.forEach(c -> c.getSubConsumables().forEach((key, sub) ->
+                sub.setBonus(getBonus(mapper.convertValue(sub, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
         ship.getComponents().getFighter().forEach((k, p) -> p.getConsumables().forEach(c -> c.getSubConsumables().forEach((sKey, sVal) ->
                 sVal.setBonus(getBonus(mapper.convertValue(sVal, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
         ship.getComponents().getDiveBomber().forEach((k, p) -> p.getConsumables().forEach(c -> c.getSubConsumables().forEach((sKey, sVal) ->
@@ -291,6 +292,15 @@ public class ParamService
                 bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " °");
             } else if (extra.stream().anyMatch(param.toLowerCase()::contains)) {
                 bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal));
+            } else if (param.toLowerCase().equalsIgnoreCase("affectedClasses")) {
+                List<String> tempList = mapper.convertValue(cVal, new TypeReference<List<String>>(){});
+                if (CollectionUtils.isNotEmpty(tempList)) {
+                    String affected = "";
+                    for (String tl : tempList) {
+                        affected = affected.concat(IDS + tl.toUpperCase() + " ");
+                    }
+                    bonus.put(MODIFIER + param.toUpperCase(), affected.trim());
+                }
             }
         });
         return bonus;

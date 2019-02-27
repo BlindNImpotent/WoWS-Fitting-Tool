@@ -34,7 +34,7 @@ public class AirDefense
     {
         if (name.contains("Far")) {
             auraFar.add(mapper.convertValue(value, Aura.class));
-        } else if (name.contains("Medium")) {
+        } else if (name.contains("Med")) {
             auraMedium.add(mapper.convertValue(value, Aura.class));
         } else if (name.contains("Near")) {
             auraNear.add(mapper.convertValue(value, Aura.class));
