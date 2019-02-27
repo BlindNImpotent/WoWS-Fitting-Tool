@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="utf-8" />
     <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png?20190207}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/WoWSFT.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/WoWSFT.css?20190227}" />
     <meta name="viewport" content="width=device-width, initial-scale=0.6, user-scalable=yes" />
     <script th:src="@{/js/jquery/jquery-3.3.1.min.js}"></script>
     <title>WoWS Fitting Tool by Aesis</title>
@@ -32,7 +32,7 @@
             <h2>WoWS 0.8.3.0</h2>
             <br /><br />
             <ul>
-                <li th:if="${3 > noticeStat.index}" th:each="notice : ${notification}">
+                <li th:if="${5 > noticeStat.index}" th:each="notice : ${notification}">
                     <strong th:text="${notice.key}"></strong><br />
                     <span th:utext="${notice.value}"></span><br /><br />
                 </li>
