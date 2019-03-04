@@ -64,9 +64,9 @@ body {
                                   supported by Chrome and Opera */
 }
 
-body::-webkit-scrollbar {
-    width: 0 !important
-}
+/*body::-webkit-scrollbar {*/
+    /*width: 0 !important*/
+/*}*/
 
 nav {
     text-align: left;
