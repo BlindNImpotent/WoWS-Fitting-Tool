@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="utf-8" />
     <link rel="icon" th:href="@{/images/Icon/WoWSFT_Icon.png?20190207}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/WoWSFT.css?20190304}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/WoWSFT.css?20190307}" />
     <meta name="viewport" content="width=device-width, initial-scale=0.6, user-scalable=yes" />
     <script th:src="@{/js/jquery/jquery-3.3.1.min.js}"></script>
     <title>WoWS Fitting Tool by Aesis</title>
@@ -29,7 +29,7 @@
         <div id="notification">
             <img alt="" th:src="@{/images/Icon/WoWSFT_Icon.png}" style="height: 300px" /><br />
             <span th:text="${lang == 'ko' ? 'ReptorPi 제작' : 'Logo courtesy of ReptorPi from DCInside'}"></span><br /><br />
-            <h2>WoWS 0.8.1.0</h2>
+            <h2>WoWS 0.8.1.1</h2>
             <br /><br />
             <ul>
                 <li th:if="${5 > noticeStat.index}" th:each="notice : ${notification}">

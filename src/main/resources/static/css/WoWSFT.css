@@ -223,12 +223,12 @@ nav ul li:active > ul {
 
 .dropdown_main .dropdown_main li {
     left: 130px;
-    top:-38px;
+    top:-37px;
 }
 
 .dropdown_main .dropdown_sub li {
     left: 130px;
-    top:-38px;
+    top:-37px;
     padding: 0;
 }
 
