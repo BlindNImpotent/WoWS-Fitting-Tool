@@ -29,31 +29,52 @@ public class ParamService
 
         ship.getComponents().getAirDefense().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(airDefense))) {
-                auraFar.addAll(val.getAuraFar());
-                auraMedium.addAll(val.getAuraMedium());
-                auraNear.addAll(val.getAuraNear());
+                addAura(auraFar, val.getAuraFar(), true);
+                addAura(auraMedium, val.getAuraMedium(), true);;
+                addAura(auraNear, val.getAuraNear(), false);
             }
         });
 
         ship.getComponents().getAtba().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(atba))) {
-                auraFar.addAll(val.getAuraFar());
-                auraMedium.addAll(val.getAuraMedium());
-                auraNear.addAll(val.getAuraNear());
+                addAura(auraFar, val.getAuraFar(), true);
+                addAura(auraMedium, val.getAuraMedium(), true);;
+                addAura(auraNear, val.getAuraNear(), false);
             }
         });
 
         ship.getComponents().getArtillery().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(artillery))) {
-                auraFar.addAll(val.getAuraFar());
-                auraMedium.addAll(val.getAuraMedium());
-                auraNear.addAll(val.getAuraNear());
+                addAura(auraFar, val.getAuraFar(), true);
+                addAura(auraMedium, val.getAuraMedium(), true);;
+                addAura(auraNear, val.getAuraNear(), false);
             }
         });
 
-        ship.setAuraFar(auraFar);
-        ship.setAuraMedium(auraMedium);
-        ship.setAuraNear(auraNear);
+        ship.setAuraFar(sortAura(auraFar));
+        ship.setAuraMedium(sortAura(auraMedium));
+        ship.setAuraNear(sortAura(auraNear));
+    }
+
+    private void addAura(List<Aura> aura, List<Aura> temp, boolean hasBubble)
+    {
+        for (Aura x : temp) {
+            if (!hasBubble || (x.getInnerBubbleCount() > 0 || x.getOuterBubbleCount() > 0)) {
+                aura.add(x);
+            }
+        }
+    }
+
+    private List<Aura> sortAura(List<Aura> aura)
+    {
+        if (aura.size() > 1) {
+            for (int i = 1; i < aura.size(); i++) {
+                aura.get(0).setInnerBubbleCount(aura.get(0).getInnerBubbleCount() + aura.get(i).getInnerBubbleCount());
+                aura.get(0).setOuterBubbleCount(aura.get(0).getOuterBubbleCount() + aura.get(i).getOuterBubbleCount());
+            }
+            aura.subList(1, aura.size()).clear();
+        }
+        return aura;
     }
 
     public void setParameters(Ship ship)
