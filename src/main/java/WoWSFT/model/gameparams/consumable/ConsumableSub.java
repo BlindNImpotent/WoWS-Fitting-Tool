@@ -27,6 +27,7 @@ public class ConsumableSub
     private float dogFightTime;
     private String fightersName;
     private float fightersNum;
+    private float flyAwayTime;
     private float forwardEngineForsag;
     private float forwardEngineForsagMaxSpeed;
     private String group;
@@ -40,6 +41,7 @@ public class ConsumableSub
     private float reloadTime;
     private float startDelayTime;
     private float timeDelayAttack;
+    private float timeFromHeaven;
     private float timeToHeaven;
     private float timeToTryingCatch;
     private float timeWaitDelayAttack;
