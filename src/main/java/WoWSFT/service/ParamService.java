@@ -30,7 +30,7 @@ public class ParamService
         ship.getComponents().getAirDefense().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(airDefense))) {
                 addAura(auraFar, val.getAuraFar(), true);
-                addAura(auraMedium, val.getAuraMedium(), true);;
+                addAura(auraMedium, val.getAuraMedium(), true);
                 addAura(auraNear, val.getAuraNear(), false);
             }
         });
@@ -38,7 +38,7 @@ public class ParamService
         ship.getComponents().getAtba().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(atba))) {
                 addAura(auraFar, val.getAuraFar(), true);
-                addAura(auraMedium, val.getAuraMedium(), true);;
+                addAura(auraMedium, val.getAuraMedium(), true);
                 addAura(auraNear, val.getAuraNear(), false);
             }
         });
@@ -46,7 +46,7 @@ public class ParamService
         ship.getComponents().getArtillery().forEach((c, val) -> {
             if (c.equalsIgnoreCase(ship.getModules().get(artillery))) {
                 addAura(auraFar, val.getAuraFar(), true);
-                addAura(auraMedium, val.getAuraMedium(), true);;
+                addAura(auraMedium, val.getAuraMedium(), true);
                 addAura(auraNear, val.getAuraNear(), false);
             }
         });

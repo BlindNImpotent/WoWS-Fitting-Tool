@@ -66,6 +66,6 @@ public class Flag
 
     public String getImage()
     {
-        return "https://glossary-na-static.gcdn.co/icons/wows/current/flags/" + name + ".png";
+        return "https://cdn.wowsft.com/signal_flags/" + name + ".png";
     }
 }

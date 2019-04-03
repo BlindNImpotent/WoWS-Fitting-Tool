@@ -74,21 +74,7 @@ public class ShipUpgrade
     {
         String tempUcTypeShort = getUcTypeShort();
         if (StringUtils.isNotEmpty(tempUcTypeShort)) {
-            String type;
-            if (tempUcTypeShort.equalsIgnoreCase(artillery)) {
-                type = "maingun";
-            } else if (tempUcTypeShort.equalsIgnoreCase(suo)) {
-                type = "radar";
-            } else if (tempUcTypeShort.equalsIgnoreCase(fighter)) {
-                type = "avia_fighter";
-            } else if (tempUcTypeShort.equalsIgnoreCase(torpedoBomber)) {
-                type = "avia_torpedo";
-            } else if (tempUcTypeShort.equalsIgnoreCase(diveBomber)) {
-                type = "avia_bomber";
-            } else {
-                type = tempUcTypeShort.toLowerCase();
-            }
-            return "https://glossary-na-static.gcdn.co/icons/wows/current/module/icon_module_" + type + ".png";
+            return "https://cdn.wowsft.com/module/module_" + tempUcTypeShort.toLowerCase() + ".png";
         }
         return "";
     }

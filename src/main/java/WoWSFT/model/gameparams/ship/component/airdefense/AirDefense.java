@@ -4,10 +4,12 @@ import WoWSFT.config.WoWSFT;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Data
@@ -32,12 +34,16 @@ public class AirDefense
     @JsonAnySetter
     public void setAura(String name, Object value)
     {
-        if (name.contains("Far")) {
-            auraFar.add(mapper.convertValue(value, Aura.class));
-        } else if (name.contains("Med")) {
-            auraMedium.add(mapper.convertValue(value, Aura.class));
-        } else if (name.contains("Near")) {
-            auraNear.add(mapper.convertValue(value, Aura.class));
+        if (value instanceof HashMap) {
+            HashMap<String, Object> tempObject = mapper.convertValue(value, new TypeReference<HashMap<String, Object>>(){});
+
+            if ("far".equalsIgnoreCase((String) tempObject.get("type"))) {
+                auraFar.add(mapper.convertValue(value, Aura.class));
+            } else if ("medium".equalsIgnoreCase((String) tempObject.get("type"))) {
+                auraMedium.add(mapper.convertValue(value, Aura.class));
+            } else if ("near".equalsIgnoreCase((String) tempObject.get("type"))) {
+                auraNear.add(mapper.convertValue(value, Aura.class));
+            }
         }
     }
 }

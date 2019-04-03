@@ -29,7 +29,7 @@
 <main>
     <div class="research_nation">
         <button class="button_nation initiate" th:each="nation : ${nations}" th:if="${nation.value.entrySet().?[!key.contains('PREMIUM') and !key.contains('TEST')].size() > 0}" th:attr="data-nation=${nation.key}">
-            <img th:src="${'https://glossary-na-static.gcdn.co/icons/wows/current/nation_flags/small/flag_' + nation.key + '.png'}"/><br />
+            <img th:src="${'https://cdn.wowsft.com/nation_flags/small/flag_' + nation.key + '.png'}"/><br />
             <span th:text="${global.get(IDS + nation.key.toUpperCase())}"></span>
         </button>
     </div>
@@ -44,7 +44,7 @@
                                 <button class="button_ship"
                                         th:attr="data-tier=${i}, data-position=${ship.position}, data-type=${shipType.key}, data-ship-index=${ship.index}, data-ship-xp=${ship.costXP},
                                             data-prev-index=${ship.prevShipIndex}, data-prev-ship-xp=${ship.prevShipXP}, data-prev-ship-comp-xp=${ship.prevShipCompXP}">
-                                    <img th:attr="data-src=${'https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/small/' + ship.index + '.png'}" /><br/>
+                                    <img th:attr="data-src=${'https://cdn.wowsft.com/vehicles/small/' + ship.index + '.png'}" /><br/>
                                     <span th:text="${global.get(IDS + ship.index.toUpperCase() + '_FULL')}"></span>
                                 </button><br th:if="${shipStat.index > 0}"/>
                             </th:block>

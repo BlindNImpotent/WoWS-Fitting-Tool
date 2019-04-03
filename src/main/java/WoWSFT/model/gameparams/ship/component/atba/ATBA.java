@@ -41,16 +41,16 @@ public class ATBA
     @JsonAnySetter
     public void setGuns(String name, Object value)
     {
-        if (name.contains("Far")) {
-            auraFar.add(mapper.convertValue(value, Aura.class));
-        } else if (name.contains("Med")) {
-            auraMedium.add(mapper.convertValue(value, Aura.class));
-        } else if (name.contains("Near")) {
-            auraNear.add(mapper.convertValue(value, Aura.class));
-        } else if (value instanceof HashMap) {
+        if (value instanceof HashMap) {
             HashMap<String, Object> tempObject = mapper.convertValue(value, new TypeReference<HashMap<String, Object>>(){});
 
-            if (tempObject.containsKey("HitLocationATBA")) {
+            if ("far".equalsIgnoreCase((String) tempObject.get("type"))) {
+                auraFar.add(mapper.convertValue(value, Aura.class));
+            } else if ("medium".equalsIgnoreCase((String) tempObject.get("type"))) {
+                auraMedium.add(mapper.convertValue(value, Aura.class));
+            } else if ("near".equalsIgnoreCase((String) tempObject.get("type"))) {
+                auraNear.add(mapper.convertValue(value, Aura.class));
+            } else if (tempObject.containsKey("HitLocationATBA")) {
                 Secondary tempS = mapper.convertValue(value, Secondary.class);
 
                 if (!secondaries.containsKey(tempS.getName())) {

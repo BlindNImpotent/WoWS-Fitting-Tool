@@ -116,7 +116,7 @@ public class Ship
     public String getTypeImage()
     {
         if (typeinfo != null && StringUtils.isNotEmpty(typeinfo.getSpecies()) && StringUtils.isNotEmpty(realShipType)) {
-            return "https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/types/" + typeinfo.getSpecies() + (realShipType.equalsIgnoreCase("Premium") ? "/premium" : "/normal") + ".png";
+            return "https://cdn.wowsft.com/vehicles/types/" + typeinfo.getSpecies() + (realShipType.equalsIgnoreCase("Premium") ? "/premium" : "/normal") + ".png";
         }
         return "";
     }
@@ -124,7 +124,7 @@ public class Ship
     public String getImageMedium()
     {
         if (StringUtils.isNotEmpty(index)) {
-            return "https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/medium/" + index + ".png";
+            return "https://cdn.wowsft.com/vehicles/medium/" + index + ".png";
         }
         return "";
     }
@@ -132,7 +132,7 @@ public class Ship
     public String getImageSmall()
     {
         if (StringUtils.isNotEmpty(index)) {
-            return "https://glossary-na-static.gcdn.co/icons/wows/current/vehicle/small/" + index + ".png";
+            return "https://cdn.wowsft.com/vehicles/small/" + index + ".png";
         }
         return "";
     }

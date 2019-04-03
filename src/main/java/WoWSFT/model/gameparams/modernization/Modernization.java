@@ -140,6 +140,6 @@ public class Modernization
 
     public String getImage()
     {
-        return "https://glossary-na-static.gcdn.co/icons/wows/current/modernization/icon_modernization_" + name + ".png";
+        return "https://cdn.wowsft.com/modernization_icons/icon_modernization_" + name + ".png";
     }
 }
