@@ -82,6 +82,7 @@
     var data2;
     var materialChart2;
     var chartDiv2 = document.getElementById('chart_div2');
+    var waitTime = 1500;
 
     $(function () {
         document.addEventListener("touchstart", function() {},false);
@@ -184,6 +185,10 @@
                     drawMaterialChart(data1, materialChart1, chartDiv1, selectedShip + ' ' + artyName, list1, 'Penetration (mm)', 'Impact Angle (deg)');
                     drawMaterialChart(data2, materialChart2, chartDiv2, selectedShip + ' ' + artyName, list2, 'Penetration (mm)', 'Flight Time (s)');
                     index++;
+
+                    window.setTimeout(function() {
+                        $('circle').attr('r', 3);
+                    }, waitTime);
                 }
             }
         });

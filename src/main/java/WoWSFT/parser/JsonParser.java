@@ -150,7 +150,7 @@ public class JsonParser
             if (typeInfo.getType().equalsIgnoreCase("Ship") && !excludeShipNations.contains(typeInfo.getNation()) && !excludeShipSpecies.contains(typeInfo.getSpecies())) {
                 Ship ship = mapper.convertValue(value, Ship.class);
                 if (!excludeShipGroups.contains(ship.getGroup()) && StringUtils.isEmpty(ship.getDefaultCrew())
-                    && !supertestShipGroups.contains(ship.getGroup())
+//                    && !supertestShipGroups.contains(ship.getGroup())
                 ) {
                     ship.getShipUpgradeInfo().getComponents().forEach((cType, c) ->
                         c.forEach(su -> {
@@ -285,8 +285,8 @@ public class JsonParser
             ship.setResearch(true);
         } else if (premiumShipGroups.contains(ship.getGroup())) {
             ship.setRealShipType("Premium");
-//        } else if (supertestShipGroups.contains(ship.getGroup())) {
-//            ship.setRealShipType("Test_Sample");
+        } else if (supertestShipGroups.contains(ship.getGroup())) {
+            ship.setRealShipType("Test_Sample");
         }
     }
 
@@ -413,9 +413,9 @@ public class JsonParser
                 if (realShipType.getKey().equalsIgnoreCase("FILTER_PREMIUM")) {
                     shipsList.get(nation.getKey()).remove(realShipType.getKey());
                     shipsList.get(nation.getKey()).put(realShipType.getKey(), realShipType.getValue());
-//                } else if (realShipType.getKey().equalsIgnoreCase("TEST_SAMPLE")) {
-//                    shipsList.get(nation.getKey()).remove(realShipType.getKey());
-//                    shipsList.get(nation.getKey()).put(realShipType.getKey(), realShipType.getValue());
+                } else if (realShipType.getKey().equalsIgnoreCase("TEST_SAMPLE")) {
+                    shipsList.get(nation.getKey()).remove(realShipType.getKey());
+                    shipsList.get(nation.getKey()).put(realShipType.getKey(), realShipType.getValue());
                 }
             });
             shipsList.remove(nation.getKey());
