@@ -34,6 +34,7 @@ public class Flag
     private float expFactor = 1f;
     private List<String> flags;
     private float floodChanceFactor = 1f;
+    private float floodChanceFactorPlane = 1f;
     private float floodTime = 1f;
     private float freeExpFactor = 1f;
     private int group;
@@ -52,6 +53,7 @@ public class Flag
     @JsonProperty("PMDetonationProb")
     private float pmdetonationProb = 1f;
     private float regenerationHPSpeed = 1f;
+    private float regenerationPlaneRate = 1f;
     private float shootShift = 1f;
     private int sortOrder;
     private float speedCoef = 1f;
