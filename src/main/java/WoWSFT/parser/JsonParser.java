@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.zip.ZipFile;
 
 import static WoWSFT.model.Constant.*;
 
@@ -136,9 +137,8 @@ public class JsonParser
     {
         log.info("Setting up GameParams");
 
-        Resource GameParamsFile = new ClassPathResource("/json/live/GameParams.json");
-
-        LinkedHashMap<String, LinkedHashMap<String, Object>> temp = mapper.readValue(GameParamsFile.getInputStream(), new TypeReference<LinkedHashMap<String, LinkedHashMap<String, Object>>>(){});
+        ZipFile zf = new ZipFile(new ClassPathResource("/json/live/GameParams.zip").getFile().getPath());
+        LinkedHashMap<String, LinkedHashMap<String, Object>> temp = mapper.readValue(zf.getInputStream(zf.entries().nextElement()), new TypeReference<LinkedHashMap<String, LinkedHashMap<String, Object>>>(){});
 
         for (int i = 0; i < 6; i++) {
             upgrades.put(i, new LinkedHashMap<>());
