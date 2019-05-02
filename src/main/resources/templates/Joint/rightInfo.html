@@ -322,7 +322,7 @@
                                 <td colspan="2" style="text-align: center;">
                                     <th:block th:each="consumable : ${fighter.consumables}">
                                         <button class="button_plane_consumable">
-                                            <img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/>
+                                            <img th:src="${'https://cdn.wowsft.com/images/consumables/consumable_' + consumable.name + '.png'}"/>
                                             <table class="tooltip invert">
                                                 <tbody>
                                                 <tr><td colspan="2"><th:block th:utext="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase())}"></th:block></td></tr>
@@ -418,7 +418,7 @@
                                 <td colspan="2" style="text-align: center;">
                                     <th:block th:each="consumable : ${diveBomber.consumables}">
                                         <button class="button_plane_consumable">
-                                            <img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/>
+                                            <img th:src="${'https://cdn.wowsft.com/images/consumables/consumable_' + consumable.name + '.png'}"/>
                                             <table class="tooltip invert">
                                                 <tbody>
                                                 <tr><td colspan="2"><th:block th:utext="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase())}"></th:block></td></tr>
@@ -516,7 +516,7 @@
                                 <td colspan="2" style="text-align: center;">
                                     <th:block th:each="consumable : ${torpedoBomber.consumables}">
                                         <button class="button_plane_consumable">
-                                            <img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/>
+                                            <img th:src="${'https://cdn.wowsft.com/images/consumables/consumable_' + consumable.name + '.png'}"/>
                                             <table class="tooltip invert">
                                                 <tbody>
                                                 <tr><td colspan="2"><th:block th:utext="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase())}"></th:block></td></tr>
@@ -812,7 +812,7 @@
                             th:classappend="${(selection.size() == 0 and consumableStat.index == 0) or (selection.size() > 0 and selection.get(slotStat.index) == consumableStat.index + 1) ? 'select' : 'hide'}
                                         + ${#lists.contains(warship.shipUpgradeInfo.components.get('hull').get(warship.positions.get('hull') - 1).disabledAbilities, consumable.name) ? ' disable' : ''}"
                             th:attr="data-index=${slotStat.index}, data-position=${consumableStat.index + 1}">
-                        <img th:src="${'/images/Consumables/' + consumable.name + '.png'}"/>
+                        <img th:src="${'https://cdn.wowsft.com/images/consumables/consumable_' + consumable.name + '.png'}"/>
                         <table class="tooltip invert">
                             <tbody>
                             <tr><td colspan="2"><th:block th:utext="${global.get(IDS + 'DOCK_CONSUME_TITLE_' + consumable.name.toUpperCase())}"></th:block></td></tr>

@@ -104,6 +104,6 @@ public class Skill
 
     public String getImage()
     {
-        return "https://cdn.wowsft.com/skills/icon_perk_" + modifier + ".png";
+        return "https://cdn.wowsft.com/images/crew_commander/skills/icon_perk_" + modifier + ".png";
     }
 }

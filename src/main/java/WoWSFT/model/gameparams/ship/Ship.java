@@ -64,7 +64,6 @@ public class Ship
     private int prevShipXP;
     private int prevShipCompXP;
     private String typeImage;
-    private String imageMedium;
     private String imageSmall;
 
     private LinkedHashMap<String, String> planes = new LinkedHashMap<>();
@@ -116,15 +115,7 @@ public class Ship
     public String getTypeImage()
     {
         if (typeinfo != null && StringUtils.isNotEmpty(typeinfo.getSpecies()) && StringUtils.isNotEmpty(realShipType)) {
-            return "https://cdn.wowsft.com/vehicles/types/" + typeinfo.getSpecies() + (realShipType.equalsIgnoreCase("Premium") ? "/premium" : "/normal") + ".png";
-        }
-        return "";
-    }
-
-    public String getImageMedium()
-    {
-        if (StringUtils.isNotEmpty(index)) {
-            return "https://cdn.wowsft.com/vehicles/medium/" + index + ".png";
+            return "https://cdn.wowsft.com/images/vehicles/types/" + typeinfo.getSpecies() + (realShipType.equalsIgnoreCase("Premium") ? "/premium" : "/normal") + ".png";
         }
         return "";
     }
@@ -132,7 +123,7 @@ public class Ship
     public String getImageSmall()
     {
         if (StringUtils.isNotEmpty(index)) {
-            return "https://cdn.wowsft.com/vehicles/small/" + index + ".png";
+            return "https://cdn.wowsft.com/images/vehicles/ship_previews/" + index + ".png";
         }
         return "";
     }

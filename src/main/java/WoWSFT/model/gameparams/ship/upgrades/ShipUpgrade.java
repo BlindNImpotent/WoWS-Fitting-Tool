@@ -74,7 +74,7 @@ public class ShipUpgrade
     {
         String tempUcTypeShort = getUcTypeShort();
         if (StringUtils.isNotEmpty(tempUcTypeShort)) {
-            return "https://cdn.wowsft.com/module/module_" + tempUcTypeShort.toLowerCase() + ".png";
+            return "https://cdn.wowsft.com/images/modules/module_" + tempUcTypeShort.toLowerCase() + ".png";
         }
         return "";
     }

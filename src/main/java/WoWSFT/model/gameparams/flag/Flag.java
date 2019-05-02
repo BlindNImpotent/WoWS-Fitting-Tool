@@ -68,6 +68,6 @@ public class Flag
 
     public String getImage()
     {
-        return "https://cdn.wowsft.com/signal_flags/" + name + ".png";
+        return "https://cdn.wowsft.com/images/signal_flags/" + name + ".png";
     }
 }
