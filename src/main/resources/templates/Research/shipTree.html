@@ -44,7 +44,7 @@
                                 <button class="button_ship"
                                         th:attr="data-tier=${i}, data-position=${ship.position}, data-type=${shipType.key}, data-ship-index=${ship.index}, data-ship-xp=${ship.costXP},
                                             data-prev-index=${ship.prevShipIndex}, data-prev-ship-xp=${ship.prevShipXP}, data-prev-ship-comp-xp=${ship.prevShipCompXP}">
-                                    <img th:attr="data-src=${'https://cdn.wowsft.com/vehicles/small/' + ship.index + '.png'}" /><br/>
+                                    <img th:attr="data-src=${'https://cdn.wowsft.com/images/vehicles/ship_previews/' + ship.index + '.png'}" /><br/>
                                     <span th:text="${global.get(IDS + ship.index.toUpperCase() + '_FULL')}"></span>
                                 </button><br th:if="${shipStat.index > 0}"/>
                             </th:block>
