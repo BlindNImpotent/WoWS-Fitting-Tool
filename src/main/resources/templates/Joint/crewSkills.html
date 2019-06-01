@@ -15,8 +15,8 @@
                     <option th:text="${global.get(commander.value.identifier)}" th:value="${commander.value.index}" th:selected="${commander.value.index == warship.commander.index}"></option>
                 </th:block>
             </select>
-            <input type="checkbox" checked="checked" class="limit_skill" style="margin: 5px;" th:text="${trans.get('limitSkill')}" />
         </label>
+        <label><input type="checkbox" checked="checked" class="limit_skill" style="margin: 5px;" th:text="${trans.get('limitSkill')}" /></label>
         <br />
         <label class="adrenalineRush" th:style="${'display: ' + (warship.arUse ? 'inline-flex;' : 'none;' )}">
             <u th:text="${global.get('IDS_SKILL_LASTCHANCEMODIFIER')}"></u><span>&emsp;</span>
