@@ -100,7 +100,8 @@ function drawArtillery(currentIndex, turrets)
                 }
             }
 
-            if (horizPosition !== 1 && (horizPosition - 1) % 1 === 0) {
+            var isAntiClockwise = (maxAngle - minAngle > 180) || (minAngle >= 0 && maxAngle < 0 && 360 - (Math.abs(maxAngle - minAngle) > 180));
+            if (!isAntiClockwise && horizPosition !== 1 && (horizPosition - 1) % 1 === 0) {
                 if ((Math.abs(minAngle) < 90 && Math.abs(maxAngle) < 90)) {
                     minAngle = minAngle + (horizPosition - 1) * 90;
                     maxAngle = maxAngle + (horizPosition - 1) * 90;
