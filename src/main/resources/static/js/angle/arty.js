@@ -20,11 +20,11 @@ function drawArtillery(currentIndex, turrets)
         for (var i = 0; i < turrets.length; i++) {
             var current = turrets[i];
 
-            var minAngle = current.horizSector[0];
-            var maxAngle = current.horizSector[1];
-            var vertiPosition = current.position[0];
-            var horizPosition = current.position[1];
-            var horizFactor = Math.PI / -2;
+            var minAngle = current['horizSector'][0];
+            var maxAngle = current['horizSector'][1];
+            var vertiPosition = current['position'][0];
+            var horizPosition = current['position'][1];
+            var horizFactor = 0;
 
             var deadZone = current['deadZone'];
             var deadZone1 = 0;
@@ -60,56 +60,92 @@ function drawArtillery(currentIndex, turrets)
             } else if (deadZone.length === 1 && deadZone1 === minAngle) {
                 isMerge = true;
                 minAngle = deadZone2;
-            } else if (deadZone.length === 1 && minAngle === maxAngle)
-            {
+            } else if (deadZone.length === 1 && minAngle === maxAngle) {
                 isMerge = true;
                 minAngle = deadZone2;
                 maxAngle = deadZone1;
             }
 
-            var test = (horizPosition - 1) * Math.PI;
-
-            var isFlip = false;
-            if ((i === 2 && (vertiPosition < 3 && vertiPosition >= 1.75 && (turrets[2]['position'][0] - turrets[1]['position'][0] > 1 || deadZone.length === 1)) && horizPosition === 1)
-                || (i === 2 && horizPosition === 1 && vertiPosition === 3 && turrets.length === 3)) {
-                isFlip = true;
-            }
-
-            if ((vertiPosition >= 3 && !isFlip) || (vertiPosition < 3 && isFlip)) {
-                minAngle = minAngle + 180;
-                maxAngle = maxAngle - 180;
-                deadZone1 = deadZone1 + 180;
-                deadZone2 = deadZone2 + 180;
-
-                if (horizPosition !== 1 && (horizPosition - 1) % 1 === 0) {
-                    var tempValue = minAngle;
-                    minAngle = -maxAngle;
-                    maxAngle = -tempValue;
+            var isOverPi = maxAngle - minAngle > 180;
+            var tMin = minAngle;
+            var tDeadZone1 = deadZone1;
+            if (horizPosition === 1) {
+                if (3 >= vertiPosition) {
+                    horizFactor = -90;
                 } else {
-                    minAngle = minAngle - (test * 180 / Math.PI);
-                    maxAngle = maxAngle - (test * 180 / Math.PI);
+                    horizFactor = 90;
+                }
+            } else if (horizPosition > 1) {
+                minAngle = -maxAngle;
+                maxAngle = -tMin;
+                deadZone1 = -deadZone2;
+                deadZone2 = -tDeadZone1;
+
+                if (isOverPi || turrets.length > 6) {
+                    if (3 >= vertiPosition) {
+                        horizFactor = -90;
+                    } else {
+                        horizFactor = 90;
+                    }
                 }
             } else {
-                if (horizPosition !== 1 && (horizPosition - 1) % 1 === 0) {
-                    var tv = minAngle;
-                    minAngle = -maxAngle;
-                    maxAngle = -tv;
-                } else {
-                    minAngle = minAngle + (test * 180 / Math.PI);
-                    maxAngle = maxAngle + (test * 180 / Math.PI);
+                minAngle = 90 + (90 - maxAngle);
+                maxAngle = -90 + (-90 - tMin);
+                deadZone1 = 90 + (90 - deadZone2);
+                deadZone2 = -90 + (-90 - tDeadZone1);
+
+                if (isOverPi || turrets.length > 6) {
+                    if (3 >= vertiPosition) {
+                        horizFactor = 90;
+                    } else {
+                        horizFactor = -90;
+                    }
                 }
             }
 
-            var isAntiClockwise = (maxAngle - minAngle > 180) || (minAngle >= 0 && maxAngle < 0 && 360 - (Math.abs(maxAngle - minAngle) > 180));
-            if (!isAntiClockwise && horizPosition !== 1 && (horizPosition - 1) % 1 === 0) {
-                if ((Math.abs(minAngle) < 90 && Math.abs(maxAngle) < 90)) {
-                    minAngle = minAngle + (horizPosition - 1) * 90;
-                    maxAngle = maxAngle + (horizPosition - 1) * 90;
-                } else if ((180 - Math.abs(minAngle) < 90 && 180 - Math.abs(maxAngle) < 90)) {
-                    minAngle = minAngle - (horizPosition - 1) * 90;
-                    maxAngle = maxAngle - (horizPosition - 1) * 90;
-                }
-            }
+            // var test = (horizPosition - 1) * Math.PI;
+            //
+            // var isFlip = false;
+            // if ((i === 2 && (vertiPosition < 3 && vertiPosition >= 1.75 && (turrets[2]['position'][0] - turrets[1]['position'][0] > 1 || deadZone.length === 1)) && horizPosition === 1)
+            //     || (i === 2 && horizPosition === 1 && vertiPosition === 3 && turrets.length === 3)) {
+            //     isFlip = true;
+            // }
+            //
+            // if ((vertiPosition >= 3 && !isFlip) || (vertiPosition < 3 && isFlip)) {
+            //     minAngle = minAngle + 180;
+            //     maxAngle = maxAngle - 180;
+            //     deadZone1 = deadZone1 + 180;
+            //     deadZone2 = deadZone2 + 180;
+            //
+            //     if (horizPosition !== 1 && (horizPosition - 1) % 1 === 0) {
+            //         var tempValue = minAngle;
+            //         minAngle = -maxAngle;
+            //         maxAngle = -tempValue;
+            //     } else {
+            //         minAngle = minAngle - (test * 180 / Math.PI);
+            //         maxAngle = maxAngle - (test * 180 / Math.PI);
+            //     }
+            // } else {
+            //     if (horizPosition !== 1 && (horizPosition - 1) % 1 === 0) {
+            //         var tv = minAngle;
+            //         minAngle = -maxAngle;
+            //         maxAngle = -tv;
+            //     } else {
+            //         minAngle = minAngle + (test * 180 / Math.PI);
+            //         maxAngle = maxAngle + (test * 180 / Math.PI);
+            //     }
+            // }
+            //
+            // var isAntiClockwise = (maxAngle - minAngle > 180) || (minAngle >= 0 && maxAngle < 0 && 360 - (Math.abs(maxAngle - minAngle) > 180));
+            // if (!isAntiClockwise && horizPosition !== 1 && (horizPosition - 1) % 1 === 0) {
+            //     if ((Math.abs(minAngle) < 90 && Math.abs(maxAngle) < 90)) {
+            //         minAngle = minAngle + (horizPosition - 1) * 90;
+            //         maxAngle = maxAngle + (horizPosition - 1) * 90;
+            //     } else if ((180 - Math.abs(minAngle) < 90 && 180 - Math.abs(maxAngle) < 90)) {
+            //         minAngle = minAngle - (horizPosition - 1) * 90;
+            //         maxAngle = maxAngle - (horizPosition - 1) * 90;
+            //     }
+            // }
 
             // -1 .. 7
             var centerX = size + (horizPosition - 1) * (size * 2 / 8);
@@ -119,42 +155,42 @@ function drawArtillery(currentIndex, turrets)
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, size * 4, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size * 4, (horizFactor + minAngle) / 180 * Math.PI, (horizFactor + maxAngle) / 180 * Math.PI);
                 ctx.closePath();
                 ctx.stroke();
 
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, size / 5, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size / 5, (horizFactor + minAngle) / 180 * Math.PI, (horizFactor + maxAngle) / 180 * Math.PI);
                 ctx.closePath();
                 ctx.fill();
             } else if ((deadZone.length === 1 || deadZone.length === 2) && !isMerge) {
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, size * 4, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size * 4, (horizFactor + minAngle) / 180 * Math.PI, (horizFactor + deadZone1) / 180 * Math.PI);
                 ctx.closePath();
                 ctx.stroke();
 
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, size / 5, horizFactor + (minAngle / 180 * Math.PI), horizFactor + (deadZone1 / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size / 5, (horizFactor + minAngle) / 180 * Math.PI, (horizFactor + deadZone1) / 180 * Math.PI);
                 ctx.closePath();
                 ctx.fill();
 
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, size * 4, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size * 4, (horizFactor + deadZone2) / 180 * Math.PI, (horizFactor + maxAngle) / 180 * Math.PI);
                 ctx.closePath();
                 ctx.stroke();
 
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.globalAlpha = 0.1;
-                ctx.arc(centerX, centerY, size / 5, horizFactor + (deadZone2 / 180 * Math.PI), horizFactor + (maxAngle / 180 * Math.PI));
+                ctx.arc(centerX, centerY, size / 5, (horizFactor + deadZone2) / 180 * Math.PI, (horizFactor + maxAngle) / 180 * Math.PI);
                 ctx.closePath();
                 ctx.fill();
             }
