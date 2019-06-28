@@ -8,13 +8,33 @@
         <strong th:if="${lang == 'ko'}">함선 선택</strong>
     </div>
     <div class="ship" th:attr="data-ship-index=${warship.index}, data-ship-position=${single ? '0' : dataIndex}" th:if="${warship != null}">
-        <div class="name">
-            <img th:src="${warship.typeImage}"/><br />
-            <strong style="font-size: 1em;" th:text="${global.get(IDS + warship.typeinfo.nation.toUpperCase()) + ' ' + global.get(IDS + warship.typeinfo.species.toUpperCase())}"></strong><br /><br />
-            <strong style="font-size: 2em;" th:text="${global.get(IDS + warship.index.toUpperCase() + '_FULL')}"></strong><br />
-            <img th:title="${global.get(IDS + warship.index +'_DESCR')}" th:src="${warship.imageSmall}" /><br />
-            <br />
+        <div class="name" style="display: block;">
+            <div th:if="${warship.research and warship.prevShipIndex != null}" style="display: inline-block;">
+                <a style="padding: 0; margin: 0;" th:href="${'/ship?index=' + warship.prevShipIndex.toUpperCase()}">
+                    <img style="width: 72px;" th:src="'https://cdn.wowsft.com/images/vehicles/ship_previews/' + ${warship.prevShipIndex} + '.png'" /><br />
+                    <span style="font-size: 12px;" th:text="${global.get(IDS + warship.prevShipIndex.toUpperCase() + '_FULL')}"></span>
+                </a>
+            </div>
+            <div style="display: inline-block;">
+                <img th:src="${warship.typeImage}"/><br />
+                <strong style="font-size: 1em;" th:text="${global.get(IDS + warship.typeinfo.nation.toUpperCase()) + ' ' + global.get(IDS + warship.typeinfo.species.toUpperCase())}"></strong><br /><br />
+                <strong style="font-size: 2em;" th:text="${global.get(IDS + warship.index.toUpperCase() + '_FULL')}"></strong><br />
+                <img th:title="${global.get(IDS + warship.index +'_DESCR')}" th:src="${warship.imageSmall}" />
+            </div>
+            <div th:if="${warship.research and warship.shipUpgradeInfo.components.?[value.?[nextShips != null and nextShips.size() > 0].size() > 0].size() > 0}" style="display: inline-block;">
+                <th:block th:each="comp : ${warship.shipUpgradeInfo.components.?[value.?[nextShips != null and nextShips.size() > 0].size() > 0]}">
+                    <th:block th:each="module : ${comp.value}" th:if="${module.nextShips != null and module.nextShips.size() > 0}">
+                        <th:block th:each="nShipName : ${module.nextShips}" th:with="nIndex=${#strings.substring(nShipName, 0, 7)}">
+                            <a style="padding: 0; margin: 0;" th:href="${'/ship?index=' + nIndex.toUpperCase()}">
+                                <img style="width: 72px;" th:src="'https://cdn.wowsft.com/images/vehicles/ship_previews/' + ${nIndex} + '.png'" /><br />
+                                <span style="font-size: 12px;" th:text="${global.get(IDS + nIndex + '_FULL')}"></span>
+                            </a>
+                        </th:block>
+                    </th:block>
+                </th:block>
+            </div>
         </div>
+        <br />
         <div class="info_box">
             <div class="info_box_inner">
                 <div class="panel_left" data-type="modules">
