@@ -15,12 +15,13 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video, u {
+time, mark, audio, video, u, button {
     margin: 0;
     padding: 0;
-    border: 0;
+    border: 0 solid inherit;
     font-size: 100%;
     vertical-align: baseline;
+    color: inherit;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -50,7 +51,7 @@ body {
     box-sizing: border-box;
     min-width: 1408px;
     max-width: 1792px;
-    background: white;
+    background: rgba(0, 0, 0, 0.1);
     color: black;
     text-align: center;
     margin: 0 auto;
@@ -64,6 +65,10 @@ body {
                                   supported by Chrome and Opera */
 }
 
+select {
+    background: inherit;
+}
+
 /*body::-webkit-scrollbar {*/
     /*width: 0 !important*/
 /*}*/
@@ -74,7 +79,6 @@ nav {
 
 a {
     text-decoration: none;
-    color: black;
     padding: 8px;
     display: block;
 }
@@ -86,10 +90,6 @@ ul {
 
 li {
     font-size: 14px;
-}
-
-select, option {
-    background: white;
 }
 
 .bottom-fix {
@@ -111,14 +111,14 @@ select, option {
 
 .top {
     display: inline-block;
-    background: lightblue;
+    background: rgba(173, 216, 230, 0.9);
     width: 100%;
     z-index: 10;
     text-align: left;
 }
 
 .top li {
-    background: lightblue;
+    background: rgba(173, 216, 230, 0);
     display: inline-block;
     padding: 8px 14px;
     z-index: 10;
@@ -154,6 +154,7 @@ select, option {
     float:none;
     display:list-item;
     position: relative;
+    background: rgba(173, 216, 230, 0.9);
 }
 
 .dropdown_main.shift_right {
@@ -266,7 +267,6 @@ nav ul li:active > ul {
     vertical-align: top;
     /*background: white;*/
     text-decoration: none;
-    color: inherit;
     opacity: 1;
     text-align: center;
     border: 1px solid rgb(210,210,210);
@@ -504,9 +504,8 @@ button .tooltip tr td:nth-of-type(2) {
 button:hover > .tooltip {
     /*display: inline-table;*/
     visibility: visible;
-    background: white;
+    background: rgba(255, 255, 255, 0.9);
     opacity: 0.9;
-    color: black;
     border: 1px solid black;
 }
 
