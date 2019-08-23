@@ -27,6 +27,7 @@ public class AirDefense
     private float prioritySectorEnableDelay;
     private float prioritySectorStrength;
     private List<List<Float>> sectors;
+    private List<List<Object>> prioritySectorPhases;
 
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();

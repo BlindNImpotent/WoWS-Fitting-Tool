@@ -17,6 +17,7 @@ import java.util.Map;
 public class Shell
 {
     private float alphaDamage;
+    private float alphaPiercingCS;
     private float alphaPiercingHE;
     private float alphaPiercingHEReal;
     private String ammoType;

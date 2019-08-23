@@ -39,6 +39,8 @@ public class ConsumableSub
     private float regenerationHPSpeed;
     private float regenerationRate;
     private float reloadTime;
+    private float spawnBackwardShift;
+    private float speedLimit;
     private float startDelayTime;
     private float timeDelayAttack;
     private float timeFromHeaven;
@@ -55,6 +57,10 @@ public class ConsumableSub
     private String spawnEffect;
     private String spawnPointEffect;
     private String waveEffect;
+
+    private String descIDs;
+    private String iconIDs;
+    private String titleIDs;
 
     private LinkedHashMap<String, String> bonus = new LinkedHashMap<>();
 }

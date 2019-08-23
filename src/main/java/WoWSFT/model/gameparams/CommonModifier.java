@@ -69,13 +69,13 @@ public class CommonModifier
     private float airplanesDiveBombersHealth = 1f;
     private float airplanesEmptyReturnSpeed = 1f;
     private float airplanesExtraHangarSize;
-    private float airplanesFighterAimingTime = 1f;
+    private float airplanesFighterAimingTime;
     private float airplanesFightersHealth = 1f;
     private float airplanesForsageDuration = 1f;
     private float airplanesHealth = 1f;
     private float airplanesSpawnTime = 1f;
     private float airplanesSpeed = 1f;
-    private float airplanesTorpedoAimingTime = 1f;
+    private float airplanesTorpedoAimingTime;
     private float airplanesTorpedoBombersHealth = 1f;
     private float burnProb = 1f;
     private float burnTime = 1f;
@@ -126,19 +126,19 @@ public class CommonModifier
     private float atbaIdealRadiusLo = 1f;
     private float fightersAmmunitionCoefficient = 1f;
     private float fightersEfficiencyCoefficient = 1f;
-    private float probabilityBonus;
+    private float probabilityBonus = 1f;
     private float probabilityCoefficient = 1f;
     private float switchAmmoReloadCoef = 1f;
 
-    private float chanceToSetOnFireBonus;
-    private float chanceToSetOnFireBonusBig;
-    private float chanceToSetOnFireBonusSmall;
+    private float chanceToSetOnFireBonus = 1f;
+    private float chanceToSetOnFireBonusBig = 1f;
+    private float chanceToSetOnFireBonusSmall = 1f;
     private float thresholdPenetrationCoefficient = 1f;
     private float thresholdPenetrationCoefficientBig = 1f;
     private float thresholdPenetrationCoefficientSmall = 1f;
 
-    private float hpStep = 1f;
-    private float timeStep;
+    private float hpStep;
+    private float timeStep = 1f;
     private float critRudderTimeCoefficient = 1f;
     private float bigGunBonus;
     private float smallGunBonus;
@@ -173,15 +173,19 @@ public class CommonModifier
     private float planeSpawnTimeCoefficient = 1f;
     private float prioritySectorStrengthCoefficient = 1f;
     private float sectorSwitchDelayCoefficient = 1f;
-    private float bombProbabilityBonus;
-    private float rocketProbabilityBonus;
+    private float bombProbabilityBonus = 1f;
+    private float rocketProbabilityBonus = 1f;
     private float flightSpeedCoefficient = 1f;
     private float forsageDurationCoefficient = 1f;
-    private float squadronHealthStep = 1f;
-    private float squadronSpeedStep;
+    private float squadronHealthStep;
+    private float squadronSpeedStep = 1f;
     private float nearAuraDamageTakenCoefficient = 1f;
     private float planeHealthPerLevel;
     private float planeTorpedoRangeCoefficient = 1f;
     private float planeTorpedoSpeedBonus;
     private float planeRangeCoefficient = 1f;
+    private float prioSectorCooldownCoefficient = 1f;
+    private float prioSectorPhaseDurationCoefficient = 1f;
+    private float prioSectorStartPhaseStrengthCoefficient = 1f;
+    private float prioSectorStrengthCoefficient = 1f;
 }

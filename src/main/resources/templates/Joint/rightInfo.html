@@ -82,6 +82,20 @@
                             <td th:text="${global.get('IDS_RIBBON_SUBRIBBON_MAIN_CALIBER_RICOCHET')}"></td>
                             <td th:text="${#numbers.formatDecimal(ammo.bulletAlwaysRicochetAt, 1, 1) + ' + ' + #numbers.formatDecimal(ammo.bulletCapNormalizeMaxAngle, 1, 1)} + ' °'"></td>
                         </tr>
+                        <th:block th:if="${ammo.ammoType == 'CS'}">
+                            <tr class="toggle" th:classappend="${ammo.index} + ' hide'">
+                                <td th:text="${'SAP Penetration'}"></td>
+                                <td th:text="${#numbers.formatDecimal(ammo.alphaPiercingCS, 1, 1)} + ' mm'"></td>
+                            </tr>
+                            <tr class="toggle" th:classappend="${ammo.index} + ' hide'">
+                                <td th:text="'Threshold'"></td>
+                                <td th:text="${#numbers.formatInteger(ammo.bulletDetonatorThreshold, 1, 'COMMA')} + ' mm'"></td>
+                            </tr>
+                            <tr class="toggle" th:classappend="${ammo.index} + ' hide'">
+                                <td th:text="'Fuse Time'"></td>
+                                <td th:text="${#numbers.formatDecimal(ammo.bulletDetonator, 1, 3)} + ' s'"></td>
+                            </tr>
+                        </th:block>
                         <th:block th:if="${ammo.ammoType == 'HE'}">
                             <tr class="toggle" th:classappend="${ammo.index} + ' hide'">
                                 <td th:text="${'HE Penetration'}"></td>
@@ -614,14 +628,6 @@
                             <td th:text="${#numbers.formatDecimal(auraFar.minDistance / 1000, 1, 1) + ' - ' + #numbers.formatDecimal(auraFar.maxDistance / 1000, 1, 1)} + ' km'"></td>
                         </tr>
                         <tr class="toggle" th:classappend="${'far' + auraFarStat.index + ' hide'}">
-                            <td th:text="'- ' + ${'Explosions'}"></td>
-                            <td th:text="${#numbers.formatInteger(auraFar.innerBubbleCount + auraFar.outerBubbleCount, 1, 'COMMA')}"></td>
-                        </tr>
-                        <tr class="toggle" th:classappend="${'far' + auraFarStat.index + ' hide'}">
-                            <td th:text="'- ' + ${'Damage'}"></td>
-                            <td th:text="${#numbers.formatInteger(auraFar.bubbleDamage * 7, 1, 'COMMA')}"></td>
-                        </tr>
-                        <tr class="toggle" th:classappend="${'far' + auraFarStat.index + ' hide'}">
                             <td><u th:text="${'Aura'}"></u></td>
                             <td th:text="${#numbers.formatDecimal(auraFar.areaDamage / auraFar.areaDamageFrequency, 1, 1)} + ' dps'"></td>
                         </tr>
@@ -638,18 +644,10 @@
                             <td th:text="${#numbers.formatInteger(auraFar.hitChance * 100, 1, 'COMMA')} + ' %'"></td>
                         </tr>
                     </th:block>
-                    <th:block th:each="auraMedium : ${auraMediums}" th:if="${auraMedium.innerBubbleCount > 0 or auraMedium.outerBubbleCount > 0}">
+                    <th:block th:each="auraMedium : ${auraMediums}">
                         <tr class="subsystem switch" th:attr="data-type=${'medium' + auraMediumStat.index}">
                             <td><u th:text="${global.get('IDS_MEDIUM')}"></u></td>
                             <td th:text="${#numbers.formatDecimal(auraMedium.minDistance / 1000, 1, 1) + ' - ' + #numbers.formatDecimal(auraMedium.maxDistance / 1000, 1, 1)} + ' km'"></td>
-                        </tr>
-                        <tr class="toggle" th:classappend="${'medium' + auraMediumStat.index + ' hide'}">
-                            <td th:text="'- ' + ${'Explosions'}"></td>
-                            <td th:text="${#numbers.formatInteger(auraMedium.innerBubbleCount + auraMedium.outerBubbleCount, 1, 'COMMA')}"></td>
-                        </tr>
-                        <tr class="toggle" th:classappend="${'medium' + auraMediumStat.index + ' hide'}">
-                            <td th:text="'- ' + ${'Damage'}"></td>
-                            <td th:text="${#numbers.formatInteger(auraMedium.bubbleDamage * 7, 1, 'COMMA')}"></td>
                         </tr>
                         <tr class="toggle" th:classappend="${'medium' + auraMediumStat.index + ' hide'}">
                             <td><u th:text="${'Aura'}"></u></td>
@@ -691,18 +689,6 @@
                         </tr>
                     </th:block>
                     <th:block th:if="${airDefense != null}">
-                        <tr class="subsystem switch" data-type="enforce">
-                            <td><u th:text="${global.get('IDS_SHIP_PARAM_AA_SECTOR_STRENGTH')}"></u></td>
-                            <td th:text="${#numbers.formatDecimal(airDefense.prioritySectorStrength * 100 - 100, 1, 1)} + ' %'"></td>
-                        </tr>
-                        <tr class="toggle enforce hide">
-                            <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_AA_SECTOR_ENABLE_DELAY')}"></td>
-                            <td th:text="${#numbers.formatDecimal(airDefense.prioritySectorEnableDelay, 1, 1)} + ' s'"></td>
-                        </tr>
-                        <tr class="toggle enforce hide">
-                            <td th:text="'- ' + ${global.get('IDS_SHIP_PARAM_AA_SECTOR_CHANGE_DELAY')}"></td>
-                            <td th:text="${#numbers.formatDecimal(airDefense.prioritySectorChangeDelay, 1, 1)} + ' s'"></td>
-                        </tr>
                         <tr class="subsystem switch" data-type="aaSector">
                             <td colspan="2"><u>Sector</u></td>
                         </tr>
