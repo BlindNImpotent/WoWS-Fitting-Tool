@@ -126,19 +126,19 @@ public class CommonModifier
     private float atbaIdealRadiusLo = 1f;
     private float fightersAmmunitionCoefficient = 1f;
     private float fightersEfficiencyCoefficient = 1f;
-    private float probabilityBonus = 1f;
+    private float probabilityBonus;
     private float probabilityCoefficient = 1f;
     private float switchAmmoReloadCoef = 1f;
 
-    private float chanceToSetOnFireBonus = 1f;
-    private float chanceToSetOnFireBonusBig = 1f;
-    private float chanceToSetOnFireBonusSmall = 1f;
+    private float chanceToSetOnFireBonus;
+    private float chanceToSetOnFireBonusBig;
+    private float chanceToSetOnFireBonusSmall;
     private float thresholdPenetrationCoefficient = 1f;
     private float thresholdPenetrationCoefficientBig = 1f;
     private float thresholdPenetrationCoefficientSmall = 1f;
 
-    private float hpStep;
-    private float timeStep = 1f;
+    private float hpStep = 1f;
+    private float timeStep;
     private float critRudderTimeCoefficient = 1f;
     private float bigGunBonus;
     private float smallGunBonus;
@@ -173,8 +173,8 @@ public class CommonModifier
     private float planeSpawnTimeCoefficient = 1f;
     private float prioritySectorStrengthCoefficient = 1f;
     private float sectorSwitchDelayCoefficient = 1f;
-    private float bombProbabilityBonus = 1f;
-    private float rocketProbabilityBonus = 1f;
+    private float bombProbabilityBonus;
+    private float rocketProbabilityBonus;
     private float flightSpeedCoefficient = 1f;
     private float forsageDurationCoefficient = 1f;
     private float squadronHealthStep;
