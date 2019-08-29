@@ -28,9 +28,27 @@ public class AirDefense
     private float prioritySectorStrength;
     private List<List<Float>> sectors;
     private List<List<Object>> prioritySectorPhases;
+    private float prioritySectorPreparation;
+    private float prioritySectorDuration;
+    private float prioritySectorDamageInitial;
+    private float prioritySectorCoefficientInitial;
+    private float prioritySectorCoefficientDuring;
 
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();
+
+    public void setPrioritySectorPhases(List<List<Object>> prioritySectorPhases)
+    {
+        this.prioritySectorPhases = prioritySectorPhases;
+
+        if (prioritySectorPhases != null && prioritySectorPhases.size() == 2) {
+            prioritySectorPreparation = Float.parseFloat(String.valueOf(prioritySectorPhases.get(0).get(0)));
+            prioritySectorDuration = Float.parseFloat(String.valueOf(prioritySectorPhases.get(1).get(0)));
+            prioritySectorDamageInitial = Float.parseFloat(String.valueOf(prioritySectorPhases.get(0).get(2)));
+            prioritySectorCoefficientInitial = Float.parseFloat(String.valueOf(prioritySectorPhases.get(0).get(3)));
+            prioritySectorCoefficientDuring = Float.parseFloat(String.valueOf(prioritySectorPhases.get(0).get(4)));
+        }
+    }
 
     @JsonAnySetter
     public void setAura(String name, Object value)

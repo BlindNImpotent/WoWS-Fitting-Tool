@@ -12,7 +12,7 @@ function drawAirDefense(currentIndex, auraFar, auraMedium, auraNear)
         ctx.scale(1, 1);
         ctx.beginPath();
         ctx.globalAlpha = 0.5;
-        ctx.arc(mid, mid * 1.2, size, 0, 2 * Math.PI, false);
+        ctx.arc(mid, mid * 1.1, size, 0, 2 * Math.PI, false);
         ctx.closePath();
         ctx.fillStyle = '#64C8FF';
         ctx.fill();
@@ -50,16 +50,16 @@ function drawAirDefense(currentIndex, auraFar, auraMedium, auraNear)
                         var angle2 = angle1 + angles[k][1] + (-k * 180) + 90;
 
                         ctx.beginPath();
-                        ctx.moveTo(mid, mid * 1.2);
+                        ctx.moveTo(mid, mid * 1.1);
                         ctx.globalAlpha = 1;
-                        ctx.arc(mid, mid * 1.2, size * (aa[i][j].maxDistance / furthest), (angle1 / 180 * Math.PI), (angle2 / 180 * Math.PI));
+                        ctx.arc(mid, mid * 1.1, size * (aa[i][j].maxDistance / furthest), (angle1 / 180 * Math.PI), (angle2 / 180 * Math.PI));
                         // ctx.closePath();
                         ctx.stroke();
 
                         ctx.beginPath();
-                        ctx.moveTo(mid, mid * 1.2);
+                        ctx.moveTo(mid, mid * 1.1);
                         ctx.globalAlpha = 1;
-                        ctx.arc(mid, mid * 1.2, size * (aa[i][j].minDistance / furthest), (angle1 / 180 * Math.PI), (angle2 / 180 * Math.PI));
+                        ctx.arc(mid, mid * 1.1, size * (aa[i][j].minDistance / furthest), (angle1 / 180 * Math.PI), (angle2 / 180 * Math.PI));
                         // ctx.closePath();
                         ctx.stroke();
                     }

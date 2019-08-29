@@ -40,4 +40,5 @@ public class Aura
     private float timeUniversalsOff;
     private float timeUniversalsOn;
     private String type;
+    private float bubbleDamageModifier = 7.0f;
 }

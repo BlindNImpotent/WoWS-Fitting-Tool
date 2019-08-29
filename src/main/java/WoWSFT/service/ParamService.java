@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static WoWSFT.model.Constant.*;
 
@@ -51,7 +52,8 @@ public class ParamService
             }
         });
 
-        ship.setAuraFar(sortAura(auraFar));
+        ship.setAuraFar(sortAura(auraFar.stream().filter(a -> a.getAreaDamage() > 0).collect(Collectors.toList())));
+        ship.setAuraFarBubble(sortAura(auraFar.stream().filter(a -> a.getBubbleDamage() > 0).collect(Collectors.toList())));
         ship.setAuraMedium(sortAura(auraMedium));
         ship.setAuraNear(sortAura(auraNear));
     }
@@ -193,6 +195,10 @@ public class ParamService
                 val.setPrioritySectorStrength(val.getPrioritySectorStrength() * modifier.getPrioritySectorStrengthCoefficient());
                 val.setPrioritySectorChangeDelay(val.getPrioritySectorChangeDelay() * modifier.getSectorSwitchDelayCoefficient());
                 val.setPrioritySectorEnableDelay(val.getPrioritySectorEnableDelay() * modifier.getSectorSwitchDelayCoefficient());
+                
+                val.setPrioritySectorPreparation(val.getPrioritySectorPreparation() * modifier.getPrioSectorCooldownCoefficient());
+                val.setPrioritySectorDuration(val.getPrioritySectorDuration() * modifier.getPrioSectorCooldownCoefficient());
+                val.setPrioritySectorDamageInitial(val.getPrioritySectorDamageInitial() * modifier.getPrioSectorStartPhaseStrengthCoefficient());
             }
         });
 
@@ -228,6 +234,7 @@ public class ParamService
         });
 
         ship.getAuraFar().forEach(aura -> setAura(aura, modifier));
+        ship.getAuraFarBubble().forEach(aura -> setAura(aura, modifier));
         ship.getAuraMedium().forEach(aura -> setAura(aura, modifier));
         ship.getAuraNear().forEach(aura -> setAura(aura, modifier));
 
