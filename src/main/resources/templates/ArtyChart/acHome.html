@@ -164,8 +164,8 @@
                         }
 
                         if (index === 0) {
-                            list1.push([dist, apshell.penetration[dist], apshell.impact[dist]]);
-                            list2.push([dist, apshell.penetration[dist], apshell.flightTime[dist]]);
+                            list1.push([dist, apshell.penetration[dist], apshell.flightTime[dist]]);
+                            list2.push([dist, apshell.penetration[dist], apshell.impact[dist]]);
                         } else {
                             var curIndex = index * 2;
                             var tempList1 = [dist];
@@ -175,15 +175,15 @@
                                 tempList2.push(null);
                             }
                             tempList1.push(apshell.penetration[dist]);
-                            tempList1.push(apshell.impact[dist]);
+                            tempList1.push(apshell.flightTime[dist]);
                             tempList2.push(apshell.penetration[dist]);
-                            tempList2.push(apshell.flightTime[dist]);
+                            tempList2.push(apshell.impact[dist]);
                             list1.push(tempList1);
                             list2.push(tempList2);
                         }
                     }
-                    drawMaterialChart(data1, materialChart1, chartDiv1, selectedShip + ' ' + artyName, list1, 'Penetration (mm)', 'Impact Angle (deg)');
-                    drawMaterialChart(data2, materialChart2, chartDiv2, selectedShip + ' ' + artyName, list2, 'Penetration (mm)', 'Flight Time (s)');
+                    drawMaterialChart(data1, materialChart1, chartDiv1, selectedShip + ' ' + artyName, list1, 'Penetration (mm)', 'Flight Time (s)');
+                    drawMaterialChart(data2, materialChart2, chartDiv2, selectedShip + ' ' + artyName, list2, 'Penetration (mm)', 'Impact Angle (deg)');
                     index++;
 
                     window.setTimeout(function() {
