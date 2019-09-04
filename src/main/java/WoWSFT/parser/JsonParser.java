@@ -149,7 +149,7 @@ public class JsonParser
 
             if (typeInfo.getType().equalsIgnoreCase("Ship") && !excludeShipNations.contains(typeInfo.getNation()) && !excludeShipSpecies.contains(typeInfo.getSpecies())) {
                 Ship ship = mapper.convertValue(value, Ship.class);
-                if (!excludeShipGroups.contains(ship.getGroup()) && StringUtils.isEmpty(ship.getDefaultCrew())
+                if (!excludeShipGroups.contains(ship.getGroup()) && (StringUtils.isEmpty(ship.getDefaultCrew()) || ship.getDefaultCrew().contains("PWW"))
 //                    && !supertestShipGroups.contains(ship.getGroup())
                 ) {
                     ship.getShipUpgradeInfo().getComponents().forEach((cType, c) ->
