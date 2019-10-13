@@ -177,7 +177,7 @@ public class CommonModifier
     private float rocketProbabilityBonus;
     private float flightSpeedCoefficient = 1f;
     private float forsageDurationCoefficient = 1f;
-    private float squadronHealthStep;
+    private float squadronHealthStep = 1f;
     private float squadronSpeedStep = 1f;
     private float nearAuraDamageTakenCoefficient = 1f;
     private float planeHealthPerLevel;
