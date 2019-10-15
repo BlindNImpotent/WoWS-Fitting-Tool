@@ -52,7 +52,7 @@ public class CustomMJ2HMC extends MappingJackson2HttpMessageConverter implements
     {
         if (o instanceof CustomMessage) {
             return o;
-        } else if (o instanceof LinkedHashMap && ((LinkedHashMap) o).containsKey("message")) {
+        } else if ((o instanceof LinkedHashMap && ((LinkedHashMap) o).containsKey("message")) || o instanceof Throwable) {
             return new CustomMessage("500", Constant.GENERAL_INTERNAL_ERROR);
         }
         LinkedHashMap<String, Object> lhm = new LinkedHashMap<>();
