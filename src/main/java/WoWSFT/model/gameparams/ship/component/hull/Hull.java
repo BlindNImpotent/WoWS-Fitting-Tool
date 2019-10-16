@@ -92,9 +92,9 @@ public class Hull
     public void setBurnNodes(List<List<Object>> burnNodes)
     {
         this.burnNodes = burnNodes;
-        this.burnProb = new BigDecimal((double) burnNodes.get(0).get(1)).floatValue();
-        this.burnDamage = new BigDecimal((double) burnNodes.get(0).get(2)).floatValue();
-        this.burnTime = new BigDecimal((double) burnNodes.get(0).get(3)).floatValue();
+        this.burnProb = new BigDecimal((double) burnNodes.get(0).get(0)).floatValue();
+        this.burnDamage = new BigDecimal((double) burnNodes.get(0).get(1)).floatValue();
+        this.burnTime = new BigDecimal((double) burnNodes.get(0).get(2)).floatValue();
         this.burnSize = burnNodes.size();
     }
 }
