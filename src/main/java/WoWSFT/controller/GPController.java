@@ -32,60 +32,55 @@ import static WoWSFT.model.Constant.*;
 @Controller
 public class GPController extends ExceptionController
 {
-    @Autowired
-    @Qualifier (value = "loadFinish")
-    private HashMap<String, Integer> loadFinish;
-
-    @Autowired
-    @Qualifier (value = "gameParamsHM")
-    private HashMap<String, Object> gameParamsHM;
-
-    @Autowired
-    @Qualifier (value = "notification")
-    private LinkedHashMap<String, LinkedHashMap<String, String>> notification;
-
-    @Autowired
-    @Qualifier (value = "translation")
-    private LinkedHashMap<String, LinkedHashMap<String, String>> translation;
-
-    @Autowired
-    @Qualifier (value = "global")
-    private HashMap<String, HashMap<String, Object>> global;
-
-    @Autowired
-    @Qualifier (value = TYPE_SHIP)
-    private LinkedHashMap<String, Ship> ships;
-
-    @Autowired
-    @Qualifier (value =  TYPE_CONSUMABLE)
-    private LinkedHashMap<String, Consumable> consumables;
-
-    @Autowired
-    @Qualifier (value = TYPE_SHIP_LIST)
-    private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList;
-
-    @Autowired
-    @Qualifier (value = TYPE_UPGRADE)
-    private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades;
-
-    @Autowired
-    @Qualifier (value = TYPE_COMMANDER)
-    private LinkedHashMap<String, Commander> commanders;
-
-    @Autowired
-    @Qualifier (value = TYPE_FLAG)
-    private LinkedHashMap<String, Flag> flags;
-
-    @Autowired
-    private GPService gpService;
-
-    @Autowired
-    private ParamService paramService;
-
-    @Autowired
-    private ParserService parserService;
+    private final HashMap<String, Integer> loadFinish;
+    private final LinkedHashMap<String, LinkedHashMap<String, String>> notification;
+    private final LinkedHashMap<String, LinkedHashMap<String, String>> translation;
+    private final HashMap<String, HashMap<String, Object>> global;
+    private final LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList;
+    private final LinkedHashMap<String, Commander> commanders;
+//    private final HashMap<String, Object> gameParamsHM;
+//    private final LinkedHashMap<String, Ship> ships;
+//    private final LinkedHashMap<String, Consumable> consumables;
+//    private final LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades;
+//    private final LinkedHashMap<String, Flag> flags;
+    private final ParamService paramService;
+    private final ParserService parserService;
+    private final GPService gpService;
 
     private ObjectMapper mapper = new ObjectMapper();
+
+    public GPController(
+            @Qualifier(value = "loadFinish") HashMap<String, Integer> loadFinish,
+            @Qualifier(value = "notification") LinkedHashMap<String, LinkedHashMap<String, String>> notification,
+            @Qualifier(value = "translation") LinkedHashMap<String, LinkedHashMap<String, String>> translation,
+            @Qualifier(value = "global") HashMap<String, HashMap<String, Object>> global,
+            @Qualifier(value = TYPE_SHIP_LIST) LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList,
+            @Qualifier(value = TYPE_COMMANDER) LinkedHashMap<String, Commander> commanders,
+//            @Qualifier(value = "gameParamsHM") HashMap<String, Object> gameParamsHM,
+//            @Qualifier(value = TYPE_SHIP) LinkedHashMap<String, Ship> ships,
+//            @Qualifier(value = TYPE_CONSUMABLE) LinkedHashMap<String, Consumable> consumables,
+//            @Qualifier(value = TYPE_UPGRADE) LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades,
+//            @Qualifier(value = TYPE_FLAG) LinkedHashMap<String, Flag> flags,
+            GPService gpService,
+            ParamService paramService,
+            ParserService parserService
+    )
+    {
+        this.loadFinish = loadFinish;
+        this.notification = notification;
+        this.translation = translation;
+        this.global = global;
+        this.shipsList = shipsList;
+        this.commanders = commanders;
+//        this.upgrades = upgrades;
+//        this.gameParamsHM = gameParamsHM;
+//        this.ships = ships;
+//        this.consumables = consumables;
+//        this.flags = flags;
+        this.gpService = gpService;
+        this.paramService = paramService;
+        this.parserService = parserService;
+    }
 
     @ModelAttribute(name = "language")
     public void setLanguage(Model model, HttpServletRequest request, HttpServletResponse response)
@@ -105,30 +100,30 @@ public class GPController extends ExceptionController
         }
     }
 
-    @ResponseBody
-    @GetMapping(value = "/data")
-    public Object tester(@RequestParam(required = false, defaultValue = "") String type,
-                         @RequestParam(required = false, defaultValue = "") String index,
-                         @RequestParam(required = false, defaultValue = "") String lang) throws Exception
-    {
-        if (type.equalsIgnoreCase(TYPE_SHIP)) {
-            if (StringUtils.isNotEmpty(lang)) {
-                return gpService.getShip(index);
-            }
-            return ships.get(index);
-        } else if (type.equalsIgnoreCase(TYPE_UPGRADE)) {
-            return upgrades;
-        } else if (type.equalsIgnoreCase(TYPE_CONSUMABLE)) {
-            return consumables;
-        } else if (type.equalsIgnoreCase(TYPE_COMMANDER)) {
-            return commanders;
-        } else if (type.equalsIgnoreCase(TYPE_SHIP_LIST)) {
-            return shipsList;
-        } else if (type.equalsIgnoreCase(TYPE_FLAG)) {
-            return flags;
-        }
-        return gameParamsHM.get(index);
-    }
+//    @ResponseBody
+//    @GetMapping(value = "/data")
+//    public Object tester(@RequestParam(required = false, defaultValue = "") String type,
+//                         @RequestParam(required = false, defaultValue = "") String index,
+//                         @RequestParam(required = false, defaultValue = "") String lang) throws Exception
+//    {
+//        if (type.equalsIgnoreCase(TYPE_SHIP)) {
+//            if (StringUtils.isNotEmpty(lang)) {
+//                return gpService.getShip(index);
+//            }
+//            return ships.get(index);
+//        } else if (type.equalsIgnoreCase(TYPE_UPGRADE)) {
+//            return upgrades;
+//        } else if (type.equalsIgnoreCase(TYPE_CONSUMABLE)) {
+//            return consumables;
+//        } else if (type.equalsIgnoreCase(TYPE_COMMANDER)) {
+//            return commanders;
+//        } else if (type.equalsIgnoreCase(TYPE_SHIP_LIST)) {
+//            return shipsList;
+//        } else if (type.equalsIgnoreCase(TYPE_FLAG)) {
+//            return flags;
+//        }
+//        return gameParamsHM.get(index);
+//    }
 
     @GetMapping(value = "")
     public String getHome(Model model, @RequestParam(required = false, defaultValue = "en") String lang)
@@ -185,21 +180,21 @@ public class GPController extends ExceptionController
         return "FittingTool/ftHome";
     }
 
-    @ResponseBody
-    @PostMapping(value = "/shipData")
-    public Ship getWarshipData(@RequestParam(required = false, defaultValue = "en") String lang,
-                               @RequestParam(required = false, defaultValue = "") String index,
-                               @RequestParam(required = false, defaultValue = "") String modules,
-                               @RequestParam(required = false, defaultValue = "") String upgrades,
-                               @RequestParam(required = false, defaultValue = "") String consumables,
-                               @RequestParam(required = false, defaultValue = "PCW001") String commander,
-                               @RequestParam(required = false, defaultValue = "0") long skills) throws Exception
-    {
-        if (StringUtils.isNotEmpty(index)) {
-            return getShip(index.toUpperCase(), modules, upgrades, consumables, skills, commander.toUpperCase(), 100, true);
-        }
-        throw new NullPointerException();
-    }
+//    @ResponseBody
+//    @PostMapping(value = "/shipData")
+//    public Ship getWarshipData(@RequestParam(required = false, defaultValue = "en") String lang,
+//                               @RequestParam(required = false, defaultValue = "") String index,
+//                               @RequestParam(required = false, defaultValue = "") String modules,
+//                               @RequestParam(required = false, defaultValue = "") String upgrades,
+//                               @RequestParam(required = false, defaultValue = "") String consumables,
+//                               @RequestParam(required = false, defaultValue = "PCW001") String commander,
+//                               @RequestParam(required = false, defaultValue = "0") long skills) throws Exception
+//    {
+//        if (StringUtils.isNotEmpty(index)) {
+//            return getShip(index.toUpperCase(), modules, upgrades, consumables, skills, commander.toUpperCase(), 100, true);
+//        }
+//        throw new NullPointerException();
+//    }
 
     @GetMapping(value = "/WarshipStats")
     public String legacyUrl(HttpServletRequest request, HttpServletResponse response) throws Exception
