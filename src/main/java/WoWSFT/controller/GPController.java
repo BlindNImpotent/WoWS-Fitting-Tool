@@ -131,7 +131,7 @@ public class GPController extends ExceptionController
         if (loadFinish.get("loadFinish") == 0) {
             return "loadPage";
         }
-
+        lang = globalLanguage.contains(lang) ? lang : "en";
         model.addAttribute("notification", notification.get(lang.toLowerCase()));
         model.addAttribute("trans", translation.get(lang.toLowerCase()));
 
@@ -152,7 +152,7 @@ public class GPController extends ExceptionController
         model.addAttribute("single", true);
         model.addAttribute("IDS", IDS);
 
-//        lang = globalLanguage.contains(lang) ? lang : "en";
+        lang = globalLanguage.contains(lang) ? lang : "en";
 //        if (!"en".equalsIgnoreCase(lang.toLowerCase())) {
 //            model.addAttribute("english", global.get("en"));
 //        }
@@ -229,10 +229,11 @@ public class GPController extends ExceptionController
                                @RequestParam(required = false, defaultValue = "en") String lang)
     {
         model.addAttribute("IDS", IDS);
-        model.addAttribute("global", global.get(lang.toLowerCase()));
+        lang = globalLanguage.contains(lang) ? lang : "en";
 //        if (!"en".equalsIgnoreCase(lang.toLowerCase())) {
 //            model.addAttribute("english", global.get("en"));
 //        }
+        model.addAttribute("global", global.get(lang.toLowerCase()));
         model.addAttribute("trans", translation.get(lang.toLowerCase()));
         model.addAttribute("nations", shipsList);
 
@@ -250,10 +251,11 @@ public class GPController extends ExceptionController
     public String getResearch(Model model,
                               @RequestParam(required = false, defaultValue = "en") String lang)
     {
-        model.addAttribute("global", global.get(lang.toLowerCase()));
+        lang = globalLanguage.contains(lang) ? lang : "en";
 //        if (!"en".equalsIgnoreCase(lang.toLowerCase())) {
 //            model.addAttribute("english", global.get("en"));
 //        }
+        model.addAttribute("global", global.get(lang.toLowerCase()));
         model.addAttribute("trans", translation.get(lang.toLowerCase().toLowerCase()));
         model.addAttribute("IDS", IDS);
         model.addAttribute("nations", shipsList);
