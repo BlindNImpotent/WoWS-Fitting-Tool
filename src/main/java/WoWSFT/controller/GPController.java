@@ -82,12 +82,12 @@ public class GPController extends ExceptionController
         this.parserService = parserService;
     }
 
-//    @ModelAttribute(name = "language")
-//    public void setLanguage(Model model, HttpServletRequest request, HttpServletResponse response)
-//    {
+    @ModelAttribute(name = "language")
+    public void setLanguage(Model model, HttpServletRequest request, HttpServletResponse response)
+    {
 //        String[] lang = request.getParameterMap().get("lang");
 //        if (lang == null || lang.length == 0) {
-//            model.addAttribute("lang", "en");
+            model.addAttribute("lang", "en");
 //        } else {
 //            String l = "en";
 //            for (String s : lang) {
@@ -98,7 +98,7 @@ public class GPController extends ExceptionController
 //            }
 //            model.addAttribute("lang", l);
 //        }
-//    }
+    }
 
 //    @ResponseBody
 //    @GetMapping(value = "/data")
@@ -152,10 +152,10 @@ public class GPController extends ExceptionController
         model.addAttribute("single", true);
         model.addAttribute("IDS", IDS);
 
-        lang = globalLanguage.contains(lang) ? lang : "en";
-        if (!"en".equalsIgnoreCase(lang.toLowerCase())) {
-            model.addAttribute("english", global.get("en"));
-        }
+//        lang = globalLanguage.contains(lang) ? lang : "en";
+//        if (!"en".equalsIgnoreCase(lang.toLowerCase())) {
+//            model.addAttribute("english", global.get("en"));
+//        }
         model.addAttribute("global", global.get(lang.toLowerCase()));
         model.addAttribute("trans", translation.get(lang.toLowerCase()));
 
@@ -230,9 +230,9 @@ public class GPController extends ExceptionController
     {
         model.addAttribute("IDS", IDS);
         model.addAttribute("global", global.get(lang.toLowerCase()));
-        if (!"en".equalsIgnoreCase(lang.toLowerCase())) {
-            model.addAttribute("english", global.get("en"));
-        }
+//        if (!"en".equalsIgnoreCase(lang.toLowerCase())) {
+//            model.addAttribute("english", global.get("en"));
+//        }
         model.addAttribute("trans", translation.get(lang.toLowerCase()));
         model.addAttribute("nations", shipsList);
 
@@ -251,9 +251,9 @@ public class GPController extends ExceptionController
                               @RequestParam(required = false, defaultValue = "en") String lang)
     {
         model.addAttribute("global", global.get(lang.toLowerCase()));
-        if (!"en".equalsIgnoreCase(lang.toLowerCase())) {
-            model.addAttribute("english", global.get("en"));
-        }
+//        if (!"en".equalsIgnoreCase(lang.toLowerCase())) {
+//            model.addAttribute("english", global.get("en"));
+//        }
         model.addAttribute("trans", translation.get(lang.toLowerCase().toLowerCase()));
         model.addAttribute("IDS", IDS);
         model.addAttribute("nations", shipsList);
