@@ -80,7 +80,8 @@
                         </tr>
                         <tr class="toggle" th:classappend="${ammo.index} + ' hide'">
                             <td th:text="${global.get('IDS_RIBBON_SUBRIBBON_MAIN_CALIBER_RICOCHET')}"></td>
-                            <td th:text="${#numbers.formatDecimal(ammo.bulletAlwaysRicochetAt, 1, 1) + ' + ' + #numbers.formatDecimal(ammo.bulletCapNormalizeMaxAngle, 1, 1)} + ' °'"></td>
+                            <td th:text="${#numbers.formatInteger(ammo.bulletRicochetAt, 1, 'COMMA') + ' ~ ' + #numbers.formatInteger(ammo.bulletAlwaysRicochetAt, 1, 'COMMA')
+                                + (ammo.ammoType == 'AP' ? ' + ' + #numbers.formatInteger(ammo.bulletCapNormalizeMaxAngle, 1, 'COMMA') : '')} + ' °'"></td>
                         </tr>
                         <th:block th:if="${ammo.ammoType == 'CS'}">
                             <tr class="toggle" th:classappend="${ammo.index} + ' hide'">

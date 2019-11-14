@@ -82,23 +82,23 @@ public class GPController extends ExceptionController
         this.parserService = parserService;
     }
 
-    @ModelAttribute(name = "language")
-    public void setLanguage(Model model, HttpServletRequest request, HttpServletResponse response)
-    {
-        String[] lang = request.getParameterMap().get("lang");
-        if (lang == null || lang.length == 0) {
-            model.addAttribute("lang", "en");
-        } else {
-            String l = "en";
-            for (String s : lang) {
-                if (globalLanguage.contains(s.toLowerCase())) {
-                    l = s;
-                    break;
-                }
-            }
-            model.addAttribute("lang", l);
-        }
-    }
+//    @ModelAttribute(name = "language")
+//    public void setLanguage(Model model, HttpServletRequest request, HttpServletResponse response)
+//    {
+//        String[] lang = request.getParameterMap().get("lang");
+//        if (lang == null || lang.length == 0) {
+//            model.addAttribute("lang", "en");
+//        } else {
+//            String l = "en";
+//            for (String s : lang) {
+//                if (globalLanguage.contains(s.toLowerCase())) {
+//                    l = s;
+//                    break;
+//                }
+//            }
+//            model.addAttribute("lang", l);
+//        }
+//    }
 
 //    @ResponseBody
 //    @GetMapping(value = "/data")

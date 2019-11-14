@@ -48,7 +48,7 @@ public class Constant
     public static final List<String> componentsList = new ArrayList<>(Arrays.asList(flightControl, artillery, hull, torpedoes, suo, fighter, torpedoBomber, diveBomber, engine));
     public static final List<String> compStatsList = new ArrayList<>(Arrays.asList(flightControl, airArmament, airDefense, artillery, atba, hull, suo, torpedoes, fighter, torpedoBomber, diveBomber, engine));
 
-    public static final HashSet<String> globalLanguage = new HashSet<>(Arrays.asList("en", "ko"));
+    public static final HashSet<String> globalLanguage = new HashSet<>(Arrays.asList("en"));
 
     public static final HashSet<String> excludeShipGroups = new HashSet<>(Arrays.asList("unavailable", "disabled", "preserved", "clan"));
     public static final HashSet<String> supertestShipGroups = new HashSet<>(Arrays.asList("demoWithoutStats"));

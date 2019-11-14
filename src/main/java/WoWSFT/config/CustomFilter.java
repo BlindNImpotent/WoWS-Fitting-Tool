@@ -86,27 +86,27 @@ public class CustomFilter implements Filter
             return;
         }
 
-        if (request.getServerName().startsWith("kr.")) {
-            String tempQS = "";
-            int count = 0;
-            for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-                if (entry.getValue() != null && entry.getValue().length > 0 && !entry.getKey().toLowerCase().equalsIgnoreCase("lang")) {
-                    if (count != 0) {
-                        tempQS = tempQS.concat("&");
-
-                    }
-                    tempQS = tempQS.concat(entry.getKey()).concat("=").concat(entry.getValue()[0]);
-                    count++;
-                }
-            }
-            tempQS = tempQS.concat(count > 0 ? "&" : "").concat("lang=ko");
-
-            response.setContentType("text/html");
-            response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-            response.setHeader("Location", url.replace("kr.", "") + "?" + tempQS);
-            chain.doFilter(request, response);
-            return;
-        }
+//        if (request.getServerName().startsWith("kr.")) {
+//            String tempQS = "";
+//            int count = 0;
+//            for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
+//                if (entry.getValue() != null && entry.getValue().length > 0 && !entry.getKey().toLowerCase().equalsIgnoreCase("lang")) {
+//                    if (count != 0) {
+//                        tempQS = tempQS.concat("&");
+//
+//                    }
+//                    tempQS = tempQS.concat(entry.getKey()).concat("=").concat(entry.getValue()[0]);
+//                    count++;
+//                }
+//            }
+//            tempQS = tempQS.concat(count > 0 ? "&" : "").concat("lang=ko");
+//
+//            response.setContentType("text/html");
+//            response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+//            response.setHeader("Location", url.replace("kr.", "") + "?" + tempQS);
+//            chain.doFilter(request, response);
+//            return;
+//        }
 
 //        if (StringUtils.isNotEmpty(queryString) && request.getQueryString().contains("/images/Icon/WoWSFT_Icon.png")) {
 //            response.sendRedirect(request.getRequestURI() + "?" + queryString.replace("/images/Icon/WoWSFT_Icon.png", ""));
