@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 public class CustomScheduler
 {
 
-    @CacheEvict(allEntries = true, cacheNames = {"ship"})
-    @Scheduled(cron = "0 0 * * * *")
+//    @CacheEvict(allEntries = true, cacheNames = {"ship"})
+//    @Scheduled(cron = "0 0 * * * *")
     public void cacheEvict()
     {
         log.info("Cache Evicted");

@@ -260,8 +260,8 @@ function makeUrl($ship)
         + '&commander=' + commander.toUpperCase()
         + (skills > 0 ? '&skills=' + skills.toString() : '')
         + (ar > 0 ? '&ar=' + ar : '')
-        + (consumables !== '' ? '&consumables=' + consumables : '')
-        + '&lang=' + lang;
+        + (consumables !== '' ? '&consumables=' + consumables : '');
+        // + '&lang=' + lang;
 
     return url;
 }

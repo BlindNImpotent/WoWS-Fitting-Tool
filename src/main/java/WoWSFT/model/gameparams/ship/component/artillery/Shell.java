@@ -16,108 +16,108 @@ import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Shell
 {
-    private float alphaDamage;
-    private float alphaPiercingCS;
-    private float alphaPiercingHE;
-    private float alphaPiercingHEReal;
+    private double alphaDamage;
+    private double alphaPiercingCS;
+    private double alphaPiercingHE;
+    private double alphaPiercingHEReal;
     private String ammoType;
-    private float bulletAirDrag;
-    private float bulletAlwaysRicochetAt;
+    private double bulletAirDrag;
+    private double bulletAlwaysRicochetAt;
     private boolean bulletCap;
-    private float bulletCapNormalizeMaxAngle;
-    private float bulletDetonator;
-    private float bulletDetonatorSpread;
-    private float bulletDetonatorThreshold;
-    private float bulletDiametr;
-    private float bulletKrupp;
-    private float bulletMass;
-    private float bulletPenetrationSpread;
-    private float bulletRicochetAt;
-    private float bulletSpeed;
-    private float bulletUnderwaterDistFactor;
-    private float bulletUnderwaterPenetrationFactor;
-    private float bulletWaterDrag;
-    private float burnProb;
+    private double bulletCapNormalizeMaxAngle;
+    private double bulletDetonator;
+    private double bulletDetonatorSpread;
+    private double bulletDetonatorThreshold;
+    private double bulletDiametr;
+    private double bulletKrupp;
+    private double bulletMass;
+    private double bulletPenetrationSpread;
+    private double bulletRicochetAt;
+    private double bulletSpeed;
+    private double bulletUnderwaterDistFactor;
+    private double bulletUnderwaterPenetrationFactor;
+    private double bulletWaterDrag;
+    private double burnProb;
     private int costCR;
-    private float damage;
-    private float directDamage;
+    private double damage;
+    private double directDamage;
     private long id;
     private String index;
     private String name;
     private TypeInfo typeinfo;
     private boolean uwAbility;
-    private float uwCritical;
-    private float volume;
-    private List<Float> waterRefractionReflectDeltaAngleInterval;
+    private double uwCritical;
+    private double volume;
+    private List<Double> waterRefractionReflectDeltaAngleInterval;
 
 //    @JsonIgnore
-    private LinkedHashMap<String, Float> penetration;
+    private LinkedHashMap<String, Double> penetration;
 //    @JsonIgnore
-    private LinkedHashMap<String, Float> flightTime;
+    private LinkedHashMap<String, Double> flightTime;
 //    @JsonIgnore
-    private LinkedHashMap<String, Float> impact;
+    private LinkedHashMap<String, Double> impact;
     @JsonIgnore
-    private LinkedHashMap<String, Float> launchAngle;
+    private LinkedHashMap<String, Double> launchAngle;
 //    @JsonIgnore
-//    private LinkedHashMap<String, Float> vertPlus;
+//    private LinkedHashMap<String, Double> vertPlus;
 //    @JsonIgnore
-//    private LinkedHashMap<String, Float> vertMinus;
+//    private LinkedHashMap<String, Double> vertMinus;
 //    @JsonIgnore
     private List<String> distanceList;
-    private float minDistV;
-    private float penetrationAtFive;
-    private float penetrationAtTen;
-    private float penetrationAtFifteen;
-    private float penetrationAtTwenty;
-    private float penetrationAtMax;
-    private float flightTimeAtFive;
-    private float flightTimeAtTen;
-    private float flightTimeAtFifteen;
-    private float flightTimeAtTwenty;
-    private float flightTimeAtMax;
-    private float impactAtFive;
-    private float impactAtTen;
-    private float impactAtFifteen;
-    private float impactAtTwenty;
-    private float impactAtMax;
-    private float vertPlusAtFive;
-    private float vertPlusAtTen;
-    private float vertPlusAtFifteen;
-    private float vertPlusAtTwenty;
-    private float vertPlusAtMax;
-    private float vertMinusAtFive;
-    private float vertMinusAtTen;
-    private float vertMinusAtFifteen;
-    private float vertMinusAtTwenty;
-    private float vertMinusAtMax;
+    private double minDistV;
+    private double penetrationAtFive;
+    private double penetrationAtTen;
+    private double penetrationAtFifteen;
+    private double penetrationAtTwenty;
+    private double penetrationAtMax;
+    private double flightTimeAtFive;
+    private double flightTimeAtTen;
+    private double flightTimeAtFifteen;
+    private double flightTimeAtTwenty;
+    private double flightTimeAtMax;
+    private double impactAtFive;
+    private double impactAtTen;
+    private double impactAtFifteen;
+    private double impactAtTwenty;
+    private double impactAtMax;
+    private double vertPlusAtFive;
+    private double vertPlusAtTen;
+    private double vertPlusAtFifteen;
+    private double vertPlusAtTwenty;
+    private double vertPlusAtMax;
+    private double vertMinusAtFive;
+    private double vertMinusAtTen;
+    private double vertMinusAtFifteen;
+    private double vertMinusAtTwenty;
+    private double vertMinusAtMax;
 
     private int penetrationIFHE;
     
     @JsonIgnore
-    private float distFive = 5000f;
+    private double distFive = 5000.0;
     @JsonIgnore
-    private float distTen = 10000f;
+    private double distTen = 10000.0;
     @JsonIgnore
-    private float distFifteen = 15000f;
+    private double distFifteen = 15000.0;
     @JsonIgnore
-    private float distTwenty = 20000f;
+    private double distTwenty = 20000.0;
 
-    public void setAlphaPiercingHE(float alphaPiercingHE)
+    public void setAlphaPiercingHE(double alphaPiercingHE)
     {
         this.alphaPiercingHE = alphaPiercingHE;
-        this.alphaPiercingHEReal = alphaPiercingHE - 1f;
+        this.alphaPiercingHEReal = alphaPiercingHE - 1.0;
     }
 
-//    public void setMaxDist(float maxDist)
+//    public void setMaxDist(double maxDist)
 //    {
 //        String maxOne = "0";
 //        String maxTwo = "";
 //
-//        for (Map.Entry<String, Float> entry : this.flightTime.entrySet()) {
-//            float tempFloat = Float.parseFloat(entry.getKey());
+//        for (Map.Entry<String, Double> entry : this.flightTime.entrySet()) {
+//            double tempFloat = Double.parseDouble(entry.getKey());
 //
 //            if (tempFloat < maxDist) {
-//                if (Float.parseFloat(maxOne) < tempFloat) {
+//                if (Double.parseDouble(maxOne) < tempFloat) {
 //                    maxOne = entry.getKey();
 //                }
 //            } else if (tempFloat >= maxDist) {
@@ -129,19 +129,19 @@ public class Shell
 //
 //        if (StringUtils.isNotEmpty(maxOne) && StringUtils.isNotEmpty(maxTwo)) {
 //            if (penetration != null) {
-//                penetrationAtMax = setMiddleAtDistance(Float.parseFloat(maxOne), penetration.get(maxOne), Float.parseFloat(maxTwo), penetration.get(maxTwo), maxDist);
-//                impactAtMax = setMiddleAtDistance(Float.parseFloat(maxOne), impact.get(maxOne), Float.parseFloat(maxTwo), impact.get(maxTwo), maxDist);
+//                penetrationAtMax = setMiddleAtDistance(Double.parseDouble(maxOne), penetration.get(maxOne), Double.parseDouble(maxTwo), penetration.get(maxTwo), maxDist);
+//                impactAtMax = setMiddleAtDistance(Double.parseDouble(maxOne), impact.get(maxOne), Double.parseDouble(maxTwo), impact.get(maxTwo), maxDist);
 //
-////                vertMinusAtMax = calcVertDist(maxDist, (getVertDist(maxOne, maxDist, true) + getVertDist(maxTwo, maxDist, true)) / 2f);
-////                vertPlusAtMax = calcVertDist(maxDist, (getVertDist(maxOne, maxDist, false) + getVertDist(maxTwo, maxDist, false)) / 2f);
+////                vertMinusAtMax = calcVertDist(maxDist, (getVertDist(maxOne, maxDist, true) + getVertDist(maxTwo, maxDist, true)) / 2.0);
+////                vertPlusAtMax = calcVertDist(maxDist, (getVertDist(maxOne, maxDist, false) + getVertDist(maxTwo, maxDist, false)) / 2.0);
 //            }
-//            flightTimeAtMax = setMiddleAtDistance(Float.parseFloat(maxOne), flightTime.get(maxOne), Float.parseFloat(maxTwo), flightTime.get(maxTwo), maxDist);
+//            flightTimeAtMax = setMiddleAtDistance(Double.parseDouble(maxOne), flightTime.get(maxOne), Double.parseDouble(maxTwo), flightTime.get(maxTwo), maxDist);
 //        }
 //    }
 
-    public void setShell(LinkedHashMap<String, Float> flightTime,
-                         LinkedHashMap<String, Float> penetration, LinkedHashMap<String, Float> impact, List<String> distanceList, LinkedHashMap<String, Float> launchAngle,
-                         float minDistV, boolean apShell)
+    public void setShell(LinkedHashMap<String, Double> flightTime,
+                         LinkedHashMap<String, Double> penetration, LinkedHashMap<String, Double> impact, List<String> distanceList, LinkedHashMap<String, Double> launchAngle,
+                         double minDistV, boolean apShell)
     {
         this.penetration = penetration;
         this.flightTime = flightTime;
@@ -159,7 +159,7 @@ public class Shell
         String twentyOne = "0";
         String twentyTwo = "";
 
-        LinkedHashMap<String, Float> tempData;
+        LinkedHashMap<String, Double> tempData;
 
         if (apShell) {
             tempData = penetration;
@@ -167,11 +167,11 @@ public class Shell
             tempData = flightTime;
         }
 
-        for (Map.Entry<String, Float> entry : tempData.entrySet()) {
-            float tempFloat = Float.parseFloat(entry.getKey());
+        for (Map.Entry<String, Double> entry : tempData.entrySet()) {
+            double tempFloat = Double.parseDouble(entry.getKey());
 
             if (tempFloat < distFive) {
-                if (Float.parseFloat(fiveOne) < tempFloat) {
+                if (Double.parseDouble(fiveOne) < tempFloat) {
                     fiveOne = entry.getKey();
                 }
             } else if (tempFloat >= distFive && tempFloat < distTen) {
@@ -179,7 +179,7 @@ public class Shell
                     fiveTwo = entry.getKey();
                 }
 
-                if (Float.parseFloat(tenOne) < tempFloat) {
+                if (Double.parseDouble(tenOne) < tempFloat) {
                     tenOne = entry.getKey();
                 }
             } else if (tempFloat >= distTen && tempFloat < distFifteen) {
@@ -187,7 +187,7 @@ public class Shell
                     tenTwo = entry.getKey();
                 }
 
-                if (Float.parseFloat(fifteenOne) < tempFloat) {
+                if (Double.parseDouble(fifteenOne) < tempFloat) {
                     fifteenOne = entry.getKey();
                 }
             } else if (tempFloat >= distFifteen && tempFloat < distTwenty) {
@@ -195,7 +195,7 @@ public class Shell
                     fifteenTwo = entry.getKey();
                 }
 
-                if (Float.parseFloat(twentyOne) < tempFloat) {
+                if (Double.parseDouble(twentyOne) < tempFloat) {
                     twentyOne = entry.getKey();
                 }
             } else if (tempFloat >= distTwenty) {
@@ -207,69 +207,69 @@ public class Shell
 
         if (StringUtils.isNotEmpty(fiveOne) && StringUtils.isNotEmpty(fiveTwo)) {
             if (apShell) {
-                penetrationAtFive = setMiddleAtDistance(Float.parseFloat(fiveOne), penetration.get(fiveOne), Float.parseFloat(fiveTwo), penetration.get(fiveTwo), distFive);
-                impactAtFive = setMiddleAtDistance(Float.parseFloat(fiveOne), impact.get(fiveOne), Float.parseFloat(fiveTwo), impact.get(fiveTwo), distFive);
+                penetrationAtFive = setMiddleAtDistance(Double.parseDouble(fiveOne), penetration.get(fiveOne), Double.parseDouble(fiveTwo), penetration.get(fiveTwo), distFive);
+                impactAtFive = setMiddleAtDistance(Double.parseDouble(fiveOne), impact.get(fiveOne), Double.parseDouble(fiveTwo), impact.get(fiveTwo), distFive);
 
-//                vertMinusAtFive = calcVertDist(distFive, (getVertDist(fiveOne, distFive, true) + getVertDist(fiveTwo, distFive, true)) / 2f);
-//                vertPlusAtFive = calcVertDist(distFive, (getVertDist(fiveOne, distFive, false) + getVertDist(fiveTwo, distFive, false)) / 2f);
+//                vertMinusAtFive = calcVertDist(distFive, (getVertDist(fiveOne, distFive, true) + getVertDist(fiveTwo, distFive, true)) / 2.0);
+//                vertPlusAtFive = calcVertDist(distFive, (getVertDist(fiveOne, distFive, false) + getVertDist(fiveTwo, distFive, false)) / 2.0);
             }
-            flightTimeAtFive = setMiddleAtDistance(Float.parseFloat(fiveOne), flightTime.get(fiveOne), Float.parseFloat(fiveTwo), flightTime.get(fiveTwo), distFive);
+            flightTimeAtFive = setMiddleAtDistance(Double.parseDouble(fiveOne), flightTime.get(fiveOne), Double.parseDouble(fiveTwo), flightTime.get(fiveTwo), distFive);
         }
 
         if (StringUtils.isNotEmpty(tenOne) && StringUtils.isNotEmpty(tenTwo)) {
             if (apShell) {
-                penetrationAtTen = setMiddleAtDistance(Float.parseFloat(tenOne), penetration.get(tenOne), Float.parseFloat(tenTwo), penetration.get(tenTwo), distTen);
-                impactAtTen = setMiddleAtDistance(Float.parseFloat(tenOne), impact.get(tenOne), Float.parseFloat(tenTwo), impact.get(tenTwo), distTen);
+                penetrationAtTen = setMiddleAtDistance(Double.parseDouble(tenOne), penetration.get(tenOne), Double.parseDouble(tenTwo), penetration.get(tenTwo), distTen);
+                impactAtTen = setMiddleAtDistance(Double.parseDouble(tenOne), impact.get(tenOne), Double.parseDouble(tenTwo), impact.get(tenTwo), distTen);
 
-//                vertMinusAtTen = calcVertDist(distTen, (getVertDist(tenOne, distTen, true) + getVertDist(tenTwo, distTen, true)) / 2f);
-//                vertPlusAtTen = calcVertDist(distTen, (getVertDist(tenOne, distTen, false) + getVertDist(tenTwo, distTen, false)) / 2f);
+//                vertMinusAtTen = calcVertDist(distTen, (getVertDist(tenOne, distTen, true) + getVertDist(tenTwo, distTen, true)) / 2.0);
+//                vertPlusAtTen = calcVertDist(distTen, (getVertDist(tenOne, distTen, false) + getVertDist(tenTwo, distTen, false)) / 2.0);
             }
-            flightTimeAtTen = setMiddleAtDistance(Float.parseFloat(tenOne), flightTime.get(tenOne), Float.parseFloat(tenTwo), flightTime.get(tenTwo), distTen);
+            flightTimeAtTen = setMiddleAtDistance(Double.parseDouble(tenOne), flightTime.get(tenOne), Double.parseDouble(tenTwo), flightTime.get(tenTwo), distTen);
         }
 
         if (StringUtils.isNotEmpty(fifteenOne) && StringUtils.isNotEmpty(fifteenTwo)) {
             if (apShell) {
-                penetrationAtFifteen = setMiddleAtDistance(Float.parseFloat(fifteenOne), penetration.get(fifteenOne), Float.parseFloat(fifteenTwo), penetration.get(fifteenTwo), distFifteen);
-                impactAtFifteen = setMiddleAtDistance(Float.parseFloat(fifteenOne), impact.get(fifteenOne), Float.parseFloat(fifteenTwo), impact.get(fifteenTwo), distFifteen);
+                penetrationAtFifteen = setMiddleAtDistance(Double.parseDouble(fifteenOne), penetration.get(fifteenOne), Double.parseDouble(fifteenTwo), penetration.get(fifteenTwo), distFifteen);
+                impactAtFifteen = setMiddleAtDistance(Double.parseDouble(fifteenOne), impact.get(fifteenOne), Double.parseDouble(fifteenTwo), impact.get(fifteenTwo), distFifteen);
 
-//                vertMinusAtFifteen = calcVertDist(distFifteen, (getVertDist(fifteenOne, distFifteen, true) + getVertDist(fifteenTwo, distFifteen, true)) / 2f);
-//                vertPlusAtFifteen = calcVertDist(distFifteen, (getVertDist(fifteenOne, distFifteen, false) + getVertDist(fifteenTwo, distFifteen, false)) / 2f);
+//                vertMinusAtFifteen = calcVertDist(distFifteen, (getVertDist(fifteenOne, distFifteen, true) + getVertDist(fifteenTwo, distFifteen, true)) / 2.0);
+//                vertPlusAtFifteen = calcVertDist(distFifteen, (getVertDist(fifteenOne, distFifteen, false) + getVertDist(fifteenTwo, distFifteen, false)) / 2.0);
             }
-            flightTimeAtFifteen = setMiddleAtDistance(Float.parseFloat(fifteenOne), flightTime.get(fifteenOne), Float.parseFloat(fifteenTwo), flightTime.get(fifteenTwo), distFifteen);
+            flightTimeAtFifteen = setMiddleAtDistance(Double.parseDouble(fifteenOne), flightTime.get(fifteenOne), Double.parseDouble(fifteenTwo), flightTime.get(fifteenTwo), distFifteen);
         }
 
         if (StringUtils.isNotEmpty(twentyOne) && StringUtils.isNotEmpty(twentyTwo)) {
             if (apShell) {
-                penetrationAtTwenty = setMiddleAtDistance(Float.parseFloat(twentyOne), penetration.get(twentyOne), Float.parseFloat(twentyTwo), penetration.get(twentyTwo), distTwenty);
-                impactAtTwenty = setMiddleAtDistance(Float.parseFloat(twentyOne), impact.get(twentyOne), Float.parseFloat(twentyTwo), impact.get(twentyTwo), distTwenty);
+                penetrationAtTwenty = setMiddleAtDistance(Double.parseDouble(twentyOne), penetration.get(twentyOne), Double.parseDouble(twentyTwo), penetration.get(twentyTwo), distTwenty);
+                impactAtTwenty = setMiddleAtDistance(Double.parseDouble(twentyOne), impact.get(twentyOne), Double.parseDouble(twentyTwo), impact.get(twentyTwo), distTwenty);
 
-//                vertMinusAtTwenty = calcVertDist(distTwenty, (getVertDist(twentyOne, distTwenty, true) + getVertDist(twentyTwo, distTwenty, true)) / 2f);
-//                vertPlusAtTwenty = calcVertDist(distTwenty, (getVertDist(twentyOne, distTwenty, false) + getVertDist(twentyTwo, distTwenty, false)) / 2f);
+//                vertMinusAtTwenty = calcVertDist(distTwenty, (getVertDist(twentyOne, distTwenty, true) + getVertDist(twentyTwo, distTwenty, true)) / 2.0);
+//                vertPlusAtTwenty = calcVertDist(distTwenty, (getVertDist(twentyOne, distTwenty, false) + getVertDist(twentyTwo, distTwenty, false)) / 2.0);
             }
-            flightTimeAtTwenty = setMiddleAtDistance(Float.parseFloat(twentyOne), flightTime.get(twentyOne), Float.parseFloat(twentyTwo), flightTime.get(twentyTwo), distTwenty);
+            flightTimeAtTwenty = setMiddleAtDistance(Double.parseDouble(twentyOne), flightTime.get(twentyOne), Double.parseDouble(twentyTwo), flightTime.get(twentyTwo), distTwenty);
         }
     }
     
-    private float calcVertDist(float dist, float vert)
+    private double calcVertDist(double dist, double vert)
     {
         return dist + (vert - dist);
     }
     
-    private float getVertDist(String dist, float mid, boolean low)
+    private double getVertDist(String dist, double mid, boolean low)
     {
-        float minDistVOffset = minDistV / 2f;
-        float radAtDist = (float) Math.atan(minDistVOffset / mid);
+        double minDistVOffset = minDistV / 2.0;
+        double radAtDist = Math.atan(minDistVOffset / mid);
 
         if (low) {
             radAtDist = -radAtDist;
         }
 
-        float arcRad = launchAngle.get(dist);
+        double arcRad = launchAngle.get(dist);
         String e1 = "";
         String e2 = "";
 
-        for (Map.Entry<String, Float> entry : launchAngle.entrySet()) {
-            float tempFloat = entry.getValue();
+        for (Map.Entry<String, Double> entry : launchAngle.entrySet()) {
+            double tempFloat = entry.getValue();
 
             if (tempFloat < arcRad + radAtDist) {
                 e1 = entry.getKey();
@@ -283,17 +283,17 @@ public class Shell
             return 0;
         }
 
-        return (Float.parseFloat(e1) + Float.parseFloat(e2)) / 2f;
+        return (Double.parseDouble(e1) + Double.parseDouble(e2)) / 2.0;
     }
 
-    private float setMiddleAtDistance(Float x1, Float y1, Float x2, Float y2, Float mid)
+    private double setMiddleAtDistance(Double x1, Double y1, Double x2, Double y2, Double mid)
     {
         if (x1 == null || x2 == null || y1 == null || y2 == null) {
-            return 0f;
+            return 0.0;
         }
 
-        float a = (y2 - y1) / (x2 - x1);
-        float c = y1 - (a * x1);
+        double a = (y2 - y1) / (x2 - x1);
+        double c = y1 - (a * x1);
 
         return a * mid + c;
     }

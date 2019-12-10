@@ -17,6 +17,6 @@ public class FlightControl
     @JsonProperty("isGroundAttackEnabled")
     private boolean groundAttackEnabled;
     private LinkedHashMap<String, Integer> planesReserveAssignment;
-    private float prepareTimeFactor;
+    private double prepareTimeFactor;
     private List<String> squadrons;
 }

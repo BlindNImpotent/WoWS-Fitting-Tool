@@ -10,19 +10,19 @@ import static WoWSFT.model.Constant.*;
 
 public class CommonUtils
 {
-    public static Float getDistCoefWG(Number number)
+    public static Double getDistCoefWG(Number number)
     {
-        return Math.round(number.floatValue() / distCoefWG.floatValue() * 1000f) / 1000f;
+        return Math.round(number.doubleValue() / distCoefWG.doubleValue() * 1000.0) / 1000.0;
     }
 
-    public static float getBonusCoef(Number number)
+    public static double getBonusCoef(Number number)
     {
-        return (Math.round(number.floatValue() * 1000f) - 1000f) / 10f;
+        return (Math.round(number.floatValue() * 1000.0) - 1000.0) / 10.0;
     }
 
-    public static float getBonus(Number number)
+    public static double getBonus(Number number)
     {
-        return Math.round(number.floatValue() * 1000f) / 10f;
+        return Math.round(number.floatValue() * 1000.0) / 10.0;
     }
 
     public static String replaceZero(String number)
@@ -39,7 +39,7 @@ public class CommonUtils
     {
         String content = "{\"content\": \"```java\\n" + message + "\\n```\"}";
 
-        URL url =  new URL("https://discordapp.com/api/webhooks/");
+        URL url = new URL("https://discordapp.com/api/webhooks/");
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.addRequestProperty("Content-Type", "application/json; charset=utf-8");
         connection.addRequestProperty("User-Agent", "WoWSFT Webhook");

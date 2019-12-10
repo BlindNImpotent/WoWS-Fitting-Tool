@@ -6,11 +6,13 @@ import WoWSFT.model.gameparams.TypeInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @WoWSFT
 public class Modernization extends CommonModifier

@@ -24,16 +24,16 @@ public class Artillery
     private List<Turret> turrets = new ArrayList<>();
     private LinkedHashMap<Integer, List<Object>> turretTypes = new LinkedHashMap<>();
 
-    private float artificialOffset;
-    private float maxDist;
-    private float minDistH;
-    private float minDistV;
+    private double artificialOffset;
+    private double maxDist;
+    private double minDistH;
+    private double minDistV;
     private boolean normalDistribution;
-    private float sigmaCount;
-    private float taperDist;
+    private double sigmaCount;
+    private double taperDist;
     @JsonInclude
-    private float GMIdealRadius = 1f;
-    private float barrelDiameter;
+    private double GMIdealRadius = 1.0;
+    private double barrelDiameter;
 
     private LinkedHashMap<String, Shell> shells = new LinkedHashMap<>();
 

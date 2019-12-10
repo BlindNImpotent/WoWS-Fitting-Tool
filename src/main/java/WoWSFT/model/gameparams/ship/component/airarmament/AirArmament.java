@@ -7,10 +7,10 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AirArmament
 {
-    private float auraCoeff;
-    private float deckPlaceCount;
+    private double auraCoeff;
+    private double deckPlaceCount;
     private boolean isIndependentLaunchpad;
-    private float launchPrepareTime;
+    private double launchPrepareTime;
     private String launchpadType;
-    private float planesReserveCapacity;
+    private double planesReserveCapacity;
 }

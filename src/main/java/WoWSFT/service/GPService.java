@@ -1,10 +1,8 @@
 package WoWSFT.service;
 
-import WoWSFT.model.gameparams.commander.Commander;
 import WoWSFT.model.gameparams.consumable.Consumable;
 import WoWSFT.model.gameparams.modernization.Modernization;
 import WoWSFT.model.gameparams.ship.Ship;
-import WoWSFT.model.gameparams.ship.ShipIndex;
 import WoWSFT.model.gameparams.ship.abilities.AbilitySlot;
 import WoWSFT.model.gameparams.ship.component.artillery.Shell;
 import WoWSFT.model.gameparams.ship.component.atba.Secondary;
@@ -12,7 +10,6 @@ import WoWSFT.model.gameparams.ship.component.planes.Plane;
 import WoWSFT.model.gameparams.ship.component.torpedo.TorpedoAmmo;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgrade;
 import WoWSFT.utils.PenetrationUtils;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,54 +17,36 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
+import java.util.zip.ZipFile;
 
 import static WoWSFT.model.Constant.*;
 
-/**
- * Created by Aesis on 2016-12-05.
- */
 @Service
 @Slf4j
 public class GPService
 {
-    @Autowired
-    @Qualifier(value = "gameParamsHM")
-    private HashMap<String, Object> gameParamsHM;
-
-    @Autowired
-    @Qualifier (value = "global")
-    private HashMap<String, HashMap<String, Object>> global;
-
-    @Autowired
-    @Qualifier (value = TYPE_SHIP)
-    private LinkedHashMap<String, Ship> ships;
-
-    @Autowired
-    @Qualifier (value =  TYPE_CONSUMABLE)
-    private LinkedHashMap<String, Consumable> consumables;
-
-    @Autowired
-    @Qualifier (value = TYPE_SHIP_LIST)
-    private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList;
-
-    @Autowired
-    @Qualifier (value = TYPE_UPGRADE)
-    private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades;
-
-    @Autowired
-    @Qualifier (value = TYPE_COMMANDER)
-    private LinkedHashMap<String, Commander> commanders;
-
-    @Autowired
-    private ParamService paramService;
+    private final LinkedHashMap<String, Consumable> consumables;
+    private final LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades;
+    private final ZipFile zf;
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    @Cacheable(value = "ship", key = "#index")
+    public GPService(
+            @Qualifier(value = TYPE_CONSUMABLE) LinkedHashMap<String, Consumable> consumables,
+            @Qualifier(value = TYPE_UPGRADE) LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades,
+            ZipFile zf)
+    {
+        this.consumables = consumables;
+        this.upgrades = upgrades;
+        this.zf = zf;
+    }
+
+    //    @Cacheable(value = "ship", key = "#index")
     public Ship getShip(String index) throws Exception
     {
-        Ship ship = mapper.readValue(mapper.writeValueAsString(ships.get(index)), Ship.class);
+        Ship ship = mapper.readValue(mapper.writeValueAsString(zFetch(index)), Ship.class);
 
         if (ship != null) {
             setUpgrades(ship);
@@ -119,7 +98,7 @@ public class GPService
     {
         if (ship.getComponents().getArtillery().size() > 0 && ship.getComponents().getArtillery().get(ship.getModules().get(artillery)) != null) {
             for (String ammo : ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getTurrets().get(0).getAmmoList()) {
-                Shell shell = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ammo)), Shell.class);
+                Shell shell = mapper.readValue(mapper.writeValueAsString(zFetch(ammo)), Shell.class);
 //                PenetrationUtils.setPenetration(shell,
 //                        ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getTurrets().get(0).getVertSector().get(1),
 //                        ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getMinDistV(),
@@ -134,12 +113,12 @@ public class GPService
         if (ship.getComponents().getTorpedoes().size() > 0 && ship.getComponents().getTorpedoes().get(ship.getModules().get(torpedoes)) != null) {
             String ammo = ship.getComponents().getTorpedoes().get(ship.getModules().get(torpedoes)).getLaunchers().get(0).getAmmoList().get(0);
             ship.getComponents().getTorpedoes().get(ship.getModules().get(torpedoes))
-                    .setAmmo(mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ammo)), TorpedoAmmo.class));
+                    .setAmmo(mapper.readValue(mapper.writeValueAsString(zFetch(ammo)), TorpedoAmmo.class));
         }
 
         if (ship.getComponents().getAtba().size() > 0 && ship.getComponents().getAtba().get(ship.getModules().get(atba)) != null) {
             for (Map.Entry<String, Secondary> secondary : ship.getComponents().getAtba().get(ship.getModules().get(atba)).getSecondaries().entrySet()) {
-                Shell ammo = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(secondary.getValue().getAmmoList().get(0))), Shell.class);
+                Shell ammo = mapper.readValue(mapper.writeValueAsString(zFetch(secondary.getValue().getAmmoList().get(0))), Shell.class);
                 secondary.getValue().setAlphaDamage(ammo.getAlphaDamage());
                 secondary.getValue().setAlphaPiercingHE(ammo.getAlphaPiercingHE());
                 secondary.getValue().setAmmoType(ammo.getAmmoType());
@@ -150,22 +129,22 @@ public class GPService
 
         if (ship.getPlanes().size() > 0) {
             if (ship.getModules().get(diveBomber) != null && ship.getPlanes().get(ship.getModules().get(diveBomber)) != null) {
-                Plane dbPlane = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ship.getPlanes().get(ship.getModules().get(diveBomber)))), Plane.class);
-                dbPlane.setBomb(mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(dbPlane.getBombName())), Shell.class));
+                Plane dbPlane = mapper.readValue(mapper.writeValueAsString(zFetch(ship.getPlanes().get(ship.getModules().get(diveBomber)))), Plane.class);
+                dbPlane.setBomb(mapper.readValue(mapper.writeValueAsString(zFetch(dbPlane.getBombName())), Shell.class));
                 setPlaneConsumables(dbPlane);
                 ship.getComponents().getDiveBomber().put(ship.getModules().get(diveBomber), dbPlane);
             }
 
             if (ship.getModules().get(fighter) != null && ship.getPlanes().get(ship.getModules().get(fighter)) != null) {
-                Plane fPlane = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ship.getPlanes().get(ship.getModules().get(fighter)))), Plane.class);
-                fPlane.setRocket(mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(fPlane.getBombName())), Shell.class));
+                Plane fPlane = mapper.readValue(mapper.writeValueAsString(zFetch(ship.getPlanes().get(ship.getModules().get(fighter)))), Plane.class);
+                fPlane.setRocket(mapper.readValue(mapper.writeValueAsString(zFetch(fPlane.getBombName())), Shell.class));
                 setPlaneConsumables(fPlane);
                 ship.getComponents().getFighter().put(ship.getModules().get(fighter), fPlane);
             }
 
             if (ship.getModules().get(torpedoBomber) != null && ship.getPlanes().get(ship.getModules().get(torpedoBomber)) != null) {
-                Plane tbPlane = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ship.getPlanes().get(ship.getModules().get(torpedoBomber)))), Plane.class);
-                tbPlane.setTorpedo(mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(tbPlane.getBombName())), TorpedoAmmo.class));
+                Plane tbPlane = mapper.readValue(mapper.writeValueAsString(zFetch(ship.getPlanes().get(ship.getModules().get(torpedoBomber)))), Plane.class);
+                tbPlane.setTorpedo(mapper.readValue(mapper.writeValueAsString(zFetch(tbPlane.getBombName())), TorpedoAmmo.class));
                 setPlaneConsumables(tbPlane);
                 ship.getComponents().getTorpedoBomber().put(ship.getModules().get(torpedoBomber), tbPlane);
             }
@@ -190,18 +169,20 @@ public class GPService
 
     public Shell getArtyAmmoOnly(String index, String artyId) throws Exception
     {
-        if (ships.get(index) != null && ships.get(index).getShipUpgradeInfo().getComponents().get(artillery).size() > 0) {
-            for (ShipUpgrade su : ships.get(index).getShipUpgradeInfo().getComponents().get(artillery)) {
+        Ship ship = mapper.readValue(mapper.writeValueAsString(zFetch(index)), Ship.class);
+        
+        if (ship != null && ship.getShipUpgradeInfo().getComponents().get(artillery).size() > 0) {
+            for (ShipUpgrade su : ship.getShipUpgradeInfo().getComponents().get(artillery)) {
                 if (su.getName().equalsIgnoreCase(artyId)) {
                     String tempId = su.getComponents().get(artillery).get(su.getComponents().get(artillery).size() - 1);
 
-                    for (String ammo : ships.get(index).getComponents().getArtillery().get(tempId).getTurrets().get(0).getAmmoList()) {
-                        Shell shell = mapper.readValue(mapper.writeValueAsString(gameParamsHM.get(ammo)), Shell.class);
+                    for (String ammo : ship.getComponents().getArtillery().get(tempId).getTurrets().get(0).getAmmoList()) {
+                        Shell shell = mapper.readValue(mapper.writeValueAsString(zFetch(ammo)), Shell.class);
                         if ("AP".equalsIgnoreCase(shell.getAmmoType())) {
                             PenetrationUtils.setPenetration(shell,
-                                    ships.get(index).getComponents().getArtillery().get(tempId).getTurrets().get(0).getVertSector().get(1),
-                                    ships.get(index).getComponents().getArtillery().get(tempId).getMinDistV(),
-                                    ships.get(index).getComponents().getArtillery().get(tempId).getMaxDist(),
+                                    ship.getComponents().getArtillery().get(tempId).getTurrets().get(0).getVertSector().get(1),
+                                    ship.getComponents().getArtillery().get(tempId).getMinDistV(),
+                                    ship.getComponents().getArtillery().get(tempId).getMaxDist(),
                                     "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
 
                             return shell;
@@ -211,5 +192,10 @@ public class GPService
             }
         }
         return null;
+    }
+
+    public Object zFetch(String index) throws IOException
+    {
+        return mapper.readValue(zf.getInputStream(zf.getEntry(index + ".json")), Object.class);
     }
 }

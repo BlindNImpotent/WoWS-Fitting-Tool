@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,11 +16,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
-/**
- * Created by Aesis on 2017. 5. 21..
- */
 @Slf4j
 @Configuration
 @EnableConfigurationProperties(CustomProperties.class)
@@ -72,14 +67,14 @@ public class CustomFilter implements Filter
         String uri = request.getRequestURI();
         String queryString = request.getQueryString();
 
-        if (isRelease() && !url.startsWith("https://")) {
-            url = url.replaceFirst(".*://", "https://") + (StringUtils.isNotEmpty(queryString) ? "?" + queryString : "");
-            response.setContentType("text/html");
-            response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-            response.setHeader("Location", url);
-            chain.doFilter(request, response);
-            return;
-        }
+//        if (isRelease() && !url.startsWith("https://")) {
+//            url = url.replaceFirst(".*://", "https://") + (StringUtils.isNotEmpty(queryString) ? "?" + queryString : "");
+//            response.setContentType("text/html");
+//            response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+//            response.setHeader("Location", url);
+//            chain.doFilter(request, response);
+//            return;
+//        }
 
         if (loadFinish.get("loadFinish") == 0 && !"/".equalsIgnoreCase(uri) && isNotIgnore(uri)) {
             request.getRequestDispatcher("/").forward(request, response);

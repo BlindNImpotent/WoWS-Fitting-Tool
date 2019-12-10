@@ -19,7 +19,7 @@ public class Torpedo
     private LinkedHashMap<Integer, List<Object>> launcherTypes = new LinkedHashMap<>();
 
     private int numTorpsInSalvo;
-    private float oneShotWaitTime;
+    private double oneShotWaitTime;
     private boolean useGroups;
     private boolean useOneShot;
 

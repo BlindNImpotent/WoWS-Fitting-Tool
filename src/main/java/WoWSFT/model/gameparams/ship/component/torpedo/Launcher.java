@@ -15,25 +15,25 @@ import java.util.List;
 public class Launcher
 {
     private List<String> ammoList;
-    private float barrelDiameter;
+    private double barrelDiameter;
     private boolean canRotate;
-    private List<List<Float>> deadZone;
-    private List<Float> horizSector;
+    private List<List<Double>> deadZone;
+    private List<Double> horizSector;
     private long id;
     private String index;
-    private List<Float> mainSector;
+    private List<Double> mainSector;
     private String name;
     private int numAmmos;
     private int numBarrels;
-    private List<Float> position;
-    private List<Float> rotationSpeed;
-    private List<Float> shootSector;
-    private float shotDelay;
+    private List<Double> position;
+    private List<Double> rotationSpeed;
+    private List<Double> shootSector;
+    private double shotDelay;
     private boolean smallGun;
-    private float timeBetweenShots;
-    private float timeToChangeAngle;
-    private float timeToChangeSpeed;
-    private List<Float> torpedoAngles;
+    private double timeBetweenShots;
+    private double timeToChangeAngle;
+    private double timeToChangeSpeed;
+    private List<Double> torpedoAngles;
     private TypeInfo typeinfo;
-    private List<Float> vertSector;
+    private List<Double> vertSector;
 }

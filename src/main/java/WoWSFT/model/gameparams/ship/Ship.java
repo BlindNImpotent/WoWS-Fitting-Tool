@@ -36,7 +36,7 @@ public class Ship
     @JsonAlias("ShipUpgradeInfo")
     private ShipUpgradeInfo shipUpgradeInfo;
 
-    private float apDamageLimitCoeff;
+    private double apDamageLimitCoeff;
     private BattleLevels battleLevels;
     private boolean canEquipCamouflage;
     private String defaultCrew;
@@ -51,7 +51,7 @@ public class Ship
     private String navalFlag;
     private boolean needShowProjectYear;
     private String peculiarity;
-    private List<Float> steerAngle;
+    private List<Double> steerAngle;
     private TypeInfo typeinfo;
     private int weight;
 
@@ -92,7 +92,7 @@ public class Ship
     private List<Aura> auraMedium = new ArrayList<>();
     private List<Aura> auraNear = new ArrayList<>();
 
-    private float adrenaline;
+    private double adrenaline;
     private boolean arUse;
 
     @JsonSetter
@@ -116,7 +116,7 @@ public class Ship
     public String getTypeImage()
     {
         if (typeinfo != null && StringUtils.isNotEmpty(typeinfo.getSpecies()) && StringUtils.isNotEmpty(realShipType)) {
-            return "https://cdn.wowsft.com/images/vehicles/types/" + typeinfo.getSpecies() + (realShipType.equalsIgnoreCase("Premium") ? "/premium" : "/normal") + ".png";
+            return "https://cdn.wowsft.com/images/vehicles/ship_classes/icon_" + typeinfo.getSpecies().toLowerCase() + "_standard.png";
         }
         return "";
     }

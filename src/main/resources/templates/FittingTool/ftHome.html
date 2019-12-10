@@ -11,10 +11,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="utf-8" />
     <link rel="icon" href="https://cdn.wowsft.com/images/Icon/WoWSFT_Icon.png" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/WoWSFT.css?20190816}" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.wowsft.com/css/WoWSFT.css?20190816" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
     <script src="https://cdn.wowsft.com/js/jquery/jquery-3.3.1.min.js"></script>
-    <title>WoWS Fitting Tool by Aesis</title>
+    <title>WoWS Fitting Tool</title>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -37,7 +37,7 @@
                                         <th:block th:each="shipType : ${realShipType.value}">
                                             <th:block th:each="tier : ${shipType.value}">
                                                 <li th:each="ship : ${tier.value}">
-                                                    <a th:href="'/ship?index=' + ${ship.index + '&lang=' + lang}">
+                                                    <a th:href="'/ship?index=' + ${ship.index}">
                                                         <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}"
                                                               th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
                                                     </a>
@@ -51,7 +51,7 @@
                                             <ul class="dropdown_sub">
                                                 <th:block th:each="tier : ${shipType.value}">
                                                     <li th:each="ship : ${tier.value}">
-                                                        <a th:href="'/ship?index=' + ${ship.index + '&lang=' + lang}">
+                                                        <a th:href="'/ship?index=' + ${ship.index}">
                                                             <span th:text="${tier.key + ' - ' + global.get(IDS + ship.index.toUpperCase() + '_FULL')}"
                                                                   th:attr="data-nation=${nation.key}, data-shipType=${realShipType.key}, data-ship=${ship.index}"></span>
                                                         </a>
@@ -73,10 +73,10 @@
     <th:block th:replace="Joint/shipSelect :: warshipStats"></th:block>
     <div th:replace="bottom :: bottom"></div>
 </div>
-<script th:src="@{/js/angle/aa.js}"></script>
-<script th:src="@{/js/angle/arty.js}"></script>
-<script th:src="@{/js/angle/torp.js}"></script>
-<script th:src="@{/js/common.js}"></script>
+<script src="https://cdn.wowsft.com/js/angle/aa.js"></script>
+<script src="https://cdn.wowsft.com/js/angle/arty.js"></script>
+<script src="https://cdn.wowsft.com/js/angle/torp.js"></script>
+<script src="https://cdn.wowsft.com/js/common.js"></script>
 <script th:inline="javascript">
     // <![CDATA[
 

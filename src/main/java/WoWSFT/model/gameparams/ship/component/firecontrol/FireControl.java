@@ -7,6 +7,6 @@ import lombok.Data;
 @WoWSFT
 public class FireControl
 {
-    private float maxDistCoef;
-    private float sigmaCountCoef;
+    private double maxDistCoef;
+    private double sigmaCountCoef;
 }

@@ -12,33 +12,33 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Aura
 {
-    private float areaDamage;
-    private float areaDamageFrequency;
-    private float bubbleDamage;
-    private float bubbleDuration;
-    private float bubbleRadius;
+    private double areaDamage;
+    private double areaDamageFrequency;
+    private double bubbleDamage;
+    private double bubbleDuration;
+    private double bubbleRadius;
     private boolean enableBarrage;
     private boolean enableCrewSelectedTargetCoeff;
-    private float explosionCount;
+    private double explosionCount;
     private List<String> guns;
-    private float halfOuterBubbleZone;
-    private float hitChance;
-    private float innerBubbleCount;
-    private List<Float> innerBubbleSpawnTimeRange;
-    private float innerBubbleZone;
+    private double halfOuterBubbleZone;
+    private double hitChance;
+    private double innerBubbleCount;
+    private List<Double> innerBubbleSpawnTimeRange;
+    private double innerBubbleZone;
     @JsonAlias("isJoint")
     private boolean joint;
-    private float maxBubbleActivationDelay;
-    private float maxDistance;
-    private float maxDistanceStartWorkGap;
-    private float minBubbleActivationDelay;
-    private float minDistance;
-    private float outerBubbleCount;
-    private List<Float> outerBubbleSpawnTimeRange;
-    private float shotDelay;
-    private float shotTravelTime;
-    private float timeUniversalsOff;
-    private float timeUniversalsOn;
+    private double maxBubbleActivationDelay;
+    private double maxDistance;
+    private double maxDistanceStartWorkGap;
+    private double minBubbleActivationDelay;
+    private double minDistance;
+    private double outerBubbleCount;
+    private List<Double> outerBubbleSpawnTimeRange;
+    private double shotDelay;
+    private double shotTravelTime;
+    private double timeUniversalsOff;
+    private double timeUniversalsOn;
     private String type;
-    private float bubbleDamageModifier = 7.0f;
+    private double bubbleDamageModifier = 7.0;
 }

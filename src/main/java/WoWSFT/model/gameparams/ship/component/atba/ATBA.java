@@ -27,13 +27,13 @@ public class ATBA
     private List<Secondary> turrets = new ArrayList<>();
     private LinkedHashMap<String, Secondary> secondaries = new LinkedHashMap<>();
 
-    private float maxDist;
-    private float minDistH;
-    private float minDistV;
-    private float sigmaCount;
-    private float taperDist;
+    private double maxDist;
+    private double minDistH;
+    private double minDistV;
+    private double sigmaCount;
+    private double taperDist;
     @JsonInclude
-    private float GSIdealRadius = 1f;
+    private double GSIdealRadius = 1.0;
 
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();

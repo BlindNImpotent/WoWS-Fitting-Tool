@@ -12,11 +12,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
-/**
- * Created by Qualson-Lee on 2016-08-04.
- */
-@EnableScheduling
-@EnableCaching
+//@EnableScheduling
+//@EnableCaching
 @EnableAsync
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer

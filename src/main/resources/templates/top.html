@@ -4,16 +4,16 @@
 <nav th:fragment="top" class="link">
     <ul>
         <li>
-            <a th:href="${'/?lang=' + lang}"><span>Home</span></a>
+            <a th:href="${'/'}"><span>Home</span></a>
         </li>
         <li>
-            <a th:href="${'/ship?lang=' + lang}"><span th:text="${trans.get('FittingTool')}">Fitting Tool</span></a>
+            <a th:href="${'/ship'}"><span th:text="${trans.get('FittingTool')}">Fitting Tool</span></a>
         </li>
         <li>
-            <a th:href="${'/arty?lang=' + lang}"><span th:text="${trans.get('ArtilleryChart')}">Artillery Chart</span></a>
+            <a th:href="${'/arty'}"><span th:text="${trans.get('ArtilleryChart')}">Artillery Chart</span></a>
         </li>
         <li>
-            <a th:href="${'/research?lang=' + lang}"><span th:text="${trans.get('ResearchXp')}">Research XP</span></a>
+            <a th:href="${'/research'}"><span th:text="${trans.get('ResearchXp')}">Research XP</span></a>
         </li>
     </ul>
 </nav>

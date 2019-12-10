@@ -11,9 +11,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.List;
 
-/**
- * Created by Qualson-Lee on 2016-08-04.
- */
 @Configuration
 @ComponentScan("WoWSFT")
 public class WebConfig extends WebMvcConfigurationSupport

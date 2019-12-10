@@ -15,41 +15,41 @@ import java.util.List;
 public class Secondary
 {
     private List<String> ammoList;
-    private float antiAirAuraDistance;
-    private float antiAirAuraStrength;
-    private float barrelDiameter;
-    private List<List<Float>> deadZone;
-    private float delim;
-    private List<Float> horizSector;
+    private double antiAirAuraDistance;
+    private double antiAirAuraStrength;
+    private double barrelDiameter;
+    private List<List<Double>> deadZone;
+    private double delim;
+    private List<Double> horizSector;
     private long id;
-    private float idealDistance;
-    private float idealRadius;
+    private double idealDistance;
+    private double idealRadius;
     private String index;
-    private float minRadius;
+    private double minRadius;
     private String name;
     private int numBarrels;
-    private float radiusOnDelim;
-    private float radiusOnMax;
-    private float radiusOnZero;
-    private List<Float> rotationSpeed;
-    private float shotDelay;
+    private double radiusOnDelim;
+    private double radiusOnMax;
+    private double radiusOnZero;
+    private List<Double> rotationSpeed;
+    private double shotDelay;
     private boolean smallGun;
-    private float smokePenalty;
+    private double smokePenalty;
     private TypeInfo typeinfo;
-    private List<Float> vertSector;
+    private List<Double> vertSector;
     @JsonInclude
-    private float GSIdealRadius = 1f;
+    private double GSIdealRadius = 1.0;
 
     private int count;
 
-    private float alphaDamage;
-    private float alphaPiercingHE;
+    private double alphaDamage;
+    private double alphaPiercingHE;
     private String ammoType;
-    private float bulletSpeed;
-    private float burnProb;
+    private double bulletSpeed;
+    private double burnProb;
 
-    public float getAlphaPiercingHEReal()
+    public double getAlphaPiercingHEReal()
     {
-        return alphaPiercingHE - 1f;
+        return alphaPiercingHE - 1.0;
     }
 }

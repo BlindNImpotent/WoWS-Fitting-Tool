@@ -21,18 +21,18 @@ public class AirDefense
     private List<Aura> auraMedium = new ArrayList<>();
     private List<Aura> auraNear = new ArrayList<>();
 
-    private float ownerlessTracesScatterCoefficient;
-    private float prioritySectorChangeDelay;
-    private float prioritySectorDisableDelay;
-    private float prioritySectorEnableDelay;
-    private float prioritySectorStrength;
-    private List<List<Float>> sectors;
+    private double ownerlessTracesScatterCoefficient;
+    private double prioritySectorChangeDelay;
+    private double prioritySectorDisableDelay;
+    private double prioritySectorEnableDelay;
+    private double prioritySectorStrength;
+    private List<List<Double>> sectors;
     private List<List<Object>> prioritySectorPhases;
-    private float prioritySectorPreparation;
-    private float prioritySectorDuration;
-    private float prioritySectorDamageInitial;
-    private float prioritySectorCoefficientInitial;
-    private float prioritySectorCoefficientDuring;
+    private double prioritySectorPreparation;
+    private double prioritySectorDuration;
+    private double prioritySectorDamageInitial;
+    private double prioritySectorCoefficientInitial;
+    private double prioritySectorCoefficientDuring;
 
     @JsonIgnore
     private ObjectMapper mapper = new ObjectMapper();
@@ -42,11 +42,11 @@ public class AirDefense
         this.prioritySectorPhases = prioritySectorPhases;
 
         if (prioritySectorPhases != null && prioritySectorPhases.size() == 2) {
-            prioritySectorPreparation = Float.parseFloat(String.valueOf(prioritySectorPhases.get(0).get(0)));
-            prioritySectorDuration = Float.parseFloat(String.valueOf(prioritySectorPhases.get(1).get(0)));
-            prioritySectorDamageInitial = Float.parseFloat(String.valueOf(prioritySectorPhases.get(0).get(2)));
-            prioritySectorCoefficientInitial = Float.parseFloat(String.valueOf(prioritySectorPhases.get(0).get(3)));
-            prioritySectorCoefficientDuring = Float.parseFloat(String.valueOf(prioritySectorPhases.get(0).get(4)));
+            prioritySectorPreparation = Double.parseDouble(String.valueOf(prioritySectorPhases.get(0).get(0)));
+            prioritySectorDuration = Double.parseDouble(String.valueOf(prioritySectorPhases.get(1).get(0)));
+            prioritySectorDamageInitial = Double.parseDouble(String.valueOf(prioritySectorPhases.get(0).get(2)));
+            prioritySectorCoefficientInitial = Double.parseDouble(String.valueOf(prioritySectorPhases.get(0).get(3)));
+            prioritySectorCoefficientDuring = Double.parseDouble(String.valueOf(prioritySectorPhases.get(0).get(4)));
         }
     }
 

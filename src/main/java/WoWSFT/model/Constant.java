@@ -8,9 +8,9 @@ import java.util.List;
 
 public class Constant
 {
-    public static final BigDecimal distCoefWG = new BigDecimal(100f / 3f);
-    public static final float smallGun = new BigDecimal(0.139).floatValue();
-    public static final float oneCoeff = 1f;
+    public static final BigDecimal distCoefWG = BigDecimal.valueOf(100.0 / 3.0);
+    public static final double smallGun = 0.139;
+    public static final double oneCoeff = 1.0;
 
     public static final String IDS = "IDS_";
     public static final String MODIFIER = "PARAMS_MODIFIER_";

@@ -274,52 +274,39 @@ public class ParamService
         }
     }
 
-    public void setBonusParams(String key, LinkedHashMap<String, Object> tempCopy, LinkedHashMap<String, String> bonus)
-    {
-        tempCopy.forEach((param, cVal) -> {
-            if (cVal instanceof Float && ((float) cVal != 0)) {
-                if (excludeModernization.stream().anyMatch(param.toLowerCase()::contains)) {
-                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal));
-                } else {
-                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonusCoef((float) cVal)) + " %");
-                }
-            }
-        });
-    }
-
     public LinkedHashMap<String, String> getBonus(LinkedHashMap<String, Object> copy)
     {
         LinkedHashMap<String, String> bonus = new LinkedHashMap<>();
 
         copy.forEach((param, cVal) -> {
             if (speed.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal) + " kts");
+                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((double) cVal) + " kts");
             } else if (param.toLowerCase().contains("boostcoeff")) {
-                if ((float) cVal >= 2.0) {
-                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal));
+                if ((double) cVal >= 2.0) {
+                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((double) cVal));
                 } else {
-                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonus((float) cVal)) + " %");
+                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonus((double) cVal)) + " %");
                 }
             } else if (rate.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonus((float) cVal)) + " %");
+                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonus((double) cVal)) + " %");
             } else if (multiple.stream().anyMatch(param.toLowerCase()::contains)) {
                 bonus.put(MODIFIER + param.toUpperCase(), "X " + CommonUtils.replaceZero(cVal.toString()));
             } else if (coeff.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonusCoef((float) cVal)) + " %");
+                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonusCoef((double) cVal)) + " %");
             } else if (noUnit.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), (float) cVal > 0 ? CommonUtils.replaceZero(cVal.toString()) : "∞");
+                bonus.put(MODIFIER + param.toUpperCase(), (double) cVal > 0 ? CommonUtils.replaceZero(cVal.toString()) : "∞");
             } else if (meter.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getDistCoefWG((float) cVal) + " km");
+                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getDistCoefWG((double) cVal) + " km");
             } else if (rateNoSym.stream().anyMatch(param.toLowerCase()::contains)) {
                 bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " %");
             } else if (time.stream().anyMatch(param.toLowerCase()::contains)) {
                 bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " s");
             } else if (extraAngle.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal) + " °");
+                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((double) cVal) + " °");
             } else if (angle.stream().anyMatch(param.toLowerCase()::contains)) {
                 bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " °");
             } else if (extra.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((float) cVal));
+                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((double) cVal));
             } else if (param.toLowerCase().equalsIgnoreCase("affectedClasses")) {
                 List<String> tempList = mapper.convertValue(cVal, new TypeReference<List<String>>(){});
                 if (CollectionUtils.isNotEmpty(tempList)) {

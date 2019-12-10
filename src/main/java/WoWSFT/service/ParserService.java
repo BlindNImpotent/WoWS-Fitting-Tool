@@ -20,10 +20,6 @@ import static WoWSFT.model.Constant.*;
 @Service
 public class ParserService
 {
-    @Autowired
-    @Qualifier(value = "nameToId")
-    private HashMap<String, String> nameToId;
-
     public void parseModules(Ship ship, String bits)
     {
         ship.setModules(new LinkedHashMap<>());
@@ -143,7 +139,7 @@ public class ParserService
                 // Adrenaline Rush
                 if (bits.length() - 1 - i == 14) {
                     ship.setArUse(Character.getNumericValue(bits.charAt(i)) == 1);
-                    ship.setAdrenaline((100 - ar) / 100f);
+                    ship.setAdrenaline((100 - ar) / 100.0);
                 }
             } else {
                 list.add(0);
@@ -158,58 +154,5 @@ public class ParserService
 
         ship.setSelectSkills(list);
         ship.setSelectSkillPts(pts);
-    }
-
-    public String parseLegacyUrl(HttpServletRequest request) throws Exception
-    {
-        String url = "/ship";
-
-        if (request.getParameterMap() != null && request.getParameterMap().size() > 0) {
-            String shipName = getParameter(request.getParameterMap().get("ship"));
-            if (StringUtils.isNotEmpty(shipName)) {
-                String index = nameToId.get(shipName.replace("+", " "));
-
-                if (StringUtils.isNotEmpty(index)) {
-                    url = url.concat("?index=" + index.toUpperCase());
-
-                    String modules = getParameter(request.getParameterMap().get("moduleN"));
-                    url = url.concat(StringUtils.isNotEmpty(modules) ? "&modules=" + modules : "");
-
-                    String upgrades = getParameter(request.getParameterMap().get("upgradeN"));
-                    url = url.concat(StringUtils.isNotEmpty(upgrades) ? "&upgrades=" + upgrades : "");
-
-                    String skills = getParameter(request.getParameterMap().get("skillN"));
-                    if (StringUtils.isNotEmpty(skills)) {
-                        String bits = "";
-                        for (int i = (skills.length() > 32 ? 32 : skills.length()) - 1; i >= 0; i--) {
-                            if (Character.isDigit(skills.charAt(i))) {
-                                int tempBit = Character.getNumericValue(skills.charAt(i));
-                                if (tempBit == 1) {
-                                    bits = bits.concat(String.valueOf(tempBit));
-                                } else {
-                                    bits = bits.concat(String.valueOf(0));
-                                }
-                            } else {
-                                break;
-                            }
-                        }
-
-                        if (StringUtils.isNotEmpty(bits)) {
-                            url = url.concat("&skills=" + new BigInteger(bits, 2).longValue());
-                        }
-                    }
-                }
-            }
-        }
-
-        return url;
-    }
-
-    private String getParameter(String[] temp) throws Exception
-    {
-        if (temp != null && temp.length > 0 && StringUtils.isNotEmpty(temp[0])) {
-            return URLDecoder.decode(temp[0], StandardCharsets.UTF_8.name());
-        }
-        return "";
     }
 }

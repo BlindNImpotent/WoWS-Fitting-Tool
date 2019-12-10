@@ -17,8 +17,8 @@ public class Consumable
 
     private boolean canBuy;
     private LinkedHashMap<String, Boolean> canBuyCustom;
-    private float costCR;
-    private float costGold;
+    private double costCR;
+    private double costGold;
     private boolean freeOfCharge;
     private long id;
     private String index;

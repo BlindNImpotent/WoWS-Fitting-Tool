@@ -8,5 +8,5 @@ public class HangarSetting
     private int maxValue;
     private int restoreAmount;
     private int startValue;
-    private float timeToRestore;
+    private double timeToRestore;
 }

@@ -7,10 +7,12 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedHashMap;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @WoWSFT
 public class Skill extends CommonModifier
@@ -33,6 +35,6 @@ public class Skill extends CommonModifier
 
     public String getImage()
     {
-        return "https://cdn.wowsft.com/images/crew_commander/skills/icon_perk_" + modifier + ".png";
+        return "https://cdn.wowsft.com/images/skills/icon_perk_" + modifier + ".png";
     }
 }

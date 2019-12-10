@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -15,74 +14,74 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Hull
 {
-    private float backwardPowerCoef;
-    private float baseUnderwaterPitchAngle;
-    private float buoyancy;
-    private float buoyancyRudderTime;
+    private double backwardPowerCoef;
+    private double baseUnderwaterPitchAngle;
+    private double buoyancy;
+    private double buoyancyRudderTime;
     private List<List<Object>> burnNodes;
-    private float burnProb;
-    private float burnDamage;
-    private float burnTime;
-    private float burnSize;
-    private float deckHeight;
-    private float deepwaterVisibilityCoeff;
-    private float dockYOffset;
-    private float draft;
-    private float enginePower;
-    private List<List<Float>> floodNodes;
-    private float floodProb;
-    private float floodProtection;
-    private float floodDamage;
-    private float floodTime;
-    private float floodSize;
-    private float health;
+    private double burnProb;
+    private double burnDamage;
+    private double burnTime;
+    private double burnSize;
+    private double deckHeight;
+    private double deepwaterVisibilityCoeff;
+    private double dockYOffset;
+    private double draft;
+    private double enginePower;
+    private List<List<Double>> floodNodes;
+    private double floodProb;
+    private double floodProtection;
+    private double floodDamage;
+    private double floodTime;
+    private double floodSize;
+    private double health;
     @JsonAlias("isBlind")
     private boolean blind;
-    private float mass;
-    private float maxBuoyancyLevel;
-    private float maxBuoyancySpeed;
-    private float maxRudderAngle;
-    private float maxSpeed;
+    private double mass;
+    private double maxBuoyancyLevel;
+    private double maxBuoyancySpeed;
+    private double maxRudderAngle;
+    private double maxSpeed;
     private int numOfParts;
-    private float pushingMaxRudderAngle;
-    private float pushingMinRudderAngle;
-    private float regenerationHPSpeed;
-    private float repairingCoeff;
-    private float rollEffect;
-    private float rudderPower;
-    private float rudderTime;
-    private float sideDragCoef;
-    private List<Float> size;
-    private float smokeScanRadius;
-    private float speedCoef;
-    private float tonnage;
-    private float torpedoImpactMassImpulseCoeff;
-    private float turningRadius;
-    private float underwaterMaxRudderAngle;
-    private float underwaterRollEffect;
-    private float underwaterVisibilityCoeff;
-    private float visibilityCoefATBA;
-    private float visibilityCoefATBAByPlane;
-    private float visibilityCoefFire;
-    private float visibilityCoefFireByPlane;
-    private float visibilityCoefGK;
-    private float visibilityCoefGKByPlane;
-    private float visibilityCoefGKInSmoke;
-    private float visibilityCoeff;
-    private float visibilityCoeffUnderwater;
-    private float visibilityFactor;
-    private float visibilityFactorByPlane;
-    private float visibilityFactorInSmoke;
+    private double pushingMaxRudderAngle;
+    private double pushingMinRudderAngle;
+    private double regenerationHPSpeed;
+    private double repairingCoeff;
+    private double rollEffect;
+    private double rudderPower;
+    private double rudderTime;
+    private double sideDragCoef;
+    private List<Double> size;
+    private double smokeScanRadius;
+    private double speedCoef;
+    private double tonnage;
+    private double torpedoImpactMassImpulseCoeff;
+    private double turningRadius;
+    private double underwaterMaxRudderAngle;
+    private double underwaterRollEffect;
+    private double underwaterVisibilityCoeff;
+    private double visibilityCoefATBA;
+    private double visibilityCoefATBAByPlane;
+    private double visibilityCoefFire;
+    private double visibilityCoefFireByPlane;
+    private double visibilityCoefGK;
+    private double visibilityCoefGKByPlane;
+    private double visibilityCoefGKInSmoke;
+    private double visibilityCoeff;
+    private double visibilityCoeffUnderwater;
+    private double visibilityFactor;
+    private double visibilityFactorByPlane;
+    private double visibilityFactorInSmoke;
 
     @JsonInclude
     private int burnSizeSkill = 4;
 
     @JsonSetter
-    public void setFloodNodes(List<List<Float>> floodNodes)
+    public void setFloodNodes(List<List<Double>> floodNodes)
     {
         this.floodNodes = floodNodes;
         this.floodProb = floodNodes.get(0).get(0);
-        this.floodProtection = 100f - (floodNodes.get(0).get(0) * 3.0f * 100f);
+        this.floodProtection = 100.0 - (floodNodes.get(0).get(0) * 3.0 * 100.0);
         this.floodDamage = floodNodes.get(0).get(1);
         this.floodTime = floodNodes.get(0).get(2);
         this.floodSize = floodNodes.size();
@@ -92,9 +91,9 @@ public class Hull
     public void setBurnNodes(List<List<Object>> burnNodes)
     {
         this.burnNodes = burnNodes;
-        this.burnProb = new BigDecimal((double) burnNodes.get(0).get(0)).floatValue();
-        this.burnDamage = new BigDecimal((double) burnNodes.get(0).get(1)).floatValue();
-        this.burnTime = new BigDecimal((double) burnNodes.get(0).get(2)).floatValue();
+        this.burnProb = (double) burnNodes.get(0).get(0);
+        this.burnDamage = (double) burnNodes.get(0).get(1);
+        this.burnTime = (double) burnNodes.get(0).get(2);
         this.burnSize = burnNodes.size();
     }
 }
