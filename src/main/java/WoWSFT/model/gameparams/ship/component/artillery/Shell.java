@@ -105,7 +105,7 @@ public class Shell
     public void setAlphaPiercingHE(double alphaPiercingHE)
     {
         this.alphaPiercingHE = alphaPiercingHE;
-        this.alphaPiercingHEReal = alphaPiercingHE - 1.0;
+        this.alphaPiercingHEReal = Math.ceil(alphaPiercingHE) - 1.0;
     }
 
 //    public void setMaxDist(double maxDist)
@@ -114,13 +114,13 @@ public class Shell
 //        String maxTwo = "";
 //
 //        for (Map.Entry<String, Double> entry : this.flightTime.entrySet()) {
-//            double tempFloat = Double.parseDouble(entry.getKey());
+//            double tempDouble = Double.parseDouble(entry.getKey());
 //
-//            if (tempFloat < maxDist) {
-//                if (Double.parseDouble(maxOne) < tempFloat) {
+//            if (tempDouble < maxDist) {
+//                if (Double.parseDouble(maxOne) < tempDouble) {
 //                    maxOne = entry.getKey();
 //                }
-//            } else if (tempFloat >= maxDist) {
+//            } else if (tempDouble >= maxDist) {
 //                if (StringUtils.isEmpty(maxTwo)) {
 //                    maxTwo = entry.getKey();
 //                }
@@ -168,37 +168,37 @@ public class Shell
         }
 
         for (Map.Entry<String, Double> entry : tempData.entrySet()) {
-            double tempFloat = Double.parseDouble(entry.getKey());
+            double tempDouble = Double.parseDouble(entry.getKey());
 
-            if (tempFloat < distFive) {
-                if (Double.parseDouble(fiveOne) < tempFloat) {
+            if (tempDouble < distFive) {
+                if (Double.parseDouble(fiveOne) < tempDouble) {
                     fiveOne = entry.getKey();
                 }
-            } else if (tempFloat >= distFive && tempFloat < distTen) {
+            } else if (tempDouble >= distFive && tempDouble < distTen) {
                 if (StringUtils.isEmpty(fiveTwo)) {
                     fiveTwo = entry.getKey();
                 }
 
-                if (Double.parseDouble(tenOne) < tempFloat) {
+                if (Double.parseDouble(tenOne) < tempDouble) {
                     tenOne = entry.getKey();
                 }
-            } else if (tempFloat >= distTen && tempFloat < distFifteen) {
+            } else if (tempDouble >= distTen && tempDouble < distFifteen) {
                 if (StringUtils.isEmpty(tenTwo)) {
                     tenTwo = entry.getKey();
                 }
 
-                if (Double.parseDouble(fifteenOne) < tempFloat) {
+                if (Double.parseDouble(fifteenOne) < tempDouble) {
                     fifteenOne = entry.getKey();
                 }
-            } else if (tempFloat >= distFifteen && tempFloat < distTwenty) {
+            } else if (tempDouble >= distFifteen && tempDouble < distTwenty) {
                 if (StringUtils.isEmpty(fifteenTwo)) {
                     fifteenTwo = entry.getKey();
                 }
 
-                if (Double.parseDouble(twentyOne) < tempFloat) {
+                if (Double.parseDouble(twentyOne) < tempDouble) {
                     twentyOne = entry.getKey();
                 }
-            } else if (tempFloat >= distTwenty) {
+            } else if (tempDouble >= distTwenty) {
                 if (StringUtils.isEmpty(twentyTwo)) {
                     twentyTwo = entry.getKey();
                 }
@@ -269,11 +269,11 @@ public class Shell
         String e2 = "";
 
         for (Map.Entry<String, Double> entry : launchAngle.entrySet()) {
-            double tempFloat = entry.getValue();
+            double tempDouble = entry.getValue();
 
-            if (tempFloat < arcRad + radAtDist) {
+            if (tempDouble < arcRad + radAtDist) {
                 e1 = entry.getKey();
-            } else if (tempFloat >= arcRad + radAtDist) {
+            } else if (tempDouble >= arcRad + radAtDist) {
                 e2 = entry.getKey();
                 break;
             }

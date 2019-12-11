@@ -50,6 +50,6 @@ public class Secondary
 
     public double getAlphaPiercingHEReal()
     {
-        return alphaPiercingHE - 1.0;
+        return Math.ceil(alphaPiercingHE) - 1.0;
     }
 }

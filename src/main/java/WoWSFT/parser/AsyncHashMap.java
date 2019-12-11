@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
@@ -25,21 +24,19 @@ public class AsyncHashMap implements CommandLineRunner
     }
 
     @Override
-    public void run(String... strings) throws IOException
+    public void run(String... strings) throws Exception
     {
         log.info("Start");
 
-        CompletableFuture<String> translation = jsonParser.setTranslation();
         CompletableFuture<String> notification = jsonParser.setNotification();
         CompletableFuture<String> global = jsonParser.setGlobal();
         CompletableFuture<String> misc = jsonParser.setMisc();
 
-        while (true) {
-            if (translation.isDone() && notification.isDone() && global.isDone() && misc.isDone()) {
-                loadFinish.put("loadFinish", 1);
-                log.info("finish");
-                break;
-            }
-        }
+        notification.get();
+        global.get();
+        misc.get();
+
+        loadFinish.put("loadFinish", 1);
+        log.info("finish");
     }
 }

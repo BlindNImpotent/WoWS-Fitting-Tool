@@ -12,6 +12,7 @@ public class Constant
     public static final double smallGun = 0.139;
     public static final double oneCoeff = 1.0;
 
+    public static final String EN = "en";
     public static final String IDS = "IDS_";
     public static final String MODIFIER = "PARAMS_MODIFIER_";
     public static final String CONSUME = "DOCK_CONSUME_";
@@ -48,7 +49,7 @@ public class Constant
     public static final List<String> componentsList = new ArrayList<>(Arrays.asList(flightControl, artillery, hull, torpedoes, suo, fighter, torpedoBomber, diveBomber, engine));
     public static final List<String> compStatsList = new ArrayList<>(Arrays.asList(flightControl, airArmament, airDefense, artillery, atba, hull, suo, torpedoes, fighter, torpedoBomber, diveBomber, engine));
 
-    public static final HashSet<String> globalLanguage = new HashSet<>(Arrays.asList("en"));
+    public static final HashSet<String> globalLanguage = new HashSet<>(Arrays.asList(EN));
 
     public static final HashSet<String> excludeShipGroups = new HashSet<>(Arrays.asList("unavailable", "disabled", "preserved", "clan"));
     public static final HashSet<String> supertestShipGroups = new HashSet<>(Arrays.asList("demoWithoutStats"));

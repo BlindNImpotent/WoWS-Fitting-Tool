@@ -17,12 +17,12 @@ public class CommonUtils
 
     public static double getBonusCoef(Number number)
     {
-        return (Math.round(number.floatValue() * 1000.0) - 1000.0) / 10.0;
+        return (Math.round(number.doubleValue() * 1000.0) - 1000.0) / 10.0;
     }
 
     public static double getBonus(Number number)
     {
-        return Math.round(number.floatValue() * 1000.0) / 10.0;
+        return Math.round(number.doubleValue() * 1000.0) / 10.0;
     }
 
     public static String replaceZero(String number)
@@ -32,7 +32,7 @@ public class CommonUtils
 
     public static String getNumSym(Number number)
     {
-        return (number.floatValue() >= 0 ? "+" : "") + replaceZero(number.toString());
+        return (number.doubleValue() >= 0 ? "+" : "") + replaceZero(number.toString());
     }
 
     public static void sendDiscordWH(String message) throws IOException

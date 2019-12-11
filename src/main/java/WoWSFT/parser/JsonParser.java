@@ -28,10 +28,6 @@ public class JsonParser
     private LinkedHashMap<String, LinkedHashMap<String, String>> notification;
 
     @Autowired
-    @Qualifier (value = "translation")
-    private LinkedHashMap<String, LinkedHashMap<String, String>> translation;
-
-    @Autowired
     @Qualifier (value = "global")
     private HashMap<String, HashMap<String, Object>> global;
 
@@ -51,29 +47,10 @@ public class JsonParser
     private LinkedHashMap<String, Commander> commanders;
 
     @Autowired
-    @Qualifier (value = TYPE_SHIP_LIST)
-    private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList;
+//    @Qualifier (value = TYPE_SHIP_LIST)
+    private LinkedHashMap<String, Object> shipsList;
 
     private ObjectMapper mapper = new ObjectMapper();
-
-    @Async
-    public CompletableFuture<String> setTranslation()
-    {
-        log.info("Setting up translation");
-
-        for (String language : globalLanguage) {
-            Resource notificationFile = new ClassPathResource("/json/translation/custom-trans-" + language + ".json");
-            try {
-                LinkedHashMap<String, String> temp = mapper.readValue(notificationFile.getURL(), new TypeReference<LinkedHashMap<String, String>>(){});
-                translation.put(language, temp);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        log.info("Translation Done");
-
-        return CompletableFuture.completedFuture("Done");
-    }
 
     @Async
     public CompletableFuture<String> setNotification()

@@ -16,7 +16,7 @@
                 </th:block>
             </select>
         </label>
-        <label><input type="checkbox" checked="checked" class="limit_skill" style="margin: 5px;" th:text="${trans.get('limitSkill')}" /></label>
+        <label><input type="checkbox" checked="checked" class="limit_skill" style="margin: 5px;" th:text="'Select Limit'" /></label>
         <br />
         <label class="adrenalineRush" th:style="${'display: ' + (warship.arUse ? 'inline-flex;' : 'none;' )}">
             <u th:text="${global.get('IDS_SKILL_LASTCHANCEMODIFIER')}"></u><span>&emsp;</span>

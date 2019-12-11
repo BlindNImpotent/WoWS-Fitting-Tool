@@ -4,7 +4,6 @@ import WoWSFT.model.gameparams.commander.Commander;
 import WoWSFT.model.gameparams.consumable.Consumable;
 import WoWSFT.model.gameparams.flag.Flag;
 import WoWSFT.model.gameparams.modernization.Modernization;
-import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
 import WoWSFT.parser.JsonParser;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -26,7 +25,6 @@ public class CustomComponent
 {
     private JsonParser jsonParser = new JsonParser();
     private LinkedHashMap<String, LinkedHashMap<String, String>> notification = new LinkedHashMap<>();
-    private LinkedHashMap<String, LinkedHashMap<String, String>> translation = new LinkedHashMap<>();
     private HashMap<String, HashMap<String, Object>> global = new HashMap<>();
     private HashMap<String, Integer> loadFinish = new HashMap<>();
 
@@ -35,7 +33,7 @@ public class CustomComponent
     private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList = new LinkedHashMap<>();
     private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades = new LinkedHashMap<>();
     private LinkedHashMap<String, Commander> commanders = new LinkedHashMap<>();
-//    private LinkedHashMap<String, Flag> flags = new LinkedHashMap<>();
+    private LinkedHashMap<String, Flag> flags = new LinkedHashMap<>();
 
     public CustomComponent() throws IOException
     {
@@ -72,11 +70,11 @@ public class CustomComponent
         return commanders;
     }
 
-//    @Bean (value = TYPE_FLAG)
-//    public LinkedHashMap<String, Flag> flags()
-//    {
-//        return flags;
-//    }
+    @Bean (value = TYPE_FLAG)
+    public LinkedHashMap<String, Flag> flags()
+    {
+        return flags;
+    }
 
     @Bean (value = "jsonParser")
     public JsonParser jsonParser()
@@ -88,12 +86,6 @@ public class CustomComponent
     public LinkedHashMap<String, LinkedHashMap<String, String>> notification()
     {
         return notification;
-    }
-
-    @Bean (value = "translation")
-    public LinkedHashMap<String, LinkedHashMap<String, String>> translation()
-    {
-        return translation;
     }
 
     @Bean (value = "global")

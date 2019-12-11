@@ -26,7 +26,6 @@ public class GPController extends ExceptionController
 {
     private final HashMap<String, Integer> loadFinish;
     private final LinkedHashMap<String, LinkedHashMap<String, String>> notification;
-    private final LinkedHashMap<String, LinkedHashMap<String, String>> translation;
     private final HashMap<String, HashMap<String, Object>> global;
     private final LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList;
     private final LinkedHashMap<String, Commander> commanders;
@@ -34,14 +33,13 @@ public class GPController extends ExceptionController
     private final ParserService parserService;
     private final GPService gpService;
 
-    private static final String lang = "en";
+    private static final String lang = EN;
 
     private ObjectMapper mapper = new ObjectMapper();
 
     public GPController(
             @Qualifier(value = "loadFinish") HashMap<String, Integer> loadFinish,
             @Qualifier(value = "notification") LinkedHashMap<String, LinkedHashMap<String, String>> notification,
-            @Qualifier(value = "translation") LinkedHashMap<String, LinkedHashMap<String, String>> translation,
             @Qualifier(value = "global") HashMap<String, HashMap<String, Object>> global,
             @Qualifier(value = TYPE_SHIP_LIST) LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList,
             @Qualifier(value = TYPE_COMMANDER) LinkedHashMap<String, Commander> commanders,
@@ -51,7 +49,6 @@ public class GPController extends ExceptionController
     {
         this.loadFinish = loadFinish;
         this.notification = notification;
-        this.translation = translation;
         this.global = global;
         this.shipsList = shipsList;
         this.commanders = commanders;
@@ -72,8 +69,7 @@ public class GPController extends ExceptionController
         if (loadFinish.get("loadFinish") == 0) {
             return "loadPage";
         }
-        model.addAttribute("notification", notification.get(lang.toLowerCase()));
-        model.addAttribute("trans", translation.get(lang.toLowerCase()));
+        model.addAttribute("notification", notification.get(lang));
 
         return "home";
     }
@@ -91,8 +87,7 @@ public class GPController extends ExceptionController
         model.addAttribute("single", true);
         model.addAttribute("IDS", IDS);
 
-        model.addAttribute("global", global.get(lang.toLowerCase()));
-        model.addAttribute("trans", translation.get(lang.toLowerCase()));
+        model.addAttribute("global", global.get(lang));
 
         if (StringUtils.isNotEmpty(index)) {
             model.addAttribute("index", index.toUpperCase());
@@ -136,8 +131,7 @@ public class GPController extends ExceptionController
     public String getArtyChart(Model model)
     {
         model.addAttribute("IDS", IDS);
-        model.addAttribute("global", global.get(lang.toLowerCase()));
-        model.addAttribute("trans", translation.get(lang.toLowerCase()));
+        model.addAttribute("global", global.get(lang));
         model.addAttribute("nations", shipsList);
 
         return "ArtyChart/acHome";
@@ -153,8 +147,7 @@ public class GPController extends ExceptionController
     @GetMapping(value = "/research")
     public String getResearch(Model model)
     {
-        model.addAttribute("global", global.get(lang.toLowerCase()));
-        model.addAttribute("trans", translation.get(lang.toLowerCase().toLowerCase()));
+        model.addAttribute("global", global.get(lang));
         model.addAttribute("IDS", IDS);
         model.addAttribute("nations", shipsList);
 
