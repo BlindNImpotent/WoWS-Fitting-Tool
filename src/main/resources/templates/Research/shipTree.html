@@ -59,12 +59,9 @@
     </div>
 </main>
 <div th:replace="bottom :: bottom"></div>
+<script th:include="Joint/loadScript :: mobileTouch"></script>
 <script th:inline="javascript">
     //    <![CDATA[
-
-    $(function () {
-        document.addEventListener("touchstart", function() {},false);
-    });
 
     $(document).on('click', '.button_nation.initiate', function () {
         var $this = $(this),

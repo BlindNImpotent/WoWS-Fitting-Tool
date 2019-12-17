@@ -73,8 +73,10 @@
     <div id="chart_div2"></div>
     <th:block th:include="bottom"></th:block>
 </main>
+<script th:include="Joint/loadScript :: mobileTouch"></script>
 <script th:inline="javascript">
 //    <![CDATA[
+
     var index = 0;
     var data1;
     var materialChart1;
@@ -85,7 +87,6 @@
     var waitTime = 1500;
 
     $(function () {
-        document.addEventListener("touchstart", function() {},false);
         doInit();
         nationChange();
     });
@@ -118,7 +119,8 @@
         changeArty($('.' + selectedNation + '.' + selectedShipType + ' option:selected').attr('ship-id'));
     });
 
-    function changeShipType(selectedNation) {
+    function changeShipType(selectedNation)
+    {
         var selectedShipType = $('#' + selectedNation + ' option:selected').val();
         var list1 = $('.shipList');
         for (var i = 0; i < list1.length; i++) {
@@ -128,7 +130,8 @@
         changeArty($('.' + selectedNation + '.' + selectedShipType + ' option:selected').attr('ship-id'));
     }
 
-    function changeArty(shipId) {
+    function changeArty(shipId)
+    {
         var list = $('.artyList.show');
         for (var i = 0; i < list.length; i++) {
             list.eq(i).removeClass('show');
@@ -194,7 +197,8 @@
         });
     });
 
-    function drawMaterialChart(data, materialChart, chartDiv, artyName, list, y1, y2) {
+    function drawMaterialChart(data, materialChart, chartDiv, artyName, list, y1, y2)
+    {
         data.addColumn('number', artyName + '\n' + y1);
         data.addColumn('number', artyName + '\n' + y2);
         var tempSeries = {};
@@ -242,14 +246,16 @@
         materialChart.draw(data, google.charts.Scatter.convertOptions(materialOptions));
     }
 
-    function drawStuff() {
+    function drawStuff()
+    {
         data1 = new google.visualization.DataTable();
         data1.addColumn('number', 'Distance (m)');
         data2 = new google.visualization.DataTable();
         data2.addColumn('number', 'Distance (m)');
     }
 
-    function doInit() {
+    function doInit()
+    {
         google.charts.load('current', {'packages':['corechart', 'scatter']});
         google.charts.setOnLoadCallback(drawStuff);
     }

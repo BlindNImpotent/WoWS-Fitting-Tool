@@ -47,8 +47,8 @@ public class JsonParser
     private LinkedHashMap<String, Commander> commanders;
 
     @Autowired
-//    @Qualifier (value = TYPE_SHIP_LIST)
-    private LinkedHashMap<String, Object> shipsList;
+    @Qualifier (value = TYPE_SHIP_LIST)
+    private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList;
 
     private ObjectMapper mapper = new ObjectMapper();
 
