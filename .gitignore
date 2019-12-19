@@ -1,4 +1,6 @@
 # Default ignored files
-/.idea
-/*.iml
-/target
+.gradle
+.idea
+build
+*.iml
+lombok.config

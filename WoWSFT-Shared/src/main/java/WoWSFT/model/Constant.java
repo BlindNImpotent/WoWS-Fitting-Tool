@@ -30,6 +30,7 @@ public class Constant
     public static final String TYPE_SKILL = "skills";
     public static final String TYPE_SHELL = "shells";
     public static final String TYPE_FLAG = "flags";
+    public static final String TYPE_MISC = "misc";
 
     public static final String flightControl = "flightControl";
     public static final String artillery = "artillery";
@@ -46,6 +47,7 @@ public class Constant
     public static final String atba = "atba";
     public static final String fireControl = "fireControl";
 
+    public static final List<String> miscList = new ArrayList<>(Arrays.asList("Projectile", "Aircraft"));
     public static final List<String> componentsList = new ArrayList<>(Arrays.asList(flightControl, artillery, hull, torpedoes, suo, fighter, torpedoBomber, diveBomber, engine));
     public static final List<String> compStatsList = new ArrayList<>(Arrays.asList(flightControl, airArmament, airDefense, artillery, atba, hull, suo, torpedoes, fighter, torpedoBomber, diveBomber, engine));
 

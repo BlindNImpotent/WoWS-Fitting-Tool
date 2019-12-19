@@ -4,6 +4,7 @@ import WoWSFT.model.gameparams.commander.Commander;
 import WoWSFT.model.gameparams.consumable.Consumable;
 import WoWSFT.model.gameparams.flag.Flag;
 import WoWSFT.model.gameparams.modernization.Modernization;
+import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
 import WoWSFT.parser.JsonParser;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -25,19 +26,36 @@ public class CustomComponent
 {
     private JsonParser jsonParser = new JsonParser();
     private LinkedHashMap<String, LinkedHashMap<String, String>> notification = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap<String, String>> translation = new LinkedHashMap<>();
+    private HashMap<String, String> nameToId = new HashMap<>();
+    private HashMap<String, String> idToName = new HashMap<>();
     private HashMap<String, HashMap<String, Object>> global = new HashMap<>();
+    private HashMap<String, Object> gameParamsHM = new HashMap<>();
     private HashMap<String, Integer> loadFinish = new HashMap<>();
-
+    private LinkedHashMap<String, Ship> ships = new LinkedHashMap<>();
     private ZipFile zf = new ZipFile(new ClassPathResource("/json/live/files.zip").getFile().getPath());
     private LinkedHashMap<String, Consumable> consumables = new LinkedHashMap<>();
     private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList = new LinkedHashMap<>();
     private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades = new LinkedHashMap<>();
     private LinkedHashMap<String, Commander> commanders = new LinkedHashMap<>();
     private LinkedHashMap<String, Flag> flags = new LinkedHashMap<>();
+    private LinkedHashMap<String, Object> misc = new LinkedHashMap<>();
 
     public CustomComponent() throws IOException
     {
 
+    }
+
+    @Bean(value = TYPE_MISC)
+    public LinkedHashMap<String, Object> misc()
+    {
+        return misc;
+    }
+
+    @Bean(value = TYPE_SHIP)
+    public LinkedHashMap<String, Ship> ships()
+    {
+        return ships;
     }
 
     @Bean
@@ -82,19 +100,43 @@ public class CustomComponent
         return jsonParser;
     }
 
-    @Bean (value = "notification")
+    @Bean(value = "nameToId")
+    public HashMap<String, String> nameToId()
+    {
+        return nameToId;
+    }
+
+    @Bean(value = "idToName")
+    public HashMap<String, String> idToName()
+    {
+        return idToName;
+    }
+
+    @Bean(value = "notification")
     public LinkedHashMap<String, LinkedHashMap<String, String>> notification()
     {
         return notification;
     }
 
-    @Bean (value = "global")
+    @Bean(value = "translation")
+    public LinkedHashMap<String, LinkedHashMap<String, String>> translation()
+    {
+        return translation;
+    }
+
+    @Bean(value = "global")
     public HashMap<String, HashMap<String, Object>> global()
     {
         return global;
     }
 
-    @Bean (name = "loadFinish")
+    @Bean(value = "gameParamsHM")
+    public HashMap<String, Object> gameParamsHM()
+    {
+        return gameParamsHM;
+    }
+
+    @Bean(name = "loadFinish")
     public HashMap<String, Integer> loadFinish()
     {
         loadFinish.put("loadFinish", 0);
