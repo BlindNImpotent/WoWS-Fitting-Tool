@@ -1,5 +1,6 @@
 package WoWSFT;
 
+import WoWSFT.parser.JsonParser;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -33,6 +34,12 @@ public class Application extends SpringBootServletInitializer
         executor.initialize();
 
         return executor;
+    }
+
+    @Bean(value = "jsonParser")
+    public JsonParser jsonParser()
+    {
+        return new JsonParser();
     }
 
     public static void main(String[] args)

@@ -1,11 +1,5 @@
 package WoWSFT.utils;
 
-
-import javax.net.ssl.HttpsURLConnection;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URL;
-
 import static WoWSFT.model.Constant.*;
 
 public class CommonUtils
@@ -35,23 +29,10 @@ public class CommonUtils
         return (number.doubleValue() >= 0 ? "+" : "") + replaceZero(number.toString());
     }
 
-    public static void sendDiscordWH(String message) throws IOException
+    public static double getDecimalRounded(double num, int digits)
     {
-        String content = "{\"content\": \"```java\\n" + message + "\\n```\"}";
+        double rounder = Math.pow(10.0, digits);
 
-        URL url = new URL("https://discordapp.com/api/webhooks/");
-        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-        connection.addRequestProperty("Content-Type", "application/json; charset=utf-8");
-        connection.addRequestProperty("User-Agent", "WoWSFT Webhook");
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-        connection.setDoInput(true);
-
-        OutputStream os = connection.getOutputStream();
-        os.write(content.getBytes());
-        os.flush();
-        os.close();
-
-        connection.disconnect();
+        return Math.round(num * rounder) / rounder;
     }
 }

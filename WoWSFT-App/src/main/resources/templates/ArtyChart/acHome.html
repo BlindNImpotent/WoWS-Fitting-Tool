@@ -214,7 +214,7 @@
         }
         data.addRows(list);
 
-        materialChart = new google.charts.Scatter(chartDiv);
+        materialChart = new google.charts.Line(chartDiv);
 
         var materialOptions = {
             chart: {
@@ -234,7 +234,7 @@
                 }
             },
             hAxis: {
-                format: '#,###',
+                format: '#,###.###',
                 viewWindow: {
                     min: 0
                 }
@@ -243,7 +243,7 @@
                 format: '#,###.###'
             }
         };
-        materialChart.draw(data, google.charts.Scatter.convertOptions(materialOptions));
+        materialChart.draw(data, google.charts.Line.convertOptions(materialOptions));
     }
 
     function drawStuff()
@@ -256,7 +256,7 @@
 
     function doInit()
     {
-        google.charts.load('current', {'packages':['corechart', 'scatter']});
+        google.charts.load('current', {'packages':['corechart', 'scatter', 'line']});
         google.charts.setOnLoadCallback(drawStuff);
     }
 
