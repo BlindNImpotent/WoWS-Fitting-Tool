@@ -4,8 +4,15 @@ plugins {
     id("io.spring.dependency-management") version "1.0.8.RELEASE" apply false
 }
 
-group = "WoWSFT"
-version = "1.0"
+allprojects {
+    group = "WoWSFT"
+    version = "1.0"
+
+    repositories {
+        jcenter()
+//        mavenCentral()
+    }
+}
 
 subprojects {
     apply(plugin = "java")
@@ -13,10 +20,6 @@ subprojects {
     apply(plugin = "io.spring.dependency-management")
 
     java.sourceCompatibility = JavaVersion.VERSION_1_8
-
-    repositories {
-        mavenCentral()
-    }
 
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-web")

@@ -2,5 +2,7 @@
 .gradle
 .idea
 build
+out
+generated
 *.iml
 lombok.config

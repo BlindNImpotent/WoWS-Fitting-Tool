@@ -4,17 +4,16 @@ import WoWSFT.parser.JsonParser;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.TimeZone;
+import java.util.zip.ZipFile;
 
-//@EnableScheduling
-//@EnableCaching
 @EnableAsync
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer
@@ -34,6 +33,12 @@ public class Application extends SpringBootServletInitializer
         executor.initialize();
 
         return executor;
+    }
+
+    @Bean
+    public ZipFile zf() throws IOException
+    {
+        return new ZipFile(new ClassPathResource("/json/live/files.zip").getFile().getPath());
     }
 
     @Bean(value = "jsonParser")

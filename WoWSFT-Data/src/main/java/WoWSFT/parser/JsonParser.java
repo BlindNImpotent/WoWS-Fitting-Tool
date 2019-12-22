@@ -28,7 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.scheduling.annotation.Async;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,14 +48,6 @@ import static WoWSFT.model.Constant.*;
 @Slf4j
 public class JsonParser
 {
-    @Autowired
-    @Qualifier(value = "notification")
-    private LinkedHashMap<String, LinkedHashMap<String, String>> notification;
-
-    @Autowired
-    @Qualifier(value = "translation")
-    private LinkedHashMap<String, LinkedHashMap<String, String>> translation;
-
     @Autowired
     @Qualifier(value = "nameToId")
     private HashMap<String, String> nameToId;
@@ -106,7 +97,6 @@ public class JsonParser
 
     private ObjectMapper mapper = new ObjectMapper();
 
-//    @Async
     public void setGlobal() throws IOException
     {
         log.info("Setting up Global");
@@ -118,7 +108,6 @@ public class JsonParser
         }
     }
 
-//    @Async
     public void setGameParams() throws IOException
     {
         log.info("Setting up GameParams");
@@ -135,16 +124,13 @@ public class JsonParser
 
             if (typeInfo.getType().equalsIgnoreCase("Ship") && !excludeShipNations.contains(typeInfo.getNation()) && !excludeShipSpecies.contains(typeInfo.getSpecies())) {
                 Ship ship = mapper.convertValue(value, Ship.class);
-                if (!excludeShipGroups.contains(ship.getGroup()) && (StringUtils.isEmpty(ship.getDefaultCrew()) || ship.getDefaultCrew().contains("PWW"))
-//                    && !supertestShipGroups.contains(ship.getGroup())
-                ) {
-                    ship.getShipUpgradeInfo().getComponents().forEach((cType, c) ->
-                            c.forEach(su -> {
-                                for (String s : excludeCompStats) {
-                                    su.getComponents().remove(s);
-                                }
-                                su.setElem(componentsList.indexOf(cType));
-                            }));
+                if (!excludeShipGroups.contains(ship.getGroup()) && (StringUtils.isEmpty(ship.getDefaultCrew()) || ship.getDefaultCrew().contains("PWW"))) {
+                    ship.getShipUpgradeInfo().getComponents().forEach((cType, c) -> c.forEach(su -> {
+                        for (String s : excludeCompStats) {
+                            su.getComponents().remove(s);
+                        }
+                        su.setElem(componentsList.indexOf(cType));
+                    }));
                     addShips(ship);
                 }
             } else if (typeInfo.getType().equalsIgnoreCase("Modernization")) {
@@ -434,8 +420,11 @@ public class JsonParser
 
     private void setCommanderParams()
     {
-        commanders.forEach((key, commander) ->
-                commander.getCSkills().forEach(r -> r.forEach(s -> s.setBonus(paramService.getBonus(mapper.convertValue(s, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
+        commanders.forEach((key, commander) -> commander.getCSkills().forEach(r -> r.forEach(s ->
+                s.setBonus(paramService.getBonus(mapper.convertValue(s, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
+
+        consumables.forEach((k, c) -> c.getSubConsumables().forEach((key, sub) ->
+                sub.setBonus(paramService.getBonus(mapper.convertValue(sub, new TypeReference<LinkedHashMap<String, Object>>(){})))));
     }
 
     public void createFile() throws IOException

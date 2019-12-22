@@ -8,14 +8,11 @@ import WoWSFT.model.gameparams.ship.Ship;
 import WoWSFT.model.gameparams.ship.ShipIndex;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.zip.ZipFile;
 
 import static WoWSFT.model.Constant.*;
 
@@ -31,24 +28,12 @@ public class CustomComponent
     private HashMap<String, Object> gameParamsHM = new HashMap<>();
     private HashMap<String, Integer> loadFinish = new HashMap<>();
     private LinkedHashMap<String, Ship> ships = new LinkedHashMap<>();
-    private ZipFile zf = new ZipFile(new ClassPathResource("/json/live/files.zip").getFile().getPath());
     private LinkedHashMap<String, Consumable> consumables = new LinkedHashMap<>();
     private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList = new LinkedHashMap<>();
     private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades = new LinkedHashMap<>();
     private LinkedHashMap<String, Commander> commanders = new LinkedHashMap<>();
     private LinkedHashMap<String, Flag> flags = new LinkedHashMap<>();
     private LinkedHashMap<String, Object> misc = new LinkedHashMap<>();
-
-    public CustomComponent() throws IOException
-    {
-
-    }
-
-    @Bean
-    public ZipFile zf()
-    {
-        return zf;
-    }
 
     @Bean(value = TYPE_MISC)
     public LinkedHashMap<String, Object> misc()

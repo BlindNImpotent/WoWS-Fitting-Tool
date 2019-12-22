@@ -94,15 +94,6 @@ public class ParamService
                 setUpgrades(ship, modifier);
             }
         }
-
-        ship.getConsumables().forEach(slot -> slot.forEach(c -> c.getSubConsumables().forEach((key, sub) ->
-                sub.setBonus(getBonus(mapper.convertValue(sub, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
-        ship.getComponents().getFighter().forEach((k, p) -> p.getConsumables().forEach(c -> c.getSubConsumables().forEach((sKey, sVal) ->
-                sVal.setBonus(getBonus(mapper.convertValue(sVal, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
-        ship.getComponents().getDiveBomber().forEach((k, p) -> p.getConsumables().forEach(c -> c.getSubConsumables().forEach((sKey, sVal) ->
-                sVal.setBonus(getBonus(mapper.convertValue(sVal, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
-        ship.getComponents().getTorpedoBomber().forEach((k, p) -> p.getConsumables().forEach(c -> c.getSubConsumables().forEach((sKey, sVal) ->
-                sVal.setBonus(getBonus(mapper.convertValue(sVal, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
     }
 
     private void setUpgrades(Ship ship, CommonModifier modifier)
@@ -239,27 +230,37 @@ public class ParamService
         ship.getAuraNear().forEach(aura -> setAura(aura, modifier));
 
         ship.getConsumables().forEach(c -> c.forEach(s -> s.getSubConsumables().forEach((k, sC) -> {
-            sC.setWorkTime(sC.getWorkTime() * ("scout".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getScoutWorkTime() : oneCoeff));
+            if ("scout".equalsIgnoreCase(sC.getConsumableType())) {
+                sC.setWorkTime(sC.getWorkTime() * modifier.getScoutWorkTime());
+            } else if ("crashCrew".equalsIgnoreCase(sC.getConsumableType())) {
+                sC.setWorkTime(sC.getWorkTime() * modifier.getCrashCrewWorkTime());
+                if ("EmergencyTeamCooldownModifier".equalsIgnoreCase(modifier.getModifier())) {
+                    sC.setReloadTime(sC.getReloadTime() * modifier.getReloadCoefficient());
+                }
+            } else if ("speedBoosters".equalsIgnoreCase(sC.getConsumableType())) {
+                sC.setWorkTime(sC.getWorkTime() * modifier.getSpeedBoosterWorkTime());
+            } else if ("airDefenseDisp".equalsIgnoreCase(sC.getConsumableType())) {
+                sC.setWorkTime(sC.getWorkTime() * modifier.getAirDefenseDispWorkTime());
+            } else if ("sonar".equalsIgnoreCase(sC.getConsumableType())) {
+                sC.setWorkTime(modifier.getSonarSearchWorkTime());
+                if ("TorpedoAlertnessModifier".equalsIgnoreCase(modifier.getModifier())) {
+                    sC.setDistTorpedo(sC.getDistTorpedo() * modifier.getRangeCoefficient());
+                }
+            } else if ("rls".equalsIgnoreCase(sC.getConsumableType())) {
+                sC.setWorkTime(modifier.getRlsSearchWorkTime());
+            } else if ("smokeGenerator".equalsIgnoreCase(sC.getConsumableType())) {
+                sC.setWorkTime(sC.getWorkTime() * modifier.getSmokeGeneratorWorkTime());
+                sC.setLifeTime(sC.getLifeTime() * modifier.getSmokeGeneratorLifeTime());
+                sC.setRadius(sC.getRadius() * modifier.getRadiusCoefficient());
+            }
 
-            sC.setWorkTime(sC.getWorkTime() * ("crashCrew".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getCrashCrewWorkTime() : oneCoeff));
-            sC.setReloadTime(sC.getReloadTime() * ("crashCrew".equalsIgnoreCase(sC.getConsumableType())
-                    && "EmergencyTeamCooldownModifier".equalsIgnoreCase(modifier.getModifier()) ? modifier.getReloadCoefficient() : oneCoeff));
+            if ("AllSkillsCooldownModifier".equalsIgnoreCase(modifier.getModifier())) {
+                sC.setReloadTime(sC.getReloadTime() * modifier.getReloadCoefficient());
+            }
 
-            sC.setWorkTime(sC.getWorkTime() * ("speedBoosters".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getSpeedBoosterWorkTime() : oneCoeff));
-
-            sC.setWorkTime(sC.getWorkTime() * ("airDefenseDisp".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getAirDefenseDispWorkTime() : oneCoeff));
-
-            sC.setWorkTime(sC.getWorkTime() * ("sonar".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getSonarSearchWorkTime() : oneCoeff));
-
-            sC.setWorkTime(sC.getWorkTime() * ("rls".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getRlsSearchWorkTime() : oneCoeff));
-
-            sC.setWorkTime(sC.getWorkTime() * ("smokeGenerator".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getSmokeGeneratorWorkTime() : oneCoeff));
-            sC.setLifeTime(sC.getLifeTime() * ("smokeGenerator".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getSmokeGeneratorLifeTime() : oneCoeff));
-            sC.setRadius(sC.getRadius() * ("smokeGenerator".equalsIgnoreCase(sC.getConsumableType()) ? modifier.getRadiusCoefficient() : oneCoeff));
-
-            sC.setReloadTime(sC.getReloadTime() * ("AllSkillsCooldownModifier".equalsIgnoreCase(modifier.getModifier()) ? modifier.getReloadCoefficient() : oneCoeff));
-
-            sC.setNumConsumables(sC.getNumConsumables() + (sC.getNumConsumables() > 0 ? modifier.getAdditionalConsumables() : 0));
+            if (sC.getNumConsumables() > 0) {
+                sC.setNumConsumables(sC.getNumConsumables() + modifier.getAdditionalConsumables());
+            }
         })));
     }
     
@@ -272,53 +273,6 @@ public class ParamService
             }
             aura.setAreaDamage(aura.getAreaDamage() * modifier.getAanearDamage() * modifier.getNearAuraDamageCoefficient());
         }
-    }
-
-    public LinkedHashMap<String, String> getBonus(LinkedHashMap<String, Object> copy)
-    {
-        LinkedHashMap<String, String> bonus = new LinkedHashMap<>();
-
-        copy.forEach((param, cVal) -> {
-            if (speed.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((double) cVal) + " kts");
-            } else if (param.toLowerCase().contains("boostcoeff")) {
-                if ((double) cVal >= 2.0) {
-                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((double) cVal));
-                } else {
-                    bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonus((double) cVal)) + " %");
-                }
-            } else if (rate.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonus((double) cVal)) + " %");
-            } else if (multiple.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), "X " + CommonUtils.replaceZero(cVal.toString()));
-            } else if (coeff.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym(CommonUtils.getBonusCoef((double) cVal)) + " %");
-            } else if (noUnit.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), (double) cVal > 0 ? CommonUtils.replaceZero(cVal.toString()) : "∞");
-            } else if (meter.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getDistCoefWG((double) cVal) + " km");
-            } else if (rateNoSym.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " %");
-            } else if (time.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " s");
-            } else if (extraAngle.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((double) cVal) + " °");
-            } else if (angle.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.replaceZero(cVal.toString()) + " °");
-            } else if (extra.stream().anyMatch(param.toLowerCase()::contains)) {
-                bonus.put(MODIFIER + param.toUpperCase(), CommonUtils.getNumSym((double) cVal));
-            } else if (param.toLowerCase().equalsIgnoreCase("affectedClasses")) {
-                List<String> tempList = mapper.convertValue(cVal, new TypeReference<List<String>>(){});
-                if (CollectionUtils.isNotEmpty(tempList)) {
-                    String affected = "";
-                    for (String tl : tempList) {
-                        affected = affected.concat(IDS + tl.toUpperCase() + " ");
-                    }
-                    bonus.put(MODIFIER + param.toUpperCase(), affected.trim());
-                }
-            }
-        });
-        return bonus;
     }
 
     private void setPlanes(Ship ship, Plane plane, CommonModifier modifier)

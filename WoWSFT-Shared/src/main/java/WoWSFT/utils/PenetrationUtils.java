@@ -35,7 +35,7 @@ public class PenetrationUtils
         double k = 0.5 * c_D * Math.pow((D / 2.0), 2.0) * Math.PI / W; // CONSTANTS TERMS OF DRAG
 
         List<Double> alpha = linspace(Math.PI * maxVertAngle / 360.0 * 2.0); // ELEV. ANGLES 0...MAX
-        double dt = 0.025; // TIME STEP
+        double dt = 0.01; // TIME STEP
 
         LinkedHashMap<String, Double> penetration = new LinkedHashMap<>();
         LinkedHashMap<String, Double> flightTime = new LinkedHashMap<>();
@@ -70,18 +70,18 @@ public class PenetrationUtils
             double p_athit = C * Math.pow(v_total, 1.1) * Math.pow(W, 0.55) / Math.pow(D * 1000.0, 0.65); // PENETRATION FORMULA
             double IA = Math.atan(Math.abs(v_y) / Math.abs(v_x)); // IMPACT ANGLE ON BELT ARMOR
 
-            if (IA > ricochet || x > maxDist * 1.25) {
+            if (IA > ricochet || x > maxDist * 1.25 || x > 25000) {
                 break;
             }
 
             x = CommonUtils.getDecimalRounded(x, 4);
             String xString = String.valueOf(x);
 
-            flightTime.put(String.valueOf(x), CommonUtils.getDecimalRounded(t / 3.0, 4));
+            flightTime.put(String.valueOf(x), CommonUtils.getDecimalRounded(t / 3.0, 5));
 
             if (apShell) {
-                penetration.put(xString, CommonUtils.getDecimalRounded(Math.cos(IA) * p_athit, 4));
-                impactAngle.put(xString, CommonUtils.getDecimalRounded(IA * 180.0 / Math.PI, 4));
+                penetration.put(xString, CommonUtils.getDecimalRounded(Math.cos(IA) * p_athit, 5));
+                impactAngle.put(xString, CommonUtils.getDecimalRounded(IA * 180.0 / Math.PI, 5));
                 distanceList.add(xString);
 //                launchAngle.put(xString, alpha.get(i));
             }
@@ -106,7 +106,7 @@ public class PenetrationUtils
     {
         List<Double> alpha = new ArrayList<>();
         double begin = 0.0;
-        double incremental = CommonUtils.getDecimalRounded(Math.PI * 0.1 / 360.0 * 2.0, 12);
+        double incremental = CommonUtils.getDecimalRounded(Math.PI * 0.01 / 360.0 * 2.0, 9);
 
         while (begin <= end) {
             alpha.add(begin);
