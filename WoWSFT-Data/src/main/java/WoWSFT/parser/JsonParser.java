@@ -10,6 +10,7 @@ import WoWSFT.model.gameparams.ship.ShipIndex;
 import WoWSFT.model.gameparams.ship.component.airarmament.AirArmament;
 import WoWSFT.model.gameparams.ship.component.airdefense.AirDefense;
 import WoWSFT.model.gameparams.ship.component.artillery.Artillery;
+import WoWSFT.model.gameparams.ship.component.artillery.Shell;
 import WoWSFT.model.gameparams.ship.component.atba.ATBA;
 import WoWSFT.model.gameparams.ship.component.engine.Engine;
 import WoWSFT.model.gameparams.ship.component.firecontrol.FireControl;
@@ -18,6 +19,8 @@ import WoWSFT.model.gameparams.ship.component.hull.Hull;
 import WoWSFT.model.gameparams.ship.component.torpedo.Torpedo;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgrade;
 import WoWSFT.service.ParamService;
+import WoWSFT.utils.CommonUtils;
+import WoWSFT.utils.PenetrationUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -25,14 +28,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -42,58 +41,24 @@ import java.util.zip.ZipOutputStream;
 
 import static WoWSFT.model.Constant.*;
 
-/**
- * Created by Qualson-Lee on 2016-11-15.
- */
 @Slf4j
 public class JsonParser
 {
     @Autowired
-    @Qualifier(value = "nameToId")
-    private HashMap<String, String> nameToId;
-
-    @Autowired
-    @Qualifier(value = "idToName")
-    private HashMap<String, String> idToName;
-
-    @Autowired
-    @Qualifier(value = "gameParamsHM")
-    private HashMap<String, Object> gameParamsHM;
-
-    @Autowired
-    @Qualifier(value = "global")
-    private HashMap<String, HashMap<String, Object>> global;
-
-    @Autowired
-    @Qualifier(value = TYPE_SHIP)
-    private LinkedHashMap<String, Ship> ships;
-
-    @Autowired
-    @Qualifier(value = TYPE_MISC)
-    private LinkedHashMap<String, Object> misc;
-
-    @Autowired
-    @Qualifier(value = TYPE_CONSUMABLE)
-    private LinkedHashMap<String, Consumable> consumables;
-
-    @Autowired
-    @Qualifier(value = TYPE_SHIP_LIST)
-    private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList;
-
-    @Autowired
-    @Qualifier(value = TYPE_UPGRADE)
-    private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades;
-
-    @Autowired
-    @Qualifier(value = TYPE_COMMANDER)
-    private LinkedHashMap<String, Commander> commanders;
-
-    @Autowired
-    @Qualifier(value = TYPE_FLAG)
-    private LinkedHashMap<String, Flag> flags;
-
-    @Autowired
     private ParamService paramService;
+
+    private HashMap<String, String> nameToId = new HashMap<>();
+    private HashMap<String, String> idToName = new HashMap<>();
+    private HashMap<String, Object> gameParamsHM = new HashMap<>();
+    private HashMap<String, HashMap<String, Object>> global = new HashMap<>();
+    private LinkedHashMap<String, Ship> ships = new LinkedHashMap<>();
+    private LinkedHashMap<String, Consumable> consumables = new LinkedHashMap<>();
+    private LinkedHashMap<String, Commander> commanders = new LinkedHashMap<>();
+    private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades = new LinkedHashMap<>();
+    private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList = new LinkedHashMap<>();
+    private LinkedHashMap<String, Flag> flags = new LinkedHashMap<>();
+    private HashMap<String, Shell> shells = new HashMap<>();
+    private HashMap<String, Object> misc = new HashMap<>();
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -102,7 +67,7 @@ public class JsonParser
         log.info("Setting up Global");
 
         for (String language : globalLanguage) {
-            Resource GlobalFile = new ClassPathResource("/json/live/global-" + language + ".json");
+            Resource GlobalFile = new ClassPathResource("/json/live/global-" + language + FILE_JSON);
             HashMap<String, Object> temp = mapper.readValue(GlobalFile.getInputStream(), new TypeReference<HashMap<String, Object>>() {});
             global.put(language, temp);
         }
@@ -149,18 +114,24 @@ public class JsonParser
                         commander.setIdentifier("IDS_CREW_LASTNAME_DEFAULT");
                         commanders.put(commander.getIndex().toUpperCase(), commander);
                     } else if (commander.getCrewPersonality().isUnique()) {
-                        commander.setIdentifier(IDS + commander.getCrewPersonality().getPersonName().toUpperCase());
+                        commander.setIdentifier(IDS_ + commander.getCrewPersonality().getPersonName().toUpperCase());
                         commanders.put(commander.getIndex().toUpperCase(), commander);
                     }
                 }
             } else if (typeInfo.getType().equalsIgnoreCase("Exterior") && typeInfo.getSpecies().equalsIgnoreCase("Flags")) {
                 Flag flag = mapper.convertValue(value, Flag.class);
                 if (flag.getGroup() == 0) {
-                    flag.setIdentifier(IDS + flag.getName().toUpperCase());
+                    flag.setIdentifier(IDS_ + flag.getName().toUpperCase());
                     paramService.setBonusParams(key, mapper.convertValue(flag, new TypeReference<LinkedHashMap<String, Object>>(){}), flag.getBonus());
                     flags.put(flag.getName(), flag);
                 }
             } else if (miscList.contains(typeInfo.getType())) {
+                if ("Artillery".equals(typeInfo.getSpecies())) {
+                    Shell shell = mapper.convertValue(value, Shell.class);
+                    if (AP.equals(shell.getAmmoType())) {
+                        shells.put(key, shell);
+                    }
+                }
                 misc.put(key, value);
             } else {
                 gameParamsHM.put(key, value);
@@ -187,7 +158,7 @@ public class JsonParser
         ships.put(ship.getIndex(), ship);
         idToName.put(ship.getName(), ship.getIndex());
         try {
-            nameToId.put(global.get(EN).get(IDS + ship.getIndex().toUpperCase() + "_FULL").toString(), ship.getIndex().toUpperCase());
+            nameToId.put(global.get(EN).get(IDS_ + ship.getIndex().toUpperCase() + "_FULL").toString(), ship.getIndex().toUpperCase());
         } catch (NullPointerException npe) {
             log.info(ship.getIndex().toUpperCase());
         }
@@ -421,60 +392,107 @@ public class JsonParser
     private void setCommanderParams()
     {
         commanders.forEach((key, commander) -> commander.getCSkills().forEach(r -> r.forEach(s ->
-                s.setBonus(paramService.getBonus(mapper.convertValue(s, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
-
-        consumables.forEach((k, c) -> c.getSubConsumables().forEach((key, sub) ->
-                sub.setBonus(paramService.getBonus(mapper.convertValue(sub, new TypeReference<LinkedHashMap<String, Object>>(){})))));
+                s.setBonus(CommonUtils.getBonus(mapper.convertValue(s, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
     }
 
-    public void createFile() throws IOException
+    public void generateShipData() throws IOException
     {
-        String tempFile = new ClassPathResource("/json/live/GameParams.zip").getURL().getPath().replaceFirst("/", "").replace("live/GameParams.zip", "files/");
-        if (tempFile.startsWith("var") || tempFile.startsWith("Users")) {
-            tempFile = "/" + tempFile;
-        }
+        log.info("Generating ship data");
+
+        String directory = CommonUtils.getGameParamsDir().replace(FILE_GAMEPARAMS, DIR_SHIPS);
+        File folder = getEmptyFolder(directory);
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        File folder = new File(tempFile);
-        folder.mkdirs();
-
-//        File[] listFiles = folder.listFiles();
-//        if (folder.listFiles() != null) {
-            for (File f : Objects.requireNonNull(folder.listFiles())) {
-                f.delete();
-            }
-//        }
-
         for (Map.Entry<String, Ship> entry : ships.entrySet()) {
-            String tempJson = tempFile + entry.getKey() + ".json";
+            String tempJson = directory + entry.getKey() + FILE_JSON;
             File f = new File(tempJson);
             mapper.writerWithDefaultPrettyPrinter().writeValue(f, entry.getValue());
         }
 
         for (Map.Entry<String, Object> entry : misc.entrySet()) {
-            String tempJson = tempFile + entry.getKey() + ".json";
+            String tempJson = directory + entry.getKey() + FILE_JSON;
             File f = new File(tempJson);
             mapper.writerWithDefaultPrettyPrinter().writeValue(f, entry.getValue());
         }
 
-        File f = new File(tempFile + "shipsList.json");
+        File f = new File(directory + TYPE_SHIP_LIST + FILE_JSON);
         mapper.writerWithDefaultPrettyPrinter().writeValue(f, shipsList);
 
-        f = new File(tempFile + "upgrades.json");
+        f = new File(directory + TYPE_UPGRADE + FILE_JSON);
         mapper.writerWithDefaultPrettyPrinter().writeValue(f, upgrades);
 
-        f = new File(tempFile + "consumables.json");
+        f = new File(directory + TYPE_CONSUMABLE + FILE_JSON);
         mapper.writerWithDefaultPrettyPrinter().writeValue(f, consumables);
 
-        f = new File(tempFile + "commanders.json");
+        f = new File(directory + TYPE_COMMANDER + FILE_JSON);
         mapper.writerWithDefaultPrettyPrinter().writeValue(f, commanders);
 
-//        f = new File(tempFile + "gameParamsHM.json");
-//        mapper.writerWithDefaultPrettyPrinter().writeValue(f, gameParamsHM);
+        createZipFile(folder, directory.replace(DIR_SHIPS, FILE_SHIPS_ZIP));
+        folder = getEmptyFolder(directory);
+        folder.delete();
 
-        tempFile = tempFile.replace("files/", "files.zip");
+        log.info("Generated ship data");
+    }
+
+    public void generateShellPenetration() throws IOException
+    {
+        log.info("Generating shell penetration");
+
+        String directory = CommonUtils.getGameParamsDir().replace(FILE_GAMEPARAMS, DIR_SHELL);
+        File folder = getEmptyFolder(directory);
+        mapper.disable(SerializationFeature.INDENT_OUTPUT);
+
+        for (Map.Entry<String, Ship> entry : ships.entrySet()) {
+            Ship ship = entry.getValue();
+            if (ship != null && ship.getShipUpgradeInfo().getComponents().get(artillery).size() > 0) {
+                for (ShipUpgrade su : ship.getShipUpgradeInfo().getComponents().get(artillery)) {
+                    String tempId = su.getComponents().get(artillery).get(su.getComponents().get(artillery).size() - 1);
+
+                    for (String ammo : ship.getComponents().getArtillery().get(tempId).getTurrets().get(0).getAmmoList()) {
+                        Shell shell = shells.get(ammo);
+                        if (shell != null) {
+                            PenetrationUtils.setPenetration(
+                                    shell,
+                                    ship.getComponents().getArtillery().get(tempId).getTurrets().get(0).getVertSector().get(1),
+                                    ship.getComponents().getArtillery().get(tempId).getMinDistV(),
+                                    ship.getComponents().getArtillery().get(tempId).getMaxDist(),
+                                    AP.equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
+
+                            String tempJson = directory + ammo + FILE_JSON;
+                            File f = new File(tempJson);
+                            mapper.writerWithDefaultPrettyPrinter().writeValue(f, shell);
+                        }
+                    }
+                }
+            }
+        }
+
+        createZipFile(folder, directory.replace(DIR_SHELL, FILE_SHELLS_ZIP));
+        folder = getEmptyFolder(directory);
+        folder.delete();
+
+        log.info("Generated shell penetration");
+    }
+
+    private File getEmptyFolder(String directory)
+    {
+        File folder = new File(directory);
+
+        if (!folder.exists() || !folder.isDirectory()) {
+            folder.mkdir();
+        } else {
+            for (File f : Objects.requireNonNull(folder.listFiles())) {
+                f.delete();
+            }
+        }
+
+        return folder;
+    }
+
+    private void createZipFile(File folder, String directory) throws IOException
+    {
         byte[] buffer = new byte[1024];
-        FileOutputStream fos = new FileOutputStream(tempFile);
+        FileOutputStream fos = new FileOutputStream(directory);
         ZipOutputStream zos = new ZipOutputStream(fos);
 
         for (File file : Objects.requireNonNull(folder.listFiles())) {
@@ -492,7 +510,7 @@ public class JsonParser
         zos.close();
         fos.close();
 
-//        String zipCopy = tempFile.replace(File.separator, "/").replace("target/classes", "src/main/resources");
+//        String zipCopy = tempFile.replace(File.separator, SLASH).replace("target/classes", "src/main/resources");
 //        InputStream in = new FileInputStream(tempFile);
 //        OutputStream out = new FileOutputStream(zipCopy);
 //

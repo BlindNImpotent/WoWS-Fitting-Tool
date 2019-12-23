@@ -38,9 +38,9 @@ public class GPController extends ExceptionController
     private ObjectMapper mapper = new ObjectMapper();
 
     public GPController(
-            @Qualifier(value = "loadFinish") HashMap<String, Integer> loadFinish,
-            @Qualifier(value = "notification") LinkedHashMap<String, LinkedHashMap<String, String>> notification,
-            @Qualifier(value = "global") HashMap<String, HashMap<String, Object>> global,
+            @Qualifier(value = LOAD_FINISH) HashMap<String, Integer> loadFinish,
+            @Qualifier(value = NOTIFICATION) LinkedHashMap<String, LinkedHashMap<String, String>> notification,
+            @Qualifier(value = GLOBAL) HashMap<String, HashMap<String, Object>> global,
             @Qualifier(value = TYPE_SHIP_LIST) LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList,
             @Qualifier(value = TYPE_COMMANDER) LinkedHashMap<String, Commander> commanders,
             GPService gpService,
@@ -66,10 +66,10 @@ public class GPController extends ExceptionController
     @GetMapping(value = "")
     public String getHome(Model model)
     {
-        if (loadFinish.get("loadFinish") == 0) {
+        if (loadFinish.get(LOAD_FINISH) == 0) {
             return "loadPage";
         }
-        model.addAttribute("notification", notification.get(lang));
+        model.addAttribute(NOTIFICATION, notification.get(lang));
 
         return "home";
     }
@@ -85,9 +85,9 @@ public class GPController extends ExceptionController
                              @RequestParam(required = false, defaultValue = "100") int ar) throws Exception
     {
         model.addAttribute("single", true);
-        model.addAttribute("IDS", IDS);
+        model.addAttribute(IDS, IDS_);
 
-        model.addAttribute("global", global.get(lang));
+        model.addAttribute(GLOBAL, global.get(lang));
 
         if (StringUtils.isNotEmpty(index)) {
             model.addAttribute("index", index.toUpperCase());
@@ -130,8 +130,8 @@ public class GPController extends ExceptionController
     @RequestMapping(value = "/arty", method = RequestMethod.GET)
     public String getArtyChart(Model model)
     {
-        model.addAttribute("IDS", IDS);
-        model.addAttribute("global", global.get(lang));
+        model.addAttribute(IDS, IDS_);
+        model.addAttribute(GLOBAL, global.get(lang));
         model.addAttribute("nations", shipsList);
 
         return "ArtyChart/acHome";
@@ -147,8 +147,8 @@ public class GPController extends ExceptionController
     @GetMapping(value = "/research")
     public String getResearch(Model model)
     {
-        model.addAttribute("global", global.get(lang));
-        model.addAttribute("IDS", IDS);
+        model.addAttribute(GLOBAL, global.get(lang));
+        model.addAttribute(IDS, IDS_);
         model.addAttribute("nations", shipsList);
 
         return "Research/shipTree";

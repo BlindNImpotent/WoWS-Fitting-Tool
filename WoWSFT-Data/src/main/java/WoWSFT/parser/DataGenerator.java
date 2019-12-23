@@ -2,6 +2,7 @@ package WoWSFT.parser;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
@@ -11,17 +12,16 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-/**
- * Created by Aesis on 2016-11-15.
- */
+import static WoWSFT.model.Constant.JSON_PARSER;
+
 @Slf4j
 @Component
-public class AsyncHashMap implements CommandLineRunner, ApplicationContextAware
+public class DataGenerator implements CommandLineRunner, ApplicationContextAware
 {
     private JsonParser jsonParser;
     private ApplicationContext context;
 
-    public AsyncHashMap(@Qualifier(value = "jsonParser") JsonParser jsonParser)
+    public DataGenerator(@Qualifier(value = JSON_PARSER) JsonParser jsonParser)
     {
         this.jsonParser = jsonParser;
     }
@@ -33,7 +33,8 @@ public class AsyncHashMap implements CommandLineRunner, ApplicationContextAware
 
         jsonParser.setGlobal();
         jsonParser.setGameParams();
-        jsonParser.createFile();
+        jsonParser.generateShipData();
+        jsonParser.generateShellPenetration();
 
         log.info("finish");
 

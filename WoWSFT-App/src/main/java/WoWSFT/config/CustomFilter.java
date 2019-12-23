@@ -2,12 +2,11 @@ package WoWSFT.config;
 
 import WoWSFT.model.BlockIp;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -17,33 +16,34 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import static WoWSFT.model.Constant.*;
+
 @Slf4j
 @Configuration
 @EnableConfigurationProperties(CustomProperties.class)
 @ComponentScan(basePackages = {"WoWSFT"})
 public class CustomFilter implements Filter
 {
-    @Autowired
-    @Qualifier (value = "loadFinish")
-    private HashMap<String, Integer> loadFinish;
+    private final HashMap<String, Integer> loadFinish;
+    private final CustomProperties customProperties;
 
-    @Autowired
-    private CustomProperties customProperties;
+    public CustomFilter(@Qualifier(value = LOAD_FINISH) HashMap<String, Integer> loadFinish,
+                        CustomProperties customProperties)
+    {
+        this.loadFinish = loadFinish;
+        this.customProperties = customProperties;
+    }
 
     private static HashSet<String> blockIP = new HashSet<>();
-
-    private HashMap<String, BlockIp> ipMap = new HashMap<>();
-
+    private static HashMap<String, BlockIp> ipMap = new HashMap<>();
     private static HashSet<String> ignoreUri = new HashSet<>();
 
     static {
-        blockIP.add("52.71.155.178");
-
         ignoreUri.add("/favicon");
         ignoreUri.add("/js");
         ignoreUri.add("/css");
         ignoreUri.add("/images");
-        ignoreUri.add("/json");
+        ignoreUri.add("/sitemap");
     }
 
     @Override
@@ -58,7 +58,7 @@ public class CustomFilter implements Filter
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
-        if (!"GET".equalsIgnoreCase(request.getMethod()) && !"POST".equalsIgnoreCase(request.getMethod())) {
+        if (!HttpMethod.GET.name().equalsIgnoreCase(request.getMethod()) && !HttpMethod.POST.name().equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
@@ -76,8 +76,8 @@ public class CustomFilter implements Filter
 //            return;
 //        }
 
-        if (loadFinish.get("loadFinish") == 0 && !"/".equalsIgnoreCase(uri) && isNotIgnore(uri)) {
-            request.getRequestDispatcher("/").forward(request, response);
+        if (loadFinish.get(LOAD_FINISH) == 0 && !SLASH.equalsIgnoreCase(uri) && isNotIgnore(uri)) {
+            request.getRequestDispatcher(SLASH).forward(request, response);
             return;
         }
 
@@ -110,7 +110,7 @@ public class CustomFilter implements Filter
 
         String ipAddress = getClientIPAddress(request);
 
-        if (isRelease() && isNotIgnore(request.getRequestURI()) && loadFinish.get("loadFinish") != 0) {
+        if (isRelease() && isNotIgnore(request.getRequestURI()) && loadFinish.get(LOAD_FINISH) != 0) {
             if (!ipMap.containsKey(ipAddress)) {
                 ipMap.put(ipAddress, new BlockIp(ipAddress));
             } else {

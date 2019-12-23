@@ -17,16 +17,16 @@ public class PenetrationUtils
     private static final double R = 8.31447; // UNIV GAS CONSTANT # N.m / (mol.K)
     private static final double M = 0.0289644; // MOLAR MASS OF AIR # kg / mol
 
-    public static void setPenetration(Shell ArtyShell, double maxVertAngle, double minDistV, double maxDist, boolean apShell)
+    public static void setPenetration(Shell shell, double maxVertAngle, double minDistV, double maxDist, boolean apShell)
     {
         // SHELL CONSTANTS
         double C = 0.5561613; // PENETRATION
-        double W = ArtyShell.getBulletMass(); // SHELL WEIGHT
-        double D = ArtyShell.getBulletDiametr(); // SHELL DIAMETER
-        double c_D = ArtyShell.getBulletAirDrag();  // SHELL DRAG
-        double V_0 = ArtyShell.getBulletSpeed(); // SHELL MUZZLE VELOCITY
-        double K = ArtyShell.getBulletKrupp(); // SHELL KRUPP
-        double ricochet = (ArtyShell.getBulletAlwaysRicochetAt() + ArtyShell.getBulletCapNormalizeMaxAngle()) * Math.PI / 360.0 * 2.0; // Ignores after ricochet
+        double W = shell.getBulletMass(); // SHELL WEIGHT
+        double D = shell.getBulletDiametr(); // SHELL DIAMETER
+        double c_D = shell.getBulletAirDrag();  // SHELL DRAG
+        double V_0 = shell.getBulletSpeed(); // SHELL MUZZLE VELOCITY
+        double K = shell.getBulletKrupp(); // SHELL KRUPP
+        double ricochet = (shell.getBulletAlwaysRicochetAt() + shell.getBulletCapNormalizeMaxAngle()) * Math.PI / 180.0; // Ignores after ricochet
 
         double cw_1 = 1.0; // QUADRATIC DRAG COEFFICIENT
         double cw_2 = 100.0 + (1000.0 / 3.0) * D; // LINEAR DRAG COEFFICIENT
@@ -34,8 +34,9 @@ public class PenetrationUtils
         C = C * K / 2400.0; // KRUPP INCLUSION
         double k = 0.5 * c_D * Math.pow((D / 2.0), 2.0) * Math.PI / W; // CONSTANTS TERMS OF DRAG
 
-        List<Double> alpha = linspace(Math.PI * maxVertAngle / 360.0 * 2.0); // ELEV. ANGLES 0...MAX
-        double dt = 0.01; // TIME STEP
+//        List<Double> alpha = linspace(Math.PI * maxVertAngle / 360.0 * 2.0); // ELEV. ANGLES 0...MAX
+        List<Double> alpha = linspace(maxVertAngle); // ELEV. ANGLES 0...MAX
+        double dt = 0.03; // TIME STEP
 
         LinkedHashMap<String, Double> penetration = new LinkedHashMap<>();
         LinkedHashMap<String, Double> flightTime = new LinkedHashMap<>();
@@ -88,9 +89,9 @@ public class PenetrationUtils
         }
 
         if (apShell) {
-            ArtyShell.setShell(flightTime, penetration, impactAngle, distanceList, null, minDistV, true);
+            shell.setShell(flightTime, penetration, impactAngle, distanceList, null, minDistV, true);
         } else {
-            ArtyShell.setShell(flightTime, null, null, null, null, minDistV, false);
+            shell.setShell(flightTime, null, null, null, null, minDistV, false);
         }
     }
 
@@ -104,13 +105,15 @@ public class PenetrationUtils
 
     private static List<Double> linspace(double end)
     {
-        List<Double> alpha = new ArrayList<>();
         double begin = 0.0;
-        double incremental = CommonUtils.getDecimalRounded(Math.PI * 0.01 / 360.0 * 2.0, 9);
+        double countDeg = 0.0;
+        double intervalDeg = 0.05;
+        List<Double> alpha = new ArrayList<>();
 
-        while (begin <= end) {
+        while (countDeg <= end) {
             alpha.add(begin);
-            begin += incremental;
+            countDeg += intervalDeg;
+            begin = CommonUtils.getDecimalRounded(Math.PI * countDeg / 180.0, 12);
         }
 
         return alpha;

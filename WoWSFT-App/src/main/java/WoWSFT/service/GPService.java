@@ -9,15 +9,12 @@ import WoWSFT.model.gameparams.ship.component.atba.Secondary;
 import WoWSFT.model.gameparams.ship.component.planes.Plane;
 import WoWSFT.model.gameparams.ship.component.torpedo.TorpedoAmmo;
 import WoWSFT.model.gameparams.ship.upgrades.ShipUpgrade;
-import WoWSFT.utils.PenetrationUtils;
+import WoWSFT.utils.CommonUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.zip.ZipFile;
 
@@ -29,24 +26,27 @@ public class GPService
 {
     private final LinkedHashMap<String, Consumable> consumables;
     private final LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades;
-    private final ZipFile zf;
+    private final ZipFile zShip;
+    private final ZipFile zShell;
 
     private ObjectMapper mapper = new ObjectMapper();
 
     public GPService(
             @Qualifier(value = TYPE_CONSUMABLE) LinkedHashMap<String, Consumable> consumables,
             @Qualifier(value = TYPE_UPGRADE) LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades,
-            ZipFile zf)
+            @Qualifier(value = TYPE_SHIP) ZipFile zShip,
+            @Qualifier(value = TYPE_SHELL) ZipFile zShell)
     {
         this.consumables = consumables;
         this.upgrades = upgrades;
-        this.zf = zf;
+        this.zShip = zShip;
+        this.zShell = zShell;
     }
 
     //    @Cacheable(value = "ship", key = "#index")
     public Ship getShip(String index) throws Exception
     {
-        Ship ship = mapper.readValue(mapper.writeValueAsString(zFetch(index)), Ship.class);
+        Ship ship = (Ship) CommonUtils.zFetch(zShip, index, Ship.class);
 
         if (ship != null) {
             setUpgrades(ship);
@@ -98,12 +98,12 @@ public class GPService
     {
         if (ship.getComponents().getArtillery().size() > 0 && ship.getComponents().getArtillery().get(ship.getModules().get(artillery)) != null) {
             for (String ammo : ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getTurrets().get(0).getAmmoList()) {
-                Shell shell = mapper.readValue(mapper.writeValueAsString(zFetch(ammo)), Shell.class);
+                Shell shell = (Shell) CommonUtils.zFetch(zShip, ammo, Shell.class);
 //                PenetrationUtils.setPenetration(shell,
 //                        ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getTurrets().get(0).getVertSector().get(1),
 //                        ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getMinDistV(),
 //                        ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getMaxDist(),
-//                        "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
+//                        AP.equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
 
                 ship.getComponents().getArtillery().get(ship.getModules().get(artillery)).getShells()
                         .put(ammo, shell);
@@ -113,40 +113,48 @@ public class GPService
         if (ship.getComponents().getTorpedoes().size() > 0 && ship.getComponents().getTorpedoes().get(ship.getModules().get(torpedoes)) != null) {
             String ammo = ship.getComponents().getTorpedoes().get(ship.getModules().get(torpedoes)).getLaunchers().get(0).getAmmoList().get(0);
             ship.getComponents().getTorpedoes().get(ship.getModules().get(torpedoes))
-                    .setAmmo(mapper.readValue(mapper.writeValueAsString(zFetch(ammo)), TorpedoAmmo.class));
+                    .setAmmo((TorpedoAmmo) CommonUtils.zFetch(zShip, ammo, TorpedoAmmo.class));
         }
 
         if (ship.getComponents().getAtba().size() > 0 && ship.getComponents().getAtba().get(ship.getModules().get(atba)) != null) {
             for (Map.Entry<String, Secondary> secondary : ship.getComponents().getAtba().get(ship.getModules().get(atba)).getSecondaries().entrySet()) {
-                Shell ammo = mapper.readValue(mapper.writeValueAsString(zFetch(secondary.getValue().getAmmoList().get(0))), Shell.class);
-                secondary.getValue().setAlphaDamage(ammo.getAlphaDamage());
-                secondary.getValue().setAlphaPiercingHE(ammo.getAlphaPiercingHE());
-                secondary.getValue().setAmmoType(ammo.getAmmoType());
-                secondary.getValue().setBulletSpeed(ammo.getBulletSpeed());
-                secondary.getValue().setBurnProb(ammo.getBurnProb());
+                Shell ammo = (Shell) CommonUtils.zFetch(zShip, secondary.getValue().getAmmoList().get(0), Shell.class);
+                if (ammo != null) {
+                    secondary.getValue().setAlphaDamage(ammo.getAlphaDamage());
+                    secondary.getValue().setAlphaPiercingHE(ammo.getAlphaPiercingHE());
+                    secondary.getValue().setAmmoType(ammo.getAmmoType());
+                    secondary.getValue().setBulletSpeed(ammo.getBulletSpeed());
+                    secondary.getValue().setBurnProb(ammo.getBurnProb());
+                }
             }
         }
 
         if (ship.getPlanes().size() > 0) {
             if (ship.getModules().get(diveBomber) != null && ship.getPlanes().get(ship.getModules().get(diveBomber)) != null) {
-                Plane dbPlane = mapper.readValue(mapper.writeValueAsString(zFetch(ship.getPlanes().get(ship.getModules().get(diveBomber)))), Plane.class);
-                dbPlane.setBomb(mapper.readValue(mapper.writeValueAsString(zFetch(dbPlane.getBombName())), Shell.class));
-                setPlaneConsumables(dbPlane);
-                ship.getComponents().getDiveBomber().put(ship.getModules().get(diveBomber), dbPlane);
+                Plane dbPlane = (Plane) CommonUtils.zFetch(zShip, ship.getPlanes().get(ship.getModules().get(diveBomber)), Plane.class);
+                if (dbPlane != null) {
+                    dbPlane.setBomb((Shell) CommonUtils.zFetch(zShip, dbPlane.getBombName(), Shell.class));
+                    setPlaneConsumables(dbPlane);
+                    ship.getComponents().getDiveBomber().put(ship.getModules().get(diveBomber), dbPlane);
+                }
             }
 
             if (ship.getModules().get(fighter) != null && ship.getPlanes().get(ship.getModules().get(fighter)) != null) {
-                Plane fPlane = mapper.readValue(mapper.writeValueAsString(zFetch(ship.getPlanes().get(ship.getModules().get(fighter)))), Plane.class);
-                fPlane.setRocket(mapper.readValue(mapper.writeValueAsString(zFetch(fPlane.getBombName())), Shell.class));
-                setPlaneConsumables(fPlane);
-                ship.getComponents().getFighter().put(ship.getModules().get(fighter), fPlane);
+                Plane fPlane = (Plane) CommonUtils.zFetch(zShip, ship.getPlanes().get(ship.getModules().get(fighter)), Plane.class);
+                if (fPlane != null) {
+                    fPlane.setRocket((Shell) CommonUtils.zFetch(zShip, fPlane.getBombName(), Shell.class));
+                    setPlaneConsumables(fPlane);
+                    ship.getComponents().getFighter().put(ship.getModules().get(fighter), fPlane);
+                }
             }
 
             if (ship.getModules().get(torpedoBomber) != null && ship.getPlanes().get(ship.getModules().get(torpedoBomber)) != null) {
-                Plane tbPlane = mapper.readValue(mapper.writeValueAsString(zFetch(ship.getPlanes().get(ship.getModules().get(torpedoBomber)))), Plane.class);
-                tbPlane.setTorpedo(mapper.readValue(mapper.writeValueAsString(zFetch(tbPlane.getBombName())), TorpedoAmmo.class));
-                setPlaneConsumables(tbPlane);
-                ship.getComponents().getTorpedoBomber().put(ship.getModules().get(torpedoBomber), tbPlane);
+                Plane tbPlane = (Plane) CommonUtils.zFetch(zShip, ship.getPlanes().get(ship.getModules().get(torpedoBomber)), Plane.class);
+                if (tbPlane != null) {
+                    tbPlane.setTorpedo((TorpedoAmmo) CommonUtils.zFetch(zShip, tbPlane.getBombName(), TorpedoAmmo.class));
+                    setPlaneConsumables(tbPlane);
+                    ship.getComponents().getTorpedoBomber().put(ship.getModules().get(torpedoBomber), tbPlane);
+                }
             }
         }
     }
@@ -169,7 +177,7 @@ public class GPService
 
     public Shell getArtyAmmoOnly(String index, String artyId) throws Exception
     {
-        Ship ship = mapper.readValue(mapper.writeValueAsString(zFetch(index)), Ship.class);
+        Ship ship = (Ship) CommonUtils.zFetch(zShip, index, Ship.class);
         
         if (ship != null && ship.getShipUpgradeInfo().getComponents().get(artillery).size() > 0) {
             for (ShipUpgrade su : ship.getShipUpgradeInfo().getComponents().get(artillery)) {
@@ -177,25 +185,25 @@ public class GPService
                     String tempId = su.getComponents().get(artillery).get(su.getComponents().get(artillery).size() - 1);
 
                     for (String ammo : ship.getComponents().getArtillery().get(tempId).getTurrets().get(0).getAmmoList()) {
-                        Shell shell = mapper.readValue(mapper.writeValueAsString(zFetch(ammo)), Shell.class);
-                        if ("AP".equalsIgnoreCase(shell.getAmmoType())) {
-                            PenetrationUtils.setPenetration(shell,
-                                    ship.getComponents().getArtillery().get(tempId).getTurrets().get(0).getVertSector().get(1),
-                                    ship.getComponents().getArtillery().get(tempId).getMinDistV(),
-                                    ship.getComponents().getArtillery().get(tempId).getMaxDist(),
-                                    "AP".equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
-
+                        Shell shell = (Shell) CommonUtils.zFetch(zShell, ammo, Shell.class);
+                        if (shell != null) {
                             return shell;
                         }
+
+//                        Shell shell = mapper.readValue(mapper.writeValueAsString(zFetch(zShell, ammo)), Shell.class);
+//                        if (AP.equalsIgnoreCase(shell.getAmmoType())) {
+//                            PenetrationUtils.setPenetration(shell,
+//                                    ship.getComponents().getArtillery().get(tempId).getTurrets().get(0).getVertSector().get(1),
+//                                    ship.getComponents().getArtillery().get(tempId).getMinDistV(),
+//                                    ship.getComponents().getArtillery().get(tempId).getMaxDist(),
+//                                    AP.equalsIgnoreCase(shell.getAmmoType().toLowerCase()));
+//
+//                            return shell;
+//                        }
                     }
                 }
             }
         }
         return null;
-    }
-
-    public Object zFetch(String index) throws IOException
-    {
-        return mapper.readValue(zf.getInputStream(zf.getEntry(index + ".json")), Object.class);
     }
 }

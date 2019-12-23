@@ -27,7 +27,6 @@ public class CustomComponent
     private HashMap<String, HashMap<String, Object>> global = new HashMap<>();
     private HashMap<String, Object> gameParamsHM = new HashMap<>();
     private HashMap<String, Integer> loadFinish = new HashMap<>();
-    private LinkedHashMap<String, Ship> ships = new LinkedHashMap<>();
     private LinkedHashMap<String, Consumable> consumables = new LinkedHashMap<>();
     private LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<Integer, List<ShipIndex>>>>> shipsList = new LinkedHashMap<>();
     private LinkedHashMap<Integer, LinkedHashMap<String, Modernization>> upgrades = new LinkedHashMap<>();
@@ -39,12 +38,6 @@ public class CustomComponent
     public LinkedHashMap<String, Object> misc()
     {
         return misc;
-    }
-
-    @Bean(value = TYPE_SHIP)
-    public LinkedHashMap<String, Ship> ships()
-    {
-        return ships;
     }
 
     @Bean(value = TYPE_CONSUMABLE)
@@ -89,7 +82,7 @@ public class CustomComponent
         return idToName;
     }
 
-    @Bean(value = "notification")
+    @Bean(value = NOTIFICATION)
     public LinkedHashMap<String, LinkedHashMap<String, String>> notification()
     {
         return notification;
@@ -101,7 +94,7 @@ public class CustomComponent
         return translation;
     }
 
-    @Bean(value = "global")
+    @Bean(value = GLOBAL)
     public HashMap<String, HashMap<String, Object>> global()
     {
         return global;
@@ -113,10 +106,10 @@ public class CustomComponent
         return gameParamsHM;
     }
 
-    @Bean(name = "loadFinish")
+    @Bean(name = LOAD_FINISH)
     public HashMap<String, Integer> loadFinish()
     {
-        loadFinish.put("loadFinish", 0);
+        loadFinish.put(LOAD_FINISH, 0);
         return loadFinish;
     }
 }

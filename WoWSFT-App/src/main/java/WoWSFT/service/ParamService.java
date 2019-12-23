@@ -94,6 +94,15 @@ public class ParamService
                 setUpgrades(ship, modifier);
             }
         }
+
+        ship.getConsumables().forEach(slot -> slot.forEach(c -> c.getSubConsumables().forEach((key, sub) ->
+                sub.setBonus(CommonUtils.getBonus(mapper.convertValue(sub, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
+        ship.getComponents().getFighter().forEach((k, p) -> p.getConsumables().forEach(c -> c.getSubConsumables().forEach((sKey, sVal) ->
+                sVal.setBonus(CommonUtils.getBonus(mapper.convertValue(sVal, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
+        ship.getComponents().getDiveBomber().forEach((k, p) -> p.getConsumables().forEach(c -> c.getSubConsumables().forEach((sKey, sVal) ->
+                sVal.setBonus(CommonUtils.getBonus(mapper.convertValue(sVal, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
+        ship.getComponents().getTorpedoBomber().forEach((k, p) -> p.getConsumables().forEach(c -> c.getSubConsumables().forEach((sKey, sVal) ->
+                sVal.setBonus(CommonUtils.getBonus(mapper.convertValue(sVal, new TypeReference<LinkedHashMap<String, Object>>(){}))))));
     }
 
     private void setUpgrades(Ship ship, CommonModifier modifier)

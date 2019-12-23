@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
+import static WoWSFT.model.Constant.*;
+
 @Slf4j
 @Component
 public class AsyncHashMap implements CommandLineRunner
@@ -16,8 +18,8 @@ public class AsyncHashMap implements CommandLineRunner
     private final HashMap<String, Integer> loadFinish;
 
     public AsyncHashMap(
-            @Qualifier(value = "jsonParser") JsonParser jsonParser,
-            @Qualifier(value = "loadFinish") HashMap<String, Integer> loadFinish)
+            @Qualifier(value = JSON_PARSER) JsonParser jsonParser,
+            @Qualifier(value = LOAD_FINISH) HashMap<String, Integer> loadFinish)
     {
         this.jsonParser = jsonParser;
         this.loadFinish = loadFinish;
@@ -36,7 +38,7 @@ public class AsyncHashMap implements CommandLineRunner
         global.get();
         misc.get();
 
-        loadFinish.put("loadFinish", 1);
+        loadFinish.put(LOAD_FINISH, 1);
         log.info("finish");
     }
 }

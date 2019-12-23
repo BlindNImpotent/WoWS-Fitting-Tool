@@ -12,8 +12,10 @@ public class Constant
     public static final double smallGun = 0.139;
     public static final double oneCoeff = 1.0;
 
+    public static final String AP = "AP";
     public static final String EN = "en";
-    public static final String IDS = "IDS_";
+    public static final String IDS = "IDS";
+    public static final String IDS_ = "IDS_";
     public static final String MODIFIER = "PARAMS_MODIFIER_";
     public static final String CONSUME = "DOCK_CONSUME_";
     public static final String TITLE = "TITLE_";
@@ -31,6 +33,15 @@ public class Constant
     public static final String TYPE_SHELL = "shells";
     public static final String TYPE_FLAG = "flags";
     public static final String TYPE_MISC = "misc";
+    public static final String TYPE_PROJECTILE = "Projectile";
+    public static final String TYPE_AIRCRAFT = "Aircraft";
+
+    public static final String FILE_GAMEPARAMS = "live/GameParams.zip";
+    public static final String FILE_JSON = ".json";
+    public static final String FILE_SHIPS_ZIP = "files.zip";
+    public static final String FILE_SHELLS_ZIP = "shells.zip";
+    public static final String DIR_SHIPS = "ships/";
+    public static final String DIR_SHELL = "shells/";
 
     public static final String flightControl = "flightControl";
     public static final String artillery = "artillery";
@@ -47,7 +58,7 @@ public class Constant
     public static final String atba = "atba";
     public static final String fireControl = "fireControl";
 
-    public static final List<String> miscList = new ArrayList<>(Arrays.asList("Projectile", "Aircraft"));
+    public static final List<String> miscList = new ArrayList<>(Arrays.asList(TYPE_PROJECTILE, TYPE_AIRCRAFT));
     public static final List<String> componentsList = new ArrayList<>(Arrays.asList(flightControl, artillery, hull, torpedoes, suo, fighter, torpedoBomber, diveBomber, engine));
     public static final List<String> compStatsList = new ArrayList<>(Arrays.asList(flightControl, airArmament, airDefense, artillery, atba, hull, suo, torpedoes, fighter, torpedoBomber, diveBomber, engine));
 
@@ -77,4 +88,9 @@ public class Constant
     public static final long maxBitsToInt = 3766517952L;
 
     public static final String GENERAL_INTERNAL_ERROR = "GENERAL_INTERNAL_ERROR";
+    public static final String LOAD_FINISH = "loadFinish";
+    public static final String SLASH = "/";
+    public static final String NOTIFICATION = "notification";
+    public static final String GLOBAL = "global";
+    public static final String JSON_PARSER = "jsonParser";
 }

@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.TimeZone;
 import java.util.zip.ZipFile;
 
+import static WoWSFT.model.Constant.*;
+
 @EnableAsync
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer
@@ -35,13 +37,19 @@ public class Application extends SpringBootServletInitializer
         return executor;
     }
 
-    @Bean
-    public ZipFile zf() throws IOException
+    @Bean(value = TYPE_SHIP)
+    public ZipFile zShip() throws IOException
     {
         return new ZipFile(new ClassPathResource("/json/live/files.zip").getFile().getPath());
     }
 
-    @Bean(value = "jsonParser")
+    @Bean(value = TYPE_SHELL)
+    public ZipFile zShell() throws IOException
+    {
+        return new ZipFile(new ClassPathResource("/json/live/shells.zip").getFile().getPath());
+    }
+
+    @Bean(value = JSON_PARSER)
     public JsonParser jsonParser()
     {
         return new JsonParser();

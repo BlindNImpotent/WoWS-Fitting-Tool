@@ -10,6 +10,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
+import static WoWSFT.model.Constant.JSON_PARSER;
+
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer
 {
@@ -30,7 +32,7 @@ public class Application extends SpringBootServletInitializer
         return executor;
     }
 
-    @Bean(value = "jsonParser")
+    @Bean(value = JSON_PARSER)
     public JsonParser jsonParser()
     {
         return new JsonParser();
