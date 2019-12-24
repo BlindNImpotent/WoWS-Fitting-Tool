@@ -1,0 +1,12 @@
+img#logo {
+    height: 300px;
+}
+
+a#patreon {
+    border-radius: 9999px;
+    background-color: rgb(232, 91, 70);
+}
+
+main#arty {
+    padding: 5px;
+}

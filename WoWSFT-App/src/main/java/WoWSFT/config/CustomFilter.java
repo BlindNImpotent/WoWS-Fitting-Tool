@@ -38,6 +38,16 @@ public class CustomFilter implements Filter
     private static HashMap<String, BlockIp> ipMap = new HashMap<>();
     private static HashSet<String> ignoreUri = new HashSet<>();
 
+    private static final String headerSrc = "'self' https://cdn.wowsft.com/";
+    private static final String googleSrc = "https://tagmanager.google.com/".concat(" ")
+            .concat("https://www.googletagmanager.com/").concat(" ")
+            .concat("https://www.gstatic.com/").concat(" ")
+            .concat("fonts.googleapis.com/").concat(" ")
+            .concat("https://www.google-analytics.com/");
+//    private static final String headerUnsafe = "";
+    private static final String headerUnsafe = "'unsafe-inline'";
+    private static final String none = "'none'";
+
     static {
         ignoreUri.add("/favicon");
         ignoreUri.add("/js");
@@ -57,13 +67,21 @@ public class CustomFilter implements Filter
     {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
+
+        response.setHeader("Content-Security-Policy",
+                "default-src".concat(" ").concat(none).concat(";") +
+                "object-src".concat(" ").concat(none).concat(";") +
+                "connect-src".concat(" ").concat("'self';") +
+                "base-uri".concat(" ").concat("'self';") +
+                "img-src".concat(" ").concat(headerSrc).concat(" ")
+                        .concat("https://ssl.gstatic.com/ https://www.google-analytics.com/;") +
+                "script-src".concat(" ").concat(headerUnsafe).concat(" ").concat(headerSrc).concat(" ").concat(googleSrc).concat(" ").concat("data:;") +
+                "style-src".concat(" ").concat(headerUnsafe).concat(" ").concat(headerSrc).concat(" ").concat(googleSrc).concat(";") +
+                "font-src".concat(" ").concat("https://tagmanager.google.com/ https://fonts.gstatic.com/;") +
+                "form-action".concat(" ").concat(none).concat(";") +
+                "frame-ancestors".concat(" ").concat(none));
+
         if (isRelease()) {
-            String headerUnsafe = "'unsafe-inline'";
-            response.setHeader("Content-Security-Policy",
-                    "default-src ".concat("*;") +
-                            "script-src ".concat(headerUnsafe).concat(" data: *;") +
-                            "style-src ".concat(headerUnsafe).concat(" data: *;") +
-                            "frame-ancestors 'none'");
             response.setHeader("Strict-Transport-Security", "max-age=15768000; includeSubDomains");
             response.setHeader("X-Content-Type-Options", "nosniff");
             response.setHeader("X-Frame-Options", "DENY");

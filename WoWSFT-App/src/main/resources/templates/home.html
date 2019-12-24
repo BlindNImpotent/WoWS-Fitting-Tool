@@ -12,6 +12,7 @@
     <meta charset="utf-8" />
     <link rel="icon" href="https://cdn.wowsft.com/images/Icon/WoWSFT_Icon.png" />
     <link rel="stylesheet" type="text/css" href="https://cdn.wowsft.com/css/WoWSFT.css?20190816" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.wowsft.com/css/misc.css?20191224" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes" />
     <script src="https://cdn.wowsft.com/js/jquery/jquery-3.3.1.min.js"></script>
     <title>WoWS Fitting Tool</title>
@@ -27,7 +28,7 @@
 <main>
     <div>
         <div id="notification">
-            <img alt="" src="https://cdn.wowsft.com/images/Icon/WoWSFT_Icon.png" style="height: 300px" /><br />
+            <img id="logo" src="https://cdn.wowsft.com/images/Icon/WoWSFT_Icon.png" /><br />
             <span th:text="${lang == 'ko' ? 'ReptorPi 제작' : 'Logo courtesy of ReptorPi from DCInside'}"></span><br /><br />
             <h2>WoWS 0.8.11.0</h2>
             <br /><br />
@@ -43,13 +44,6 @@
     <br />
     <div th:replace="bottom :: bottom"></div>
 </main>
-<script th:include="Joint/loadScript :: mobileTouch"></script>
-<script th:inline="javascript">
-    //    <![CDATA[
-
-
-
-    //    ]]>
-</script>
+<script src="https://cdn.wowsft.com/js/pages/touch.js?20191224"></script>
 </body>
 </html>
