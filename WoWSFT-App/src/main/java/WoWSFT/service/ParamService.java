@@ -251,12 +251,12 @@ public class ParamService
             } else if ("airDefenseDisp".equalsIgnoreCase(sC.getConsumableType())) {
                 sC.setWorkTime(sC.getWorkTime() * modifier.getAirDefenseDispWorkTime());
             } else if ("sonar".equalsIgnoreCase(sC.getConsumableType())) {
-                sC.setWorkTime(modifier.getSonarSearchWorkTime());
+                sC.setWorkTime(sC.getWorkTime() * modifier.getSonarSearchWorkTime());
                 if ("TorpedoAlertnessModifier".equalsIgnoreCase(modifier.getModifier())) {
                     sC.setDistTorpedo(sC.getDistTorpedo() * modifier.getRangeCoefficient());
                 }
             } else if ("rls".equalsIgnoreCase(sC.getConsumableType())) {
-                sC.setWorkTime(modifier.getRlsSearchWorkTime());
+                sC.setWorkTime(sC.getWorkTime() * modifier.getRlsSearchWorkTime());
             } else if ("smokeGenerator".equalsIgnoreCase(sC.getConsumableType())) {
                 sC.setWorkTime(sC.getWorkTime() * modifier.getSmokeGeneratorWorkTime());
                 sC.setLifeTime(sC.getLifeTime() * modifier.getSmokeGeneratorLifeTime());

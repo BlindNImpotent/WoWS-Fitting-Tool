@@ -57,6 +57,19 @@ public class CustomFilter implements Filter
     {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
+        if (isRelease()) {
+            String headerUnsafe = "'unsafe-inline'";
+            response.setHeader("Content-Security-Policy",
+                    "default-src ".concat("*;") +
+                            "script-src ".concat(headerUnsafe).concat(" data: *;") +
+                            "style-src ".concat(headerUnsafe).concat(" data: *;") +
+                            "frame-ancestors 'none'");
+            response.setHeader("Strict-Transport-Security", "max-age=15768000; includeSubDomains");
+            response.setHeader("X-Content-Type-Options", "nosniff");
+            response.setHeader("X-Frame-Options", "DENY");
+            response.setHeader("X-XSS-Protection", "1; mode=block");
+        }
+
 
         if (!HttpMethod.GET.name().equalsIgnoreCase(request.getMethod()) && !HttpMethod.POST.name().equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
