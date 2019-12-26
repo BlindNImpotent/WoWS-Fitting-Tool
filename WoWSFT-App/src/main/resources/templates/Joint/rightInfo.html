@@ -35,19 +35,19 @@
                     </tr>
                     <tr class="toggle guns">
                         <td th:text="${global.get('IDS_SHIP_PARAM_SHOT_DELAY')}"></td>
-                        <td th:text="${#numbers.formatDecimal(turret0.shotDelay, 1, 1)} + ' s'"></td>
+                        <td th:text="${#numbers.formatDecimal(turret0.shotDelay, 1, 2)} + ' s'"></td>
                     </tr>
                     <tr class="toggle guns">
                         <td th:text="${global.get('IDS_SHIP_PARAM_SHOT_SPEED')}"></td>
-                        <td th:text="${#numbers.formatDecimal(60.0 / turret0.shotDelay, 1, 1) + ' rpm'}"></td>
+                        <td th:text="${#numbers.formatDecimal(60.0 / turret0.shotDelay, 1, 2) + ' rpm'}"></td>
                     </tr>
                     <tr class="toggle guns">
                         <td th:text="${global.get('IDS_SHIP_PARAM_ROTATION_TIME')}"></td>
-                        <td th:text="${#numbers.formatDecimal(180.0 / turret0.rotationSpeed.get(0), 1, 1)} + ' s'"></td>
+                        <td th:text="${#numbers.formatDecimal(180.0 / turret0.rotationSpeed.get(0), 1, 2)} + ' s'"></td>
                     </tr>
                     <tr class="toggle guns">
                         <td th:text="${global.get('IDS_SHIP_PARAM_ROTATION_SPEED')}"></td>
-                        <td th:text="${#numbers.formatDecimal(turret0.rotationSpeed.get(0), 1, 1)} + ' °/s'"></td>
+                        <td th:text="${#numbers.formatDecimal(turret0.rotationSpeed.get(0), 1, 2)} + ' °/s'"></td>
                     </tr>
                     <tr class="toggle guns">
                         <td th:text="${global.get('IDS_ACCURACY')}"></td>

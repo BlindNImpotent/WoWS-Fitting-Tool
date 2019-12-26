@@ -13,6 +13,7 @@ public class Constant
     public static final double oneCoeff = 1.0;
 
     public static final String AP = "AP";
+    public static final String HE = "HE";
     public static final String EN = "en";
     public static final String IDS = "IDS";
     public static final String IDS_ = "IDS_";

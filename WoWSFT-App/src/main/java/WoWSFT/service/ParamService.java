@@ -81,16 +81,16 @@ public class ParamService
 
     public void setParameters(Ship ship)
     {
-        for (int i = 0; i < ship.getSelectSkills().size(); i++) {
-            if (ship.getSelectSkills().get(i) == 1) {
-                CommonModifier modifier = mapper.convertValue(ship.getCommander().getCSkills().get(i / 8).get(i % 8), CommonModifier.class);
+        for (int i = 0; i < ship.getSelectUpgrades().size(); i++) {
+            if (ship.getSelectUpgrades().get(i) > 0) {
+                CommonModifier modifier = mapper.convertValue(ship.getUpgrades().get(i).get(ship.getSelectUpgrades().get(i) - 1), CommonModifier.class);
                 setUpgrades(ship, modifier);
             }
         }
 
-        for (int i = 0; i < ship.getSelectUpgrades().size(); i++) {
-            if (ship.getSelectUpgrades().get(i) > 0) {
-                CommonModifier modifier = mapper.convertValue(ship.getUpgrades().get(i).get(ship.getSelectUpgrades().get(i) - 1), CommonModifier.class);
+        for (int i = 0; i < ship.getSelectSkills().size(); i++) {
+            if (ship.getSelectSkills().get(i) == 1) {
+                CommonModifier modifier = mapper.convertValue(ship.getCommander().getCSkills().get(i / 8).get(i % 8), CommonModifier.class);
                 setUpgrades(ship, modifier);
             }
         }
@@ -112,12 +112,12 @@ public class ParamService
                 val.setGMIdealRadius(val.getGMIdealRadius() * modifier.getGmidealRadius());
                 val.setMaxDist(val.getMaxDist() * modifier.getGmmaxDist() * (val.getBarrelDiameter() > smallGun ? oneCoeff : modifier.getSmallGunRangeCoefficient()));
                 val.getTurrets().forEach(t -> {
-                    t.getRotationSpeed().set(0, (t.getRotationSpeed().get(0) + (t.getBarrelDiameter() > smallGun ? modifier.getBigGunBonus() : modifier.getSmallGunBonus())) * modifier.getGmrotationSpeed());
+                    t.getRotationSpeed().set(0, t.getRotationSpeed().get(0) * modifier.getGmrotationSpeed() + (t.getBarrelDiameter() > smallGun ? modifier.getBigGunBonus() : modifier.getSmallGunBonus()));
                     t.setShotDelay(t.getShotDelay() * modifier.getGmshotDelay() * (t.getBarrelDiameter() > smallGun ? oneCoeff : modifier.getSmallGunReloadCoefficient())
                             * (oneCoeff - (ship.getAdrenaline() / modifier.getHpStep() * modifier.getTimeStep())));
                 });
                 val.getShells().forEach((s, ammo) -> {
-                    if ("HE".equalsIgnoreCase(ammo.getAmmoType())) {
+                    if (HE.equalsIgnoreCase(ammo.getAmmoType())) {
                         ammo.setBurnProb(ammo.getBurnProb() + modifier.getProbabilityBonus() + (ammo.getBulletDiametr() > smallGun ? modifier.getChanceToSetOnFireBonusBig() : modifier.getChanceToSetOnFireBonusSmall()));
                         ammo.setAlphaPiercingHE(ammo.getAlphaPiercingHE() * (ammo.getBulletDiametr() > smallGun ? modifier.getThresholdPenetrationCoefficientBig() : modifier.getThresholdPenetrationCoefficientSmall()));
                     }
@@ -141,7 +141,7 @@ public class ParamService
                 setPlanes(ship, val, modifier);
 
                 val.setMaxHealth((int) ((val.getMaxHealth() + (ship.getLevel() * modifier.getPlaneHealthPerLevel())) * modifier.getAirplanesFightersHealth() * modifier.getAirplanesHealth()));
-                if ("HE".equalsIgnoreCase(val.getRocket().getAmmoType())) {
+                if (HE.equalsIgnoreCase(val.getRocket().getAmmoType())) {
                     val.getRocket().setBurnProb(val.getRocket().getBurnProb() + modifier.getRocketProbabilityBonus());
                 }
             }
@@ -152,7 +152,7 @@ public class ParamService
                 setPlanes(ship, val, modifier);
 
                 val.setMaxHealth((int) ((val.getMaxHealth() + (ship.getLevel() * modifier.getPlaneHealthPerLevel())) * modifier.getAirplanesDiveBombersHealth() * modifier.getAirplanesHealth()));
-                if ("HE".equalsIgnoreCase(val.getBomb().getAmmoType())) {
+                if (HE.equalsIgnoreCase(val.getBomb().getAmmoType())) {
                     val.getBomb().setBurnProb(val.getBomb().getBurnProb() + modifier.getBombProbabilityBonus());
                 }
             }
@@ -182,7 +182,7 @@ public class ParamService
                 val.getSecondaries().forEach((k, sec) -> {
                     sec.setShotDelay(sec.getShotDelay() * modifier.getGsshotDelay() * modifier.getSmallGunReloadCoefficient() * (oneCoeff - (ship.getAdrenaline() / modifier.getHpStep() * modifier.getTimeStep())));
                     sec.setGSIdealRadius(sec.getGSIdealRadius() * modifier.getGsidealRadius() * (ship.getLevel() >= 7 ? modifier.getAtbaIdealRadiusHi() : modifier.getAtbaIdealRadiusLo()));
-                    if ("HE".equalsIgnoreCase(sec.getAmmoType())) {
+                    if (HE.equalsIgnoreCase(sec.getAmmoType())) {
                         sec.setBurnProb(sec.getBurnProb() + modifier.getProbabilityBonus() + modifier.getChanceToSetOnFireBonusSmall());
                         sec.setAlphaPiercingHE(sec.getAlphaPiercingHE() * modifier.getThresholdPenetrationCoefficientSmall());
                     }
