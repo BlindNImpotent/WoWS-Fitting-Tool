@@ -49,9 +49,6 @@
                                     <span th:text="${global.get(IDS + ship.index.toUpperCase() + '_FULL')}"></span>
                                 </button><br th:if="${shipStat.index > 0}"/>
                             </th:block>
-                            <th:block th:if="${shipType.value.get(i) == null}">
-                                <button class="button_ship"></button>
-                            </th:block>
                         </td>
                     </th:block>
                 </tr>

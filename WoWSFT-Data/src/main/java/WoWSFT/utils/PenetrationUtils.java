@@ -78,7 +78,7 @@ public class PenetrationUtils
             x = CommonUtils.getDecimalRounded(x, 4);
             String xString = String.valueOf(x);
 
-            flightTime.put(String.valueOf(x), CommonUtils.getDecimalRounded(t / 3.0, 5));
+            flightTime.put(xString, CommonUtils.getDecimalRounded(t / 3.0, 5));
 
             if (apShell) {
                 penetration.put(xString, CommonUtils.getDecimalRounded(Math.cos(IA) * p_athit, 5));
@@ -113,7 +113,7 @@ public class PenetrationUtils
         while (countDeg <= end) {
             alpha.add(begin);
             countDeg += intervalDeg;
-            begin = CommonUtils.getDecimalRounded(Math.PI * countDeg / 180.0, 12);
+            begin = CommonUtils.getDecimalRounded(Math.PI * countDeg / 180.0, 9);
         }
 
         return alpha;
