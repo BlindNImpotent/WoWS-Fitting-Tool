@@ -45,7 +45,7 @@ public class ParserService
                 int position = pos.getAndIncrement();
                 basePositions.put(type, 1);
                 value.get(0).getComponents().forEach((x, y) -> {
-                    if (CollectionUtils.isNotEmpty(y)) {
+                    if (CollectionUtils.isNotEmpty(y) && StringUtils.isEmpty(baseModules.get(x))) {
                         baseModules.put(x, y.get(0));
                     }
                 });

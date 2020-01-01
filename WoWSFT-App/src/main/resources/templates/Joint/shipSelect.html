@@ -62,8 +62,7 @@
                                             </td>
                                             <td th:each="module : ${mods}">
                                                 <button th:class="'button_module'"
-                                                        th:classappend="${(warship.modules.size() > 0 and module.components.get(module.ucTypeShort).contains(warship.modules.get(module.ucTypeShort))
-                                                        and module.position == warship.positions.get(module.ucTypeShort)) or (warship.modules.size() == 0 or module.position == 1) ? 'select' : ''}"
+                                                        th:classappend="${module.position == warship.positions.get(module.ucTypeShort) ? 'select' : ''}"
                                                         th:attr="data-index=${colStat.index}, data-type=${module.ucTypeShort}, data-position=${module.position},
                                                                  data-prev-type=${module.prevType}, data-prev-position=${module.prevPosition}, data-temp-position=${moduleStat.index}">
                                                     <img th:src="${module.image}" /><br />

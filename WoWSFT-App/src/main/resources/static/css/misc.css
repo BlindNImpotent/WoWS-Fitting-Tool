@@ -7,6 +7,10 @@ a#patreon {
     background-color: rgb(232, 91, 70);
 }
 
+a#patreon span {
+    color: white;
+}
+
 main#arty {
     padding: 5px;
 }
