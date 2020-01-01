@@ -4,7 +4,7 @@
 [![Patreon](./images/become_patreon.png)](https://www.patreon.com/wowsft)
 
 ![ReptorPi](./images/WoWSFT_Icon.svg)  
-Source code for [World of Warships Fitting Tool (WoWSFT)](https://wowsft.com).  
+Java ([Kotlin version](https://github.com/EdibleBug/WoWSFT-Kotlin)) source code for [World of Warships Fitting Tool (WoWSFT)](https://wowsft.com).  
 Contact [EdibleBug](https://www.reddit.com/user/EdibleBug/) on Reddit for any queries or issues.
 
 ## Legal Notice and License
