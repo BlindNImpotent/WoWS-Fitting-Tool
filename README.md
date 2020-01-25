@@ -1,3 +1,6 @@
+## DEPRECATED (LEGACY)
+Please refer to [WoWSFT Kotlin](https://github.com/EdibleBug/WoWSFT-Kotlin) as this repository is no longer updated.
+
 # World of Warships Fitting Tool (WoWSFT)
 [![License](https://img.shields.io/github/license/EdibleBug/WoWS-Fitting-Tool)](./LICENSE)
 [![WoWSFT](https://img.shields.io/website?url=https%3A%2F%2Fwowsft.com)](https://wowsft.com)
